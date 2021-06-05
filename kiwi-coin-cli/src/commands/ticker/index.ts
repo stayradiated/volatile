@@ -1,4 +1,5 @@
 import * as kiwiCoin from '@stayradiated/kiwi-coin-api'
+import { printTable } from 'console-table-printer'
 
 export const command = 'ticker'
 
@@ -7,5 +8,6 @@ export const desc = 'Print ticker'
 export const builder = {}
 
 export const handler = async () => {
-  console.log(await kiwiCoin.ticker())
+  const ticker = await kiwiCoin.ticker()
+  printTable([ticker])
 }
