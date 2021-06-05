@@ -1,0 +1,82 @@
+{
+  "name": "@stayradiated/kiwi-coin-cli",
+  "version": "1.0.0",
+  "description": "kiwi-coin.com CLI",
+  "type": "module",
+  "exports": "./dist/index.js",
+  "types": "./dists/index.d.ts",
+  "scripts": {
+    "test": "ava",
+    "tidy": "xo --fix",
+    "build": "del-cli dist && tsc",
+    "publish": "np"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stayradiated/kiwi-coin.git"
+  },
+  "keywords": [
+    "kiwi-coin.com",
+    "cli",
+    "client",
+    "terminal"
+  ],
+  "author": {
+    "name": "George Czabania",
+    "email": "george@czabania.com"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/stayradiated/kiwi-coin/issues"
+  },
+  "bin": {
+    "kiwi-coin": "./bin/kiwi-coin"
+  },
+  "homepage": "https://github.com/stayradiated/kiwi-coin#readme",
+  "devDependencies": {
+    "@stayradiated/jsconfig": "1.9.0",
+    "@types/yargs": "17.0.0",
+    "ava": "3.15.0",
+    "del-cli": "3.0.1",
+    "np": "7.5.0",
+    "typescript": "4.3.2",
+    "xo": "0.40.2"
+  },
+  "__comment": "The following configs are managed by @stayradiated/jsconfig",
+  "ava": {
+    "verbose": true
+  },
+  "xo": {
+    "space": true,
+    "semicolon": false,
+    "prettier": true,
+    "rules": {
+      "ava/no-ignored-test-files": [
+        "error",
+        {
+          "files": [
+            "**/src/**/*.test.ts"
+          ],
+          "extensions": [
+            "ts"
+          ]
+        }
+      ],
+      "unicorn/prefer-node-protocol": "off"
+    }
+  },
+  "prettier": {
+    "arrowParens": "always",
+    "bracketSpacing": true,
+    "jsxBracketSameLine": false,
+    "semi": false,
+    "singleQuote": true,
+    "tabWidth": 2,
+    "trailingComma": "all",
+    "useTabs": false
+  },
+  "dependencies": {
+    "console-table-printer": "2.9.0",
+    "yargs": "16.2.0"
+  }
+}

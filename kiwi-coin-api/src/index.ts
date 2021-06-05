@@ -1,7 +1,7 @@
 import { createHmac } from 'crypto'
 import ky from 'ky-universal'
 
-type Config = {
+export type Config = {
   userId: string
   apiKey: string
   apiSecret: string
@@ -49,7 +49,7 @@ const createSignedBody = (
   return body
 }
 
-type TickerResult = {
+export type TickerResult = {
   last: number
   date: number
   high: number
@@ -64,7 +64,7 @@ const ticker = async (): Promise<TickerResult> => {
   return kiwiCoin.get('ticker').json()
 }
 
-type OrderBookResult = {
+export type OrderBookResult = {
   timestamp: string
   bids: Array<[string, string]>
   asks: Array<[string, string]>
@@ -74,7 +74,7 @@ const orderBook = async (): Promise<OrderBookResult> => {
   return kiwiCoin.get('order_book').json()
 }
 
-type BalanceResult = {
+export type BalanceResult = {
   nzd_available: string
   nzd_reserved: string
   nzd_balance: string
@@ -92,7 +92,7 @@ const balance = async (config: Config): Promise<BalanceResult> => {
     .json()
 }
 
-type Order = {
+export type Order = {
   price: string
   amount: string
   type: 0 | 1
@@ -100,7 +100,7 @@ type Order = {
   datetime: string
 }
 
-type OpenOrdersResult = Order[]
+export type OpenOrdersResult = Order[]
 
 const openOrders = async (config: Config): Promise<OpenOrdersResult> => {
   const endpoint = 'open_orders'
@@ -109,9 +109,9 @@ const openOrders = async (config: Config): Promise<OpenOrdersResult> => {
     .json()
 }
 
-type Timeframe = 'minute' | 'hour' | 'day' | 'all'
+export type Timeframe = 'minute' | 'hour' | 'day' | 'all'
 
-type TradesResult = {
+export type TradesResult = Array<{
   transaction_id: number
   order_id: number
   datetime: number
@@ -120,7 +120,7 @@ type TradesResult = {
   price: number
   income: number
   fee: number
-}
+}>
 
 const trades = async (
   config: Config,
@@ -134,7 +134,7 @@ const trades = async (
     .json()
 }
 
-type CancelOrderResult = boolean | { error: string }
+export type CancelOrderResult = boolean | { error: string }
 
 const cancelOrder = async (
   config: Config,
@@ -148,9 +148,9 @@ const cancelOrder = async (
     .json()
 }
 
-type TradeOptions = { price: number; amount: number }
+export type TradeOptions = { price: number; amount: number }
 
-type BuyResult = Order | { error: string }
+export type BuyResult = Order | { error: string }
 
 const buy = async (
   config: Config,
@@ -167,7 +167,7 @@ const buy = async (
     .json()
 }
 
-type SellResult = Order | { error: string }
+export type SellResult = Order | { error: string }
 
 const sell = async (
   config: Config,
