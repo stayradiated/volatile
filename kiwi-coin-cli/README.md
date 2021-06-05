@@ -33,6 +33,15 @@ $ kiwi-coin order-book
 ```
 
 ```
+$ cat ~/.kiwi-coin.json
+{
+  "userId": "XXXX-XXXX-XXXX",
+  "apiKey": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+  "apiSecret": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+}
+```
+
+```
 $ kiwi-coin open-orders --config ~/.kiwi-coin.json
 ┌──────────┬──────────┬──────┬──────────┬─────────────────────┐
 │    price │   amount │ type │       id │            datetime │
@@ -42,7 +51,7 @@ $ kiwi-coin open-orders --config ~/.kiwi-coin.json
 ```
 
 ```
-$ kiwi-coin balnce --config ~/.kiwi-coin.json
+$ kiwi-coin balance --config ~/.kiwi-coin.json
 ┌───────────────┬──────────────┬─────────────┬───────────────┬──────────────┬─────────────┬─────┬───────┐
 │ nzd_available │ nzd_reserved │ nzd_balance │ btc_available │ btc_reserved │ btc_balance │ fee │ mmfee │
 ├───────────────┼──────────────┼─────────────┼───────────────┼──────────────┼─────────────┼─────┼───────┤
