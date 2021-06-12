@@ -12,6 +12,10 @@ void (async function () {
       type: 'string',
       description: 'Path to config file',
     })
+    .option('debug', {
+      type: 'boolean',
+      description: 'Log API calls',
+    })
     .command(commands)
     .demandCommand(1)
     .help().argv

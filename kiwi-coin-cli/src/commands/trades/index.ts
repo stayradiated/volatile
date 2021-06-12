@@ -1,5 +1,5 @@
 import * as kiwiCoin from '@stayradiated/kiwi-coin-api'
-import { table as printTable, getBorderCharacters } from 'table'
+import { table as printTable } from 'table'
 import * as coinMarketCap from '@stayradiated/coin-market-cap'
 import { DateTime } from 'luxon'
 
@@ -101,9 +101,7 @@ const toRowData = (
   const type = trade.trade_type
 
   const marketPrice = findMarketPrice(date, historicPriceData)
-  const marketPercent = marketPrice
-    ? ((price / marketPrice) * 100 - 100)
-    : 0
+  const marketPercent = marketPrice ? (price / marketPrice) * 100 - 100 : 0
 
   return {
     date,
@@ -123,8 +121,9 @@ const formatRow = (row: RowData): string[] => {
   const date =
     row.date.valueOf() === 0 ? '-' : row.date.toFormat('yyyy-LL-dd HH:mm:ss')
   const price = row.price.toFixed(2)
-  const marketPrice = row.marketPrice ? row.marketPrice.toFixed(2) : ''
-  const marketPercent = row.marketPercent ? row.marketPercent.toFixed(1) + '%' : ''
+  const marketPercent = row.marketPercent
+    ? row.marketPercent.toFixed(1) + '%'
+    : ''
 
   const nzd = row.nzd.toFixed(2)
   const xbt = row.xbt.toFixed(8)
@@ -132,7 +131,7 @@ const formatRow = (row: RowData): string[] => {
   const bought = row.type === TradeType.sell ? '' : row.bought.toFixed(8)
   const sold = row.type === TradeType.buy ? '' : row.sold.toFixed(8)
 
-  return [date, marketPrice, price, marketPercent, nzd, xbt, fee, bought, sold]
+  return [date, price, marketPercent, nzd, xbt, fee, bought, sold]
 }
 
 export const handler = withConfig(async (config) => {
@@ -152,9 +151,8 @@ export const handler = withConfig(async (config) => {
 
   const columns = [
     'date',
-    'market',
     'price',
-    '+-',
+    'market%',
     'nzd',
     'btc',
     'fee',
@@ -167,7 +165,6 @@ export const handler = withConfig(async (config) => {
 
   console.log(
     printTable(table, {
-      border: getBorderCharacters('ramac'),
       drawHorizontalLine: (lineIndex, rowCount) => {
         return (
           lineIndex === 0 ||

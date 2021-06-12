@@ -36,10 +36,12 @@ const toRow = (order: [string, string], worldPrice: number): Row => {
 }
 
 export const handler = async () => {
-  const [worldPrice, orderBook] = await Promise.all([
-    kiwiCoin.extPrice(kiwiCoin.ExtPriceSource.worldwide),
+  const [extPriceResult, orderBook] = await Promise.all([
+    kiwiCoin.extPrice({ source: kiwiCoin.ExtPriceSource.worldwide }),
     kiwiCoin.orderBook(),
   ])
+
+  const worldPrice = extPriceResult.price
 
   const length = 15
 

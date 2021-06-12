@@ -1,9 +1,24 @@
 import ky from 'ky-universal'
+import debug from 'debug'
+
+const log = debug('exchange-rate')
 
 const ONE_HOUR = 60 * 60 * 1000
 
 const openExchangeRates = ky.create({
   prefixUrl: 'https://openexchangerates.org/api/',
+  hooks: {
+    beforeRequest: [
+      (request) => {
+        log(request.url)
+      },
+    ],
+    afterResponse: [
+      (request) => {
+        log(request.url)
+      },
+    ],
+  },
 })
 
 export type LatestOptions = {
@@ -28,13 +43,19 @@ export type LatestResult = {
   rate: number
 }
 
-const latest = async (options: LatestOptions, pastResult?: LatestResult): Promise<LatestResult> => {
+const latest = async (
+  options: LatestOptions,
+  pastResult?: LatestResult,
+): Promise<LatestResult> => {
   const { appId, base, symbol } = options
 
   if (pastResult) {
     const delta = Date.now() - pastResult.rateDate.getTime()
     if (delta < ONE_HOUR) {
+      log(`re-using past data from ${(delta / 1000).toFixed(1)}s ago.`)
       return pastResult
+    } else {
+      log(`previous result is ${(delta / 1000).toFixed(1)}s old, querying API`)
     }
   }
 
@@ -54,7 +75,9 @@ const latest = async (options: LatestOptions, pastResult?: LatestResult): Promis
 
   const rate = response.rates[symbol]
   if (typeof rate !== 'number') {
-    throw new Error(`Could not get ${base}/${symbol} rate. Expecting number, got "${rate}"`)
+    throw new TypeError(
+      `Could not get ${base}/${symbol} rate. Expecting number, got "${rate}"`,
+    )
   }
 
   return {

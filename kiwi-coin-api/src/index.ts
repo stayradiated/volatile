@@ -1,5 +1,10 @@
 import { createHmac } from 'crypto'
 import ky from 'ky-universal'
+import debug from 'debug'
+
+const log = debug('kiwi-coin-api')
+
+const MIN_CACHE_MS = 30 * 1000
 
 export type Config = {
   userId: string
@@ -30,7 +35,21 @@ const createSignature = (
   return { key: apiKey, nonce, signature }
 }
 
-const kiwiCoin = ky.create({ prefixUrl: 'https://kiwi-coin.com/api/' })
+const kiwiCoin = ky.create({
+  prefixUrl: 'https://kiwi-coin.com/api/',
+  hooks: {
+    beforeRequest: [
+      (request) => {
+        log(request.url)
+      },
+    ],
+    afterResponse: [
+      (request) => {
+        log(request.url)
+      },
+    ],
+  },
+})
 
 const createSignedBody = (
   config: Config,
@@ -189,16 +208,97 @@ export enum ExtPriceSource {
   europe = '2',
 }
 
-type ExtPriceResult = number
+export type ExtPriceOptions = {
+  source: ExtPriceSource
+}
 
-const extPrice = async (source: ExtPriceSource): Promise<ExtPriceResult> => {
+export type ExtPriceResult = {
+  requestDate: Date
+  responseDate: Date
+  price: number
+}
+
+const extPrice = async (
+  options: ExtPriceOptions,
+  pastResult?: ExtPriceResult,
+): Promise<ExtPriceResult> => {
+  const { source } = options
+
+  if (pastResult) {
+    const delta = Date.now() - pastResult.responseDate.getTime()
+    if (delta < MIN_CACHE_MS) {
+      log(`re-using past data from ${(delta / 1000).toFixed(1)}s ago.`)
+      return pastResult
+    }
+
+    log(`previous result is ${(delta / 1000).toFixed(1)}s old, querying API`)
+  }
+
+  const requestDate = new Date()
+
   const price = await kiwiCoin
     .get('extprice', {
       prefixUrl: 'https://kiwi-coin.com/',
       searchParams: { s: source },
     })
     .text()
-  return Number.parseFloat(price)
+
+  const responseDate = new Date()
+
+  return {
+    requestDate,
+    responseDate,
+    price: Number.parseFloat(price),
+  }
+}
+
+export enum TopOrderPriceType {
+  buy = 'buy',
+  sell = 'sell',
+}
+
+export type TopOrderPriceOptions = {
+  type: TopOrderPriceType
+}
+
+export type TopOrderPriceResult = {
+  requestDate: Date
+  responseDate: Date
+  price: number
+}
+
+const topOrderPrice = async (
+  options: TopOrderPriceOptions,
+  pastResult?: TopOrderPriceResult,
+): Promise<TopOrderPriceResult> => {
+  const { type } = options
+
+  if (pastResult) {
+    const delta = Date.now() - pastResult.responseDate.getTime()
+    if (delta < MIN_CACHE_MS) {
+      log(`re-using past data from ${(delta / 1000).toFixed(1)}s ago.`)
+      return pastResult
+    }
+
+    log(`previous result is ${(delta / 1000).toFixed(1)}s old, querying API`)
+  }
+
+  const requestDate = new Date()
+
+  const price = await kiwiCoin
+    .get('extprice', {
+      prefixUrl: 'https://kiwi-coin.com/',
+      searchParams: { s: '-1', t: type },
+    })
+    .text()
+
+  const responseDate = new Date()
+
+  return {
+    requestDate,
+    responseDate,
+    price: Number.parseFloat(price),
+  }
 }
 
 export {
@@ -211,4 +311,5 @@ export {
   buy,
   sell,
   extPrice,
+  topOrderPrice,
 }

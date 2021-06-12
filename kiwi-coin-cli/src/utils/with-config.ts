@@ -30,8 +30,8 @@ type HandlerFn<T extends Record<string, unknown>> = (
 const withConfig = <T extends Record<string, unknown>>(
   handlerFn: HandlerFn<T>,
 ) => {
-  return async (options: Argv<T>) => {
-    const { config: configPath } = options
+  return async (argv: Argv<T>) => {
+    const { config: configPath } = argv
     if (!configPath) {
       throw new Error('--config is required!')
     }
@@ -80,7 +80,7 @@ const withConfig = <T extends Record<string, unknown>>(
         exchangeRate: exchangeRateConfig,
         coinMarketCap: coinMarketCapConfig,
       },
-      options,
+      argv,
     ).catch((error) => {
       console.error(error)
     })
