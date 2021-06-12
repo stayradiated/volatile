@@ -1,7 +1,5 @@
 import { setTimeout } from 'timers/promises'
 import {
-  topOrderPrice,
-  TopOrderPriceType,
   extPrice,
   ExtPriceSource,
   ExtPriceResult,
@@ -10,10 +8,6 @@ import {
   latest as getLatestExchangeRate,
   LatestResult as GetLatestExchangeResult,
 } from '@stayradiated/exchange-rate'
-import {
-  quotesLatest as getLatestCMCQuote,
-  QuotesLatestResult as GetLatestCMCQuoteResult,
-} from '@stayradiated/coin-market-cap'
 import {
   averagePrice as getBinanceAveragePrice,
   AveragePriceResult as BinanceAveragePriceResult,
@@ -35,23 +29,9 @@ type TickerUpdateFn<State> = (
 type TickerPriceFn<State> = (state: State) => number
 
 type TickerOptions<State> = {
-  name: string,
+  name: string
   updateState: TickerUpdateFn<State>
   getPrice: TickerPriceFn<State>
-}
-
-const kiwiCoinTopBuyTicker: TickerOptions<ExtPriceResult> = {
-  name: 'kiwi-coin.com (top buy)',
-  updateState: async (state) =>
-    topOrderPrice({ type: TopOrderPriceType.buy }, state),
-  getPrice: (state) => state.price,
-}
-
-const kiwiCoinTopSellTicker: TickerOptions<ExtPriceResult> = {
-  name: 'kiwi-coin.com (top sell)',
-  updateState: async (state) =>
-    topOrderPrice({ type: TopOrderPriceType.sell }, state),
-  getPrice: (state) => state.price,
 }
 
 const kiwiCoinWorldwideTicker: TickerOptions<ExtPriceResult> = {
@@ -104,19 +84,6 @@ const binanceTicker: TickerOptions<{
   },
 }
 
-const coinMarketCapTicker: TickerOptions<GetLatestCMCQuoteResult> = {
-  name: 'coinmarketcap.com',
-  updateState: async (state, config) => getLatestCMCQuote(
-      config.coinMarketCap,
-      {
-        slug: 'bitcoin',
-        currency: 'NZD',
-      },
-      state,
-    ),
-  getPrice:(state) => Math.round(state.price * 100) / 100
-}
-
 const initTicker = <T>(
   options: TickerOptions<T>,
   config: Config,
@@ -125,60 +92,48 @@ const initTicker = <T>(
   return async () => {
     try {
       state = await options.updateState(state, config)
-    } catch (error) {
-      console.error(options.name, error.message)
-    } finally {
-      if (state !== undefined) {
-        return options.getPrice(state)
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error(`${options.name}: ${error.message}`)
       } else {
-        return 0
+        console.error(`${options.name}: unknown error occurred.`)
       }
     }
+
+    if (state === undefined) {
+      return 0
+    }
+
+    return options.getPrice(state)
   }
 }
 
 export const handler = withConfig(async (config) => {
-  const getPriceFromKiwiCoinTopBuy = initTicker(kiwiCoinTopBuyTicker, config)
-  const getPriceFromKiwiCoinTopSell = initTicker(kiwiCoinTopSellTicker, config)
   const getPriceFromKiwiCoinWorldwide = initTicker(
     kiwiCoinWorldwideTicker,
     config,
   )
   const getPriceFromKiwiCoinEurope = initTicker(kiwiCoinEuropeTicker, config)
   const getPriceFromBinance = initTicker(binanceTicker, config)
-  const getPriceFromCoinMarketCap = initTicker(coinMarketCapTicker, config)
 
   // CSV header
   console.log(
-    'date,top buy,top sell,kiwi-coin.com (worldwide), kiwi-coin.com (europe),binance.us,coinmarketcap.com',
+    'date,kiwi-coin.com (worldwide), kiwi-coin.com (europe),binance.us',
   )
 
   const loop = async (): Promise<void> => {
-    const [
-      kiwiCoinTopBuy,
-      kiwiCoinTopSell,
-      kiwiCoinWorldwide,
-      kiwiCoinEurope,
-      binance,
-      coinMarketCap,
-    ] = await Promise.all([
-      getPriceFromKiwiCoinTopBuy(),
-      getPriceFromKiwiCoinTopSell(),
+    const [kiwiCoinWorldwide, kiwiCoinEurope, binance] = await Promise.all([
       getPriceFromKiwiCoinWorldwide(),
       getPriceFromKiwiCoinEurope(),
       getPriceFromBinance(),
-      getPriceFromCoinMarketCap(),
     ])
 
     console.log(
       [
         new Date().toISOString(),
-        kiwiCoinTopBuy,
-        kiwiCoinTopSell,
         kiwiCoinWorldwide,
         kiwiCoinEurope,
         binance,
-        coinMarketCap,
       ].join(','),
     )
 
