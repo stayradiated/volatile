@@ -3,7 +3,9 @@ import debug from 'debug'
 
 const log = debug('exchange-rate')
 
-const ONE_HOUR = 60 * 60 * 1000
+// a little bit more than an hour because sometimes openexchangerates.com is
+// slow to update
+const MAX_CACHE_MS = 65 * 60 * 1000
 
 const openExchangeRates = ky.create({
   prefixUrl: 'https://openexchangerates.org/api/',
@@ -51,7 +53,7 @@ const latest = async (
 
   if (pastResult) {
     const delta = Date.now() - pastResult.rateDate.getTime()
-    if (delta < ONE_HOUR) {
+    if (delta < MAX_CACHE_MS) {
       log(`re-using past data from ${(delta / 1000).toFixed(1)}s ago.`)
       return pastResult
     } else {
