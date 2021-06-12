@@ -1,5 +1,22 @@
 import fs from 'fs/promises'
-import { Config } from '@stayradiated/kiwi-coin-api'
+import { Config as KiwiCoinConfig } from '@stayradiated/kiwi-coin-api'
+import { Config as CoinMarketCapConfig } from '@stayradiated/coin-market-cap'
+
+type ExchangeRateConfig = {
+  appId: string
+}
+
+type JSONConfig = {
+  'kiwi-coin.com'?: KiwiCoinConfig
+  'openexchangerates.org'?: ExchangeRateConfig
+  'coinmarketcap.com'?: CoinMarketCapConfig
+}
+
+export type Config = {
+  kiwiCoin: KiwiCoinConfig
+  exchangeRate: ExchangeRateConfig
+  coinMarketCap: CoinMarketCapConfig
+}
 
 type Argv<T extends Record<string, unknown>> = T & {
   config?: string
@@ -19,22 +36,54 @@ const withConfig = <T extends Record<string, unknown>>(
       throw new Error('--config is required!')
     }
 
-    const configJSON = await fs.readFile(configPath, 'utf8')
-    const config = JSON.parse(configJSON) as Config
+    const configString = await fs.readFile(configPath, 'utf8')
+    const configJSON = JSON.parse(configString) as JSONConfig
 
-    if (!config.userId) {
-      throw new Error('Config file is missing "userId".')
+    const kiwiCoinConfig = configJSON['kiwi-coin.com']
+    if (!kiwiCoinConfig) {
+      throw new Error('Config file is missing "kiwi-coin.com" section.')
     }
 
-    if (!config.apiKey) {
-      throw new Error('Config file is missing "appKey".')
+    if (!kiwiCoinConfig.userId) {
+      throw new Error('Config file is missing "kiwi-coin.com"."userId".')
     }
 
-    if (!config.apiSecret) {
-      throw new Error('Config file is missing "appSecret".')
+    if (!kiwiCoinConfig.apiKey) {
+      throw new Error('Config file is missing "kiwi-coin.com"."appKey".')
     }
 
-    return handlerFn(config, options)
+    if (!kiwiCoinConfig.apiSecret) {
+      throw new Error('Config file is missing "kiwi-coin.com"."appSecret".')
+    }
+
+    const exchangeRateConfig = configJSON['openexchangerates.org']
+    if (!exchangeRateConfig) {
+      throw new Error('Config file is missing "openexchangerates.org" section.')
+    }
+
+    if (!exchangeRateConfig.appId) {
+      throw new Error('Config file is missing "openexchangerates.org"."appId".')
+    }
+
+    const coinMarketCapConfig = configJSON['coinmarketcap.com']
+    if (!coinMarketCapConfig) {
+      throw new Error('Config file is missing "coinmarketcap.com" section.')
+    }
+
+    if (!coinMarketCapConfig.apiKey) {
+      throw new Error('Config file is missing "coinmarketcap.com"."apiKey".')
+    }
+
+    return handlerFn(
+      {
+        kiwiCoin: kiwiCoinConfig,
+        exchangeRate: exchangeRateConfig,
+        coinMarketCap: coinMarketCapConfig,
+      },
+      options,
+    ).catch((error) => {
+      console.error(error)
+    })
   }
 }
 

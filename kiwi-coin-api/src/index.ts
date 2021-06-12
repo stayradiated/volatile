@@ -184,6 +184,23 @@ const sell = async (
     .json()
 }
 
+export enum ExtPriceSource {
+  worldwide = '1',
+  europe = '2',
+}
+
+type ExtPriceResult = number
+
+const extPrice = async (source: ExtPriceSource): Promise<ExtPriceResult> => {
+  const price = await kiwiCoin
+    .get('extprice', {
+      prefixUrl: 'https://kiwi-coin.com/',
+      searchParams: { s: source },
+    })
+    .text()
+  return Number.parseFloat(price)
+}
+
 export {
   ticker,
   orderBook,
@@ -193,4 +210,5 @@ export {
   cancelOrder,
   buy,
   sell,
+  extPrice,
 }

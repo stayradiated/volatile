@@ -1,5 +1,7 @@
 import * as kiwiCoin from '@stayradiated/kiwi-coin-api'
-import { printTable } from 'console-table-printer'
+import { table as printTable, getBorderCharacters } from 'table'
+import * as coinMarketCap from '@stayradiated/coin-market-cap'
+import { DateTime } from 'luxon'
 
 import withConfig from '../../utils/with-config.js'
 
@@ -9,19 +11,174 @@ export const desc = 'Print trades'
 
 export const builder = {}
 
-export const handler = withConfig(async (config) => {
-  const trades = await kiwiCoin.trades(config, 'all')
+type Trade = kiwiCoin.TradesResult[0]
+type HistoricPriceData = coinMarketCap.privateAPI.ChartResult
 
-  const table = trades.map((trade) => {
-    return {
-      date: new Date(trade.datetime * 1000).toLocaleString(),
-      amount: trade.trade_size.toFixed(8),
-      price: trade.price.toFixed(2),
-      bought: trade.trade_type === 0 ? trade.income.toFixed(8) : null,
-      sold: trade.trade_type === 1 ? trade.income.toFixed(8) : null,
-      fee: trade.fee.toFixed(8),
-    }
+enum TradeType {
+  buy = 0,
+  sell = 1,
+}
+
+type RowData = {
+  date: DateTime
+  price: number
+  nzd: number
+  xbt: number
+  fee: number
+  bought: number
+  sold: number
+  type: TradeType | undefined
+  marketPrice: number | undefined
+  marketPercent: number
+}
+
+const sortByDateAsc = (a: RowData, b: RowData): number => {
+  return a.date.valueOf() - b.date.valueOf()
+}
+
+const calcTotals = (rows: RowData[]): RowData => {
+  const sum: RowData = {
+    date: DateTime.fromSeconds(0),
+    price: 0,
+    nzd: 0,
+    xbt: 0,
+    fee: 0,
+    bought: 0,
+    sold: 0,
+    type: undefined,
+    marketPrice: undefined,
+    marketPercent: 0,
+  }
+
+  for (const row of rows) {
+    sum.price += row.price
+    sum.nzd += row.nzd
+    sum.xbt += row.xbt
+    sum.fee += row.fee
+    sum.bought += row.bought
+    sum.sold += row.sold
+    sum.marketPercent += row.marketPercent ?? 0
+  }
+
+  return {
+    ...sum,
+    price: sum.nzd / sum.bought,
+    fee: sum.fee / rows.length,
+    marketPercent: sum.marketPercent / rows.length,
+  }
+}
+
+const findMarketPrice = (
+  date: DateTime,
+  historicPriceData: HistoricPriceData,
+): number | undefined => {
+  const timestamp = date
+    .set({
+      hour: date.hour + Math.round(date.minute / 60),
+      minute: 0,
+      second: 0,
+      millisecond: 0,
+    })
+    .valueOf()
+
+  const entry = historicPriceData.find((entry) => {
+    return entry.date.getTime() === timestamp
   })
+  return entry?.price
+}
 
-  printTable(table)
+const toRowData = (
+  trade: Trade,
+  historicPriceData: HistoricPriceData,
+): RowData => {
+  const date = DateTime.fromSeconds(trade.datetime)
+  const price = trade.price
+  const nzd = trade.trade_size * trade.price
+  const xbt = trade.trade_size
+  const fee = (trade.fee / trade.trade_size) * 100
+  const bought = trade.income && trade.trade_type === 0 ? trade.income : 0
+  const sold = trade.income && trade.trade_type === 1 ? trade.income : 0
+  const type = trade.trade_type
+
+  const marketPrice = findMarketPrice(date, historicPriceData)
+  const marketPercent = marketPrice
+    ? ((price / marketPrice) * 100 - 100)
+    : 0
+
+  return {
+    date,
+    price,
+    nzd,
+    xbt,
+    fee,
+    bought,
+    sold,
+    type,
+    marketPrice,
+    marketPercent,
+  }
+}
+
+const formatRow = (row: RowData): string[] => {
+  const date =
+    row.date.valueOf() === 0 ? '-' : row.date.toFormat('yyyy-LL-dd HH:mm:ss')
+  const price = row.price.toFixed(2)
+  const marketPrice = row.marketPrice ? row.marketPrice.toFixed(2) : ''
+  const marketPercent = row.marketPercent ? row.marketPercent.toFixed(1) + '%' : ''
+
+  const nzd = row.nzd.toFixed(2)
+  const xbt = row.xbt.toFixed(8)
+  const fee = row.fee.toFixed(1) + '%'
+  const bought = row.type === TradeType.sell ? '' : row.bought.toFixed(8)
+  const sold = row.type === TradeType.buy ? '' : row.sold.toFixed(8)
+
+  return [date, marketPrice, price, marketPercent, nzd, xbt, fee, bought, sold]
+}
+
+export const handler = withConfig(async (config) => {
+  const [trades, historicPriceData] = await Promise.all([
+    kiwiCoin.trades(config.kiwiCoin, 'all'),
+    coinMarketCap.privateAPI.chart({
+      id: coinMarketCap.privateAPI.Coin.BTC,
+      convertId: coinMarketCap.privateAPI.Coin.NZD,
+      range: '3M',
+    }),
+  ])
+
+  const rows = trades
+    .map((trade) => toRowData(trade, historicPriceData))
+    .sort(sortByDateAsc)
+  const totals = calcTotals(rows)
+
+  const columns = [
+    'date',
+    'market',
+    'price',
+    '+-',
+    'nzd',
+    'btc',
+    'fee',
+    'bought',
+    'sold',
+  ]
+
+  const table = [...rows, totals].map((row) => formatRow(row))
+  table.unshift(columns)
+
+  console.log(
+    printTable(table, {
+      border: getBorderCharacters('ramac'),
+      drawHorizontalLine: (lineIndex, rowCount) => {
+        return (
+          lineIndex === 0 ||
+          lineIndex === 1 ||
+          lineIndex === rowCount - 1 ||
+          lineIndex === rowCount
+        )
+      },
+      columnDefault: {
+        alignment: 'right',
+      },
+    }),
+  )
 })

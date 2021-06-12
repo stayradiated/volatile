@@ -24,6 +24,6 @@ type Options = {
 
 export const handler = withConfig<Options>(async (config, argv) => {
   const { price, amount } = argv
-  const result = await kiwiCoin.sell(config, { price, amount })
+  const result = await kiwiCoin.sell(config.kiwiCoin, { price, amount })
   console.dir(result)
 })

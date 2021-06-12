@@ -35,9 +35,11 @@ $ kiwi-coin order-book
 ```
 $ cat ~/.kiwi-coin.json
 {
-  "userId": "XXXX-XXXX-XXXX",
-  "apiKey": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
-  "apiSecret": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+  "kiwi-coin.com": {
+    "userId": "XXXX-XXXX-XXXX",
+    "apiKey": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+    "apiSecret": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+  }
 }
 ```
 

@@ -20,5 +20,5 @@ type Options = {
 
 export const handler = withConfig<Options>(async (config, argv) => {
   const { orderId } = argv
-  console.log(await kiwiCoin.cancelOrder(config, orderId))
+  console.log(await kiwiCoin.cancelOrder(config.kiwiCoin, orderId))
 })

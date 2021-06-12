@@ -10,6 +10,6 @@ export const desc = 'Print balance'
 export const builder = {}
 
 export const handler = withConfig(async (config) => {
-  const balance = await kiwiCoin.balance(config)
+  const balance = await kiwiCoin.balance(config.kiwiCoin)
   printTable([balance])
 })

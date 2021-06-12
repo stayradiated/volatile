@@ -10,6 +10,6 @@ export const desc = 'Print open-orders'
 export const builder = {}
 
 export const handler = withConfig(async (config) => {
-  const openOrders = await kiwiCoin.openOrders(config)
+  const openOrders = await kiwiCoin.openOrders(config.kiwiCoin)
   printTable(openOrders)
 })

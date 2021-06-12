@@ -1,10 +1,10 @@
 {
-  "name": "@stayradiated/kiwi-coin-cli",
+  "name": "@stayradiated/exchange-rate",
   "version": "1.0.0",
-  "description": "kiwi-coin.com CLI",
+  "description": "Get the current USD/NZD exchange rate from openexchangerates.org",
   "type": "module",
   "exports": "./dist/index.js",
-  "types": "./dists/index.d.ts",
+  "types": "./dist/index.d.ts",
   "scripts": {
     "test": "ava",
     "tidy": "xo --fix",
@@ -16,10 +16,9 @@
     "url": "git+https://github.com/stayradiated/kiwi-coin.git"
   },
   "keywords": [
-    "kiwi-coin.com",
-    "cli",
-    "client",
-    "terminal"
+    "openexchangerates.org",
+    "exchange",
+    "rate"
   ],
   "author": {
     "name": "George Czabania",
@@ -29,14 +28,9 @@
   "bugs": {
     "url": "https://github.com/stayradiated/kiwi-coin/issues"
   },
-  "bin": {
-    "kiwi-coin": "./bin/kiwi-coin"
-  },
   "homepage": "https://github.com/stayradiated/kiwi-coin#readme",
   "devDependencies": {
     "@stayradiated/jsconfig": "1.9.0",
-    "@types/luxon": "1.27.0",
-    "@types/yargs": "17.0.0",
     "ava": "3.15.0",
     "del-cli": "3.0.1",
     "np": "7.5.0",
@@ -77,9 +71,6 @@
     "useTabs": false
   },
   "dependencies": {
-    "console-table-printer": "2.9.0",
-    "luxon": "1.27.0",
-    "table": "6.7.1",
-    "yargs": "16.2.0"
+    "ky-universal": "0.9.1"
   }
 }

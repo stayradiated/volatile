@@ -2,6 +2,9 @@
   "name": "@stayradiated/kiwi-coin",
   "private": true,
   "workspaces": [
+    "binance-us",
+    "coin-market-cap",
+    "exchange-rate",
     "kiwi-coin-api",
     "kiwi-coin-cli"
   ]
