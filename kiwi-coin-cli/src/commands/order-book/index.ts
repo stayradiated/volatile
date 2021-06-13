@@ -1,6 +1,12 @@
 import * as kiwiCoin from '@stayradiated/kiwi-coin-api'
 import { table as printTable } from 'table'
 
+import withConfig from '../../utils/with-config.js'
+import {
+  createPriceIterator,
+  binancePriceSource,
+} from '../../utils/price-source.js'
+
 export const command = 'order-book'
 
 export const desc = 'Print order book'
@@ -35,13 +41,13 @@ const toRow = (order: [string, string], worldPrice: number): Row => {
   }
 }
 
-export const handler = async () => {
-  const [extPriceResult, orderBook] = await Promise.all([
-    kiwiCoin.extPrice({ source: kiwiCoin.ExtPriceSource.worldwide }),
+export const handler = withConfig(async (config) => {
+  const getPriceFromBinance = createPriceIterator(binancePriceSource, config)
+
+  const [worldPrice, orderBook] = await Promise.all([
+    getPriceFromBinance(),
     kiwiCoin.orderBook(),
   ])
-
-  const worldPrice = extPriceResult.price
 
   const length = 15
 
@@ -101,4 +107,4 @@ export const handler = async () => {
       },
     }),
   )
-}
+})

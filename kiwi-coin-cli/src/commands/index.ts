@@ -1,6 +1,6 @@
 import { CommandModule } from 'yargs'
 
-import * as watchPrice from './watch-price/index.js'
+import * as autoBuy from './auto-buy/index.js'
 import * as balance from './balance/index.js'
 import * as buy from './buy/index.js'
 import * as cancelOrder from './cancel-order/index.js'
@@ -9,9 +9,10 @@ import * as orderBook from './order-book/index.js'
 import * as sell from './sell/index.js'
 import * as ticker from './ticker/index.js'
 import * as trades from './trades/index.js'
+import * as watchPrice from './watch-price/index.js'
 
 const commandsList: Array<CommandModule<any, any>> = [
-  watchPrice,
+  autoBuy,
   balance,
   buy,
   cancelOrder,
@@ -20,6 +21,7 @@ const commandsList: Array<CommandModule<any, any>> = [
   sell,
   ticker,
   trades,
+  watchPrice,
 ]
 
 // Force type to CommandModule to fix typescript error
