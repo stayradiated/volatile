@@ -14,7 +14,7 @@ export const desc = 'Update open orders to match market value'
 export const builder = {}
 
 const round = (decimals: number, value: number): number => {
-  const multiplier = Math.pow(10, decimals)
+  const multiplier = 10 ** decimals
   return Math.round(value * multiplier) / multiplier
 }
 
@@ -38,15 +38,22 @@ export const handler = withConfig(async (config, _argv) => {
     })
 
     const existingOrders = await kiwiCoin.openOrders(config.kiwiCoin)
+    await Promise.all(
+      existingOrders.map(async (order) => {
+        return kiwiCoin.cancelOrder(config.kiwiCoin, order.id)
+      }),
+    )
+
+    const balance = await kiwiCoin.balance(config.kiwiCoin)
+    const availableNZD = Number.parseFloat(balance.nzd_available)
+    if (availableNZD < amountNZD) {
+      throw new Error('Not enough available funds to place an order')
+    }
 
     await kiwiCoin.buy(config.kiwiCoin, {
       price: orderPrice,
       amount: amountBTC,
     })
-
-    for (const order of existingOrders) {
-      await kiwiCoin.cancelOrder(config.kiwiCoin, order.id)
-    }
 
     await setTimeout(5 * 60 * 1000)
     return loop()
