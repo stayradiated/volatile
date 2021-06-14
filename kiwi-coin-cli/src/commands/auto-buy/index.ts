@@ -59,7 +59,7 @@ export const handler = withConfig(async (config, _argv) => {
 
   const loop = async (): Promise<void> => {
     const balance = await kiwiCoin.balance(config.kiwiCoin)
-    const availableNZD = Number.parseFloat(balance.nzd_available)
+    const availableNZD = Number.parseFloat(balance.nzd_balance)
 
     const goalAmountNZD = await calculateOrderAmountNZD({
       config,
