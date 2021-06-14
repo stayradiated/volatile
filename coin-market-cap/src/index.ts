@@ -11,13 +11,17 @@ const CACHE_TIME_MS = 70 * 1000
 const coinMarketCap = ky.create({
   prefixUrl: 'https://pro-api.coinmarketcap.com/',
   hooks: {
-    beforeRequest: [(request) => {
-      log(request.url)
-    }],
-    afterResponse: [(request) => {
-      log(request.url)
-    }]
-  }
+    beforeRequest: [
+      (request) => {
+        log(request.url)
+      },
+    ],
+    afterResponse: [
+      (request) => {
+        log(request.url)
+      },
+    ],
+  },
 })
 
 type APIStatus = {
@@ -93,11 +97,11 @@ const quotesLatest = async (
   if (pastResult) {
     const delta = Date.now() - pastResult.quoteDate.getTime()
     if (delta < CACHE_TIME_MS) {
-      log(`re-using past data from ${(delta/1000).toFixed(1)}s ago.`)
+      log(`re-using past data from ${(delta / 1000).toFixed(1)}s ago.`)
       return pastResult
-    } else {
-      log(`previous result is ${(delta / 1000).toFixed(1)}s old, querying API`)
     }
+
+    log(`previous result is ${(delta / 1000).toFixed(1)}s old, querying API`)
   }
 
   if (slug.toLowerCase() !== slug) {

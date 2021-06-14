@@ -1,9 +1,10 @@
+import { inspect } from 'util'
 import ky from 'ky-universal'
 import debug from 'debug'
 
 const log = debug('exchange-rate')
 
-// a little bit more than an hour because sometimes openexchangerates.com is
+// A little bit more than an hour because sometimes openexchangerates.com is
 // slow to update
 const MAX_CACHE_MS = 65 * 60 * 1000
 
@@ -56,9 +57,9 @@ const latest = async (
     if (delta < MAX_CACHE_MS) {
       log(`re-using past data from ${(delta / 1000).toFixed(1)}s ago.`)
       return pastResult
-    } else {
-      log(`previous result is ${(delta / 1000).toFixed(1)}s old, querying API`)
     }
+
+    log(`previous result is ${(delta / 1000).toFixed(1)}s old, querying API`)
   }
 
   const requestDate = new Date()
@@ -78,7 +79,9 @@ const latest = async (
   const rate = response.rates[symbol]
   if (typeof rate !== 'number') {
     throw new TypeError(
-      `Could not get ${base}/${symbol} rate. Expecting number, got "${rate}"`,
+      `Could not get ${base}/${symbol} rate. Expecting number, got ${inspect(
+        rate,
+      )}`,
     )
   }
 

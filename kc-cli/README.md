@@ -1,7 +1,18 @@
-# @stayradiated/kiwi-coin-cli
+# @stayradiated/kc-cli
 
 ```
-$ kiwi-coin ticker
+$ cat ~/.kc.json
+{
+  "kiwi-coin.com": {
+    "userId": "XXXX-XXXX-XXXX",
+    "apiKey": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+    "apiSecret": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+  }
+}
+```
+
+```
+$ kc ticker
 ┌──────────┬────────────┬──────────┬──────────┬────────────────┬─────────────┬──────────┬──────────┐
 │     last │       date │     high │      low │           vwap │      volume │      bid │      ask │
 ├──────────┼────────────┼──────────┼──────────┼────────────────┼─────────────┼──────────┼──────────┤
@@ -10,7 +21,7 @@ $ kiwi-coin ticker
 ```
 
 ```
-$ kiwi-coin order-book
+$ kc order-book
 ┌────┬───────────┬────────────┬───────────┬───┬───────────┬────────────┬───────────┐
 │  # │ bid_price │ bid_amount │ bid_value │   │ ask_price │ ask_amount │ ask_value │
 ├────┼───────────┼────────────┼───────────┼───┼───────────┼────────────┼───────────┤
@@ -32,19 +43,9 @@ $ kiwi-coin order-book
 └────┴───────────┴────────────┴───────────┴───┴───────────┴────────────┴───────────┘
 ```
 
-```
-$ cat ~/.kiwi-coin.json
-{
-  "kiwi-coin.com": {
-    "userId": "XXXX-XXXX-XXXX",
-    "apiKey": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
-    "apiSecret": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-  }
-}
-```
 
 ```
-$ kiwi-coin open-orders --config ~/.kiwi-coin.json
+$ kc open-orders --config ~/.kc.json
 ┌──────────┬──────────┬──────┬──────────┬─────────────────────┐
 │    price │   amount │ type │       id │            datetime │
 ├──────────┼──────────┼──────┼──────────┼─────────────────────┤
@@ -53,7 +54,7 @@ $ kiwi-coin open-orders --config ~/.kiwi-coin.json
 ```
 
 ```
-$ kiwi-coin balance --config ~/.kiwi-coin.json
+$ kc balance --config ~/.kc.json
 ┌───────────────┬──────────────┬─────────────┬───────────────┬──────────────┬─────────────┬─────┬───────┐
 │ nzd_available │ nzd_reserved │ nzd_balance │ btc_available │ btc_reserved │ btc_balance │ fee │ mmfee │
 ├───────────────┼──────────────┼─────────────┼───────────────┼──────────────┼─────────────┼─────┼───────┤
@@ -62,7 +63,7 @@ $ kiwi-coin balance --config ~/.kiwi-coin.json
 ```
 
 ```
-$ kiwi-coin trades --config ~/.kiwi-coin.json
+$ kc trades --config ~/.kc.json
 ┌────────────────────────┬────────────┬──────────┬────────────┬──────┬────────────┐
 │                   date │     amount │    price │     bought │ sold │        fee │
 ├────────────────────────┼────────────┼──────────┼────────────┼──────┼────────────┤

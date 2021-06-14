@@ -1,11 +1,12 @@
 {
-  "name": "@stayradiated/kiwi-coin",
+  "name": "@stayradiated/kc",
   "private": true,
   "workspaces": [
     "binance-us",
     "coin-market-cap",
     "exchange-rate",
     "kiwi-coin-api",
-    "kiwi-coin-cli"
+    "kc-cli",
+    "kc-server"
   ]
 }

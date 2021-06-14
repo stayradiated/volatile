@@ -46,11 +46,11 @@ const tickerPrice = async (
   if (pastResult) {
     const delta = Date.now() - pastResult.responseDate.getTime()
     if (delta < FIVE_SECONDS) {
-      log(`re-using past data from ${(delta/1000).toFixed(1)}s ago.`)
+      log(`re-using past data from ${(delta / 1000).toFixed(1)}s ago.`)
       return pastResult
-    } else {
-      log(`previous result is ${(delta / 1000).toFixed(1)}s old, querying API`)
     }
+
+    log(`previous result is ${(delta / 1000).toFixed(1)}s old, querying API`)
   }
 
   if (symbol.toUpperCase() !== symbol) {
@@ -102,11 +102,11 @@ const averagePrice = async (
   if (pastResult) {
     const delta = Date.now() - pastResult.responseDate.getTime()
     if (delta < FIVE_SECONDS) {
-      log(`re-using past data from ${(delta/1000).toFixed(1)}s ago.`)
+      log(`re-using past data from ${(delta / 1000).toFixed(1)}s ago.`)
       return pastResult
-    } else {
-      log(`previous result is ${(delta / 1000).toFixed(1)}s old, querying API`)
     }
+
+    log(`previous result is ${(delta / 1000).toFixed(1)}s old, querying API`)
   }
 
   if (symbol.toUpperCase() !== symbol) {
