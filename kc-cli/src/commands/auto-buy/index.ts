@@ -29,9 +29,9 @@ const calculateOrderAmountNZD = async (
 ): Promise<number> => {
   const { config, dailyGoal } = options
 
-  const startDate = DateTime.local().startOf('day')
+  const startDate = DateTime.fromISO('2021-06-15T00:00:00.000+12:00')
 
-  const allTrades = await kiwiCoin.trades(config.kiwiCoin, 'day')
+  const allTrades = await kiwiCoin.trades(config.kiwiCoin, 'all')
   const trades = allTrades.filter((trade) => {
     const tradeDate = DateTime.fromSeconds(trade.datetime)
     return tradeDate >= startDate
@@ -55,7 +55,7 @@ const calculateOrderAmountNZD = async (
 export const handler = withConfig(async (config, _argv) => {
   const getPriceFromBinance = createPriceIterator(binancePriceSource, config)
 
-  const offsetPercent = -2
+  const offsetPercent = -1.5
 
   const loop = async (): Promise<void> => {
     const balance = await kiwiCoin.balance(config.kiwiCoin)
@@ -63,7 +63,7 @@ export const handler = withConfig(async (config, _argv) => {
 
     const goalAmountNZD = await calculateOrderAmountNZD({
       config,
-      dailyGoal: 600,
+      dailyGoal: 100,
     })
 
     const amountNZD = Math.min(goalAmountNZD, availableNZD)
