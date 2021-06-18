@@ -33,6 +33,14 @@
     "kiwi-coin": "./bin/kiwi-coin"
   },
   "homepage": "https://github.com/stayradiated/kc#readme",
+  "dependencies": {
+    "@stayradiated/market-price": "1.0.0",
+    "@stayradiated/kiwi-coin-api": "1.0.1",
+    "console-table-printer": "2.9.0",
+    "luxon": "1.27.0",
+    "table": "6.7.1",
+    "yargs": "16.2.0"
+  },
   "devDependencies": {
     "@stayradiated/jsconfig": "1.9.0",
     "@types/luxon": "1.27.0",
@@ -75,11 +83,5 @@
     "tabWidth": 2,
     "trailingComma": "all",
     "useTabs": false
-  },
-  "dependencies": {
-    "console-table-printer": "2.9.0",
-    "luxon": "1.27.0",
-    "table": "6.7.1",
-    "yargs": "16.2.0"
   }
 }

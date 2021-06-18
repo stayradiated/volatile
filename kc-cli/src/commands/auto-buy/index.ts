@@ -1,12 +1,12 @@
 import { setTimeout } from 'timers/promises'
 import * as kiwiCoin from '@stayradiated/kiwi-coin-api'
 import { DateTime } from 'luxon'
+import {
+  createCachedFetchFn,
+  marketPriceSources,
+} from '@stayradiated/market-price'
 
 import withConfig, { Config } from '../../utils/with-config.js'
-import {
-  createPriceIterator,
-  binancePriceSource,
-} from '../../utils/price-source.js'
 
 export const command = 'auto-buy'
 
@@ -53,7 +53,7 @@ const calculateOrderAmountNZD = async (
 }
 
 export const handler = withConfig(async (config, _argv) => {
-  const getPriceFromBinance = createPriceIterator(binancePriceSource, config)
+  const fetchBinancePrice = createCachedFetchFn(marketPriceSources.binance, {})
 
   const offsetPercent = -1.5
 
@@ -71,7 +71,7 @@ export const handler = withConfig(async (config, _argv) => {
     if (amountNZD <= 0) {
       console.log('Have reached daily goal, passing...')
     } else {
-      const marketPrice = await getPriceFromBinance()
+      const marketPrice = await fetchBinancePrice()
       let orderPrice = round(2, marketPrice * ((offsetPercent + 100) / 100))
 
       const orderBook = await kiwiCoin.orderBook()

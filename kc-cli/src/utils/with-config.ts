@@ -1,21 +1,23 @@
 import fs from 'fs/promises'
 import { Config as KiwiCoinConfig } from '@stayradiated/kiwi-coin-api'
-import { Config as CoinMarketCapConfig } from '@stayradiated/coin-market-cap'
-
-type ExchangeRateConfig = {
-  appId: string
-}
+import {
+  CoinMarketCapConfig,
+  OpenExchangeRatesConfig,
+  DassetConfig,
+} from '@stayradiated/market-price'
 
 type JSONConfig = {
   'kiwi-coin.com'?: KiwiCoinConfig
-  'openexchangerates.org'?: ExchangeRateConfig
+  'openexchangerates.org'?: OpenExchangeRatesConfig
   'coinmarketcap.com'?: CoinMarketCapConfig
+  'dassetx.com'?: DassetConfig
 }
 
 export type Config = {
   kiwiCoin: KiwiCoinConfig
-  exchangeRate: ExchangeRateConfig
+  openExchangeRates: OpenExchangeRatesConfig
   coinMarketCap: CoinMarketCapConfig
+  dasset: DassetConfig
 }
 
 type Argv<T extends Record<string, unknown>> = T & {
@@ -56,12 +58,12 @@ const withConfig = <T extends Record<string, unknown>>(
       throw new Error('Config file is missing "kiwi-coin.com"."appSecret".')
     }
 
-    const exchangeRateConfig = configJSON['openexchangerates.org']
-    if (!exchangeRateConfig) {
+    const openExchangeRatesConfig = configJSON['openexchangerates.org']
+    if (!openExchangeRatesConfig) {
       throw new Error('Config file is missing "openexchangerates.org" section.')
     }
 
-    if (!exchangeRateConfig.appId) {
+    if (!openExchangeRatesConfig.appId) {
       throw new Error('Config file is missing "openexchangerates.org"."appId".')
     }
 
@@ -74,11 +76,25 @@ const withConfig = <T extends Record<string, unknown>>(
       throw new Error('Config file is missing "coinmarketcap.com"."apiKey".')
     }
 
+    const dassetConfig = configJSON['dassetx.com']
+    if (!dassetConfig) {
+      throw new Error('Config file is missing "dassetx.com" section.')
+    }
+
+    if (!dassetConfig.apiKey) {
+      throw new Error('Config file is missing "dassetx.com"."apiKey".')
+    }
+
+    if (!dassetConfig.accountId) {
+      throw new Error('Config file is missing "dassetx.com"."accountId".')
+    }
+
     return handlerFn(
       {
         kiwiCoin: kiwiCoinConfig,
-        exchangeRate: exchangeRateConfig,
+        openExchangeRates: openExchangeRatesConfig,
         coinMarketCap: coinMarketCapConfig,
+        dasset: dassetConfig,
       },
       argv,
     ).catch((error) => {

@@ -1,7 +1,7 @@
 {
-  "name": "@stayradiated/binance-us",
+  "name": "@stayradiated/market-price",
   "version": "1.0.0",
-  "description": "Get the price of bitcoin from binance-us",
+  "description": "Get the price of bitcoin from various sources",
   "type": "module",
   "exports": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -31,12 +31,16 @@
   },
   "homepage": "https://github.com/stayradiated/kc#readme",
   "dependencies": {
+    "@stayradiated/kiwi-coin-api": "1.0.1",
     "debug": "4.3.1",
-    "ky-universal": "0.9.1"
+    "ky": "0.28.5",
+    "ky-universal": "0.9.1",
+    "luxon": "1.27.0"
   },
   "devDependencies": {
     "@stayradiated/jsconfig": "1.9.0",
     "@types/debug": "4.1.5",
+    "@types/luxon": "1.27.0",
     "ava": "3.15.0",
     "del-cli": "3.0.1",
     "np": "7.5.0",

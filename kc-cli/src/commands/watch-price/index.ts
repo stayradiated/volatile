@@ -1,12 +1,10 @@
 import { setTimeout } from 'timers/promises'
+import {
+  createCachedFetchFn,
+  marketPriceSources,
+} from '@stayradiated/market-price'
 
 import withConfig from '../../utils/with-config.js'
-import {
-  createPriceIterator,
-  kiwiCoinWorldwidePriceSource,
-  kiwiCoinEuropePriceSource,
-  binancePriceSource,
-} from '../../utils/price-source.js'
 
 export const command = 'watch-price'
 
@@ -15,34 +13,47 @@ export const desc = 'Continuously print the current price of BTC/NZD.'
 export const builder = {}
 
 export const handler = withConfig(async (config) => {
-  const getPriceFromKiwiCoinWorldwide = createPriceIterator(
-    kiwiCoinWorldwidePriceSource,
-    config,
+  const fetchKiwiCoinPrice = createCachedFetchFn(
+    marketPriceSources.kiwiCoin,
+    {},
   )
-  const getPriceFromKiwiCoinEurope = createPriceIterator(
-    kiwiCoinEuropePriceSource,
-    config,
+
+  const fetchBinancePrice = createCachedFetchFn(marketPriceSources.binance, {})
+
+  const fetchEasyCryptoPrice = createCachedFetchFn(
+    marketPriceSources.easyCrypto,
+    {},
   )
-  const getPriceFromBinance = createPriceIterator(binancePriceSource, config)
+
+  const fetchUSDExchangeRate = createCachedFetchFn(
+    marketPriceSources.openExchangeRates,
+    config.openExchangeRates,
+  )
+
+  const fetchDassetPrice = createCachedFetchFn(marketPriceSources.dasset, {
+    config: config.dasset,
+  })
 
   // CSV header
-  console.log(
-    'date,kiwi-coin.com (worldwide), kiwi-coin.com (europe),binance.us',
-  )
+  console.log('date,kiwi-coin.com,easycrypto.nz,binance.us,dassetx.com')
 
   const loop = async (): Promise<void> => {
-    const [kiwiCoinWorldwide, kiwiCoinEurope, binance] = await Promise.all([
-      getPriceFromKiwiCoinWorldwide(),
-      getPriceFromKiwiCoinEurope(),
-      getPriceFromBinance(),
-    ])
+    const [kiwiCoinWorldwide, kiwiCoinEurope, binance, exchangeRate, dasset] =
+      await Promise.all([
+        fetchKiwiCoinPrice(),
+        fetchEasyCryptoPrice(),
+        fetchBinancePrice(),
+        fetchUSDExchangeRate(),
+        fetchDassetPrice(),
+      ])
 
     console.log(
       [
         new Date().toISOString(),
         kiwiCoinWorldwide,
         kiwiCoinEurope,
-        binance,
+        binance * exchangeRate,
+        dasset,
       ].join(','),
     )
 

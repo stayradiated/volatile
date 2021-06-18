@@ -4,8 +4,6 @@ import debug from 'debug'
 
 const log = debug('kiwi-coin-api')
 
-const MIN_CACHE_MS = 30 * 1000
-
 export type Config = {
   userId: string
   apiKey: string
@@ -213,28 +211,11 @@ export type ExtPriceOptions = {
 }
 
 export type ExtPriceResult = {
-  requestDate: Date
-  responseDate: Date
   price: number
 }
 
-const extPrice = async (
-  options: ExtPriceOptions,
-  pastResult?: ExtPriceResult,
-): Promise<ExtPriceResult> => {
+const extPrice = async (options: ExtPriceOptions): Promise<ExtPriceResult> => {
   const { source } = options
-
-  if (pastResult) {
-    const delta = Date.now() - pastResult.responseDate.getTime()
-    if (delta < MIN_CACHE_MS) {
-      log(`re-using past data from ${(delta / 1000).toFixed(1)}s ago.`)
-      return pastResult
-    }
-
-    log(`previous result is ${(delta / 1000).toFixed(1)}s old, querying API`)
-  }
-
-  const requestDate = new Date()
 
   const price = await kiwiCoin
     .get('extprice', {
@@ -243,11 +224,7 @@ const extPrice = async (
     })
     .text()
 
-  const responseDate = new Date()
-
   return {
-    requestDate,
-    responseDate,
     price: Number.parseFloat(price),
   }
 }
@@ -262,28 +239,13 @@ export type TopOrderPriceOptions = {
 }
 
 export type TopOrderPriceResult = {
-  requestDate: Date
-  responseDate: Date
   price: number
 }
 
 const topOrderPrice = async (
   options: TopOrderPriceOptions,
-  pastResult?: TopOrderPriceResult,
 ): Promise<TopOrderPriceResult> => {
   const { type } = options
-
-  if (pastResult) {
-    const delta = Date.now() - pastResult.responseDate.getTime()
-    if (delta < MIN_CACHE_MS) {
-      log(`re-using past data from ${(delta / 1000).toFixed(1)}s ago.`)
-      return pastResult
-    }
-
-    log(`previous result is ${(delta / 1000).toFixed(1)}s old, querying API`)
-  }
-
-  const requestDate = new Date()
 
   const price = await kiwiCoin
     .get('extprice', {
@@ -292,11 +254,7 @@ const topOrderPrice = async (
     })
     .text()
 
-  const responseDate = new Date()
-
   return {
-    requestDate,
-    responseDate,
     price: Number.parseFloat(price),
   }
 }

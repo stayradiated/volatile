@@ -1,7 +1,7 @@
 {
-  "name": "@stayradiated/coin-market-cap",
+  "name": "@stayradiated/kc-server",
   "version": "1.0.0",
-  "description": "Get the current price of bitcoin from coinmarketcap.com",
+  "description": "KC Server",
   "type": "module",
   "exports": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -16,11 +16,9 @@
     "url": "git+https://github.com/stayradiated/kc.git"
   },
   "keywords": [
-    "coinmarketcap.com",
     "bitcoin",
-    "market",
-    "value",
-    "price"
+    "nz",
+    "server"
   ],
   "author": {
     "name": "George Czabania",
@@ -33,12 +31,18 @@
   "homepage": "https://github.com/stayradiated/kc#readme",
   "devDependencies": {
     "@stayradiated/jsconfig": "1.9.0",
-    "@types/debug": "4.1.5",
+    "@types/pg": "8.6.0",
+    "@types/uuid": "8.3.0",
     "ava": "3.15.0",
     "del-cli": "3.0.1",
     "np": "7.5.0",
     "typescript": "4.3.2",
     "xo": "0.40.2"
+  },
+  "dependencies": {
+    "pg": "8.6.0",
+    "uuid": "8.3.2",
+    "zapatos": "4.0.3"
   },
   "__comment": "The following configs are managed by @stayradiated/jsconfig",
   "ava": {
@@ -72,9 +76,5 @@
     "tabWidth": 2,
     "trailingComma": "all",
     "useTabs": false
-  },
-  "dependencies": {
-    "debug": "4.3.1",
-    "ky-universal": "0.9.1"
   }
 }
