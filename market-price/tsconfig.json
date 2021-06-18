@@ -1,5 +1,5 @@
 {
-  "__comment": "This file is managed by @stayradiated/jsconfig",
+  "__comment": "This typescipt config is managed by `npx @stayradiated/jsconfig`",
   "compilerOptions": {
     "outDir": "dist",
     "module": "ES2020",

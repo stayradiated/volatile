@@ -2,7 +2,7 @@ import * as kiwiCoin from '@stayradiated/kiwi-coin-api'
 import { marketPriceSources } from '@stayradiated/market-price'
 import { table as printTable } from 'table'
 
-import withConfig from '../../utils/with-config.js'
+import { withConfig } from '../../utils/with-config.js'
 
 export const command = 'order-book'
 

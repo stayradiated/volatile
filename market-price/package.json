@@ -8,8 +8,7 @@
   "scripts": {
     "test": "ava",
     "tidy": "xo --fix",
-    "build": "del-cli dist && tsc",
-    "publish": "np"
+    "build": "del-cli dist && tsc"
   },
   "repository": {
     "type": "git",
@@ -31,23 +30,22 @@
   },
   "homepage": "https://github.com/stayradiated/kc#readme",
   "dependencies": {
-    "@stayradiated/kiwi-coin-api": "1.0.1",
+    "@stayradiated/kiwi-coin-api": "workspace:1.0.1",
     "debug": "4.3.1",
     "ky": "0.28.5",
     "ky-universal": "0.9.1",
     "luxon": "1.27.0"
   },
   "devDependencies": {
-    "@stayradiated/jsconfig": "1.9.0",
+    "@stayradiated/jsconfig": "1.10.0",
     "@types/debug": "4.1.5",
     "@types/luxon": "1.27.0",
     "ava": "3.15.0",
-    "del-cli": "3.0.1",
-    "np": "7.5.0",
-    "typescript": "4.3.2",
+    "del-cli": "4.0.0",
+    "typescript": "4.3.4",
     "xo": "0.40.2"
   },
-  "__comment": "The following configs are managed by @stayradiated/jsconfig",
+  "__comment": "The following configs are managed by `npx @stayradiated/jsconfig`",
   "ava": {
     "verbose": true
   },

@@ -1,7 +1,7 @@
 import { Argv } from 'yargs'
 import * as kiwiCoin from '@stayradiated/kiwi-coin-api'
 
-import withConfig from '../../utils/with-config.js'
+import { withConfig } from '../../utils/with-config.js'
 
 export const command = 'sell'
 

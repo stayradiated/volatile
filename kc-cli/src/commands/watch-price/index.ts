@@ -4,7 +4,7 @@ import {
   marketPriceSources,
 } from '@stayradiated/market-price'
 
-import withConfig from '../../utils/with-config.js'
+import { withConfig } from '../../utils/with-config.js'
 
 export const command = 'watch-price'
 

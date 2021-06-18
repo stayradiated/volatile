@@ -6,7 +6,7 @@ import {
   marketPriceSources,
 } from '@stayradiated/market-price'
 
-import withConfig, { Config } from '../../utils/with-config.js'
+import { withConfig, Config } from '../../utils/with-config.js'
 
 export const command = 'auto-buy'
 

@@ -1,7 +1,7 @@
 import * as kiwiCoin from '@stayradiated/kiwi-coin-api'
 import { printTable } from 'console-table-printer'
 
-import withConfig from '../../utils/with-config.js'
+import { withConfig } from '../../utils/with-config.js'
 
 export const command = 'balance'
 
