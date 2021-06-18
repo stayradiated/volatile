@@ -36,9 +36,9 @@ const marketSource: MarketPriceSource<Options> = {
 
     const result: APIResponse = await easyCrypto.get(`ticker/${symbol}`).json()
 
-    // const bid = Number.parseFloat(result.bid)
+    // Const bid = Number.parseFloat(result.bid)
     const ask = Number.parseFloat(result.ask)
-    // const value = Math.round(((bid + ask) / 2) * 100) / 100
+    // Const value = Math.round(((bid + ask) / 2) * 100) / 100
     const value = ask
 
     return {

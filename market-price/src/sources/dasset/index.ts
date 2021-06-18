@@ -56,9 +56,9 @@ const marketSource: MarketPriceSource<Options> = {
       throw new Error(`Could not get ticker back for symbol: ${symbol}`)
     }
 
-    // const bidRate = Number.parseFloat(ticker.bidRate)
+    // Const bidRate = Number.parseFloat(ticker.bidRate)
     const askRate = Number.parseFloat(ticker.askRate)
-    // const value = Math.round(((bidRate + askRate) / 2) * 100) / 100
+    // Const value = Math.round(((bidRate + askRate) / 2) * 100) / 100
     const value = askRate
 
     return {

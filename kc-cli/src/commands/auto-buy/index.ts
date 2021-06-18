@@ -54,6 +54,10 @@ const calculateOrderAmountNZD = async (
 
 export const handler = withConfig(async (config, _argv) => {
   const fetchBinancePrice = createCachedFetchFn(marketPriceSources.binance, {})
+  const fetchExchangeRate = createCachedFetchFn(
+    marketPriceSources.openExchangeRates,
+    config.openExchangeRates,
+  )
 
   const offsetPercent = -1.5
 
@@ -71,7 +75,10 @@ export const handler = withConfig(async (config, _argv) => {
     if (amountNZD <= 0) {
       console.log('Have reached daily goal, passing...')
     } else {
-      const marketPrice = await fetchBinancePrice()
+      const binanceRate = await fetchBinancePrice()
+      const exchangeRate = await fetchExchangeRate()
+      const marketPrice = binanceRate * exchangeRate
+
       let orderPrice = round(2, marketPrice * ((offsetPercent + 100) / 100))
 
       const orderBook = await kiwiCoin.orderBook()

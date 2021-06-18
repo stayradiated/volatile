@@ -39,11 +39,12 @@ const toRow = (order: [string, string], worldPrice: number): Row => {
 }
 
 export const handler = withConfig(async (config) => {
-  const [{ value: binanceRate }, { value: usdRate }, orderBook] = await Promise.all([
-    marketPriceSources.binance.fetch({}),
-    marketPriceSources.openExchangeRates.fetch(config.openExchangeRates),
-    kiwiCoin.orderBook(),
-  ])
+  const [{ value: binanceRate }, { value: usdRate }, orderBook] =
+    await Promise.all([
+      marketPriceSources.binance.fetch({}),
+      marketPriceSources.openExchangeRates.fetch(config.openExchangeRates),
+      kiwiCoin.orderBook(),
+    ])
 
   const worldPrice = binanceRate * usdRate
 
