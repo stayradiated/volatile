@@ -71,10 +71,12 @@ export const handler = withConfig(async (config, _argv) => {
 
   const loop = async (): Promise<void> => {
     try {
-      const [availableNZD, goalAmountNZD] = await Promise.all([
-        fetchAvailableNZD(config.kiwiCoin),
-        calculateOrderAmountNZD({ config, dailyGoal: 100 }),
-      ])
+      // Should really be done concurrently, but kiwi-coin.com often returns a 401?
+      const availableNZD = await fetchAvailableNZD(config.kiwiCoin)
+      const goalAmountNZD = await calculateOrderAmountNZD({
+        config,
+        dailyGoal: 100,
+      })
 
       const amountNZD = Math.min(goalAmountNZD, availableNZD)
 
