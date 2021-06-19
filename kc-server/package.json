@@ -9,7 +9,7 @@
     "test": "ava",
     "tidy": "xo --fix",
     "build": "del-cli dist && tsc",
-    "build:ncc": "ncc build ./src/index.ts -o ./dist/ncc",
+    "build:ncc": "ncc build ./src/index.ts -o ./dist/ncc && mv ./dist/ncc/index.js ./dist/ncc/kc-server.js",
     "start": "node ./dist/index.js"
   },
   "repository": {
@@ -34,6 +34,7 @@
     "@stayradiated/jsconfig": "1.10.0",
     "@types/pg": "8.6.0",
     "@types/uuid": "8.3.0",
+    "@vercel/ncc": "0.28.6",
     "ava": "3.15.0",
     "del-cli": "4.0.0",
     "typescript": "4.3.4",
@@ -42,7 +43,6 @@
   "dependencies": {
     "@stayradiated/kc-config": "workspace:1.0.0",
     "@stayradiated/market-price": "workspace:1.0.0",
-    "@vercel/ncc": "0.28.6",
     "pg": "8.6.0",
     "uuid": "8.3.2",
     "zapatos": "5.0.0"

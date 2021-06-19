@@ -8,7 +8,8 @@
   "scripts": {
     "test": "ava",
     "tidy": "xo --fix",
-    "build": "del-cli dist && tsc"
+    "build": "del-cli dist && tsc",
+    "build:ncc": "ncc build ./src/index.ts -o ./dist/ncc && mv ./dist/ncc/index.js ./dist/ncc/kc-cli.js"
   },
   "repository": {
     "type": "git",
@@ -45,6 +46,7 @@
     "@stayradiated/jsconfig": "1.10.0",
     "@types/luxon": "1.27.0",
     "@types/yargs": "17.0.0",
+    "@vercel/ncc": "0.28.6",
     "ava": "3.15.0",
     "del-cli": "4.0.0",
     "typescript": "4.3.4",

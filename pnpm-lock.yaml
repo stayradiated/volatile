@@ -10,6 +10,7 @@ importers:
       '@stayradiated/market-price': workspace:1.0.0
       '@types/luxon': 1.27.0
       '@types/yargs': 17.0.0
+      '@vercel/ncc': 0.28.6
       ava: 3.15.0
       console-table-printer: 2.9.0
       del-cli: 4.0.0
@@ -30,6 +31,7 @@ importers:
       '@stayradiated/jsconfig': 1.10.0
       '@types/luxon': 1.27.0
       '@types/yargs': 17.0.0
+      '@vercel/ncc': 0.28.6
       ava: 3.15.0
       del-cli: 4.0.0
       typescript: 4.3.4
@@ -72,7 +74,6 @@ importers:
     dependencies:
       '@stayradiated/kc-config': link:../kc-config
       '@stayradiated/market-price': link:../market-price
-      '@vercel/ncc': 0.28.6
       pg: 8.6.0
       uuid: 8.3.2
       zapatos: 5.0.0_dcd3398b0a43cababe78041e75289997
@@ -80,6 +81,7 @@ importers:
       '@stayradiated/jsconfig': 1.10.0
       '@types/pg': 8.6.0
       '@types/uuid': 8.3.0
+      '@vercel/ncc': 0.28.6
       ava: 3.15.0
       del-cli: 4.0.0
       typescript: 4.3.4
@@ -638,7 +640,7 @@ packages:
   /@vercel/ncc/0.28.6:
     resolution: {integrity: sha512-t4BoSSuyK8BZaUE0gV18V6bkFs4st7baumtFGa50dv1tMu2GDBEBF8sUZaKBdKiL6DzJ2D2+XVCwYWWDcQOYdQ==}
     hasBin: true
-    dev: false
+    dev: true
 
   /abort-controller/3.0.0:
     resolution: {integrity: sha512-h8lQ8tacZYnR3vNQTgibj+tODHI5/+l06Au2Pcriv/Gmet0eaj4TwWH41sO9wnHDiQsEj19q0drzdWdeAHtweg==}
