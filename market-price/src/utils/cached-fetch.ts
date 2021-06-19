@@ -1,5 +1,5 @@
 import { DateTime, Duration } from 'luxon'
-import debug, { Debugger } from 'debug'
+import { Debugger } from 'debug'
 
 type FetchFnResult<ReturnValue> = {
   lastUpdated: DateTime
@@ -25,7 +25,6 @@ const createCachedFetchFn = <Args, ReturnValue>(
   const { log, minCacheDuration, fetch } = config
 
   const logError = log.extend('error')
-  debug.enable(logError.namespace)
 
   let lastUpdated = DateTime.fromSeconds(0)
   let lastValue: ReturnValue
