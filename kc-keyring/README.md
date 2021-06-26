@@ -11,6 +11,7 @@ What's different?
 - Code migrated to typescript
 - Removed sequelize plugin
 - Doesn't automatically generate SHA1 hash of input (`digest`)
+- Adds `createKeyringFromFilepath` to read a config from a file
 
 ## What is this used for?
 
