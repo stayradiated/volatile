@@ -1,0 +1,7 @@
+{
+  "algorithm": "AES-256-CBC",
+  "keys": {
+    "0": "9J8yiXNhw0RwcQfnfX9/XuGM5sSNYFXBl6H1/GCy2O2QqAYdR8pviJX1FB4I0sRzYHAbHoUkiMPI3KT0KOdXqw==",
+    "1": "Mi1O5gJq7JAOwVhpZTg9Cq3phL4FFlo/msWzxNshecDCW+vh/qebKagvorfUHbCXMhFFl6+h7HRSRRAT5pe5Fw=="
+  }
+}
