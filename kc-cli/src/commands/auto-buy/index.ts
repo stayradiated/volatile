@@ -14,6 +14,8 @@ export const desc = 'Update open orders to match market value'
 
 export const builder = {}
 
+const MINIMUM_BTC_BID = 0.000_01
+
 const round = (decimals: number, value: number): number => {
   const multiplier = 10 ** decimals
   return Math.round(value * multiplier) / multiplier
@@ -67,8 +69,6 @@ export const handler = withConfig(async (config, _argv) => {
     config.openExchangeRates,
   )
 
-  const offsetPercent = -1.5
-
   const loop = async (): Promise<void> => {
     try {
       // Should really be done concurrently, but kiwi-coin.com often returns a 401?
@@ -93,6 +93,7 @@ export const handler = withConfig(async (config, _argv) => {
 
         const marketPrice = binanceRate * exchangeRate
 
+        const offsetPercent = -1.5
         let orderPrice = round(2, marketPrice * ((offsetPercent + 100) / 100))
 
         const lowestAsk = orderBook.asks[0]
@@ -105,25 +106,30 @@ export const handler = withConfig(async (config, _argv) => {
         }
 
         const amountBTC = round(8, amountNZD / orderPrice)
+        if (amountBTC < MINIMUM_BTC_BID) {
+          console.log(
+            `Bid amount is below MINIMUM_BTC_BID: ${amountBTC}/${MINIMUM_BTC_BID}`,
+          )
+        } else {
+          await Promise.all(
+            existingOrders.map(async (order) => {
+              return kiwiCoin.cancelOrder(config.kiwiCoin, order.id)
+            }),
+          )
 
-        await Promise.all(
-          existingOrders.map(async (order) => {
-            return kiwiCoin.cancelOrder(config.kiwiCoin, order.id)
-          }),
-        )
+          await kiwiCoin.buy(config.kiwiCoin, {
+            price: orderPrice,
+            amount: amountBTC,
+          })
 
-        await kiwiCoin.buy(config.kiwiCoin, {
-          price: orderPrice,
-          amount: amountBTC,
-        })
-
-        console.dir({
-          marketPrice,
-          offsetPercent,
-          orderPrice,
-          amountNZD,
-          amountBTC,
-        })
+          console.dir({
+            marketPrice,
+            offsetPercent,
+            orderPrice,
+            amountNZD,
+            amountBTC,
+          })
+        }
       }
     } catch (error: unknown) {
       if (error instanceof Error) {
