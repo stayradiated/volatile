@@ -5,7 +5,12 @@ services:
     image: postgres:13.3-alpine
     restart: always
     ports: 
-    - "5432:5432"
+      - "127.0.0.1:5432:5432"
     environment:
       POSTGRES_USER: kc
       POSTGRES_PASSWORD: angrydroplet
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
