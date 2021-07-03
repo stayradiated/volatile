@@ -1,7 +1,10 @@
 import pg from 'pg'
+import env from 'env-var'
+
+const DB_URL = env.get('DB_URL').required().asString()
 
 const pool = new pg.Pool({
-  connectionString: 'pg://kc:angrydroplet@localhost:5432/kc',
+  connectionString: DB_URL,
 })
 pool.on('error', (error) => {
   console.error(error)
