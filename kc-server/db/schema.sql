@@ -14,16 +14,31 @@ SET default_tablespace = '';
 SET default_table_access_method = heap;
 
 --
+-- Name: market; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.market (
+    uid uuid NOT NULL,
+    created_at timestamp with time zone,
+    updated_at timestamp with time zone,
+    id character varying(30) NOT NULL,
+    name character varying(50) NOT NULL
+);
+
+
+--
 -- Name: market_price; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.market_price (
-    id uuid NOT NULL,
     created_at timestamp with time zone,
     updated_at timestamp with time zone,
-    date timestamp with time zone,
-    market_name character varying,
-    price double precision
+    "timestamp" timestamp with time zone NOT NULL,
+    market_uid uuid NOT NULL,
+    price numeric(12,2),
+    currency character(3),
+    fx_rate numeric(12,6),
+    price_nzd numeric(12,2)
 );
 
 
@@ -37,11 +52,27 @@ CREATE TABLE public.schema_migrations (
 
 
 --
+-- Name: market market_id_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.market
+    ADD CONSTRAINT market_id_key UNIQUE (id);
+
+
+--
+-- Name: market market_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.market
+    ADD CONSTRAINT market_pkey PRIMARY KEY (uid);
+
+
+--
 -- Name: market_price market_price_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.market_price
-    ADD CONSTRAINT market_price_pkey PRIMARY KEY (id);
+    ADD CONSTRAINT market_price_pkey PRIMARY KEY ("timestamp", market_uid);
 
 
 --
@@ -50,6 +81,14 @@ ALTER TABLE ONLY public.market_price
 
 ALTER TABLE ONLY public.schema_migrations
     ADD CONSTRAINT schema_migrations_pkey PRIMARY KEY (version);
+
+
+--
+-- Name: market_price fk_market_price_market; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.market_price
+    ADD CONSTRAINT fk_market_price_market FOREIGN KEY (market_uid) REFERENCES public.market(uid) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --

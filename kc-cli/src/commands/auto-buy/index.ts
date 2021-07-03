@@ -4,6 +4,7 @@ import { DateTime } from 'luxon'
 import {
   createCachedFetchFn,
   marketPriceSources,
+  currencySources,
 } from '@stayradiated/market-price'
 
 import { withConfig, Config } from '../../utils/with-config.js'
@@ -64,10 +65,9 @@ const fetchAvailableNZD = async (
 
 export const handler = withConfig(async (config, _argv) => {
   const fetchBinancePrice = createCachedFetchFn(marketPriceSources.binance, {})
-  const fetchExchangeRate = createCachedFetchFn(
-    marketPriceSources.openExchangeRates,
-    config.openExchangeRates,
-  )
+  const fetchExchangeRate = createCachedFetchFn(currencySources.USD_NZD, {
+    config: config.openExchangeRates,
+  })
 
   const loop = async (): Promise<void> => {
     try {

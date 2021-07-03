@@ -2,6 +2,7 @@ import { setTimeout } from 'timers/promises'
 import {
   createCachedFetchFn,
   marketPriceSources,
+  currencySources,
 } from '@stayradiated/market-price'
 
 import { withConfig } from '../../utils/with-config.js'
@@ -25,10 +26,9 @@ export const handler = withConfig(async (config) => {
     {},
   )
 
-  const fetchUSDExchangeRate = createCachedFetchFn(
-    marketPriceSources.openExchangeRates,
-    config.openExchangeRates,
-  )
+  const fetchUSDExchangeRate = createCachedFetchFn(currencySources.USD_NZD, {
+    config: config.openExchangeRates,
+  })
 
   const fetchDassetPrice = createCachedFetchFn(marketPriceSources.dasset, {
     config: config.dasset,

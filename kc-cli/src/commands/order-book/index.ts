@@ -1,5 +1,5 @@
 import * as kiwiCoin from '@stayradiated/kiwi-coin-api'
-import { marketPriceSources } from '@stayradiated/market-price'
+import { marketPriceSources, currencySources } from '@stayradiated/market-price'
 import { table as printTable } from 'table'
 
 import { withConfig } from '../../utils/with-config.js'
@@ -42,7 +42,7 @@ export const handler = withConfig(async (config) => {
   const [{ value: binanceRate }, { value: usdRate }, orderBook] =
     await Promise.all([
       marketPriceSources.binance.fetch({}),
-      marketPriceSources.openExchangeRates.fetch(config.openExchangeRates),
+      currencySources.USD_NZD.fetch({ config: config.openExchangeRates }),
       kiwiCoin.orderBook(),
     ])
 

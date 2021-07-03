@@ -1,13 +1,19 @@
-import * as marketPriceSources from './sources/index.js'
+import * as marketPriceSources from './markets/index.js'
+import { CoinMarketCapConfig } from './markets/coinmarketcap/index.js'
+import { DassetConfig } from './markets/dasset/index.js'
+
+import * as currencySources from './currencies/index.js'
+import { OpenExchangeRatesConfig } from './currencies/open-exchange-rates.js'
+
 import { createCachedFetchFn } from './utils/cached-fetch.js'
-import { CoinMarketCapConfig } from './sources/coinmarketcap/index.js'
-import { OpenExchangeRatesConfig } from './sources/open-exchange-rates/index.js'
-import { DassetConfig } from './sources/dasset/index.js'
+import { MarketPriceSource } from './utils/market-price-source.js'
 
 export {
-  marketPriceSources,
-  createCachedFetchFn,
   CoinMarketCapConfig,
-  OpenExchangeRatesConfig,
   DassetConfig,
+  MarketPriceSource,
+  OpenExchangeRatesConfig,
+  createCachedFetchFn,
+  currencySources,
+  marketPriceSources,
 }
