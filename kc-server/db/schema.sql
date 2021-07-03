@@ -19,8 +19,8 @@ SET default_table_access_method = heap;
 
 CREATE TABLE public.market (
     uid uuid NOT NULL,
-    created_at timestamp with time zone,
-    updated_at timestamp with time zone,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL,
     id character varying(30) NOT NULL,
     name character varying(50) NOT NULL
 );
@@ -31,14 +31,14 @@ CREATE TABLE public.market (
 --
 
 CREATE TABLE public.market_price (
-    created_at timestamp with time zone,
-    updated_at timestamp with time zone,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL,
     "timestamp" timestamp with time zone NOT NULL,
     market_uid uuid NOT NULL,
-    price numeric(12,2),
-    currency character(3),
-    fx_rate numeric(12,6),
-    price_nzd numeric(12,2)
+    price numeric(12,2) NOT NULL,
+    currency character(3) NOT NULL,
+    fx_rate numeric(12,6) NOT NULL,
+    price_nzd numeric(12,2) NOT NULL
 );
 
 

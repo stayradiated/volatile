@@ -3,6 +3,7 @@ import env from 'env-var'
 
 import pool from './pg-pool.js'
 import { fetchMarketPrice } from './components/market-price/index.js'
+import { initAutoBuy } from './components/auto-buy/index.js'
 
 import type { ComponentProps } from './types.js'
 
@@ -16,5 +17,5 @@ void (async function () {
     pool,
   }
 
-  await fetchMarketPrice(props)
+  await Promise.all([fetchMarketPrice(props), initAutoBuy(props)])
 })()

@@ -1,5 +1,5 @@
 import mem from 'mem'
-import { v4 as createUUID } from 'uuid'
+import { v4 as genUID } from 'uuid'
 import * as db from 'zapatos/db'
 import type * as s from 'zapatos/schema'
 
@@ -30,12 +30,12 @@ const EASY_CRYPTO: Market = {
   name: 'Easy Crypto',
 }
 
-const forceGetMarketUUID = async (
+const forceGetMarketUID = async (
   pool: Pool,
   market: Market,
 ): Promise<string> => {
   const insert: s.market.Insertable = {
-    uid: createUUID(),
+    uid: genUID(),
     created_at: new Date(),
     updated_at: new Date(),
     id: market.id,
@@ -54,13 +54,13 @@ const forceGetMarketUUID = async (
 
   const row = rows[0] as { uid: string }
   if (!row) {
-    throw new Error('forceGetMarketUUID received 0 rows')
+    throw new Error('forceGetMarketUID received 0 rows')
   }
 
   return row.uid
 }
 
-const getMarketUUID = mem(forceGetMarketUUID, {
+const getMarketUID = mem(forceGetMarketUID, {
   cacheKey: ([_, market]) => market,
 })
 
@@ -70,6 +70,6 @@ export {
   BINANCE_US,
   KIWI_COIN,
   EASY_CRYPTO,
-  getMarketUUID,
-  forceGetMarketUUID,
+  getMarketUID,
+  forceGetMarketUID,
 }

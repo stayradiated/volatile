@@ -14,10 +14,12 @@ import {
   DASSET,
   KIWI_COIN,
   EASY_CRYPTO,
-  getMarketUUID,
+  getMarketUID,
 } from '../markets/index.js'
 
 import type { Config, Component, Pool } from '../../types.js'
+
+const SLEEP_MS = 60 * 1000
 
 type InsertMarketPriceOptions = {
   timestamp: Date
@@ -39,7 +41,7 @@ const insertMarketPrice = async (
     created_at: now,
     updated_at: now,
     timestamp,
-    market_uid: await getMarketUUID(pool, market),
+    market_uid: await getMarketUID(pool, market),
     price,
     currency,
     fx_rate: fxRate,
@@ -82,6 +84,10 @@ type MarketPriceConfig = {
   readonly market: Market
   readonly currency: Currency
   readonly createFetchPriceFn: (config: Config) => () => Promise<number>
+}
+
+type MarketPriceInstance = MarketPriceConfig & {
+  readonly fetchPrice: () => Promise<number>
 }
 
 const marketPriceConfigList: readonly MarketPriceConfig[] = [
@@ -145,40 +151,43 @@ const fetchMarketPrice: Component = async (props) => {
     return currencyConfig.fetchRate()
   }
 
-  const marketFnList = marketPriceConfigList.map((marketPriceConfig) => {
-    const { createFetchPriceFn } = marketPriceConfig
-    return {
-      ...marketPriceConfig,
-      fetchPrice: createFetchPriceFn(config),
+  const marketPriceInstanceList: MarketPriceInstance[] =
+    marketPriceConfigList.map((marketPriceConfig) => {
+      const { createFetchPriceFn } = marketPriceConfig
+      return {
+        ...marketPriceConfig,
+        fetchPrice: createFetchPriceFn(config),
+      }
+    })
+
+  const initLoop = async (marketPriceInstance: MarketPriceInstance) => {
+    const loop = async (): Promise<void> => {
+      const { market, fetchPrice, currency } = marketPriceInstance
+      const timestamp = new Date()
+
+      const price = await fetchPrice()
+      const fxRate = await fetchCurrencyRate(currency)
+      const priceNZD = price * fxRate
+
+      await insertMarketPrice(pool, {
+        timestamp,
+        market,
+        price,
+        currency,
+        fxRate,
+        priceNZD,
+      })
+
+      await setTimeout(SLEEP_MS)
+      await loop()
     }
-  })
 
-  const loop = async (): Promise<void> => {
-    await Promise.all(
-      marketFnList.map(async (marketPriceConfig) => {
-        const { market, fetchPrice, currency } = marketPriceConfig
-        const timestamp = new Date()
-
-        const price = await fetchPrice()
-        const fxRate = await fetchCurrencyRate(currency)
-        const priceNZD = price * fxRate
-
-        await insertMarketPrice(pool, {
-          timestamp,
-          market,
-          price,
-          currency,
-          fxRate,
-          priceNZD,
-        })
-      }),
-    )
-
-    await setTimeout(5 * 1000)
     return loop()
   }
 
-  await loop()
+  await Promise.all(
+    marketPriceInstanceList.map(async (instance) => initLoop(instance)),
+  )
 }
 
 export { fetchMarketPrice }
