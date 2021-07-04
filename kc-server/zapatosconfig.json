@@ -2,5 +2,11 @@
   "db": {
     "connectionString": "postgresql://kc:angrydroplet@localhost/kc"
   },
-  "outDir": "./src"
+  "outDir": "./src",
+  "schemas": {
+    "kc": {
+      "include": "*",
+      "exclude": []
+    }
+  }
 }
