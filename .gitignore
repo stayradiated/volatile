@@ -1,2 +1,8 @@
+# exclude compiled typescript code
 dist
+
+# exclude dependencies
 node_modules
+
+# exclude local environment variables
+.env

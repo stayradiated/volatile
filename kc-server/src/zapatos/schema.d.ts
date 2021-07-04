@@ -8,16 +8,16 @@ Released under the MIT licence: see LICENCE file
 */
 
 declare module 'zapatos/schema' {
+  import type * as db from 'zapatos/db'
 
-  import type * as db from 'zapatos/db';
-
-  // got a type error on schemaVersionCanary below? update by running `npx zapatos`
-  export interface schemaVersionCanary extends db.SchemaVersionCanary { version: 103 }
+  // Got a type error on schemaVersionCanary below? update by running `npx zapatos`
+  export interface schemaVersionCanary extends db.SchemaVersionCanary {
+    version: 103
+  }
 
   /* === schema: kc === */
 
   /* --- enums --- */
-
 
   /* --- tables --- */
 
@@ -26,2299 +26,3561 @@ declare module 'zapatos/schema' {
    * - Table in database
    */
   export namespace dca_order {
-    export type Table = 'dca_order';
+    export type Table = 'dca_order'
     export interface Selectable {
       /**
-      * **dca_order.uid**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
-      */
-      uid: string;
+       * **Dca_order.uid**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      uid: string
       /**
-      * **dca_order.created_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      created_at: Date;
+       * **Dca_order.created_at**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      created_at: Date
       /**
-      * **dca_order.updated_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      updated_at: Date;
+       * **Dca_order.updated_at**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      updated_at: Date
       /**
-      * **dca_order.user_uid**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
-      */
-      user_uid: string;
+       * **Dca_order.user_uid**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      user_uid: string
       /**
-      * **dca_order.exchange_uid**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
-      */
-      exchange_uid: string;
+       * **Dca_order.exchange_uid**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      exchange_uid: string
       /**
-      * **dca_order.market_uid**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
-      */
-      market_uid: string;
+       * **Dca_order.market_uid**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      market_uid: string
       /**
-      * **dca_order.start_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      start_at: Date;
+       * **Dca_order.start_at**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      start_at: Date
       /**
-      * **dca_order.market_offset**
-      * - `numeric` in database
-      * - `NOT NULL`, no default
-      */
-      market_offset: number;
+       * **Dca_order.market_offset**
+       * - `numeric` in database
+       * - `NOT NULL`, no default
+       */
+      market_offset: number
       /**
-      * **dca_order.daily_average**
-      * - `numeric` in database
-      * - `NOT NULL`, no default
-      */
-      daily_average: number;
+       * **Dca_order.daily_average**
+       * - `numeric` in database
+       * - `NOT NULL`, no default
+       */
+      daily_average: number
       /**
-      * **dca_order.min_price**
-      * - `numeric` in database
-      * - Nullable, no default
-      */
-      min_price: number | null;
+       * **Dca_order.min_price**
+       * - `numeric` in database
+       * - Nullable, no default
+       */
+      min_price: number | null
       /**
-      * **dca_order.max_price**
-      * - `numeric` in database
-      * - Nullable, no default
-      */
-      max_price: number | null;
+       * **Dca_order.max_price**
+       * - `numeric` in database
+       * - Nullable, no default
+       */
+      max_price: number | null
       /**
-      * **dca_order.min_amount**
-      * - `numeric` in database
-      * - Nullable, no default
-      */
-      min_amount: number | null;
+       * **Dca_order.min_amount**
+       * - `numeric` in database
+       * - Nullable, no default
+       */
+      min_amount: number | null
       /**
-      * **dca_order.max_amount**
-      * - `numeric` in database
-      * - Nullable, no default
-      */
-      max_amount: number | null;
+       * **Dca_order.max_amount**
+       * - `numeric` in database
+       * - Nullable, no default
+       */
+      max_amount: number | null
     }
     export interface JSONSelectable {
       /**
-      * **dca_order.uid**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
-      */
-      uid: string;
+       * **Dca_order.uid**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      uid: string
       /**
-      * **dca_order.created_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      created_at: db.TimestampTzString;
+       * **Dca_order.created_at**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      created_at: db.TimestampTzString
       /**
-      * **dca_order.updated_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      updated_at: db.TimestampTzString;
+       * **Dca_order.updated_at**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      updated_at: db.TimestampTzString
       /**
-      * **dca_order.user_uid**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
-      */
-      user_uid: string;
+       * **Dca_order.user_uid**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      user_uid: string
       /**
-      * **dca_order.exchange_uid**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
-      */
-      exchange_uid: string;
+       * **Dca_order.exchange_uid**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      exchange_uid: string
       /**
-      * **dca_order.market_uid**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
-      */
-      market_uid: string;
+       * **Dca_order.market_uid**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      market_uid: string
       /**
-      * **dca_order.start_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      start_at: db.TimestampTzString;
+       * **Dca_order.start_at**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      start_at: db.TimestampTzString
       /**
-      * **dca_order.market_offset**
-      * - `numeric` in database
-      * - `NOT NULL`, no default
-      */
-      market_offset: number;
+       * **Dca_order.market_offset**
+       * - `numeric` in database
+       * - `NOT NULL`, no default
+       */
+      market_offset: number
       /**
-      * **dca_order.daily_average**
-      * - `numeric` in database
-      * - `NOT NULL`, no default
-      */
-      daily_average: number;
+       * **Dca_order.daily_average**
+       * - `numeric` in database
+       * - `NOT NULL`, no default
+       */
+      daily_average: number
       /**
-      * **dca_order.min_price**
-      * - `numeric` in database
-      * - Nullable, no default
-      */
-      min_price: number | null;
+       * **Dca_order.min_price**
+       * - `numeric` in database
+       * - Nullable, no default
+       */
+      min_price: number | null
       /**
-      * **dca_order.max_price**
-      * - `numeric` in database
-      * - Nullable, no default
-      */
-      max_price: number | null;
+       * **Dca_order.max_price**
+       * - `numeric` in database
+       * - Nullable, no default
+       */
+      max_price: number | null
       /**
-      * **dca_order.min_amount**
-      * - `numeric` in database
-      * - Nullable, no default
-      */
-      min_amount: number | null;
+       * **Dca_order.min_amount**
+       * - `numeric` in database
+       * - Nullable, no default
+       */
+      min_amount: number | null
       /**
-      * **dca_order.max_amount**
-      * - `numeric` in database
-      * - Nullable, no default
-      */
-      max_amount: number | null;
+       * **Dca_order.max_amount**
+       * - `numeric` in database
+       * - Nullable, no default
+       */
+      max_amount: number | null
     }
     export interface Whereable {
       /**
-      * **dca_order.uid**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
-      */
-      uid?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+       * **Dca_order.uid**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      uid?:
+        | string
+        | db.Parameter<string>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            string | db.Parameter<string> | db.SQLFragment | db.ParentColumn
+          >
       /**
-      * **dca_order.created_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      created_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
+       * **Dca_order.created_at**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      created_at?:
+        | (db.TimestampTzString | Date)
+        | db.Parameter<db.TimestampTzString | Date>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            | (db.TimestampTzString | Date)
+            | db.Parameter<db.TimestampTzString | Date>
+            | db.SQLFragment
+            | db.ParentColumn
+          >
       /**
-      * **dca_order.updated_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      updated_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
+       * **Dca_order.updated_at**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      updated_at?:
+        | (db.TimestampTzString | Date)
+        | db.Parameter<db.TimestampTzString | Date>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            | (db.TimestampTzString | Date)
+            | db.Parameter<db.TimestampTzString | Date>
+            | db.SQLFragment
+            | db.ParentColumn
+          >
       /**
-      * **dca_order.user_uid**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
-      */
-      user_uid?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+       * **Dca_order.user_uid**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      user_uid?:
+        | string
+        | db.Parameter<string>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            string | db.Parameter<string> | db.SQLFragment | db.ParentColumn
+          >
       /**
-      * **dca_order.exchange_uid**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
-      */
-      exchange_uid?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+       * **Dca_order.exchange_uid**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      exchange_uid?:
+        | string
+        | db.Parameter<string>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            string | db.Parameter<string> | db.SQLFragment | db.ParentColumn
+          >
       /**
-      * **dca_order.market_uid**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
-      */
-      market_uid?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+       * **Dca_order.market_uid**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      market_uid?:
+        | string
+        | db.Parameter<string>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            string | db.Parameter<string> | db.SQLFragment | db.ParentColumn
+          >
       /**
-      * **dca_order.start_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      start_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
+       * **Dca_order.start_at**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      start_at?:
+        | (db.TimestampTzString | Date)
+        | db.Parameter<db.TimestampTzString | Date>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            | (db.TimestampTzString | Date)
+            | db.Parameter<db.TimestampTzString | Date>
+            | db.SQLFragment
+            | db.ParentColumn
+          >
       /**
-      * **dca_order.market_offset**
-      * - `numeric` in database
-      * - `NOT NULL`, no default
-      */
-      market_offset?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+       * **Dca_order.market_offset**
+       * - `numeric` in database
+       * - `NOT NULL`, no default
+       */
+      market_offset?:
+        | number
+        | db.Parameter<number>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            number | db.Parameter<number> | db.SQLFragment | db.ParentColumn
+          >
       /**
-      * **dca_order.daily_average**
-      * - `numeric` in database
-      * - `NOT NULL`, no default
-      */
-      daily_average?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+       * **Dca_order.daily_average**
+       * - `numeric` in database
+       * - `NOT NULL`, no default
+       */
+      daily_average?:
+        | number
+        | db.Parameter<number>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            number | db.Parameter<number> | db.SQLFragment | db.ParentColumn
+          >
       /**
-      * **dca_order.min_price**
-      * - `numeric` in database
-      * - Nullable, no default
-      */
-      min_price?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+       * **Dca_order.min_price**
+       * - `numeric` in database
+       * - Nullable, no default
+       */
+      min_price?:
+        | number
+        | db.Parameter<number>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            number | db.Parameter<number> | db.SQLFragment | db.ParentColumn
+          >
       /**
-      * **dca_order.max_price**
-      * - `numeric` in database
-      * - Nullable, no default
-      */
-      max_price?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+       * **Dca_order.max_price**
+       * - `numeric` in database
+       * - Nullable, no default
+       */
+      max_price?:
+        | number
+        | db.Parameter<number>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            number | db.Parameter<number> | db.SQLFragment | db.ParentColumn
+          >
       /**
-      * **dca_order.min_amount**
-      * - `numeric` in database
-      * - Nullable, no default
-      */
-      min_amount?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+       * **Dca_order.min_amount**
+       * - `numeric` in database
+       * - Nullable, no default
+       */
+      min_amount?:
+        | number
+        | db.Parameter<number>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            number | db.Parameter<number> | db.SQLFragment | db.ParentColumn
+          >
       /**
-      * **dca_order.max_amount**
-      * - `numeric` in database
-      * - Nullable, no default
-      */
-      max_amount?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+       * **Dca_order.max_amount**
+       * - `numeric` in database
+       * - Nullable, no default
+       */
+      max_amount?:
+        | number
+        | db.Parameter<number>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            number | db.Parameter<number> | db.SQLFragment | db.ParentColumn
+          >
     }
     export interface Insertable {
       /**
-      * **dca_order.uid**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
-      */
-      uid: string | db.Parameter<string> | db.SQLFragment;
+       * **Dca_order.uid**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      uid: string | db.Parameter<string> | db.SQLFragment
       /**
-      * **dca_order.created_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      created_at: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment;
+       * **Dca_order.created_at**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      created_at:
+        | (db.TimestampTzString | Date)
+        | db.Parameter<db.TimestampTzString | Date>
+        | db.SQLFragment
       /**
-      * **dca_order.updated_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      updated_at: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment;
+       * **Dca_order.updated_at**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      updated_at:
+        | (db.TimestampTzString | Date)
+        | db.Parameter<db.TimestampTzString | Date>
+        | db.SQLFragment
       /**
-      * **dca_order.user_uid**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
-      */
-      user_uid: string | db.Parameter<string> | db.SQLFragment;
+       * **Dca_order.user_uid**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      user_uid: string | db.Parameter<string> | db.SQLFragment
       /**
-      * **dca_order.exchange_uid**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
-      */
-      exchange_uid: string | db.Parameter<string> | db.SQLFragment;
+       * **Dca_order.exchange_uid**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      exchange_uid: string | db.Parameter<string> | db.SQLFragment
       /**
-      * **dca_order.market_uid**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
-      */
-      market_uid: string | db.Parameter<string> | db.SQLFragment;
+       * **Dca_order.market_uid**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      market_uid: string | db.Parameter<string> | db.SQLFragment
       /**
-      * **dca_order.start_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      start_at: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment;
+       * **Dca_order.start_at**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      start_at:
+        | (db.TimestampTzString | Date)
+        | db.Parameter<db.TimestampTzString | Date>
+        | db.SQLFragment
       /**
-      * **dca_order.market_offset**
-      * - `numeric` in database
-      * - `NOT NULL`, no default
-      */
-      market_offset: number | db.Parameter<number> | db.SQLFragment;
+       * **Dca_order.market_offset**
+       * - `numeric` in database
+       * - `NOT NULL`, no default
+       */
+      market_offset: number | db.Parameter<number> | db.SQLFragment
       /**
-      * **dca_order.daily_average**
-      * - `numeric` in database
-      * - `NOT NULL`, no default
-      */
-      daily_average: number | db.Parameter<number> | db.SQLFragment;
+       * **Dca_order.daily_average**
+       * - `numeric` in database
+       * - `NOT NULL`, no default
+       */
+      daily_average: number | db.Parameter<number> | db.SQLFragment
       /**
-      * **dca_order.min_price**
-      * - `numeric` in database
-      * - Nullable, no default
-      */
-      min_price?: number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment;
+       * **Dca_order.min_price**
+       * - `numeric` in database
+       * - Nullable, no default
+       */
+      min_price?:
+        | number
+        | db.Parameter<number>
+        | null
+        | db.DefaultType
+        | db.SQLFragment
       /**
-      * **dca_order.max_price**
-      * - `numeric` in database
-      * - Nullable, no default
-      */
-      max_price?: number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment;
+       * **Dca_order.max_price**
+       * - `numeric` in database
+       * - Nullable, no default
+       */
+      max_price?:
+        | number
+        | db.Parameter<number>
+        | null
+        | db.DefaultType
+        | db.SQLFragment
       /**
-      * **dca_order.min_amount**
-      * - `numeric` in database
-      * - Nullable, no default
-      */
-      min_amount?: number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment;
+       * **Dca_order.min_amount**
+       * - `numeric` in database
+       * - Nullable, no default
+       */
+      min_amount?:
+        | number
+        | db.Parameter<number>
+        | null
+        | db.DefaultType
+        | db.SQLFragment
       /**
-      * **dca_order.max_amount**
-      * - `numeric` in database
-      * - Nullable, no default
-      */
-      max_amount?: number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment;
+       * **Dca_order.max_amount**
+       * - `numeric` in database
+       * - Nullable, no default
+       */
+      max_amount?:
+        | number
+        | db.Parameter<number>
+        | null
+        | db.DefaultType
+        | db.SQLFragment
     }
     export interface Updatable {
       /**
-      * **dca_order.uid**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
-      */
-      uid?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+       * **Dca_order.uid**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      uid?:
+        | string
+        | db.Parameter<string>
+        | db.SQLFragment
+        | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>
       /**
-      * **dca_order.created_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      created_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment>;
+       * **Dca_order.created_at**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      created_at?:
+        | (db.TimestampTzString | Date)
+        | db.Parameter<db.TimestampTzString | Date>
+        | db.SQLFragment
+        | db.SQLFragment<
+            any,
+            | (db.TimestampTzString | Date)
+            | db.Parameter<db.TimestampTzString | Date>
+            | db.SQLFragment
+          >
       /**
-      * **dca_order.updated_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      updated_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment>;
+       * **Dca_order.updated_at**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      updated_at?:
+        | (db.TimestampTzString | Date)
+        | db.Parameter<db.TimestampTzString | Date>
+        | db.SQLFragment
+        | db.SQLFragment<
+            any,
+            | (db.TimestampTzString | Date)
+            | db.Parameter<db.TimestampTzString | Date>
+            | db.SQLFragment
+          >
       /**
-      * **dca_order.user_uid**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
-      */
-      user_uid?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+       * **Dca_order.user_uid**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      user_uid?:
+        | string
+        | db.Parameter<string>
+        | db.SQLFragment
+        | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>
       /**
-      * **dca_order.exchange_uid**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
-      */
-      exchange_uid?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+       * **Dca_order.exchange_uid**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      exchange_uid?:
+        | string
+        | db.Parameter<string>
+        | db.SQLFragment
+        | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>
       /**
-      * **dca_order.market_uid**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
-      */
-      market_uid?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+       * **Dca_order.market_uid**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      market_uid?:
+        | string
+        | db.Parameter<string>
+        | db.SQLFragment
+        | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>
       /**
-      * **dca_order.start_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      start_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment>;
+       * **Dca_order.start_at**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      start_at?:
+        | (db.TimestampTzString | Date)
+        | db.Parameter<db.TimestampTzString | Date>
+        | db.SQLFragment
+        | db.SQLFragment<
+            any,
+            | (db.TimestampTzString | Date)
+            | db.Parameter<db.TimestampTzString | Date>
+            | db.SQLFragment
+          >
       /**
-      * **dca_order.market_offset**
-      * - `numeric` in database
-      * - `NOT NULL`, no default
-      */
-      market_offset?: number | db.Parameter<number> | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
+       * **Dca_order.market_offset**
+       * - `numeric` in database
+       * - `NOT NULL`, no default
+       */
+      market_offset?:
+        | number
+        | db.Parameter<number>
+        | db.SQLFragment
+        | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>
       /**
-      * **dca_order.daily_average**
-      * - `numeric` in database
-      * - `NOT NULL`, no default
-      */
-      daily_average?: number | db.Parameter<number> | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
+       * **Dca_order.daily_average**
+       * - `numeric` in database
+       * - `NOT NULL`, no default
+       */
+      daily_average?:
+        | number
+        | db.Parameter<number>
+        | db.SQLFragment
+        | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>
       /**
-      * **dca_order.min_price**
-      * - `numeric` in database
-      * - Nullable, no default
-      */
-      min_price?: number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment>;
+       * **Dca_order.min_price**
+       * - `numeric` in database
+       * - Nullable, no default
+       */
+      min_price?:
+        | number
+        | db.Parameter<number>
+        | null
+        | db.DefaultType
+        | db.SQLFragment
+        | db.SQLFragment<
+            any,
+            | number
+            | db.Parameter<number>
+            | null
+            | db.DefaultType
+            | db.SQLFragment
+          >
       /**
-      * **dca_order.max_price**
-      * - `numeric` in database
-      * - Nullable, no default
-      */
-      max_price?: number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment>;
+       * **Dca_order.max_price**
+       * - `numeric` in database
+       * - Nullable, no default
+       */
+      max_price?:
+        | number
+        | db.Parameter<number>
+        | null
+        | db.DefaultType
+        | db.SQLFragment
+        | db.SQLFragment<
+            any,
+            | number
+            | db.Parameter<number>
+            | null
+            | db.DefaultType
+            | db.SQLFragment
+          >
       /**
-      * **dca_order.min_amount**
-      * - `numeric` in database
-      * - Nullable, no default
-      */
-      min_amount?: number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment>;
+       * **Dca_order.min_amount**
+       * - `numeric` in database
+       * - Nullable, no default
+       */
+      min_amount?:
+        | number
+        | db.Parameter<number>
+        | null
+        | db.DefaultType
+        | db.SQLFragment
+        | db.SQLFragment<
+            any,
+            | number
+            | db.Parameter<number>
+            | null
+            | db.DefaultType
+            | db.SQLFragment
+          >
       /**
-      * **dca_order.max_amount**
-      * - `numeric` in database
-      * - Nullable, no default
-      */
-      max_amount?: number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment>;
+       * **Dca_order.max_amount**
+       * - `numeric` in database
+       * - Nullable, no default
+       */
+      max_amount?:
+        | number
+        | db.Parameter<number>
+        | null
+        | db.DefaultType
+        | db.SQLFragment
+        | db.SQLFragment<
+            any,
+            | number
+            | db.Parameter<number>
+            | null
+            | db.DefaultType
+            | db.SQLFragment
+          >
     }
-    export type UniqueIndex = 'dca_order_pkey';
-    export type Column = keyof Selectable;
-    export type OnlyCols<T extends readonly Column[]> = Pick<Selectable, T[number]>;
-    export type SQLExpression = db.GenericSQLExpression | db.ColumnNames<Updatable | (keyof Updatable)[]> | db.ColumnValues<Updatable> | Table | Whereable | Column;
-    export type SQL = SQLExpression | SQLExpression[];
+    export type UniqueIndex = 'dca_order_pkey'
+    export type Column = keyof Selectable
+    export type OnlyCols<T extends readonly Column[]> = Pick<
+      Selectable,
+      T[number]
+    >
+    export type SQLExpression =
+      | db.GenericSQLExpression
+      | db.ColumnNames<Updatable | Array<keyof Updatable>>
+      | db.ColumnValues<Updatable>
+      | Table
+      | Whereable
+      | Column
+    export type SQL = SQLExpression | SQLExpression[]
   }
 
   /**
-   * **dca_order_history**
+   * **Dca_order_history**
    * - Table in database
    */
   export namespace dca_order_history {
-    export type Table = 'dca_order_history';
+    export type Table = 'dca_order_history'
     export interface Selectable {
       /**
-      * **dca_order_history.uid**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
-      */
-      uid: string;
+       * **Dca_order_history.uid**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      uid: string
       /**
-      * **dca_order_history.created_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      created_at: Date;
+       * **Dca_order_history.created_at**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      created_at: Date
       /**
-      * **dca_order_history.updated_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      updated_at: Date;
+       * **Dca_order_history.updated_at**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      updated_at: Date
       /**
-      * **dca_order_history.user_uid**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
-      */
-      user_uid: string;
+       * **Dca_order_history.user_uid**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      user_uid: string
       /**
-      * **dca_order_history.dca_order_uid**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
-      */
-      dca_order_uid: string;
+       * **Dca_order_history.dca_order_uid**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      dca_order_uid: string
       /**
-      * **dca_order_history.order_uid**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
-      */
-      order_uid: string;
+       * **Dca_order_history.order_uid**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      order_uid: string
       /**
-      * **dca_order_history.market_price**
-      * - `numeric` in database
-      * - `NOT NULL`, no default
-      */
-      market_price: number;
+       * **Dca_order_history.market_price**
+       * - `numeric` in database
+       * - `NOT NULL`, no default
+       */
+      market_price: number
       /**
-      * **dca_order_history.market_offset**
-      * - `numeric` in database
-      * - `NOT NULL`, no default
-      */
-      market_offset: number;
+       * **Dca_order_history.market_offset**
+       * - `numeric` in database
+       * - `NOT NULL`, no default
+       */
+      market_offset: number
     }
     export interface JSONSelectable {
       /**
-      * **dca_order_history.uid**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
-      */
-      uid: string;
+       * **Dca_order_history.uid**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      uid: string
       /**
-      * **dca_order_history.created_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      created_at: db.TimestampTzString;
+       * **Dca_order_history.created_at**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      created_at: db.TimestampTzString
       /**
-      * **dca_order_history.updated_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      updated_at: db.TimestampTzString;
+       * **Dca_order_history.updated_at**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      updated_at: db.TimestampTzString
       /**
-      * **dca_order_history.user_uid**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
-      */
-      user_uid: string;
+       * **Dca_order_history.user_uid**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      user_uid: string
       /**
-      * **dca_order_history.dca_order_uid**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
-      */
-      dca_order_uid: string;
+       * **Dca_order_history.dca_order_uid**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      dca_order_uid: string
       /**
-      * **dca_order_history.order_uid**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
-      */
-      order_uid: string;
+       * **Dca_order_history.order_uid**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      order_uid: string
       /**
-      * **dca_order_history.market_price**
-      * - `numeric` in database
-      * - `NOT NULL`, no default
-      */
-      market_price: number;
+       * **Dca_order_history.market_price**
+       * - `numeric` in database
+       * - `NOT NULL`, no default
+       */
+      market_price: number
       /**
-      * **dca_order_history.market_offset**
-      * - `numeric` in database
-      * - `NOT NULL`, no default
-      */
-      market_offset: number;
+       * **Dca_order_history.market_offset**
+       * - `numeric` in database
+       * - `NOT NULL`, no default
+       */
+      market_offset: number
     }
     export interface Whereable {
       /**
-      * **dca_order_history.uid**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
-      */
-      uid?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+       * **Dca_order_history.uid**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      uid?:
+        | string
+        | db.Parameter<string>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            string | db.Parameter<string> | db.SQLFragment | db.ParentColumn
+          >
       /**
-      * **dca_order_history.created_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      created_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
+       * **Dca_order_history.created_at**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      created_at?:
+        | (db.TimestampTzString | Date)
+        | db.Parameter<db.TimestampTzString | Date>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            | (db.TimestampTzString | Date)
+            | db.Parameter<db.TimestampTzString | Date>
+            | db.SQLFragment
+            | db.ParentColumn
+          >
       /**
-      * **dca_order_history.updated_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      updated_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
+       * **Dca_order_history.updated_at**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      updated_at?:
+        | (db.TimestampTzString | Date)
+        | db.Parameter<db.TimestampTzString | Date>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            | (db.TimestampTzString | Date)
+            | db.Parameter<db.TimestampTzString | Date>
+            | db.SQLFragment
+            | db.ParentColumn
+          >
       /**
-      * **dca_order_history.user_uid**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
-      */
-      user_uid?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+       * **Dca_order_history.user_uid**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      user_uid?:
+        | string
+        | db.Parameter<string>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            string | db.Parameter<string> | db.SQLFragment | db.ParentColumn
+          >
       /**
-      * **dca_order_history.dca_order_uid**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
-      */
-      dca_order_uid?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+       * **Dca_order_history.dca_order_uid**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      dca_order_uid?:
+        | string
+        | db.Parameter<string>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            string | db.Parameter<string> | db.SQLFragment | db.ParentColumn
+          >
       /**
-      * **dca_order_history.order_uid**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
-      */
-      order_uid?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+       * **Dca_order_history.order_uid**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      order_uid?:
+        | string
+        | db.Parameter<string>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            string | db.Parameter<string> | db.SQLFragment | db.ParentColumn
+          >
       /**
-      * **dca_order_history.market_price**
-      * - `numeric` in database
-      * - `NOT NULL`, no default
-      */
-      market_price?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+       * **Dca_order_history.market_price**
+       * - `numeric` in database
+       * - `NOT NULL`, no default
+       */
+      market_price?:
+        | number
+        | db.Parameter<number>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            number | db.Parameter<number> | db.SQLFragment | db.ParentColumn
+          >
       /**
-      * **dca_order_history.market_offset**
-      * - `numeric` in database
-      * - `NOT NULL`, no default
-      */
-      market_offset?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+       * **Dca_order_history.market_offset**
+       * - `numeric` in database
+       * - `NOT NULL`, no default
+       */
+      market_offset?:
+        | number
+        | db.Parameter<number>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            number | db.Parameter<number> | db.SQLFragment | db.ParentColumn
+          >
     }
     export interface Insertable {
       /**
-      * **dca_order_history.uid**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
-      */
-      uid: string | db.Parameter<string> | db.SQLFragment;
+       * **Dca_order_history.uid**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      uid: string | db.Parameter<string> | db.SQLFragment
       /**
-      * **dca_order_history.created_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      created_at: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment;
+       * **Dca_order_history.created_at**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      created_at:
+        | (db.TimestampTzString | Date)
+        | db.Parameter<db.TimestampTzString | Date>
+        | db.SQLFragment
       /**
-      * **dca_order_history.updated_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      updated_at: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment;
+       * **Dca_order_history.updated_at**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      updated_at:
+        | (db.TimestampTzString | Date)
+        | db.Parameter<db.TimestampTzString | Date>
+        | db.SQLFragment
       /**
-      * **dca_order_history.user_uid**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
-      */
-      user_uid: string | db.Parameter<string> | db.SQLFragment;
+       * **Dca_order_history.user_uid**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      user_uid: string | db.Parameter<string> | db.SQLFragment
       /**
-      * **dca_order_history.dca_order_uid**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
-      */
-      dca_order_uid: string | db.Parameter<string> | db.SQLFragment;
+       * **Dca_order_history.dca_order_uid**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      dca_order_uid: string | db.Parameter<string> | db.SQLFragment
       /**
-      * **dca_order_history.order_uid**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
-      */
-      order_uid: string | db.Parameter<string> | db.SQLFragment;
+       * **Dca_order_history.order_uid**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      order_uid: string | db.Parameter<string> | db.SQLFragment
       /**
-      * **dca_order_history.market_price**
-      * - `numeric` in database
-      * - `NOT NULL`, no default
-      */
-      market_price: number | db.Parameter<number> | db.SQLFragment;
+       * **Dca_order_history.market_price**
+       * - `numeric` in database
+       * - `NOT NULL`, no default
+       */
+      market_price: number | db.Parameter<number> | db.SQLFragment
       /**
-      * **dca_order_history.market_offset**
-      * - `numeric` in database
-      * - `NOT NULL`, no default
-      */
-      market_offset: number | db.Parameter<number> | db.SQLFragment;
+       * **Dca_order_history.market_offset**
+       * - `numeric` in database
+       * - `NOT NULL`, no default
+       */
+      market_offset: number | db.Parameter<number> | db.SQLFragment
     }
     export interface Updatable {
       /**
-      * **dca_order_history.uid**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
-      */
-      uid?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+       * **Dca_order_history.uid**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      uid?:
+        | string
+        | db.Parameter<string>
+        | db.SQLFragment
+        | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>
       /**
-      * **dca_order_history.created_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      created_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment>;
+       * **Dca_order_history.created_at**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      created_at?:
+        | (db.TimestampTzString | Date)
+        | db.Parameter<db.TimestampTzString | Date>
+        | db.SQLFragment
+        | db.SQLFragment<
+            any,
+            | (db.TimestampTzString | Date)
+            | db.Parameter<db.TimestampTzString | Date>
+            | db.SQLFragment
+          >
       /**
-      * **dca_order_history.updated_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      updated_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment>;
+       * **Dca_order_history.updated_at**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      updated_at?:
+        | (db.TimestampTzString | Date)
+        | db.Parameter<db.TimestampTzString | Date>
+        | db.SQLFragment
+        | db.SQLFragment<
+            any,
+            | (db.TimestampTzString | Date)
+            | db.Parameter<db.TimestampTzString | Date>
+            | db.SQLFragment
+          >
       /**
-      * **dca_order_history.user_uid**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
-      */
-      user_uid?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+       * **Dca_order_history.user_uid**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      user_uid?:
+        | string
+        | db.Parameter<string>
+        | db.SQLFragment
+        | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>
       /**
-      * **dca_order_history.dca_order_uid**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
-      */
-      dca_order_uid?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+       * **Dca_order_history.dca_order_uid**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      dca_order_uid?:
+        | string
+        | db.Parameter<string>
+        | db.SQLFragment
+        | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>
       /**
-      * **dca_order_history.order_uid**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
-      */
-      order_uid?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+       * **Dca_order_history.order_uid**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      order_uid?:
+        | string
+        | db.Parameter<string>
+        | db.SQLFragment
+        | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>
       /**
-      * **dca_order_history.market_price**
-      * - `numeric` in database
-      * - `NOT NULL`, no default
-      */
-      market_price?: number | db.Parameter<number> | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
+       * **Dca_order_history.market_price**
+       * - `numeric` in database
+       * - `NOT NULL`, no default
+       */
+      market_price?:
+        | number
+        | db.Parameter<number>
+        | db.SQLFragment
+        | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>
       /**
-      * **dca_order_history.market_offset**
-      * - `numeric` in database
-      * - `NOT NULL`, no default
-      */
-      market_offset?: number | db.Parameter<number> | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
+       * **Dca_order_history.market_offset**
+       * - `numeric` in database
+       * - `NOT NULL`, no default
+       */
+      market_offset?:
+        | number
+        | db.Parameter<number>
+        | db.SQLFragment
+        | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>
     }
-    export type UniqueIndex = 'dca_order_history_pkey' | 'unique_dca_order';
-    export type Column = keyof Selectable;
-    export type OnlyCols<T extends readonly Column[]> = Pick<Selectable, T[number]>;
-    export type SQLExpression = db.GenericSQLExpression | db.ColumnNames<Updatable | (keyof Updatable)[]> | db.ColumnValues<Updatable> | Table | Whereable | Column;
-    export type SQL = SQLExpression | SQLExpression[];
+    export type UniqueIndex = 'dca_order_history_pkey' | 'unique_dca_order'
+    export type Column = keyof Selectable
+    export type OnlyCols<T extends readonly Column[]> = Pick<
+      Selectable,
+      T[number]
+    >
+    export type SQLExpression =
+      | db.GenericSQLExpression
+      | db.ColumnNames<Updatable | Array<keyof Updatable>>
+      | db.ColumnValues<Updatable>
+      | Table
+      | Whereable
+      | Column
+    export type SQL = SQLExpression | SQLExpression[]
   }
 
   /**
-   * **exchange**
+   * **Exchange**
    * - Table in database
    */
   export namespace exchange {
-    export type Table = 'exchange';
+    export type Table = 'exchange'
     export interface Selectable {
       /**
-      * **exchange.uid**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
-      */
-      uid: string;
+       * **Exchange.uid**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      uid: string
       /**
-      * **exchange.created_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      created_at: Date;
+       * **Exchange.created_at**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      created_at: Date
       /**
-      * **exchange.updated_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      updated_at: Date;
+       * **Exchange.updated_at**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      updated_at: Date
       /**
-      * **exchange.id**
-      * - `varchar` in database
-      * - `NOT NULL`, no default
-      */
-      id: string;
+       * **Exchange.id**
+       * - `varchar` in database
+       * - `NOT NULL`, no default
+       */
+      id: string
       /**
-      * **exchange.name**
-      * - `varchar` in database
-      * - `NOT NULL`, no default
-      */
-      name: string;
+       * **Exchange.name**
+       * - `varchar` in database
+       * - `NOT NULL`, no default
+       */
+      name: string
     }
     export interface JSONSelectable {
       /**
-      * **exchange.uid**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
-      */
-      uid: string;
+       * **Exchange.uid**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      uid: string
       /**
-      * **exchange.created_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      created_at: db.TimestampTzString;
+       * **Exchange.created_at**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      created_at: db.TimestampTzString
       /**
-      * **exchange.updated_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      updated_at: db.TimestampTzString;
+       * **Exchange.updated_at**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      updated_at: db.TimestampTzString
       /**
-      * **exchange.id**
-      * - `varchar` in database
-      * - `NOT NULL`, no default
-      */
-      id: string;
+       * **Exchange.id**
+       * - `varchar` in database
+       * - `NOT NULL`, no default
+       */
+      id: string
       /**
-      * **exchange.name**
-      * - `varchar` in database
-      * - `NOT NULL`, no default
-      */
-      name: string;
+       * **Exchange.name**
+       * - `varchar` in database
+       * - `NOT NULL`, no default
+       */
+      name: string
     }
     export interface Whereable {
       /**
-      * **exchange.uid**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
-      */
-      uid?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+       * **Exchange.uid**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      uid?:
+        | string
+        | db.Parameter<string>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            string | db.Parameter<string> | db.SQLFragment | db.ParentColumn
+          >
       /**
-      * **exchange.created_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      created_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
+       * **Exchange.created_at**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      created_at?:
+        | (db.TimestampTzString | Date)
+        | db.Parameter<db.TimestampTzString | Date>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            | (db.TimestampTzString | Date)
+            | db.Parameter<db.TimestampTzString | Date>
+            | db.SQLFragment
+            | db.ParentColumn
+          >
       /**
-      * **exchange.updated_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      updated_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
+       * **Exchange.updated_at**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      updated_at?:
+        | (db.TimestampTzString | Date)
+        | db.Parameter<db.TimestampTzString | Date>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            | (db.TimestampTzString | Date)
+            | db.Parameter<db.TimestampTzString | Date>
+            | db.SQLFragment
+            | db.ParentColumn
+          >
       /**
-      * **exchange.id**
-      * - `varchar` in database
-      * - `NOT NULL`, no default
-      */
-      id?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+       * **Exchange.id**
+       * - `varchar` in database
+       * - `NOT NULL`, no default
+       */
+      id?:
+        | string
+        | db.Parameter<string>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            string | db.Parameter<string> | db.SQLFragment | db.ParentColumn
+          >
       /**
-      * **exchange.name**
-      * - `varchar` in database
-      * - `NOT NULL`, no default
-      */
-      name?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+       * **Exchange.name**
+       * - `varchar` in database
+       * - `NOT NULL`, no default
+       */
+      name?:
+        | string
+        | db.Parameter<string>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            string | db.Parameter<string> | db.SQLFragment | db.ParentColumn
+          >
     }
     export interface Insertable {
       /**
-      * **exchange.uid**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
-      */
-      uid: string | db.Parameter<string> | db.SQLFragment;
+       * **Exchange.uid**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      uid: string | db.Parameter<string> | db.SQLFragment
       /**
-      * **exchange.created_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      created_at: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment;
+       * **Exchange.created_at**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      created_at:
+        | (db.TimestampTzString | Date)
+        | db.Parameter<db.TimestampTzString | Date>
+        | db.SQLFragment
       /**
-      * **exchange.updated_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      updated_at: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment;
+       * **Exchange.updated_at**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      updated_at:
+        | (db.TimestampTzString | Date)
+        | db.Parameter<db.TimestampTzString | Date>
+        | db.SQLFragment
       /**
-      * **exchange.id**
-      * - `varchar` in database
-      * - `NOT NULL`, no default
-      */
-      id: string | db.Parameter<string> | db.SQLFragment;
+       * **Exchange.id**
+       * - `varchar` in database
+       * - `NOT NULL`, no default
+       */
+      id: string | db.Parameter<string> | db.SQLFragment
       /**
-      * **exchange.name**
-      * - `varchar` in database
-      * - `NOT NULL`, no default
-      */
-      name: string | db.Parameter<string> | db.SQLFragment;
+       * **Exchange.name**
+       * - `varchar` in database
+       * - `NOT NULL`, no default
+       */
+      name: string | db.Parameter<string> | db.SQLFragment
     }
     export interface Updatable {
       /**
-      * **exchange.uid**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
-      */
-      uid?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+       * **Exchange.uid**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      uid?:
+        | string
+        | db.Parameter<string>
+        | db.SQLFragment
+        | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>
       /**
-      * **exchange.created_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      created_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment>;
+       * **Exchange.created_at**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      created_at?:
+        | (db.TimestampTzString | Date)
+        | db.Parameter<db.TimestampTzString | Date>
+        | db.SQLFragment
+        | db.SQLFragment<
+            any,
+            | (db.TimestampTzString | Date)
+            | db.Parameter<db.TimestampTzString | Date>
+            | db.SQLFragment
+          >
       /**
-      * **exchange.updated_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      updated_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment>;
+       * **Exchange.updated_at**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      updated_at?:
+        | (db.TimestampTzString | Date)
+        | db.Parameter<db.TimestampTzString | Date>
+        | db.SQLFragment
+        | db.SQLFragment<
+            any,
+            | (db.TimestampTzString | Date)
+            | db.Parameter<db.TimestampTzString | Date>
+            | db.SQLFragment
+          >
       /**
-      * **exchange.id**
-      * - `varchar` in database
-      * - `NOT NULL`, no default
-      */
-      id?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+       * **Exchange.id**
+       * - `varchar` in database
+       * - `NOT NULL`, no default
+       */
+      id?:
+        | string
+        | db.Parameter<string>
+        | db.SQLFragment
+        | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>
       /**
-      * **exchange.name**
-      * - `varchar` in database
-      * - `NOT NULL`, no default
-      */
-      name?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+       * **Exchange.name**
+       * - `varchar` in database
+       * - `NOT NULL`, no default
+       */
+      name?:
+        | string
+        | db.Parameter<string>
+        | db.SQLFragment
+        | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>
     }
-    export type UniqueIndex = 'exchange_pkey' | 'unique_exchange_id';
-    export type Column = keyof Selectable;
-    export type OnlyCols<T extends readonly Column[]> = Pick<Selectable, T[number]>;
-    export type SQLExpression = db.GenericSQLExpression | db.ColumnNames<Updatable | (keyof Updatable)[]> | db.ColumnValues<Updatable> | Table | Whereable | Column;
-    export type SQL = SQLExpression | SQLExpression[];
+    export type UniqueIndex = 'exchange_pkey' | 'unique_exchange_id'
+    export type Column = keyof Selectable
+    export type OnlyCols<T extends readonly Column[]> = Pick<
+      Selectable,
+      T[number]
+    >
+    export type SQLExpression =
+      | db.GenericSQLExpression
+      | db.ColumnNames<Updatable | Array<keyof Updatable>>
+      | db.ColumnValues<Updatable>
+      | Table
+      | Whereable
+      | Column
+    export type SQL = SQLExpression | SQLExpression[]
   }
 
   /**
-   * **market**
+   * **Market**
    * - Table in database
    */
   export namespace market {
-    export type Table = 'market';
+    export type Table = 'market'
     export interface Selectable {
       /**
-      * **market.uid**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
-      */
-      uid: string;
+       * **Market.uid**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      uid: string
       /**
-      * **market.created_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      created_at: Date;
+       * **Market.created_at**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      created_at: Date
       /**
-      * **market.updated_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      updated_at: Date;
+       * **Market.updated_at**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      updated_at: Date
       /**
-      * **market.id**
-      * - `varchar` in database
-      * - `NOT NULL`, no default
-      */
-      id: string;
+       * **Market.id**
+       * - `varchar` in database
+       * - `NOT NULL`, no default
+       */
+      id: string
       /**
-      * **market.name**
-      * - `varchar` in database
-      * - `NOT NULL`, no default
-      */
-      name: string;
+       * **Market.name**
+       * - `varchar` in database
+       * - `NOT NULL`, no default
+       */
+      name: string
     }
     export interface JSONSelectable {
       /**
-      * **market.uid**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
-      */
-      uid: string;
+       * **Market.uid**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      uid: string
       /**
-      * **market.created_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      created_at: db.TimestampTzString;
+       * **Market.created_at**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      created_at: db.TimestampTzString
       /**
-      * **market.updated_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      updated_at: db.TimestampTzString;
+       * **Market.updated_at**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      updated_at: db.TimestampTzString
       /**
-      * **market.id**
-      * - `varchar` in database
-      * - `NOT NULL`, no default
-      */
-      id: string;
+       * **Market.id**
+       * - `varchar` in database
+       * - `NOT NULL`, no default
+       */
+      id: string
       /**
-      * **market.name**
-      * - `varchar` in database
-      * - `NOT NULL`, no default
-      */
-      name: string;
+       * **Market.name**
+       * - `varchar` in database
+       * - `NOT NULL`, no default
+       */
+      name: string
     }
     export interface Whereable {
       /**
-      * **market.uid**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
-      */
-      uid?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+       * **Market.uid**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      uid?:
+        | string
+        | db.Parameter<string>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            string | db.Parameter<string> | db.SQLFragment | db.ParentColumn
+          >
       /**
-      * **market.created_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      created_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
+       * **Market.created_at**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      created_at?:
+        | (db.TimestampTzString | Date)
+        | db.Parameter<db.TimestampTzString | Date>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            | (db.TimestampTzString | Date)
+            | db.Parameter<db.TimestampTzString | Date>
+            | db.SQLFragment
+            | db.ParentColumn
+          >
       /**
-      * **market.updated_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      updated_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
+       * **Market.updated_at**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      updated_at?:
+        | (db.TimestampTzString | Date)
+        | db.Parameter<db.TimestampTzString | Date>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            | (db.TimestampTzString | Date)
+            | db.Parameter<db.TimestampTzString | Date>
+            | db.SQLFragment
+            | db.ParentColumn
+          >
       /**
-      * **market.id**
-      * - `varchar` in database
-      * - `NOT NULL`, no default
-      */
-      id?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+       * **Market.id**
+       * - `varchar` in database
+       * - `NOT NULL`, no default
+       */
+      id?:
+        | string
+        | db.Parameter<string>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            string | db.Parameter<string> | db.SQLFragment | db.ParentColumn
+          >
       /**
-      * **market.name**
-      * - `varchar` in database
-      * - `NOT NULL`, no default
-      */
-      name?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+       * **Market.name**
+       * - `varchar` in database
+       * - `NOT NULL`, no default
+       */
+      name?:
+        | string
+        | db.Parameter<string>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            string | db.Parameter<string> | db.SQLFragment | db.ParentColumn
+          >
     }
     export interface Insertable {
       /**
-      * **market.uid**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
-      */
-      uid: string | db.Parameter<string> | db.SQLFragment;
+       * **Market.uid**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      uid: string | db.Parameter<string> | db.SQLFragment
       /**
-      * **market.created_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      created_at: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment;
+       * **Market.created_at**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      created_at:
+        | (db.TimestampTzString | Date)
+        | db.Parameter<db.TimestampTzString | Date>
+        | db.SQLFragment
       /**
-      * **market.updated_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      updated_at: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment;
+       * **Market.updated_at**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      updated_at:
+        | (db.TimestampTzString | Date)
+        | db.Parameter<db.TimestampTzString | Date>
+        | db.SQLFragment
       /**
-      * **market.id**
-      * - `varchar` in database
-      * - `NOT NULL`, no default
-      */
-      id: string | db.Parameter<string> | db.SQLFragment;
+       * **Market.id**
+       * - `varchar` in database
+       * - `NOT NULL`, no default
+       */
+      id: string | db.Parameter<string> | db.SQLFragment
       /**
-      * **market.name**
-      * - `varchar` in database
-      * - `NOT NULL`, no default
-      */
-      name: string | db.Parameter<string> | db.SQLFragment;
+       * **Market.name**
+       * - `varchar` in database
+       * - `NOT NULL`, no default
+       */
+      name: string | db.Parameter<string> | db.SQLFragment
     }
     export interface Updatable {
       /**
-      * **market.uid**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
-      */
-      uid?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+       * **Market.uid**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      uid?:
+        | string
+        | db.Parameter<string>
+        | db.SQLFragment
+        | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>
       /**
-      * **market.created_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      created_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment>;
+       * **Market.created_at**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      created_at?:
+        | (db.TimestampTzString | Date)
+        | db.Parameter<db.TimestampTzString | Date>
+        | db.SQLFragment
+        | db.SQLFragment<
+            any,
+            | (db.TimestampTzString | Date)
+            | db.Parameter<db.TimestampTzString | Date>
+            | db.SQLFragment
+          >
       /**
-      * **market.updated_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      updated_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment>;
+       * **Market.updated_at**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      updated_at?:
+        | (db.TimestampTzString | Date)
+        | db.Parameter<db.TimestampTzString | Date>
+        | db.SQLFragment
+        | db.SQLFragment<
+            any,
+            | (db.TimestampTzString | Date)
+            | db.Parameter<db.TimestampTzString | Date>
+            | db.SQLFragment
+          >
       /**
-      * **market.id**
-      * - `varchar` in database
-      * - `NOT NULL`, no default
-      */
-      id?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+       * **Market.id**
+       * - `varchar` in database
+       * - `NOT NULL`, no default
+       */
+      id?:
+        | string
+        | db.Parameter<string>
+        | db.SQLFragment
+        | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>
       /**
-      * **market.name**
-      * - `varchar` in database
-      * - `NOT NULL`, no default
-      */
-      name?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+       * **Market.name**
+       * - `varchar` in database
+       * - `NOT NULL`, no default
+       */
+      name?:
+        | string
+        | db.Parameter<string>
+        | db.SQLFragment
+        | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>
     }
-    export type UniqueIndex = 'market_pkey' | 'unique_market_id';
-    export type Column = keyof Selectable;
-    export type OnlyCols<T extends readonly Column[]> = Pick<Selectable, T[number]>;
-    export type SQLExpression = db.GenericSQLExpression | db.ColumnNames<Updatable | (keyof Updatable)[]> | db.ColumnValues<Updatable> | Table | Whereable | Column;
-    export type SQL = SQLExpression | SQLExpression[];
+    export type UniqueIndex = 'market_pkey' | 'unique_market_id'
+    export type Column = keyof Selectable
+    export type OnlyCols<T extends readonly Column[]> = Pick<
+      Selectable,
+      T[number]
+    >
+    export type SQLExpression =
+      | db.GenericSQLExpression
+      | db.ColumnNames<Updatable | Array<keyof Updatable>>
+      | db.ColumnValues<Updatable>
+      | Table
+      | Whereable
+      | Column
+    export type SQL = SQLExpression | SQLExpression[]
   }
 
   /**
-   * **market_price**
+   * **Market_price**
    * - Table in database
    */
   export namespace market_price {
-    export type Table = 'market_price';
+    export type Table = 'market_price'
     export interface Selectable {
       /**
-      * **market_price.created_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      created_at: Date;
+       * **Market_price.created_at**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      created_at: Date
       /**
-      * **market_price.updated_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      updated_at: Date;
+       * **Market_price.updated_at**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      updated_at: Date
       /**
-      * **market_price.timestamp**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      timestamp: Date;
+       * **Market_price.timestamp**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      timestamp: Date
       /**
-      * **market_price.market_uid**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
-      */
-      market_uid: string;
+       * **Market_price.market_uid**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      market_uid: string
       /**
-      * **market_price.price**
-      * - `numeric` in database
-      * - `NOT NULL`, no default
-      */
-      price: number;
+       * **Market_price.price**
+       * - `numeric` in database
+       * - `NOT NULL`, no default
+       */
+      price: number
       /**
-      * **market_price.currency**
-      * - `bpchar` in database
-      * - `NOT NULL`, no default
-      */
-      currency: string;
+       * **Market_price.currency**
+       * - `bpchar` in database
+       * - `NOT NULL`, no default
+       */
+      currency: string
       /**
-      * **market_price.fx_rate**
-      * - `numeric` in database
-      * - `NOT NULL`, no default
-      */
-      fx_rate: number;
+       * **Market_price.fx_rate**
+       * - `numeric` in database
+       * - `NOT NULL`, no default
+       */
+      fx_rate: number
       /**
-      * **market_price.price_nzd**
-      * - `numeric` in database
-      * - `NOT NULL`, no default
-      */
-      price_nzd: number;
+       * **Market_price.price_nzd**
+       * - `numeric` in database
+       * - `NOT NULL`, no default
+       */
+      price_nzd: number
     }
     export interface JSONSelectable {
       /**
-      * **market_price.created_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      created_at: db.TimestampTzString;
+       * **Market_price.created_at**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      created_at: db.TimestampTzString
       /**
-      * **market_price.updated_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      updated_at: db.TimestampTzString;
+       * **Market_price.updated_at**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      updated_at: db.TimestampTzString
       /**
-      * **market_price.timestamp**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      timestamp: db.TimestampTzString;
+       * **Market_price.timestamp**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      timestamp: db.TimestampTzString
       /**
-      * **market_price.market_uid**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
-      */
-      market_uid: string;
+       * **Market_price.market_uid**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      market_uid: string
       /**
-      * **market_price.price**
-      * - `numeric` in database
-      * - `NOT NULL`, no default
-      */
-      price: number;
+       * **Market_price.price**
+       * - `numeric` in database
+       * - `NOT NULL`, no default
+       */
+      price: number
       /**
-      * **market_price.currency**
-      * - `bpchar` in database
-      * - `NOT NULL`, no default
-      */
-      currency: string;
+       * **Market_price.currency**
+       * - `bpchar` in database
+       * - `NOT NULL`, no default
+       */
+      currency: string
       /**
-      * **market_price.fx_rate**
-      * - `numeric` in database
-      * - `NOT NULL`, no default
-      */
-      fx_rate: number;
+       * **Market_price.fx_rate**
+       * - `numeric` in database
+       * - `NOT NULL`, no default
+       */
+      fx_rate: number
       /**
-      * **market_price.price_nzd**
-      * - `numeric` in database
-      * - `NOT NULL`, no default
-      */
-      price_nzd: number;
+       * **Market_price.price_nzd**
+       * - `numeric` in database
+       * - `NOT NULL`, no default
+       */
+      price_nzd: number
     }
     export interface Whereable {
       /**
-      * **market_price.created_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      created_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
+       * **Market_price.created_at**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      created_at?:
+        | (db.TimestampTzString | Date)
+        | db.Parameter<db.TimestampTzString | Date>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            | (db.TimestampTzString | Date)
+            | db.Parameter<db.TimestampTzString | Date>
+            | db.SQLFragment
+            | db.ParentColumn
+          >
       /**
-      * **market_price.updated_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      updated_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
+       * **Market_price.updated_at**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      updated_at?:
+        | (db.TimestampTzString | Date)
+        | db.Parameter<db.TimestampTzString | Date>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            | (db.TimestampTzString | Date)
+            | db.Parameter<db.TimestampTzString | Date>
+            | db.SQLFragment
+            | db.ParentColumn
+          >
       /**
-      * **market_price.timestamp**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      timestamp?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
+       * **Market_price.timestamp**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      timestamp?:
+        | (db.TimestampTzString | Date)
+        | db.Parameter<db.TimestampTzString | Date>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            | (db.TimestampTzString | Date)
+            | db.Parameter<db.TimestampTzString | Date>
+            | db.SQLFragment
+            | db.ParentColumn
+          >
       /**
-      * **market_price.market_uid**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
-      */
-      market_uid?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+       * **Market_price.market_uid**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      market_uid?:
+        | string
+        | db.Parameter<string>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            string | db.Parameter<string> | db.SQLFragment | db.ParentColumn
+          >
       /**
-      * **market_price.price**
-      * - `numeric` in database
-      * - `NOT NULL`, no default
-      */
-      price?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+       * **Market_price.price**
+       * - `numeric` in database
+       * - `NOT NULL`, no default
+       */
+      price?:
+        | number
+        | db.Parameter<number>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            number | db.Parameter<number> | db.SQLFragment | db.ParentColumn
+          >
       /**
-      * **market_price.currency**
-      * - `bpchar` in database
-      * - `NOT NULL`, no default
-      */
-      currency?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+       * **Market_price.currency**
+       * - `bpchar` in database
+       * - `NOT NULL`, no default
+       */
+      currency?:
+        | string
+        | db.Parameter<string>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            string | db.Parameter<string> | db.SQLFragment | db.ParentColumn
+          >
       /**
-      * **market_price.fx_rate**
-      * - `numeric` in database
-      * - `NOT NULL`, no default
-      */
-      fx_rate?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+       * **Market_price.fx_rate**
+       * - `numeric` in database
+       * - `NOT NULL`, no default
+       */
+      fx_rate?:
+        | number
+        | db.Parameter<number>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            number | db.Parameter<number> | db.SQLFragment | db.ParentColumn
+          >
       /**
-      * **market_price.price_nzd**
-      * - `numeric` in database
-      * - `NOT NULL`, no default
-      */
-      price_nzd?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+       * **Market_price.price_nzd**
+       * - `numeric` in database
+       * - `NOT NULL`, no default
+       */
+      price_nzd?:
+        | number
+        | db.Parameter<number>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            number | db.Parameter<number> | db.SQLFragment | db.ParentColumn
+          >
     }
     export interface Insertable {
       /**
-      * **market_price.created_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      created_at: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment;
+       * **Market_price.created_at**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      created_at:
+        | (db.TimestampTzString | Date)
+        | db.Parameter<db.TimestampTzString | Date>
+        | db.SQLFragment
       /**
-      * **market_price.updated_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      updated_at: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment;
+       * **Market_price.updated_at**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      updated_at:
+        | (db.TimestampTzString | Date)
+        | db.Parameter<db.TimestampTzString | Date>
+        | db.SQLFragment
       /**
-      * **market_price.timestamp**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      timestamp: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment;
+       * **Market_price.timestamp**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      timestamp:
+        | (db.TimestampTzString | Date)
+        | db.Parameter<db.TimestampTzString | Date>
+        | db.SQLFragment
       /**
-      * **market_price.market_uid**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
-      */
-      market_uid: string | db.Parameter<string> | db.SQLFragment;
+       * **Market_price.market_uid**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      market_uid: string | db.Parameter<string> | db.SQLFragment
       /**
-      * **market_price.price**
-      * - `numeric` in database
-      * - `NOT NULL`, no default
-      */
-      price: number | db.Parameter<number> | db.SQLFragment;
+       * **Market_price.price**
+       * - `numeric` in database
+       * - `NOT NULL`, no default
+       */
+      price: number | db.Parameter<number> | db.SQLFragment
       /**
-      * **market_price.currency**
-      * - `bpchar` in database
-      * - `NOT NULL`, no default
-      */
-      currency: string | db.Parameter<string> | db.SQLFragment;
+       * **Market_price.currency**
+       * - `bpchar` in database
+       * - `NOT NULL`, no default
+       */
+      currency: string | db.Parameter<string> | db.SQLFragment
       /**
-      * **market_price.fx_rate**
-      * - `numeric` in database
-      * - `NOT NULL`, no default
-      */
-      fx_rate: number | db.Parameter<number> | db.SQLFragment;
+       * **Market_price.fx_rate**
+       * - `numeric` in database
+       * - `NOT NULL`, no default
+       */
+      fx_rate: number | db.Parameter<number> | db.SQLFragment
       /**
-      * **market_price.price_nzd**
-      * - `numeric` in database
-      * - `NOT NULL`, no default
-      */
-      price_nzd: number | db.Parameter<number> | db.SQLFragment;
+       * **Market_price.price_nzd**
+       * - `numeric` in database
+       * - `NOT NULL`, no default
+       */
+      price_nzd: number | db.Parameter<number> | db.SQLFragment
     }
     export interface Updatable {
       /**
-      * **market_price.created_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      created_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment>;
+       * **Market_price.created_at**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      created_at?:
+        | (db.TimestampTzString | Date)
+        | db.Parameter<db.TimestampTzString | Date>
+        | db.SQLFragment
+        | db.SQLFragment<
+            any,
+            | (db.TimestampTzString | Date)
+            | db.Parameter<db.TimestampTzString | Date>
+            | db.SQLFragment
+          >
       /**
-      * **market_price.updated_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      updated_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment>;
+       * **Market_price.updated_at**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      updated_at?:
+        | (db.TimestampTzString | Date)
+        | db.Parameter<db.TimestampTzString | Date>
+        | db.SQLFragment
+        | db.SQLFragment<
+            any,
+            | (db.TimestampTzString | Date)
+            | db.Parameter<db.TimestampTzString | Date>
+            | db.SQLFragment
+          >
       /**
-      * **market_price.timestamp**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      timestamp?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment>;
+       * **Market_price.timestamp**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      timestamp?:
+        | (db.TimestampTzString | Date)
+        | db.Parameter<db.TimestampTzString | Date>
+        | db.SQLFragment
+        | db.SQLFragment<
+            any,
+            | (db.TimestampTzString | Date)
+            | db.Parameter<db.TimestampTzString | Date>
+            | db.SQLFragment
+          >
       /**
-      * **market_price.market_uid**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
-      */
-      market_uid?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+       * **Market_price.market_uid**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      market_uid?:
+        | string
+        | db.Parameter<string>
+        | db.SQLFragment
+        | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>
       /**
-      * **market_price.price**
-      * - `numeric` in database
-      * - `NOT NULL`, no default
-      */
-      price?: number | db.Parameter<number> | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
+       * **Market_price.price**
+       * - `numeric` in database
+       * - `NOT NULL`, no default
+       */
+      price?:
+        | number
+        | db.Parameter<number>
+        | db.SQLFragment
+        | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>
       /**
-      * **market_price.currency**
-      * - `bpchar` in database
-      * - `NOT NULL`, no default
-      */
-      currency?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+       * **Market_price.currency**
+       * - `bpchar` in database
+       * - `NOT NULL`, no default
+       */
+      currency?:
+        | string
+        | db.Parameter<string>
+        | db.SQLFragment
+        | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>
       /**
-      * **market_price.fx_rate**
-      * - `numeric` in database
-      * - `NOT NULL`, no default
-      */
-      fx_rate?: number | db.Parameter<number> | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
+       * **Market_price.fx_rate**
+       * - `numeric` in database
+       * - `NOT NULL`, no default
+       */
+      fx_rate?:
+        | number
+        | db.Parameter<number>
+        | db.SQLFragment
+        | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>
       /**
-      * **market_price.price_nzd**
-      * - `numeric` in database
-      * - `NOT NULL`, no default
-      */
-      price_nzd?: number | db.Parameter<number> | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
+       * **Market_price.price_nzd**
+       * - `numeric` in database
+       * - `NOT NULL`, no default
+       */
+      price_nzd?:
+        | number
+        | db.Parameter<number>
+        | db.SQLFragment
+        | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>
     }
-    export type UniqueIndex = 'market_price_pkey';
-    export type Column = keyof Selectable;
-    export type OnlyCols<T extends readonly Column[]> = Pick<Selectable, T[number]>;
-    export type SQLExpression = db.GenericSQLExpression | db.ColumnNames<Updatable | (keyof Updatable)[]> | db.ColumnValues<Updatable> | Table | Whereable | Column;
-    export type SQL = SQLExpression | SQLExpression[];
+    export type UniqueIndex = 'market_price_pkey'
+    export type Column = keyof Selectable
+    export type OnlyCols<T extends readonly Column[]> = Pick<
+      Selectable,
+      T[number]
+    >
+    export type SQLExpression =
+      | db.GenericSQLExpression
+      | db.ColumnNames<Updatable | Array<keyof Updatable>>
+      | db.ColumnValues<Updatable>
+      | Table
+      | Whereable
+      | Column
+    export type SQL = SQLExpression | SQLExpression[]
   }
 
   /**
-   * **order**
+   * **Order**
    * - Table in database
    */
   export namespace order {
-    export type Table = 'order';
+    export type Table = 'order'
     export interface Selectable {
       /**
-      * **order.uid**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
-      */
-      uid: string;
+       * **Order.uid**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      uid: string
       /**
-      * **order.created_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      created_at: Date;
+       * **Order.created_at**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      created_at: Date
       /**
-      * **order.updated_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      updated_at: Date;
+       * **Order.updated_at**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      updated_at: Date
       /**
-      * **order.user_uid**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
-      */
-      user_uid: string;
+       * **Order.user_uid**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      user_uid: string
       /**
-      * **order.exchange_uid**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
-      */
-      exchange_uid: string;
+       * **Order.exchange_uid**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      exchange_uid: string
       /**
-      * **order.id**
-      * - `varchar` in database
-      * - `NOT NULL`, no default
-      */
-      id: string;
+       * **Order.id**
+       * - `varchar` in database
+       * - `NOT NULL`, no default
+       */
+      id: string
       /**
-      * **order.symbol**
-      * - `varchar` in database
-      * - `NOT NULL`, no default
-      */
-      symbol: string;
+       * **Order.symbol**
+       * - `varchar` in database
+       * - `NOT NULL`, no default
+       */
+      symbol: string
       /**
-      * **order.price**
-      * - `numeric` in database
-      * - `NOT NULL`, no default
-      */
-      price: number;
+       * **Order.price**
+       * - `numeric` in database
+       * - `NOT NULL`, no default
+       */
+      price: number
       /**
-      * **order.amount**
-      * - `numeric` in database
-      * - `NOT NULL`, no default
-      */
-      amount: number;
+       * **Order.amount**
+       * - `numeric` in database
+       * - `NOT NULL`, no default
+       */
+      amount: number
       /**
-      * **order.type**
-      * - `int2` in database
-      * - `NOT NULL`, no default
-      */
-      type: number;
+       * **Order.type**
+       * - `int2` in database
+       * - `NOT NULL`, no default
+       */
+      type: number
       /**
-      * **order.opened_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      opened_at: Date;
+       * **Order.opened_at**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      opened_at: Date
       /**
-      * **order.closed_at**
-      * - `timestamptz` in database
-      * - Nullable, no default
-      */
-      closed_at: Date | null;
+       * **Order.closed_at**
+       * - `timestamptz` in database
+       * - Nullable, no default
+       */
+      closed_at: Date | null
     }
     export interface JSONSelectable {
       /**
-      * **order.uid**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
-      */
-      uid: string;
+       * **Order.uid**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      uid: string
       /**
-      * **order.created_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      created_at: db.TimestampTzString;
+       * **Order.created_at**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      created_at: db.TimestampTzString
       /**
-      * **order.updated_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      updated_at: db.TimestampTzString;
+       * **Order.updated_at**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      updated_at: db.TimestampTzString
       /**
-      * **order.user_uid**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
-      */
-      user_uid: string;
+       * **Order.user_uid**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      user_uid: string
       /**
-      * **order.exchange_uid**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
-      */
-      exchange_uid: string;
+       * **Order.exchange_uid**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      exchange_uid: string
       /**
-      * **order.id**
-      * - `varchar` in database
-      * - `NOT NULL`, no default
-      */
-      id: string;
+       * **Order.id**
+       * - `varchar` in database
+       * - `NOT NULL`, no default
+       */
+      id: string
       /**
-      * **order.symbol**
-      * - `varchar` in database
-      * - `NOT NULL`, no default
-      */
-      symbol: string;
+       * **Order.symbol**
+       * - `varchar` in database
+       * - `NOT NULL`, no default
+       */
+      symbol: string
       /**
-      * **order.price**
-      * - `numeric` in database
-      * - `NOT NULL`, no default
-      */
-      price: number;
+       * **Order.price**
+       * - `numeric` in database
+       * - `NOT NULL`, no default
+       */
+      price: number
       /**
-      * **order.amount**
-      * - `numeric` in database
-      * - `NOT NULL`, no default
-      */
-      amount: number;
+       * **Order.amount**
+       * - `numeric` in database
+       * - `NOT NULL`, no default
+       */
+      amount: number
       /**
-      * **order.type**
-      * - `int2` in database
-      * - `NOT NULL`, no default
-      */
-      type: number;
+       * **Order.type**
+       * - `int2` in database
+       * - `NOT NULL`, no default
+       */
+      type: number
       /**
-      * **order.opened_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      opened_at: db.TimestampTzString;
+       * **Order.opened_at**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      opened_at: db.TimestampTzString
       /**
-      * **order.closed_at**
-      * - `timestamptz` in database
-      * - Nullable, no default
-      */
-      closed_at: db.TimestampTzString | null;
+       * **Order.closed_at**
+       * - `timestamptz` in database
+       * - Nullable, no default
+       */
+      closed_at: db.TimestampTzString | null
     }
     export interface Whereable {
       /**
-      * **order.uid**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
-      */
-      uid?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+       * **Order.uid**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      uid?:
+        | string
+        | db.Parameter<string>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            string | db.Parameter<string> | db.SQLFragment | db.ParentColumn
+          >
       /**
-      * **order.created_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      created_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
+       * **Order.created_at**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      created_at?:
+        | (db.TimestampTzString | Date)
+        | db.Parameter<db.TimestampTzString | Date>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            | (db.TimestampTzString | Date)
+            | db.Parameter<db.TimestampTzString | Date>
+            | db.SQLFragment
+            | db.ParentColumn
+          >
       /**
-      * **order.updated_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      updated_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
+       * **Order.updated_at**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      updated_at?:
+        | (db.TimestampTzString | Date)
+        | db.Parameter<db.TimestampTzString | Date>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            | (db.TimestampTzString | Date)
+            | db.Parameter<db.TimestampTzString | Date>
+            | db.SQLFragment
+            | db.ParentColumn
+          >
       /**
-      * **order.user_uid**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
-      */
-      user_uid?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+       * **Order.user_uid**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      user_uid?:
+        | string
+        | db.Parameter<string>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            string | db.Parameter<string> | db.SQLFragment | db.ParentColumn
+          >
       /**
-      * **order.exchange_uid**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
-      */
-      exchange_uid?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+       * **Order.exchange_uid**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      exchange_uid?:
+        | string
+        | db.Parameter<string>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            string | db.Parameter<string> | db.SQLFragment | db.ParentColumn
+          >
       /**
-      * **order.id**
-      * - `varchar` in database
-      * - `NOT NULL`, no default
-      */
-      id?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+       * **Order.id**
+       * - `varchar` in database
+       * - `NOT NULL`, no default
+       */
+      id?:
+        | string
+        | db.Parameter<string>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            string | db.Parameter<string> | db.SQLFragment | db.ParentColumn
+          >
       /**
-      * **order.symbol**
-      * - `varchar` in database
-      * - `NOT NULL`, no default
-      */
-      symbol?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+       * **Order.symbol**
+       * - `varchar` in database
+       * - `NOT NULL`, no default
+       */
+      symbol?:
+        | string
+        | db.Parameter<string>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            string | db.Parameter<string> | db.SQLFragment | db.ParentColumn
+          >
       /**
-      * **order.price**
-      * - `numeric` in database
-      * - `NOT NULL`, no default
-      */
-      price?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+       * **Order.price**
+       * - `numeric` in database
+       * - `NOT NULL`, no default
+       */
+      price?:
+        | number
+        | db.Parameter<number>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            number | db.Parameter<number> | db.SQLFragment | db.ParentColumn
+          >
       /**
-      * **order.amount**
-      * - `numeric` in database
-      * - `NOT NULL`, no default
-      */
-      amount?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+       * **Order.amount**
+       * - `numeric` in database
+       * - `NOT NULL`, no default
+       */
+      amount?:
+        | number
+        | db.Parameter<number>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            number | db.Parameter<number> | db.SQLFragment | db.ParentColumn
+          >
       /**
-      * **order.type**
-      * - `int2` in database
-      * - `NOT NULL`, no default
-      */
-      type?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+       * **Order.type**
+       * - `int2` in database
+       * - `NOT NULL`, no default
+       */
+      type?:
+        | number
+        | db.Parameter<number>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            number | db.Parameter<number> | db.SQLFragment | db.ParentColumn
+          >
       /**
-      * **order.opened_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      opened_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
+       * **Order.opened_at**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      opened_at?:
+        | (db.TimestampTzString | Date)
+        | db.Parameter<db.TimestampTzString | Date>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            | (db.TimestampTzString | Date)
+            | db.Parameter<db.TimestampTzString | Date>
+            | db.SQLFragment
+            | db.ParentColumn
+          >
       /**
-      * **order.closed_at**
-      * - `timestamptz` in database
-      * - Nullable, no default
-      */
-      closed_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
+       * **Order.closed_at**
+       * - `timestamptz` in database
+       * - Nullable, no default
+       */
+      closed_at?:
+        | (db.TimestampTzString | Date)
+        | db.Parameter<db.TimestampTzString | Date>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            | (db.TimestampTzString | Date)
+            | db.Parameter<db.TimestampTzString | Date>
+            | db.SQLFragment
+            | db.ParentColumn
+          >
     }
     export interface Insertable {
       /**
-      * **order.uid**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
-      */
-      uid: string | db.Parameter<string> | db.SQLFragment;
+       * **Order.uid**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      uid: string | db.Parameter<string> | db.SQLFragment
       /**
-      * **order.created_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      created_at: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment;
+       * **Order.created_at**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      created_at:
+        | (db.TimestampTzString | Date)
+        | db.Parameter<db.TimestampTzString | Date>
+        | db.SQLFragment
       /**
-      * **order.updated_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      updated_at: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment;
+       * **Order.updated_at**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      updated_at:
+        | (db.TimestampTzString | Date)
+        | db.Parameter<db.TimestampTzString | Date>
+        | db.SQLFragment
       /**
-      * **order.user_uid**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
-      */
-      user_uid: string | db.Parameter<string> | db.SQLFragment;
+       * **Order.user_uid**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      user_uid: string | db.Parameter<string> | db.SQLFragment
       /**
-      * **order.exchange_uid**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
-      */
-      exchange_uid: string | db.Parameter<string> | db.SQLFragment;
+       * **Order.exchange_uid**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      exchange_uid: string | db.Parameter<string> | db.SQLFragment
       /**
-      * **order.id**
-      * - `varchar` in database
-      * - `NOT NULL`, no default
-      */
-      id: string | db.Parameter<string> | db.SQLFragment;
+       * **Order.id**
+       * - `varchar` in database
+       * - `NOT NULL`, no default
+       */
+      id: string | db.Parameter<string> | db.SQLFragment
       /**
-      * **order.symbol**
-      * - `varchar` in database
-      * - `NOT NULL`, no default
-      */
-      symbol: string | db.Parameter<string> | db.SQLFragment;
+       * **Order.symbol**
+       * - `varchar` in database
+       * - `NOT NULL`, no default
+       */
+      symbol: string | db.Parameter<string> | db.SQLFragment
       /**
-      * **order.price**
-      * - `numeric` in database
-      * - `NOT NULL`, no default
-      */
-      price: number | db.Parameter<number> | db.SQLFragment;
+       * **Order.price**
+       * - `numeric` in database
+       * - `NOT NULL`, no default
+       */
+      price: number | db.Parameter<number> | db.SQLFragment
       /**
-      * **order.amount**
-      * - `numeric` in database
-      * - `NOT NULL`, no default
-      */
-      amount: number | db.Parameter<number> | db.SQLFragment;
+       * **Order.amount**
+       * - `numeric` in database
+       * - `NOT NULL`, no default
+       */
+      amount: number | db.Parameter<number> | db.SQLFragment
       /**
-      * **order.type**
-      * - `int2` in database
-      * - `NOT NULL`, no default
-      */
-      type: number | db.Parameter<number> | db.SQLFragment;
+       * **Order.type**
+       * - `int2` in database
+       * - `NOT NULL`, no default
+       */
+      type: number | db.Parameter<number> | db.SQLFragment
       /**
-      * **order.opened_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      opened_at: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment;
+       * **Order.opened_at**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      opened_at:
+        | (db.TimestampTzString | Date)
+        | db.Parameter<db.TimestampTzString | Date>
+        | db.SQLFragment
       /**
-      * **order.closed_at**
-      * - `timestamptz` in database
-      * - Nullable, no default
-      */
-      closed_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment;
+       * **Order.closed_at**
+       * - `timestamptz` in database
+       * - Nullable, no default
+       */
+      closed_at?:
+        | (db.TimestampTzString | Date)
+        | db.Parameter<db.TimestampTzString | Date>
+        | null
+        | db.DefaultType
+        | db.SQLFragment
     }
     export interface Updatable {
       /**
-      * **order.uid**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
-      */
-      uid?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+       * **Order.uid**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      uid?:
+        | string
+        | db.Parameter<string>
+        | db.SQLFragment
+        | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>
       /**
-      * **order.created_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      created_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment>;
+       * **Order.created_at**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      created_at?:
+        | (db.TimestampTzString | Date)
+        | db.Parameter<db.TimestampTzString | Date>
+        | db.SQLFragment
+        | db.SQLFragment<
+            any,
+            | (db.TimestampTzString | Date)
+            | db.Parameter<db.TimestampTzString | Date>
+            | db.SQLFragment
+          >
       /**
-      * **order.updated_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      updated_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment>;
+       * **Order.updated_at**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      updated_at?:
+        | (db.TimestampTzString | Date)
+        | db.Parameter<db.TimestampTzString | Date>
+        | db.SQLFragment
+        | db.SQLFragment<
+            any,
+            | (db.TimestampTzString | Date)
+            | db.Parameter<db.TimestampTzString | Date>
+            | db.SQLFragment
+          >
       /**
-      * **order.user_uid**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
-      */
-      user_uid?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+       * **Order.user_uid**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      user_uid?:
+        | string
+        | db.Parameter<string>
+        | db.SQLFragment
+        | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>
       /**
-      * **order.exchange_uid**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
-      */
-      exchange_uid?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+       * **Order.exchange_uid**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      exchange_uid?:
+        | string
+        | db.Parameter<string>
+        | db.SQLFragment
+        | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>
       /**
-      * **order.id**
-      * - `varchar` in database
-      * - `NOT NULL`, no default
-      */
-      id?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+       * **Order.id**
+       * - `varchar` in database
+       * - `NOT NULL`, no default
+       */
+      id?:
+        | string
+        | db.Parameter<string>
+        | db.SQLFragment
+        | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>
       /**
-      * **order.symbol**
-      * - `varchar` in database
-      * - `NOT NULL`, no default
-      */
-      symbol?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+       * **Order.symbol**
+       * - `varchar` in database
+       * - `NOT NULL`, no default
+       */
+      symbol?:
+        | string
+        | db.Parameter<string>
+        | db.SQLFragment
+        | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>
       /**
-      * **order.price**
-      * - `numeric` in database
-      * - `NOT NULL`, no default
-      */
-      price?: number | db.Parameter<number> | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
+       * **Order.price**
+       * - `numeric` in database
+       * - `NOT NULL`, no default
+       */
+      price?:
+        | number
+        | db.Parameter<number>
+        | db.SQLFragment
+        | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>
       /**
-      * **order.amount**
-      * - `numeric` in database
-      * - `NOT NULL`, no default
-      */
-      amount?: number | db.Parameter<number> | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
+       * **Order.amount**
+       * - `numeric` in database
+       * - `NOT NULL`, no default
+       */
+      amount?:
+        | number
+        | db.Parameter<number>
+        | db.SQLFragment
+        | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>
       /**
-      * **order.type**
-      * - `int2` in database
-      * - `NOT NULL`, no default
-      */
-      type?: number | db.Parameter<number> | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
+       * **Order.type**
+       * - `int2` in database
+       * - `NOT NULL`, no default
+       */
+      type?:
+        | number
+        | db.Parameter<number>
+        | db.SQLFragment
+        | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>
       /**
-      * **order.opened_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      opened_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment>;
+       * **Order.opened_at**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      opened_at?:
+        | (db.TimestampTzString | Date)
+        | db.Parameter<db.TimestampTzString | Date>
+        | db.SQLFragment
+        | db.SQLFragment<
+            any,
+            | (db.TimestampTzString | Date)
+            | db.Parameter<db.TimestampTzString | Date>
+            | db.SQLFragment
+          >
       /**
-      * **order.closed_at**
-      * - `timestamptz` in database
-      * - Nullable, no default
-      */
-      closed_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment>;
+       * **Order.closed_at**
+       * - `timestamptz` in database
+       * - Nullable, no default
+       */
+      closed_at?:
+        | (db.TimestampTzString | Date)
+        | db.Parameter<db.TimestampTzString | Date>
+        | null
+        | db.DefaultType
+        | db.SQLFragment
+        | db.SQLFragment<
+            any,
+            | (db.TimestampTzString | Date)
+            | db.Parameter<db.TimestampTzString | Date>
+            | null
+            | db.DefaultType
+            | db.SQLFragment
+          >
     }
-    export type UniqueIndex = 'order_pkey' | 'unique_exchange_order_id';
-    export type Column = keyof Selectable;
-    export type OnlyCols<T extends readonly Column[]> = Pick<Selectable, T[number]>;
-    export type SQLExpression = db.GenericSQLExpression | db.ColumnNames<Updatable | (keyof Updatable)[]> | db.ColumnValues<Updatable> | Table | Whereable | Column;
-    export type SQL = SQLExpression | SQLExpression[];
+    export type UniqueIndex = 'order_pkey' | 'unique_exchange_order_id'
+    export type Column = keyof Selectable
+    export type OnlyCols<T extends readonly Column[]> = Pick<
+      Selectable,
+      T[number]
+    >
+    export type SQLExpression =
+      | db.GenericSQLExpression
+      | db.ColumnNames<Updatable | Array<keyof Updatable>>
+      | db.ColumnValues<Updatable>
+      | Table
+      | Whereable
+      | Column
+    export type SQL = SQLExpression | SQLExpression[]
   }
 
   /**
-   * **schema_migrations**
+   * **Schema_migrations**
    * - Table in database
    */
   export namespace schema_migrations {
-    export type Table = 'schema_migrations';
+    export type Table = 'schema_migrations'
     export interface Selectable {
       /**
-      * **schema_migrations.version**
-      * - `varchar` in database
-      * - `NOT NULL`, no default
-      */
-      version: string;
+       * **Schema_migrations.version**
+       * - `varchar` in database
+       * - `NOT NULL`, no default
+       */
+      version: string
     }
     export interface JSONSelectable {
       /**
-      * **schema_migrations.version**
-      * - `varchar` in database
-      * - `NOT NULL`, no default
-      */
-      version: string;
+       * **Schema_migrations.version**
+       * - `varchar` in database
+       * - `NOT NULL`, no default
+       */
+      version: string
     }
     export interface Whereable {
       /**
-      * **schema_migrations.version**
-      * - `varchar` in database
-      * - `NOT NULL`, no default
-      */
-      version?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+       * **Schema_migrations.version**
+       * - `varchar` in database
+       * - `NOT NULL`, no default
+       */
+      version?:
+        | string
+        | db.Parameter<string>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            string | db.Parameter<string> | db.SQLFragment | db.ParentColumn
+          >
     }
     export interface Insertable {
       /**
-      * **schema_migrations.version**
-      * - `varchar` in database
-      * - `NOT NULL`, no default
-      */
-      version: string | db.Parameter<string> | db.SQLFragment;
+       * **Schema_migrations.version**
+       * - `varchar` in database
+       * - `NOT NULL`, no default
+       */
+      version: string | db.Parameter<string> | db.SQLFragment
     }
     export interface Updatable {
       /**
-      * **schema_migrations.version**
-      * - `varchar` in database
-      * - `NOT NULL`, no default
-      */
-      version?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+       * **Schema_migrations.version**
+       * - `varchar` in database
+       * - `NOT NULL`, no default
+       */
+      version?:
+        | string
+        | db.Parameter<string>
+        | db.SQLFragment
+        | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>
     }
-    export type UniqueIndex = 'schema_migrations_pkey';
-    export type Column = keyof Selectable;
-    export type OnlyCols<T extends readonly Column[]> = Pick<Selectable, T[number]>;
-    export type SQLExpression = db.GenericSQLExpression | db.ColumnNames<Updatable | (keyof Updatable)[]> | db.ColumnValues<Updatable> | Table | Whereable | Column;
-    export type SQL = SQLExpression | SQLExpression[];
+    export type UniqueIndex = 'schema_migrations_pkey'
+    export type Column = keyof Selectable
+    export type OnlyCols<T extends readonly Column[]> = Pick<
+      Selectable,
+      T[number]
+    >
+    export type SQLExpression =
+      | db.GenericSQLExpression
+      | db.ColumnNames<Updatable | Array<keyof Updatable>>
+      | db.ColumnValues<Updatable>
+      | Table
+      | Whereable
+      | Column
+    export type SQL = SQLExpression | SQLExpression[]
   }
 
   /**
-   * **user**
+   * **User**
    * - Table in database
    */
   export namespace user {
-    export type Table = 'user';
+    export type Table = 'user'
     export interface Selectable {
       /**
-      * **user.uid**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
-      */
-      uid: string;
+       * **User.uid**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      uid: string
       /**
-      * **user.created_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      created_at: Date;
+       * **User.created_at**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      created_at: Date
       /**
-      * **user.updated_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      updated_at: Date;
+       * **User.updated_at**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      updated_at: Date
       /**
-      * **user.email_encrypted**
-      * - `varchar` in database
-      * - `NOT NULL`, no default
-      */
-      email_encrypted: string;
+       * **User.email_encrypted**
+       * - `varchar` in database
+       * - `NOT NULL`, no default
+       */
+      email_encrypted: string
       /**
-      * **user.email_hash**
-      * - `varchar` in database
-      * - `NOT NULL`, no default
-      */
-      email_hash: string;
+       * **User.email_hash**
+       * - `varchar` in database
+       * - `NOT NULL`, no default
+       */
+      email_hash: string
       /**
-      * **user.password_hash**
-      * - `varchar` in database
-      * - `NOT NULL`, no default
-      */
-      password_hash: string;
+       * **User.password_hash**
+       * - `varchar` in database
+       * - `NOT NULL`, no default
+       */
+      password_hash: string
     }
     export interface JSONSelectable {
       /**
-      * **user.uid**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
-      */
-      uid: string;
+       * **User.uid**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      uid: string
       /**
-      * **user.created_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      created_at: db.TimestampTzString;
+       * **User.created_at**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      created_at: db.TimestampTzString
       /**
-      * **user.updated_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      updated_at: db.TimestampTzString;
+       * **User.updated_at**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      updated_at: db.TimestampTzString
       /**
-      * **user.email_encrypted**
-      * - `varchar` in database
-      * - `NOT NULL`, no default
-      */
-      email_encrypted: string;
+       * **User.email_encrypted**
+       * - `varchar` in database
+       * - `NOT NULL`, no default
+       */
+      email_encrypted: string
       /**
-      * **user.email_hash**
-      * - `varchar` in database
-      * - `NOT NULL`, no default
-      */
-      email_hash: string;
+       * **User.email_hash**
+       * - `varchar` in database
+       * - `NOT NULL`, no default
+       */
+      email_hash: string
       /**
-      * **user.password_hash**
-      * - `varchar` in database
-      * - `NOT NULL`, no default
-      */
-      password_hash: string;
+       * **User.password_hash**
+       * - `varchar` in database
+       * - `NOT NULL`, no default
+       */
+      password_hash: string
     }
     export interface Whereable {
       /**
-      * **user.uid**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
-      */
-      uid?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+       * **User.uid**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      uid?:
+        | string
+        | db.Parameter<string>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            string | db.Parameter<string> | db.SQLFragment | db.ParentColumn
+          >
       /**
-      * **user.created_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      created_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
+       * **User.created_at**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      created_at?:
+        | (db.TimestampTzString | Date)
+        | db.Parameter<db.TimestampTzString | Date>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            | (db.TimestampTzString | Date)
+            | db.Parameter<db.TimestampTzString | Date>
+            | db.SQLFragment
+            | db.ParentColumn
+          >
       /**
-      * **user.updated_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      updated_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
+       * **User.updated_at**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      updated_at?:
+        | (db.TimestampTzString | Date)
+        | db.Parameter<db.TimestampTzString | Date>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            | (db.TimestampTzString | Date)
+            | db.Parameter<db.TimestampTzString | Date>
+            | db.SQLFragment
+            | db.ParentColumn
+          >
       /**
-      * **user.email_encrypted**
-      * - `varchar` in database
-      * - `NOT NULL`, no default
-      */
-      email_encrypted?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+       * **User.email_encrypted**
+       * - `varchar` in database
+       * - `NOT NULL`, no default
+       */
+      email_encrypted?:
+        | string
+        | db.Parameter<string>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            string | db.Parameter<string> | db.SQLFragment | db.ParentColumn
+          >
       /**
-      * **user.email_hash**
-      * - `varchar` in database
-      * - `NOT NULL`, no default
-      */
-      email_hash?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+       * **User.email_hash**
+       * - `varchar` in database
+       * - `NOT NULL`, no default
+       */
+      email_hash?:
+        | string
+        | db.Parameter<string>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            string | db.Parameter<string> | db.SQLFragment | db.ParentColumn
+          >
       /**
-      * **user.password_hash**
-      * - `varchar` in database
-      * - `NOT NULL`, no default
-      */
-      password_hash?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+       * **User.password_hash**
+       * - `varchar` in database
+       * - `NOT NULL`, no default
+       */
+      password_hash?:
+        | string
+        | db.Parameter<string>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            string | db.Parameter<string> | db.SQLFragment | db.ParentColumn
+          >
     }
     export interface Insertable {
       /**
-      * **user.uid**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
-      */
-      uid: string | db.Parameter<string> | db.SQLFragment;
+       * **User.uid**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      uid: string | db.Parameter<string> | db.SQLFragment
       /**
-      * **user.created_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      created_at: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment;
+       * **User.created_at**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      created_at:
+        | (db.TimestampTzString | Date)
+        | db.Parameter<db.TimestampTzString | Date>
+        | db.SQLFragment
       /**
-      * **user.updated_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      updated_at: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment;
+       * **User.updated_at**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      updated_at:
+        | (db.TimestampTzString | Date)
+        | db.Parameter<db.TimestampTzString | Date>
+        | db.SQLFragment
       /**
-      * **user.email_encrypted**
-      * - `varchar` in database
-      * - `NOT NULL`, no default
-      */
-      email_encrypted: string | db.Parameter<string> | db.SQLFragment;
+       * **User.email_encrypted**
+       * - `varchar` in database
+       * - `NOT NULL`, no default
+       */
+      email_encrypted: string | db.Parameter<string> | db.SQLFragment
       /**
-      * **user.email_hash**
-      * - `varchar` in database
-      * - `NOT NULL`, no default
-      */
-      email_hash: string | db.Parameter<string> | db.SQLFragment;
+       * **User.email_hash**
+       * - `varchar` in database
+       * - `NOT NULL`, no default
+       */
+      email_hash: string | db.Parameter<string> | db.SQLFragment
       /**
-      * **user.password_hash**
-      * - `varchar` in database
-      * - `NOT NULL`, no default
-      */
-      password_hash: string | db.Parameter<string> | db.SQLFragment;
+       * **User.password_hash**
+       * - `varchar` in database
+       * - `NOT NULL`, no default
+       */
+      password_hash: string | db.Parameter<string> | db.SQLFragment
     }
     export interface Updatable {
       /**
-      * **user.uid**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
-      */
-      uid?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+       * **User.uid**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      uid?:
+        | string
+        | db.Parameter<string>
+        | db.SQLFragment
+        | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>
       /**
-      * **user.created_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      created_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment>;
+       * **User.created_at**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      created_at?:
+        | (db.TimestampTzString | Date)
+        | db.Parameter<db.TimestampTzString | Date>
+        | db.SQLFragment
+        | db.SQLFragment<
+            any,
+            | (db.TimestampTzString | Date)
+            | db.Parameter<db.TimestampTzString | Date>
+            | db.SQLFragment
+          >
       /**
-      * **user.updated_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      updated_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment>;
+       * **User.updated_at**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      updated_at?:
+        | (db.TimestampTzString | Date)
+        | db.Parameter<db.TimestampTzString | Date>
+        | db.SQLFragment
+        | db.SQLFragment<
+            any,
+            | (db.TimestampTzString | Date)
+            | db.Parameter<db.TimestampTzString | Date>
+            | db.SQLFragment
+          >
       /**
-      * **user.email_encrypted**
-      * - `varchar` in database
-      * - `NOT NULL`, no default
-      */
-      email_encrypted?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+       * **User.email_encrypted**
+       * - `varchar` in database
+       * - `NOT NULL`, no default
+       */
+      email_encrypted?:
+        | string
+        | db.Parameter<string>
+        | db.SQLFragment
+        | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>
       /**
-      * **user.email_hash**
-      * - `varchar` in database
-      * - `NOT NULL`, no default
-      */
-      email_hash?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+       * **User.email_hash**
+       * - `varchar` in database
+       * - `NOT NULL`, no default
+       */
+      email_hash?:
+        | string
+        | db.Parameter<string>
+        | db.SQLFragment
+        | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>
       /**
-      * **user.password_hash**
-      * - `varchar` in database
-      * - `NOT NULL`, no default
-      */
-      password_hash?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+       * **User.password_hash**
+       * - `varchar` in database
+       * - `NOT NULL`, no default
+       */
+      password_hash?:
+        | string
+        | db.Parameter<string>
+        | db.SQLFragment
+        | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>
     }
-    export type UniqueIndex = 'unique_user_email_hash' | 'user_pkey';
-    export type Column = keyof Selectable;
-    export type OnlyCols<T extends readonly Column[]> = Pick<Selectable, T[number]>;
-    export type SQLExpression = db.GenericSQLExpression | db.ColumnNames<Updatable | (keyof Updatable)[]> | db.ColumnValues<Updatable> | Table | Whereable | Column;
-    export type SQL = SQLExpression | SQLExpression[];
+    export type UniqueIndex = 'unique_user_email_hash' | 'user_pkey'
+    export type Column = keyof Selectable
+    export type OnlyCols<T extends readonly Column[]> = Pick<
+      Selectable,
+      T[number]
+    >
+    export type SQLExpression =
+      | db.GenericSQLExpression
+      | db.ColumnNames<Updatable | Array<keyof Updatable>>
+      | db.ColumnValues<Updatable>
+      | Table
+      | Whereable
+      | Column
+    export type SQL = SQLExpression | SQLExpression[]
   }
 
   /**
-   * **user_exchange_keys**
+   * **User_exchange_keys**
    * - Table in database
    */
   export namespace user_exchange_keys {
-    export type Table = 'user_exchange_keys';
+    export type Table = 'user_exchange_keys'
     export interface Selectable {
       /**
-      * **user_exchange_keys.uid**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
-      */
-      uid: string;
+       * **User_exchange_keys.uid**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      uid: string
       /**
-      * **user_exchange_keys.created_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      created_at: Date;
+       * **User_exchange_keys.created_at**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      created_at: Date
       /**
-      * **user_exchange_keys.updated_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      updated_at: Date;
+       * **User_exchange_keys.updated_at**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      updated_at: Date
       /**
-      * **user_exchange_keys.user_uid**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
-      */
-      user_uid: string;
+       * **User_exchange_keys.user_uid**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      user_uid: string
       /**
-      * **user_exchange_keys.exchange_uid**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
-      */
-      exchange_uid: string;
+       * **User_exchange_keys.exchange_uid**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      exchange_uid: string
       /**
-      * **user_exchange_keys.keys_encrypted**
-      * - `varchar` in database
-      * - `NOT NULL`, no default
-      */
-      keys_encrypted: string;
+       * **User_exchange_keys.keys_encrypted**
+       * - `varchar` in database
+       * - `NOT NULL`, no default
+       */
+      keys_encrypted: string
       /**
-      * **user_exchange_keys.description**
-      * - `varchar` in database
-      * - `NOT NULL`, no default
-      */
-      description: string;
+       * **User_exchange_keys.description**
+       * - `varchar` in database
+       * - `NOT NULL`, no default
+       */
+      description: string
       /**
-      * **user_exchange_keys.invalidated_at**
-      * - `timestamptz` in database
-      * - Nullable, no default
-      */
-      invalidated_at: Date | null;
+       * **User_exchange_keys.invalidated_at**
+       * - `timestamptz` in database
+       * - Nullable, no default
+       */
+      invalidated_at: Date | null
     }
     export interface JSONSelectable {
       /**
-      * **user_exchange_keys.uid**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
-      */
-      uid: string;
+       * **User_exchange_keys.uid**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      uid: string
       /**
-      * **user_exchange_keys.created_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      created_at: db.TimestampTzString;
+       * **User_exchange_keys.created_at**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      created_at: db.TimestampTzString
       /**
-      * **user_exchange_keys.updated_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      updated_at: db.TimestampTzString;
+       * **User_exchange_keys.updated_at**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      updated_at: db.TimestampTzString
       /**
-      * **user_exchange_keys.user_uid**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
-      */
-      user_uid: string;
+       * **User_exchange_keys.user_uid**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      user_uid: string
       /**
-      * **user_exchange_keys.exchange_uid**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
-      */
-      exchange_uid: string;
+       * **User_exchange_keys.exchange_uid**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      exchange_uid: string
       /**
-      * **user_exchange_keys.keys_encrypted**
-      * - `varchar` in database
-      * - `NOT NULL`, no default
-      */
-      keys_encrypted: string;
+       * **User_exchange_keys.keys_encrypted**
+       * - `varchar` in database
+       * - `NOT NULL`, no default
+       */
+      keys_encrypted: string
       /**
-      * **user_exchange_keys.description**
-      * - `varchar` in database
-      * - `NOT NULL`, no default
-      */
-      description: string;
+       * **User_exchange_keys.description**
+       * - `varchar` in database
+       * - `NOT NULL`, no default
+       */
+      description: string
       /**
-      * **user_exchange_keys.invalidated_at**
-      * - `timestamptz` in database
-      * - Nullable, no default
-      */
-      invalidated_at: db.TimestampTzString | null;
+       * **User_exchange_keys.invalidated_at**
+       * - `timestamptz` in database
+       * - Nullable, no default
+       */
+      invalidated_at: db.TimestampTzString | null
     }
     export interface Whereable {
       /**
-      * **user_exchange_keys.uid**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
-      */
-      uid?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+       * **User_exchange_keys.uid**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      uid?:
+        | string
+        | db.Parameter<string>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            string | db.Parameter<string> | db.SQLFragment | db.ParentColumn
+          >
       /**
-      * **user_exchange_keys.created_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      created_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
+       * **User_exchange_keys.created_at**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      created_at?:
+        | (db.TimestampTzString | Date)
+        | db.Parameter<db.TimestampTzString | Date>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            | (db.TimestampTzString | Date)
+            | db.Parameter<db.TimestampTzString | Date>
+            | db.SQLFragment
+            | db.ParentColumn
+          >
       /**
-      * **user_exchange_keys.updated_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      updated_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
+       * **User_exchange_keys.updated_at**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      updated_at?:
+        | (db.TimestampTzString | Date)
+        | db.Parameter<db.TimestampTzString | Date>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            | (db.TimestampTzString | Date)
+            | db.Parameter<db.TimestampTzString | Date>
+            | db.SQLFragment
+            | db.ParentColumn
+          >
       /**
-      * **user_exchange_keys.user_uid**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
-      */
-      user_uid?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+       * **User_exchange_keys.user_uid**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      user_uid?:
+        | string
+        | db.Parameter<string>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            string | db.Parameter<string> | db.SQLFragment | db.ParentColumn
+          >
       /**
-      * **user_exchange_keys.exchange_uid**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
-      */
-      exchange_uid?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+       * **User_exchange_keys.exchange_uid**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      exchange_uid?:
+        | string
+        | db.Parameter<string>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            string | db.Parameter<string> | db.SQLFragment | db.ParentColumn
+          >
       /**
-      * **user_exchange_keys.keys_encrypted**
-      * - `varchar` in database
-      * - `NOT NULL`, no default
-      */
-      keys_encrypted?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+       * **User_exchange_keys.keys_encrypted**
+       * - `varchar` in database
+       * - `NOT NULL`, no default
+       */
+      keys_encrypted?:
+        | string
+        | db.Parameter<string>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            string | db.Parameter<string> | db.SQLFragment | db.ParentColumn
+          >
       /**
-      * **user_exchange_keys.description**
-      * - `varchar` in database
-      * - `NOT NULL`, no default
-      */
-      description?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+       * **User_exchange_keys.description**
+       * - `varchar` in database
+       * - `NOT NULL`, no default
+       */
+      description?:
+        | string
+        | db.Parameter<string>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            string | db.Parameter<string> | db.SQLFragment | db.ParentColumn
+          >
       /**
-      * **user_exchange_keys.invalidated_at**
-      * - `timestamptz` in database
-      * - Nullable, no default
-      */
-      invalidated_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
+       * **User_exchange_keys.invalidated_at**
+       * - `timestamptz` in database
+       * - Nullable, no default
+       */
+      invalidated_at?:
+        | (db.TimestampTzString | Date)
+        | db.Parameter<db.TimestampTzString | Date>
+        | db.SQLFragment
+        | db.ParentColumn
+        | db.SQLFragment<
+            any,
+            | (db.TimestampTzString | Date)
+            | db.Parameter<db.TimestampTzString | Date>
+            | db.SQLFragment
+            | db.ParentColumn
+          >
     }
     export interface Insertable {
       /**
-      * **user_exchange_keys.uid**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
-      */
-      uid: string | db.Parameter<string> | db.SQLFragment;
+       * **User_exchange_keys.uid**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      uid: string | db.Parameter<string> | db.SQLFragment
       /**
-      * **user_exchange_keys.created_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      created_at: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment;
+       * **User_exchange_keys.created_at**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      created_at:
+        | (db.TimestampTzString | Date)
+        | db.Parameter<db.TimestampTzString | Date>
+        | db.SQLFragment
       /**
-      * **user_exchange_keys.updated_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      updated_at: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment;
+       * **User_exchange_keys.updated_at**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      updated_at:
+        | (db.TimestampTzString | Date)
+        | db.Parameter<db.TimestampTzString | Date>
+        | db.SQLFragment
       /**
-      * **user_exchange_keys.user_uid**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
-      */
-      user_uid: string | db.Parameter<string> | db.SQLFragment;
+       * **User_exchange_keys.user_uid**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      user_uid: string | db.Parameter<string> | db.SQLFragment
       /**
-      * **user_exchange_keys.exchange_uid**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
-      */
-      exchange_uid: string | db.Parameter<string> | db.SQLFragment;
+       * **User_exchange_keys.exchange_uid**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      exchange_uid: string | db.Parameter<string> | db.SQLFragment
       /**
-      * **user_exchange_keys.keys_encrypted**
-      * - `varchar` in database
-      * - `NOT NULL`, no default
-      */
-      keys_encrypted: string | db.Parameter<string> | db.SQLFragment;
+       * **User_exchange_keys.keys_encrypted**
+       * - `varchar` in database
+       * - `NOT NULL`, no default
+       */
+      keys_encrypted: string | db.Parameter<string> | db.SQLFragment
       /**
-      * **user_exchange_keys.description**
-      * - `varchar` in database
-      * - `NOT NULL`, no default
-      */
-      description: string | db.Parameter<string> | db.SQLFragment;
+       * **User_exchange_keys.description**
+       * - `varchar` in database
+       * - `NOT NULL`, no default
+       */
+      description: string | db.Parameter<string> | db.SQLFragment
       /**
-      * **user_exchange_keys.invalidated_at**
-      * - `timestamptz` in database
-      * - Nullable, no default
-      */
-      invalidated_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment;
+       * **User_exchange_keys.invalidated_at**
+       * - `timestamptz` in database
+       * - Nullable, no default
+       */
+      invalidated_at?:
+        | (db.TimestampTzString | Date)
+        | db.Parameter<db.TimestampTzString | Date>
+        | null
+        | db.DefaultType
+        | db.SQLFragment
     }
     export interface Updatable {
       /**
-      * **user_exchange_keys.uid**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
-      */
-      uid?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+       * **User_exchange_keys.uid**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      uid?:
+        | string
+        | db.Parameter<string>
+        | db.SQLFragment
+        | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>
       /**
-      * **user_exchange_keys.created_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      created_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment>;
+       * **User_exchange_keys.created_at**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      created_at?:
+        | (db.TimestampTzString | Date)
+        | db.Parameter<db.TimestampTzString | Date>
+        | db.SQLFragment
+        | db.SQLFragment<
+            any,
+            | (db.TimestampTzString | Date)
+            | db.Parameter<db.TimestampTzString | Date>
+            | db.SQLFragment
+          >
       /**
-      * **user_exchange_keys.updated_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      updated_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment>;
+       * **User_exchange_keys.updated_at**
+       * - `timestamptz` in database
+       * - `NOT NULL`, no default
+       */
+      updated_at?:
+        | (db.TimestampTzString | Date)
+        | db.Parameter<db.TimestampTzString | Date>
+        | db.SQLFragment
+        | db.SQLFragment<
+            any,
+            | (db.TimestampTzString | Date)
+            | db.Parameter<db.TimestampTzString | Date>
+            | db.SQLFragment
+          >
       /**
-      * **user_exchange_keys.user_uid**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
-      */
-      user_uid?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+       * **User_exchange_keys.user_uid**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      user_uid?:
+        | string
+        | db.Parameter<string>
+        | db.SQLFragment
+        | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>
       /**
-      * **user_exchange_keys.exchange_uid**
-      * - `uuid` in database
-      * - `NOT NULL`, no default
-      */
-      exchange_uid?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+       * **User_exchange_keys.exchange_uid**
+       * - `uuid` in database
+       * - `NOT NULL`, no default
+       */
+      exchange_uid?:
+        | string
+        | db.Parameter<string>
+        | db.SQLFragment
+        | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>
       /**
-      * **user_exchange_keys.keys_encrypted**
-      * - `varchar` in database
-      * - `NOT NULL`, no default
-      */
-      keys_encrypted?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+       * **User_exchange_keys.keys_encrypted**
+       * - `varchar` in database
+       * - `NOT NULL`, no default
+       */
+      keys_encrypted?:
+        | string
+        | db.Parameter<string>
+        | db.SQLFragment
+        | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>
       /**
-      * **user_exchange_keys.description**
-      * - `varchar` in database
-      * - `NOT NULL`, no default
-      */
-      description?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+       * **User_exchange_keys.description**
+       * - `varchar` in database
+       * - `NOT NULL`, no default
+       */
+      description?:
+        | string
+        | db.Parameter<string>
+        | db.SQLFragment
+        | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>
       /**
-      * **user_exchange_keys.invalidated_at**
-      * - `timestamptz` in database
-      * - Nullable, no default
-      */
-      invalidated_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment>;
+       * **User_exchange_keys.invalidated_at**
+       * - `timestamptz` in database
+       * - Nullable, no default
+       */
+      invalidated_at?:
+        | (db.TimestampTzString | Date)
+        | db.Parameter<db.TimestampTzString | Date>
+        | null
+        | db.DefaultType
+        | db.SQLFragment
+        | db.SQLFragment<
+            any,
+            | (db.TimestampTzString | Date)
+            | db.Parameter<db.TimestampTzString | Date>
+            | null
+            | db.DefaultType
+            | db.SQLFragment
+          >
     }
-    export type UniqueIndex = 'user_exchange_keys_pkey';
-    export type Column = keyof Selectable;
-    export type OnlyCols<T extends readonly Column[]> = Pick<Selectable, T[number]>;
-    export type SQLExpression = db.GenericSQLExpression | db.ColumnNames<Updatable | (keyof Updatable)[]> | db.ColumnValues<Updatable> | Table | Whereable | Column;
-    export type SQL = SQLExpression | SQLExpression[];
+    export type UniqueIndex = 'user_exchange_keys_pkey'
+    export type Column = keyof Selectable
+    export type OnlyCols<T extends readonly Column[]> = Pick<
+      Selectable,
+      T[number]
+    >
+    export type SQLExpression =
+      | db.GenericSQLExpression
+      | db.ColumnNames<Updatable | Array<keyof Updatable>>
+      | db.ColumnValues<Updatable>
+      | Table
+      | Whereable
+      | Column
+    export type SQL = SQLExpression | SQLExpression[]
   }
 
   /* === cross-table types === */
 
-  export type Table = dca_order.Table | dca_order_history.Table | exchange.Table | market.Table | market_price.Table | order.Table | schema_migrations.Table | user.Table | user_exchange_keys.Table;
-  export type Selectable = dca_order.Selectable | dca_order_history.Selectable | exchange.Selectable | market.Selectable | market_price.Selectable | order.Selectable | schema_migrations.Selectable | user.Selectable | user_exchange_keys.Selectable;
-  export type JSONSelectable = dca_order.JSONSelectable | dca_order_history.JSONSelectable | exchange.JSONSelectable | market.JSONSelectable | market_price.JSONSelectable | order.JSONSelectable | schema_migrations.JSONSelectable | user.JSONSelectable | user_exchange_keys.JSONSelectable;
-  export type Whereable = dca_order.Whereable | dca_order_history.Whereable | exchange.Whereable | market.Whereable | market_price.Whereable | order.Whereable | schema_migrations.Whereable | user.Whereable | user_exchange_keys.Whereable;
-  export type Insertable = dca_order.Insertable | dca_order_history.Insertable | exchange.Insertable | market.Insertable | market_price.Insertable | order.Insertable | schema_migrations.Insertable | user.Insertable | user_exchange_keys.Insertable;
-  export type Updatable = dca_order.Updatable | dca_order_history.Updatable | exchange.Updatable | market.Updatable | market_price.Updatable | order.Updatable | schema_migrations.Updatable | user.Updatable | user_exchange_keys.Updatable;
-  export type UniqueIndex = dca_order.UniqueIndex | dca_order_history.UniqueIndex | exchange.UniqueIndex | market.UniqueIndex | market_price.UniqueIndex | order.UniqueIndex | schema_migrations.UniqueIndex | user.UniqueIndex | user_exchange_keys.UniqueIndex;
-  export type Column = dca_order.Column | dca_order_history.Column | exchange.Column | market.Column | market_price.Column | order.Column | schema_migrations.Column | user.Column | user_exchange_keys.Column;
-  export type AllBaseTables = [dca_order.Table, dca_order_history.Table, exchange.Table, market.Table, market_price.Table, order.Table, schema_migrations.Table, user.Table, user_exchange_keys.Table];
-  export type AllForeignTables = [];
-  export type AllViews = [];
-  export type AllMaterializedViews = [];
-  export type AllTablesAndViews = [dca_order.Table, dca_order_history.Table, exchange.Table, market.Table, market_price.Table, order.Table, schema_migrations.Table, user.Table, user_exchange_keys.Table];
-
+  export type Table =
+    | dca_order.Table
+    | dca_order_history.Table
+    | exchange.Table
+    | market.Table
+    | market_price.Table
+    | order.Table
+    | schema_migrations.Table
+    | user.Table
+    | user_exchange_keys.Table
+  export type Selectable =
+    | dca_order.Selectable
+    | dca_order_history.Selectable
+    | exchange.Selectable
+    | market.Selectable
+    | market_price.Selectable
+    | order.Selectable
+    | schema_migrations.Selectable
+    | user.Selectable
+    | user_exchange_keys.Selectable
+  export type JSONSelectable =
+    | dca_order.JSONSelectable
+    | dca_order_history.JSONSelectable
+    | exchange.JSONSelectable
+    | market.JSONSelectable
+    | market_price.JSONSelectable
+    | order.JSONSelectable
+    | schema_migrations.JSONSelectable
+    | user.JSONSelectable
+    | user_exchange_keys.JSONSelectable
+  export type Whereable =
+    | dca_order.Whereable
+    | dca_order_history.Whereable
+    | exchange.Whereable
+    | market.Whereable
+    | market_price.Whereable
+    | order.Whereable
+    | schema_migrations.Whereable
+    | user.Whereable
+    | user_exchange_keys.Whereable
+  export type Insertable =
+    | dca_order.Insertable
+    | dca_order_history.Insertable
+    | exchange.Insertable
+    | market.Insertable
+    | market_price.Insertable
+    | order.Insertable
+    | schema_migrations.Insertable
+    | user.Insertable
+    | user_exchange_keys.Insertable
+  export type Updatable =
+    | dca_order.Updatable
+    | dca_order_history.Updatable
+    | exchange.Updatable
+    | market.Updatable
+    | market_price.Updatable
+    | order.Updatable
+    | schema_migrations.Updatable
+    | user.Updatable
+    | user_exchange_keys.Updatable
+  export type UniqueIndex =
+    | dca_order.UniqueIndex
+    | dca_order_history.UniqueIndex
+    | exchange.UniqueIndex
+    | market.UniqueIndex
+    | market_price.UniqueIndex
+    | order.UniqueIndex
+    | schema_migrations.UniqueIndex
+    | user.UniqueIndex
+    | user_exchange_keys.UniqueIndex
+  export type Column =
+    | dca_order.Column
+    | dca_order_history.Column
+    | exchange.Column
+    | market.Column
+    | market_price.Column
+    | order.Column
+    | schema_migrations.Column
+    | user.Column
+    | user_exchange_keys.Column
+  export type AllBaseTables = [
+    dca_order.Table,
+    dca_order_history.Table,
+    exchange.Table,
+    market.Table,
+    market_price.Table,
+    order.Table,
+    schema_migrations.Table,
+    user.Table,
+    user_exchange_keys.Table,
+  ]
+  export type AllForeignTables = []
+  export type AllViews = []
+  export type AllMaterializedViews = []
+  export type AllTablesAndViews = [
+    dca_order.Table,
+    dca_order_history.Table,
+    exchange.Table,
+    market.Table,
+    market_price.Table,
+    order.Table,
+    schema_migrations.Table,
+    user.Table,
+    user_exchange_keys.Table,
+  ]
 
   export type SelectableForTable<T extends Table> = {
-    dca_order: dca_order.Selectable;
-    dca_order_history: dca_order_history.Selectable;
-    exchange: exchange.Selectable;
-    market: market.Selectable;
-    market_price: market_price.Selectable;
-    order: order.Selectable;
-    schema_migrations: schema_migrations.Selectable;
-    user: user.Selectable;
-    user_exchange_keys: user_exchange_keys.Selectable;
-  }[T];
+    dca_order: dca_order.Selectable
+    dca_order_history: dca_order_history.Selectable
+    exchange: exchange.Selectable
+    market: market.Selectable
+    market_price: market_price.Selectable
+    order: order.Selectable
+    schema_migrations: schema_migrations.Selectable
+    user: user.Selectable
+    user_exchange_keys: user_exchange_keys.Selectable
+  }[T]
 
   export type JSONSelectableForTable<T extends Table> = {
-    dca_order: dca_order.JSONSelectable;
-    dca_order_history: dca_order_history.JSONSelectable;
-    exchange: exchange.JSONSelectable;
-    market: market.JSONSelectable;
-    market_price: market_price.JSONSelectable;
-    order: order.JSONSelectable;
-    schema_migrations: schema_migrations.JSONSelectable;
-    user: user.JSONSelectable;
-    user_exchange_keys: user_exchange_keys.JSONSelectable;
-  }[T];
+    dca_order: dca_order.JSONSelectable
+    dca_order_history: dca_order_history.JSONSelectable
+    exchange: exchange.JSONSelectable
+    market: market.JSONSelectable
+    market_price: market_price.JSONSelectable
+    order: order.JSONSelectable
+    schema_migrations: schema_migrations.JSONSelectable
+    user: user.JSONSelectable
+    user_exchange_keys: user_exchange_keys.JSONSelectable
+  }[T]
 
   export type WhereableForTable<T extends Table> = {
-    dca_order: dca_order.Whereable;
-    dca_order_history: dca_order_history.Whereable;
-    exchange: exchange.Whereable;
-    market: market.Whereable;
-    market_price: market_price.Whereable;
-    order: order.Whereable;
-    schema_migrations: schema_migrations.Whereable;
-    user: user.Whereable;
-    user_exchange_keys: user_exchange_keys.Whereable;
-  }[T];
+    dca_order: dca_order.Whereable
+    dca_order_history: dca_order_history.Whereable
+    exchange: exchange.Whereable
+    market: market.Whereable
+    market_price: market_price.Whereable
+    order: order.Whereable
+    schema_migrations: schema_migrations.Whereable
+    user: user.Whereable
+    user_exchange_keys: user_exchange_keys.Whereable
+  }[T]
 
   export type InsertableForTable<T extends Table> = {
-    dca_order: dca_order.Insertable;
-    dca_order_history: dca_order_history.Insertable;
-    exchange: exchange.Insertable;
-    market: market.Insertable;
-    market_price: market_price.Insertable;
-    order: order.Insertable;
-    schema_migrations: schema_migrations.Insertable;
-    user: user.Insertable;
-    user_exchange_keys: user_exchange_keys.Insertable;
-  }[T];
+    dca_order: dca_order.Insertable
+    dca_order_history: dca_order_history.Insertable
+    exchange: exchange.Insertable
+    market: market.Insertable
+    market_price: market_price.Insertable
+    order: order.Insertable
+    schema_migrations: schema_migrations.Insertable
+    user: user.Insertable
+    user_exchange_keys: user_exchange_keys.Insertable
+  }[T]
 
   export type UpdatableForTable<T extends Table> = {
-    dca_order: dca_order.Updatable;
-    dca_order_history: dca_order_history.Updatable;
-    exchange: exchange.Updatable;
-    market: market.Updatable;
-    market_price: market_price.Updatable;
-    order: order.Updatable;
-    schema_migrations: schema_migrations.Updatable;
-    user: user.Updatable;
-    user_exchange_keys: user_exchange_keys.Updatable;
-  }[T];
+    dca_order: dca_order.Updatable
+    dca_order_history: dca_order_history.Updatable
+    exchange: exchange.Updatable
+    market: market.Updatable
+    market_price: market_price.Updatable
+    order: order.Updatable
+    schema_migrations: schema_migrations.Updatable
+    user: user.Updatable
+    user_exchange_keys: user_exchange_keys.Updatable
+  }[T]
 
   export type UniqueIndexForTable<T extends Table> = {
-    dca_order: dca_order.UniqueIndex;
-    dca_order_history: dca_order_history.UniqueIndex;
-    exchange: exchange.UniqueIndex;
-    market: market.UniqueIndex;
-    market_price: market_price.UniqueIndex;
-    order: order.UniqueIndex;
-    schema_migrations: schema_migrations.UniqueIndex;
-    user: user.UniqueIndex;
-    user_exchange_keys: user_exchange_keys.UniqueIndex;
-  }[T];
+    dca_order: dca_order.UniqueIndex
+    dca_order_history: dca_order_history.UniqueIndex
+    exchange: exchange.UniqueIndex
+    market: market.UniqueIndex
+    market_price: market_price.UniqueIndex
+    order: order.UniqueIndex
+    schema_migrations: schema_migrations.UniqueIndex
+    user: user.UniqueIndex
+    user_exchange_keys: user_exchange_keys.UniqueIndex
+  }[T]
 
   export type ColumnForTable<T extends Table> = {
-    dca_order: dca_order.Column;
-    dca_order_history: dca_order_history.Column;
-    exchange: exchange.Column;
-    market: market.Column;
-    market_price: market_price.Column;
-    order: order.Column;
-    schema_migrations: schema_migrations.Column;
-    user: user.Column;
-    user_exchange_keys: user_exchange_keys.Column;
-  }[T];
+    dca_order: dca_order.Column
+    dca_order_history: dca_order_history.Column
+    exchange: exchange.Column
+    market: market.Column
+    market_price: market_price.Column
+    order: order.Column
+    schema_migrations: schema_migrations.Column
+    user: user.Column
+    user_exchange_keys: user_exchange_keys.Column
+  }[T]
 
   export type SQLForTable<T extends Table> = {
-    dca_order: dca_order.SQL;
-    dca_order_history: dca_order_history.SQL;
-    exchange: exchange.SQL;
-    market: market.SQL;
-    market_price: market_price.SQL;
-    order: order.SQL;
-    schema_migrations: schema_migrations.SQL;
-    user: user.SQL;
-    user_exchange_keys: user_exchange_keys.SQL;
-  }[T];
-
+    dca_order: dca_order.SQL
+    dca_order_history: dca_order_history.SQL
+    exchange: exchange.SQL
+    market: market.SQL
+    market_price: market_price.SQL
+    order: order.SQL
+    schema_migrations: schema_migrations.SQL
+    user: user.SQL
+    user_exchange_keys: user_exchange_keys.SQL
+  }[T]
 }

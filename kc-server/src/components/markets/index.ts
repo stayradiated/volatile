@@ -45,7 +45,7 @@ const forceGetMarketUID = async (
   const rows = await db.sql<s.market.SQL, s.market.Selectable[]>`
     INSERT INTO ${'market'} (${db.cols(insert)})
     VALUES (${db.vals(insert)})
-    ON CONFLICT ON CONSTRAINT market_id_key 
+    ON CONFLICT ON CONSTRAINT unique_market_id 
       DO UPDATE SET
         name = EXCLUDED.name,
         updated_at = EXCLUDED.updated_at
