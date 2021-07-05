@@ -41,7 +41,7 @@ const createMarketSourceForCurrency = (
 
   const marketSource: MarketPriceSource<Options> = {
     log,
-    minCacheDuration: Duration.fromISOTime('01:00:00'),
+    minCacheDuration: Duration.fromISOTime('01:05:00'),
     fetch: async (options) => {
       const { config } = options
       const { appId } = config
