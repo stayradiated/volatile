@@ -7,6 +7,7 @@ import {
   marketPriceSources,
   currencySources,
 } from '@stayradiated/market-price'
+import debug from 'debug'
 
 import {
   Market,
@@ -18,6 +19,8 @@ import {
 } from '../markets/index.js'
 
 import type { Config, Component, Pool } from '../../types.js'
+
+const log = debug('market-price')
 
 const SLEEP_MS = 60 * 1000
 
@@ -60,66 +63,59 @@ enum Currency {
 
 type CurrencyConfig = {
   readonly currency: Currency
-  readonly createFetchRateFn: (config: Config) => () => Promise<number>
+  readonly createFetchRateFn: (config: Config) => () => Promise<number | Error>
 }
 
 const currencyConfigList: readonly CurrencyConfig[] = [
   {
     currency: Currency.NZD,
-    createFetchRateFn: () => {
-      return async () => Promise.resolve(1)
-    },
+    createFetchRateFn: () => async () => Promise.resolve(1),
   },
   {
     currency: Currency.USD,
-    createFetchRateFn: (config: Config) => {
-      return createCachedFetchFn(currencySources.USD_NZD, {
+    createFetchRateFn: (config: Config) =>
+      createCachedFetchFn(currencySources.USD_NZD, {
         config: config.openExchangeRates,
-      })
-    },
+      }),
   },
 ]
 
 type MarketPriceConfig = {
   readonly market: Market
   readonly currency: Currency
-  readonly createFetchPriceFn: (config: Config) => () => Promise<number>
+  readonly createFetchPriceFn: (config: Config) => () => Promise<number | Error>
 }
 
 type MarketPriceInstance = MarketPriceConfig & {
-  readonly fetchPrice: () => Promise<number>
+  readonly fetchPrice: () => Promise<number | Error>
 }
 
 const marketPriceConfigList: readonly MarketPriceConfig[] = [
   {
     market: BINANCE_US,
     currency: Currency.USD,
-    createFetchPriceFn: () => {
-      return createCachedFetchFn(marketPriceSources.binance, {})
-    },
+    createFetchPriceFn: () =>
+      createCachedFetchFn(marketPriceSources.binance, {}),
   },
   {
     market: DASSET,
     currency: Currency.NZD,
-    createFetchPriceFn: (config) => {
-      return createCachedFetchFn(marketPriceSources.dasset, {
+    createFetchPriceFn: (config) =>
+      createCachedFetchFn(marketPriceSources.dasset, {
         config: config.dasset,
-      })
-    },
+      }),
   },
   {
     market: KIWI_COIN,
     currency: Currency.NZD,
-    createFetchPriceFn: () => {
-      return createCachedFetchFn(marketPriceSources.kiwiCoin, {})
-    },
+    createFetchPriceFn: () =>
+      createCachedFetchFn(marketPriceSources.kiwiCoin, {}),
   },
   {
     market: EASY_CRYPTO,
     currency: Currency.NZD,
-    createFetchPriceFn: () => {
-      return createCachedFetchFn(marketPriceSources.easyCrypto, {})
-    },
+    createFetchPriceFn: () =>
+      createCachedFetchFn(marketPriceSources.easyCrypto, {}),
   },
 ]
 
@@ -134,14 +130,16 @@ const fetchMarketPrice: Component = async (props) => {
     }
   })
 
-  const fetchCurrencyRate = async (currency: Currency): Promise<number> => {
+  const fetchCurrencyRate = async (
+    currency: Currency,
+  ): Promise<number | Error> => {
     if (currency === Currency.NZD) {
       return 1
     }
 
-    const currencyConfig = currencyFnList.find((currencyConfig) => {
-      return currencyConfig.currency === currency
-    })
+    const currencyConfig = currencyFnList.find(
+      (currencyConfig) => currencyConfig.currency === currency,
+    )
     if (!currencyConfig) {
       throw new Error(
         `Could not find currency config for ${inspect(currency)}.`,
@@ -165,18 +163,27 @@ const fetchMarketPrice: Component = async (props) => {
       const { market, fetchPrice, currency } = marketPriceInstance
       const timestamp = new Date()
 
-      const price = await fetchPrice()
-      const fxRate = await fetchCurrencyRate(currency)
-      const priceNZD = price * fxRate
+      const [price, fxRate] = await Promise.all([
+        fetchPrice(),
+        fetchCurrencyRate(currency),
+      ])
 
-      await insertMarketPrice(pool, {
-        timestamp,
-        market,
-        price,
-        currency,
-        fxRate,
-        priceNZD,
-      })
+      if (price instanceof Error) {
+        log(price)
+      } else if (fxRate instanceof Error) {
+        log(fxRate)
+      } else {
+        const priceNZD = price * fxRate
+
+        await insertMarketPrice(pool, {
+          timestamp,
+          market,
+          price,
+          currency,
+          fxRate,
+          priceNZD,
+        })
+      }
 
       await setTimeout(SLEEP_MS)
       await loop()

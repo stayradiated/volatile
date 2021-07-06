@@ -1,6 +1,7 @@
 import ky from 'ky-universal'
 import debug from 'debug'
 import { DateTime, Duration } from 'luxon'
+import { errorBoundary } from '@stayradiated/error-boundary'
 
 import { createDebugHooks } from '../../utils/hooks.js'
 import { MarketPriceSource } from '../../utils/market-price-source.js'
@@ -22,24 +23,30 @@ type APIResponse = {
 }
 
 const marketSource: MarketPriceSource<Options> = {
-  log,
   minCacheDuration: Duration.fromISOTime('00:00:05'),
   fetch: async (options) => {
     const { symbol = 'BTCUSD' } = options
 
     if (symbol.toUpperCase() !== symbol) {
-      throw new Error(`Symbol must be uppercase, received "${symbol}".`)
+      return new Error(`Symbol must be uppercase, received "${symbol}".`)
     }
 
     const lastUpdated = DateTime.local()
 
-    const result: APIResponse = await binance
-      .get('v3/avgPrice', {
-        searchParams: {
-          symbol,
-        },
-      })
-      .json()
+    const result = await errorBoundary<APIResponse>(async () =>
+      binance
+        .get('v3/avgPrice', {
+          searchParams: {
+            symbol,
+          },
+        })
+        .json(),
+    )
+
+    if (result instanceof Error) {
+      log(result.message)
+      return result
+    }
 
     const value = Number.parseFloat(result.price)
 

@@ -115,9 +115,9 @@ const initAutoBuy: Component = async (props) => {
           )
         } else {
           await Promise.all(
-            existingOrders.map(async (order) => {
-              return kiwiCoin.cancelOrder(config.kiwiCoin, order.id)
-            }),
+            existingOrders.map(async (order) =>
+              kiwiCoin.cancelOrder(config.kiwiCoin, order.id),
+            ),
           )
 
           await kiwiCoin.buy(config.kiwiCoin, {

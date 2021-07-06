@@ -77,9 +77,7 @@ export type TickerResult = {
   ask: number
 }
 
-const ticker = async (): Promise<TickerResult> => {
-  return kiwiCoin.get('ticker').json()
-}
+const ticker = async (): Promise<TickerResult> => kiwiCoin.get('ticker').json()
 
 export type OrderBookResult = {
   timestamp: string
@@ -87,9 +85,8 @@ export type OrderBookResult = {
   asks: Array<[string, string]>
 }
 
-const orderBook = async (): Promise<OrderBookResult> => {
-  return kiwiCoin.get('order_book').json()
-}
+const orderBook = async (): Promise<OrderBookResult> =>
+  kiwiCoin.get('order_book').json()
 
 export type BalanceResult = {
   nzd_available: string

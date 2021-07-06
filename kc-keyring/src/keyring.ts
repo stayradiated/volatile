@@ -184,12 +184,9 @@ const normalizeKeys = (userKeys: UserKeys, keySize: KeySize): Key[] | Error => {
   return keys as Key[]
 }
 
-const currentKey = (keys: Key[]): Key => {
+const currentKey = (keys: Key[]): Key =>
   // eslint-disable-next-line unicorn/no-array-reduce
-  return keys.reduce((a, b) => {
-    return a.id > b.id ? a : b
-  })
-}
+  keys.reduce((a, b) => (a.id > b.id ? a : b))
 
 const findKey = (keys: Key[], id: number | string): Key | Error => {
   const key = keys.find((key) => toInt(key.id) === toInt(id))

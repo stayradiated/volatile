@@ -40,7 +40,6 @@ const createMarketSourceForCurrency = (
   const { base, symbol } = options
 
   const marketSource: MarketPriceSource<Options> = {
-    log,
     minCacheDuration: Duration.fromISOTime('01:05:00'),
     fetch: async (options) => {
       const { config } = options
@@ -60,7 +59,7 @@ const createMarketSourceForCurrency = (
 
       const value = response.rates[symbol]
       if (typeof value !== 'number') {
-        throw new TypeError(
+        return new TypeError(
           `Could not get ${base}/${symbol} rate. Expecting number, got ${inspect(
             value,
           )}`,

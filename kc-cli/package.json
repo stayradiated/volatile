@@ -25,7 +25,7 @@
     "name": "George Czabania",
     "email": "george@czabania.com"
   },
-  "license": "MIT",
+  "license": "GPL-3.0",
   "bugs": {
     "url": "https://github.com/stayradiated/kc/issues"
   },
@@ -43,7 +43,7 @@
     "yargs": "17.0.1"
   },
   "devDependencies": {
-    "@stayradiated/jsconfig": "1.13.0",
+    "@stayradiated/jsconfig": "1.14.0",
     "@types/luxon": "1.27.0",
     "@types/yargs": "17.0.0",
     "@vercel/ncc": "0.28.6",
@@ -51,7 +51,7 @@
     "del-cli": "4.0.0",
     "eslint-plugin-fp": "2.3.0",
     "typescript": "4.3.5",
-    "xo": "0.40.3"
+    "xo": "0.41.0"
   },
   "__comment": "The following configs are managed by `npx @stayradiated/jsconfig`",
   "ava": {
@@ -68,6 +68,7 @@
       "plugin:fp/recommended"
     ],
     "rules": {
+      "ava/assertion-arguments": "off",
       "ava/no-ignored-test-files": [
         "error",
         {
