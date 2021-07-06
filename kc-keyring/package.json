@@ -23,9 +23,6 @@
     "url": "https://github.com/stayradiated/kc/issues"
   },
   "homepage": "https://github.com/stayradiated/kc#readme",
-  "dependencies": {
-    "openpgp": "5.0.0-3"
-  },
   "devDependencies": {
     "@stayradiated/jsconfig": "1.13.0",
     "ava": "3.15.0",
@@ -49,6 +46,7 @@
       "plugin:fp/recommended"
     ],
     "rules": {
+      "ava/assertion-arguments": "off",
       "ava/no-ignored-test-files": [
         "error",
         {
