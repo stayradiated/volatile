@@ -39,14 +39,21 @@ const toRow = (order: [string, string], worldPrice: number): Row => {
 }
 
 export const handler = withConfig(async (config) => {
-  const [{ value: binanceRate }, { value: usdRate }, orderBook] =
-    await Promise.all([
-      marketPriceSources.binance.fetch({}),
-      currencySources.USD_NZD.fetch({ config: config.openExchangeRates }),
-      kiwiCoin.orderBook(),
-    ])
+  const [binanceRate, usdRate, orderBook] = await Promise.all([
+    marketPriceSources.binance.fetch({}),
+    currencySources.USD_NZD.fetch({ config: config.openExchangeRates }),
+    kiwiCoin.orderBook(),
+  ])
 
-  const worldPrice = binanceRate * usdRate
+  if (binanceRate instanceof Error) {
+    throw binanceRate
+  }
+
+  if (usdRate instanceof Error) {
+    throw usdRate
+  }
+
+  const worldPrice = binanceRate.value * usdRate.value
 
   const length = 15
 
@@ -90,17 +97,13 @@ export const handler = withConfig(async (config) => {
 
   console.log(
     printTable(table, {
-      drawVerticalLine: (lineIndex, columnCount) => {
-        return (
-          lineIndex === 0 ||
-          lineIndex === 1 ||
-          lineIndex === 5 ||
-          lineIndex === columnCount
-        )
-      },
-      drawHorizontalLine: (lineIndex, rowCount) => {
-        return lineIndex === 0 || lineIndex === 1 || lineIndex === rowCount
-      },
+      drawVerticalLine: (lineIndex, columnCount) =>
+        lineIndex === 0 ||
+        lineIndex === 1 ||
+        lineIndex === 5 ||
+        lineIndex === columnCount,
+      drawHorizontalLine: (lineIndex, rowCount) =>
+        lineIndex === 0 || lineIndex === 1 || lineIndex === rowCount,
       columnDefault: {
         alignment: 'right',
       },

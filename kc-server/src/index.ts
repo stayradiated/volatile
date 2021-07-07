@@ -11,6 +11,9 @@ const CONFIG_PATH = env.get('CONFIG_PATH').required().asString()
 
 void (async function () {
   const config = await readConfig(CONFIG_PATH)
+  if (config instanceof Error) {
+    throw config
+  }
 
   const props: ComponentProps = {
     config,

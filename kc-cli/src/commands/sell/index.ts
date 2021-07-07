@@ -7,15 +7,14 @@ export const command = 'sell'
 
 export const desc = 'Create a sell order'
 
-export const builder = (argv: Argv) => {
-  return argv
+export const builder = (argv: Argv) =>
+  argv
     .option('price', {
       type: 'number',
     })
     .option('amount', {
       type: 'number',
     })
-}
 
 type Options = {
   price: number

@@ -9,21 +9,22 @@ type HandlerFn<T extends Record<string, unknown>> = (
   argv: Argv<T>,
 ) => Promise<void>
 
-const withConfig = <T extends Record<string, unknown>>(
-  handlerFn: HandlerFn<T>,
-) => {
-  return async (argv: Argv<T>) => {
+const withConfig =
+  <T extends Record<string, unknown>>(handlerFn: HandlerFn<T>) =>
+  async (argv: Argv<T>) => {
     const { config: configPath } = argv
     if (!configPath) {
       throw new Error('--config is required!')
     }
 
     const config = await readConfig(configPath)
+    if (config instanceof Error) {
+      throw config
+    }
 
     return handlerFn(config, argv).catch((error) => {
       console.error(error)
     })
   }
-}
 
 export { withConfig, Config }

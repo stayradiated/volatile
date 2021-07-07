@@ -28,9 +28,8 @@ type RowData = {
   type: TradeType | undefined
 }
 
-const sortByDateAsc = (a: RowData, b: RowData): number => {
-  return a.date.valueOf() - b.date.valueOf()
-}
+const sortByDateAsc = (a: RowData, b: RowData): number =>
+  a.date.valueOf() - b.date.valueOf()
 
 const calcTotals = (rows: RowData[]): RowData => {
   const sum: RowData = {
@@ -109,14 +108,11 @@ export const handler = withConfig(async (config) => {
 
   console.log(
     printTable(table, {
-      drawHorizontalLine: (lineIndex, rowCount) => {
-        return (
-          lineIndex === 0 ||
-          lineIndex === 1 ||
-          lineIndex === rowCount - 1 ||
-          lineIndex === rowCount
-        )
-      },
+      drawHorizontalLine: (lineIndex, rowCount) =>
+        lineIndex === 0 ||
+        lineIndex === 1 ||
+        lineIndex === rowCount - 1 ||
+        lineIndex === rowCount,
       columnDefault: {
         alignment: 'right',
       },

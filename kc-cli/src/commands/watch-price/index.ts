@@ -47,6 +47,14 @@ export const handler = withConfig(async (config) => {
         fetchDassetPrice(),
       ])
 
+    if (binance instanceof Error) {
+      throw binance
+    }
+
+    if (exchangeRate instanceof Error) {
+      throw exchangeRate
+    }
+
     console.log(
       [
         new Date().toISOString(),

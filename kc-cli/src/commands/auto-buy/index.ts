@@ -91,6 +91,14 @@ export const handler = withConfig(async (config, _argv) => {
             kiwiCoin.openOrders(config.kiwiCoin),
           ])
 
+        if (binanceRate instanceof Error) {
+          throw binanceRate
+        }
+
+        if (exchangeRate instanceof Error) {
+          throw exchangeRate
+        }
+
         const marketPrice = binanceRate * exchangeRate
 
         const offsetPercent = -1.5
@@ -112,9 +120,9 @@ export const handler = withConfig(async (config, _argv) => {
           )
         } else {
           await Promise.all(
-            existingOrders.map(async (order) => {
-              return kiwiCoin.cancelOrder(config.kiwiCoin, order.id)
-            }),
+            existingOrders.map(async (order) =>
+              kiwiCoin.cancelOrder(config.kiwiCoin, order.id),
+            ),
           )
 
           await kiwiCoin.buy(config.kiwiCoin, {

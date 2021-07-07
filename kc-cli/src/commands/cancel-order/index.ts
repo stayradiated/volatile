@@ -7,12 +7,11 @@ export const command = 'cancel-order'
 
 export const desc = 'Cancel an open order'
 
-export const builder = (argv: Argv) => {
-  return argv.option('order-id', {
+export const builder = (argv: Argv) =>
+  argv.option('order-id', {
     type: 'number',
     describe: 'ID of order to cancel',
   })
-}
 
 type Options = {
   orderId: number
