@@ -1,0 +1,14 @@
+{
+  "name": "@stayradiated/kc-hasura",
+  "version": "1.0.0",
+  "description": "Config for Hasura server",
+  "scripts": {
+    "hasura:local": "HASURA_GRAPHQL_ENDPOINT=http://localhost:9999 HASURA_GRAPHQL_ADMIN_SECRET=unlockedinfinity hasura",
+    "hasura:local:export": "pnpm run hasura:local metadata export"
+  },
+  "author": "George Czabania <george@czabania.com>",
+  "license": "GPL-3.0",
+  "dependencies": {
+    "hasura-cli": "2.0.1"
+  }
+}

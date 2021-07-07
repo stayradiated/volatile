@@ -1,0 +1,161 @@
+- table:
+    schema: kc
+    name: dca_order
+  object_relationships:
+  - name: exchange
+    using:
+      foreign_key_constraint_on: exchange_uid
+  - name: market
+    using:
+      foreign_key_constraint_on: market_uid
+  - name: user
+    using:
+      foreign_key_constraint_on: user_uid
+  array_relationships:
+  - name: dca_order_histories
+    using:
+      foreign_key_constraint_on:
+        column: dca_order_uid
+        table:
+          schema: kc
+          name: dca_order_history
+- table:
+    schema: kc
+    name: dca_order_history
+  object_relationships:
+  - name: dca_order
+    using:
+      foreign_key_constraint_on: dca_order_uid
+  - name: order
+    using:
+      foreign_key_constraint_on: order_uid
+  - name: user
+    using:
+      foreign_key_constraint_on: user_uid
+- table:
+    schema: kc
+    name: exchange
+  array_relationships:
+  - name: dca_orders
+    using:
+      foreign_key_constraint_on:
+        column: exchange_uid
+        table:
+          schema: kc
+          name: dca_order
+  - name: orders
+    using:
+      foreign_key_constraint_on:
+        column: exchange_uid
+        table:
+          schema: kc
+          name: order
+  - name: user_exchange_keys
+    using:
+      foreign_key_constraint_on:
+        column: exchange_uid
+        table:
+          schema: kc
+          name: user_exchange_keys
+- table:
+    schema: kc
+    name: market
+  array_relationships:
+  - name: dca_orders
+    using:
+      foreign_key_constraint_on:
+        column: market_uid
+        table:
+          schema: kc
+          name: dca_order
+  - name: market_prices
+    using:
+      foreign_key_constraint_on:
+        column: market_uid
+        table:
+          schema: kc
+          name: market_price
+  select_permissions:
+  - role: user
+    permission:
+      columns:
+      - id
+      - name
+      filter: {}
+- table:
+    schema: kc
+    name: market_price
+  object_relationships:
+  - name: market
+    using:
+      foreign_key_constraint_on: market_uid
+  select_permissions:
+  - role: user
+    permission:
+      columns:
+      - currency
+      - fx_rate
+      - price
+      - price_nzd
+      - timestamp
+      filter: {}
+- table:
+    schema: kc
+    name: order
+  object_relationships:
+  - name: exchange
+    using:
+      foreign_key_constraint_on: exchange_uid
+  - name: user
+    using:
+      foreign_key_constraint_on: user_uid
+  array_relationships:
+  - name: dca_order_histories
+    using:
+      foreign_key_constraint_on:
+        column: order_uid
+        table:
+          schema: kc
+          name: dca_order_history
+- table:
+    schema: kc
+    name: user
+  array_relationships:
+  - name: dca_order_histories
+    using:
+      foreign_key_constraint_on:
+        column: user_uid
+        table:
+          schema: kc
+          name: dca_order_history
+  - name: dca_orders
+    using:
+      foreign_key_constraint_on:
+        column: user_uid
+        table:
+          schema: kc
+          name: dca_order
+  - name: orders
+    using:
+      foreign_key_constraint_on:
+        column: user_uid
+        table:
+          schema: kc
+          name: order
+  - name: user_exchange_keys
+    using:
+      foreign_key_constraint_on:
+        column: user_uid
+        table:
+          schema: kc
+          name: user_exchange_keys
+- table:
+    schema: kc
+    name: user_exchange_keys
+  object_relationships:
+  - name: exchange
+    using:
+      foreign_key_constraint_on: exchange_uid
+  - name: user
+    using:
+      foreign_key_constraint_on: user_uid
