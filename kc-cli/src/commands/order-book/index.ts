@@ -46,11 +46,18 @@ export const handler = withConfig(async (config) => {
   ])
 
   if (binanceRate instanceof Error) {
-    throw binanceRate
+    console.error(binanceRate)
+    return
   }
 
   if (usdRate instanceof Error) {
-    throw usdRate
+    console.error(usdRate)
+    return
+  }
+
+  if (orderBook instanceof Error) {
+    console.error(orderBook)
+    return
   }
 
   const worldPrice = binanceRate.value * usdRate.value
@@ -64,7 +71,19 @@ export const handler = withConfig(async (config) => {
     .slice(0, length)
     .map((order) => toRow(order, worldPrice))
 
-  const table = Array.from({ length })
+  const headers = [
+    '#',
+    'bid %',
+    'price',
+    'amount',
+    'value',
+    'ask %',
+    'price',
+    'amount',
+    'value',
+  ]
+
+  const rows = Array.from({ length })
     .fill(null)
     .map((_, index) => {
       const bid = bids[index] ?? EMPTY_ROW
@@ -83,17 +102,7 @@ export const handler = withConfig(async (config) => {
       ]
     })
 
-  table.unshift([
-    '#',
-    'bid %',
-    'price',
-    'amount',
-    'value',
-    'ask %',
-    'price',
-    'amount',
-    'value',
-  ])
+  const table = [headers, ...rows]
 
   console.log(
     printTable(table, {

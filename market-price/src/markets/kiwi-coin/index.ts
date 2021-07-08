@@ -12,7 +12,13 @@ const marketSource: MarketPriceSource<Options> = {
   fetch: async (options) => {
     const { source = kiwiCoin.ExtPriceSource.worldwide } = options
     const lastUpdated = DateTime.local()
-    const { price: value } = await kiwiCoin.extPrice({ source })
+
+    const result = await kiwiCoin.extPrice({ source })
+    if (result instanceof Error) {
+      return result
+    }
+
+    const { price: value } = result
     return {
       value,
       lastUpdated,

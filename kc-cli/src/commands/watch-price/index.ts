@@ -37,7 +37,7 @@ export const handler = withConfig(async (config) => {
   // CSV header
   console.log('date,kiwi-coin.com,easycrypto.nz,binance.us,dassetx.com')
 
-  const loop = async (): Promise<void> => {
+  const tryPrintPrice = async (): Promise<void | Error> => {
     const [kiwiCoinWorldwide, kiwiCoinEurope, binance, exchangeRate, dasset] =
       await Promise.all([
         fetchKiwiCoinPrice(),
@@ -48,11 +48,11 @@ export const handler = withConfig(async (config) => {
       ])
 
     if (binance instanceof Error) {
-      throw binance
+      return binance
     }
 
     if (exchangeRate instanceof Error) {
-      throw exchangeRate
+      return exchangeRate
     }
 
     console.log(
@@ -64,6 +64,13 @@ export const handler = withConfig(async (config) => {
         dasset,
       ].join(','),
     )
+  }
+
+  const loop = async (): Promise<void> => {
+    const error = await tryPrintPrice()
+    if (error instanceof Error) {
+      console.error(error)
+    }
 
     await setTimeout(5000)
     return loop()

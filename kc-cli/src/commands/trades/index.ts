@@ -1,6 +1,7 @@
 import * as kiwiCoin from '@stayradiated/kiwi-coin-api'
 import { table as printTable } from 'table'
 import { DateTime } from 'luxon'
+import { sort } from 'rambda'
 
 import { withConfig } from '../../utils/with-config.js'
 
@@ -28,10 +29,11 @@ type RowData = {
   type: TradeType | undefined
 }
 
-const sortByDateAsc = (a: RowData, b: RowData): number =>
-  a.date.valueOf() - b.date.valueOf()
+const sortByDateAsc = sort(
+  (a: RowData, b: RowData): number => a.date.valueOf() - b.date.valueOf(),
+)
 
-const calcTotals = (rows: RowData[]): RowData => {
+const calcTotals = (rows: readonly RowData[]): RowData => {
   const sum: RowData = {
     date: DateTime.fromSeconds(0),
     price: 0,
@@ -97,14 +99,19 @@ const formatRow = (row: RowData): string[] => {
 
 export const handler = withConfig(async (config) => {
   const trades = await kiwiCoin.trades(config.kiwiCoin, 'all')
+  if (trades instanceof Error) {
+    console.error(trades)
+    return
+  }
 
-  const rows = trades.map((trade) => toRowData(trade)).sort(sortByDateAsc)
-  const totals = calcTotals(rows)
+  const unsortedRows = trades.map((trade) => toRowData(trade))
+  const rowData = sortByDateAsc(unsortedRows)
+  const totals = calcTotals(rowData)
 
-  const columns = ['date', 'price', 'nzd', 'btc', 'fee', 'bought', 'sold']
+  const headers = ['date', 'price', 'nzd', 'btc', 'fee', 'bought', 'sold']
+  const rows = [...rowData, totals].map((row) => formatRow(row))
 
-  const table = [...rows, totals].map((row) => formatRow(row))
-  table.unshift(columns)
+  const table = [headers, ...rows]
 
   console.log(
     printTable(table, {

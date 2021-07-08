@@ -1,6 +1,7 @@
 import { createHmac } from 'crypto'
 import ky from 'ky-universal'
 import debug from 'debug'
+import { errorBoundary } from '@stayradiated/error-boundary'
 
 const log = debug('kiwi-coin-api')
 
@@ -77,7 +78,8 @@ export type TickerResult = {
   ask: number
 }
 
-const ticker = async (): Promise<TickerResult> => kiwiCoin.get('ticker').json()
+const ticker = async (): Promise<TickerResult | Error> =>
+  errorBoundary(async () => kiwiCoin.get('ticker').json())
 
 export type OrderBookResult = {
   timestamp: string
@@ -85,8 +87,8 @@ export type OrderBookResult = {
   asks: Array<[string, string]>
 }
 
-const orderBook = async (): Promise<OrderBookResult> =>
-  kiwiCoin.get('order_book').json()
+const orderBook = async (): Promise<OrderBookResult | Error> =>
+  errorBoundary(async () => kiwiCoin.get('order_book').json())
 
 export type BalanceResult = {
   nzd_available: string
@@ -99,11 +101,13 @@ export type BalanceResult = {
   mmfee: string
 }
 
-const balance = async (config: Config): Promise<BalanceResult> => {
+const balance = async (config: Config): Promise<BalanceResult | Error> => {
   const endpoint = 'balance'
-  return kiwiCoin
-    .post(endpoint, { body: createSignedBody(config, endpoint) })
-    .json()
+  return errorBoundary(async () =>
+    kiwiCoin
+      .post(endpoint, { body: createSignedBody(config, endpoint) })
+      .json(),
+  )
 }
 
 export type Order = {
@@ -116,11 +120,15 @@ export type Order = {
 
 export type OpenOrdersResult = Order[]
 
-const openOrders = async (config: Config): Promise<OpenOrdersResult> => {
+const openOrders = async (
+  config: Config,
+): Promise<OpenOrdersResult | Error> => {
   const endpoint = 'open_orders'
-  return kiwiCoin
-    .post(endpoint, { body: createSignedBody(config, endpoint) })
-    .json()
+  return errorBoundary(async () =>
+    kiwiCoin
+      .post(endpoint, { body: createSignedBody(config, endpoint) })
+      .json(),
+  )
 }
 
 export type Timeframe = 'minute' | 'hour' | 'day' | 'all'
@@ -139,13 +147,15 @@ export type TradesResult = Array<{
 const trades = async (
   config: Config,
   timeframe: Timeframe,
-): Promise<TradesResult> => {
+): Promise<TradesResult | Error> => {
   const endpoint = 'trades'
-  return kiwiCoin
-    .post(endpoint, {
-      body: createSignedBody(config, endpoint, { timeframe }),
-    })
-    .json()
+  return errorBoundary(async () =>
+    kiwiCoin
+      .post(endpoint, {
+        body: createSignedBody(config, endpoint, { timeframe }),
+      })
+      .json(),
+  )
 }
 
 export type CancelOrderResult = boolean | { error: string }
@@ -153,13 +163,15 @@ export type CancelOrderResult = boolean | { error: string }
 const cancelOrder = async (
   config: Config,
   orderId: number,
-): Promise<CancelOrderResult> => {
+): Promise<CancelOrderResult | Error> => {
   const endpoint = 'cancel_order'
-  return kiwiCoin
-    .post(endpoint, {
-      body: createSignedBody(config, endpoint, { id: orderId.toString() }),
-    })
-    .json()
+  return errorBoundary(async () =>
+    kiwiCoin
+      .post(endpoint, {
+        body: createSignedBody(config, endpoint, { id: orderId.toString() }),
+      })
+      .json(),
+  )
 }
 
 export type TradeOptions = { price: number; amount: number }
@@ -169,16 +181,18 @@ export type BuyResult = Order | { error: string }
 const buy = async (
   config: Config,
   options: TradeOptions,
-): Promise<BuyResult> => {
+): Promise<BuyResult | Error> => {
   const endpoint = 'buy'
-  return kiwiCoin
-    .post(endpoint, {
-      body: createSignedBody(config, endpoint, {
-        price: options.price.toString(),
-        amount: options.amount.toString(),
-      }),
-    })
-    .json()
+  return errorBoundary(async () =>
+    kiwiCoin
+      .post(endpoint, {
+        body: createSignedBody(config, endpoint, {
+          price: options.price.toString(),
+          amount: options.amount.toString(),
+        }),
+      })
+      .json(),
+  )
 }
 
 export type SellResult = Order | { error: string }
@@ -186,16 +200,18 @@ export type SellResult = Order | { error: string }
 const sell = async (
   config: Config,
   options: TradeOptions,
-): Promise<SellResult> => {
+): Promise<SellResult | Error> => {
   const endpoint = 'sell'
-  return kiwiCoin
-    .post(endpoint, {
-      body: createSignedBody(config, endpoint, {
-        price: options.price.toString(),
-        amount: options.amount.toString(),
-      }),
-    })
-    .json()
+  return errorBoundary(async () =>
+    kiwiCoin
+      .post(endpoint, {
+        body: createSignedBody(config, endpoint, {
+          price: options.price.toString(),
+          amount: options.amount.toString(),
+        }),
+      })
+      .json(),
+  )
 }
 
 export enum ExtPriceSource {
@@ -211,15 +227,23 @@ export type ExtPriceResult = {
   price: number
 }
 
-const extPrice = async (options: ExtPriceOptions): Promise<ExtPriceResult> => {
+const extPrice = async (
+  options: ExtPriceOptions,
+): Promise<ExtPriceResult | Error> => {
   const { source } = options
 
-  const price = await kiwiCoin
-    .get('extprice', {
-      prefixUrl: 'https://kiwi-coin.com/',
-      searchParams: { s: source },
-    })
-    .text()
+  const price = await errorBoundary(async () =>
+    kiwiCoin
+      .get('extprice', {
+        prefixUrl: 'https://kiwi-coin.com/',
+        searchParams: { s: source },
+      })
+      .text(),
+  )
+
+  if (price instanceof Error) {
+    return price
+  }
 
   return {
     price: Number.parseFloat(price),
@@ -241,15 +265,21 @@ export type TopOrderPriceResult = {
 
 const topOrderPrice = async (
   options: TopOrderPriceOptions,
-): Promise<TopOrderPriceResult> => {
+): Promise<TopOrderPriceResult | Error> => {
   const { type } = options
 
-  const price = await kiwiCoin
-    .get('extprice', {
-      prefixUrl: 'https://kiwi-coin.com/',
-      searchParams: { s: '-1', t: type },
-    })
-    .text()
+  const price = await errorBoundary(async () =>
+    kiwiCoin
+      .get('extprice', {
+        prefixUrl: 'https://kiwi-coin.com/',
+        searchParams: { s: '-1', t: type },
+      })
+      .text(),
+  )
+
+  if (price instanceof Error) {
+    return price
+  }
 
   return {
     price: Number.parseFloat(price),

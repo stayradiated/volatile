@@ -39,6 +39,7 @@
     "@stayradiated/market-price": "workspace:1.0.0",
     "console-table-printer": "2.9.0",
     "luxon": "1.27.0",
+    "rambda": "6.7.0",
     "table": "6.7.1",
     "yargs": "17.0.1"
   },

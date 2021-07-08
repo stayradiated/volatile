@@ -29,12 +29,16 @@ type CalculateOrderAmountNZDOptions = {
 
 const calculateOrderAmountNZD = async (
   options: CalculateOrderAmountNZDOptions,
-): Promise<number> => {
+): Promise<number | Error> => {
   const { config, dailyGoal } = options
 
   const startDate = DateTime.fromISO('2021-06-15T00:00:00.000+12:00')
 
   const allTrades = await kiwiCoin.trades(config.kiwiCoin, 'all')
+  if (allTrades instanceof Error) {
+    return allTrades
+  }
+
   const trades = allTrades.filter((trade) => {
     const tradeDate = DateTime.fromSeconds(trade.datetime)
     return tradeDate >= startDate
@@ -57,8 +61,12 @@ const calculateOrderAmountNZD = async (
 
 const fetchAvailableNZD = async (
   kiwiCoinConfig: kiwiCoin.Config,
-): Promise<number> => {
+): Promise<number | Error> => {
   const balance = await kiwiCoin.balance(kiwiCoinConfig)
+  if (balance instanceof Error) {
+    return balance
+  }
+
   const availableNZD = Number.parseFloat(balance.nzd_balance)
   return availableNZD
 }
@@ -69,83 +77,96 @@ export const handler = withConfig(async (config, _argv) => {
     config: config.openExchangeRates,
   })
 
+  const tryAutoBuy = async (): Promise<void | Error> => {
+    // Should really be done concurrently, but kiwi-coin.com often returns a 401?
+    const availableNZD = await fetchAvailableNZD(config.kiwiCoin)
+    if (availableNZD instanceof Error) {
+      return availableNZD
+    }
+
+    const goalAmountNZD = await calculateOrderAmountNZD({
+      config,
+      dailyGoal: 100,
+    })
+    if (goalAmountNZD instanceof Error) {
+      return goalAmountNZD
+    }
+
+    const amountNZD = Math.min(goalAmountNZD, availableNZD)
+
+    if (amountNZD <= 0) {
+      console.log('Have reached daily goal, passing...')
+    } else {
+      const [binanceRate, exchangeRate, orderBook, existingOrders] =
+        await Promise.all([
+          fetchBinancePrice(),
+          fetchExchangeRate(),
+          kiwiCoin.orderBook(),
+          kiwiCoin.openOrders(config.kiwiCoin),
+        ])
+
+      if (binanceRate instanceof Error) {
+        return binanceRate
+      }
+
+      if (exchangeRate instanceof Error) {
+        return exchangeRate
+      }
+
+      if (orderBook instanceof Error) {
+        return orderBook
+      }
+
+      if (existingOrders instanceof Error) {
+        return existingOrders
+      }
+
+      const marketPrice = binanceRate * exchangeRate
+
+      const offsetPercent = -1.5
+      let orderPrice = round(2, marketPrice * ((offsetPercent + 100) / 100))
+
+      const lowestAsk = orderBook.asks[0]
+      if (lowestAsk) {
+        const lowestAskPrice = Number.parseFloat(lowestAsk[0])
+        if (orderPrice > lowestAskPrice) {
+          console.log('Lowering bid price to just below lowest ask price')
+          orderPrice = lowestAskPrice - 0.01
+        }
+      }
+
+      const amountBTC = round(8, amountNZD / orderPrice)
+      if (amountBTC < MINIMUM_BTC_BID) {
+        console.log(
+          `Bid amount is below MINIMUM_BTC_BID: ${amountBTC}/${MINIMUM_BTC_BID}`,
+        )
+      } else {
+        await Promise.all(
+          existingOrders.map(async (order) =>
+            kiwiCoin.cancelOrder(config.kiwiCoin, order.id),
+          ),
+        )
+
+        await kiwiCoin.buy(config.kiwiCoin, {
+          price: orderPrice,
+          amount: amountBTC,
+        })
+
+        console.dir({
+          marketPrice,
+          offsetPercent,
+          orderPrice,
+          amountNZD,
+          amountBTC,
+        })
+      }
+    }
+  }
+
   const loop = async (): Promise<void> => {
-    try {
-      // Should really be done concurrently, but kiwi-coin.com often returns a 401?
-      const availableNZD = await fetchAvailableNZD(config.kiwiCoin)
-      const goalAmountNZD = await calculateOrderAmountNZD({
-        config,
-        dailyGoal: 100,
-      })
-
-      const amountNZD = Math.min(goalAmountNZD, availableNZD)
-
-      if (amountNZD <= 0) {
-        console.log('Have reached daily goal, passing...')
-      } else {
-        const [binanceRate, exchangeRate, orderBook, existingOrders] =
-          await Promise.all([
-            fetchBinancePrice(),
-            fetchExchangeRate(),
-            kiwiCoin.orderBook(),
-            kiwiCoin.openOrders(config.kiwiCoin),
-          ])
-
-        if (binanceRate instanceof Error) {
-          throw binanceRate
-        }
-
-        if (exchangeRate instanceof Error) {
-          throw exchangeRate
-        }
-
-        const marketPrice = binanceRate * exchangeRate
-
-        const offsetPercent = -1.5
-        let orderPrice = round(2, marketPrice * ((offsetPercent + 100) / 100))
-
-        const lowestAsk = orderBook.asks[0]
-        if (lowestAsk) {
-          const lowestAskPrice = Number.parseFloat(lowestAsk[0])
-          if (orderPrice > lowestAskPrice) {
-            console.log('Lowering bid price to just below lowest ask price')
-            orderPrice = lowestAskPrice - 0.01
-          }
-        }
-
-        const amountBTC = round(8, amountNZD / orderPrice)
-        if (amountBTC < MINIMUM_BTC_BID) {
-          console.log(
-            `Bid amount is below MINIMUM_BTC_BID: ${amountBTC}/${MINIMUM_BTC_BID}`,
-          )
-        } else {
-          await Promise.all(
-            existingOrders.map(async (order) =>
-              kiwiCoin.cancelOrder(config.kiwiCoin, order.id),
-            ),
-          )
-
-          await kiwiCoin.buy(config.kiwiCoin, {
-            price: orderPrice,
-            amount: amountBTC,
-          })
-
-          console.dir({
-            marketPrice,
-            offsetPercent,
-            orderPrice,
-            amountNZD,
-            amountBTC,
-          })
-        }
-      }
-    } catch (error: unknown) {
-      if (error instanceof Error) {
-        console.error(error.message)
-        console.error(error.stack)
-      } else {
-        console.error('Unknown error...')
-      }
+    const error = await tryAutoBuy()
+    if (error) {
+      console.error(error)
     }
 
     await setTimeout(5 * 60 * 1000)

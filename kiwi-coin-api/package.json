@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/stayradiated/kc#readme",
   "dependencies": {
+    "@stayradiated/error-boundary": "1.0.0",
     "debug": "4.3.1",
     "ky": "0.28.5",
     "ky-universal": "0.9.1"

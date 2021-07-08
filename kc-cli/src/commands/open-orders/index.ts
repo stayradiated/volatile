@@ -11,5 +11,9 @@ export const builder = {}
 
 export const handler = withConfig(async (config) => {
   const openOrders = await kiwiCoin.openOrders(config.kiwiCoin)
-  printTable(openOrders)
+  if (openOrders instanceof Error) {
+    console.error(openOrders)
+  } else {
+    printTable(openOrders)
+  }
 })
