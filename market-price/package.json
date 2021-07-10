@@ -32,15 +32,15 @@
   "dependencies": {
     "@stayradiated/error-boundary": "1.0.0",
     "@stayradiated/kiwi-coin-api": "workspace:1.0.1",
-    "debug": "4.3.1",
+    "debug": "4.3.2",
     "ky": "0.28.5",
     "ky-universal": "0.9.1",
-    "luxon": "1.27.0"
+    "luxon": "1.28.0"
   },
   "devDependencies": {
     "@stayradiated/jsconfig": "1.14.0",
     "@types/debug": "4.1.6",
-    "@types/luxon": "1.27.0",
+    "@types/luxon": "1.27.1",
     "ava": "3.15.0",
     "del-cli": "4.0.0",
     "eslint-plugin-fp": "2.3.0",

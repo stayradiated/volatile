@@ -24,14 +24,15 @@
   "homepage": "https://github.com/stayradiated/kc#readme",
   "dependencies": {
     "@stayradiated/error-boundary": "1.0.0",
-    "debug": "4.3.1",
+    "debug": "4.3.2",
     "ky": "0.28.5",
-    "ky-universal": "0.9.1"
+    "ky-universal": "0.9.1",
+    "luxon": "1.28.0"
   },
   "devDependencies": {
     "@stayradiated/jsconfig": "1.14.0",
     "@types/debug": "4.1.6",
-    "@types/node": "15.14.0",
+    "@types/node": "16.3.1",
     "ava": "3.15.0",
     "del-cli": "4.0.0",
     "eslint-plugin-fp": "2.3.0",

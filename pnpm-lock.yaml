@@ -8,14 +8,14 @@ importers:
       '@stayradiated/kc-config': workspace:1.0.0
       '@stayradiated/kiwi-coin-api': workspace:1.0.1
       '@stayradiated/market-price': workspace:1.0.0
-      '@types/luxon': 1.27.0
-      '@types/yargs': 17.0.0
+      '@types/luxon': 1.27.1
+      '@types/yargs': 17.0.2
       '@vercel/ncc': 0.28.6
       ava: 3.15.0
       console-table-printer: 2.9.0
       del-cli: 4.0.0
       eslint-plugin-fp: 2.3.0
-      luxon: 1.27.0
+      luxon: 1.28.0
       rambda: 6.7.0
       table: 6.7.1
       typescript: 4.3.5
@@ -26,14 +26,14 @@ importers:
       '@stayradiated/kiwi-coin-api': link:../kiwi-coin-api
       '@stayradiated/market-price': link:../market-price
       console-table-printer: 2.9.0
-      luxon: 1.27.0
+      luxon: 1.28.0
       rambda: 6.7.0
       table: 6.7.1
       yargs: 17.0.1
     devDependencies:
       '@stayradiated/jsconfig': 1.14.0
-      '@types/luxon': 1.27.0
-      '@types/yargs': 17.0.0
+      '@types/luxon': 1.27.1
+      '@types/yargs': 17.0.2
       '@vercel/ncc': 0.28.6
       ava: 3.15.0
       del-cli: 4.0.0
@@ -91,9 +91,9 @@ importers:
       '@stayradiated/kiwi-coin-api': workspace:1.0.1
       '@stayradiated/market-price': workspace:1.0.0
       '@types/bcrypt': 5.0.0
-      '@types/luxon': 1.27.0
-      '@types/pg': 8.6.0
-      '@types/uuid': 8.3.0
+      '@types/luxon': 1.27.1
+      '@types/pg': 8.6.1
+      '@types/uuid': 8.3.1
       '@vercel/ncc': 0.28.6
       ava: 3.15.0
       bcrypt: 5.0.1
@@ -101,7 +101,7 @@ importers:
       dotenv: 10.0.0
       env-var: 7.0.1
       eslint-plugin-fp: 2.3.0
-      luxon: 1.27.0
+      luxon: 1.28.0
       mem: 8.1.1
       pg: 8.6.0
       typescript: 4.3.5
@@ -115,17 +115,17 @@ importers:
       bcrypt: 5.0.1
       dotenv: 10.0.0
       env-var: 7.0.1
-      luxon: 1.27.0
+      luxon: 1.28.0
       mem: 8.1.1
       pg: 8.6.0
       uuid: 8.3.2
-      zapatos: 5.0.0_f495a456e62446569ecb4861b1ae74f0
+      zapatos: 5.0.0_5422b3f4638d9e955d8a96498713115e
     devDependencies:
       '@stayradiated/jsconfig': 1.14.0
       '@types/bcrypt': 5.0.0
-      '@types/luxon': 1.27.0
-      '@types/pg': 8.6.0
-      '@types/uuid': 8.3.0
+      '@types/luxon': 1.27.1
+      '@types/pg': 8.6.1
+      '@types/uuid': 8.3.1
       '@vercel/ncc': 0.28.6
       ava: 3.15.0
       del-cli: 4.0.0
@@ -138,25 +138,27 @@ importers:
       '@stayradiated/error-boundary': 1.0.0
       '@stayradiated/jsconfig': 1.14.0
       '@types/debug': 4.1.6
-      '@types/node': 15.14.0
+      '@types/node': 16.3.1
       ava: 3.15.0
-      debug: 4.3.1
+      debug: 4.3.2
       del-cli: 4.0.0
       eslint-plugin-fp: 2.3.0
       ky: 0.28.5
       ky-universal: 0.9.1
+      luxon: 1.28.0
       nock: 13.1.1
       typescript: 4.3.5
       xo: 0.41.0
     dependencies:
       '@stayradiated/error-boundary': 1.0.0
-      debug: 4.3.1
+      debug: 4.3.2
       ky: 0.28.5
       ky-universal: 0.9.1_ky@0.28.5
+      luxon: 1.28.0
     devDependencies:
       '@stayradiated/jsconfig': 1.14.0
       '@types/debug': 4.1.6
-      '@types/node': 15.14.0
+      '@types/node': 16.3.1
       ava: 3.15.0
       del-cli: 4.0.0
       eslint-plugin-fp: 2.3.0
@@ -170,27 +172,27 @@ importers:
       '@stayradiated/jsconfig': 1.14.0
       '@stayradiated/kiwi-coin-api': workspace:1.0.1
       '@types/debug': 4.1.6
-      '@types/luxon': 1.27.0
+      '@types/luxon': 1.27.1
       ava: 3.15.0
-      debug: 4.3.1
+      debug: 4.3.2
       del-cli: 4.0.0
       eslint-plugin-fp: 2.3.0
       ky: 0.28.5
       ky-universal: 0.9.1
-      luxon: 1.27.0
+      luxon: 1.28.0
       typescript: 4.3.5
       xo: 0.41.0
     dependencies:
       '@stayradiated/error-boundary': 1.0.0
       '@stayradiated/kiwi-coin-api': link:../kiwi-coin-api
-      debug: 4.3.1
+      debug: 4.3.2
       ky: 0.28.5
       ky-universal: 0.9.1_ky@0.28.5
-      luxon: 1.27.0
+      luxon: 1.28.0
     devDependencies:
       '@stayradiated/jsconfig': 1.14.0
       '@types/debug': 4.1.6
-      '@types/luxon': 1.27.0
+      '@types/luxon': 1.27.1
       ava: 3.15.0
       del-cli: 4.0.0
       eslint-plugin-fp: 2.3.0
@@ -584,8 +586,8 @@ packages:
     resolution: {integrity: sha1-7ihweulOEdK4J7y+UnC86n8+ce4=}
     dev: true
 
-  /@types/luxon/1.27.0:
-    resolution: {integrity: sha512-rr2lNXsErnA/ARtgFn46NtQjUa66cuwZYeo/2K7oqqxhJErhXgHBPyNKCo+pfOC3L7HFwtao8ebViiU9h4iAxA==}
+  /@types/luxon/1.27.1:
+    resolution: {integrity: sha512-cPiXpOvPFDr2edMnOXlz3UBDApwUfR+cpizvxCy0n3vp9bz/qe8BWzHPIEFcy+ogUOyjKuCISgyq77ELZPmkkg==}
     dev: true
 
   /@types/minimatch/3.0.4:
@@ -596,16 +598,12 @@ packages:
     resolution: {integrity: sha512-fZQQafSREFyuZcdWFAExYjBiCL7AUCdgsk80iO0q4yihYYdcIiH28CcuPTGFgLOCC8RlW49GSQxdHwZP+I7CNg==}
     dev: true
 
-  /@types/node/15.12.3:
-    resolution: {integrity: sha512-SNt65CPCXvGNDZ3bvk1TQ0Qxoe3y1RKH88+wZ2Uf05dduBCqqFQ76ADP9pbT+Cpvj60SkRppMCh2Zo8tDixqjQ==}
-    dev: true
-
-  /@types/node/15.14.0:
-    resolution: {integrity: sha512-um/+/ip3QZmwLfIkWZSNtQIJNVAqrJ92OkLMeuZrjZMTAJniI7fh8N8OICyDhAJ2mzgk/fmYFo72jRr5HyZ1EQ==}
-    dev: true
-
   /@types/node/16.0.0:
     resolution: {integrity: sha512-TmCW5HoZ2o2/z2EYi109jLqIaPIi9y/lc2LmDCWzuCi35bcaQ+OtUh6nwBiFK7SOu25FAU5+YKdqFZUwtqGSdg==}
+    dev: true
+
+  /@types/node/16.3.1:
+    resolution: {integrity: sha512-N87VuQi7HEeRJkhzovao/JviiqKjDKMVKxKMfUvSKw+MbkbW8R0nA3fi/MQhhlxV2fQ+2ReM+/Nt4efdrJx3zA==}
     dev: true
 
   /@types/normalize-package-data/2.4.0:
@@ -616,24 +614,24 @@ packages:
     resolution: {integrity: sha512-//oorEZjL6sbPcKUaCdIGlIUeH26mgzimjBB77G6XRgnDl/L5wOnpyBGRe/Mmf5CVW3PwEBE1NjiMZ/ssFh4wA==}
     dev: true
 
-  /@types/pg/8.6.0:
-    resolution: {integrity: sha512-3JXFrsl8COoqVB1+2Pqelx6soaiFVXzkT3fkuSNe7GB40ysfT0FHphZFPiqIXpMyTHSFRdLTyZzrFBrJRPAArA==}
+  /@types/pg/8.6.1:
+    resolution: {integrity: sha512-1Kc4oAGzAl7uqUStZCDvaLFqZrW9qWSjXOmBfdgyBP5La7Us6Mg4GBvRlSoaZMhQF/zSj1C8CtKMBkoiT8eL8w==}
     dependencies:
-      '@types/node': 15.12.3
+      '@types/node': 16.3.1
       pg-protocol: 1.5.0
       pg-types: 2.2.0
     dev: true
 
-  /@types/uuid/8.3.0:
-    resolution: {integrity: sha512-eQ9qFW/fhfGJF8WKHGEHZEyVWfZxrT+6CLIJGBcZPfxUh/+BnEj+UCGYMlr9qZuX/2AltsvwrGqp0LhEW8D0zQ==}
+  /@types/uuid/8.3.1:
+    resolution: {integrity: sha512-Y2mHTRAbqfFkpjldbkHGY8JIzRN6XqYRliG8/24FcHm2D2PwW24fl5xMRTVGdrb7iMrwCaIEbLWerGIkXuFWVg==}
     dev: true
 
   /@types/yargs-parser/20.2.0:
     resolution: {integrity: sha512-37RSHht+gzzgYeobbG+KWryeAW8J33Nhr69cjTqSYymXVZEN9NbRYWoYlRtDhHKPVT1FyNKwaTPC1NynKZpzRA==}
     dev: true
 
-  /@types/yargs/17.0.0:
-    resolution: {integrity: sha512-RS7u2X7vdXjVQs160PWY1pjLBw6GJj04utojn0KU8p2rRZR37FSzzK6XOT+KLzT/DVbDYRyezroc0LHIvM5Z2A==}
+  /@types/yargs/17.0.2:
+    resolution: {integrity: sha512-JhZ+pNdKMfB0rXauaDlrIvm+U7V4m03PPOSVoPS66z8gf+G4Z/UW8UlrVIj2MRQOBzuoEvYtjS0bqYwnpZaS9Q==}
     dependencies:
       '@types/yargs-parser': 20.2.0
     dev: true
@@ -1596,6 +1594,7 @@ packages:
         optional: true
     dependencies:
       ms: 2.1.2
+    dev: true
 
   /debug/4.3.2:
     resolution: {integrity: sha512-mOp8wKcvj7XxC78zLgw/ZA+6TSgkoE2C/ienthhRD298T7UNwAg9diBpLRxC0mOezLl4B0xV7M0cCO6P/O0Xhw==}
@@ -3541,8 +3540,8 @@ packages:
     dependencies:
       yallist: 4.0.0
 
-  /luxon/1.27.0:
-    resolution: {integrity: sha512-VKsFsPggTA0DvnxtJdiExAucKdAnwbCCNlMM5ENvHlxubqWd0xhZcdb4XgZ7QFNhaRhilXCFxHuoObP5BNA4PA==}
+  /luxon/1.28.0:
+    resolution: {integrity: sha512-TfTiyvZhwBYM/7QdAVDh+7dBTBA29v4ik0Ce9zda3Mnf8on1S5KJI8P2jKFZ8+5C0jhmr0KwJEO/Wdpm0VeWJQ==}
     dev: false
 
   /make-dir/2.1.0:
@@ -5491,7 +5490,7 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
-  /zapatos/5.0.0_f495a456e62446569ecb4861b1ae74f0:
+  /zapatos/5.0.0_5422b3f4638d9e955d8a96498713115e:
     resolution: {integrity: sha512-N/u/HQNcNLjL09DcV27V16iDIBs+cR9UfOkeWKK67kII8mbpSHHg0hZrmMymdYnwy9ioJ4Pdm5QhpNNF0/AZBA==}
     hasBin: true
     requiresBuild: true
@@ -5500,7 +5499,7 @@ packages:
       pg: '>=7.18.2'
       typescript: '>=4.1'
     dependencies:
-      '@types/pg': 8.6.0
+      '@types/pg': 8.6.1
       pg: 8.6.0
       typescript: 4.3.5
     dev: false

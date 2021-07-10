@@ -38,15 +38,15 @@
     "@stayradiated/kiwi-coin-api": "workspace:1.0.1",
     "@stayradiated/market-price": "workspace:1.0.0",
     "console-table-printer": "2.9.0",
-    "luxon": "1.27.0",
+    "luxon": "1.28.0",
     "rambda": "6.7.0",
     "table": "6.7.1",
     "yargs": "17.0.1"
   },
   "devDependencies": {
     "@stayradiated/jsconfig": "1.14.0",
-    "@types/luxon": "1.27.0",
-    "@types/yargs": "17.0.0",
+    "@types/luxon": "1.27.1",
+    "@types/yargs": "17.0.2",
     "@vercel/ncc": "0.28.6",
     "ava": "3.15.0",
     "del-cli": "4.0.0",

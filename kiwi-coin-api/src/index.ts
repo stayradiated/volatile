@@ -3,6 +3,8 @@ import ky from 'ky-universal'
 import debug from 'debug'
 import { errorBoundary } from '@stayradiated/error-boundary'
 
+import * as privateAPI from './private/index.js'
+
 const log = debug('kiwi-coin-api')
 
 export type Config = {
@@ -110,10 +112,15 @@ const balance = async (config: Config): Promise<BalanceResult | Error> => {
   )
 }
 
+export enum OrderType {
+  buy = 0,
+  sell = 1,
+}
+
 export type Order = {
   price: string
   amount: string
-  type: 0 | 1
+  type: OrderType
   id: number
   datetime: string
 }
@@ -297,4 +304,5 @@ export {
   sell,
   extPrice,
   topOrderPrice,
+  privateAPI,
 }
