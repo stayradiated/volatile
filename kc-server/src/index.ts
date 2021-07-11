@@ -3,7 +3,7 @@ import createFastify from 'fastify'
 
 import { CONFIG_PATH, PORT } from './env.js'
 import pool from './pg-pool.js'
-import { fetchMarketPrice } from './components/market-price/index.js'
+// import { fetchMarketPrice } from './components/market-price/index.js'
 // Import { initAutoBuy } from './components/auto-buy/index.js'
 
 import type { ComponentProps } from './types.js'
@@ -13,10 +13,13 @@ const fastify = createFastify({
 })
 
 fastify.post('/users', async (request, reply) => {
-  await reply.send(request.body)
+  console.log(request.body)
+  await reply.send({
+    accessToken: "hello"
+  })
 })
 
-fastify.listen(PORT)
+fastify.listen(PORT, '0.0.0.0')
 
 void (async function () {
   const config = await readConfig(CONFIG_PATH)
@@ -31,8 +34,10 @@ void (async function () {
     pool,
   }
 
+  console.log(props)
+
   await Promise.all([
-    fetchMarketPrice(props),
+    // fetchMarketPrice(props),
     // , initAutoBuy(props)
   ])
 })()

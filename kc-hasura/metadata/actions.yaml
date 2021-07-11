@@ -2,7 +2,7 @@ actions:
 - name: actionName
   definition:
     kind: synchronous
-    handler: http://localhost:3000/users
+    handler: '{{HASURA_ACTIONS_ENDPOINT}}/users'
 custom_types:
   enums: []
   input_objects:
