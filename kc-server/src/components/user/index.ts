@@ -1,11 +1,12 @@
-import bcrypt from 'bcrypt'
 import { v4 as genUID } from 'uuid'
 import * as db from 'zapatos/db'
 import type * as s from 'zapatos/schema'
+import { errorBoundary } from '@stayradiated/error-boundary'
+
+import { keyring } from '../../utils/keyring.js'
+import * as hash from '../../utils/hash.js'
 
 import type { Pool } from '../../types.js'
-
-const BCRYPT_SALT_ROUNDS = 10
 
 type CreateUserOptions = {
   email: string
@@ -15,12 +16,15 @@ type CreateUserOptions = {
 const createUser = async (
   pool: Pool,
   options: CreateUserOptions,
-): Promise<true | Error> => {
+): Promise<{ uid: string } | Error> => {
   const { email, password } = options
 
-  // Bcrypt that password!
-  // encrypt those emails!
-  const [emailEncrypted, emailHash] = [email, 'hash']
+  const emailEncrypted = keyring.encrypt(email)
+  if (emailEncrypted instanceof Error) {
+    return emailEncrypted
+  }
+
+  const emailHash = hash.sha256(email)
 
   const [existsRow] = await db.sql<s.user.SQL, Array<{ exists: boolean }>>`
     SELECT EXISTS(
@@ -31,25 +35,32 @@ const createUser = async (
     return new Error('Could not create user, email already exists in DB.')
   }
 
-  const passwordHash = await bcrypt.hash(password, BCRYPT_SALT_ROUNDS)
+  const passwordHash = await hash.bcrypt(password)
 
+  const uid = genUID()
   const now = new Date()
 
-  const insert = {
-    uid: genUID(),
+  const insert: s.user.Insertable = {
+    uid,
     created_at: now,
     updated_at: now,
-    email_encrypted: emailEncrypted,
+    email_keyring_id: emailEncrypted.keyringId,
+    email_encrypted: emailEncrypted.encrypted,
     email_hash: emailHash,
     password_hash: passwordHash,
   }
 
-  await db.sql<s.user.SQL>`
+  const error = await errorBoundary(async () =>
+    db.sql<s.user.SQL>`
     INSERT INTO ${'user'} (${db.cols(insert)})
     VALUES (${db.vals(insert)})
-  `.run(pool)
+  `.run(pool),
+  )
+  if (error instanceof Error) {
+    return error
+  }
 
-  return true
+  return { uid }
 }
 
 export { createUser }

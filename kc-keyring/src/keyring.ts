@@ -15,7 +15,10 @@ type KeyringOptions = {
   algorithm?: Algorithm
 }
 
-type EncryptResult = [string, number]
+type EncryptResult = {
+  encrypted: string
+  keyringId: number
+}
 
 type Keyring = {
   encrypt: (message: string) => EncryptResult | Error
@@ -87,7 +90,7 @@ const encrypt = (
   const hmac = hmacDigest(key.signingKey, Buffer.concat([iv, encrypted]))
   const returnValue = Buffer.concat([hmac, iv, encrypted]).toString('base64')
 
-  return [returnValue, key.id]
+  return { encrypted: returnValue, keyringId: key.id }
 }
 
 const decrypt = (

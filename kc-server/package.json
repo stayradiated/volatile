@@ -6,8 +6,9 @@
   "exports": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "pretest": "./bin/dbmate -e TEST_DATABASE_URL drop && ./bin/dbmate -e TEST_DATABASE_URL --no-dump-schema up",
-    "test": "NODE_ENV=test ava --node-arguments='--require dotenv/config'",
+    "dbmate": "./bin/dbmate -e DB_URL",
+    "pretest": "./bin/dbmate -e TEST_DB_URL drop && ./bin/dbmate -e TEST_DB_URL --no-dump-schema up",
+    "test": "pnpm pretest && NODE_ENV=test ava --node-arguments='--require dotenv/config'",
     "tidy": "xo --fix --ignore ./src/zapatos",
     "build": "del-cli dist && tsc",
     "build:zapatos": "zapatos",
@@ -46,7 +47,9 @@
     "xo": "0.41.0"
   },
   "dependencies": {
+    "@stayradiated/error-boundary": "1.0.0",
     "@stayradiated/kc-config": "workspace:1.0.0",
+    "@stayradiated/kc-keyring": "workspace:1.0.0",
     "@stayradiated/kiwi-coin-api": "workspace:1.0.1",
     "@stayradiated/market-price": "workspace:1.0.0",
     "bcrypt": "5.0.1",

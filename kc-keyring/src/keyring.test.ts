@@ -24,7 +24,7 @@ test('encrypts property using AES-128-CBC', (t) => {
 
   const encryptResult = keyring.encrypt('42') as EncryptResult
 
-  const [encrypted, keyringId] = encryptResult
+  const { encrypted, keyringId } = encryptResult
   const decrypted = keyring.decrypt(encrypted, keyringId)
 
   t.not(encrypted, undefined)
@@ -40,7 +40,7 @@ test('encrypts property using AES-192-CBC', (t) => {
 
   const keyring = createKeyring(keys, options) as Keyring
 
-  const [encrypted, keyringId] = keyring.encrypt('42') as EncryptResult
+  const { encrypted, keyringId } = keyring.encrypt('42') as EncryptResult
   const decrypted = keyring.decrypt(encrypted, keyringId)
 
   t.not(encrypted, undefined)
@@ -55,7 +55,7 @@ test('encrypts property using AES-256-CBC', (t) => {
   const options = { algorithm: 'AES-256-CBC' }
 
   const keyring = createKeyring(keys, options) as Keyring
-  const [encrypted, keyringId] = keyring.encrypt('42') as EncryptResult
+  const { encrypted, keyringId } = keyring.encrypt('42') as EncryptResult
   const decrypted = keyring.decrypt(encrypted, keyringId)
 
   t.not(encrypted, undefined)
@@ -68,11 +68,11 @@ test('sets keyring id', (t) => {
 
   const keyringA = createKeyring({ 0: key }) as Keyring
 
-  const [, keyringIdA] = keyringA.encrypt('42') as EncryptResult
+  const { keyringId: keyringIdA } = keyringA.encrypt('42') as EncryptResult
   t.is(keyringIdA, 0)
 
   const keyringB = createKeyring({ 1: key }) as Keyring
-  const [, keyringIdB] = keyringB.encrypt('42') as EncryptResult
+  const { keyringId: keyringIdB } = keyringB.encrypt('42') as EncryptResult
   t.is(keyringIdB, 1)
 })
 

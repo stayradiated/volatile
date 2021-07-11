@@ -86,8 +86,10 @@ importers:
 
   kc-server:
     specifiers:
+      '@stayradiated/error-boundary': 1.0.0
       '@stayradiated/jsconfig': 1.14.0
       '@stayradiated/kc-config': workspace:1.0.0
+      '@stayradiated/kc-keyring': workspace:1.0.0
       '@stayradiated/kiwi-coin-api': workspace:1.0.1
       '@stayradiated/market-price': workspace:1.0.0
       '@types/bcrypt': 5.0.0
@@ -109,7 +111,9 @@ importers:
       xo: 0.41.0
       zapatos: 5.0.0
     dependencies:
+      '@stayradiated/error-boundary': 1.0.0
       '@stayradiated/kc-config': link:../kc-config
+      '@stayradiated/kc-keyring': link:../kc-keyring
       '@stayradiated/kiwi-coin-api': link:../kiwi-coin-api
       '@stayradiated/market-price': link:../market-price
       bcrypt: 5.0.1

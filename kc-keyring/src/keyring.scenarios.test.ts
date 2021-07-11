@@ -41,7 +41,7 @@ const scenario = {
       keys[scenario.key.id] = scenario.key.value
       const keyring = createKeyring(keys, { algorithm }) as Keyring
 
-      const [encrypted, keyringId] = keyring.encrypt(
+      const { encrypted, keyringId } = keyring.encrypt(
         scenario.input,
       ) as EncryptResult
       t.is(keyringId, scenario.encrypted.keyring_id)
@@ -75,7 +75,7 @@ const scenario = {
       const keyring = createKeyring(keys, { algorithm }) as Keyring
 
       {
-        const [encrypted, keyringId] = keyring.encrypt(
+        const { encrypted, keyringId } = keyring.encrypt(
           scenario.input,
         ) as EncryptResult
         t.is(keyringId, scenario.encrypted.keyring_id)
@@ -83,7 +83,7 @@ const scenario = {
       }
 
       {
-        const [encrypted, keyringId] = keyring.encrypt(
+        const { encrypted, keyringId } = keyring.encrypt(
           scenario.update.input,
         ) as EncryptResult
         t.is(keyringId, scenario.update.encrypted.keyring_id)
@@ -104,7 +104,7 @@ const scenario = {
 
       {
         const keyring = createKeyring(keys, { algorithm }) as Keyring
-        const [encrypted, keyringId] = keyring.encrypt(
+        const { encrypted, keyringId } = keyring.encrypt(
           scenario.input,
         ) as EncryptResult
         t.is(keyringId, scenario.encrypted.keyring_id)
@@ -115,7 +115,7 @@ const scenario = {
 
       {
         const keyring = createKeyring(keys, { algorithm }) as Keyring
-        const [encrypted, keyringId] = keyring.encrypt(
+        const { encrypted, keyringId } = keyring.encrypt(
           scenario.input,
         ) as EncryptResult
         t.is(keyringId, scenario.rotate.encrypted.keyring_id)

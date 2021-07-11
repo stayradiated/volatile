@@ -33,10 +33,10 @@ test('createKeyringFromFilepath', async (t) => {
     return
   }
 
-  const [altEncryptedMessage, keyId] = encryptResult
+  const { encrypted: altEncryptedMessage, keyringId } = encryptResult
   t.is(altEncryptedMessage.length, 408)
-  t.is(keyId, 1)
+  t.is(keyringId, 1)
 
-  const altMessage = keyring.decrypt(altEncryptedMessage, keyId)
+  const altMessage = keyring.decrypt(altEncryptedMessage, keyringId)
   t.is(altMessage, message)
 })

@@ -18,4 +18,10 @@ const createKeyringFromFilepath = async (
   return keyring
 }
 
-export { createKeyring, createKeyringFromFilepath, Keyring }
+export {
+  createKeyring,
+  createKeyringFromFilepath,
+  Keyring,
+  UserKeys,
+  Algorithm,
+}
