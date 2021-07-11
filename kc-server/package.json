@@ -47,7 +47,7 @@
     "xo": "0.41.0"
   },
   "dependencies": {
-    "@stayradiated/error-boundary": "1.0.0",
+    "@stayradiated/error-boundary": "1.1.0",
     "@stayradiated/kc-config": "workspace:1.0.0",
     "@stayradiated/kc-keyring": "workspace:1.0.0",
     "@stayradiated/kiwi-coin-api": "workspace:1.0.1",
@@ -56,7 +56,7 @@
     "dotenv": "10.0.0",
     "env-var": "7.0.1",
     "luxon": "1.28.0",
-    "mem": "8.1.1",
+    "p-memoize": "4.0.1",
     "pg": "8.6.0",
     "uuid": "8.3.2",
     "zapatos": "5.0.0"

@@ -1,7 +1,8 @@
-import mem from 'mem'
+import pmem from 'p-memoize'
 import { v4 as genUID } from 'uuid'
 import * as db from 'zapatos/db'
 import type * as s from 'zapatos/schema'
+import { throwIfError } from '@stayradiated/error-boundary'
 
 import type { Pool } from '../../types.js'
 
@@ -33,7 +34,7 @@ const EASY_CRYPTO: Market = {
 const forceGetMarketUID = async (
   pool: Pool,
   market: Market,
-): Promise<string> => {
+): Promise<string | Error> => {
   const insert: s.market.Insertable = {
     uid: genUID(),
     created_at: new Date(),
@@ -52,15 +53,20 @@ const forceGetMarketUID = async (
     RETURNING uid
   `.run(pool)
 
-  const row = rows[0] as { uid: string }
+  const row = rows[0]
   if (!row) {
-    throw new Error('forceGetMarketUID received 0 rows')
+    return new Error('forceGetMarketUID received 0 rows')
   }
 
   return row.uid
 }
 
-const getMarketUID = mem(forceGetMarketUID, {
+const forceGetMarketUIDOrThrow = async (
+  pool: Pool,
+  market: Market,
+): Promise<string> => throwIfError<string>(forceGetMarketUID(pool, market))
+
+const getMarketUID = pmem(forceGetMarketUIDOrThrow, {
   cacheKey: ([_, market]) => market,
 })
 

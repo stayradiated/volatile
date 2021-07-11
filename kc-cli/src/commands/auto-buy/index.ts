@@ -7,7 +7,7 @@ import {
   currencySources,
 } from '@stayradiated/market-price'
 
-import { withConfig, Config } from '../../utils/with-config.js'
+import { createHandler, Config } from '../../utils/create-handler.js'
 
 export const command = 'auto-buy'
 
@@ -71,7 +71,7 @@ const fetchAvailableNZD = async (
   return availableNZD
 }
 
-export const handler = withConfig(async (config, _argv) => {
+export const handler = createHandler(async (config) => {
   const fetchBinancePrice = createCachedFetchFn(marketPriceSources.binance, {})
   const fetchExchangeRate = createCachedFetchFn(currencySources.USD_NZD, {
     config: config.openExchangeRates,
@@ -124,15 +124,20 @@ export const handler = withConfig(async (config, _argv) => {
       const marketPrice = binanceRate * exchangeRate
 
       const offsetPercent = -1.5
-      let orderPrice = round(2, marketPrice * ((offsetPercent + 100) / 100))
+      const maxOrderPrice = round(
+        2,
+        marketPrice * ((offsetPercent + 100) / 100),
+      )
 
       const lowestAsk = orderBook.asks[0]
-      if (lowestAsk) {
-        const lowestAskPrice = Number.parseFloat(lowestAsk[0])
-        if (orderPrice > lowestAskPrice) {
-          console.log('Lowering bid price to just below lowest ask price')
-          orderPrice = lowestAskPrice - 0.01
-        }
+      const lowestAskPrice = lowestAsk
+        ? Number.parseFloat(lowestAsk[0])
+        : Number.POSITIVE_INFINITY
+
+      const orderPrice =
+        maxOrderPrice > lowestAskPrice ? lowestAskPrice - 0.01 : maxOrderPrice
+      if (orderPrice !== maxOrderPrice) {
+        console.log('Lowering bid price to just below lowest ask price')
       }
 
       const amountBTC = round(8, amountNZD / orderPrice)

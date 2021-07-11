@@ -1,7 +1,7 @@
 import { Argv } from 'yargs'
 import * as kiwiCoin from '@stayradiated/kiwi-coin-api'
 
-import { withConfig } from '../../utils/with-config.js'
+import { createHandler } from '../../utils/create-handler.js'
 
 export const command = 'cancel-order'
 
@@ -17,7 +17,7 @@ type Options = {
   orderId: number
 }
 
-export const handler = withConfig<Options>(async (config, argv) => {
+export const handler = createHandler<Options>(async (config, argv) => {
   const { orderId } = argv
   console.log(await kiwiCoin.cancelOrder(config.kiwiCoin, orderId))
 })

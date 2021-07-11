@@ -18,5 +18,8 @@ void (async function () {
     })
     .command(commands)
     .demandCommand(1)
+    .fail((message, error) => {
+      console.log('fail', { msg: message, err: error })
+    })
     .help().argv
 })()

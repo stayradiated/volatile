@@ -2,17 +2,6 @@ import test from 'ava'
 
 import { round } from './round.js'
 
-test('round: should throw error if you get the args around the wrong way', (t) => {
-  t.throws(
-    () => {
-      round(1.123_456_789, 0)
-    },
-    {
-      message: 'round: decimals must be a positive integer!',
-    },
-  )
-})
-
 test('round: 0dp', (t) => {
   t.is(round(0, 1.123_456_789), 1)
   t.is(round(0, 0.987_654_321), 1)

@@ -12,7 +12,10 @@ import type { Component, Config, Pool } from '../../types.js'
 
 const MINIMUM_BTC_BID = 0.000_01
 
-const readMarketPrice = async (pool: Pool, market: Market): Promise<number> => {
+const readMarketPrice = async (
+  pool: Pool,
+  market: Market,
+): Promise<number | Error> => {
   const marketUID = await getMarketUID(pool, market)
 
   const rows = await db.sql<s.market_price.SQL, s.market_price.Selectable[]>`
@@ -23,9 +26,9 @@ const readMarketPrice = async (pool: Pool, market: Market): Promise<number> => {
     FETCH FIRST ROW ONLY
   `.run(pool)
 
-  const row = rows[0] as { price_nzd: number }
+  const row = rows[0]
   if (!row) {
-    throw new Error(`Could not read market price for ${inspect(market)}`)
+    return new Error(`Could not read market price for ${inspect(market)}`)
   }
 
   return row.price_nzd
@@ -116,17 +119,23 @@ const initAutoBuy: Component = async (props) => {
       }
 
       const marketPrice = await readMarketPrice(pool, BINANCE_US)
+      if (marketPrice instanceof Error) {
+        return marketPrice
+      }
 
       const offsetPercent = (-1.5 + 100) / 100
-      let orderPrice = round(2, marketPrice * offsetPercent)
+      const maxOrderPrice = round(2, marketPrice * offsetPercent)
 
       const lowestAsk = orderBook.asks[0]
-      if (lowestAsk) {
-        const lowestAskPrice = Number.parseFloat(lowestAsk[0])
-        if (orderPrice > lowestAskPrice) {
-          console.log('Lowering bid price to just below lowest ask price')
-          orderPrice = lowestAskPrice - 0.01
-        }
+      const lowestAskPrice = lowestAsk
+        ? Number.parseFloat(lowestAsk[0])
+        : Number.POSITIVE_INFINITY
+
+      const orderPrice =
+        maxOrderPrice > lowestAskPrice ? lowestAskPrice - 0.01 : maxOrderPrice
+
+      if (orderPrice !== maxOrderPrice) {
+        console.log('Lowering bid price to just below lowest ask price')
       }
 
       const amountBTC = round(8, amountNZD / orderPrice)

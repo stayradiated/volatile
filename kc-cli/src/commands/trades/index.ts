@@ -3,7 +3,7 @@ import { table as printTable } from 'table'
 import { DateTime } from 'luxon'
 import { sort } from 'rambda'
 
-import { withConfig } from '../../utils/with-config.js'
+import { createHandler } from '../../utils/create-handler.js'
 
 export const command = 'trades'
 
@@ -97,11 +97,10 @@ const formatRow = (row: RowData): string[] => {
   return [date, price, nzd, xbt, fee, bought, sold]
 }
 
-export const handler = withConfig(async (config) => {
+export const handler = createHandler(async (config): Promise<void | Error> => {
   const trades = await kiwiCoin.trades(config.kiwiCoin, 'all')
   if (trades instanceof Error) {
-    console.error(trades)
-    return
+    return trades
   }
 
   const unsortedRows = trades.map((trade) => toRowData(trade))

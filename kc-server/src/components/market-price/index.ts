@@ -119,7 +119,7 @@ const marketPriceConfigList: readonly MarketPriceConfig[] = [
   },
 ]
 
-const fetchMarketPrice: Component = async (props) => {
+const fetchMarketPrice: Component = async (props): Promise<void> => {
   const { config, pool } = props
 
   const currencyFnList = currencyConfigList.map((currencyConfig) => {
@@ -141,7 +141,7 @@ const fetchMarketPrice: Component = async (props) => {
       (currencyConfig) => currencyConfig.currency === currency,
     )
     if (!currencyConfig) {
-      throw new Error(
+      return new Error(
         `Could not find currency config for ${inspect(currency)}.`,
       )
     }

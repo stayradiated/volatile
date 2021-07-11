@@ -1,8 +1,22 @@
-const round = (decimals: number, value = 0): number => {
-  if (!Number.isInteger(decimals) || decimals < 0) {
-    throw new Error('round: decimals must be a positive integer!')
-  }
+type Decimals =
+  | 0
+  | 1
+  | 2
+  | 3
+  | 4
+  | 5
+  | 6
+  | 7
+  | 8
+  | 9
+  | 10
+  | 11
+  | 12
+  | 13
+  | 14
+  | 15
 
+const round = (decimals: Decimals, value = 0): number => {
   const multiplier = 10 ** decimals
   return Math.round(value * multiplier) / multiplier
 }

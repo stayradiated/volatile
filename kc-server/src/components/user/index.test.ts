@@ -36,7 +36,7 @@ test('createUser: should create a user', async (t) => {
     email_hash: emailHash,
   })
 
-  const emailDecrypted = await keyring.decrypt(
+  const emailDecrypted = keyring.decrypt(
     user.email_encrypted,
     user.email_keyring_id,
   )

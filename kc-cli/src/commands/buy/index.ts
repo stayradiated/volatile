@@ -1,7 +1,7 @@
 import { Argv } from 'yargs'
 import * as kiwiCoin from '@stayradiated/kiwi-coin-api'
 
-import { withConfig } from '../../utils/with-config.js'
+import { createHandler } from '../../utils/create-handler.js'
 
 export const command = 'buy'
 
@@ -21,8 +21,14 @@ type Options = {
   amount: number
 }
 
-export const handler = withConfig<Options>(async (config, argv) => {
-  const { price, amount } = argv
-  const result = await kiwiCoin.buy(config.kiwiCoin, { price, amount })
-  console.dir(result)
-})
+export const handler = createHandler<Options>(
+  async (config, argv): Promise<void | Error> => {
+    const { price, amount } = argv
+    const result = await kiwiCoin.buy(config.kiwiCoin, { price, amount })
+    if (result instanceof Error) {
+      return result
+    }
+
+    console.dir(result)
+  },
+)

@@ -2,6 +2,8 @@ import * as kiwiCoin from '@stayradiated/kiwi-coin-api'
 import { printTable } from 'console-table-printer'
 import { sort } from 'rambda'
 
+import { createHandler } from '../../utils/create-handler.js'
+
 const { DealDirection, fetchStats } = kiwiCoin.privateAPI.stats
 type Deal = kiwiCoin.privateAPI.stats.Deal
 
@@ -24,12 +26,10 @@ const sortDeals = sort((a: Deal, b: Deal) => {
   return a.price - b.price
 })
 
-export const handler = async () => {
+export const handler = createHandler(async (): Promise<void | Error> => {
   const stats = await fetchStats()
   if (stats instanceof Error) {
-    console.error(stats)
-    process.exit(1)
-    return
+    return stats
   }
 
   const deals = sortDeals(stats.deals)
@@ -42,4 +42,4 @@ export const handler = async () => {
   }))
 
   printTable(table)
-}
+})

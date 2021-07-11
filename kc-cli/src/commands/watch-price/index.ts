@@ -5,7 +5,7 @@ import {
   currencySources,
 } from '@stayradiated/market-price'
 
-import { withConfig } from '../../utils/with-config.js'
+import { createHandler } from '../../utils/create-handler.js'
 
 export const command = 'watch-price'
 
@@ -13,7 +13,7 @@ export const desc = 'Continuously print the current price of BTC/NZD.'
 
 export const builder = {}
 
-export const handler = withConfig(async (config) => {
+export const handler = createHandler(async (config) => {
   const fetchKiwiCoinPrice = createCachedFetchFn(
     marketPriceSources.kiwiCoin,
     {},
