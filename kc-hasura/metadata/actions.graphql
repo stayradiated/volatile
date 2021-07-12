@@ -1,7 +1,15 @@
 type Mutation {
-  actionName (
-    arg1: SampleInput!
-  ): SampleOutput
+  createAuthToken (
+    email: String!
+    password: String!
+  ): CreateAuthTokenOutput
+}
+
+type Mutation {
+  createUser (
+    email: String!
+    password: String!
+  ): CreateUserOutput
 }
 
 input SampleInput {
@@ -11,5 +19,14 @@ input SampleInput {
 
 type SampleOutput {
   accessToken : String!
+}
+
+type CreateUserOutput {
+  userUid : String!
+}
+
+type CreateAuthTokenOutput {
+  userUid : String!
+  authToken : String!
 }
 
