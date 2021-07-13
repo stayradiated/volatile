@@ -1,7 +1,9 @@
 import * as db from 'zapatos/db'
 import type * as s from 'zapatos/schema'
+import nJwt from 'njwt'
 
 import * as hash from '../../utils/hash.js'
+import { JWT_SECRET } from '../../env.js'
 
 import type { Pool } from '../../types.js'
 
@@ -13,7 +15,7 @@ type CreateAuthTokenOptions = {
 const createAuthToken = async (
   pool: Pool,
   options: CreateAuthTokenOptions,
-): Promise<{ uid: string, authToken: string } | Error> => {
+): Promise<{ uid: string; authToken: string } | Error> => {
   const { email, password } = options
 
   const emailHash = hash.sha256(email)
@@ -33,7 +35,24 @@ const createAuthToken = async (
     return new Error('Invalid email or password.')
   }
 
-  return { uid: row.uid, authToken: 'authToken' }
+  const uid = row.uid
+
+  const authToken = nJwt
+    .create(
+      {
+        iss: 'kc-server',
+        sub: uid,
+        'https://hasura.io/jwt/claims': {
+          'x-hasura-allowed-roles': ['user'],
+          'x-hasura-default-role': 'user',
+          'x-hasura-user-id': uid,
+        },
+      },
+      JWT_SECRET,
+    )
+    .compact()
+
+  return { uid, authToken }
 }
 
 export { createAuthToken }

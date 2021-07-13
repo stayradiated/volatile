@@ -149,6 +149,16 @@
         table:
           schema: kc
           name: user_exchange_keys
+  select_permissions:
+  - role: user
+    permission:
+      columns:
+      - created_at
+      - uid
+      - updated_at
+      filter:
+        uid:
+          _eq: X-Hasura-User-Id
 - table:
     schema: kc
     name: user_exchange_keys

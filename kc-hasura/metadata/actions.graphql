@@ -12,6 +12,10 @@ type Mutation {
   ): CreateUserOutput
 }
 
+type Query {
+  getEmail : GetEmailOutput
+}
+
 input SampleInput {
   username : String!
   password : String!
@@ -28,5 +32,9 @@ type CreateUserOutput {
 type CreateAuthTokenOutput {
   userUid : String!
   authToken : String!
+}
+
+type GetEmailOutput {
+  email : String!
 }
 
