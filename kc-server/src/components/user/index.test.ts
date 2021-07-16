@@ -3,7 +3,7 @@ import test from 'ava'
 import * as db from 'zapatos/db'
 import type * as s from 'zapatos/schema'
 
-import pool from '../../pg-pool.js'
+import { pool } from '../../pool.js'
 import * as hash from '../../utils/hash.js'
 import { keyring } from '../../utils/keyring.js'
 import { createUser } from './index.js'
@@ -25,14 +25,14 @@ test('createUser: should create a user', async (t) => {
 
   const rows = await db.sql<s.user.SQL, s.user.Selectable[]>`
     SELECT * FROM ${'user'}
-      WHERE ${{ uid: userResult.uid }}
+      WHERE ${{ uid: userResult.UID }}
   `.run(pool)
 
   t.is(rows.length, 1)
   const user = rows[0]!
 
   t.like(user, {
-    uid: userResult.uid,
+    uid: userResult.UID,
     email_hash: emailHash,
   })
 

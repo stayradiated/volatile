@@ -109,6 +109,7 @@ importers:
       njwt: 1.1.0
       p-memoize: 4.0.1
       pg: 8.6.0
+      type-fest: 1.2.2
       typescript: 4.3.5
       uuid: 8.3.2
       xo: 0.41.0
@@ -140,6 +141,7 @@ importers:
       ava: 3.15.0
       del-cli: 4.0.0
       eslint-plugin-fp: 2.3.0
+      type-fest: 1.2.2
       typescript: 4.3.5
       xo: 0.41.0
 
@@ -5409,6 +5411,11 @@ packages:
 
   /type-fest/1.2.1:
     resolution: {integrity: sha512-SbmIRuXhJs8KTneu77Ecylt9zuqL683tuiLYpTRil4H++eIhqCmx6ko6KAFem9dty8sOdnEiX7j4K1nRE628fQ==}
+    engines: {node: '>=10'}
+    dev: true
+
+  /type-fest/1.2.2:
+    resolution: {integrity: sha512-pfkPYCcuV0TJoo/jlsUeWNV8rk7uMU6ocnYNvca1Vu+pyKi8Rl8Zo2scPt9O72gCsXIm+dMxOOWuA3VFDSdzWA==}
     engines: {node: '>=10'}
     dev: true
 

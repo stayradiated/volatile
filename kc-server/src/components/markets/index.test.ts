@@ -1,6 +1,6 @@
 import test from 'ava'
 
-import pool from '../../pg-pool.js'
+import { pool } from '../../pool.js'
 import { BINANCE_US, DASSET, forceGetMarketUID } from './index.js'
 
 test('forceGetMarketUID: serial', async (t) => {

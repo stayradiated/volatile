@@ -16,4 +16,4 @@ pool.on('error', (error) => {
   console.error(error)
 }) // Don't let a pg restart kill your app
 
-export default pool
+export { pool }

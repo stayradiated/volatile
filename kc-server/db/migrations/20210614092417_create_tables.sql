@@ -10,7 +10,7 @@ CREATE TABLE kc.market(
   CONSTRAINT unique_market_id UNIQUE(id)
 );
 
-CREATE TABLE market_price(
+CREATE TABLE kc.market_price(
   created_at TIMESTAMPTZ NOT NULL,
   updated_at TIMESTAMPTZ NOT NULL,
   timestamp TIMESTAMPTZ NOT NULL,
@@ -57,11 +57,13 @@ CREATE TABLE kc.user_exchange_keys(
   updated_at TIMESTAMPTZ NOT NULL,
   user_uid UUID NOT NULL,
   exchange_uid UUID NOT NULL,
+  keys_keyring_id SMALLINT NOT NULL,
   keys_encrypted VARCHAR NOT NULL,
   description VARCHAR(128) NOT NULL,
   invalidated_at TIMESTAMPTZ NULL,
 
   PRIMARY KEY(uid),
+  CONSTRAINT unique_user_exchange_keys_user_uid_exchange_uid UNIQUE(user_uid, exchange_uid),
   CONSTRAINT fk_user_exchange_keys_user
     FOREIGN KEY(user_uid) REFERENCES kc.user(uid)
     ON DELETE CASCADE ON UPDATE CASCADE,

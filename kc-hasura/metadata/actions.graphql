@@ -16,6 +16,14 @@ type Query {
   getEmail : GetEmailOutput
 }
 
+type Mutation {
+  setUserExchangeKeys (
+    exchange_uid: uuid!
+    keys: jsonb!
+    description: String!
+  ): SetUserExchangeKeysOutput
+}
+
 input SampleInput {
   username : String!
   password : String!
@@ -26,15 +34,19 @@ type SampleOutput {
 }
 
 type CreateUserOutput {
-  userUid : String!
+  user_uid : String!
 }
 
 type CreateAuthTokenOutput {
-  userUid : String!
-  authToken : String!
+  user_uid : String!
+  auth_token : String!
 }
 
 type GetEmailOutput {
   email : String!
+}
+
+type SetUserExchangeKeysOutput {
+  user_exchange_keys_uid : uuid!
 }
 

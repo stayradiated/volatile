@@ -4,12 +4,17 @@ import * as db from 'zapatos/db'
 import type * as s from 'zapatos/schema'
 
 import { CONFIG_PATH, PORT } from './env.js'
-import pool from './pg-pool.js'
+import { pool } from './pool.js'
 // Import { fetchMarketPrice } from './components/market-price/index.js'
 // Import { initAutoBuy } from './components/auto-buy/index.js'
 import { createUser } from './components/user/index.js'
 import { createAuthToken } from './components/auth-token/index.js'
 import { keyring } from './utils/keyring.js'
+import { setUserExchangeKeys } from './components/user-exchange-keys/index.js'
+import {
+  getExchangeUID,
+  EXCHANGE_KIWI_COIN,
+} from './components/exchange/index.js'
 
 import type { ComponentProps } from './types.js'
 
@@ -56,7 +61,7 @@ createActionHandler<
     password: string
   },
   {
-    userUid: string
+    user_uid: string
   }
 >('createUser', async (input) => {
   const { email, password } = input
@@ -66,7 +71,7 @@ createActionHandler<
   }
 
   return {
-    userUid: result.uid,
+    user_uid: result.UID,
   }
 })
 
@@ -76,8 +81,8 @@ createActionHandler<
     password: string
   },
   {
-    userUid: string
-    authToken: string
+    user_uid: string
+    auth_token: string
   }
 >('createAuthToken', async (input) => {
   const { email, password } = input
@@ -87,8 +92,8 @@ createActionHandler<
   }
 
   return {
-    userUid: result.uid,
-    authToken: result.authToken,
+    user_uid: result.uid,
+    auth_token: result.authToken,
   }
 })
 
@@ -120,6 +125,35 @@ createActionHandler<
   }
 })
 
+createActionHandler<
+  {
+    exchange_uid: string
+    keys: Record<string, string>
+    description: string
+  },
+  {
+    user_exchange_keys_uid: string
+  }
+>('setUserExchangeKeys', async (input, session) => {
+  const { exchange_uid: exchangeUID, keys, description } = input
+  const userUID = session['x-hasura-user-id']
+
+  const result = await setUserExchangeKeys(pool, {
+    userUID,
+    exchangeUID,
+    keys,
+    description,
+    invalidatedAt: undefined,
+  })
+  if (result instanceof Error) {
+    return result
+  }
+
+  return {
+    user_exchange_keys_uid: result.UID,
+  }
+})
+
 void fastify.listen(PORT, '0.0.0.0')
 
 void (async function () {
@@ -136,6 +170,9 @@ void (async function () {
   }
 
   console.log(props)
+
+  // Make sure exchanges exist in DB
+  await getExchangeUID(pool, EXCHANGE_KIWI_COIN)
 
   await Promise.all([
     // FetchMarketPrice(props),

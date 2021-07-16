@@ -16,7 +16,7 @@ type CreateUserOptions = {
 const createUser = async (
   pool: Pool,
   options: CreateUserOptions,
-): Promise<{ uid: string } | Error> => {
+): Promise<{ UID: string } | Error> => {
   const { email, password } = options
 
   const emailEncrypted = keyring.encrypt(email)
@@ -37,11 +37,11 @@ const createUser = async (
 
   const passwordHash = await hash.bcrypt(password)
 
-  const uid = genUID()
+  const UID = genUID()
   const now = new Date()
 
   const insert: s.user.Insertable = {
-    uid,
+    uid: UID,
     created_at: now,
     updated_at: now,
     email_keyring_id: emailEncrypted.keyringId,
@@ -60,7 +60,7 @@ const createUser = async (
     return error
   }
 
-  return { uid }
+  return { UID }
 }
 
 export { createUser }
