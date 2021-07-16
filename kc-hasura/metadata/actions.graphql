@@ -24,6 +24,12 @@ type Mutation {
   ): SetUserExchangeKeysOutput
 }
 
+type Mutation {
+  validateUserExchangeKeys (
+    exchange_uid: String!
+  ): ValidateUserExchangeKeysOutput
+}
+
 input SampleInput {
   username : String!
   password : String!
@@ -48,5 +54,11 @@ type GetEmailOutput {
 
 type SetUserExchangeKeysOutput {
   user_exchange_keys_uid : uuid!
+}
+
+type ValidateUserExchangeKeysOutput {
+  user_exchange_keys_uid : String!
+  is_valid : Boolean!
+  validation_message : String
 }
 

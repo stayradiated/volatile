@@ -1,4 +1,4 @@
-import { v4 as genUID } from 'uuid'
+import { randomUUID } from 'crypto'
 import * as db from 'zapatos/db'
 import type * as s from 'zapatos/schema'
 import { errorBoundary } from '@stayradiated/error-boundary'
@@ -37,7 +37,7 @@ const createUser = async (
 
   const passwordHash = await hash.bcrypt(password)
 
-  const UID = genUID()
+  const UID = randomUUID()
   const now = new Date()
 
   const insert: s.user.Insertable = {

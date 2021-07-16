@@ -13,6 +13,13 @@ export type Config = {
   apiSecret: string
 }
 
+const isValidConfig = (config: Record<string, string>): config is Config =>
+  typeof config === 'object' &&
+  config !== null &&
+  typeof config['userId'] === 'string' &&
+  typeof config['apiKey'] === 'string' &&
+  typeof config['apiSecret'] === 'string'
+
 const createSignature = (
   config: Config,
   endpoint: string,
@@ -294,6 +301,7 @@ const topOrderPrice = async (
 }
 
 export {
+  isValidConfig,
   ticker,
   orderBook,
   balance,

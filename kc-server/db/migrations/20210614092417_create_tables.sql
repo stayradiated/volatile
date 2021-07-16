@@ -59,6 +59,7 @@ CREATE TABLE kc.user_exchange_keys(
   exchange_uid UUID NOT NULL,
   keys_keyring_id SMALLINT NOT NULL,
   keys_encrypted VARCHAR NOT NULL,
+  keys_hash VARCHAR NOT NULL,
   description VARCHAR(128) NOT NULL,
   invalidated_at TIMESTAMPTZ NULL,
 

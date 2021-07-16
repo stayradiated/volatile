@@ -24,6 +24,12 @@ actions:
     handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/setUserExchangeKeys'
   permissions:
   - role: user
+- name: validateUserExchangeKeys
+  definition:
+    kind: synchronous
+    handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/validateUserExchangeKeys'
+  permissions:
+  - role: user
 custom_types:
   enums: []
   input_objects:
@@ -52,4 +58,23 @@ custom_types:
         user_uid: uid
   - name: GetEmailOutput
   - name: SetUserExchangeKeysOutput
+    relationships:
+    - remote_table:
+        schema: kc
+        name: user_exchange_keys
+      name: user_exchange_keys
+      source: default
+      type: object
+      field_mapping:
+        user_exchange_keys_uid: uid
+  - name: ValidateUserExchangeKeysOutput
+    relationships:
+    - remote_table:
+        schema: kc
+        name: user_exchange_keys
+      name: user_exchange_keys
+      source: default
+      type: object
+      field_mapping:
+        user_exchange_keys_uid: uid
   scalars: []

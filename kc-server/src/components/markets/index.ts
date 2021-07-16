@@ -1,5 +1,5 @@
+import { randomUUID } from 'crypto'
 import pmem from 'p-memoize'
-import { v4 as genUID } from 'uuid'
 import * as db from 'zapatos/db'
 import type * as s from 'zapatos/schema'
 import { throwIfError } from '@stayradiated/error-boundary'
@@ -36,7 +36,7 @@ const forceGetMarketUID = async (
   market: Market,
 ): Promise<string | Error> => {
   const insert: s.market.Insertable = {
-    uid: genUID(),
+    uid: randomUUID(),
     created_at: new Date(),
     updated_at: new Date(),
     id: market.id,

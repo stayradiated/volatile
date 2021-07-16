@@ -81,6 +81,7 @@ test('setUserExchangeKey: should write to user_exchange_keys', async (t) => {
   t.is(exchangeUID, row.exchange_uid)
   t.is('number', typeof row.keys_keyring_id)
   t.is('string', typeof row.keys_encrypted)
+  t.is('string', typeof row.keys_hash)
   t.is(description, row.description)
   t.is(null, row.invalidated_at)
 })

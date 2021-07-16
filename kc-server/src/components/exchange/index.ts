@@ -1,5 +1,5 @@
+import { randomUUID } from 'crypto'
 import pmem from 'p-memoize'
-import { v4 as genUID } from 'uuid'
 import * as db from 'zapatos/db'
 import type * as s from 'zapatos/schema'
 import { throwIfError } from '@stayradiated/error-boundary'
@@ -21,7 +21,7 @@ const forceGetExchangeUID = async (
   exchange: Exchange,
 ): Promise<string | Error> => {
   const insert: s.exchange.Insertable = {
-    uid: genUID(),
+    uid: randomUUID(),
     created_at: new Date(),
     updated_at: new Date(),
     id: exchange.id,

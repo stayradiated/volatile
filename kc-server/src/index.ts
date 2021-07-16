@@ -10,7 +10,10 @@ import { pool } from './pool.js'
 import { createUser } from './components/user/index.js'
 import { createAuthToken } from './components/auth-token/index.js'
 import { keyring } from './utils/keyring.js'
-import { setUserExchangeKeys } from './components/user-exchange-keys/index.js'
+import {
+  setUserExchangeKeys,
+  validateUserExchangeKeys,
+} from './components/user-exchange-keys/index.js'
 import {
   getExchangeUID,
   EXCHANGE_KIWI_COIN,
@@ -151,6 +154,34 @@ createActionHandler<
 
   return {
     user_exchange_keys_uid: result.UID,
+  }
+})
+
+createActionHandler<
+  {
+    exchange_uid: string
+  },
+  {
+    is_valid: boolean
+    validation_message: string | undefined
+    user_exchange_keys_uid: string
+  }
+>('validateUserExchangeKeys', async (input, session) => {
+  const { exchange_uid: exchangeUID } = input
+  const userUID = session['x-hasura-user-id']
+
+  const result = await validateUserExchangeKeys(pool, {
+    userUID,
+    exchangeUID,
+  })
+  if (result instanceof Error) {
+    return result
+  }
+
+  return {
+    is_valid: result.isValid,
+    validation_message: result.validationMessage,
+    user_exchange_keys_uid: result.userExchangeKeysUID,
   }
 })
 

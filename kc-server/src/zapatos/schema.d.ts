@@ -2025,6 +2025,12 @@ declare module 'zapatos/schema' {
       */
       keys_encrypted: string;
       /**
+      * **user_exchange_keys.keys_hash**
+      * - `varchar` in database
+      * - `NOT NULL`, no default
+      */
+      keys_hash: string;
+      /**
       * **user_exchange_keys.description**
       * - `varchar` in database
       * - `NOT NULL`, no default
@@ -2080,6 +2086,12 @@ declare module 'zapatos/schema' {
       * - `NOT NULL`, no default
       */
       keys_encrypted: string;
+      /**
+      * **user_exchange_keys.keys_hash**
+      * - `varchar` in database
+      * - `NOT NULL`, no default
+      */
+      keys_hash: string;
       /**
       * **user_exchange_keys.description**
       * - `varchar` in database
@@ -2137,6 +2149,12 @@ declare module 'zapatos/schema' {
       */
       keys_encrypted?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
       /**
+      * **user_exchange_keys.keys_hash**
+      * - `varchar` in database
+      * - `NOT NULL`, no default
+      */
+      keys_hash?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      /**
       * **user_exchange_keys.description**
       * - `varchar` in database
       * - `NOT NULL`, no default
@@ -2193,6 +2211,12 @@ declare module 'zapatos/schema' {
       */
       keys_encrypted: string | db.Parameter<string> | db.SQLFragment;
       /**
+      * **user_exchange_keys.keys_hash**
+      * - `varchar` in database
+      * - `NOT NULL`, no default
+      */
+      keys_hash: string | db.Parameter<string> | db.SQLFragment;
+      /**
       * **user_exchange_keys.description**
       * - `varchar` in database
       * - `NOT NULL`, no default
@@ -2248,6 +2272,12 @@ declare module 'zapatos/schema' {
       * - `NOT NULL`, no default
       */
       keys_encrypted?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+      /**
+      * **user_exchange_keys.keys_hash**
+      * - `varchar` in database
+      * - `NOT NULL`, no default
+      */
+      keys_hash?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
       /**
       * **user_exchange_keys.description**
       * - `varchar` in database
