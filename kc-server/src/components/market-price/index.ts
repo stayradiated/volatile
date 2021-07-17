@@ -11,12 +11,12 @@ import debug from 'debug'
 
 import {
   Market,
-  BINANCE_US,
-  DASSET,
-  KIWI_COIN,
-  EASY_CRYPTO,
+  MARKET_BINANCE_US,
+  MARKET_DASSET,
+  MARKET_KIWI_COIN,
+  MARKET_EASY_CRYPTO,
   getMarketUID,
-} from '../markets/index.js'
+} from '../market/index.js'
 
 import type { Config, Component, Pool } from '../../types.js'
 
@@ -92,13 +92,13 @@ type MarketPriceInstance = MarketPriceConfig & {
 
 const marketPriceConfigList: readonly MarketPriceConfig[] = [
   {
-    market: BINANCE_US,
+    market: MARKET_BINANCE_US,
     currency: Currency.USD,
     createFetchPriceFn: () =>
       createCachedFetchFn(marketPriceSources.binance, {}),
   },
   {
-    market: DASSET,
+    market: MARKET_DASSET,
     currency: Currency.NZD,
     createFetchPriceFn: (config) =>
       createCachedFetchFn(marketPriceSources.dasset, {
@@ -106,13 +106,13 @@ const marketPriceConfigList: readonly MarketPriceConfig[] = [
       }),
   },
   {
-    market: KIWI_COIN,
+    market: MARKET_KIWI_COIN,
     currency: Currency.NZD,
     createFetchPriceFn: () =>
       createCachedFetchFn(marketPriceSources.kiwiCoin, {}),
   },
   {
-    market: EASY_CRYPTO,
+    market: MARKET_EASY_CRYPTO,
     currency: Currency.NZD,
     createFetchPriceFn: () =>
       createCachedFetchFn(marketPriceSources.easyCrypto, {}),

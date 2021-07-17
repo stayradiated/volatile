@@ -11,22 +11,22 @@ type Market = {
   name: string
 }
 
-const DASSET: Market = {
+const MARKET_DASSET: Market = {
   id: 'dassetx.com',
   name: 'Dasset',
 }
 
-const BINANCE_US: Market = {
+const MARKET_BINANCE_US: Market = {
   id: 'binance.us',
   name: 'Binance.US',
 }
 
-const KIWI_COIN: Market = {
+const MARKET_KIWI_COIN: Market = {
   id: 'kiwi-coin.com',
   name: 'Kiwi-Coin',
 }
 
-const EASY_CRYPTO: Market = {
+const MARKET_EASY_CRYPTO: Market = {
   id: 'easycrypto.ai',
   name: 'Easy Crypto',
 }
@@ -72,10 +72,10 @@ const getMarketUID = pmem(forceGetMarketUIDOrThrow, {
 
 export {
   Market,
-  DASSET,
-  BINANCE_US,
-  KIWI_COIN,
-  EASY_CRYPTO,
+  MARKET_DASSET,
+  MARKET_BINANCE_US,
+  MARKET_KIWI_COIN,
+  MARKET_EASY_CRYPTO,
   getMarketUID,
   forceGetMarketUID,
 }

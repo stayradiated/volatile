@@ -1,5 +1,7 @@
 import * as kiwiCoin from '@stayradiated/kiwi-coin-api'
 
+import { wrapError } from '../../utils/wrap-error.js'
+
 import type { Pool } from '../../types.js'
 import { getUserExchangeKeys } from './get-user-exchange-keys.js'
 
@@ -12,8 +14,7 @@ const validateKiwiCoinKeys = async (
 
   const balance = await kiwiCoin.balance(kiwiCoinConfig)
   if (balance instanceof Error) {
-    const errorMessage = balance.toString()
-    return new Error(`Could not query account balance. ${errorMessage}`)
+    return wrapError('Could not query account balance.', balance)
   }
 
   return true
@@ -58,7 +59,7 @@ const validateUserExchangeKeys = async (
   if (result instanceof Error) {
     return {
       isValid: false,
-      validationMessage: result.toString(),
+      validationMessage: result.message,
       userExchangeKeysUID: userExchangeKeys.UID,
     }
   }

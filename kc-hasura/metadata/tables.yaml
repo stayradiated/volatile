@@ -89,6 +89,7 @@
       columns:
       - id
       - name
+      - uid
       filter: {}
 - table:
     schema: kc

@@ -1,33 +1,38 @@
 actions:
-- name: createAuthToken
+- name: create_auth_token
   definition:
     kind: synchronous
-    handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/createAuthToken'
+    handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/create_auth_token'
   permissions:
   - role: guest
-- name: createUser
+- name: create_dca_order
   definition:
     kind: synchronous
-    handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/createUser'
+    handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/create_dca_order'
   permissions:
   - role: user
+- name: create_user
+  definition:
+    kind: synchronous
+    handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/create_user'
+  permissions:
   - role: guest
-- name: getEmail
+- name: get_email
   definition:
     kind: ""
-    handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/getEmail'
+    handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/get_email'
   permissions:
   - role: user
-- name: setUserExchangeKeys
+- name: set_user_exchange_keys
   definition:
     kind: synchronous
-    handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/setUserExchangeKeys'
+    handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/set_user_exchange_keys'
   permissions:
   - role: user
-- name: validateUserExchangeKeys
+- name: validate_user_exchange_keys
   definition:
     kind: synchronous
-    handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/validateUserExchangeKeys'
+    handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/validate_user_exchange_keys'
   permissions:
   - role: user
 custom_types:
@@ -77,4 +82,5 @@ custom_types:
       type: object
       field_mapping:
         user_exchange_keys_uid: uid
+  - name: CreateDCAOrderResult
   scalars: []

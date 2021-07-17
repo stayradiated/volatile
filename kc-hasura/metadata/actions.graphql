@@ -1,23 +1,37 @@
 type Mutation {
-  createAuthToken (
+  create_auth_token (
     email: String!
     password: String!
   ): CreateAuthTokenOutput
 }
 
 type Mutation {
-  createUser (
+  create_dca_order (
+    exchange_uid: uuid!
+    market_uid: uuid!
+    start_at: timestamp!
+    market_offset: Float!
+    daily_average: Float!
+    min_price: Float
+    max_price: Float
+    min_amount: Float
+    max_amount: Float
+  ): CreateDCAOrderResult
+}
+
+type Mutation {
+  create_user (
     email: String!
     password: String!
   ): CreateUserOutput
 }
 
 type Query {
-  getEmail : GetEmailOutput
+  get_email : GetEmailOutput
 }
 
 type Mutation {
-  setUserExchangeKeys (
+  set_user_exchange_keys (
     exchange_uid: uuid!
     keys: jsonb!
     description: String!
@@ -25,7 +39,7 @@ type Mutation {
 }
 
 type Mutation {
-  validateUserExchangeKeys (
+  validate_user_exchange_keys (
     exchange_uid: String!
   ): ValidateUserExchangeKeysOutput
 }
@@ -60,5 +74,9 @@ type ValidateUserExchangeKeysOutput {
   user_exchange_keys_uid : String!
   is_valid : Boolean!
   validation_message : String
+}
+
+type CreateDCAOrderResult {
+  dca_order_uid : uuid!
 }
 

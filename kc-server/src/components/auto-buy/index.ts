@@ -6,7 +6,7 @@ import * as db from 'zapatos/db'
 import type * as s from 'zapatos/schema'
 
 import { round } from '../../utils/round.js'
-import { Market, BINANCE_US, getMarketUID } from '../markets/index.js'
+import { Market, MARKET_BINANCE_US, getMarketUID } from '../market/index.js'
 
 import type { Component, Config, Pool } from '../../types.js'
 
@@ -118,7 +118,7 @@ const initAutoBuy: Component = async (props) => {
         return existingOrders
       }
 
-      const marketPrice = await readMarketPrice(pool, BINANCE_US)
+      const marketPrice = await readMarketPrice(pool, MARKET_BINANCE_US)
       if (marketPrice instanceof Error) {
         return marketPrice
       }

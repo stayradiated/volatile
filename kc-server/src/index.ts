@@ -1,5 +1,6 @@
 import { readConfig } from '@stayradiated/kc-config'
 import createFastify from 'fastify'
+import { DateTime } from 'luxon'
 import * as db from 'zapatos/db'
 import type * as s from 'zapatos/schema'
 
@@ -18,6 +19,8 @@ import {
   getExchangeUID,
   EXCHANGE_KIWI_COIN,
 } from './components/exchange/index.js'
+import { getMarketUID, MARKET_KIWI_COIN } from './components/market/index.js'
+import { createDCAOrder } from './components/dca-order/index.js'
 
 import type { ComponentProps } from './types.js'
 
@@ -66,7 +69,7 @@ createActionHandler<
   {
     user_uid: string
   }
->('createUser', async (input) => {
+>('create_user', async (input) => {
   const { email, password } = input
   const result = await createUser(pool, { email, password })
   if (result instanceof Error) {
@@ -87,7 +90,7 @@ createActionHandler<
     user_uid: string
     auth_token: string
   }
->('createAuthToken', async (input) => {
+>('create_auth_token', async (input) => {
   const { email, password } = input
   const result = await createAuthToken(pool, { email, password })
   if (result instanceof Error) {
@@ -105,7 +108,7 @@ createActionHandler<
   {
     email: string
   }
->('getEmail', async (_input, session) => {
+>('get_email', async (_input, session) => {
   const uid = session['x-hasura-user-id']
 
   const [row] = await db.sql<s.user.SQL, s.user.Selectable[]>`
@@ -137,7 +140,7 @@ createActionHandler<
   {
     user_exchange_keys_uid: string
   }
->('setUserExchangeKeys', async (input, session) => {
+>('set_user_exchange_keys', async (input, session) => {
   const { exchange_uid: exchangeUID, keys, description } = input
   const userUID = session['x-hasura-user-id']
 
@@ -166,7 +169,7 @@ createActionHandler<
     validation_message: string | undefined
     user_exchange_keys_uid: string
   }
->('validateUserExchangeKeys', async (input, session) => {
+>('validate_user_exchange_keys', async (input, session) => {
   const { exchange_uid: exchangeUID } = input
   const userUID = session['x-hasura-user-id']
 
@@ -182,6 +185,56 @@ createActionHandler<
     is_valid: result.isValid,
     validation_message: result.validationMessage,
     user_exchange_keys_uid: result.userExchangeKeysUID,
+  }
+})
+
+createActionHandler<
+  {
+    exchange_uid: string
+    market_uid: string
+    start_at: string
+    market_offset: number
+    daily_average: number
+    min_price: number
+    max_price: number
+    min_amount: number
+    max_amount: number
+  },
+  {
+    dca_order_uid: string
+  }
+>('create_dca_order', async (input, session) => {
+  const {
+    exchange_uid: exchangeUID,
+    market_uid: marketUID,
+    start_at: startAt,
+    market_offset: marketOffset,
+    daily_average: dailyAverage,
+    min_price: minPrice,
+    max_price: maxPrice,
+    min_amount: minAmount,
+    max_amount: maxAmount,
+  } = input
+  const userUID = session['x-hasura-user-id']
+
+  const dcaOrder = await createDCAOrder(pool, {
+    userUID,
+    exchangeUID,
+    marketUID,
+    startAt: DateTime.fromISO(startAt),
+    marketOffset,
+    dailyAverage,
+    minPrice,
+    maxPrice,
+    minAmount,
+    maxAmount,
+  })
+  if (dcaOrder instanceof Error) {
+    return dcaOrder
+  }
+
+  return {
+    dca_order_uid: dcaOrder.UID,
   }
 })
 
@@ -202,8 +255,9 @@ void (async function () {
 
   console.log(props)
 
-  // Make sure exchanges exist in DB
+  // Make sure markets + exchanges exist in DB
   await getExchangeUID(pool, EXCHANGE_KIWI_COIN)
+  await getMarketUID(pool, MARKET_KIWI_COIN)
 
   await Promise.all([
     // FetchMarketPrice(props),
