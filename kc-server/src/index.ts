@@ -257,8 +257,6 @@ void (async function () {
     pool,
   }
 
-  console.log(props)
-
   // Make sure markets + exchanges exist in DB
   await getExchangeUID(pool, EXCHANGE_KIWI_COIN)
   await getMarketUID(pool, MARKET_KIWI_COIN)

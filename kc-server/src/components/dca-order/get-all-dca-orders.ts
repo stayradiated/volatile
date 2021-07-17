@@ -1,13 +1,36 @@
 import * as db from 'zapatos/db'
+import type * as s from 'zapatos/schema'
 import { errorBoundary } from '@stayradiated/error-boundary'
 import { DateTime } from 'luxon'
 
 import type { Pool } from '../../types.js'
 import type { DCAOrder } from './types.js'
 
-const getAllDCAOrders = async (pool: Pool): Promise<DCAOrder[] | Error> => {
+type GetAllDCAOrdersOptions = {
+  exchangeUID?: string
+  marketUID?: string
+  userUID?: string
+}
+
+const getAllDCAOrders = async (
+  pool: Pool,
+  options: GetAllDCAOrdersOptions,
+): Promise<DCAOrder[] | Error> => {
+  const where: s.dca_order.Whereable = {}
+  if (options.userUID) {
+    where.user_uid = options.userUID
+  }
+
+  if (options.exchangeUID) {
+    where.exchange_uid = options.exchangeUID
+  }
+
+  if (options.marketUID) {
+    where.market_uid = options.marketUID
+  }
+
   const rows = await errorBoundary(async () =>
-    db.select('dca_order', db.all).run(pool),
+    db.select('dca_order', where).run(pool),
   )
   if (rows instanceof Error) {
     return rows

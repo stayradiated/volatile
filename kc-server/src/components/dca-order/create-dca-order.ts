@@ -1,16 +1,17 @@
 import { randomUUID } from 'crypto'
 import * as db from 'zapatos/db'
 import type * as s from 'zapatos/schema'
-import { DateTime } from 'luxon'
 import { errorBoundary } from '@stayradiated/error-boundary'
 
 import type { Except } from 'type-fest'
 import type { Pool } from '../../types.js'
 import type { DCAOrder } from './types.js'
 
+type CreateDCAOrderOptions = Except<DCAOrder, 'UID'>
+
 const createDCAOrder = async (
   pool: Pool,
-  dcaOrder: Except<DCAOrder, 'UID'>,
+  dcaOrder: CreateDCAOrderOptions,
 ): Promise<DCAOrder | Error> => {
   const insert: s.dca_order.Insertable = {
     uid: randomUUID(),
@@ -45,18 +46,9 @@ RETURNING uid
   }
 
   return {
+    ...dcaOrder,
     UID: row.uid,
-    userUID: row.user_uid,
-    exchangeUID: row.exchange_uid,
-    marketUID: row.market_uid,
-    startAt: DateTime.fromJSDate(row.start_at),
-    marketOffset: row.market_offset,
-    dailyAverage: row.daily_average,
-    minPrice: row.min_price ?? undefined,
-    maxPrice: row.max_price ?? undefined,
-    minAmount: row.min_amount ?? undefined,
-    maxAmount: row.max_amount ?? undefined,
   }
 }
 
-export { createDCAOrder }
+export { createDCAOrder, CreateDCAOrderOptions }

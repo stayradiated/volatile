@@ -7,6 +7,7 @@ import { keyring } from '../../utils/keyring.js'
 import * as hash from '../../utils/hash.js'
 
 import type { Pool } from '../../types.js'
+import type { User } from './types.js'
 
 type CreateUserOptions = {
   email: string
@@ -16,7 +17,7 @@ type CreateUserOptions = {
 const createUser = async (
   pool: Pool,
   options: CreateUserOptions,
-): Promise<{ UID: string } | Error> => {
+): Promise<User | Error> => {
   const { email, password } = options
 
   const emailEncrypted = keyring.encrypt(email)
