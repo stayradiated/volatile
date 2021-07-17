@@ -1,21 +1,21 @@
 import { setTimeout } from 'timers/promises'
 
 import { getAllDCAOrders } from '../dca-order/index.js'
-import { getMarketUID, MARKET_KIWI_COIN } from '../market/index.js'
+import { getExchangeUID, EXCHANGE_KIWI_COIN } from '../exchange/index.js'
 import type { Component } from '../../types.js'
 import { executeDCAOrder } from './execute-dca-order.js'
 
 const initAutoBuy: Component = async (props) => {
   const { pool } = props
 
-  const marketUID = await getMarketUID(pool, MARKET_KIWI_COIN)
-  if (marketUID instanceof Error) {
-    return marketUID
+  const exchangeUID = await getExchangeUID(pool, EXCHANGE_KIWI_COIN)
+  if (exchangeUID instanceof Error) {
+    return exchangeUID
   }
 
   const loop = async (): Promise<void> => {
     const dcaOrderList = await getAllDCAOrders(pool, {
-      marketUID,
+      exchangeUID,
     })
     if (dcaOrderList instanceof Error) {
       console.error(dcaOrderList)

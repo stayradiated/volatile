@@ -11,7 +11,7 @@ import {
   MARKET_EASY_CRYPTO,
 } from '../market/index.js'
 import type { Config } from '../../types.js'
-import { Currency } from './currency-config'
+import { Currency } from './currency-config.js'
 
 type MarketPriceConfig = {
   readonly market: Market
