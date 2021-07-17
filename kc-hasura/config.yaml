@@ -1,0 +1,7 @@
+# this file provides configuration for the Hasura CLI
+
+# v2 stores metadata in multiple yaml files instead of a single file
+version: 2
+
+# where to write the exported metadata
+metadata_directory: metadata

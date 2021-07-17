@@ -6,6 +6,6 @@ type ComponentProps = {
   pool: Pool
 }
 
-type Component = (props: ComponentProps) => Promise<void>
+type Component = (props: ComponentProps) => Promise<void | Error>
 
 export { Component, ComponentProps, Pool, Config }

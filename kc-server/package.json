@@ -6,12 +6,14 @@
   "exports": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "test": "ava",
+    "dbmate": "./bin/dbmate -e DB_URL",
+    "pretest": "./bin/dbmate -e TEST_DB_URL drop && ./bin/dbmate -e TEST_DB_URL --no-dump-schema up",
+    "test": "pnpm pretest && NODE_ENV=test ava --node-arguments='--require dotenv/config'",
     "tidy": "xo --fix --ignore ./src/zapatos",
     "build": "del-cli dist && tsc",
     "build:zapatos": "zapatos",
     "build:ncc": "ncc build ./src/index.ts -o ./dist/ncc && mv ./dist/ncc/index.js ./dist/ncc/kc-server.js",
-    "start": "node ./dist/index.js"
+    "start": "NODE_ENV=production node --require 'dotenv/config' ./dist/index.js"
   },
   "repository": {
     "type": "git",
@@ -26,31 +28,38 @@
     "name": "George Czabania",
     "email": "george@czabania.com"
   },
-  "license": "MIT",
+  "license": "GPL-3.0",
   "bugs": {
     "url": "https://github.com/stayradiated/kc/issues"
   },
   "homepage": "https://github.com/stayradiated/kc#readme",
   "devDependencies": {
-    "@stayradiated/jsconfig": "1.11.0",
-    "@types/luxon": "1.27.0",
-    "@types/pg": "8.6.0",
-    "@types/uuid": "8.3.0",
+    "@stayradiated/jsconfig": "1.14.0",
+    "@types/bcrypt": "5.0.0",
+    "@types/luxon": "1.27.1",
+    "@types/pg": "8.6.1",
     "@vercel/ncc": "0.28.6",
     "ava": "3.15.0",
     "del-cli": "4.0.0",
+    "eslint-plugin-fp": "2.3.0",
+    "type-fest": "1.2.2",
     "typescript": "4.3.5",
-    "xo": "0.40.3"
+    "xo": "0.41.0"
   },
   "dependencies": {
+    "@stayradiated/error-boundary": "1.1.0",
     "@stayradiated/kc-config": "workspace:1.0.0",
+    "@stayradiated/kc-keyring": "workspace:1.0.0",
     "@stayradiated/kiwi-coin-api": "workspace:1.0.1",
     "@stayradiated/market-price": "workspace:1.0.0",
+    "bcrypt": "5.0.1",
+    "debug": "4.3.2",
+    "dotenv": "10.0.0",
     "env-var": "7.0.1",
-    "luxon": "1.27.0",
-    "mem": "8.1.1",
+    "fastify": "3.19.0",
+    "luxon": "1.28.0",
+    "njwt": "1.1.0",
     "pg": "8.6.0",
-    "uuid": "8.3.2",
     "zapatos": "5.0.0"
   },
   "__comment": "The following configs are managed by `npx @stayradiated/jsconfig`",
@@ -61,7 +70,14 @@
     "space": true,
     "semicolon": false,
     "prettier": true,
+    "plugins": [
+      "fp"
+    ],
+    "extends": [
+      "plugin:fp/recommended"
+    ],
     "rules": {
+      "ava/assertion-arguments": "off",
       "ava/no-ignored-test-files": [
         "error",
         {
@@ -73,7 +89,11 @@
           ]
         }
       ],
-      "unicorn/prefer-node-protocol": "off"
+      "unicorn/prefer-node-protocol": "off",
+      "fp/no-unused-expression": "off",
+      "fp/no-nil": "off",
+      "fp/no-loops": "off",
+      "fp/no-mutation": "off"
     }
   },
   "prettier": {

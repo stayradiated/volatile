@@ -17,24 +17,28 @@
     "name": "George Czabania",
     "email": "george@czabania.com"
   },
-  "license": "MIT",
+  "license": "GPL-3.0",
   "bugs": {
     "url": "https://github.com/stayradiated/kc/issues"
   },
   "homepage": "https://github.com/stayradiated/kc#readme",
   "dependencies": {
-    "debug": "4.3.1",
+    "@stayradiated/error-boundary": "1.1.0",
+    "debug": "4.3.2",
     "ky": "0.28.5",
-    "ky-universal": "0.9.1"
+    "ky-universal": "0.9.1",
+    "luxon": "1.28.0"
   },
   "devDependencies": {
-    "@stayradiated/jsconfig": "1.11.0",
+    "@stayradiated/jsconfig": "1.14.0",
     "@types/debug": "4.1.6",
-    "@types/node": "15.14.0",
+    "@types/node": "16.3.1",
     "ava": "3.15.0",
     "del-cli": "4.0.0",
+    "eslint-plugin-fp": "2.3.0",
+    "nock": "13.1.1",
     "typescript": "4.3.5",
-    "xo": "0.40.3"
+    "xo": "0.41.0"
   },
   "scripts": {
     "tidy": "xo --fix",
@@ -49,7 +53,14 @@
     "space": true,
     "semicolon": false,
     "prettier": true,
+    "plugins": [
+      "fp"
+    ],
+    "extends": [
+      "plugin:fp/recommended"
+    ],
     "rules": {
+      "ava/assertion-arguments": "off",
       "ava/no-ignored-test-files": [
         "error",
         {
@@ -61,7 +72,11 @@
           ]
         }
       ],
-      "unicorn/prefer-node-protocol": "off"
+      "unicorn/prefer-node-protocol": "off",
+      "fp/no-unused-expression": "off",
+      "fp/no-nil": "off",
+      "fp/no-loops": "off",
+      "fp/no-mutation": "off"
     }
   },
   "prettier": {

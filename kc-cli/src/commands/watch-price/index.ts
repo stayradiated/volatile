@@ -5,7 +5,7 @@ import {
   currencySources,
 } from '@stayradiated/market-price'
 
-import { withConfig } from '../../utils/with-config.js'
+import { createHandler } from '../../utils/create-handler.js'
 
 export const command = 'watch-price'
 
@@ -13,7 +13,7 @@ export const desc = 'Continuously print the current price of BTC/NZD.'
 
 export const builder = {}
 
-export const handler = withConfig(async (config) => {
+export const handler = createHandler(async (config) => {
   const fetchKiwiCoinPrice = createCachedFetchFn(
     marketPriceSources.kiwiCoin,
     {},
@@ -37,7 +37,7 @@ export const handler = withConfig(async (config) => {
   // CSV header
   console.log('date,kiwi-coin.com,easycrypto.nz,binance.us,dassetx.com')
 
-  const loop = async (): Promise<void> => {
+  const tryPrintPrice = async (): Promise<void | Error> => {
     const [kiwiCoinWorldwide, kiwiCoinEurope, binance, exchangeRate, dasset] =
       await Promise.all([
         fetchKiwiCoinPrice(),
@@ -46,6 +46,14 @@ export const handler = withConfig(async (config) => {
         fetchUSDExchangeRate(),
         fetchDassetPrice(),
       ])
+
+    if (binance instanceof Error) {
+      return binance
+    }
+
+    if (exchangeRate instanceof Error) {
+      return exchangeRate
+    }
 
     console.log(
       [
@@ -56,6 +64,13 @@ export const handler = withConfig(async (config) => {
         dasset,
       ].join(','),
     )
+  }
+
+  const loop = async (): Promise<void> => {
+    const error = await tryPrintPrice()
+    if (error instanceof Error) {
+      console.error(error)
+    }
 
     await setTimeout(5000)
     return loop()

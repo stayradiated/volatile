@@ -8,12 +8,10 @@ test('fetchWithCache', async (t) => {
   const source = {
     log: debug('test'),
     minCacheDuration: Duration.fromISOTime('00:00:01'),
-    fetch: async () => {
-      return {
-        value: 0,
-        lastUpdated: DateTime.local(),
-      }
-    },
+    fetch: async () => ({
+      value: 0,
+      lastUpdated: DateTime.local(),
+    }),
   }
 
   const fetch = createCachedFetchFn(source, {})

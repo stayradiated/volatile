@@ -1,6 +1,7 @@
 import ky from 'ky-universal'
 import debug from 'debug'
 import { DateTime, Duration } from 'luxon'
+import { errorBoundary } from '@stayradiated/error-boundary'
 
 import { createDebugHooks } from '../../utils/hooks.js'
 import { MarketPriceSource } from '../../utils/market-price-source.js'
@@ -65,7 +66,6 @@ type CoinMarketCapConfig = {
 }
 
 const marketSource: MarketPriceSource<CoinMarketCapConfig> = {
-  log,
   minCacheDuration: Duration.fromISOTime('00:01:00'),
   fetch: async (options) => {
     const { apiKey } = options
@@ -73,21 +73,28 @@ const marketSource: MarketPriceSource<CoinMarketCapConfig> = {
     const slug = 'bitcoin'
     const currency = 'NZD'
 
-    const result: APIResponse = await coinMarketCap
-      .get('v1/cryptocurrency/quotes/latest', {
-        searchParams: {
-          slug,
-          convert: currency,
-        },
-        headers: {
-          'X-CMC_PRO_API_KEY': apiKey,
-        },
-      })
-      .json()
+    const result = await errorBoundary<APIResponse>(async () =>
+      coinMarketCap
+        .get('v1/cryptocurrency/quotes/latest', {
+          searchParams: {
+            slug,
+            convert: currency,
+          },
+          headers: {
+            'X-CMC_PRO_API_KEY': apiKey,
+          },
+        })
+        .json(),
+    )
+
+    if (result instanceof Error) {
+      log(result.message)
+      return result
+    }
 
     const quote = result.data['1']?.quote[currency]
     if (!quote) {
-      throw new Error('Could not read quote back from response.')
+      return new Error('Could not read quote back from response.')
     }
 
     const value = quote.price

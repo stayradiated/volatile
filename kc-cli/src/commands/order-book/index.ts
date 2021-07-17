@@ -2,7 +2,7 @@ import * as kiwiCoin from '@stayradiated/kiwi-coin-api'
 import { marketPriceSources, currencySources } from '@stayradiated/market-price'
 import { table as printTable } from 'table'
 
-import { withConfig } from '../../utils/with-config.js'
+import { createHandler } from '../../utils/create-handler.js'
 
 export const command = 'order-book'
 
@@ -38,15 +38,29 @@ const toRow = (order: [string, string], worldPrice: number): Row => {
   }
 }
 
-export const handler = withConfig(async (config) => {
-  const [{ value: binanceRate }, { value: usdRate }, orderBook] =
-    await Promise.all([
-      marketPriceSources.binance.fetch({}),
-      currencySources.USD_NZD.fetch({ config: config.openExchangeRates }),
-      kiwiCoin.orderBook(),
-    ])
+export const handler = createHandler(async (config) => {
+  const [binanceRate, usdRate, orderBook] = await Promise.all([
+    marketPriceSources.binance.fetch({}),
+    currencySources.USD_NZD.fetch({ config: config.openExchangeRates }),
+    kiwiCoin.orderBook(),
+  ])
 
-  const worldPrice = binanceRate * usdRate
+  if (binanceRate instanceof Error) {
+    console.error(binanceRate)
+    return
+  }
+
+  if (usdRate instanceof Error) {
+    console.error(usdRate)
+    return
+  }
+
+  if (orderBook instanceof Error) {
+    console.error(orderBook)
+    return
+  }
+
+  const worldPrice = binanceRate.value * usdRate.value
 
   const length = 15
 
@@ -57,7 +71,19 @@ export const handler = withConfig(async (config) => {
     .slice(0, length)
     .map((order) => toRow(order, worldPrice))
 
-  const table = Array.from({ length })
+  const headers = [
+    '#',
+    'bid %',
+    'price',
+    'amount',
+    'value',
+    'ask %',
+    'price',
+    'amount',
+    'value',
+  ]
+
+  const rows = Array.from({ length })
     .fill(null)
     .map((_, index) => {
       const bid = bids[index] ?? EMPTY_ROW
@@ -76,31 +102,17 @@ export const handler = withConfig(async (config) => {
       ]
     })
 
-  table.unshift([
-    '#',
-    'bid %',
-    'price',
-    'amount',
-    'value',
-    'ask %',
-    'price',
-    'amount',
-    'value',
-  ])
+  const table = [headers, ...rows]
 
   console.log(
     printTable(table, {
-      drawVerticalLine: (lineIndex, columnCount) => {
-        return (
-          lineIndex === 0 ||
-          lineIndex === 1 ||
-          lineIndex === 5 ||
-          lineIndex === columnCount
-        )
-      },
-      drawHorizontalLine: (lineIndex, rowCount) => {
-        return lineIndex === 0 || lineIndex === 1 || lineIndex === rowCount
-      },
+      drawVerticalLine: (lineIndex, columnCount) =>
+        lineIndex === 0 ||
+        lineIndex === 1 ||
+        lineIndex === 5 ||
+        lineIndex === columnCount,
+      drawHorizontalLine: (lineIndex, rowCount) =>
+        lineIndex === 0 || lineIndex === 1 || lineIndex === rowCount,
       columnDefault: {
         alignment: 'right',
       },

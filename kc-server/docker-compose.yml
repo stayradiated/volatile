@@ -6,11 +6,28 @@ services:
     restart: always
     ports: 
       - "127.0.0.1:5432:5432"
-    environment:
-      POSTGRES_USER: kc
-      POSTGRES_PASSWORD: angrydroplet
+    env_file:
+      - .env
     volumes:
       - pgdata:/var/lib/postgresql/data
+
+  hasura:
+    image: hasura/graphql-engine:v2.0.1.cli-migrations-v2
+    ports:
+      - "127.0.0.1:9999:8080"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    restart: always
+    volumes:
+      - ../kc-hasura/metadata:/hasura-metadata
+    env_file:
+      - .env
+    environment:
+      HASURA_GRAPHQL_JWT_SECRET: '{ "type": "HS256", "key": "${JWT_SECRET}", "claims_format": "json" }'
+      HASURA_ACTIONS_AUTHORIZATION_HEADER: 'Bearer ${ACTIONS_AUTHORIZATION_SECRET}'
+      HASURA_GRAPHQL_DATABASE_URL: 'postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/kc'
+    depends_on:
+      - db
 
 volumes:
   pgdata:

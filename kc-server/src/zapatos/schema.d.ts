@@ -1768,6 +1768,12 @@ declare module 'zapatos/schema' {
       */
       updated_at: Date;
       /**
+      * **user.email_keyring_id**
+      * - `int2` in database
+      * - `NOT NULL`, no default
+      */
+      email_keyring_id: number;
+      /**
       * **user.email_encrypted**
       * - `varchar` in database
       * - `NOT NULL`, no default
@@ -1805,6 +1811,12 @@ declare module 'zapatos/schema' {
       * - `NOT NULL`, no default
       */
       updated_at: db.TimestampTzString;
+      /**
+      * **user.email_keyring_id**
+      * - `int2` in database
+      * - `NOT NULL`, no default
+      */
+      email_keyring_id: number;
       /**
       * **user.email_encrypted**
       * - `varchar` in database
@@ -1844,6 +1856,12 @@ declare module 'zapatos/schema' {
       */
       updated_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
       /**
+      * **user.email_keyring_id**
+      * - `int2` in database
+      * - `NOT NULL`, no default
+      */
+      email_keyring_id?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+      /**
       * **user.email_encrypted**
       * - `varchar` in database
       * - `NOT NULL`, no default
@@ -1882,6 +1900,12 @@ declare module 'zapatos/schema' {
       */
       updated_at: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment;
       /**
+      * **user.email_keyring_id**
+      * - `int2` in database
+      * - `NOT NULL`, no default
+      */
+      email_keyring_id: number | db.Parameter<number> | db.SQLFragment;
+      /**
       * **user.email_encrypted**
       * - `varchar` in database
       * - `NOT NULL`, no default
@@ -1919,6 +1943,12 @@ declare module 'zapatos/schema' {
       * - `NOT NULL`, no default
       */
       updated_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment>;
+      /**
+      * **user.email_keyring_id**
+      * - `int2` in database
+      * - `NOT NULL`, no default
+      */
+      email_keyring_id?: number | db.Parameter<number> | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
       /**
       * **user.email_encrypted**
       * - `varchar` in database
@@ -1983,11 +2013,23 @@ declare module 'zapatos/schema' {
       */
       exchange_uid: string;
       /**
+      * **user_exchange_keys.keys_keyring_id**
+      * - `int2` in database
+      * - `NOT NULL`, no default
+      */
+      keys_keyring_id: number;
+      /**
       * **user_exchange_keys.keys_encrypted**
       * - `varchar` in database
       * - `NOT NULL`, no default
       */
       keys_encrypted: string;
+      /**
+      * **user_exchange_keys.keys_hash**
+      * - `varchar` in database
+      * - `NOT NULL`, no default
+      */
+      keys_hash: string;
       /**
       * **user_exchange_keys.description**
       * - `varchar` in database
@@ -2033,11 +2075,23 @@ declare module 'zapatos/schema' {
       */
       exchange_uid: string;
       /**
+      * **user_exchange_keys.keys_keyring_id**
+      * - `int2` in database
+      * - `NOT NULL`, no default
+      */
+      keys_keyring_id: number;
+      /**
       * **user_exchange_keys.keys_encrypted**
       * - `varchar` in database
       * - `NOT NULL`, no default
       */
       keys_encrypted: string;
+      /**
+      * **user_exchange_keys.keys_hash**
+      * - `varchar` in database
+      * - `NOT NULL`, no default
+      */
+      keys_hash: string;
       /**
       * **user_exchange_keys.description**
       * - `varchar` in database
@@ -2083,11 +2137,23 @@ declare module 'zapatos/schema' {
       */
       exchange_uid?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
       /**
+      * **user_exchange_keys.keys_keyring_id**
+      * - `int2` in database
+      * - `NOT NULL`, no default
+      */
+      keys_keyring_id?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+      /**
       * **user_exchange_keys.keys_encrypted**
       * - `varchar` in database
       * - `NOT NULL`, no default
       */
       keys_encrypted?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **user_exchange_keys.keys_hash**
+      * - `varchar` in database
+      * - `NOT NULL`, no default
+      */
+      keys_hash?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
       /**
       * **user_exchange_keys.description**
       * - `varchar` in database
@@ -2133,11 +2199,23 @@ declare module 'zapatos/schema' {
       */
       exchange_uid: string | db.Parameter<string> | db.SQLFragment;
       /**
+      * **user_exchange_keys.keys_keyring_id**
+      * - `int2` in database
+      * - `NOT NULL`, no default
+      */
+      keys_keyring_id: number | db.Parameter<number> | db.SQLFragment;
+      /**
       * **user_exchange_keys.keys_encrypted**
       * - `varchar` in database
       * - `NOT NULL`, no default
       */
       keys_encrypted: string | db.Parameter<string> | db.SQLFragment;
+      /**
+      * **user_exchange_keys.keys_hash**
+      * - `varchar` in database
+      * - `NOT NULL`, no default
+      */
+      keys_hash: string | db.Parameter<string> | db.SQLFragment;
       /**
       * **user_exchange_keys.description**
       * - `varchar` in database
@@ -2183,11 +2261,23 @@ declare module 'zapatos/schema' {
       */
       exchange_uid?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
       /**
+      * **user_exchange_keys.keys_keyring_id**
+      * - `int2` in database
+      * - `NOT NULL`, no default
+      */
+      keys_keyring_id?: number | db.Parameter<number> | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
+      /**
       * **user_exchange_keys.keys_encrypted**
       * - `varchar` in database
       * - `NOT NULL`, no default
       */
       keys_encrypted?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+      /**
+      * **user_exchange_keys.keys_hash**
+      * - `varchar` in database
+      * - `NOT NULL`, no default
+      */
+      keys_hash?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
       /**
       * **user_exchange_keys.description**
       * - `varchar` in database
@@ -2201,7 +2291,7 @@ declare module 'zapatos/schema' {
       */
       invalidated_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment>;
     }
-    export type UniqueIndex = 'user_exchange_keys_pkey';
+    export type UniqueIndex = 'unique_user_exchange_keys_user_uid_exchange_uid' | 'user_exchange_keys_pkey';
     export type Column = keyof Selectable;
     export type OnlyCols<T extends readonly Column[]> = Pick<Selectable, T[number]>;
     export type SQLExpression = db.GenericSQLExpression | db.ColumnNames<Updatable | (keyof Updatable)[]> | db.ColumnValues<Updatable> | Table | Whereable | Column;

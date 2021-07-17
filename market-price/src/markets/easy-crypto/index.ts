@@ -23,13 +23,12 @@ type APIResponse = {
 }
 
 const marketSource: MarketPriceSource<Options> = {
-  log,
   minCacheDuration: Duration.fromISOTime('00:00:30'),
   fetch: async (options) => {
     const { symbol = 'BTCNZD' } = options
 
     if (symbol.toUpperCase() !== symbol) {
-      throw new Error(`Symbol must be uppercase, received "${symbol}".`)
+      return new Error(`Symbol must be uppercase, received "${symbol}".`)
     }
 
     const lastUpdated = DateTime.local()

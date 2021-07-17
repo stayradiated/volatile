@@ -29,5 +29,9 @@
     "useDefineForClassFields": true,
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true
-  }
+  },
+  "include": [
+    "./src/",
+    "./src/zapatos/schema.d.ts"
+  ]
 }

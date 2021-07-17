@@ -30,14 +30,13 @@ type APIResponse = Array<{
 }>
 
 const marketSource: MarketPriceSource<Options> = {
-  log,
   minCacheDuration: Duration.fromISOTime('00:00:05'),
   fetch: async (options) => {
     const { config, symbol = 'BTC-NZD' } = options
     const { apiKey, accountId } = config
 
     if (symbol.toUpperCase() !== symbol) {
-      throw new Error(`Symbol must be uppercase, received "${symbol}".`)
+      return new Error(`Symbol must be uppercase, received "${symbol}".`)
     }
 
     const lastUpdated = DateTime.local()
@@ -53,7 +52,7 @@ const marketSource: MarketPriceSource<Options> = {
 
     const ticker = result[0]
     if (!ticker) {
-      throw new Error(`Could not get ticker back for symbol: ${symbol}`)
+      return new Error(`Could not get ticker back for symbol: ${symbol}`)
     }
 
     // Const bidRate = Number.parseFloat(ticker.bidRate)
