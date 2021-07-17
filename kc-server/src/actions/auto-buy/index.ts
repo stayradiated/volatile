@@ -1,12 +1,18 @@
 import { setTimeout } from 'timers/promises'
 
-import { getAllDCAOrders } from '../dca-order/index.js'
-import { getExchangeUID, EXCHANGE_KIWI_COIN } from '../exchange/index.js'
-import type { Component } from '../../types.js'
+import { getAllDCAOrders } from '../../models/dca-order/index.js'
+import {
+  getExchangeUID,
+  EXCHANGE_KIWI_COIN,
+} from '../../models/exchange/index.js'
+import type { ActionHandlerFn } from '../../utils/action-handler.js'
 import { executeDCAOrder } from './execute-dca-order.js'
 
-const initAutoBuy: Component = async (props) => {
-  const { pool } = props
+type Input = Record<string, unknown>
+type Output = void
+
+const autoBuyHandler: ActionHandlerFn<Input, Output> = async (context) => {
+  const { pool } = context
 
   const exchangeUID = await getExchangeUID(pool, EXCHANGE_KIWI_COIN)
   if (exchangeUID instanceof Error) {
@@ -39,4 +45,4 @@ const initAutoBuy: Component = async (props) => {
   return undefined
 }
 
-export { initAutoBuy }
+export { autoBuyHandler }

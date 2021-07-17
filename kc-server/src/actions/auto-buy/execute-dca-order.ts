@@ -1,9 +1,9 @@
 import * as kiwiCoin from '@stayradiated/kiwi-coin-api'
 
 import { round } from '../../utils/round.js'
-import { DCAOrder } from '../dca-order/index.js'
-import { getUserExchangeKeys } from '../user-exchange-keys/index.js'
-import { getMarketPrice } from '../market-price/index.js'
+import { DCAOrder } from '../../models/dca-order/index.js'
+import { getUserExchangeKeys } from '../../models/user-exchange-keys/index.js'
+import { getMarketPrice } from '../../models/market-price/index.js'
 import type { Pool } from '../../types.js'
 import { calculateOrderAmountNZD } from './calculate-order-amount-nzd.js'
 import { fetchAvailableNZD } from './fetch-available-nzd.js'

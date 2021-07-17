@@ -2,20 +2,28 @@ import { setTimeout } from 'timers/promises'
 import { inspect } from 'util'
 import debug from 'debug'
 
-import type { Component } from '../../types.js'
-import { createMarketPrice } from './create-market-price.js'
-import { currencyConfigList, Currency } from './currency-config.js'
+import type { ActionHandlerFn } from '../../utils/action-handler.js'
+import { createMarketPrice } from '../../models/market-price/index.js'
+import {
+  currencyConfigList,
+  Currency,
+} from '../../models/market-price/currency-config.js'
 import {
   marketPriceConfigList,
   MarketPriceInstance,
-} from './market-price-config.js'
+} from '../../models/market-price/market-price-config.js'
+
+type Input = Record<string, unknown>
+type Output = void
 
 const log = debug('market-price')
 
 const SLEEP_MS = 60 * 1000
 
-const fetchMarketPrice: Component = async (props): Promise<void> => {
-  const { config, pool } = props
+const fetchMarketPriceHandler: ActionHandlerFn<Input, Output> = async (
+  context,
+): Promise<void> => {
+  const { config, pool } = context
 
   const currencyFnList = currencyConfigList.map((currencyConfig) => {
     const { createFetchRateFn } = currencyConfig
@@ -92,4 +100,4 @@ const fetchMarketPrice: Component = async (props): Promise<void> => {
   )
 }
 
-export { fetchMarketPrice }
+export { fetchMarketPriceHandler }

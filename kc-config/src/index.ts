@@ -1,10 +1,12 @@
-import fs from 'fs/promises'
+import { readFile as readFileAsync } from 'fs/promises'
+import { readFileSync } from 'fs'
 import { Config as KiwiCoinConfig } from '@stayradiated/kiwi-coin-api'
 import {
   CoinMarketCapConfig,
   OpenExchangeRatesConfig,
   DassetConfig,
 } from '@stayradiated/market-price'
+import { errorBoundary } from '@stayradiated/error-boundary'
 
 type JSONConfig = {
   'kiwi-coin.com': KiwiCoinConfig
@@ -57,8 +59,23 @@ ${errorMessages.join('\n')}`,
 }
 
 const readConfig = async (configPath: string): Promise<Config | Error> => {
-  const configString = await fs.readFile(configPath, 'utf8')
+  const configString = await errorBoundary(async () =>
+    readFileAsync(configPath, 'utf8'),
+  )
+  if (configString instanceof Error) {
+    return configString
+  }
+
   return parseConfig(configString)
 }
 
-export { readConfig, parseConfig, Config }
+const readConfigSync = (configPath: string): Config | Error => {
+  const configString = errorBoundary(() => readFileSync(configPath, 'utf8'))
+  if (configString instanceof Error) {
+    return configString
+  }
+
+  return parseConfig(configString)
+}
+
+export { readConfig, readConfigSync, parseConfig, Config }

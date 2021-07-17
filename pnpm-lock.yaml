@@ -43,6 +43,7 @@ importers:
 
   kc-config:
     specifiers:
+      '@stayradiated/error-boundary': 1.1.0
       '@stayradiated/jsconfig': 1.14.0
       '@stayradiated/kiwi-coin-api': workspace:1.0.1
       '@stayradiated/market-price': workspace:1.0.0
@@ -52,6 +53,7 @@ importers:
       typescript: 4.3.5
       xo: 0.41.0
     dependencies:
+      '@stayradiated/error-boundary': 1.1.0
       '@stayradiated/kiwi-coin-api': link:../kiwi-coin-api
       '@stayradiated/market-price': link:../market-price
     devDependencies:

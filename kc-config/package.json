@@ -76,6 +76,7 @@
     "useTabs": false
   },
   "dependencies": {
+    "@stayradiated/error-boundary": "1.1.0",
     "@stayradiated/kiwi-coin-api": "workspace:1.0.1",
     "@stayradiated/market-price": "workspace:1.0.0"
   }

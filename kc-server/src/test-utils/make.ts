@@ -2,12 +2,9 @@
 
 import { randomUUID } from 'crypto'
 
-import { createUser } from '../components/user/index.js'
-import {
-  getExchangeUID,
-  EXCHANGE_KIWI_COIN,
-} from '../components/exchange/index.js'
-import { getMarketUID, MARKET_KIWI_COIN } from '../components/market/index.js'
+import { createUser } from '../models/user/index.js'
+import { getExchangeUID, EXCHANGE_KIWI_COIN } from '../models/exchange/index.js'
+import { getMarketUID, MARKET_KIWI_COIN } from '../models/market/index.js'
 import { pool } from '../pool.js'
 
 const user = async (): Promise<string> => {
