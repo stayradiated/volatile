@@ -8,6 +8,7 @@ import {
   currencySources,
 } from '@stayradiated/market-price'
 import debug from 'debug'
+import { errorBoundary } from '@stayradiated/error-boundary'
 
 import {
   Market,
@@ -36,24 +37,34 @@ type InsertMarketPriceOptions = {
 const insertMarketPrice = async (
   pool: Pool,
   options: InsertMarketPriceOptions,
-) => {
+): Promise<void | Error> => {
   const { timestamp, market, price, currency, fxRate, priceNZD } = options
+
+  const marketUID = await getMarketUID(pool, market)
+  if (marketUID instanceof Error) {
+    return marketUID
+  }
 
   const now = new Date()
   const marketPrice: s.market_price.Insertable = {
     created_at: now,
     updated_at: now,
     timestamp,
-    market_uid: await getMarketUID(pool, market),
+    market_uid: marketUID,
     price,
     currency,
     fx_rate: fxRate,
     price_nzd: priceNZD,
   }
 
-  await db.sql<s.market_price.SQL>`
+  const result = await errorBoundary(async () =>
+    db.sql<s.market_price.SQL>`
     INSERT INTO ${'market_price'} (${db.cols(marketPrice)})
-    VALUES (${db.vals(marketPrice)})`.run(pool)
+    VALUES (${db.vals(marketPrice)})`.run(pool),
+  )
+  if (result instanceof Error) {
+    return result
+  }
 }
 
 enum Currency {

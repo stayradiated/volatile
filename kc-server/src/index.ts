@@ -6,8 +6,8 @@ import type * as s from 'zapatos/schema'
 
 import { CONFIG_PATH, PORT } from './env.js'
 import { pool } from './pool.js'
-// Import { fetchMarketPrice } from './components/market-price/index.js'
-// Import { initAutoBuy } from './components/auto-buy/index.js'
+import { fetchMarketPrice } from './components/market-price/index.js'
+import { initAutoBuy } from './components/auto-buy/index.js'
 import { createUser } from './components/user/index.js'
 import { createAuthToken } from './components/auth-token/index.js'
 import { keyring } from './utils/keyring.js'
@@ -19,7 +19,11 @@ import {
   getExchangeUID,
   EXCHANGE_KIWI_COIN,
 } from './components/exchange/index.js'
-import { getMarketUID, MARKET_KIWI_COIN } from './components/market/index.js'
+import {
+  getMarketUID,
+  MARKET_KIWI_COIN,
+  MARKET_BINANCE_US,
+} from './components/market/index.js'
 import { createDCAOrder } from './components/dca-order/index.js'
 
 import type { ComponentProps } from './types.js'
@@ -258,9 +262,7 @@ void (async function () {
   // Make sure markets + exchanges exist in DB
   await getExchangeUID(pool, EXCHANGE_KIWI_COIN)
   await getMarketUID(pool, MARKET_KIWI_COIN)
+  await getMarketUID(pool, MARKET_BINANCE_US)
 
-  await Promise.all([
-    // FetchMarketPrice(props),
-    // , initAutoBuy(props)
-  ])
+  await Promise.all([fetchMarketPrice(props), initAutoBuy(props)])
 })()

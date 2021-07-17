@@ -1,8 +1,6 @@
 import { randomUUID } from 'crypto'
-import pmem from 'p-memoize'
 import * as db from 'zapatos/db'
 import type * as s from 'zapatos/schema'
-import { throwIfError } from '@stayradiated/error-boundary'
 
 import type { Pool } from '../../types.js'
 
@@ -46,13 +44,22 @@ const forceGetExchangeUID = async (
   return row.uid
 }
 
-const forceGetExchangeUIDOrThrow = async (
+const localCache = new Map<Exchange, string>()
+const getExchangeUID = async (
   pool: Pool,
   exchange: Exchange,
-): Promise<string> => throwIfError<string>(forceGetExchangeUID(pool, exchange))
+): Promise<string | Error> => {
+  if (localCache.has(exchange)) {
+    return localCache.get(exchange)!
+  }
 
-const getExchangeUID = pmem(forceGetExchangeUIDOrThrow, {
-  cacheKey: ([_, exchange]) => exchange,
-})
+  const exchangeUID = await forceGetExchangeUID(pool, exchange)
+  if (exchangeUID instanceof Error) {
+    return exchangeUID
+  }
+
+  localCache.set(exchange, exchangeUID)
+  return exchangeUID
+}
 
 export { Exchange, EXCHANGE_KIWI_COIN, forceGetExchangeUID, getExchangeUID }

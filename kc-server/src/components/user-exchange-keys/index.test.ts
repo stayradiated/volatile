@@ -30,10 +30,10 @@ test.before(async (t) => {
 test('setUserExchangeKey: should write to user_exchange_keys', async (t) => {
   const { userUID } = t.context
 
-  const exchangeUID = await getExchangeUID(pool, {
+  const exchangeUID = (await getExchangeUID(pool, {
     id: 'setUserExchangeKey',
     name: 'setUserExchangeKey',
-  })
+  })) as string
 
   const keys = {
     a: 'YFTgSUE4GkCWECIPtheshijlHwrknwWkkxDGJBm3UjY=',
@@ -89,10 +89,10 @@ test('setUserExchangeKey: should write to user_exchange_keys', async (t) => {
 test('getUserExchangeKey: should read from user_exchange_keys', async (t) => {
   const { userUID } = t.context
 
-  const exchangeUID = await getExchangeUID(pool, {
+  const exchangeUID = (await getExchangeUID(pool, {
     id: 'getUserExchangeKey',
     name: 'getUserExchangeKey',
-  })
+  })) as string
 
   const keys = {
     a: 'YFTgSUE4GkCWECIPtheshijlHwrknwWkkxDGJBm3UjY=',

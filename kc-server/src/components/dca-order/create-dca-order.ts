@@ -1,8 +1,8 @@
 import { randomUUID } from 'crypto'
-import { errorBoundary } from '@stayradiated/error-boundary'
 import * as db from 'zapatos/db'
 import type * as s from 'zapatos/schema'
 import { DateTime } from 'luxon'
+import { errorBoundary } from '@stayradiated/error-boundary'
 
 import type { Except } from 'type-fest'
 import type { Pool } from '../../types.js'

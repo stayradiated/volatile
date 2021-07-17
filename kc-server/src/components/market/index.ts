@@ -1,8 +1,6 @@
 import { randomUUID } from 'crypto'
-import pmem from 'p-memoize'
 import * as db from 'zapatos/db'
 import type * as s from 'zapatos/schema'
-import { throwIfError } from '@stayradiated/error-boundary'
 
 import type { Pool } from '../../types.js'
 
@@ -61,14 +59,24 @@ const forceGetMarketUID = async (
   return row.uid
 }
 
-const forceGetMarketUIDOrThrow = async (
+const localCache = new Map<Market, string>()
+
+const getMarketUID = async (
   pool: Pool,
   market: Market,
-): Promise<string> => throwIfError<string>(forceGetMarketUID(pool, market))
+): Promise<string | Error> => {
+  if (localCache.has(market)) {
+    return localCache.get(market)!
+  }
 
-const getMarketUID = pmem(forceGetMarketUIDOrThrow, {
-  cacheKey: ([_, market]) => market,
-})
+  const marketUID = await forceGetMarketUID(pool, market)
+  if (marketUID instanceof Error) {
+    return marketUID
+  }
+
+  localCache.set(market, marketUID)
+  return marketUID
+}
 
 export {
   Market,
