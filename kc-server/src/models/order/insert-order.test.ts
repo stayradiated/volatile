@@ -8,9 +8,9 @@ import { insertOrder } from './insert-order.js'
 import { OrderType } from './types.js'
 
 test('insertOrder', async (t) => {
-  const { pool, makeUser, makeExchange } = t.context
-  const userUID = await makeUser()
-  const exchangeUID = await makeExchange()
+  const { pool, make } = t.context
+  const userUID = await make.user()
+  const exchangeUID = await make.exchange()
 
   const input = {
     userUID,

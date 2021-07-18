@@ -2,6 +2,7 @@ import createFastify from 'fastify'
 
 import { PORT } from './env.js'
 import { pool } from './pool.js'
+import { config } from './utils/config.js'
 
 import { getExchangeUID, EXCHANGE_KIWI_COIN } from './models/exchange/index.js'
 import {
@@ -36,15 +37,18 @@ void (async function () {
   await getMarketUID(pool, MARKET_KIWI_COIN)
   await getMarketUID(pool, MARKET_BINANCE_US)
 
-  // Const context = {
-  //   config,
-  //   pool,
-  //   input: {},
-  //   session: {
-  //     'x-hasura-role': 'admin',
-  //     'x-hasura-user-id': '',
-  //   },
-  // }
+  const context = {
+    config,
+    pool,
+    input: {},
+    session: {
+      role: 'admin',
+      userUID: '',
+    },
+  }
 
-  // await Promise.all([actions.fetchMarketPriceHandler(context), actions.autoBuyHandler(context)])
+  await Promise.all([
+    actions.fetchMarketPriceHandler(context),
+    actions.autoBuyHandler(context),
+  ])
 })()

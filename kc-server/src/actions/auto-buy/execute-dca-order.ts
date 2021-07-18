@@ -6,6 +6,7 @@ import { DCAOrder } from '../../models/dca-order/index.js'
 import { getMarketPrice } from '../../models/market-price/index.js'
 import { getUserExchangeKeys } from '../../models/user-exchange-keys/index.js'
 import { insertOrder, OrderType } from '../../models/order/index.js'
+import { insertDCAOrderHistory } from '../../models/dca-order-history/index.js'
 import { round } from '../../utils/round.js'
 import { fetchAvailableNZD } from './fetch-available-nzd.js'
 import { calculateOrderAmountNZD } from './calculate-order-amount-nzd.js'
@@ -102,7 +103,7 @@ const executeDCAOrder = async (
         return freshOrder
       }
 
-      await insertOrder(pool, {
+      const order = await insertOrder(pool, {
         userUID: dcaOrder.userUID,
         exchangeUID: dcaOrder.exchangeUID,
         ID: String(freshOrder.id),
@@ -113,13 +114,30 @@ const executeDCAOrder = async (
         openedAt: DateTime.local(),
         closedAt: undefined,
       })
+      if (order instanceof Error) {
+        return order
+      }
 
-      console.dir({
+      const dcaOrderHistory = await insertDCAOrderHistory(pool, {
+        userUID: dcaOrder.userUID,
+        dcaOrderUID: dcaOrder.UID,
+        orderUID: order.UID,
         marketPrice,
-        offsetPercent,
-        orderPrice,
-        amountNZD,
-        amountBTC,
+        marketOffset: dcaOrder.marketOffset,
+      })
+      if (dcaOrderHistory instanceof Error) {
+        return dcaOrderHistory
+      }
+
+      console.log({
+        dcaOrderHistoryUID: dcaOrderHistory.UID,
+        orderUID: order.UID,
+        orderID: order.ID,
+        marketPrice,
+        marketOffset: dcaOrderHistory.marketOffset,
+        price: order.price,
+        amount: order.amount,
+        value: order.amount * order.price,
       })
     }
   }

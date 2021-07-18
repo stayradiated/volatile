@@ -60,6 +60,7 @@
     "luxon": "1.28.0",
     "njwt": "1.1.0",
     "pg": "8.6.0",
+    "rambda": "6.8.2",
     "zapatos": "5.0.0"
   },
   "__comment": "The following configs are managed by `npx @stayradiated/jsconfig`",

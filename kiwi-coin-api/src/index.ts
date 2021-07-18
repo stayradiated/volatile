@@ -190,12 +190,13 @@ const cancelOrder = async (
 
 export type TradeOptions = { price: number; amount: number }
 
-type APIError = {error: string}
+type APIError = { error: string }
 export type BuyResult = Order | APIError
 
-const isAPIError = (response: Record<string, unknown>): response is APIError => {
-  return typeof response === 'object' && response !== null && typeof response['error'] === 'string'
-}
+const isAPIError = (response: Record<string, unknown>): response is APIError =>
+  typeof response === 'object' &&
+  response !== null &&
+  typeof response['error'] === 'string'
 
 const buy = async (
   config: Config,
@@ -215,9 +216,11 @@ const buy = async (
   if (response instanceof Error) {
     return response
   }
+
   if (isAPIError(response)) {
     return new Error(response.error)
   }
+
   return response
 }
 

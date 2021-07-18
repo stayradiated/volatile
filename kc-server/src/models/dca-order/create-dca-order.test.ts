@@ -1,28 +1,15 @@
 import { inspect } from 'util'
-import anyTest, { TestInterface } from 'ava'
 import { DateTime } from 'luxon'
 
-import { pool } from '../../pool.js'
-import * as make from '../../test-utils/make.js'
+import test from '../../test-utils/ava.js'
 
 import { createDCAOrder, CreateDCAOrderOptions } from './create-dca-order.js'
 
-const test = anyTest as TestInterface<{
-  userUID: string
-  exchangeUID: string
-  marketUID: string
-}>
-
-test.before(async (t) => {
-  t.context = {
-    userUID: await make.user(),
-    exchangeUID: await make.exchange(),
-    marketUID: await make.market(),
-  }
-})
-
 test('createDCAOrder', async (t) => {
-  const { userUID, exchangeUID, marketUID } = t.context
+  const { pool, make } = t.context
+  const userUID = await make.user()
+  const exchangeUID = await make.exchange()
+  const marketUID = await make.market()
 
   const input: CreateDCAOrderOptions = {
     userUID,
