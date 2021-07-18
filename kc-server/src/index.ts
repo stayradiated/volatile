@@ -1,3 +1,5 @@
+import createFastify from 'fastify'
+
 import { PORT } from './env.js'
 import { pool } from './pool.js'
 
@@ -9,18 +11,22 @@ import {
 } from './models/market/index.js'
 
 import * as actions from './actions/index.js'
-import { fastify } from './utils/fastify.js'
-// import { config } from './utils/config.js'
 import { bindActionHandler } from './utils/action-handler.js'
 
-bindActionHandler('auto_buy', actions.autoBuyHandler)
-bindActionHandler('create_auth_token', actions.createAuthTokenHandler)
-bindActionHandler('create_dca_order', actions.createDCAOrderHandler)
-bindActionHandler('create_user', actions.createUserHandler)
-bindActionHandler('fetch_market_price', actions.fetchMarketPriceHandler)
-bindActionHandler('get_email', actions.getEmailHandler)
-bindActionHandler('set_user_exchange_keys', actions.setUserExchangeKeysHandler)
-bindActionHandler('validate_user_exchange_keys', actions.validateUserExchangeKeysHandler)
+const fastify = createFastify({
+  logger: true,
+})
+
+const addRoute = bindActionHandler(fastify)
+
+addRoute('auto_buy', actions.autoBuyHandler)
+addRoute('create_auth_token', actions.createAuthTokenHandler)
+addRoute('create_dca_order', actions.createDCAOrderHandler)
+addRoute('create_user', actions.createUserHandler)
+addRoute('fetch_market_price', actions.fetchMarketPriceHandler)
+addRoute('get_email', actions.getEmailHandler)
+addRoute('set_user_exchange_keys', actions.setUserExchangeKeysHandler)
+addRoute('validate_user_exchange_keys', actions.validateUserExchangeKeysHandler)
 
 void fastify.listen(PORT, '0.0.0.0')
 
@@ -30,7 +36,7 @@ void (async function () {
   await getMarketUID(pool, MARKET_KIWI_COIN)
   await getMarketUID(pool, MARKET_BINANCE_US)
 
-  // const context = {
+  // Const context = {
   //   config,
   //   pool,
   //   input: {},
@@ -39,7 +45,6 @@ void (async function () {
   //     'x-hasura-user-id': '',
   //   },
   // }
-
 
   // await Promise.all([actions.fetchMarketPriceHandler(context), actions.autoBuyHandler(context)])
 })()

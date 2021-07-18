@@ -11,13 +11,12 @@ type Output = {
 
 const getEmailHandler: ActionHandlerFn<Input, Output> = async (context) => {
   const { pool, session } = context
-
-  const uid = session['x-hasura-user-id']
+  const { userUID } = session
 
   const [row] = await db.sql<s.user.SQL, s.user.Selectable[]>`
     SELECT ${'email_keyring_id'}, ${'email_encrypted'}
     FROM ${'user'}
-    WHERE ${{ uid }}
+    WHERE ${{ uid: userUID }}
   `.run(pool)
 
   if (!row) {

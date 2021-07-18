@@ -1,11 +1,54 @@
+import type { FastifyInstance, RouteHandlerMethod } from 'fastify'
+import type {
+  RawServerDefault,
+  RawRequestDefaultExpression,
+  RawReplyDefaultExpression,
+} from 'fastify/types/utils'
+
 import { pool } from '../pool.js'
 import type { Pool, Config } from '../types.js'
-import { fastify } from './fastify.js'
 import { config } from './config.js'
 
+type RouteHandler<RouteGeneric> = RouteHandlerMethod<
+  RawServerDefault,
+  RawRequestDefaultExpression,
+  RawReplyDefaultExpression,
+  RouteGeneric
+>
+
+type ActionHandlerRequest<Input> = {
+  Body: {
+    input: Input
+    action: { name: string }
+    session_variables: {
+      'x-hasura-role'?: string
+      'x-hasura-user-id'?: string
+    }
+  }
+}
+
 type Session = {
-  'x-hasura-role': string
-  'x-hasura-user-id': string
+  role: string
+  userUID: string
+}
+
+const parseSessionVariables = (
+  input: Record<string, string>,
+): Session | Error => {
+  const role = input['x-hasura-role']
+  if (!role) {
+    return new Error('session_variables is missing x-hasura-role.')
+  }
+
+  const userUID = input['x-hasura-user-id']
+  if (!userUID) {
+    return new Error('session_variables is missing x-hasura-user-uid.')
+  }
+
+  return {
+    role,
+    userUID,
+  }
 }
 
 type Context<Input> = {
@@ -19,14 +62,21 @@ type ActionHandlerFn<Input, Output> = (
   context: Context<Input>,
 ) => Promise<Output | Error>
 
-const bindActionHandler = <Input, Output>(
-  actionName: string,
-  fn: ActionHandlerFn<Input, Output>,
-) =>
-  fastify.post<{
-    Body: { input: Input; action: { name: string }; session_variables: Session }
-  }>(`/action/${actionName}`, async (request, reply) => {
-    const { session_variables: session, input, action } = request.body
+const wrapActionHandler =
+  <Input, Output>(
+    actionName: string,
+    fn: ActionHandlerFn<Input, Output>,
+  ): RouteHandler<ActionHandlerRequest<Input>> =>
+  async (request, reply) => {
+    const { session_variables: sessionVariables, input, action } = request.body
+    const session = parseSessionVariables(sessionVariables)
+    if (session instanceof Error) {
+      await reply.code(401).send({
+        error: `Invalid session_variables. ${session.message}`,
+      })
+      return
+    }
+
     if (action.name !== actionName) {
       await reply.code(404).send({
         error: `Action name mismatch, expecting '${actionName}', received: '${action.name}'`,
@@ -41,6 +91,13 @@ const bindActionHandler = <Input, Output>(
     }
 
     await reply.send(output)
-  })
+  }
 
-export { ActionHandlerFn, bindActionHandler }
+const bindActionHandler =
+  (fastify: FastifyInstance) =>
+  <Input, Output>(actionName: string, fn: ActionHandlerFn<Input, Output>) => {
+    const path = `/action/${actionName}`
+    return fastify.post(path, wrapActionHandler<Input, Output>(actionName, fn))
+  }
+
+export { ActionHandlerFn, wrapActionHandler, bindActionHandler }

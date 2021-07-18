@@ -23,6 +23,7 @@ const createDCAOrderHandler: ActionHandlerFn<Input, Output> = async (
   context,
 ) => {
   const { pool, input, session } = context
+  const { userUID } = session
 
   const {
     exchange_uid: exchangeUID,
@@ -35,7 +36,6 @@ const createDCAOrderHandler: ActionHandlerFn<Input, Output> = async (
     min_amount: minAmount,
     max_amount: maxAmount,
   } = input
-  const userUID = session['x-hasura-user-id']
 
   const dcaOrder = await createDCAOrder(pool, {
     userUID,

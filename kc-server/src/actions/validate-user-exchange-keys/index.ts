@@ -14,7 +14,7 @@ const validateUserExchangeKeysHandler: ActionHandlerFn<Input, Output> = async (
 ) => {
   const { pool, input, session } = context
   const { exchange_uid: exchangeUID } = input
-  const userUID = session['x-hasura-user-id']
+  const { userUID } = session
 
   const result = await validateUserExchangeKeys(pool, {
     userUID,
