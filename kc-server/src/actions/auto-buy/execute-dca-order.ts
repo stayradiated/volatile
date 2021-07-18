@@ -1,12 +1,14 @@
 import * as kiwiCoin from '@stayradiated/kiwi-coin-api'
+import { DateTime } from 'luxon'
 
-import { round } from '../../utils/round.js'
-import { DCAOrder } from '../../models/dca-order/index.js'
-import { getUserExchangeKeys } from '../../models/user-exchange-keys/index.js'
-import { getMarketPrice } from '../../models/market-price/index.js'
 import type { Pool } from '../../types.js'
-import { calculateOrderAmountNZD } from './calculate-order-amount-nzd.js'
+import { DCAOrder } from '../../models/dca-order/index.js'
+import { getMarketPrice } from '../../models/market-price/index.js'
+import { getUserExchangeKeys } from '../../models/user-exchange-keys/index.js'
+import { insertOrder, OrderType } from '../../models/order/index.js'
+import { round } from '../../utils/round.js'
 import { fetchAvailableNZD } from './fetch-available-nzd.js'
+import { calculateOrderAmountNZD } from './calculate-order-amount-nzd.js'
 
 const MINIMUM_BTC_BID = 0.000_01
 
@@ -92,9 +94,24 @@ const executeDCAOrder = async (
         ),
       )
 
-      await kiwiCoin.buy(config, {
+      const freshOrder = await kiwiCoin.buy(config, {
         price: orderPrice,
         amount: amountBTC,
+      })
+      if (freshOrder instanceof Error) {
+        return freshOrder
+      }
+
+      await insertOrder(pool, {
+        userUID: dcaOrder.userUID,
+        exchangeUID: dcaOrder.exchangeUID,
+        ID: String(freshOrder.id),
+        symbol: 'BTC',
+        type: OrderType.BUY,
+        price: orderPrice,
+        amount: amountBTC,
+        openedAt: DateTime.local(),
+        closedAt: undefined,
       })
 
       console.dir({

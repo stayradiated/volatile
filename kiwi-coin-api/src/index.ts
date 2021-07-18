@@ -190,14 +190,19 @@ const cancelOrder = async (
 
 export type TradeOptions = { price: number; amount: number }
 
-export type BuyResult = Order | { error: string }
+type APIError = {error: string}
+export type BuyResult = Order | APIError
+
+const isAPIError = (response: Record<string, unknown>): response is APIError => {
+  return typeof response === 'object' && response !== null && typeof response['error'] === 'string'
+}
 
 const buy = async (
   config: Config,
   options: TradeOptions,
-): Promise<BuyResult | Error> => {
+): Promise<Order | Error> => {
   const endpoint = 'buy'
-  return errorBoundary(async () =>
+  const response = await errorBoundary<BuyResult>(async () =>
     kiwiCoin
       .post(endpoint, {
         body: createSignedBody(config, endpoint, {
@@ -207,6 +212,13 @@ const buy = async (
       })
       .json(),
   )
+  if (response instanceof Error) {
+    return response
+  }
+  if (isAPIError(response)) {
+    return new Error(response.error)
+  }
+  return response
 }
 
 export type SellResult = Order | { error: string }
