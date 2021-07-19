@@ -1,7 +1,7 @@
 import * as db from 'zapatos/db'
 import { errorBoundary } from '@stayradiated/error-boundary'
 
-import { wrapError } from '../../utils/wrap-error.js'
+import { explainError } from '../../utils/error.js'
 
 import type { Pool } from '../../types.js'
 import type { Order } from './types.js'
@@ -24,7 +24,7 @@ const updateOrder = async (
       .run(pool),
   )
   if (error instanceof Error) {
-    return wrapError(`updateOrder: failed for uid='${UID}'`, error)
+    return explainError('updateOrder failed', { orderUID: UID }, error)
   }
 }
 

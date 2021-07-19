@@ -4,7 +4,6 @@ import { DateTime } from 'luxon'
 import type { Pool } from '../../types.js'
 import { DCAOrder } from '../../models/dca-order/index.js'
 import { getMarketPrice } from '../../models/market-price/index.js'
-import { getUserExchangeKeys } from '../../models/user-exchange-keys/index.js'
 import {
   insertOrder,
   updateOrder,
@@ -13,7 +12,8 @@ import {
 } from '../../models/order/index.js'
 import { insertDCAOrderHistory } from '../../models/dca-order-history/index.js'
 import { round } from '../../utils/round.js'
-import { wrapError } from '../../utils/wrap-error.js'
+import { explainError } from '../../utils/error.js'
+import { mustGetUserKiwiCoinExchangeKeys } from '../../models/user-exchange-keys/index.js'
 import { fetchAvailableNZD } from './fetch-available-nzd.js'
 import { calculateOrderAmountNZD } from './calculate-order-amount-nzd.js'
 
@@ -23,18 +23,18 @@ const executeDCAOrder = async (
   pool: Pool,
   dcaOrder: DCAOrder,
 ): Promise<void | Error> => {
-  const userExchangeKeys = await getUserExchangeKeys(pool, {
+  const config = await mustGetUserKiwiCoinExchangeKeys(pool, {
     userUID: dcaOrder.userUID,
-    exchangeUID: dcaOrder.exchangeUID,
   })
-  if (userExchangeKeys instanceof Error) {
-    return userExchangeKeys
+  if (config instanceof Error) {
+    return config
   }
 
-  const config = userExchangeKeys.keys
-
-  if (!kiwiCoin.isValidConfig(config)) {
-    return new Error('userExchangeKeys are not valid for kiwi-coin.com')
+  const previousOrders = await selectOpenOrdersForDCA(pool, {
+    dcaOrderUID: dcaOrder.UID,
+  })
+  if (previousOrders instanceof Error) {
+    return previousOrders
   }
 
   // Should really be done concurrently, but kiwi-coin.com often returns a 401?
@@ -57,16 +57,9 @@ const executeDCAOrder = async (
   if (amountNZD <= 0) {
     console.log('Have reached daily goal, passing...')
   } else {
-    const [orderBook, existingOrders] = await Promise.all([
-      kiwiCoin.orderBook(),
-      kiwiCoin.openOrders(config),
-    ])
+    const orderBook = await kiwiCoin.orderBook()
     if (orderBook instanceof Error) {
       return orderBook
-    }
-
-    if (existingOrders instanceof Error) {
-      return existingOrders
     }
 
     const marketPrice = await getMarketPrice(pool, dcaOrder.marketUID)
@@ -95,22 +88,16 @@ const executeDCAOrder = async (
         `Bid amount is below MINIMUM_BTC_BID: ${amountBTC}/${MINIMUM_BTC_BID}`,
       )
     } else {
-      const previousOrders = await selectOpenOrdersForDCA(pool, {
-        dcaOrderUID: dcaOrder.UID,
-      })
-      if (previousOrders instanceof Error) {
-        return previousOrders
-      }
-
       await Promise.all(
         previousOrders.map(async (previousOrder) => {
-          const orderID = Number.parseInt(previousOrder.ID, 10)
+          const previousOrderID = Number.parseInt(previousOrder.ID, 10)
 
-          const error = await kiwiCoin.cancelOrder(config, orderID)
+          const error = await kiwiCoin.cancelOrder(config, previousOrderID)
           if (error instanceof Error) {
             console.error(
-              wrapError(
-                `Failed to cancel order for orderID='${orderID}'`,
+              explainError(
+                'Failed to cancel order',
+                { orderID: previousOrder.ID },
                 error,
               ),
             )

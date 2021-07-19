@@ -5,27 +5,27 @@ import type * as s from 'zapatos/schema'
 import type { Pool } from '../../types.js'
 
 type Market = {
-  id: string
+  ID: string
   name: string
 }
 
 const MARKET_DASSET: Market = {
-  id: 'dassetx.com',
+  ID: 'dassetx.com',
   name: 'Dasset',
 }
 
 const MARKET_BINANCE_US: Market = {
-  id: 'binance.us',
+  ID: 'binance.us',
   name: 'Binance.US',
 }
 
 const MARKET_KIWI_COIN: Market = {
-  id: 'kiwi-coin.com',
+  ID: 'kiwi-coin.com',
   name: 'Kiwi-Coin',
 }
 
 const MARKET_EASY_CRYPTO: Market = {
-  id: 'easycrypto.ai',
+  ID: 'easycrypto.ai',
   name: 'Easy Crypto',
 }
 
@@ -37,7 +37,7 @@ const forceGetMarketUID = async (
     uid: randomUUID(),
     created_at: new Date(),
     updated_at: new Date(),
-    id: market.id,
+    id: market.ID,
     name: market.name,
   }
 

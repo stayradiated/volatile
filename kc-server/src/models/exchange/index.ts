@@ -5,12 +5,12 @@ import type * as s from 'zapatos/schema'
 import type { Pool } from '../../types.js'
 
 type Exchange = {
-  id: string
+  ID: string
   name: string
 }
 
 const EXCHANGE_KIWI_COIN: Exchange = {
-  id: 'kiwi-coin.com',
+  ID: 'kiwi-coin.com',
   name: 'Kiwi-Coin',
 }
 
@@ -22,7 +22,7 @@ const forceGetExchangeUID = async (
     uid: randomUUID(),
     created_at: new Date(),
     updated_at: new Date(),
-    id: exchange.id,
+    id: exchange.ID,
     name: exchange.name,
   }
 

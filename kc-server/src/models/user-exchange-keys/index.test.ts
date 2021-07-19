@@ -31,7 +31,7 @@ test('setUserExchangeKey: should write to user_exchange_keys', async (t) => {
   const { userUID } = t.context
 
   const exchangeUID = (await getExchangeUID(pool, {
-    id: 'setUserExchangeKey',
+    ID: 'setUserExchangeKey',
     name: 'setUserExchangeKey',
   })) as string
 
@@ -90,7 +90,7 @@ test('getUserExchangeKey: should read from user_exchange_keys', async (t) => {
   const { userUID } = t.context
 
   const exchangeUID = (await getExchangeUID(pool, {
-    id: 'getUserExchangeKey',
+    ID: 'getUserExchangeKey',
     name: 'getUserExchangeKey',
   })) as string
 
