@@ -1,25 +1,11 @@
 import { randomUUID } from 'crypto'
 import * as db from 'zapatos/db'
 import * as s from 'zapatos/schema'
-import type { DateTime } from 'luxon'
 import { errorBoundary } from '@stayradiated/error-boundary'
 import { Except } from 'type-fest'
 
 import type { Pool } from '../../types.js'
-import type { OrderType } from './types.js'
-
-type Order = {
-  UID: string
-  userUID: string
-  exchangeUID: string
-  ID: string
-  symbol: string
-  price: number
-  amount: number
-  type: OrderType
-  openedAt: DateTime
-  closedAt: DateTime | undefined
-}
+import type { Order } from './types.js'
 
 type InsertOrderOptions = Except<Order, 'UID'>
 

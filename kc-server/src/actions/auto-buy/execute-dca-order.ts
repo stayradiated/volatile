@@ -5,9 +5,15 @@ import type { Pool } from '../../types.js'
 import { DCAOrder } from '../../models/dca-order/index.js'
 import { getMarketPrice } from '../../models/market-price/index.js'
 import { getUserExchangeKeys } from '../../models/user-exchange-keys/index.js'
-import { insertOrder, OrderType } from '../../models/order/index.js'
+import {
+  insertOrder,
+  updateOrder,
+  selectOpenOrdersForDCA,
+  OrderType,
+} from '../../models/order/index.js'
 import { insertDCAOrderHistory } from '../../models/dca-order-history/index.js'
 import { round } from '../../utils/round.js'
+import { wrapError } from '../../utils/wrap-error.js'
 import { fetchAvailableNZD } from './fetch-available-nzd.js'
 import { calculateOrderAmountNZD } from './calculate-order-amount-nzd.js'
 
@@ -89,10 +95,32 @@ const executeDCAOrder = async (
         `Bid amount is below MINIMUM_BTC_BID: ${amountBTC}/${MINIMUM_BTC_BID}`,
       )
     } else {
+      const previousOrders = await selectOpenOrdersForDCA(pool, {
+        dcaOrderUID: dcaOrder.UID,
+      })
+      if (previousOrders instanceof Error) {
+        return previousOrders
+      }
+
       await Promise.all(
-        existingOrders.map(async (order) =>
-          kiwiCoin.cancelOrder(config, order.id),
-        ),
+        previousOrders.map(async (previousOrder) => {
+          const orderID = Number.parseInt(previousOrder.ID, 10)
+
+          const error = await kiwiCoin.cancelOrder(config, orderID)
+          if (error instanceof Error) {
+            console.error(
+              wrapError(
+                `Failed to cancel order for orderID='${orderID}'`,
+                error,
+              ),
+            )
+          }
+
+          await updateOrder(pool, {
+            UID: previousOrder.UID,
+            closedAt: DateTime.local(),
+          })
+        }),
       )
 
       const freshOrder = await kiwiCoin.buy(config, {
