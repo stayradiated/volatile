@@ -37,6 +37,12 @@ const executeDCAOrder = async (
     return previousOrders
   }
 
+  // eslint-disable-next-line unicorn/no-array-reduce
+  const previousOrderNZD = previousOrders.reduce(
+    (sum, order) => sum + order.price * order.amount,
+    0,
+  )
+
   // Should really be done concurrently, but kiwi-coin.com often returns a 401?
   const availableNZD = await fetchAvailableNZD(config)
   if (availableNZD instanceof Error) {
@@ -45,14 +51,14 @@ const executeDCAOrder = async (
 
   const goalAmountNZD = await calculateOrderAmountNZD({
     config,
-    dailyAverage: dcaOrder.dailyAverage,
-    startAt: dcaOrder.startAt,
+    dcaOrder,
   })
   if (goalAmountNZD instanceof Error) {
     return goalAmountNZD
   }
 
-  const amountNZD = Math.min(goalAmountNZD, availableNZD)
+  const totalAvailableNZD = availableNZD + previousOrderNZD
+  const amountNZD = Math.min(goalAmountNZD, totalAvailableNZD)
 
   if (amountNZD <= 0) {
     console.log('Have reached daily goal, passing...')

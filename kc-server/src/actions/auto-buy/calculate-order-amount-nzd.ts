@@ -1,16 +1,18 @@
 import * as kiwiCoin from '@stayradiated/kiwi-coin-api'
 import { DateTime } from 'luxon'
 
+import type { DCAOrder } from '../../models/dca-order/index.js'
+
 type CalculateOrderAmountNZDOptions = {
   config: kiwiCoin.Config
-  dailyAverage: number
-  startAt: DateTime
+  dcaOrder: DCAOrder
 }
 
 const calculateOrderAmountNZD = async (
   options: CalculateOrderAmountNZDOptions,
 ): Promise<number | Error> => {
-  const { config, startAt, dailyAverage } = options
+  const { config, dcaOrder } = options
+  const { startAt, dailyAverage } = dcaOrder
 
   const allTrades = await kiwiCoin.trades(config, 'all')
   if (allTrades instanceof Error) {

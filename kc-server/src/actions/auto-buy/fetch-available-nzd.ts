@@ -8,7 +8,7 @@ const fetchAvailableNZD = async (
     return balance
   }
 
-  const availableNZD = Number.parseFloat(balance.nzd_balance)
+  const availableNZD = Number.parseFloat(balance.nzd_available)
   return availableNZD
 }
 
