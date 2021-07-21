@@ -1,6 +1,7 @@
 import ky from 'ky-universal'
 import debug from 'debug'
 import { DateTime, Duration } from 'luxon'
+import { errorBoundary } from '@stayradiated/error-boundary'
 
 import { createDebugHooks } from '../../utils/hooks.js'
 import { MarketPriceSource } from '../../utils/market-price-source.js'
@@ -41,14 +42,20 @@ const marketSource: MarketPriceSource<Options> = {
 
     const lastUpdated = DateTime.local()
 
-    const result: APIResponse = await dasset
-      .get(`markets/${symbol}/ticker`, {
-        headers: {
-          'x-api-key': apiKey,
-          'x-account-id': accountId,
-        },
-      })
-      .json()
+    const result = await errorBoundary<APIResponse>(async () =>
+      dasset
+        .get(`markets/${symbol}/ticker`, {
+          headers: {
+            'x-api-key': apiKey,
+            'x-account-id': accountId,
+          },
+        })
+        .json(),
+    )
+    if (result instanceof Error) {
+      log(result.message)
+      return result
+    }
 
     const ticker = result[0]
     if (!ticker) {

@@ -2,6 +2,7 @@ import { inspect } from 'util'
 import ky from 'ky-universal'
 import debug from 'debug'
 import { DateTime, Duration } from 'luxon'
+import { errorBoundary } from '@stayradiated/error-boundary'
 
 import { createDebugHooks } from '../utils/hooks.js'
 import { MarketPriceSource } from '../utils/market-price-source.js'
@@ -45,15 +46,20 @@ const createMarketSourceForCurrency = (
       const { config } = options
       const { appId } = config
 
-      const response: APIResponse = await openExchangeRates
-        .get('latest.json', {
-          searchParams: {
-            app_id: appId,
-            base,
-            symbols: symbol,
-          },
-        })
-        .json()
+      const response = await errorBoundary<APIResponse>(async () =>
+        openExchangeRates
+          .get('latest.json', {
+            searchParams: {
+              app_id: appId,
+              base,
+              symbols: symbol,
+            },
+          })
+          .json(),
+      )
+      if (response instanceof Error) {
+        return response
+      }
 
       const lastUpdated = DateTime.fromSeconds(response.timestamp)
 

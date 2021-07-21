@@ -1,6 +1,7 @@
 import ky from 'ky-universal'
 import debug from 'debug'
 import { DateTime, Duration } from 'luxon'
+import { errorBoundary } from '@stayradiated/error-boundary'
 
 import { createDebugHooks } from '../../utils/hooks.js'
 import { MarketPriceSource } from '../../utils/market-price-source.js'
@@ -33,7 +34,13 @@ const marketSource: MarketPriceSource<Options> = {
 
     const lastUpdated = DateTime.local()
 
-    const result: APIResponse = await easyCrypto.get(`ticker/${symbol}`).json()
+    const result = await errorBoundary<APIResponse>(async () =>
+      easyCrypto.get(`ticker/${symbol}`).json(),
+    )
+    if (result instanceof Error) {
+      log(result.message)
+      return result
+    }
 
     // Const bid = Number.parseFloat(result.bid)
     const ask = Number.parseFloat(result.ask)
