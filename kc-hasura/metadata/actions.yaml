@@ -17,12 +17,6 @@ actions:
     handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/create_user'
   permissions:
   - role: guest
-- name: get_email
-  definition:
-    kind: ""
-    handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/get_email'
-  permissions:
-  - role: user
 - name: set_user_exchange_keys
   definition:
     kind: synchronous

@@ -14,6 +14,11 @@ const EXCHANGE_KIWI_COIN: Exchange = {
   name: 'Kiwi-Coin',
 }
 
+const EXCHANGE_DASSET: Exchange = {
+  ID: 'dassetx.com',
+  name: 'Dasset',
+}
+
 const forceGetExchangeUID = async (
   pool: Pool,
   exchange: Exchange,
@@ -62,4 +67,10 @@ const getExchangeUID = async (
   return exchangeUID
 }
 
-export { Exchange, EXCHANGE_KIWI_COIN, forceGetExchangeUID, getExchangeUID }
+export {
+  Exchange,
+  EXCHANGE_KIWI_COIN,
+  EXCHANGE_DASSET,
+  forceGetExchangeUID,
+  getExchangeUID,
+}

@@ -24,6 +24,9 @@ const createDCAOrderHandler: ActionHandlerFn<Input, Output> = async (
 ) => {
   const { pool, input, session } = context
   const { userUID } = session
+  if (!userUID) {
+    return new Error('userUID is required')
+  }
 
   const {
     exchange_uid: exchangeUID,

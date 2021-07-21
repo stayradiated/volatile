@@ -15,6 +15,9 @@ const validateUserExchangeKeysHandler: ActionHandlerFn<Input, Output> = async (
   const { pool, input, session } = context
   const { exchange_uid: exchangeUID } = input
   const { userUID } = session
+  if (!userUID) {
+    return new Error('userUID is required')
+  }
 
   const result = await validateUserExchangeKeys(pool, {
     userUID,

@@ -1,13 +1,11 @@
+import * as dasset from '@stayradiated/dasset-api'
 import { Argv } from 'yargs'
 
 import { createHandler } from '../../utils/create-handler.js'
-import { fetchKiwiCoinTrades } from './fetch-kiwi-coin-trades.js'
-import { fetchDassetTrades } from './fetch-dasset-trades.js'
-import { drawTable } from './draw-table.js'
 
-export const command = 'trades'
+export const command = 'closed-orders'
 
-export const desc = 'Print trades'
+export const desc = 'Print closed-orders'
 
 export const builder = (argv: Argv) =>
   argv.option('exchange', {
@@ -24,14 +22,19 @@ export const handler = createHandler<Options>(
   async (config, argv): Promise<void | Error> => {
     const { exchange } = argv
 
-    const trades = await (async () => {
+    const closedOrders = await (async () => {
       switch (exchange) {
         case 'kiwi-coin.com': {
-          return fetchKiwiCoinTrades(config.kiwiCoin)
+          return new Error("kiwi-coin.com doesn't support closed orders")
         }
 
         case 'dassetx.com': {
-          return fetchDassetTrades(config.dasset)
+          const result = await dasset.closedOrders(config.dasset)
+          if (result instanceof Error) {
+            return result
+          }
+
+          return result.results
         }
 
         default: {
@@ -39,10 +42,10 @@ export const handler = createHandler<Options>(
         }
       }
     })()
-    if (trades instanceof Error) {
-      return trades
+    if (closedOrders instanceof Error) {
+      return closedOrders
     }
 
-    console.log(drawTable(trades))
+    console.log(closedOrders)
   },
 )

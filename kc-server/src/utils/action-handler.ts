@@ -27,21 +27,31 @@ type ActionHandlerRequest<Input> = {
   }
 }
 
+enum SessionRole {
+  ADMIN = 'admin',
+  USER = 'user',
+  GUEST = 'guest',
+}
+
 type Session = {
-  role: string
-  userUID: string
+  role: SessionRole
+  userUID: string | undefined
 }
 
 const parseSessionVariables = (
   input: Record<string, string>,
 ): Session | Error => {
-  const role = input['x-hasura-role']
-  if (!role) {
-    return new Error('session_variables is missing x-hasura-role.')
+  if (typeof input !== 'object' || input === null) {
+    return new Error('session_variables must be an object.')
+  }
+
+  const role = input['x-hasura-role'] as SessionRole
+  if (!Object.values(SessionRole).includes(role)) {
+    return new Error('session_variables has an invalid x-hasura-role.')
   }
 
   const userUID = input['x-hasura-user-id']
-  if (!userUID) {
+  if (role !== SessionRole.GUEST && !userUID) {
     return new Error('session_variables is missing x-hasura-user-uid.')
   }
 
@@ -68,6 +78,12 @@ const wrapActionHandler =
     fn: ActionHandlerFn<Input, Output>,
   ): RouteHandler<ActionHandlerRequest<Input>> =>
   async (request, reply) => {
+    if (typeof request.body !== 'object' || request.body === null) {
+      await reply.code(401).send({
+        error: `Invalid request body`,
+      })
+    }
+
     const { session_variables: sessionVariables, input, action } = request.body
     const session = parseSessionVariables(sessionVariables)
     if (session instanceof Error) {
@@ -100,4 +116,4 @@ const bindActionHandler =
     return fastify.post(path, wrapActionHandler<Input, Output>(actionName, fn))
   }
 
-export { ActionHandlerFn, wrapActionHandler, bindActionHandler }
+export { ActionHandlerFn, wrapActionHandler, bindActionHandler, SessionRole }

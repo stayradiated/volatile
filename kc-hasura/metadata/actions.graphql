@@ -26,10 +26,6 @@ type Mutation {
   ): CreateUserOutput
 }
 
-type Query {
-  get_email : GetEmailOutput
-}
-
 type Mutation {
   set_user_exchange_keys (
     exchange_uid: uuid!

@@ -75,6 +75,21 @@
   - name: user
     using:
       foreign_key_constraint_on: user_uid
+  select_permissions:
+  - role: user
+    permission:
+      columns:
+      - uid
+      - created_at
+      - updated_at
+      - user_uid
+      - dca_order_uid
+      - order_uid
+      - market_price
+      - market_offset
+      filter:
+        user_uid:
+          _eq: X-Hasura-User-Id
 - table:
     schema: kc
     name: exchange
@@ -169,6 +184,25 @@
         table:
           schema: kc
           name: dca_order_history
+  select_permissions:
+  - role: user
+    permission:
+      columns:
+      - uid
+      - created_at
+      - updated_at
+      - user_uid
+      - exchange_uid
+      - id
+      - symbol
+      - price
+      - amount
+      - type
+      - opened_at
+      - closed_at
+      filter:
+        user_uid:
+          _eq: X-Hasura-User-Id
 - table:
     schema: kc
     name: user

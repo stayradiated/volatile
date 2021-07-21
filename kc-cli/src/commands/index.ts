@@ -5,6 +5,7 @@ import * as balance from './balance/index.js'
 import * as buy from './buy/index.js'
 import * as cancelOrder from './cancel-order/index.js'
 import * as openOrders from './open-orders/index.js'
+import * as closedOrders from './closed-orders/index.js'
 import * as orderBook from './order-book/index.js'
 import * as sell from './sell/index.js'
 import * as stats from './stats/index.js'
@@ -18,6 +19,7 @@ const commandsList: Array<CommandModule<any, any>> = [
   buy,
   cancelOrder,
   openOrders,
+  closedOrders,
   orderBook,
   sell,
   stats,

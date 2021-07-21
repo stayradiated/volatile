@@ -17,6 +17,7 @@
   },
   "keywords": [
     "kiwi-coin.com",
+    "dassetx.com",
     "cli",
     "client",
     "terminal"
@@ -34,6 +35,7 @@
   },
   "homepage": "https://github.com/stayradiated/kc#readme",
   "dependencies": {
+    "@stayradiated/dasset-api": "workspace:1.0.1",
     "@stayradiated/kc-config": "workspace:1.0.0",
     "@stayradiated/kiwi-coin-api": "workspace:1.0.1",
     "@stayradiated/market-price": "workspace:1.0.0",

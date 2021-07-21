@@ -2,8 +2,42 @@ lockfileVersion: 5.3
 
 importers:
 
+  dasset-api:
+    specifiers:
+      '@stayradiated/error-boundary': 1.1.0
+      '@stayradiated/jsconfig': 1.14.0
+      '@types/debug': 4.1.6
+      '@types/node': 16.3.1
+      ava: 3.15.0
+      debug: 4.3.2
+      del-cli: 4.0.0
+      eslint-plugin-fp: 2.3.0
+      ky: 0.28.5
+      ky-universal: 0.9.1
+      luxon: 1.28.0
+      nock: 13.1.1
+      typescript: 4.3.5
+      xo: 0.41.0
+    dependencies:
+      '@stayradiated/error-boundary': 1.1.0
+      debug: 4.3.2
+      ky: 0.28.5
+      ky-universal: 0.9.1_ky@0.28.5
+      luxon: 1.28.0
+    devDependencies:
+      '@stayradiated/jsconfig': 1.14.0
+      '@types/debug': 4.1.6
+      '@types/node': 16.3.1
+      ava: 3.15.0
+      del-cli: 4.0.0
+      eslint-plugin-fp: 2.3.0
+      nock: 13.1.1
+      typescript: 4.3.5
+      xo: 0.41.0
+
   kc-cli:
     specifiers:
+      '@stayradiated/dasset-api': workspace:1.0.1
       '@stayradiated/jsconfig': 1.14.0
       '@stayradiated/kc-config': workspace:1.0.0
       '@stayradiated/kiwi-coin-api': workspace:1.0.1
@@ -22,6 +56,7 @@ importers:
       xo: 0.41.0
       yargs: 17.0.1
     dependencies:
+      '@stayradiated/dasset-api': link:../dasset-api
       '@stayradiated/kc-config': link:../kc-config
       '@stayradiated/kiwi-coin-api': link:../kiwi-coin-api
       '@stayradiated/market-price': link:../market-price
@@ -88,6 +123,7 @@ importers:
 
   kc-server:
     specifiers:
+      '@stayradiated/dasset-api': workspace:1.0.1
       '@stayradiated/error-boundary': 1.1.0
       '@stayradiated/jsconfig': 1.14.0
       '@stayradiated/kc-config': workspace:1.0.0
@@ -115,6 +151,7 @@ importers:
       xo: 0.41.0
       zapatos: 5.0.0
     dependencies:
+      '@stayradiated/dasset-api': link:../dasset-api
       '@stayradiated/error-boundary': 1.1.0
       '@stayradiated/kc-config': link:../kc-config
       '@stayradiated/kc-keyring': link:../kc-keyring
@@ -537,7 +574,7 @@ packages:
     engines: {node: '>= 8'}
     dependencies:
       '@nodelib/fs.scandir': 2.1.5
-      fastq: 1.11.0
+      fastq: 1.11.1
     dev: true
 
   /@sindresorhus/is/0.14.0:
@@ -591,7 +628,7 @@ packages:
     resolution: {integrity: sha512-SEYeGAIQIQX8NN6LDKprLjbrd5dARM5EXsd8GI/A5l0apYI1fGMWgPHSe4ZKL4eozlAyI+doUE9XbYS4xCkQ1w==}
     dependencies:
       '@types/minimatch': 3.0.4
-      '@types/node': 16.0.0
+      '@types/node': 16.3.1
     dev: true
 
   /@types/json-schema/7.0.7:
@@ -1052,7 +1089,7 @@ packages:
       concordance: 5.0.4
       convert-source-map: 1.8.0
       currently-unhandled: 0.4.1
-      debug: 4.3.1
+      debug: 4.3.2
       del: 6.0.0
       emittery: 0.8.1
       equal-length: 1.0.1
@@ -1626,18 +1663,6 @@ packages:
     resolution: {integrity: sha512-CFjzYYAi4ThfiQvizrFQevTTXHtnCqWfe7x1AhgEscTz6ZbLbfoLRLPugTQyBth6f8ZERVUSyWHFD/7Wu4t1XQ==}
     dependencies:
       ms: 2.1.3
-    dev: true
-
-  /debug/4.3.1:
-    resolution: {integrity: sha512-doEwdvm4PCeK4K3RQN2ZC2BYUBaxwLARCqZmMjtF8a51J2Rb0xpVloFRnCODwqjpwnAoao4pelN8l3RJdv3gRQ==}
-    engines: {node: '>=6.0'}
-    peerDependencies:
-      supports-color: '*'
-    peerDependenciesMeta:
-      supports-color:
-        optional: true
-    dependencies:
-      ms: 2.1.2
     dev: true
 
   /debug/4.3.2:
@@ -2507,17 +2532,10 @@ packages:
       - supports-color
     dev: false
 
-  /fastq/1.11.0:
-    resolution: {integrity: sha512-7Eczs8gIPDrVzT+EksYBcupqMyxSHXXrHOLRRxU2/DicV8789MRBRR8+Hc2uWzUupOs4YS4JzBmBxjjCVBxD/g==}
-    dependencies:
-      reusify: 1.0.4
-    dev: true
-
   /fastq/1.11.1:
     resolution: {integrity: sha512-HOnr8Mc60eNYl1gzwp6r5RoUyAn5/glBolUzP/Ez6IFVPMPirxn/9phgL6zhOtaTy7ISwPvQ+wT+hfcRZh/bzw==}
     dependencies:
       reusify: 1.0.4
-    dev: false
 
   /fetch-blob/2.1.2:
     resolution: {integrity: sha512-YKqtUDwqLyfyMnmbw8XD6Q8j9i/HggKtPEI+pZ1+8bvheBu78biSmNaXWusx1TauGqtUUGx/cBb1mKdq2rLYow==}
@@ -3774,7 +3792,7 @@ packages:
       read-pkg-up: 8.0.0
       redent: 4.0.0
       trim-newlines: 4.0.2
-      type-fest: 1.2.1
+      type-fest: 1.2.2
       yargs-parser: 20.2.9
     dev: true
 
@@ -3933,7 +3951,7 @@ packages:
     resolution: {integrity: sha512-YKTR9MjfK3kS9/l4nuTxyYm30cgOExRHzkLNhL8nhEUyU4f8Za/dRxOqjhVT1vGs0svWo3dDnJTUX1qxYeWy5w==}
     engines: {node: '>= 10.13'}
     dependencies:
-      debug: 4.3.1
+      debug: 4.3.2
       json-stringify-safe: 5.0.1
       lodash.set: 4.3.2
       propagate: 2.0.1
@@ -4629,7 +4647,7 @@ packages:
     dependencies:
       find-up: 5.0.0
       read-pkg: 6.0.0
-      type-fest: 1.2.1
+      type-fest: 1.2.2
     dev: true
 
   /read-pkg/3.0.0:
@@ -4658,7 +4676,7 @@ packages:
       '@types/normalize-package-data': 2.4.0
       normalize-package-data: 3.0.2
       parse-json: 5.2.0
-      type-fest: 1.2.1
+      type-fest: 1.2.2
     dev: true
 
   /readable-stream/2.3.7:
@@ -5392,11 +5410,6 @@ packages:
   /type-fest/0.8.1:
     resolution: {integrity: sha512-4dbzIzqvjtgiM5rw1k5rEHtBANKmdudhGyBEajN01fEyhaAIhsoKNy6y7+IN93IfpFtwY9iqi7kD+xwKhQsNJA==}
     engines: {node: '>=8'}
-    dev: true
-
-  /type-fest/1.2.1:
-    resolution: {integrity: sha512-SbmIRuXhJs8KTneu77Ecylt9zuqL683tuiLYpTRil4H++eIhqCmx6ko6KAFem9dty8sOdnEiX7j4K1nRE628fQ==}
-    engines: {node: '>=10'}
     dev: true
 
   /type-fest/1.2.2:
