@@ -6,3 +6,6 @@ node_modules
 
 # exclude local environment variables
 .env
+
+# pnpm log files
+*.log
