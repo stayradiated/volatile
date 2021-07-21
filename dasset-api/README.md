@@ -1,29 +1,23 @@
-# @stayradiated/kiwi-coin
+# @stayradiated/dasset-api
 
 ## API
 
 ```typescript
-import * as kiwiCoin from '@stayradiated/kiwi-coin'
-```
-
-```typescript
-kiwiCoin.ticker()
-kiwiCoin.orderBook()
+import * as dasset from '@stayradiated/dasset-api'
 ```
 
 ```typescript
 cost config = {
-  userId: 'XXXX-XXXX-XXXX',
-  apiKey: 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
-  apiSecret: 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
+  apiKey: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+  accountId: 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
 }
 ```
 
 ```typescript
-kiwiCoin.balance(config)
-kiwiCoin.openOrders(config)
-kiwiCoin.trades(config, timeframe)
-kiwiCoin.cancelOrder(config, orderId)
-kiwiCoin.buy(config, { price, amount })
-kiwiCoin.sell(config, { price, amount })
+dasset.balanceAll(config)
+dasset.balanceSingle(config, 'NZD')
+dasset.openOrders(config)
+dasset.closedOrders(config)
+dasset.cancelOrder(config, orderId)
+dasset.createOrder(config, { ... })
 ```
