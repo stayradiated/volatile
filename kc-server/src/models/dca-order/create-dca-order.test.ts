@@ -18,10 +18,10 @@ test('createDCAOrder', async (t) => {
     startAt: DateTime.local(),
     marketOffset: -2,
     dailyAverage: 50,
-    minPrice: 0,
-    maxPrice: 50_000,
-    minAmount: 20,
-    maxAmount: 1000,
+    minPriceNZD: 0,
+    maxPriceNZD: 50_000,
+    minAmountNZD: 20,
+    maxAmountNZD: 1000,
   }
 
   const dcaOrder = await createDCAOrder(pool, input)

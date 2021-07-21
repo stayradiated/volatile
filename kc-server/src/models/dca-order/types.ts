@@ -8,10 +8,10 @@ type DCAOrder = {
   startAt: DateTime
   marketOffset: number
   dailyAverage: number
-  minPrice: number | undefined
-  maxPrice: number | undefined
-  minAmount: number | undefined
-  maxAmount: number | undefined
+  minPriceNZD: number | undefined
+  maxPriceNZD: number | undefined
+  minAmountNZD: number | undefined
+  maxAmountNZD: number | undefined
 }
 
 export { DCAOrder }

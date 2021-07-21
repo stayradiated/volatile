@@ -15,7 +15,7 @@ test('insertDCAOrderHistory', async (t) => {
     userUID,
     dcaOrderUID,
     orderUID,
-    marketPrice: 54_321,
+    marketPriceNZD: 54_321,
     marketOffset: -1.234,
   }
 
@@ -36,7 +36,7 @@ test('insertDCAOrderHistory', async (t) => {
     user_uid: input.userUID,
     dca_order_uid: input.dcaOrderUID,
     order_uid: input.orderUID,
-    market_price: input.marketPrice,
+    market_price_nzd: input.marketPriceNZD,
     market_offset: input.marketOffset,
   })
 

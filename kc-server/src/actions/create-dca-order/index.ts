@@ -9,10 +9,10 @@ type Input = {
   start_at: string
   market_offset: number
   daily_average: number
-  min_price: number
-  max_price: number
-  min_amount: number
-  max_amount: number
+  min_price_nzd: number
+  max_price_nzd: number
+  min_amount_nzd: number
+  max_amount_nzd: number
 }
 
 type Output = {
@@ -34,10 +34,10 @@ const createDCAOrderHandler: ActionHandlerFn<Input, Output> = async (
     start_at: startAt,
     market_offset: marketOffset,
     daily_average: dailyAverage,
-    min_price: minPrice,
-    max_price: maxPrice,
-    min_amount: minAmount,
-    max_amount: maxAmount,
+    min_price_nzd: minPriceNZD,
+    max_price_nzd: maxPriceNZD,
+    min_amount_nzd: minAmountNZD,
+    max_amount_nzd: maxAmountNZD,
   } = input
 
   const dcaOrder = await createDCAOrder(pool, {
@@ -47,10 +47,10 @@ const createDCAOrderHandler: ActionHandlerFn<Input, Output> = async (
     startAt: DateTime.fromISO(startAt),
     marketOffset,
     dailyAverage,
-    minPrice,
-    maxPrice,
-    minAmount,
-    maxAmount,
+    minPriceNZD,
+    maxPriceNZD,
+    minAmountNZD,
+    maxAmountNZD,
   })
   if (dcaOrder instanceof Error) {
     return dcaOrder

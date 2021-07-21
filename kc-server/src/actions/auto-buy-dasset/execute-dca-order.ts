@@ -39,7 +39,7 @@ const executeDCAOrder = async (
 
   // eslint-disable-next-line unicorn/no-array-reduce
   const previousOrderNZD = previousOrders.reduce(
-    (sum, order) => sum + order.price * order.amount,
+    (sum, order) => sum + order.priceNZD * order.amount,
     0,
   )
 
@@ -63,15 +63,15 @@ const executeDCAOrder = async (
   if (amountNZD <= 0) {
     console.log('Have reached daily goal, passing...')
   } else {
-    const marketPrice = await getMarketPrice(pool, dcaOrder.marketUID)
-    if (marketPrice instanceof Error) {
-      return marketPrice
+    const marketPriceNZD = await getMarketPrice(pool, dcaOrder.marketUID)
+    if (marketPriceNZD instanceof Error) {
+      return marketPriceNZD
     }
 
     const offsetPercent = (-1.5 + 100) / 100
-    const orderPrice = round(2, marketPrice * offsetPercent)
+    const orderPriceNZD = round(2, marketPriceNZD * offsetPercent)
 
-    const amountBTC = round(8, amountNZD / orderPrice)
+    const amountBTC = round(8, amountNZD / orderPriceNZD)
     if (amountBTC < MINIMUM_BTC_BID) {
       console.log(
         `Bid amount is below MINIMUM_BTC_BID: ${amountBTC}/${MINIMUM_BTC_BID}`,
@@ -101,7 +101,7 @@ const executeDCAOrder = async (
 
       const freshOrder = await dasset.createOrder(config, {
         amount: amountBTC,
-        limit: orderPrice,
+        limit: orderPriceNZD,
         orderType: 'LIMIT',
         side: dasset.OrderType.BUY,
         timeInForce: 'GOOD_TIL_CANCELLED',
@@ -117,7 +117,7 @@ const executeDCAOrder = async (
         ID: freshOrder.order.orderId,
         symbol: 'BTC',
         type: OrderType.BUY,
-        price: orderPrice,
+        priceNZD: orderPriceNZD,
         amount: amountBTC,
         openedAt: DateTime.local(),
         closedAt: undefined,
@@ -130,7 +130,7 @@ const executeDCAOrder = async (
         userUID: dcaOrder.userUID,
         dcaOrderUID: dcaOrder.UID,
         orderUID: order.UID,
-        marketPrice,
+        marketPriceNZD,
         marketOffset: dcaOrder.marketOffset,
       })
       if (dcaOrderHistory instanceof Error) {
@@ -141,11 +141,11 @@ const executeDCAOrder = async (
         dcaOrderHistoryUID: dcaOrderHistory.UID,
         orderUID: order.UID,
         orderID: order.ID,
-        marketPrice,
+        marketPriceNZD,
         marketOffset: dcaOrderHistory.marketOffset,
-        price: order.price,
-        amount: order.amount,
-        value: order.amount * order.price,
+        priceNZD: order.priceNZD,
+        amountBTC: order.amount,
+        valueNZD: order.amount * order.priceNZD,
       })
     }
   }

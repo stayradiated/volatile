@@ -44,10 +44,10 @@ const getAllDCAOrders = async (
     startAt: DateTime.fromISO(row.start_at),
     marketOffset: row.market_offset,
     dailyAverage: row.daily_average,
-    minPrice: row.min_price ?? undefined,
-    maxPrice: row.max_price ?? undefined,
-    minAmount: row.min_amount ?? undefined,
-    maxAmount: row.max_amount ?? undefined,
+    minPriceNZD: row.min_price_nzd ?? undefined,
+    maxPriceNZD: row.max_price_nzd ?? undefined,
+    minAmountNZD: row.min_amount_nzd ?? undefined,
+    maxAmountNZD: row.max_amount_nzd ?? undefined,
   }))
 }
 

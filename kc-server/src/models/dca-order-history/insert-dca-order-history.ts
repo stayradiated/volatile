@@ -11,7 +11,7 @@ type DCAOrderHistory = {
   userUID: string
   dcaOrderUID: string
   orderUID: string
-  marketPrice: number
+  marketPriceNZD: number
   marketOffset: number
 }
 
@@ -30,7 +30,7 @@ const insertDCAOrderHistory = async (
     user_uid: options.userUID,
     dca_order_uid: options.dcaOrderUID,
     order_uid: options.orderUID,
-    market_price: options.marketPrice,
+    market_price_nzd: options.marketPriceNZD,
     market_offset: options.marketOffset,
   }
 

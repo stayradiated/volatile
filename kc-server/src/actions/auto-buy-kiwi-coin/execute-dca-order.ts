@@ -39,7 +39,7 @@ const executeDCAOrder = async (
 
   // eslint-disable-next-line unicorn/no-array-reduce
   const previousOrderNZD = previousOrders.reduce(
-    (sum, order) => sum + order.price * order.amount,
+    (sum, order) => sum + order.priceNZD * order.amount,
     0,
   )
 
@@ -68,27 +68,27 @@ const executeDCAOrder = async (
       return orderBook
     }
 
-    const marketPrice = await getMarketPrice(pool, dcaOrder.marketUID)
-    if (marketPrice instanceof Error) {
-      return marketPrice
+    const marketPriceNZD = await getMarketPrice(pool, dcaOrder.marketUID)
+    if (marketPriceNZD instanceof Error) {
+      return marketPriceNZD
     }
 
     const offsetPercent = (-1.5 + 100) / 100
-    const maxOrderPrice = round(2, marketPrice * offsetPercent)
+    const maxOrderPrice = round(2, marketPriceNZD * offsetPercent)
 
     const lowestAsk = orderBook.asks[0]
     const lowestAskPrice = lowestAsk
       ? Number.parseFloat(lowestAsk[0])
       : Number.POSITIVE_INFINITY
 
-    const orderPrice =
+    const orderPriceNZD =
       maxOrderPrice > lowestAskPrice ? lowestAskPrice - 0.01 : maxOrderPrice
 
-    if (orderPrice !== maxOrderPrice) {
+    if (orderPriceNZD !== maxOrderPrice) {
       console.log('Lowering bid price to just below lowest ask price')
     }
 
-    const amountBTC = round(8, amountNZD / orderPrice)
+    const amountBTC = round(8, amountNZD / orderPriceNZD)
     if (amountBTC < MINIMUM_BTC_BID) {
       console.log(
         `Bid amount is below MINIMUM_BTC_BID: ${amountBTC}/${MINIMUM_BTC_BID}`,
@@ -117,7 +117,7 @@ const executeDCAOrder = async (
       )
 
       const freshOrder = await kiwiCoin.buy(config, {
-        price: orderPrice,
+        price: orderPriceNZD,
         amount: amountBTC,
       })
       if (freshOrder instanceof Error) {
@@ -130,7 +130,7 @@ const executeDCAOrder = async (
         ID: String(freshOrder.id),
         symbol: 'BTC',
         type: OrderType.BUY,
-        price: orderPrice,
+        priceNZD: orderPriceNZD,
         amount: amountBTC,
         openedAt: DateTime.local(),
         closedAt: undefined,
@@ -143,7 +143,7 @@ const executeDCAOrder = async (
         userUID: dcaOrder.userUID,
         dcaOrderUID: dcaOrder.UID,
         orderUID: order.UID,
-        marketPrice,
+        marketPriceNZD,
         marketOffset: dcaOrder.marketOffset,
       })
       if (dcaOrderHistory instanceof Error) {
@@ -154,11 +154,11 @@ const executeDCAOrder = async (
         dcaOrderHistoryUID: dcaOrderHistory.UID,
         orderUID: order.UID,
         orderID: order.ID,
-        marketPrice,
+        marketPriceNZD,
         marketOffset: dcaOrderHistory.marketOffset,
-        price: order.price,
-        amount: order.amount,
-        value: order.amount * order.price,
+        priceNZD: order.priceNZD,
+        amountBTC: order.amount,
+        valueNZD: order.amount * order.priceNZD,
       })
     }
   }
