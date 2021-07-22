@@ -51,7 +51,10 @@ const calculateOrderAmountNZD = async (
     })
   }
 
-  return orderAmountNZD
+  return Math.max(
+    dcaOrder.minPriceNZD,
+    Math.min(dcaOrder.maxPriceNZD, orderAmountNZD),
+  )
 }
 
 export { calculateOrderAmountNZD }

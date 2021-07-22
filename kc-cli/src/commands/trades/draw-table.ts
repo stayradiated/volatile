@@ -4,8 +4,8 @@ import { DateTime } from 'luxon'
 
 import { TradeType, RowData } from './types.js'
 
-const sortByDateAsc = sort(
-  (a: RowData, b: RowData): number => a.date.valueOf() - b.date.valueOf(),
+const sortByDateAsc = sort<RowData>(
+  (a, b): number => a.date.valueOf() - b.date.valueOf(),
 )
 
 const calcTotals = (rows: readonly RowData[]): RowData => {
@@ -50,7 +50,7 @@ const formatRow = (row: RowData): string[] => {
   return [date, price, nzd, xbt, fee, bought, sold]
 }
 
-const drawTable = (unsortedRows: readonly RowData[]): string => {
+const drawTable = (unsortedRows: RowData[]): string => {
   const rowData = sortByDateAsc(unsortedRows)
   const totals = calcTotals(rowData)
 

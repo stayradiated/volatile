@@ -13,7 +13,7 @@ export const desc = 'Print stats'
 
 export const builder = {}
 
-const sortDeals = sort((a: Deal, b: Deal) => {
+const sortDeals = sort<Deal>((a, b) => {
   const dateDiff = a.datetime.valueOf() - b.datetime.valueOf()
   if (dateDiff !== 0) {
     return dateDiff

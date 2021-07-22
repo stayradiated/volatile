@@ -1,5 +1,6 @@
 import * as dasset from '@stayradiated/dasset-api'
 import { DateTime } from 'luxon'
+import { errorListBoundary } from '@stayradiated/error-boundary'
 
 import type { Pool } from '../../types.js'
 import { DCAOrder } from '../../models/dca-order/index.js'
@@ -58,9 +59,13 @@ const executeDCAOrder = async (
   }
 
   const totalAvailableNZD = availableNZD + previousOrderNZD
-  const amountNZD = Math.min(goalAmountNZD, totalAvailableNZD)
+  const amountNZD = Math.min(
+    dcaOrder.maxAmountNZD,
+    goalAmountNZD,
+    totalAvailableNZD,
+  )
 
-  if (amountNZD <= 0) {
+  if (amountNZD <= dcaOrder.minAmountNZD) {
     console.log('Have reached daily goal, passing...')
   } else {
     const marketPriceNZD = await getMarketPrice(pool, dcaOrder.marketUID)
@@ -68,7 +73,7 @@ const executeDCAOrder = async (
       return marketPriceNZD
     }
 
-    const offsetPercent = (-1.5 + 100) / 100
+    const offsetPercent = (dcaOrder.marketOffset + 100) / 100
     const orderPriceNZD = round(2, marketPriceNZD * offsetPercent)
 
     const amountBTC = round(8, amountNZD / orderPriceNZD)
@@ -77,18 +82,16 @@ const executeDCAOrder = async (
         `Bid amount is below MINIMUM_BTC_BID: ${amountBTC}/${MINIMUM_BTC_BID}`,
       )
     } else {
-      await Promise.all(
-        previousOrders.map(async (previousOrder) => {
+      const error = await errorListBoundary(async () =>
+        previousOrders.map(async (previousOrder): Promise<void | Error> => {
           const previousOrderID = previousOrder.ID
 
           const error = await dasset.cancelOrder(config, previousOrderID)
           if (error instanceof Error) {
-            console.error(
-              explainError(
-                'Failed to cancel order',
-                { orderID: previousOrder.ID },
-                error,
-              ),
+            return explainError(
+              'Failed to cancel order',
+              { orderID: previousOrder.ID },
+              error,
             )
           }
 
@@ -98,6 +101,9 @@ const executeDCAOrder = async (
           })
         }),
       )
+      if (error instanceof Error) {
+        return error
+      }
 
       const freshOrder = await dasset.createOrder(config, {
         amount: amountBTC,

@@ -29,15 +29,17 @@ const toRowData = (trade: dasset.Order): RowData => {
 
 const fetchDassetTrades = async (
   config: dasset.Config,
-): Promise<readonly RowData[] | Error> => {
+): Promise<RowData[] | Error> => {
   const orders = await dasset.closedOrders(config)
   if (orders instanceof Error) {
     return orders
   }
 
-  return orders.results.filter((order) => {
-    return order.status === dasset.OrderStatus.COMPLETED
-  }).map((trade) => toRowData(trade))
+  console.log(orders)
+
+  return orders.results
+    .filter((order) => order.status === dasset.OrderStatus.COMPLETED)
+    .map((trade) => toRowData(trade))
 }
 
 export { fetchDassetTrades }

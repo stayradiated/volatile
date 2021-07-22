@@ -43,6 +43,7 @@ export const handler = createHandler<Options>(
       return trades
     }
 
+    console.log(trades)
     console.log(drawTable(trades))
   },
 )

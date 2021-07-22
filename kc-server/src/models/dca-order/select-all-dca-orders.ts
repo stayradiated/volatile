@@ -6,15 +6,15 @@ import { DateTime } from 'luxon'
 import type { Pool } from '../../types.js'
 import type { DCAOrder } from './types.js'
 
-type GetAllDCAOrdersOptions = {
+type SelectAllDCAOrdersOptions = {
   exchangeUID?: string
   marketUID?: string
   userUID?: string
 }
 
-const getAllDCAOrders = async (
+const selectAllDCAOrders = async (
   pool: Pool,
-  options: GetAllDCAOrdersOptions,
+  options: SelectAllDCAOrdersOptions,
 ): Promise<DCAOrder[] | Error> => {
   const where: s.dca_order.Whereable = {}
   if (options.userUID) {
@@ -44,11 +44,11 @@ const getAllDCAOrders = async (
     startAt: DateTime.fromISO(row.start_at),
     marketOffset: row.market_offset,
     dailyAverage: row.daily_average,
-    minPriceNZD: row.min_price_nzd ?? undefined,
-    maxPriceNZD: row.max_price_nzd ?? undefined,
-    minAmountNZD: row.min_amount_nzd ?? undefined,
-    maxAmountNZD: row.max_amount_nzd ?? undefined,
+    minPriceNZD: row.min_price_nzd ?? 0,
+    maxPriceNZD: row.max_price_nzd ?? Number.POSITIVE_INFINITY,
+    minAmountNZD: row.min_amount_nzd ?? 0,
+    maxAmountNZD: row.max_amount_nzd ?? Number.POSITIVE_INFINITY,
   }))
 }
 
-export { getAllDCAOrders }
+export { selectAllDCAOrders }

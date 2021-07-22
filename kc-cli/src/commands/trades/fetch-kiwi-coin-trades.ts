@@ -29,7 +29,7 @@ const toRowData = (trade: Trade): RowData => {
 
 const fetchKiwiCoinTrades = async (
   config: kiwiCoin.Config,
-): Promise<readonly RowData[] | Error> => {
+): Promise<RowData[] | Error> => {
   const trades = await kiwiCoin.trades(config, 'all')
   if (trades instanceof Error) {
     return trades

@@ -58,9 +58,13 @@ const executeDCAOrder = async (
   }
 
   const totalAvailableNZD = availableNZD + previousOrderNZD
-  const amountNZD = Math.min(goalAmountNZD, totalAvailableNZD)
+  const amountNZD = Math.min(
+    dcaOrder.maxAmountNZD,
+    goalAmountNZD,
+    totalAvailableNZD,
+  )
 
-  if (amountNZD <= 0) {
+  if (amountNZD <= dcaOrder.minAmountNZD) {
     console.log('Have reached daily goal, passing...')
   } else {
     const orderBook = await kiwiCoin.orderBook()
@@ -73,7 +77,7 @@ const executeDCAOrder = async (
       return marketPriceNZD
     }
 
-    const offsetPercent = (-1.5 + 100) / 100
+    const offsetPercent = (dcaOrder.marketOffset + 100) / 100
     const maxOrderPrice = round(2, marketPriceNZD * offsetPercent)
 
     const lowestAsk = orderBook.asks[0]
