@@ -83,23 +83,25 @@ const executeDCAOrder = async (
       )
     } else {
       const error = await errorListBoundary(async () =>
-        previousOrders.map(async (previousOrder): Promise<void | Error> => {
-          const previousOrderID = previousOrder.ID
+        Promise.all(
+          previousOrders.map(async (previousOrder): Promise<void | Error> => {
+            const previousOrderID = previousOrder.ID
 
-          const error = await dasset.cancelOrder(config, previousOrderID)
-          if (error instanceof Error) {
-            return explainError(
-              'Failed to cancel order',
-              { orderID: previousOrder.ID },
-              error,
-            )
-          }
+            const error = await dasset.cancelOrder(config, previousOrderID)
+            if (error instanceof Error) {
+              return explainError(
+                'Failed to cancel order',
+                { orderID: previousOrder.ID },
+                error,
+              )
+            }
 
-          await updateOrder(pool, {
-            UID: previousOrder.UID,
-            closedAt: DateTime.local(),
-          })
-        }),
+            await updateOrder(pool, {
+              UID: previousOrder.UID,
+              closedAt: DateTime.local(),
+            })
+          }),
+        ),
       )
       if (error instanceof Error) {
         return error
