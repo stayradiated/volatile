@@ -49,7 +49,7 @@
     "@stayradiated/jsconfig": "1.14.0",
     "@types/luxon": "1.27.1",
     "@types/yargs": "17.0.2",
-    "@vercel/ncc": "0.29.0",
+    "@vercel/ncc": "^0.28",
     "ava": "3.15.0",
     "del-cli": "4.0.1",
     "eslint-plugin-fp": "2.3.0",

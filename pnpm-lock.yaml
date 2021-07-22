@@ -44,7 +44,7 @@ importers:
       '@stayradiated/market-price': workspace:1.0.0
       '@types/luxon': 1.27.1
       '@types/yargs': 17.0.2
-      '@vercel/ncc': 0.29.0
+      '@vercel/ncc': ^0.28
       ava: 3.15.0
       console-table-printer: 2.9.0
       del-cli: 4.0.1
@@ -69,7 +69,7 @@ importers:
       '@stayradiated/jsconfig': 1.14.0
       '@types/luxon': 1.27.1
       '@types/yargs': 17.0.2
-      '@vercel/ncc': 0.29.0
+      '@vercel/ncc': 0.28.6
       ava: 3.15.0
       del-cli: 4.0.1
       eslint-plugin-fp: 2.3.0
@@ -133,7 +133,7 @@ importers:
       '@types/bcrypt': 5.0.0
       '@types/luxon': 1.27.1
       '@types/pg': 8.6.1
-      '@vercel/ncc': 0.29.0
+      '@vercel/ncc': ^0.28
       ava: 3.15.0
       bcrypt: 5.0.1
       debug: 4.3.2
@@ -172,7 +172,7 @@ importers:
       '@types/bcrypt': 5.0.0
       '@types/luxon': 1.27.1
       '@types/pg': 8.6.1
-      '@vercel/ncc': 0.29.0
+      '@vercel/ncc': 0.28.6
       ava: 3.15.0
       del-cli: 4.0.1
       eslint-plugin-fp: 2.3.0
@@ -774,8 +774,8 @@ packages:
       eslint-visitor-keys: 2.1.0
     dev: true
 
-  /@vercel/ncc/0.29.0:
-    resolution: {integrity: sha512-p+sB835wOSDdgm2mgFgSOcXJF84AqZ+vBEnnGS0sm8veA92Hia7sqH0qEnqeFilPl+cXtxbdh2er+WdlfbVCZA==}
+  /@vercel/ncc/0.28.6:
+    resolution: {integrity: sha512-t4BoSSuyK8BZaUE0gV18V6bkFs4st7baumtFGa50dv1tMu2GDBEBF8sUZaKBdKiL6DzJ2D2+XVCwYWWDcQOYdQ==}
     hasBin: true
     dev: true
 
