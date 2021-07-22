@@ -15,6 +15,9 @@ const setUserExchangeKeysHandler: ActionHandlerFn<Input, Output> = async (
   const { pool, input, session } = context
   const { exchange_uid: exchangeUID, keys, description } = input
   const { userUID } = session
+  if (!userUID) {
+    return new Error('userUID is required')
+  }
 
   const result = await setUserExchangeKeys(pool, {
     userUID,

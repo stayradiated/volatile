@@ -12,10 +12,10 @@ type Mutation {
     start_at: timestamp!
     market_offset: Float!
     daily_average: Float!
-    min_price: Float
-    max_price: Float
-    min_amount: Float
-    max_amount: Float
+    min_price_nzd: Float
+    max_price_nzd: Float
+    min_amount_nzd: Float
+    max_amount_nzd: Float
   ): CreateDCAOrderResult
 }
 
@@ -24,10 +24,6 @@ type Mutation {
     email: String!
     password: String!
   ): CreateUserOutput
-}
-
-type Query {
-  get_email : GetEmailOutput
 }
 
 type Mutation {

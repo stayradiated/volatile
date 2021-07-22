@@ -34,10 +34,10 @@ CREATE TABLE kc.dca_order (
     start_at timestamp with time zone NOT NULL,
     market_offset numeric(12,6) NOT NULL,
     daily_average numeric(12,2) NOT NULL,
-    min_price numeric(12,2),
-    max_price numeric(12,2),
-    min_amount numeric(12,2),
-    max_amount numeric(12,2)
+    min_price_nzd numeric(12,2),
+    max_price_nzd numeric(12,2),
+    min_amount_nzd numeric(12,2),
+    max_amount_nzd numeric(12,2)
 );
 
 
@@ -52,7 +52,7 @@ CREATE TABLE kc.dca_order_history (
     user_uid uuid NOT NULL,
     dca_order_uid uuid NOT NULL,
     order_uid uuid NOT NULL,
-    market_price numeric(12,2) NOT NULL,
+    market_price_nzd numeric(12,2) NOT NULL,
     market_offset numeric(12,6) NOT NULL
 );
 
@@ -111,8 +111,8 @@ CREATE TABLE kc."order" (
     exchange_uid uuid NOT NULL,
     id character varying NOT NULL,
     symbol character varying NOT NULL,
-    price numeric(12,2) NOT NULL,
-    amount numeric(12,2) NOT NULL,
+    price_nzd numeric(12,2) NOT NULL,
+    amount numeric(16,8) NOT NULL,
     type smallint NOT NULL,
     opened_at timestamp with time zone NOT NULL,
     closed_at timestamp with time zone
@@ -136,6 +136,7 @@ CREATE TABLE kc."user" (
     uid uuid NOT NULL,
     created_at timestamp with time zone NOT NULL,
     updated_at timestamp with time zone NOT NULL,
+    email_keyring_id smallint NOT NULL,
     email_encrypted character varying NOT NULL,
     email_hash character varying NOT NULL,
     password_hash character varying NOT NULL
@@ -152,7 +153,9 @@ CREATE TABLE kc.user_exchange_keys (
     updated_at timestamp with time zone NOT NULL,
     user_uid uuid NOT NULL,
     exchange_uid uuid NOT NULL,
+    keys_keyring_id smallint NOT NULL,
     keys_encrypted character varying NOT NULL,
+    keys_hash character varying NOT NULL,
     description character varying(128) NOT NULL,
     invalidated_at timestamp with time zone
 );
@@ -252,6 +255,14 @@ ALTER TABLE ONLY kc.market
 
 ALTER TABLE ONLY kc."user"
     ADD CONSTRAINT unique_user_email_hash UNIQUE (email_hash);
+
+
+--
+-- Name: user_exchange_keys unique_user_exchange_keys_user_uid_exchange_uid; Type: CONSTRAINT; Schema: kc; Owner: -
+--
+
+ALTER TABLE ONLY kc.user_exchange_keys
+    ADD CONSTRAINT unique_user_exchange_keys_user_uid_exchange_uid UNIQUE (user_uid, exchange_uid);
 
 
 --
@@ -369,4 +380,4 @@ ALTER TABLE ONLY kc.user_exchange_keys
 
 INSERT INTO kc.schema_migrations (version) VALUES
     ('20210614092417'),
-    ('20210704030306');
+    ('20210721191422');

@@ -83,29 +83,29 @@ declare module 'zapatos/schema' {
       */
       daily_average: number;
       /**
-      * **dca_order.min_price**
+      * **dca_order.min_price_nzd**
       * - `numeric` in database
       * - Nullable, no default
       */
-      min_price: number | null;
+      min_price_nzd: number | null;
       /**
-      * **dca_order.max_price**
+      * **dca_order.max_price_nzd**
       * - `numeric` in database
       * - Nullable, no default
       */
-      max_price: number | null;
+      max_price_nzd: number | null;
       /**
-      * **dca_order.min_amount**
+      * **dca_order.min_amount_nzd**
       * - `numeric` in database
       * - Nullable, no default
       */
-      min_amount: number | null;
+      min_amount_nzd: number | null;
       /**
-      * **dca_order.max_amount**
+      * **dca_order.max_amount_nzd**
       * - `numeric` in database
       * - Nullable, no default
       */
-      max_amount: number | null;
+      max_amount_nzd: number | null;
     }
     export interface JSONSelectable {
       /**
@@ -163,29 +163,29 @@ declare module 'zapatos/schema' {
       */
       daily_average: number;
       /**
-      * **dca_order.min_price**
+      * **dca_order.min_price_nzd**
       * - `numeric` in database
       * - Nullable, no default
       */
-      min_price: number | null;
+      min_price_nzd: number | null;
       /**
-      * **dca_order.max_price**
+      * **dca_order.max_price_nzd**
       * - `numeric` in database
       * - Nullable, no default
       */
-      max_price: number | null;
+      max_price_nzd: number | null;
       /**
-      * **dca_order.min_amount**
+      * **dca_order.min_amount_nzd**
       * - `numeric` in database
       * - Nullable, no default
       */
-      min_amount: number | null;
+      min_amount_nzd: number | null;
       /**
-      * **dca_order.max_amount**
+      * **dca_order.max_amount_nzd**
       * - `numeric` in database
       * - Nullable, no default
       */
-      max_amount: number | null;
+      max_amount_nzd: number | null;
     }
     export interface Whereable {
       /**
@@ -243,29 +243,29 @@ declare module 'zapatos/schema' {
       */
       daily_average?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
       /**
-      * **dca_order.min_price**
+      * **dca_order.min_price_nzd**
       * - `numeric` in database
       * - Nullable, no default
       */
-      min_price?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+      min_price_nzd?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
       /**
-      * **dca_order.max_price**
+      * **dca_order.max_price_nzd**
       * - `numeric` in database
       * - Nullable, no default
       */
-      max_price?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+      max_price_nzd?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
       /**
-      * **dca_order.min_amount**
+      * **dca_order.min_amount_nzd**
       * - `numeric` in database
       * - Nullable, no default
       */
-      min_amount?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+      min_amount_nzd?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
       /**
-      * **dca_order.max_amount**
+      * **dca_order.max_amount_nzd**
       * - `numeric` in database
       * - Nullable, no default
       */
-      max_amount?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+      max_amount_nzd?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
     }
     export interface Insertable {
       /**
@@ -323,29 +323,29 @@ declare module 'zapatos/schema' {
       */
       daily_average: number | db.Parameter<number> | db.SQLFragment;
       /**
-      * **dca_order.min_price**
+      * **dca_order.min_price_nzd**
       * - `numeric` in database
       * - Nullable, no default
       */
-      min_price?: number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment;
+      min_price_nzd?: number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment;
       /**
-      * **dca_order.max_price**
+      * **dca_order.max_price_nzd**
       * - `numeric` in database
       * - Nullable, no default
       */
-      max_price?: number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment;
+      max_price_nzd?: number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment;
       /**
-      * **dca_order.min_amount**
+      * **dca_order.min_amount_nzd**
       * - `numeric` in database
       * - Nullable, no default
       */
-      min_amount?: number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment;
+      min_amount_nzd?: number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment;
       /**
-      * **dca_order.max_amount**
+      * **dca_order.max_amount_nzd**
       * - `numeric` in database
       * - Nullable, no default
       */
-      max_amount?: number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment;
+      max_amount_nzd?: number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment;
     }
     export interface Updatable {
       /**
@@ -403,29 +403,29 @@ declare module 'zapatos/schema' {
       */
       daily_average?: number | db.Parameter<number> | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
       /**
-      * **dca_order.min_price**
+      * **dca_order.min_price_nzd**
       * - `numeric` in database
       * - Nullable, no default
       */
-      min_price?: number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment>;
+      min_price_nzd?: number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment>;
       /**
-      * **dca_order.max_price**
+      * **dca_order.max_price_nzd**
       * - `numeric` in database
       * - Nullable, no default
       */
-      max_price?: number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment>;
+      max_price_nzd?: number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment>;
       /**
-      * **dca_order.min_amount**
+      * **dca_order.min_amount_nzd**
       * - `numeric` in database
       * - Nullable, no default
       */
-      min_amount?: number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment>;
+      min_amount_nzd?: number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment>;
       /**
-      * **dca_order.max_amount**
+      * **dca_order.max_amount_nzd**
       * - `numeric` in database
       * - Nullable, no default
       */
-      max_amount?: number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment>;
+      max_amount_nzd?: number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment>;
     }
     export type UniqueIndex = 'dca_order_pkey';
     export type Column = keyof Selectable;
@@ -478,11 +478,11 @@ declare module 'zapatos/schema' {
       */
       order_uid: string;
       /**
-      * **dca_order_history.market_price**
+      * **dca_order_history.market_price_nzd**
       * - `numeric` in database
       * - `NOT NULL`, no default
       */
-      market_price: number;
+      market_price_nzd: number;
       /**
       * **dca_order_history.market_offset**
       * - `numeric` in database
@@ -528,11 +528,11 @@ declare module 'zapatos/schema' {
       */
       order_uid: string;
       /**
-      * **dca_order_history.market_price**
+      * **dca_order_history.market_price_nzd**
       * - `numeric` in database
       * - `NOT NULL`, no default
       */
-      market_price: number;
+      market_price_nzd: number;
       /**
       * **dca_order_history.market_offset**
       * - `numeric` in database
@@ -578,11 +578,11 @@ declare module 'zapatos/schema' {
       */
       order_uid?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
       /**
-      * **dca_order_history.market_price**
+      * **dca_order_history.market_price_nzd**
       * - `numeric` in database
       * - `NOT NULL`, no default
       */
-      market_price?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+      market_price_nzd?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
       /**
       * **dca_order_history.market_offset**
       * - `numeric` in database
@@ -628,11 +628,11 @@ declare module 'zapatos/schema' {
       */
       order_uid: string | db.Parameter<string> | db.SQLFragment;
       /**
-      * **dca_order_history.market_price**
+      * **dca_order_history.market_price_nzd**
       * - `numeric` in database
       * - `NOT NULL`, no default
       */
-      market_price: number | db.Parameter<number> | db.SQLFragment;
+      market_price_nzd: number | db.Parameter<number> | db.SQLFragment;
       /**
       * **dca_order_history.market_offset**
       * - `numeric` in database
@@ -678,11 +678,11 @@ declare module 'zapatos/schema' {
       */
       order_uid?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
       /**
-      * **dca_order_history.market_price**
+      * **dca_order_history.market_price_nzd**
       * - `numeric` in database
       * - `NOT NULL`, no default
       */
-      market_price?: number | db.Parameter<number> | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
+      market_price_nzd?: number | db.Parameter<number> | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
       /**
       * **dca_order_history.market_offset**
       * - `numeric` in database
@@ -1356,11 +1356,11 @@ declare module 'zapatos/schema' {
       */
       symbol: string;
       /**
-      * **order.price**
+      * **order.price_nzd**
       * - `numeric` in database
       * - `NOT NULL`, no default
       */
-      price: number;
+      price_nzd: number;
       /**
       * **order.amount**
       * - `numeric` in database
@@ -1430,11 +1430,11 @@ declare module 'zapatos/schema' {
       */
       symbol: string;
       /**
-      * **order.price**
+      * **order.price_nzd**
       * - `numeric` in database
       * - `NOT NULL`, no default
       */
-      price: number;
+      price_nzd: number;
       /**
       * **order.amount**
       * - `numeric` in database
@@ -1504,11 +1504,11 @@ declare module 'zapatos/schema' {
       */
       symbol?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
       /**
-      * **order.price**
+      * **order.price_nzd**
       * - `numeric` in database
       * - `NOT NULL`, no default
       */
-      price?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+      price_nzd?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
       /**
       * **order.amount**
       * - `numeric` in database
@@ -1578,11 +1578,11 @@ declare module 'zapatos/schema' {
       */
       symbol: string | db.Parameter<string> | db.SQLFragment;
       /**
-      * **order.price**
+      * **order.price_nzd**
       * - `numeric` in database
       * - `NOT NULL`, no default
       */
-      price: number | db.Parameter<number> | db.SQLFragment;
+      price_nzd: number | db.Parameter<number> | db.SQLFragment;
       /**
       * **order.amount**
       * - `numeric` in database
@@ -1652,11 +1652,11 @@ declare module 'zapatos/schema' {
       */
       symbol?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
       /**
-      * **order.price**
+      * **order.price_nzd**
       * - `numeric` in database
       * - `NOT NULL`, no default
       */
-      price?: number | db.Parameter<number> | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
+      price_nzd?: number | db.Parameter<number> | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
       /**
       * **order.amount**
       * - `numeric` in database

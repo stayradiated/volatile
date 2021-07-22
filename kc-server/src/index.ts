@@ -12,7 +12,7 @@ import {
 } from './models/market/index.js'
 
 import * as actions from './actions/index.js'
-import { bindActionHandler } from './utils/action-handler.js'
+import { bindActionHandler, SessionRole } from './utils/action-handler.js'
 
 const fastify = createFastify({
   logger: true,
@@ -20,12 +20,12 @@ const fastify = createFastify({
 
 const addRoute = bindActionHandler(fastify)
 
-addRoute('auto_buy', actions.autoBuyHandler)
+// AddRoute('auto_buy_kiwi_coin', actions.autoBuyKiwiCoinHandler)
+// addRoute('auto_buy_dasset actions.autoBuyDassetHandler)
 addRoute('create_auth_token', actions.createAuthTokenHandler)
 addRoute('create_dca_order', actions.createDCAOrderHandler)
 addRoute('create_user', actions.createUserHandler)
-addRoute('fetch_market_price', actions.fetchMarketPriceHandler)
-addRoute('get_email', actions.getEmailHandler)
+// AddRoute('fetch_market_price', actions.fetchMarketPriceHandler)
 addRoute('set_user_exchange_keys', actions.setUserExchangeKeysHandler)
 addRoute('validate_user_exchange_keys', actions.validateUserExchangeKeysHandler)
 
@@ -42,13 +42,14 @@ void (async function () {
     pool,
     input: {},
     session: {
-      role: 'admin',
-      userUID: '',
+      role: SessionRole.ADMIN,
+      userUID: undefined,
     },
   }
 
   await Promise.all([
     actions.fetchMarketPriceHandler(context),
-    actions.autoBuyHandler(context),
+    actions.autoBuyKiwiCoinHandler(context),
+    actions.autoBuyDassetHandler(context),
   ])
 })()

@@ -1,19 +1,18 @@
 {
-  "name": "@stayradiated/kc-config",
-  "version": "1.0.0",
-  "description": "read/write configuration file",
+  "name": "@stayradiated/dasset-api",
+  "version": "1.0.1",
+  "description": "A minimal dassetx.com API client",
   "type": "module",
   "exports": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "scripts": {
-    "test": "ava",
-    "tidy": "xo --fix",
-    "build": "del-cli dist && tsc"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/stayradiated/kc.git"
   },
+  "keywords": [
+    "dassetx.com",
+    "api"
+  ],
   "author": {
     "name": "George Czabania",
     "email": "george@czabania.com"
@@ -23,13 +22,28 @@
     "url": "https://github.com/stayradiated/kc/issues"
   },
   "homepage": "https://github.com/stayradiated/kc#readme",
+  "dependencies": {
+    "@stayradiated/error-boundary": "1.2.0",
+    "debug": "4.3.2",
+    "ky": "0.28.5",
+    "ky-universal": "0.9.1",
+    "luxon": "2.0.1"
+  },
   "devDependencies": {
     "@stayradiated/jsconfig": "1.14.0",
+    "@types/debug": "4.1.6",
+    "@types/node": "16.4.0",
     "ava": "3.15.0",
     "del-cli": "4.0.1",
     "eslint-plugin-fp": "2.3.0",
+    "nock": "13.1.1",
     "typescript": "4.3.5",
     "xo": "0.42.0"
+  },
+  "scripts": {
+    "tidy": "xo --fix",
+    "test": "ava",
+    "build": "del-cli dist && tsc"
   },
   "__comment": "The following configs are managed by `npx @stayradiated/jsconfig`",
   "ava": {
@@ -74,10 +88,5 @@
     "tabWidth": 2,
     "trailingComma": "all",
     "useTabs": false
-  },
-  "dependencies": {
-    "@stayradiated/error-boundary": "1.2.0",
-    "@stayradiated/kiwi-coin-api": "workspace:1.0.1",
-    "@stayradiated/market-price": "workspace:1.0.0"
   }
 }

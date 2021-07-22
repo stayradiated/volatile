@@ -1,6 +1,8 @@
 import * as kiwiCoin from '@stayradiated/kiwi-coin-api'
 import { DateTime } from 'luxon'
 
+import { explainError } from '../../utils/error.js'
+
 import type { DCAOrder } from '../../models/dca-order/index.js'
 
 type CalculateOrderAmountNZDOptions = {
@@ -36,7 +38,19 @@ const calculateOrderAmountNZD = async (
 
   const orderAmountNZD =
     (goalPerMinute - sum / minutesSinceStartDate) * minutesSinceStartDate
-  return orderAmountNZD
+
+  if (Number.isNaN(orderAmountNZD)) {
+    return explainError('orderAmountNZD is NaN', {
+      goalPerMinute: String(goalPerMinute),
+      sum: String(sum),
+      minutesSinceStartDate: String(minutesSinceStartDate),
+    })
+  }
+
+  return Math.max(
+    dcaOrder.minPriceNZD,
+    Math.min(dcaOrder.maxPriceNZD, orderAmountNZD),
+  )
 }
 
 export { calculateOrderAmountNZD }

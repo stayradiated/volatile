@@ -11,7 +11,7 @@ type Order = {
   exchangeUID: string
   ID: string
   symbol: string
-  price: number
+  priceNZD: number
   amount: number
   type: OrderType
   openedAt: DateTime

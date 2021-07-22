@@ -3,7 +3,7 @@ import { DateTime } from 'luxon'
 
 import test from '../../test-utils/ava.js'
 
-import { getAllDCAOrders } from './get-all-dca-orders.js'
+import { selectAllDCAOrders } from './select-all-dca-orders.js'
 import { createDCAOrder } from './create-dca-order.js'
 
 test('dcaOrder', async (t) => {
@@ -19,15 +19,15 @@ test('dcaOrder', async (t) => {
     startAt: DateTime.local(),
     dailyAverage: 10,
     marketOffset: -10,
-    minPrice: 0,
-    maxPrice: 10_000,
-    minAmount: 0,
-    maxAmount: 1000,
+    minPriceNZD: 0,
+    maxPriceNZD: 10_000,
+    minAmountNZD: 0,
+    maxAmountNZD: 1000,
   }
 
   await createDCAOrder(pool, input)
 
-  const dcaOrderList = await getAllDCAOrders(pool, {
+  const dcaOrderList = await selectAllDCAOrders(pool, {
     userUID,
   })
   if (dcaOrderList instanceof Error) {

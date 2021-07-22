@@ -44,7 +44,7 @@ const selectOpenOrdersForDCA = async (
       exchangeUID: order.exchange_uid,
       ID: order.id,
       symbol: order.symbol,
-      price: order.price,
+      priceNZD: order.price_nzd,
       amount: order.amount,
       type: order.type,
       openedAt: DateTime.fromISO(order.opened_at),

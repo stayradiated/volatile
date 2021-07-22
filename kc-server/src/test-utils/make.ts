@@ -74,10 +74,10 @@ const makeDCAOrder: MakeFn = (make) =>
       startAt: DateTime.local(),
       marketOffset: round(2, Math.random() * -100),
       dailyAverage: round(0, Math.random() * 1000),
-      minPrice: round(0, Math.random() * 100),
-      maxPrice: round(0, Math.random() * 10_000),
-      minAmount: round(0, Math.random() * 100),
-      maxAmount: round(0, Math.random() * 10_000),
+      minPriceNZD: round(0, Math.random() * 100),
+      maxPriceNZD: round(0, Math.random() * 10_000),
+      minAmountNZD: round(0, Math.random() * 100),
+      maxAmountNZD: round(0, Math.random() * 10_000),
     })
     if (dcaOrder instanceof Error) {
       throw dcaOrder
@@ -95,7 +95,7 @@ const makeOrder: MakeFn = (make) =>
       userUID,
       exchangeUID,
       symbol: 'BTC',
-      price: round(2, Math.random() * 100_000),
+      priceNZD: round(2, Math.random() * 100_000),
       ID: randomUUID(),
       amount: round(6, Math.random()),
       type: OrderType.BUY,
@@ -119,7 +119,7 @@ const makeDCAOrderHistory: MakeFn = (make) =>
       userUID,
       dcaOrderUID,
       orderUID,
-      marketPrice: round(2, Math.random() * 100_000),
+      marketPriceNZD: round(2, Math.random() * 100_000),
       marketOffset: round(4, Math.random() * -10 + 2),
     })
     if (order instanceof Error) {

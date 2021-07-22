@@ -1,26 +1,25 @@
 import { setTimeout } from 'timers/promises'
 
-import { getAllDCAOrders } from '../../models/dca-order/index.js'
-import {
-  getExchangeUID,
-  EXCHANGE_KIWI_COIN,
-} from '../../models/exchange/index.js'
+import { selectAllDCAOrders } from '../../models/dca-order/index.js'
+import { getExchangeUID, EXCHANGE_DASSET } from '../../models/exchange/index.js'
 import type { ActionHandlerFn } from '../../utils/action-handler.js'
 import { executeDCAOrder } from './execute-dca-order.js'
 
 type Input = Record<string, unknown>
 type Output = void
 
-const autoBuyHandler: ActionHandlerFn<Input, Output> = async (context) => {
+const autoBuyDassetHandler: ActionHandlerFn<Input, Output> = async (
+  context,
+) => {
   const { pool } = context
 
-  const exchangeUID = await getExchangeUID(pool, EXCHANGE_KIWI_COIN)
+  const exchangeUID = await getExchangeUID(pool, EXCHANGE_DASSET)
   if (exchangeUID instanceof Error) {
     return exchangeUID
   }
 
   const loop = async (): Promise<void> => {
-    const dcaOrderList = await getAllDCAOrders(pool, {
+    const dcaOrderList = await selectAllDCAOrders(pool, {
       exchangeUID,
     })
     if (dcaOrderList instanceof Error) {
@@ -45,4 +44,4 @@ const autoBuyHandler: ActionHandlerFn<Input, Output> = async (context) => {
   return undefined
 }
 
-export { autoBuyHandler }
+export { autoBuyDassetHandler }

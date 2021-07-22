@@ -4,7 +4,7 @@ import { DateTime } from 'luxon'
 
 const matchArray =
   <T>(varName: string) =>
-  (input: string): readonly T[] | Error => {
+  (input: string): T[] | Error => {
     const regExp = new RegExp(
       `var\\s*${varName}\\s*=\\s*(\\[[a-z0-9"{}:,.]+\\])`,
     )
@@ -14,7 +14,7 @@ const matchArray =
       return new Error(`Could not find array for "${varName}"`)
     }
 
-    const array = JSON.parse(jsonString) as readonly T[]
+    const array = JSON.parse(jsonString) as T[]
     return array
   }
 
@@ -90,8 +90,8 @@ const parsePrice = (
 })
 
 type Stats = {
-  prices: readonly Price[]
-  deals: readonly Deal[]
+  prices: Price[]
+  deals: Deal[]
 }
 
 const matchDealArray = matchArray<KiwiCoinDeal>('DealArray')

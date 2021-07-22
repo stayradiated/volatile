@@ -1,5 +1,6 @@
-import * as kiwiCoin from '@stayradiated/kiwi-coin-api'
+import * as dasset from '@stayradiated/dasset-api'
 import { DateTime } from 'luxon'
+import { errorListBoundary } from '@stayradiated/error-boundary'
 
 import type { Pool } from '../../types.js'
 import { DCAOrder } from '../../models/dca-order/index.js'
@@ -13,7 +14,7 @@ import {
 import { insertDCAOrderHistory } from '../../models/dca-order-history/index.js'
 import { round } from '../../utils/round.js'
 import { explainError } from '../../utils/error.js'
-import { mustGetUserKiwiCoinExchangeKeys } from '../../models/user-exchange-keys/index.js'
+import { mustGetUserDassetExchangeKeys } from '../../models/user-exchange-keys/index.js'
 import { fetchAvailableNZD } from './fetch-available-nzd.js'
 import { calculateOrderAmountNZD } from './calculate-order-amount-nzd.js'
 
@@ -23,7 +24,7 @@ const executeDCAOrder = async (
   pool: Pool,
   dcaOrder: DCAOrder,
 ): Promise<void | Error> => {
-  const config = await mustGetUserKiwiCoinExchangeKeys(pool, {
+  const config = await mustGetUserDassetExchangeKeys(pool, {
     userUID: dcaOrder.userUID,
   })
   if (config instanceof Error) {
@@ -39,11 +40,11 @@ const executeDCAOrder = async (
 
   // eslint-disable-next-line unicorn/no-array-reduce
   const previousOrderNZD = previousOrders.reduce(
-    (sum, order) => sum + order.price * order.amount,
+    (sum, order) => sum + order.priceNZD * order.amount,
     0,
   )
 
-  // Should really be done concurrently, but kiwi-coin.com often returns a 401?
+  // Should really be done concurrently
   const availableNZD = await fetchAvailableNZD(config)
   if (availableNZD instanceof Error) {
     return availableNZD
@@ -58,54 +59,39 @@ const executeDCAOrder = async (
   }
 
   const totalAvailableNZD = availableNZD + previousOrderNZD
-  const amountNZD = Math.min(goalAmountNZD, totalAvailableNZD)
+  const amountNZD = Math.min(
+    dcaOrder.maxAmountNZD,
+    goalAmountNZD,
+    totalAvailableNZD,
+  )
 
-  if (amountNZD <= 0) {
+  if (amountNZD <= dcaOrder.minAmountNZD) {
     console.log('Have reached daily goal, passing...')
   } else {
-    const orderBook = await kiwiCoin.orderBook()
-    if (orderBook instanceof Error) {
-      return orderBook
+    const marketPriceNZD = await getMarketPrice(pool, dcaOrder.marketUID)
+    if (marketPriceNZD instanceof Error) {
+      return marketPriceNZD
     }
 
-    const marketPrice = await getMarketPrice(pool, dcaOrder.marketUID)
-    if (marketPrice instanceof Error) {
-      return marketPrice
-    }
+    const offsetPercent = (dcaOrder.marketOffset + 100) / 100
+    const orderPriceNZD = round(2, marketPriceNZD * offsetPercent)
 
-    const offsetPercent = (-1.5 + 100) / 100
-    const maxOrderPrice = round(2, marketPrice * offsetPercent)
-
-    const lowestAsk = orderBook.asks[0]
-    const lowestAskPrice = lowestAsk
-      ? Number.parseFloat(lowestAsk[0])
-      : Number.POSITIVE_INFINITY
-
-    const orderPrice =
-      maxOrderPrice > lowestAskPrice ? lowestAskPrice - 0.01 : maxOrderPrice
-
-    if (orderPrice !== maxOrderPrice) {
-      console.log('Lowering bid price to just below lowest ask price')
-    }
-
-    const amountBTC = round(8, amountNZD / orderPrice)
+    const amountBTC = round(8, amountNZD / orderPriceNZD)
     if (amountBTC < MINIMUM_BTC_BID) {
       console.log(
         `Bid amount is below MINIMUM_BTC_BID: ${amountBTC}/${MINIMUM_BTC_BID}`,
       )
     } else {
-      await Promise.all(
-        previousOrders.map(async (previousOrder) => {
-          const previousOrderID = Number.parseInt(previousOrder.ID, 10)
+      const error = await errorListBoundary(async () =>
+        previousOrders.map(async (previousOrder): Promise<void | Error> => {
+          const previousOrderID = previousOrder.ID
 
-          const error = await kiwiCoin.cancelOrder(config, previousOrderID)
+          const error = await dasset.cancelOrder(config, previousOrderID)
           if (error instanceof Error) {
-            console.error(
-              explainError(
-                'Failed to cancel order',
-                { orderID: previousOrder.ID },
-                error,
-              ),
+            return explainError(
+              'Failed to cancel order',
+              { orderID: previousOrder.ID },
+              error,
             )
           }
 
@@ -115,10 +101,17 @@ const executeDCAOrder = async (
           })
         }),
       )
+      if (error instanceof Error) {
+        return error
+      }
 
-      const freshOrder = await kiwiCoin.buy(config, {
-        price: orderPrice,
+      const freshOrder = await dasset.createOrder(config, {
         amount: amountBTC,
+        limit: orderPriceNZD,
+        orderType: 'LIMIT',
+        side: dasset.OrderType.BUY,
+        timeInForce: 'GOOD_TIL_CANCELLED',
+        tradingPair: 'BTC-NZD',
       })
       if (freshOrder instanceof Error) {
         return freshOrder
@@ -127,10 +120,10 @@ const executeDCAOrder = async (
       const order = await insertOrder(pool, {
         userUID: dcaOrder.userUID,
         exchangeUID: dcaOrder.exchangeUID,
-        ID: String(freshOrder.id),
+        ID: freshOrder.order.orderId,
         symbol: 'BTC',
         type: OrderType.BUY,
-        price: orderPrice,
+        priceNZD: orderPriceNZD,
         amount: amountBTC,
         openedAt: DateTime.local(),
         closedAt: undefined,
@@ -143,7 +136,7 @@ const executeDCAOrder = async (
         userUID: dcaOrder.userUID,
         dcaOrderUID: dcaOrder.UID,
         orderUID: order.UID,
-        marketPrice,
+        marketPriceNZD,
         marketOffset: dcaOrder.marketOffset,
       })
       if (dcaOrderHistory instanceof Error) {
@@ -154,11 +147,11 @@ const executeDCAOrder = async (
         dcaOrderHistoryUID: dcaOrderHistory.UID,
         orderUID: order.UID,
         orderID: order.ID,
-        marketPrice,
+        marketPriceNZD,
         marketOffset: dcaOrderHistory.marketOffset,
-        price: order.price,
-        amount: order.amount,
-        value: order.amount * order.price,
+        priceNZD: order.priceNZD,
+        amountBTC: order.amount,
+        valueNZD: order.amount * order.priceNZD,
       })
     }
   }
