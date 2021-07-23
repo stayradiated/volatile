@@ -89,7 +89,12 @@ const executeDCAOrder = async (
             const previousOrderID = previousOrder.ID
 
             const error = await dasset.cancelOrder(config, previousOrderID)
-            if (error instanceof Error) {
+            if (
+              error instanceof dasset.APIError &&
+              error.response.code === dasset.APIErrorCode.PreconditionFailed
+            ) {
+              console.error(error)
+            } else if (error instanceof Error) {
               return explainError(
                 'Failed to cancel order',
                 { orderID: previousOrder.ID },

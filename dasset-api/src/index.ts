@@ -1,8 +1,30 @@
 import ky from 'ky-universal'
 import debug from 'debug'
 import { errorBoundary } from '@stayradiated/error-boundary'
+import { HTTPError } from 'ky'
 
 const log = debug('dasset-api')
+
+enum APIErrorCode {
+  ResourceNotFound = 4043,
+  PreconditionFailed = 4092,
+}
+
+type APIErrorResponse = {
+  status: number,
+  type: string,
+  code: APIErrorCode,
+  message: string
+}
+
+class APIError extends Error {
+  response: APIErrorResponse
+  constructor (url: string, response: APIErrorResponse) {
+    const message = `${url} ${JSON.stringify(response)}`
+    super(message)
+    this.response = response
+  }
+}
 
 export type Config = {
   apiKey: string
@@ -231,6 +253,10 @@ const cancelOrder = async (
       .json(),
   )
   if (result instanceof Error) {
+    if (result instanceof HTTPError) {
+      const response = await result.response.json()
+      return new APIError(result.response.url, response)
+    }
     return result
   }
 
@@ -238,6 +264,8 @@ const cancelOrder = async (
 }
 
 export {
+  APIErrorCode,
+  APIError,
   isValidConfig,
   balanceSingle,
   balanceAll,
