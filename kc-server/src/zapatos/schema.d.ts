@@ -106,6 +106,12 @@ declare module 'zapatos/schema' {
       * - Nullable, no default
       */
       max_amount_nzd: number | null;
+      /**
+      * **dca_order.user_exchange_keys_uid**
+      * - `uuid` in database
+      * - `NOT NULL`, no default
+      */
+      user_exchange_keys_uid: string;
     }
     export interface JSONSelectable {
       /**
@@ -186,6 +192,12 @@ declare module 'zapatos/schema' {
       * - Nullable, no default
       */
       max_amount_nzd: number | null;
+      /**
+      * **dca_order.user_exchange_keys_uid**
+      * - `uuid` in database
+      * - `NOT NULL`, no default
+      */
+      user_exchange_keys_uid: string;
     }
     export interface Whereable {
       /**
@@ -266,6 +278,12 @@ declare module 'zapatos/schema' {
       * - Nullable, no default
       */
       max_amount_nzd?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **dca_order.user_exchange_keys_uid**
+      * - `uuid` in database
+      * - `NOT NULL`, no default
+      */
+      user_exchange_keys_uid?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
     }
     export interface Insertable {
       /**
@@ -346,6 +364,12 @@ declare module 'zapatos/schema' {
       * - Nullable, no default
       */
       max_amount_nzd?: number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment;
+      /**
+      * **dca_order.user_exchange_keys_uid**
+      * - `uuid` in database
+      * - `NOT NULL`, no default
+      */
+      user_exchange_keys_uid: string | db.Parameter<string> | db.SQLFragment;
     }
     export interface Updatable {
       /**
@@ -426,6 +450,12 @@ declare module 'zapatos/schema' {
       * - Nullable, no default
       */
       max_amount_nzd?: number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment>;
+      /**
+      * **dca_order.user_exchange_keys_uid**
+      * - `uuid` in database
+      * - `NOT NULL`, no default
+      */
+      user_exchange_keys_uid?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
     }
     export type UniqueIndex = 'dca_order_pkey';
     export type Column = keyof Selectable;
@@ -2291,7 +2321,7 @@ declare module 'zapatos/schema' {
       */
       invalidated_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment>;
     }
-    export type UniqueIndex = 'unique_user_exchange_keys_user_uid_exchange_uid' | 'user_exchange_keys_pkey';
+    export type UniqueIndex = 'user_exchange_keys_pkey';
     export type Column = keyof Selectable;
     export type OnlyCols<T extends readonly Column[]> = Pick<Selectable, T[number]>;
     export type SQLExpression = db.GenericSQLExpression | db.ColumnNames<Updatable | (keyof Updatable)[]> | db.ColumnValues<Updatable> | Table | Whereable | Column;

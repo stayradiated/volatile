@@ -11,6 +11,9 @@
   - name: user
     using:
       foreign_key_constraint_on: user_uid
+  - name: user_exchange_keys
+    using:
+      foreign_key_constraint_on: user_exchange_keys_uid
   array_relationships:
   - name: dca_order_histories
     using:
@@ -255,6 +258,14 @@
   - name: user
     using:
       foreign_key_constraint_on: user_uid
+  array_relationships:
+  - name: dca_orders
+    using:
+      foreign_key_constraint_on:
+        column: user_exchange_keys_uid
+        table:
+          schema: kc
+          name: dca_order
   select_permissions:
   - role: user
     permission:

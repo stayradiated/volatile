@@ -1,10 +1,11 @@
 import { DateTime } from 'luxon'
 
 import { ActionHandlerFn } from '../../utils/action-handler.js'
-import { createDCAOrder } from '../../models/dca-order/index.js'
+import { insertDCAOrder } from '../../models/dca-order/index.js'
+import { getUserExchangeKeys } from '../../models/user-exchange-keys/index.js'
 
 type Input = {
-  exchange_uid: string
+  user_exchange_keys_uid: string
   market_uid: string
   start_at: string
   market_offset: number
@@ -29,7 +30,7 @@ const createDCAOrderHandler: ActionHandlerFn<Input, Output> = async (
   }
 
   const {
-    exchange_uid: exchangeUID,
+    user_exchange_keys_uid: userExchangeKeysUID,
     market_uid: marketUID,
     start_at: startAt,
     market_offset: marketOffset,
@@ -40,9 +41,15 @@ const createDCAOrderHandler: ActionHandlerFn<Input, Output> = async (
     max_amount_nzd: maxAmountNZD,
   } = input
 
-  const dcaOrder = await createDCAOrder(pool, {
+  const userExchangeKeys = await getUserExchangeKeys(pool, userExchangeKeysUID)
+  if (userExchangeKeys instanceof Error) {
+    return userExchangeKeys
+  }
+
+  const dcaOrder = await insertDCAOrder(pool, {
     userUID,
-    exchangeUID,
+    exchangeUID: userExchangeKeys.exchangeUID,
+    userExchangeKeysUID,
     marketUID,
     startAt: DateTime.fromISO(startAt),
     marketOffset,

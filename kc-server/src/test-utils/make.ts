@@ -7,9 +7,10 @@ import { once } from 'rambda'
 import { createUser } from '../models/user/index.js'
 import { getExchangeUID, EXCHANGE_KIWI_COIN } from '../models/exchange/index.js'
 import { getMarketUID, MARKET_KIWI_COIN } from '../models/market/index.js'
-import { createDCAOrder } from '../models/dca-order/index.js'
+import { insertDCAOrder } from '../models/dca-order/index.js'
 import { insertOrder, OrderType } from '../models/order/index.js'
 import { insertDCAOrderHistory } from '../models/dca-order-history/index.js'
+import { insertUserExchangeKeys } from '../models/user-exchange-keys/index.js'
 import { pool } from '../pool.js'
 import { round } from '../utils/round.js'
 
@@ -18,6 +19,7 @@ type MakeInstanceFn = () => Promise<string>
 type MakeInstance = {
   user: MakeInstanceFn
   exchange: MakeInstanceFn
+  userExchangeKeys: MakeInstanceFn
   market: MakeInstanceFn
   dcaOrder: MakeInstanceFn
   dcaOrderHistory: MakeInstanceFn
@@ -51,6 +53,25 @@ const makeExchange: MakeFn = () =>
     return exchangeUID
   })
 
+const makeUserExchangeKeys: MakeFn = (make) =>
+  once(async () => {
+    const userUID = await make.user()
+    const exchangeUID = await make.exchange()
+
+    const userExchangeKeys = await insertUserExchangeKeys(pool, {
+      userUID,
+      exchangeUID,
+      keys: { a: '1', b: '2', c: '3' },
+      description: 'description',
+      invalidatedAt: undefined,
+    })
+    if (userExchangeKeys instanceof Error) {
+      throw userExchangeKeys
+    }
+
+    return userExchangeKeys.UID
+  })
+
 const makeMarket: MakeFn = () =>
   once(async () => {
     const marketUID = await getMarketUID(pool, MARKET_KIWI_COIN)
@@ -65,11 +86,13 @@ const makeDCAOrder: MakeFn = (make) =>
   once(async () => {
     const userUID = await make.user()
     const exchangeUID = await make.exchange()
+    const userExchangeKeysUID = await make.userExchangeKeys()
     const marketUID = await make.market()
 
-    const dcaOrder = await createDCAOrder(pool, {
+    const dcaOrder = await insertDCAOrder(pool, {
       userUID,
       exchangeUID,
+      userExchangeKeysUID,
       marketUID,
       startAt: DateTime.local(),
       marketOffset: round(2, Math.random() * -100),
@@ -140,6 +163,7 @@ const createMakeInstance = () => {
 
   instance.user = makeUser(instance)
   instance.exchange = makeExchange(instance)
+  instance.userExchangeKeys = makeUserExchangeKeys(instance)
   instance.market = makeMarket(instance)
   instance.dcaOrder = makeDCAOrder(instance)
   instance.dcaOrderHistory = makeDCAOrderHistory(instance)

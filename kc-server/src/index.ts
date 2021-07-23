@@ -26,7 +26,7 @@ addRoute('create_auth_token', actions.createAuthTokenHandler)
 addRoute('create_dca_order', actions.createDCAOrderHandler)
 addRoute('create_user', actions.createUserHandler)
 // AddRoute('fetch_market_price', actions.fetchMarketPriceHandler)
-addRoute('set_user_exchange_keys', actions.setUserExchangeKeysHandler)
+addRoute('create_user_exchange_keys', actions.createUserExchangeKeysHandler)
 addRoute('validate_user_exchange_keys', actions.validateUserExchangeKeysHandler)
 
 void fastify.listen(PORT, '0.0.0.0')

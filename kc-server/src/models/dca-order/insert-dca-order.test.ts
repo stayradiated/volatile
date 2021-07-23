@@ -3,17 +3,19 @@ import { DateTime } from 'luxon'
 
 import test from '../../test-utils/ava.js'
 
-import { createDCAOrder, CreateDCAOrderOptions } from './create-dca-order.js'
+import { insertDCAOrder, InsertDCAOrderOptions } from './insert-dca-order.js'
 
-test('createDCAOrder', async (t) => {
+test('insertDCAOrder', async (t) => {
   const { pool, make } = t.context
   const userUID = await make.user()
   const exchangeUID = await make.exchange()
   const marketUID = await make.market()
+  const userExchangeKeysUID = await make.userExchangeKeys()
 
-  const input: CreateDCAOrderOptions = {
+  const input: InsertDCAOrderOptions = {
     userUID,
     exchangeUID,
+    userExchangeKeysUID,
     marketUID,
     startAt: DateTime.local(),
     marketOffset: -2,
@@ -24,7 +26,7 @@ test('createDCAOrder', async (t) => {
     maxAmountNZD: 1000,
   }
 
-  const dcaOrder = await createDCAOrder(pool, input)
+  const dcaOrder = await insertDCAOrder(pool, input)
   if (dcaOrder instanceof Error) {
     t.fail(inspect(dcaOrder))
     return

@@ -23,9 +23,10 @@ const executeDCAOrder = async (
   pool: Pool,
   dcaOrder: DCAOrder,
 ): Promise<void | Error> => {
-  const config = await mustGetUserKiwiCoinExchangeKeys(pool, {
-    userUID: dcaOrder.userUID,
-  })
+  const config = await mustGetUserKiwiCoinExchangeKeys(
+    pool,
+    dcaOrder.userExchangeKeysUID,
+  )
   if (config instanceof Error) {
     return config
   }

@@ -9,7 +9,7 @@ import { keyring } from '../../utils/keyring.js'
 import type { Pool } from '../../types.js'
 import type { UserExchangeKeys } from './types.js'
 
-const setUserExchangeKeys = async (
+const insertUserExchangeKeys = async (
   pool: Pool,
   userExchangeKeys: Except<UserExchangeKeys, 'UID'>,
 ): Promise<UserExchangeKeys | Error> => {
@@ -34,27 +34,11 @@ const setUserExchangeKeys = async (
     invalidated_at: userExchangeKeys.invalidatedAt?.toJSDate(),
   }
 
-  const rows = await errorBoundary(async () =>
-    db.sql<s.user_exchange_keys.SQL, s.user_exchange_keys.Selectable[]>`
-    INSERT INTO ${'user_exchange_keys'} (${db.cols(insert)})
-    VALUES (${db.vals(insert)})
-    ON CONFLICT ON CONSTRAINT unique_user_exchange_keys_user_uid_exchange_uid
-      DO UPDATE SET
-        updated_at = EXCLUDED.updated_at,
-        keys_keyring_id = EXCLUDED.keys_keyring_id,
-        keys_encrypted = EXCLUDED.keys_encrypted,
-        description = EXCLUDED.description,
-        invalidated_at = EXCLUDED.invalidated_at
-    RETURNING uid
-  `.run(pool),
+  const row = await errorBoundary(async () =>
+    db.insert('user_exchange_keys', insert, { returning: ['uid'] }).run(pool),
   )
-  if (rows instanceof Error) {
-    return rows
-  }
-
-  const row = rows[0]
-  if (!row) {
-    return new Error(`Failed to insert row into user_exchange_keys.`)
+  if (row instanceof Error) {
+    return row
   }
 
   return {
@@ -63,4 +47,4 @@ const setUserExchangeKeys = async (
   }
 }
 
-export { setUserExchangeKeys }
+export { insertUserExchangeKeys }

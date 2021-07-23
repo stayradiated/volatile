@@ -2,7 +2,7 @@ import { ActionHandlerFn } from '../../utils/action-handler.js'
 import { validateUserExchangeKeys } from '../../models/user-exchange-keys/index.js'
 
 type Input = {
-  exchange_uid: string
+  user_exchange_keys_uid: string
 }
 type Output = {
   is_valid: boolean
@@ -13,16 +13,13 @@ const validateUserExchangeKeysHandler: ActionHandlerFn<Input, Output> = async (
   context,
 ) => {
   const { pool, input, session } = context
-  const { exchange_uid: exchangeUID } = input
+  const { user_exchange_keys_uid: userExchangeKeysUID } = input
   const { userUID } = session
   if (!userUID) {
     return new Error('userUID is required')
   }
 
-  const result = await validateUserExchangeKeys(pool, {
-    userUID,
-    exchangeUID,
-  })
+  const result = await validateUserExchangeKeys(pool, userExchangeKeysUID)
   if (result instanceof Error) {
     return result
   }

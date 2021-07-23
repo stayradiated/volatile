@@ -6,7 +6,7 @@ import type * as s from 'zapatos/schema'
 import { createUser } from '../user/index.js'
 import { getExchangeUID } from '../exchange/index.js'
 import { pool } from '../../pool.js'
-import { setUserExchangeKeys, getUserExchangeKeys } from './index.js'
+import { insertUserExchangeKeys, getUserExchangeKeys } from './index.js'
 
 const test = anyTest as TestInterface<{
   userUID: string
@@ -27,12 +27,12 @@ test.before(async (t) => {
   }
 })
 
-test('setUserExchangeKey: should write to user_exchange_keys', async (t) => {
+test('insertUserExchangeKey: should write to user_exchange_keys', async (t) => {
   const { userUID } = t.context
 
   const exchangeUID = (await getExchangeUID(pool, {
-    ID: 'setUserExchangeKey',
-    name: 'setUserExchangeKey',
+    ID: 'insertUserExchangeKey',
+    name: 'insertUserExchangeKey',
   })) as string
 
   const keys = {
@@ -42,7 +42,7 @@ test('setUserExchangeKey: should write to user_exchange_keys', async (t) => {
 
   const description = 'Randomly generated keys for this test'
 
-  const result = await setUserExchangeKeys(pool, {
+  const result = await insertUserExchangeKeys(pool, {
     userUID,
     exchangeUID,
     keys,
@@ -101,21 +101,19 @@ test('getUserExchangeKey: should read from user_exchange_keys', async (t) => {
 
   const description = 'Randomly generated keys for this test'
 
-  {
-    const result = await setUserExchangeKeys(pool, {
-      userUID,
-      exchangeUID,
-      keys,
-      description,
-      invalidatedAt: undefined,
-    })
-    if (result instanceof Error) {
-      t.fail(inspect(result))
-      return
-    }
+  const userExchangeKeys = await insertUserExchangeKeys(pool, {
+    userUID,
+    exchangeUID,
+    keys,
+    description,
+    invalidatedAt: undefined,
+  })
+  if (userExchangeKeys instanceof Error) {
+    t.fail(inspect(userExchangeKeys))
+    return
   }
 
-  const result = await getUserExchangeKeys(pool, { userUID, exchangeUID })
+  const result = await getUserExchangeKeys(pool, userExchangeKeys.UID)
   if (result instanceof Error) {
     t.fail(inspect(result))
     return
