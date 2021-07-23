@@ -4,17 +4,19 @@ import { DateTime } from 'luxon'
 import test from '../../test-utils/ava.js'
 
 import { selectAllDCAOrders } from './select-all-dca-orders.js'
-import { createDCAOrder } from './create-dca-order.js'
+import { insertDCAOrder } from './insert-dca-order.js'
 
 test('dcaOrder', async (t) => {
   const { pool, make } = t.context
   const userUID = await make.user()
   const exchangeUID = await make.exchange()
+  const userExchangeKeysUID = await make.userExchangeKeys()
   const marketUID = await make.market()
 
   const input = {
     userUID,
     exchangeUID,
+    userExchangeKeysUID,
     marketUID,
     startAt: DateTime.local(),
     dailyAverage: 10,
@@ -25,7 +27,7 @@ test('dcaOrder', async (t) => {
     maxAmountNZD: 1000,
   }
 
-  await createDCAOrder(pool, input)
+  await insertDCAOrder(pool, input)
 
   const dcaOrderList = await selectAllDCAOrders(pool, {
     userUID,

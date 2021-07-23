@@ -1,5 +1,5 @@
 import { ActionHandlerFn } from '../../utils/action-handler.js'
-import { setUserExchangeKeys } from '../../models/user-exchange-keys/index.js'
+import { insertUserExchangeKeys } from '../../models/user-exchange-keys/index.js'
 
 type Input = {
   exchange_uid: string
@@ -9,7 +9,7 @@ type Input = {
 type Output = {
   user_exchange_keys_uid: string
 }
-const setUserExchangeKeysHandler: ActionHandlerFn<Input, Output> = async (
+const createUserExchangeKeysHandler: ActionHandlerFn<Input, Output> = async (
   context,
 ) => {
   const { pool, input, session } = context
@@ -19,7 +19,7 @@ const setUserExchangeKeysHandler: ActionHandlerFn<Input, Output> = async (
     return new Error('userUID is required')
   }
 
-  const result = await setUserExchangeKeys(pool, {
+  const result = await insertUserExchangeKeys(pool, {
     userUID,
     exchangeUID,
     keys,
@@ -35,4 +35,4 @@ const setUserExchangeKeysHandler: ActionHandlerFn<Input, Output> = async (
   }
 }
 
-export { setUserExchangeKeysHandler }
+export { createUserExchangeKeysHandler }

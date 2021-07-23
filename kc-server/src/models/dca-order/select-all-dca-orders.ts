@@ -1,9 +1,9 @@
 import * as db from 'zapatos/db'
 import type * as s from 'zapatos/schema'
 import { errorBoundary } from '@stayradiated/error-boundary'
-import { DateTime } from 'luxon'
 
 import type { Pool } from '../../types.js'
+import { mapRowToDCAOrder } from './map-row-to-dca-order.js'
 import type { DCAOrder } from './types.js'
 
 type SelectAllDCAOrdersOptions = {
@@ -36,19 +36,7 @@ const selectAllDCAOrders = async (
     return rows
   }
 
-  return rows.map<DCAOrder>((row) => ({
-    UID: row.uid,
-    userUID: row.user_uid,
-    exchangeUID: row.exchange_uid,
-    marketUID: row.market_uid,
-    startAt: DateTime.fromISO(row.start_at),
-    marketOffset: row.market_offset,
-    dailyAverage: row.daily_average,
-    minPriceNZD: row.min_price_nzd ?? 0,
-    maxPriceNZD: row.max_price_nzd ?? Number.POSITIVE_INFINITY,
-    minAmountNZD: row.min_amount_nzd ?? 0,
-    maxAmountNZD: row.max_amount_nzd ?? Number.POSITIVE_INFINITY,
-  }))
+  return rows.map((row) => mapRowToDCAOrder(row))
 }
 
 export { selectAllDCAOrders }

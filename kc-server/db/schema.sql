@@ -37,7 +37,8 @@ CREATE TABLE kc.dca_order (
     min_price_nzd numeric(12,2),
     max_price_nzd numeric(12,2),
     min_amount_nzd numeric(12,2),
-    max_amount_nzd numeric(12,2)
+    max_amount_nzd numeric(12,2),
+    user_exchange_keys_uid uuid NOT NULL
 );
 
 
@@ -258,14 +259,6 @@ ALTER TABLE ONLY kc."user"
 
 
 --
--- Name: user_exchange_keys unique_user_exchange_keys_user_uid_exchange_uid; Type: CONSTRAINT; Schema: kc; Owner: -
---
-
-ALTER TABLE ONLY kc.user_exchange_keys
-    ADD CONSTRAINT unique_user_exchange_keys_user_uid_exchange_uid UNIQUE (user_uid, exchange_uid);
-
-
---
 -- Name: user_exchange_keys user_exchange_keys_pkey; Type: CONSTRAINT; Schema: kc; Owner: -
 --
 
@@ -346,6 +339,14 @@ ALTER TABLE ONLY kc."order"
 
 
 --
+-- Name: dca_order fk_dca_order_user_exchange_keys; Type: FK CONSTRAINT; Schema: kc; Owner: -
+--
+
+ALTER TABLE ONLY kc.dca_order
+    ADD CONSTRAINT fk_dca_order_user_exchange_keys FOREIGN KEY (user_exchange_keys_uid) REFERENCES kc.user_exchange_keys(uid) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
 -- Name: market_price fk_market_price_market; Type: FK CONSTRAINT; Schema: kc; Owner: -
 --
 
@@ -380,4 +381,5 @@ ALTER TABLE ONLY kc.user_exchange_keys
 
 INSERT INTO kc.schema_migrations (version) VALUES
     ('20210614092417'),
-    ('20210721191422');
+    ('20210721191422'),
+    ('20210722105131');

@@ -4,6 +4,7 @@ type DCAOrder = {
   UID: string
   userUID: string
   exchangeUID: string
+  userExchangeKeysUID: string
   marketUID: string
   startAt: DateTime
   marketOffset: number

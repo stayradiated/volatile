@@ -7,7 +7,7 @@ type Mutation {
 
 type Mutation {
   create_dca_order (
-    exchange_uid: uuid!
+    user_exchange_keys_uid: uuid!
     market_uid: uuid!
     start_at: timestamp!
     market_offset: Float!
@@ -36,7 +36,7 @@ type Mutation {
 
 type Mutation {
   validate_user_exchange_keys (
-    exchange_uid: String!
+    user_exchange_keys_uid: String!
   ): ValidateUserExchangeKeysOutput
 }
 

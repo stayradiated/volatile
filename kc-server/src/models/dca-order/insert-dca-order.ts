@@ -7,11 +7,11 @@ import type { Except } from 'type-fest'
 import type { Pool } from '../../types.js'
 import type { DCAOrder } from './types.js'
 
-type CreateDCAOrderOptions = Except<DCAOrder, 'UID'>
+type InsertDCAOrderOptions = Except<DCAOrder, 'UID'>
 
-const createDCAOrder = async (
+const insertDCAOrder = async (
   pool: Pool,
-  dcaOrder: CreateDCAOrderOptions,
+  dcaOrder: InsertDCAOrderOptions,
 ): Promise<DCAOrder | Error> => {
   const insert: s.dca_order.Insertable = {
     uid: randomUUID(),
@@ -19,6 +19,7 @@ const createDCAOrder = async (
     updated_at: new Date(),
     user_uid: dcaOrder.userUID,
     exchange_uid: dcaOrder.exchangeUID,
+    user_exchange_keys_uid: dcaOrder.userExchangeKeysUID,
     market_uid: dcaOrder.marketUID,
     start_at: dcaOrder.startAt.toJSDate(),
     market_offset: dcaOrder.marketOffset,
@@ -51,4 +52,4 @@ RETURNING uid
   }
 }
 
-export { createDCAOrder, CreateDCAOrderOptions }
+export { insertDCAOrder, InsertDCAOrderOptions }

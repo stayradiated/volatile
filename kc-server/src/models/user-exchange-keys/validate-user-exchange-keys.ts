@@ -41,11 +41,6 @@ const validateKiwiCoinKeys = async (
   return true
 }
 
-type ValidateUserExchangekeysOptions = {
-  userUID: string
-  exchangeUID: string
-}
-
 type ValidateUserExchangekeysResultValid = {
   isValid: true
   validationMessage: undefined
@@ -64,14 +59,9 @@ type ValidateUserExchangekeysResult =
 
 const validateUserExchangeKeys = async (
   pool: Pool,
-  options: ValidateUserExchangekeysOptions,
+  userExchangeKeysUID: string,
 ): Promise<ValidateUserExchangekeysResult | Error> => {
-  const { userUID, exchangeUID } = options
-
-  const userExchangeKeys = await getUserExchangeKeys(pool, {
-    userUID,
-    exchangeUID,
-  })
+  const userExchangeKeys = await getUserExchangeKeys(pool, userExchangeKeysUID)
   if (userExchangeKeys instanceof Error) {
     return userExchangeKeys
   }
@@ -80,7 +70,7 @@ const validateUserExchangeKeys = async (
   const dassetExchangeUID = await getExchangeUID(pool, EXCHANGE_DASSET)
 
   const result = (async (): Promise<true | Error> => {
-    switch (exchangeUID) {
+    switch (userExchangeKeys.exchangeUID) {
       case kiwiCoinExchangeUID: {
         return validateKiwiCoinKeys(userExchangeKeys.keys)
       }
