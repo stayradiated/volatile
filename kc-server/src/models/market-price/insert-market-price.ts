@@ -6,7 +6,7 @@ import { getMarketUID, Market } from '../market/index.js'
 import type { Pool } from '../../types.js'
 import type { Currency } from './currency-config.js'
 
-type CreateMarketPriceOptions = {
+type InsertMarketPriceOptions = {
   timestamp: Date
   market: Market
   price: number
@@ -15,9 +15,9 @@ type CreateMarketPriceOptions = {
   priceNZD: number
 }
 
-const createMarketPrice = async (
+const insertMarketPrice = async (
   pool: Pool,
-  options: CreateMarketPriceOptions,
+  options: InsertMarketPriceOptions,
 ): Promise<void | Error> => {
   const { timestamp, market, price, currency, fxRate, priceNZD } = options
 
@@ -47,4 +47,4 @@ const createMarketPrice = async (
   }
 }
 
-export { createMarketPrice }
+export { insertMarketPrice }

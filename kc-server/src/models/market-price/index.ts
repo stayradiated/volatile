@@ -1,2 +1,2 @@
-export * from './create-market-price.js'
+export * from './insert-market-price.js'
 export * from './get-market-price.js'

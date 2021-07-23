@@ -3,7 +3,7 @@ import { inspect } from 'util'
 import debug from 'debug'
 
 import type { ActionHandlerFn } from '../../utils/action-handler.js'
-import { createMarketPrice } from '../../models/market-price/index.js'
+import { insertMarketPrice } from '../../models/market-price/index.js'
 import {
   currencyConfigList,
   Currency,
@@ -78,7 +78,7 @@ const fetchMarketPriceHandler: ActionHandlerFn<Input, Output> = async (
       } else {
         const priceNZD = price * fxRate
 
-        await createMarketPrice(pool, {
+        await insertMarketPrice(pool, {
           timestamp,
           market,
           price,
