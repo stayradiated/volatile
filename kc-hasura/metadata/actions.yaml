@@ -5,6 +5,12 @@ actions:
     handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/create_auth_token'
   permissions:
   - role: guest
+- name: create_checkout_session
+  definition:
+    kind: synchronous
+    handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/create_checkout_session'
+  permissions:
+  - role: user
 - name: create_dca_order
   definition:
     kind: synchronous
@@ -35,6 +41,13 @@ actions:
     handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/validate_user_exchange_keys'
   permissions:
   - role: user
+- name: webhook
+  definition:
+    kind: synchronous
+    handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/webhook'
+    forward_client_headers: true
+  permissions:
+  - role: guest
 custom_types:
   enums: []
   input_objects:
@@ -104,4 +117,6 @@ custom_types:
       field_mapping:
         user_uid: uid
   - name: CreateUserExchangeKeysOutput
+  - name: WebhookOutput
+  - name: CreateCheckoutSession
   scalars: []

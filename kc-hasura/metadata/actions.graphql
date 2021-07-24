@@ -6,6 +6,10 @@ type Mutation {
 }
 
 type Mutation {
+  create_checkout_session : CreateCheckoutSession!
+}
+
+type Mutation {
   create_dca_order (
     user_exchange_keys_uid: uuid!
     market_uid: uuid!
@@ -45,6 +49,20 @@ type Mutation {
   validate_user_exchange_keys (
     user_exchange_keys_uid: String!
   ): ValidateUserExchangeKeysOutput
+}
+
+type Mutation {
+  webhook (
+    api_version: String
+    created: Int
+    data: jsonb
+    id: String
+    livemode: Boolean
+    object: String
+    pending_webhooks: Int
+    request: jsonb
+    type: String
+  ): WebhookOutput
 }
 
 input SampleInput {
@@ -95,3 +113,10 @@ type CreateUserExchangeKeysOutput {
   user_exchange_keys_uid : uuid!
 }
 
+type WebhookOutput {
+  success : Boolean!
+}
+
+type CreateCheckoutSession {
+  session_url : String!
+}

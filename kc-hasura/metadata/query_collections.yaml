@@ -1,1 +1,30 @@
-[]
+- name: allowed-queries
+  definition:
+    queries:
+    - name: Webhook
+      query: |-
+        mutation webhook (
+          $api_version: String,
+          $created: Int,
+          $data: jsonb,
+          $id: String,
+          $livemode: Boolean,
+          $object: String,
+          $pending_webhooks: Int,
+          $request: jsonb,
+          $type: String,
+        ) {
+          webhook(
+            api_version:$api_version,
+            created:$created,
+            data: $data,
+            id:$id,
+            livemode:$livemode,
+            object:$object,
+            pending_webhooks:$pending_webhooks,
+            request:$request,
+            type:$type
+          ){
+            success
+          }
+        }
