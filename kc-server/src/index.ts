@@ -12,23 +12,41 @@ import {
 } from './model/market/index.js'
 
 import * as actions from './action/index.js'
+import * as webhooks from './webhooks/index.js'
 import { bindActionHandler, SessionRole } from './util/action-handler.js'
+import { bindHandler } from './util/handler.js'
 
 const fastify = createFastify({
   logger: true,
 })
 
-const addRoute = bindActionHandler(fastify)
+const addAction = bindActionHandler(fastify)
+
+// AddAction('auto_buy_kiwi_coin', actions.autoBuyKiwiCoinHandler)
+// addAction('auto_buy_dasset actions.autoBuyDassetHandler)
+addAction('create_auth_token', actions.createAuthTokenHandler)
+addAction('create_dca_order', actions.createDCAOrderHandler)
+addAction('create_user', actions.createUserHandler)
+// AddAction('fetch_market_price', actions.fetchMarketPriceHandler)
+addAction('create_user_exchange_keys', actions.createUserExchangeKeysHandler)
+addAction(
+  'validate_user_exchange_keys',
+  actions.validateUserExchangeKeysHandler,
+)
+addAction('create_checkout_session', actions.createCheckoutSessionHandler)
 
 // AddRoute('auto_buy_kiwi_coin', actions.autoBuyKiwiCoinHandler)
+// AddRoute('fetch_market_price', actions.fetchMarketPriceHandler)
 // addRoute('auto_buy_dasset actions.autoBuyDassetHandler)
 addRoute('create_auth_token', actions.createAuthTokenHandler)
 addRoute('create_dca_order', actions.createDCAOrderHandler)
 addRoute('create_user', actions.createUserHandler)
-// AddRoute('fetch_market_price', actions.fetchMarketPriceHandler)
 addRoute('create_user_exchange_keys', actions.createUserExchangeKeysHandler)
-addRoute('validate_user_exchange_keys', actions.validateUserExchangeKeysHandler)
 addRoute('sync_exchange_trade_list', actions.syncExchangeTradeListHandler)
+addRoute('validate_user_exchange_keys', actions.validateUserExchangeKeysHandler)
+
+const addRoute = bindHandler(fastify)
+addRoute('/webhook/stripe', webhooks.stripeHandler)
 
 void fastify.listen(PORT, '0.0.0.0')
 
@@ -48,9 +66,11 @@ void (async function () {
     },
   }
 
-  await Promise.all([
-    actions.fetchMarketPriceHandler(context),
-    actions.autoBuyKiwiCoinHandler(context),
-    actions.autoBuyDassetHandler(context),
-  ])
+  console.log(context)
+
+  // Await Promise.all([
+  //   actions.fetchMarketPriceHandler(context),
+  //   actions.autoBuyKiwiCoinHandler(context),
+  //   actions.autoBuyDassetHandler(context),
+  // ])
 })()

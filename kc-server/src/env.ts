@@ -11,6 +11,12 @@ const JWT_SECRET = Buffer.from(
   'utf8',
 )
 
+const STRIPE_API_KEY = env.get('STRIPE_API_KEY').required().asString()
+const STRIPE_WEBHOOK_SECRET = env
+  .get('STRIPE_WEBHOOK_SECRET')
+  .required()
+  .asString()
+
 export {
   PORT,
   CONFIG_PATH,
@@ -18,4 +24,6 @@ export {
   DIGEST_SALT,
   BCRYPT_SALT_ROUNDS,
   JWT_SECRET,
+  STRIPE_API_KEY,
+  STRIPE_WEBHOOK_SECRET,
 }

@@ -62,6 +62,7 @@
     "njwt": "1.1.0",
     "pg": "8.7.1",
     "rambda": "6.9.0",
+    "stripe": "8.165.0",
     "zapatos": "5.0.0"
   },
   "__comment": "The following configs are managed by `npx @stayradiated/jsconfig`",

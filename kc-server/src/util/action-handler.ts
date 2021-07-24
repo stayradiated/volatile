@@ -67,6 +67,7 @@ type Context<Input> = {
   input: Input
   session: Session
   config: Config
+  headers: RawRequestDefaultExpression['headers']
 }
 
 type ActionHandlerFn<Input, Output> = (
@@ -83,6 +84,7 @@ const wrapActionHandler =
       await reply.code(401).send({
         message: `Invalid request body`,
       })
+      return
     }
 
     const { session_variables: sessionVariables, input, action } = request.body
@@ -102,7 +104,7 @@ const wrapActionHandler =
     }
 
     try {
-      const context = { pool, input, session, config }
+      const context = { pool, input, session, config, headers: request.headers }
       const output = await fn(context)
       if (output instanceof Error) {
         await reply.code(400).send({ message: output.message })
@@ -112,6 +114,7 @@ const wrapActionHandler =
       await reply.send(output)
     } catch (error: unknown) {
       await reply.code(500).send({ message: inspect(error) })
+      return
     }
   }
 
