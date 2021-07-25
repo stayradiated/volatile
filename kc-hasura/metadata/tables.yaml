@@ -1,0 +1,326 @@
+- table:
+    schema: kc
+    name: dca_order
+  object_relationships:
+  - name: exchange
+    using:
+      foreign_key_constraint_on: exchange_uid
+  - name: market
+    using:
+      foreign_key_constraint_on: market_uid
+  - name: user
+    using:
+      foreign_key_constraint_on: user_uid
+  - name: user_exchange_keys
+    using:
+      foreign_key_constraint_on: user_exchange_keys_uid
+  array_relationships:
+  - name: dca_order_histories
+    using:
+      foreign_key_constraint_on:
+        column: dca_order_uid
+        table:
+          schema: kc
+          name: dca_order_history
+  select_permissions:
+  - role: user
+    permission:
+      columns:
+      - daily_average
+      - exchange_uid
+      - market_offset
+      - market_uid
+      - max_amount_nzd
+      - max_price_nzd
+      - min_amount_nzd
+      - min_price_nzd
+      - start_at
+      - uid
+      - user_uid
+      filter:
+        user_uid:
+          _eq: X-Hasura-User-Id
+      allow_aggregations: true
+  update_permissions:
+  - role: user
+    permission:
+      columns:
+      - daily_average
+      - market_offset
+      - market_uid
+      - max_amount_nzd
+      - max_price_nzd
+      - min_amount_nzd
+      - min_price_nzd
+      - start_at
+      - updated_at
+      filter:
+        user_uid:
+          _eq: X-Hasura-User-Id
+      check:
+        user_uid:
+          _eq: X-Hasura-User-Id
+  delete_permissions:
+  - role: user
+    permission:
+      filter:
+        user_uid:
+          _eq: X-Hasura-User-Id
+- table:
+    schema: kc
+    name: dca_order_history
+  object_relationships:
+  - name: dca_order
+    using:
+      foreign_key_constraint_on: dca_order_uid
+  - name: order
+    using:
+      foreign_key_constraint_on: order_uid
+  - name: user
+    using:
+      foreign_key_constraint_on: user_uid
+  select_permissions:
+  - role: user
+    permission:
+      columns:
+      - uid
+      - created_at
+      - updated_at
+      - user_uid
+      - dca_order_uid
+      - order_uid
+      - market_price_nzd
+      - market_offset
+      - calculated_amount_nzd
+      - available_balance_nzd
+      - created_order
+      - description
+      filter:
+        user_uid:
+          _eq: X-Hasura-User-Id
+- table:
+    schema: kc
+    name: exchange
+  array_relationships:
+  - name: dca_orders
+    using:
+      foreign_key_constraint_on:
+        column: exchange_uid
+        table:
+          schema: kc
+          name: dca_order
+  - name: orders
+    using:
+      foreign_key_constraint_on:
+        column: exchange_uid
+        table:
+          schema: kc
+          name: order
+  - name: user_exchange_keys
+    using:
+      foreign_key_constraint_on:
+        column: exchange_uid
+        table:
+          schema: kc
+          name: user_exchange_keys
+  select_permissions:
+  - role: guest
+    permission:
+      columns:
+      - id
+      - name
+      - created_at
+      - updated_at
+      - uid
+      filter: {}
+  - role: user
+    permission:
+      columns:
+      - uid
+      - created_at
+      - updated_at
+      - id
+      - name
+      filter: {}
+- table:
+    schema: kc
+    name: market
+  array_relationships:
+  - name: dca_orders
+    using:
+      foreign_key_constraint_on:
+        column: market_uid
+        table:
+          schema: kc
+          name: dca_order
+  - name: market_prices
+    using:
+      foreign_key_constraint_on:
+        column: market_uid
+        table:
+          schema: kc
+          name: market_price
+  select_permissions:
+  - role: guest
+    permission:
+      columns:
+      - uid
+      - created_at
+      - updated_at
+      - id
+      - name
+      filter: {}
+  - role: user
+    permission:
+      columns:
+      - id
+      - name
+      - uid
+      filter: {}
+- table:
+    schema: kc
+    name: market_price
+  object_relationships:
+  - name: market
+    using:
+      foreign_key_constraint_on: market_uid
+  select_permissions:
+  - role: guest
+    permission:
+      columns:
+      - created_at
+      - updated_at
+      - timestamp
+      - market_uid
+      - price
+      - currency
+      - fx_rate
+      - price_nzd
+      filter: {}
+      limit: 10
+  - role: user
+    permission:
+      columns:
+      - currency
+      - fx_rate
+      - price
+      - price_nzd
+      - timestamp
+      filter: {}
+- table:
+    schema: kc
+    name: order
+  object_relationships:
+  - name: exchange
+    using:
+      foreign_key_constraint_on: exchange_uid
+  - name: user
+    using:
+      foreign_key_constraint_on: user_uid
+  array_relationships:
+  - name: dca_order_histories
+    using:
+      foreign_key_constraint_on:
+        column: order_uid
+        table:
+          schema: kc
+          name: dca_order_history
+  select_permissions:
+  - role: user
+    permission:
+      columns:
+      - uid
+      - created_at
+      - updated_at
+      - user_uid
+      - exchange_uid
+      - id
+      - symbol
+      - price_nzd
+      - amount
+      - type
+      - opened_at
+      - closed_at
+      filter:
+        user_uid:
+          _eq: X-Hasura-User-Id
+- table:
+    schema: kc
+    name: user
+  array_relationships:
+  - name: dca_order_histories
+    using:
+      foreign_key_constraint_on:
+        column: user_uid
+        table:
+          schema: kc
+          name: dca_order_history
+  - name: dca_orders
+    using:
+      foreign_key_constraint_on:
+        column: user_uid
+        table:
+          schema: kc
+          name: dca_order
+  - name: orders
+    using:
+      foreign_key_constraint_on:
+        column: user_uid
+        table:
+          schema: kc
+          name: order
+  - name: user_exchange_keys
+    using:
+      foreign_key_constraint_on:
+        column: user_uid
+        table:
+          schema: kc
+          name: user_exchange_keys
+  select_permissions:
+  - role: user
+    permission:
+      columns:
+      - created_at
+      - uid
+      - updated_at
+      filter:
+        uid:
+          _eq: X-Hasura-User-Id
+- table:
+    schema: kc
+    name: user_exchange_keys
+  object_relationships:
+  - name: exchange
+    using:
+      foreign_key_constraint_on: exchange_uid
+  - name: user
+    using:
+      foreign_key_constraint_on: user_uid
+  array_relationships:
+  - name: dca_orders
+    using:
+      foreign_key_constraint_on:
+        column: user_exchange_keys_uid
+        table:
+          schema: kc
+          name: dca_order
+  select_permissions:
+  - role: user
+    permission:
+      columns:
+      - description
+      - exchange_uid
+      - invalidated_at
+      - uid
+      - updated_at
+      - user_uid
+      filter:
+        user_uid:
+          _eq: X-Hasura-User-Id
+      allow_aggregations: true
+  delete_permissions:
+  - role: user
+    permission:
+      filter:
+        user_uid:
+          _eq: X-Hasura-User-Id

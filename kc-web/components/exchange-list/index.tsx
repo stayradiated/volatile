@@ -3,6 +3,7 @@ import { gql, useQuery } from '@apollo/client'
 const QUERY_EXCHANGE_LIST = gql`
 query exchange_list {
   kc_exchange {
+    uid
     id
     name
   }
@@ -10,6 +11,7 @@ query exchange_list {
 `
 
 type Exchange = {
+  uid: string,
   id: string,
   name: string,
 }
@@ -20,9 +22,13 @@ type ExchangeListItemProps = {
 
 const ExchangeListItem = (props: ExchangeListItemProps) => {
   const { exchange } = props
-  const { name, id } = exchange
+  const { name, id, uid } = exchange
   return (
-    <li>{name} <code>{id}</code></li>
+    <tr>
+      <td>{name}</td>
+      <td><code>{id}</code></td>
+      <td><code>{uid}</code></td>
+    </tr>
   )
 }
 
@@ -44,9 +50,11 @@ const ExchangeList = () => {
   return (
     <div>
       <h4>Exchange List</h4>
-      <ul>
-        {children}
-      </ul>
+      <table>
+        <tbody>
+          {children}
+        </tbody>
+      </table>
     </div>
   )
 }

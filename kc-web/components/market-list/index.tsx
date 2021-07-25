@@ -3,6 +3,7 @@ import { gql, useQuery } from '@apollo/client'
 const QUERY_MARKET_LIST = gql`
 query market_list {
   kc_market{
+    uid
     id
     name
     market_prices(limit: 1, order_by: { timestamp:desc }) {

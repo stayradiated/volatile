@@ -12,11 +12,11 @@ mutation create_auth_token($email: String!, $password: String!) {
 }`;
 
 type LoginFormProps = {
-  setSession: (session: Session) => void
+  onSession: (session: Session) => void
 }
 
 const LoginForm = (props: LoginFormProps) => {
-  const { setSession } = props
+  const { onSession } = props
 
   const [createAuthToken, { data }] = useMutation(CREATE_AUTH_TOKEN);
   console.log(data)
@@ -37,7 +37,7 @@ const LoginForm = (props: LoginFormProps) => {
     createAuthToken({ variables: { email, password }}).then((result) => {
       const authToken = result.data.create_auth_token.auth_token as string
       setLoading(false)
-      setSession({ role: 'user', email, authToken })
+      onSession({ role: 'user', email, authToken })
     }, (error) => {
       setError(error.message)
       setLoading(false)

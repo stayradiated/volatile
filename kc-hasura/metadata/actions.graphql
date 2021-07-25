@@ -6,10 +6,6 @@ type Mutation {
 }
 
 type Mutation {
-  create_checkout_session : CreateCheckoutSession!
-}
-
-type Mutation {
   create_dca_order (
     user_exchange_keys_uid: uuid!
     market_uid: uuid!
@@ -43,6 +39,14 @@ type Mutation {
     user_exchange_keys_uid: uuid!
     exchange_uid: uuid!
   ): SyncExchangeTradeListOutput
+}
+
+type Query {
+  customer_checkout_session : CustomerCheckoutSessionOutput!
+}
+
+type Query {
+  customer_portal_session : CreateCustomerPortalSession
 }
 
 type Mutation {
@@ -119,4 +123,16 @@ type WebhookOutput {
 
 type CreateCheckoutSession {
   session_url : String!
+}
+
+type CreateCustomerPortalSession {
+  session_url : String!
+}
+
+type CustomerCheckoutSessionOutput {
+  session_url : String!
+}
+
+type CreateUserExchangeKeysOutput {
+  user_exchange_keys_uid : uuid!
 }

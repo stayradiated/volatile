@@ -5,20 +5,33 @@ import { Session, GUEST_SESSION, setSession as setGlobalSession } from '../utils
 import { LoginForm } from '../components/login-form/index' 
 import { ExchangeList } from '../components/exchange-list/index' 
 import { MarketList } from '../components/market-list/index' 
+import { UserExchangeKeysList } from '../components/user-exchange-keys-list/index'
+import { UserExchangeKeysForm } from '../components/user-exchange-keys-form/index'
+import { DCAOrderList } from '../components/dca-order-list/index'
+import { DCAOrderForm } from '../components/dca-order-form/index'
 
 const Index = () => {
   const [ session, setSession ] = useState<Session>(GUEST_SESSION)
 
-  useEffect(() => {
+  const handleSession = (session: Session) => {
+    setSession(session)
     setGlobalSession(session)
-  }, [session])
+  }
 
   return (
     <>
       <ExchangeList />
       <MarketList />
-      {session.role === 'guest' && <LoginForm setSession={setSession} />}
-      {session.role === 'user' && <p>Logged in as {session.email}</p>}
+      {session.role === 'guest' && <LoginForm onSession={handleSession} />}
+      {session.role === 'user' && (
+        <div>
+          <p>Logged in as {session.email}</p>
+          <UserExchangeKeysList />
+          <UserExchangeKeysForm />
+          <DCAOrderList />
+          <DCAOrderForm />
+        </div>
+      )}
     </>
   )
 }

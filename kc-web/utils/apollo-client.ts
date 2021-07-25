@@ -22,9 +22,18 @@ const authLink = setContext((_request, { headers }) => {
   }
 })
 
+const cache = new InMemoryCache({
+  typePolicies: {
+    kc_user_exchange_keys: { keyFields: ['uid'] },
+    kc_exchange: { keyFields: ['uid'] },
+    kc_market: { keyFields: ['uid'] },
+    kc_dca_order: { keyFields: ['uid'] },
+  }
+})
+
 const client = new ApolloClient({
     link: authLink.concat(httpLink),
-    cache: new InMemoryCache(),
+    cache,
 })
 
 export { client }
