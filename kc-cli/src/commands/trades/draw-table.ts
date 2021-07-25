@@ -59,7 +59,25 @@ const drawTable = (unsortedRows: RowData[]): string => {
 
   const table = [headers, ...rows]
 
-  return printTable(table, {
+  const tableString = printTable(table, {
+    border: {
+      topBody: '-',
+      topJoin: '+',
+      topLeft: '|',
+      topRight: '|',
+      bottomBody: '-',
+      bottomJoin: '+',
+      bottomLeft: '|',
+      bottomRight: '|',
+      bodyLeft: '|',
+      bodyRight: '|',
+      bodyJoin: '|',
+      headerJoin: '+',
+      joinBody: '-',
+      joinLeft: '|',
+      joinRight: '|',
+      joinJoin: '+',
+    },
     drawHorizontalLine: (lineIndex, rowCount) =>
       lineIndex === 0 ||
       lineIndex === 1 ||
@@ -69,6 +87,9 @@ const drawTable = (unsortedRows: RowData[]): string => {
       alignment: 'right',
     },
   })
+
+  // Add markdown alignment indicators
+  return tableString.replace(/---(\+|\|)/g, '--:$1')
 }
 
 export { drawTable }

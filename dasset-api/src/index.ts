@@ -11,17 +11,20 @@ enum APIErrorCode {
 }
 
 type APIErrorResponse = {
-  status: number,
-  type: string,
-  code: APIErrorCode,
+  status: number
+  type: string
+  code: APIErrorCode
   message: string
 }
 
+// eslint-disable-next-line fp/no-class
 class APIError extends Error {
   response: APIErrorResponse
-  constructor (url: string, response: APIErrorResponse) {
+  constructor(url: string, response: APIErrorResponse) {
     const message = `${url} ${JSON.stringify(response)}`
     super(message)
+
+    // eslint-disable-next-line fp/no-this
     this.response = response
   }
 }
@@ -126,11 +129,33 @@ type PaginatedFetchFn<T> = (
 const paginate = async <T>(
   config: Config,
   fetchFn: PaginatedFetchFn<T>,
-): Promise<PaginatedList<T> | Error> =>
-  fetchFn(config, {
-    limit: 100,
-    page: 1,
-  })
+): Promise<PaginatedList<T> | Error> => {
+  const allResults: T[] = []
+
+  // eslint-disable-next-line fp/no-let
+  let page = 1
+  while (true) {
+    // eslint-disable-next-line no-await-in-loop
+    const response = await fetchFn(config, { limit: 100, page })
+
+    if (response instanceof Error) {
+      return response
+    }
+
+    const { total, results } = response
+
+    // eslint-disable-next-line fp/no-mutating-methods
+    allResults.push(...results)
+    if (allResults.length >= total) {
+      return {
+        total,
+        results: allResults,
+      }
+    }
+
+    page += 1
+  }
+}
 
 export enum OrderType {
   BUY = 'BUY',
@@ -245,7 +270,7 @@ const cancelOrder = async (
   config: Config,
   orderId: string,
 ): Promise<CancelOrderResult | Error> => {
-  const result = await errorBoundary(async () =>
+  const result = await errorBoundary<CancelOrderResult[]>(async () =>
     dasset
       .delete(`orders/${orderId}`, {
         headers: buildHeaders(config),
@@ -254,13 +279,14 @@ const cancelOrder = async (
   )
   if (result instanceof Error) {
     if (result instanceof HTTPError) {
-      const response = await result.response.json()
+      const response = (await result.response.json()) as APIErrorResponse
       return new APIError(result.response.url, response)
     }
+
     return result
   }
 
-  return result[0] as CancelOrderResult
+  return result[0]!
 }
 
 export {

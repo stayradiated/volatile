@@ -4,8 +4,6 @@ import { DateTime } from 'luxon'
 import type { RowData } from './types.js'
 
 const toRowData = (trade: dasset.Order): RowData => {
-  console.log(trade)
-
   const date = DateTime.fromISO(trade.timestamp)
   const price = trade.details.price
   const xbt = trade.details.total / trade.details.price
@@ -30,12 +28,10 @@ const toRowData = (trade: dasset.Order): RowData => {
 const fetchDassetTrades = async (
   config: dasset.Config,
 ): Promise<RowData[] | Error> => {
-  const orders = await dasset.closedOrders(config)
+  const orders = await dasset.paginate(config, dasset.closedOrders)
   if (orders instanceof Error) {
     return orders
   }
-
-  console.log(orders)
 
   return orders.results
     .filter((order) => order.status === dasset.OrderStatus.COMPLETED)
