@@ -1,22 +1,20 @@
 import * as dasset from '@stayradiated/dasset-api'
 import { DateTime } from 'luxon'
-import { errorListBoundary } from '@stayradiated/error-boundary'
 
 import type { Pool } from '../../types.js'
 import { DCAOrder } from '../../models/dca-order/index.js'
 import { getMarketPrice } from '../../models/market-price/index.js'
 import {
   insertOrder,
-  updateOrder,
   selectOpenOrdersForDCA,
   OrderType,
 } from '../../models/order/index.js'
 import { insertDCAOrderHistory } from '../../models/dca-order-history/index.js'
 import { round } from '../../utils/round.js'
-import { explainError } from '../../utils/error.js'
 import { mustGetUserDassetExchangeKeys } from '../../models/user-exchange-keys/index.js'
 import { fetchAvailableNZD } from './fetch-available-nzd.js'
 import { calculateOrderAmountNZD } from './calculate-order-amount-nzd.js'
+import { closeOrders } from './close-orders.js'
 
 const MINIMUM_BTC_BID = 0.000_01
 
@@ -37,6 +35,11 @@ const executeDCAOrder = async (
   })
   if (previousOrders instanceof Error) {
     return previousOrders
+  }
+
+  const error = await closeOrders(pool, config, previousOrders)
+  if (error instanceof Error) {
+    return error
   }
 
   // eslint-disable-next-line unicorn/no-array-reduce
@@ -83,36 +86,6 @@ const executeDCAOrder = async (
         `Bid amount is below MINIMUM_BTC_BID: ${amountBTC}/${MINIMUM_BTC_BID}`,
       )
     } else {
-      const error = await errorListBoundary(async () =>
-        Promise.all(
-          previousOrders.map(async (previousOrder): Promise<void | Error> => {
-            const previousOrderID = previousOrder.ID
-
-            const error = await dasset.cancelOrder(config, previousOrderID)
-            if (
-              error instanceof dasset.APIError &&
-              error.response.code === dasset.APIErrorCode.PreconditionFailed
-            ) {
-              console.error(error)
-            } else if (error instanceof Error) {
-              return explainError(
-                'Failed to cancel order',
-                { orderID: previousOrder.ID },
-                error,
-              )
-            }
-
-            await updateOrder(pool, {
-              UID: previousOrder.UID,
-              closedAt: DateTime.local(),
-            })
-          }),
-        ),
-      )
-      if (error instanceof Error) {
-        return error
-      }
-
       const freshOrder = await dasset.createOrder(config, {
         amount: amountBTC,
         limit: orderPriceNZD,
