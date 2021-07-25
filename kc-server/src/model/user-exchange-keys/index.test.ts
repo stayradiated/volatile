@@ -1,39 +1,15 @@
 import { inspect } from 'util'
-import anyTest, { TestInterface } from 'ava'
 import * as db from 'zapatos/db'
 import type * as s from 'zapatos/schema'
 
-import { createUser } from '../user/index.js'
-import { getExchangeUID } from '../exchange/index.js'
-import { pool } from '../../pool.js'
+import test from '../../test-utils/ava.js'
+
 import { insertUserExchangeKeys, getUserExchangeKeys } from './index.js'
 
-const test = anyTest as TestInterface<{
-  userUID: string
-}>
-
-test.before(async (t) => {
-  const user = await createUser(pool, {
-    email: 'user-exchange-keys@domain',
-    password: 'johnny flynn',
-  })
-  if (user instanceof Error) {
-    t.fail(inspect(user))
-    return
-  }
-
-  t.context = {
-    userUID: user.UID,
-  }
-})
-
 test('insertUserExchangeKey: should write to user_exchange_keys', async (t) => {
-  const { userUID } = t.context
-
-  const exchangeUID = (await getExchangeUID(pool, {
-    ID: 'insertUserExchangeKey',
-    name: 'insertUserExchangeKey',
-  })) as string
+  const { pool, make } = t.context
+  const userUID = await make.user()
+  const exchangeUID = await make.exchange()
 
   const keys = {
     a: 'YFTgSUE4GkCWECIPtheshijlHwrknwWkkxDGJBm3UjY=',
@@ -87,12 +63,9 @@ test('insertUserExchangeKey: should write to user_exchange_keys', async (t) => {
 })
 
 test('getUserExchangeKey: should read from user_exchange_keys', async (t) => {
-  const { userUID } = t.context
-
-  const exchangeUID = (await getExchangeUID(pool, {
-    ID: 'getUserExchangeKey',
-    name: 'getUserExchangeKey',
-  })) as string
+  const { pool, make } = t.context
+  const userUID = await make.user()
+  const exchangeUID = await make.exchange()
 
   const keys = {
     a: 'YFTgSUE4GkCWECIPtheshijlHwrknwWkkxDGJBm3UjY=',

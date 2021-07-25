@@ -33,7 +33,8 @@ addAction(
   'validate_user_exchange_keys',
   actions.validateUserExchangeKeysHandler,
 )
-addAction('create_checkout_session', actions.createCheckoutSessionHandler)
+addAction('customer_checkout_session', actions.customerCheckoutSessionHandler)
+addAction('customer_portal_session', actions.customerPortalSessionHandler)
 
 // AddRoute('auto_buy_kiwi_coin', actions.autoBuyKiwiCoinHandler)
 // AddRoute('fetch_market_price', actions.fetchMarketPriceHandler)

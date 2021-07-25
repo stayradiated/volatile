@@ -87,6 +87,8 @@ const wrapActionHandler =
       return
     }
 
+    console.log(request.body)
+
     const { session_variables: sessionVariables, input, action } = request.body
     const session = parseSessionVariables(sessionVariables)
     if (session instanceof Error) {

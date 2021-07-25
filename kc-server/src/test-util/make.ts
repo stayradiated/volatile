@@ -4,14 +4,14 @@ import { randomUUID } from 'crypto'
 import { DateTime } from 'luxon'
 import { once } from 'rambda'
 
-import { createUser } from '../model/user/index.js'
 import { getExchangeUID, EXCHANGE_KIWI_COIN } from '../model/exchange/index.js'
 import { getMarketUID, MARKET_KIWI_COIN } from '../model/market/index.js'
 import { insertDCAOrder } from '../model/dca-order/index.js'
-import { insertOrder } from '../model/order/index.js'
 import { insertDCAOrderHistory } from '../model/dca-order-history/index.js'
-import { insertUserExchangeKeys } from '../model/user-exchange-keys/index.js'
+import { insertOrder } from '../model/order/index.js'
 import { insertTrade } from '../model/trade/index.js'
+import { insertUser } from '../model/user/index.js'
+import { insertUserExchangeKeys } from '../model/user-exchange-keys/index.js'
 import { pool } from '../pool.js'
 import { round } from '../util/round.js'
 
@@ -34,7 +34,7 @@ const makeUser: MakeFn = () =>
   once(async () => {
     const email = `${randomUUID()}@domain`
 
-    const user = await createUser(pool, {
+    const user = await insertUser(pool, {
       email,
       password: 'password',
     })

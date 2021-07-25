@@ -8,6 +8,7 @@ import type {
   RawRequestDefaultExpression,
   RawReplyDefaultExpression,
 } from 'fastify/types/utils'
+import { errorBoundary } from '@stayradiated/error-boundary'
 
 import { pool } from '../pool.js'
 import type { Pool, Config } from '../types.js'
@@ -50,23 +51,25 @@ const wrapHandler =
     await reply.send(output)
   }
 
-const bindHandler = (fastify: FastifyInstance) => {
-  fastify.addContentTypeParser(
-    'application/json',
-    { parseAs: 'buffer' },
-    (_request, body, done) => {
-      try {
-        const newBody = { raw: body }
-        done(null, newBody)
-      } catch (error) {
-        error.statusCode = 400
-        done(error, undefined)
-      }
-    },
-  )
-
-  return <Request, Output>(path: string, fn: HandlerFn<Request, Output>) =>
-    fastify.post(path, wrapHandler<Request, Output>(fn))
-}
+const bindHandler =
+  (fastify: FastifyInstance) =>
+  <Request, Output>(path: string, fn: HandlerFn<Request, Output>) =>
+    fastify.register((fastify, _options, done) => {
+      fastify.addContentTypeParser(
+        'application/json',
+        { parseAs: 'buffer' },
+        (_request, body, done) => {
+          const error = errorBoundary(() => {
+            const newBody = { raw: body }
+            done(null, newBody)
+          })
+          if (error instanceof Error) {
+            done(error, undefined)
+          }
+        },
+      )
+      fastify.post(path, wrapHandler<Request, Output>(fn))
+      done()
+    })
 
 export { HandlerFn, wrapHandler, bindHandler }
