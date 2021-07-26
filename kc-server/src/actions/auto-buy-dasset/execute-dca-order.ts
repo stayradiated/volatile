@@ -81,7 +81,9 @@ const executeDCAOrder = async (
       marketOffset: dcaOrder.marketOffset,
       calculatedAmountNZD: goalAmountNZD,
       availableBalanceNZD: totalAvailableNZD,
-      description: `amountNZD (${amountNZD}) is below minAmountNZD (${dcaOrder.minAmountNZD})`,
+      description: `amountNZD (${amountNZD.toFixed(
+        2,
+      )}) is below minAmountNZD (${dcaOrder.minAmountNZD})`,
     })
     if (dcaOrderHistory instanceof Error) {
       return dcaOrderHistory
