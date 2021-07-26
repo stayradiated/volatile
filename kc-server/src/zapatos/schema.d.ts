@@ -22,6 +22,89 @@ declare module 'zapatos/schema' {
   /* --- tables --- */
 
   /**
+   * **customer**
+   * - Table in database
+   */
+  export namespace customer {
+    export type Table = 'customer';
+    export interface Selectable {
+      /**
+      * **customer.user_uid**
+      * - `uuid` in database
+      * - `NOT NULL`, no default
+      */
+      user_uid: string;
+      /**
+      * **customer.customer_id**
+      * - `varchar` in database
+      * - `NOT NULL`, no default
+      */
+      customer_id: string;
+    }
+    export interface JSONSelectable {
+      /**
+      * **customer.user_uid**
+      * - `uuid` in database
+      * - `NOT NULL`, no default
+      */
+      user_uid: string;
+      /**
+      * **customer.customer_id**
+      * - `varchar` in database
+      * - `NOT NULL`, no default
+      */
+      customer_id: string;
+    }
+    export interface Whereable {
+      /**
+      * **customer.user_uid**
+      * - `uuid` in database
+      * - `NOT NULL`, no default
+      */
+      user_uid?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **customer.customer_id**
+      * - `varchar` in database
+      * - `NOT NULL`, no default
+      */
+      customer_id?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+    }
+    export interface Insertable {
+      /**
+      * **customer.user_uid**
+      * - `uuid` in database
+      * - `NOT NULL`, no default
+      */
+      user_uid: string | db.Parameter<string> | db.SQLFragment;
+      /**
+      * **customer.customer_id**
+      * - `varchar` in database
+      * - `NOT NULL`, no default
+      */
+      customer_id: string | db.Parameter<string> | db.SQLFragment;
+    }
+    export interface Updatable {
+      /**
+      * **customer.user_uid**
+      * - `uuid` in database
+      * - `NOT NULL`, no default
+      */
+      user_uid?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+      /**
+      * **customer.customer_id**
+      * - `varchar` in database
+      * - `NOT NULL`, no default
+      */
+      customer_id?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+    }
+    export type UniqueIndex = 'customer_pkey' | 'unique_customer_id';
+    export type Column = keyof Selectable;
+    export type OnlyCols<T extends readonly Column[]> = Pick<Selectable, T[number]>;
+    export type SQLExpression = db.GenericSQLExpression | db.ColumnNames<Updatable | (keyof Updatable)[]> | db.ColumnValues<Updatable> | Table | Whereable | Column;
+    export type SQL = SQLExpression | SQLExpression[];
+  }
+
+  /**
    * **dca_order**
    * - Table in database
    */
@@ -112,6 +195,12 @@ declare module 'zapatos/schema' {
       * - `NOT NULL`, no default
       */
       user_exchange_keys_uid: string;
+      /**
+      * **dca_order.enabled_at**
+      * - `timestamptz` in database
+      * - Nullable, no default
+      */
+      enabled_at: Date | null;
     }
     export interface JSONSelectable {
       /**
@@ -198,6 +287,12 @@ declare module 'zapatos/schema' {
       * - `NOT NULL`, no default
       */
       user_exchange_keys_uid: string;
+      /**
+      * **dca_order.enabled_at**
+      * - `timestamptz` in database
+      * - Nullable, no default
+      */
+      enabled_at: db.TimestampTzString | null;
     }
     export interface Whereable {
       /**
@@ -284,6 +379,12 @@ declare module 'zapatos/schema' {
       * - `NOT NULL`, no default
       */
       user_exchange_keys_uid?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **dca_order.enabled_at**
+      * - `timestamptz` in database
+      * - Nullable, no default
+      */
+      enabled_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
     }
     export interface Insertable {
       /**
@@ -370,6 +471,12 @@ declare module 'zapatos/schema' {
       * - `NOT NULL`, no default
       */
       user_exchange_keys_uid: string | db.Parameter<string> | db.SQLFragment;
+      /**
+      * **dca_order.enabled_at**
+      * - `timestamptz` in database
+      * - Nullable, no default
+      */
+      enabled_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment;
     }
     export interface Updatable {
       /**
@@ -456,6 +563,12 @@ declare module 'zapatos/schema' {
       * - `NOT NULL`, no default
       */
       user_exchange_keys_uid?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+      /**
+      * **dca_order.enabled_at**
+      * - `timestamptz` in database
+      * - Nullable, no default
+      */
+      enabled_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment>;
     }
     export type UniqueIndex = 'dca_order_pkey';
     export type Column = keyof Selectable;
@@ -504,9 +617,9 @@ declare module 'zapatos/schema' {
       /**
       * **dca_order_history.order_uid**
       * - `uuid` in database
-      * - `NOT NULL`, no default
+      * - Nullable, no default
       */
-      order_uid: string;
+      order_uid: string | null;
       /**
       * **dca_order_history.market_price_nzd**
       * - `numeric` in database
@@ -519,6 +632,30 @@ declare module 'zapatos/schema' {
       * - `NOT NULL`, no default
       */
       market_offset: number;
+      /**
+      * **dca_order_history.calculated_amount_nzd**
+      * - `numeric` in database
+      * - `NOT NULL`, no default
+      */
+      calculated_amount_nzd: number;
+      /**
+      * **dca_order_history.available_balance_nzd**
+      * - `numeric` in database
+      * - `NOT NULL`, no default
+      */
+      available_balance_nzd: number;
+      /**
+      * **dca_order_history.created_order**
+      * - `bool` in database
+      * - `NOT NULL`, no default
+      */
+      created_order: boolean;
+      /**
+      * **dca_order_history.description**
+      * - `varchar` in database
+      * - `NOT NULL`, no default
+      */
+      description: string;
     }
     export interface JSONSelectable {
       /**
@@ -554,9 +691,9 @@ declare module 'zapatos/schema' {
       /**
       * **dca_order_history.order_uid**
       * - `uuid` in database
-      * - `NOT NULL`, no default
+      * - Nullable, no default
       */
-      order_uid: string;
+      order_uid: string | null;
       /**
       * **dca_order_history.market_price_nzd**
       * - `numeric` in database
@@ -569,6 +706,30 @@ declare module 'zapatos/schema' {
       * - `NOT NULL`, no default
       */
       market_offset: number;
+      /**
+      * **dca_order_history.calculated_amount_nzd**
+      * - `numeric` in database
+      * - `NOT NULL`, no default
+      */
+      calculated_amount_nzd: number;
+      /**
+      * **dca_order_history.available_balance_nzd**
+      * - `numeric` in database
+      * - `NOT NULL`, no default
+      */
+      available_balance_nzd: number;
+      /**
+      * **dca_order_history.created_order**
+      * - `bool` in database
+      * - `NOT NULL`, no default
+      */
+      created_order: boolean;
+      /**
+      * **dca_order_history.description**
+      * - `varchar` in database
+      * - `NOT NULL`, no default
+      */
+      description: string;
     }
     export interface Whereable {
       /**
@@ -604,7 +765,7 @@ declare module 'zapatos/schema' {
       /**
       * **dca_order_history.order_uid**
       * - `uuid` in database
-      * - `NOT NULL`, no default
+      * - Nullable, no default
       */
       order_uid?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
       /**
@@ -619,6 +780,30 @@ declare module 'zapatos/schema' {
       * - `NOT NULL`, no default
       */
       market_offset?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **dca_order_history.calculated_amount_nzd**
+      * - `numeric` in database
+      * - `NOT NULL`, no default
+      */
+      calculated_amount_nzd?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **dca_order_history.available_balance_nzd**
+      * - `numeric` in database
+      * - `NOT NULL`, no default
+      */
+      available_balance_nzd?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **dca_order_history.created_order**
+      * - `bool` in database
+      * - `NOT NULL`, no default
+      */
+      created_order?: boolean | db.Parameter<boolean> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, boolean | db.Parameter<boolean> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **dca_order_history.description**
+      * - `varchar` in database
+      * - `NOT NULL`, no default
+      */
+      description?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
     }
     export interface Insertable {
       /**
@@ -654,9 +839,9 @@ declare module 'zapatos/schema' {
       /**
       * **dca_order_history.order_uid**
       * - `uuid` in database
-      * - `NOT NULL`, no default
+      * - Nullable, no default
       */
-      order_uid: string | db.Parameter<string> | db.SQLFragment;
+      order_uid?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment;
       /**
       * **dca_order_history.market_price_nzd**
       * - `numeric` in database
@@ -669,6 +854,30 @@ declare module 'zapatos/schema' {
       * - `NOT NULL`, no default
       */
       market_offset: number | db.Parameter<number> | db.SQLFragment;
+      /**
+      * **dca_order_history.calculated_amount_nzd**
+      * - `numeric` in database
+      * - `NOT NULL`, no default
+      */
+      calculated_amount_nzd: number | db.Parameter<number> | db.SQLFragment;
+      /**
+      * **dca_order_history.available_balance_nzd**
+      * - `numeric` in database
+      * - `NOT NULL`, no default
+      */
+      available_balance_nzd: number | db.Parameter<number> | db.SQLFragment;
+      /**
+      * **dca_order_history.created_order**
+      * - `bool` in database
+      * - `NOT NULL`, no default
+      */
+      created_order: boolean | db.Parameter<boolean> | db.SQLFragment;
+      /**
+      * **dca_order_history.description**
+      * - `varchar` in database
+      * - `NOT NULL`, no default
+      */
+      description: string | db.Parameter<string> | db.SQLFragment;
     }
     export interface Updatable {
       /**
@@ -704,9 +913,9 @@ declare module 'zapatos/schema' {
       /**
       * **dca_order_history.order_uid**
       * - `uuid` in database
-      * - `NOT NULL`, no default
+      * - Nullable, no default
       */
-      order_uid?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+      order_uid?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment>;
       /**
       * **dca_order_history.market_price_nzd**
       * - `numeric` in database
@@ -719,6 +928,30 @@ declare module 'zapatos/schema' {
       * - `NOT NULL`, no default
       */
       market_offset?: number | db.Parameter<number> | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
+      /**
+      * **dca_order_history.calculated_amount_nzd**
+      * - `numeric` in database
+      * - `NOT NULL`, no default
+      */
+      calculated_amount_nzd?: number | db.Parameter<number> | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
+      /**
+      * **dca_order_history.available_balance_nzd**
+      * - `numeric` in database
+      * - `NOT NULL`, no default
+      */
+      available_balance_nzd?: number | db.Parameter<number> | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
+      /**
+      * **dca_order_history.created_order**
+      * - `bool` in database
+      * - `NOT NULL`, no default
+      */
+      created_order?: boolean | db.Parameter<boolean> | db.SQLFragment | db.SQLFragment<any, boolean | db.Parameter<boolean> | db.SQLFragment>;
+      /**
+      * **dca_order_history.description**
+      * - `varchar` in database
+      * - `NOT NULL`, no default
+      */
+      description?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
     }
     export type UniqueIndex = 'dca_order_history_pkey' | 'unique_dca_order';
     export type Column = keyof Selectable;
@@ -2330,22 +2563,23 @@ declare module 'zapatos/schema' {
 
   /* === cross-table types === */
 
-  export type Table = dca_order.Table | dca_order_history.Table | exchange.Table | market.Table | market_price.Table | order.Table | schema_migrations.Table | user.Table | user_exchange_keys.Table;
-  export type Selectable = dca_order.Selectable | dca_order_history.Selectable | exchange.Selectable | market.Selectable | market_price.Selectable | order.Selectable | schema_migrations.Selectable | user.Selectable | user_exchange_keys.Selectable;
-  export type JSONSelectable = dca_order.JSONSelectable | dca_order_history.JSONSelectable | exchange.JSONSelectable | market.JSONSelectable | market_price.JSONSelectable | order.JSONSelectable | schema_migrations.JSONSelectable | user.JSONSelectable | user_exchange_keys.JSONSelectable;
-  export type Whereable = dca_order.Whereable | dca_order_history.Whereable | exchange.Whereable | market.Whereable | market_price.Whereable | order.Whereable | schema_migrations.Whereable | user.Whereable | user_exchange_keys.Whereable;
-  export type Insertable = dca_order.Insertable | dca_order_history.Insertable | exchange.Insertable | market.Insertable | market_price.Insertable | order.Insertable | schema_migrations.Insertable | user.Insertable | user_exchange_keys.Insertable;
-  export type Updatable = dca_order.Updatable | dca_order_history.Updatable | exchange.Updatable | market.Updatable | market_price.Updatable | order.Updatable | schema_migrations.Updatable | user.Updatable | user_exchange_keys.Updatable;
-  export type UniqueIndex = dca_order.UniqueIndex | dca_order_history.UniqueIndex | exchange.UniqueIndex | market.UniqueIndex | market_price.UniqueIndex | order.UniqueIndex | schema_migrations.UniqueIndex | user.UniqueIndex | user_exchange_keys.UniqueIndex;
-  export type Column = dca_order.Column | dca_order_history.Column | exchange.Column | market.Column | market_price.Column | order.Column | schema_migrations.Column | user.Column | user_exchange_keys.Column;
-  export type AllBaseTables = [dca_order.Table, dca_order_history.Table, exchange.Table, market.Table, market_price.Table, order.Table, schema_migrations.Table, user.Table, user_exchange_keys.Table];
+  export type Table = customer.Table | dca_order.Table | dca_order_history.Table | exchange.Table | market.Table | market_price.Table | order.Table | schema_migrations.Table | user.Table | user_exchange_keys.Table;
+  export type Selectable = customer.Selectable | dca_order.Selectable | dca_order_history.Selectable | exchange.Selectable | market.Selectable | market_price.Selectable | order.Selectable | schema_migrations.Selectable | user.Selectable | user_exchange_keys.Selectable;
+  export type JSONSelectable = customer.JSONSelectable | dca_order.JSONSelectable | dca_order_history.JSONSelectable | exchange.JSONSelectable | market.JSONSelectable | market_price.JSONSelectable | order.JSONSelectable | schema_migrations.JSONSelectable | user.JSONSelectable | user_exchange_keys.JSONSelectable;
+  export type Whereable = customer.Whereable | dca_order.Whereable | dca_order_history.Whereable | exchange.Whereable | market.Whereable | market_price.Whereable | order.Whereable | schema_migrations.Whereable | user.Whereable | user_exchange_keys.Whereable;
+  export type Insertable = customer.Insertable | dca_order.Insertable | dca_order_history.Insertable | exchange.Insertable | market.Insertable | market_price.Insertable | order.Insertable | schema_migrations.Insertable | user.Insertable | user_exchange_keys.Insertable;
+  export type Updatable = customer.Updatable | dca_order.Updatable | dca_order_history.Updatable | exchange.Updatable | market.Updatable | market_price.Updatable | order.Updatable | schema_migrations.Updatable | user.Updatable | user_exchange_keys.Updatable;
+  export type UniqueIndex = customer.UniqueIndex | dca_order.UniqueIndex | dca_order_history.UniqueIndex | exchange.UniqueIndex | market.UniqueIndex | market_price.UniqueIndex | order.UniqueIndex | schema_migrations.UniqueIndex | user.UniqueIndex | user_exchange_keys.UniqueIndex;
+  export type Column = customer.Column | dca_order.Column | dca_order_history.Column | exchange.Column | market.Column | market_price.Column | order.Column | schema_migrations.Column | user.Column | user_exchange_keys.Column;
+  export type AllBaseTables = [customer.Table, dca_order.Table, dca_order_history.Table, exchange.Table, market.Table, market_price.Table, order.Table, schema_migrations.Table, user.Table, user_exchange_keys.Table];
   export type AllForeignTables = [];
   export type AllViews = [];
   export type AllMaterializedViews = [];
-  export type AllTablesAndViews = [dca_order.Table, dca_order_history.Table, exchange.Table, market.Table, market_price.Table, order.Table, schema_migrations.Table, user.Table, user_exchange_keys.Table];
+  export type AllTablesAndViews = [customer.Table, dca_order.Table, dca_order_history.Table, exchange.Table, market.Table, market_price.Table, order.Table, schema_migrations.Table, user.Table, user_exchange_keys.Table];
 
 
   export type SelectableForTable<T extends Table> = {
+    customer: customer.Selectable;
     dca_order: dca_order.Selectable;
     dca_order_history: dca_order_history.Selectable;
     exchange: exchange.Selectable;
@@ -2358,6 +2592,7 @@ declare module 'zapatos/schema' {
   }[T];
 
   export type JSONSelectableForTable<T extends Table> = {
+    customer: customer.JSONSelectable;
     dca_order: dca_order.JSONSelectable;
     dca_order_history: dca_order_history.JSONSelectable;
     exchange: exchange.JSONSelectable;
@@ -2370,6 +2605,7 @@ declare module 'zapatos/schema' {
   }[T];
 
   export type WhereableForTable<T extends Table> = {
+    customer: customer.Whereable;
     dca_order: dca_order.Whereable;
     dca_order_history: dca_order_history.Whereable;
     exchange: exchange.Whereable;
@@ -2382,6 +2618,7 @@ declare module 'zapatos/schema' {
   }[T];
 
   export type InsertableForTable<T extends Table> = {
+    customer: customer.Insertable;
     dca_order: dca_order.Insertable;
     dca_order_history: dca_order_history.Insertable;
     exchange: exchange.Insertable;
@@ -2394,6 +2631,7 @@ declare module 'zapatos/schema' {
   }[T];
 
   export type UpdatableForTable<T extends Table> = {
+    customer: customer.Updatable;
     dca_order: dca_order.Updatable;
     dca_order_history: dca_order_history.Updatable;
     exchange: exchange.Updatable;
@@ -2406,6 +2644,7 @@ declare module 'zapatos/schema' {
   }[T];
 
   export type UniqueIndexForTable<T extends Table> = {
+    customer: customer.UniqueIndex;
     dca_order: dca_order.UniqueIndex;
     dca_order_history: dca_order_history.UniqueIndex;
     exchange: exchange.UniqueIndex;
@@ -2418,6 +2657,7 @@ declare module 'zapatos/schema' {
   }[T];
 
   export type ColumnForTable<T extends Table> = {
+    customer: customer.Column;
     dca_order: dca_order.Column;
     dca_order_history: dca_order_history.Column;
     exchange: exchange.Column;
@@ -2430,6 +2670,7 @@ declare module 'zapatos/schema' {
   }[T];
 
   export type SQLForTable<T extends Table> = {
+    customer: customer.SQL;
     dca_order: dca_order.SQL;
     dca_order_history: dca_order_history.SQL;
     exchange: exchange.SQL;

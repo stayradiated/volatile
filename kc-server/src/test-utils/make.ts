@@ -144,6 +144,9 @@ const makeDCAOrderHistory: MakeFn = (make) =>
       orderUID,
       marketPriceNZD: round(2, Math.random() * 100_000),
       marketOffset: round(4, Math.random() * -10 + 2),
+      calculatedAmountNZD: round(2, Math.random() * 100),
+      availableBalanceNZD: round(2, Math.random() * 20_000),
+      description: 'test entry',
     })
     if (order instanceof Error) {
       throw order

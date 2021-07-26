@@ -3,7 +3,10 @@ import * as db from 'zapatos/db'
 
 import test from '../../test-utils/ava.js'
 
-import { insertDCAOrderHistory } from './insert-dca-order-history.js'
+import {
+  insertDCAOrderHistory,
+  InsertDCAOrderHistoryOptions,
+} from './insert-dca-order-history.js'
 
 test('insertDCAOrderHistory', async (t) => {
   const { pool, make } = t.context
@@ -11,12 +14,15 @@ test('insertDCAOrderHistory', async (t) => {
   const dcaOrderUID = await make.dcaOrder()
   const orderUID = await make.order()
 
-  const input = {
+  const input: InsertDCAOrderHistoryOptions = {
     userUID,
     dcaOrderUID,
     orderUID,
     marketPriceNZD: 54_321,
     marketOffset: -1.234,
+    calculatedAmountNZD: 22.22,
+    availableBalanceNZD: 54.32,
+    description: 'test entry',
   }
 
   const result = await insertDCAOrderHistory(pool, input)

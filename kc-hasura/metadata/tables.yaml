@@ -90,6 +90,10 @@
       - order_uid
       - market_price_nzd
       - market_offset
+      - calculated_amount_nzd
+      - available_balance_nzd
+      - created_order
+      - description
       filter:
         user_uid:
           _eq: X-Hasura-User-Id

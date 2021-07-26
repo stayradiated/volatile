@@ -21,6 +21,16 @@ SET default_tablespace = '';
 SET default_table_access_method = heap;
 
 --
+-- Name: customer; Type: TABLE; Schema: kc; Owner: -
+--
+
+CREATE TABLE kc.customer (
+    user_uid uuid NOT NULL,
+    customer_id character varying(32) NOT NULL
+);
+
+
+--
 -- Name: dca_order; Type: TABLE; Schema: kc; Owner: -
 --
 
@@ -38,7 +48,8 @@ CREATE TABLE kc.dca_order (
     max_price_nzd numeric(12,2),
     min_amount_nzd numeric(12,2),
     max_amount_nzd numeric(12,2),
-    user_exchange_keys_uid uuid NOT NULL
+    user_exchange_keys_uid uuid NOT NULL,
+    enabled_at timestamp with time zone
 );
 
 
@@ -52,9 +63,13 @@ CREATE TABLE kc.dca_order_history (
     updated_at timestamp with time zone NOT NULL,
     user_uid uuid NOT NULL,
     dca_order_uid uuid NOT NULL,
-    order_uid uuid NOT NULL,
+    order_uid uuid,
     market_price_nzd numeric(12,2) NOT NULL,
-    market_offset numeric(12,6) NOT NULL
+    market_offset numeric(12,6) NOT NULL,
+    calculated_amount_nzd numeric(12,2) NOT NULL,
+    available_balance_nzd numeric(12,2) NOT NULL,
+    created_order boolean NOT NULL,
+    description character varying NOT NULL
 );
 
 
@@ -163,6 +178,14 @@ CREATE TABLE kc.user_exchange_keys (
 
 
 --
+-- Name: customer customer_pkey; Type: CONSTRAINT; Schema: kc; Owner: -
+--
+
+ALTER TABLE ONLY kc.customer
+    ADD CONSTRAINT customer_pkey PRIMARY KEY (user_uid);
+
+
+--
 -- Name: dca_order_history dca_order_history_pkey; Type: CONSTRAINT; Schema: kc; Owner: -
 --
 
@@ -216,6 +239,14 @@ ALTER TABLE ONLY kc."order"
 
 ALTER TABLE ONLY kc.schema_migrations
     ADD CONSTRAINT schema_migrations_pkey PRIMARY KEY (version);
+
+
+--
+-- Name: customer unique_customer_id; Type: CONSTRAINT; Schema: kc; Owner: -
+--
+
+ALTER TABLE ONLY kc.customer
+    ADD CONSTRAINT unique_customer_id UNIQUE (customer_id);
 
 
 --
@@ -382,4 +413,7 @@ ALTER TABLE ONLY kc.user_exchange_keys
 INSERT INTO kc.schema_migrations (version) VALUES
     ('20210614092417'),
     ('20210721191422'),
-    ('20210722105131');
+    ('20210722105131'),
+    ('20210725002018'),
+    ('20210725035023'),
+    ('20210726092656');

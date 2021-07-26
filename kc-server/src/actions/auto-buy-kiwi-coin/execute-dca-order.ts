@@ -17,8 +17,6 @@ import { mustGetUserKiwiCoinExchangeKeys } from '../../models/user-exchange-keys
 import { fetchAvailableNZD } from './fetch-available-nzd.js'
 import { calculateOrderAmountNZD } from './calculate-order-amount-nzd.js'
 
-const MINIMUM_BTC_BID = 0.000_01
-
 const executeDCAOrder = async (
   pool: Pool,
   dcaOrder: DCAOrder,
@@ -65,17 +63,31 @@ const executeDCAOrder = async (
     totalAvailableNZD,
   )
 
+  const marketPriceNZD = await getMarketPrice(pool, dcaOrder.marketUID)
+  if (marketPriceNZD instanceof Error) {
+    return marketPriceNZD
+  }
+
   if (amountNZD <= dcaOrder.minAmountNZD) {
-    console.log('Have reached daily goal, passing...')
+    const dcaOrderHistory = await insertDCAOrderHistory(pool, {
+      userUID: dcaOrder.userUID,
+      dcaOrderUID: dcaOrder.UID,
+      orderUID: undefined,
+      marketPriceNZD,
+      marketOffset: dcaOrder.marketOffset,
+      calculatedAmountNZD: goalAmountNZD,
+      availableBalanceNZD: totalAvailableNZD,
+      description: `amountNZD (${amountNZD}) is below minAmountNZD (${dcaOrder.minAmountNZD})`,
+    })
+    if (dcaOrderHistory instanceof Error) {
+      return dcaOrderHistory
+    }
+
+    console.log(dcaOrderHistory)
   } else {
     const orderBook = await kiwiCoin.orderBook()
     if (orderBook instanceof Error) {
       return orderBook
-    }
-
-    const marketPriceNZD = await getMarketPrice(pool, dcaOrder.marketUID)
-    if (marketPriceNZD instanceof Error) {
-      return marketPriceNZD
     }
 
     const offsetPercent = (dcaOrder.marketOffset + 100) / 100
@@ -94,78 +106,75 @@ const executeDCAOrder = async (
     }
 
     const amountBTC = round(8, amountNZD / orderPriceNZD)
-    if (amountBTC < MINIMUM_BTC_BID) {
-      console.log(
-        `Bid amount is below MINIMUM_BTC_BID: ${amountBTC}/${MINIMUM_BTC_BID}`,
-      )
-    } else {
-      await Promise.all(
-        previousOrders.map(async (previousOrder) => {
-          const previousOrderID = Number.parseInt(previousOrder.ID, 10)
+    await Promise.all(
+      previousOrders.map(async (previousOrder) => {
+        const previousOrderID = Number.parseInt(previousOrder.ID, 10)
 
-          const error = await kiwiCoin.cancelOrder(config, previousOrderID)
-          if (error instanceof Error) {
-            console.error(
-              explainError(
-                'Failed to cancel order',
-                { orderID: previousOrder.ID },
-                error,
-              ),
-            )
-          }
+        const error = await kiwiCoin.cancelOrder(config, previousOrderID)
+        if (error instanceof Error) {
+          console.error(
+            explainError(
+              'Failed to cancel order',
+              { orderID: previousOrder.ID },
+              error,
+            ),
+          )
+        }
 
-          await updateOrder(pool, {
-            UID: previousOrder.UID,
-            closedAt: DateTime.local(),
-          })
-        }),
-      )
+        await updateOrder(pool, {
+          UID: previousOrder.UID,
+          closedAt: DateTime.local(),
+        })
+      }),
+    )
 
-      const freshOrder = await kiwiCoin.buy(config, {
-        price: orderPriceNZD,
-        amount: amountBTC,
-      })
-      if (freshOrder instanceof Error) {
-        return freshOrder
-      }
-
-      const order = await insertOrder(pool, {
-        userUID: dcaOrder.userUID,
-        exchangeUID: dcaOrder.exchangeUID,
-        ID: String(freshOrder.id),
-        symbol: 'BTC',
-        type: OrderType.BUY,
-        priceNZD: orderPriceNZD,
-        amount: amountBTC,
-        openedAt: DateTime.local(),
-        closedAt: undefined,
-      })
-      if (order instanceof Error) {
-        return order
-      }
-
-      const dcaOrderHistory = await insertDCAOrderHistory(pool, {
-        userUID: dcaOrder.userUID,
-        dcaOrderUID: dcaOrder.UID,
-        orderUID: order.UID,
-        marketPriceNZD,
-        marketOffset: dcaOrder.marketOffset,
-      })
-      if (dcaOrderHistory instanceof Error) {
-        return dcaOrderHistory
-      }
-
-      console.log({
-        dcaOrderHistoryUID: dcaOrderHistory.UID,
-        orderUID: order.UID,
-        orderID: order.ID,
-        marketPriceNZD,
-        marketOffset: dcaOrderHistory.marketOffset,
-        priceNZD: order.priceNZD,
-        amountBTC: order.amount,
-        valueNZD: order.amount * order.priceNZD,
-      })
+    const freshOrder = await kiwiCoin.buy(config, {
+      price: orderPriceNZD,
+      amount: amountBTC,
+    })
+    if (freshOrder instanceof Error) {
+      return freshOrder
     }
+
+    const order = await insertOrder(pool, {
+      userUID: dcaOrder.userUID,
+      exchangeUID: dcaOrder.exchangeUID,
+      ID: String(freshOrder.id),
+      symbol: 'BTC',
+      type: OrderType.BUY,
+      priceNZD: orderPriceNZD,
+      amount: amountBTC,
+      openedAt: DateTime.local(),
+      closedAt: undefined,
+    })
+    if (order instanceof Error) {
+      return order
+    }
+
+    const dcaOrderHistory = await insertDCAOrderHistory(pool, {
+      userUID: dcaOrder.userUID,
+      dcaOrderUID: dcaOrder.UID,
+      orderUID: order.UID,
+      marketPriceNZD,
+      marketOffset: dcaOrder.marketOffset,
+      calculatedAmountNZD: goalAmountNZD,
+      availableBalanceNZD: totalAvailableNZD,
+      description: 'Created order',
+    })
+    if (dcaOrderHistory instanceof Error) {
+      return dcaOrderHistory
+    }
+
+    console.log({
+      dcaOrderHistoryUID: dcaOrderHistory.UID,
+      orderUID: order.UID,
+      orderID: order.ID,
+      marketPriceNZD,
+      marketOffset: dcaOrderHistory.marketOffset,
+      priceNZD: order.priceNZD,
+      amountBTC: order.amount,
+      valueNZD: order.amount * order.priceNZD,
+    })
   }
 }
 

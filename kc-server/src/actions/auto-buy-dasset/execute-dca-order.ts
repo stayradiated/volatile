@@ -16,8 +16,6 @@ import { fetchAvailableNZD } from './fetch-available-nzd.js'
 import { calculateOrderAmountNZD } from './calculate-order-amount-nzd.js'
 import { closeOrders } from './close-orders.js'
 
-const MINIMUM_BTC_BID = 0.000_01
-
 const executeDCAOrder = async (
   pool: Pool,
   dcaOrder: DCAOrder,
@@ -69,72 +67,83 @@ const executeDCAOrder = async (
     totalAvailableNZD,
   )
 
+  const marketPriceNZD = await getMarketPrice(pool, dcaOrder.marketUID)
+  if (marketPriceNZD instanceof Error) {
+    return marketPriceNZD
+  }
+
   if (amountNZD <= dcaOrder.minAmountNZD) {
-    console.log('Have reached daily goal, passing...')
-  } else {
-    const marketPriceNZD = await getMarketPrice(pool, dcaOrder.marketUID)
-    if (marketPriceNZD instanceof Error) {
-      return marketPriceNZD
+    const dcaOrderHistory = await insertDCAOrderHistory(pool, {
+      userUID: dcaOrder.userUID,
+      dcaOrderUID: dcaOrder.UID,
+      orderUID: undefined,
+      marketPriceNZD,
+      marketOffset: dcaOrder.marketOffset,
+      calculatedAmountNZD: goalAmountNZD,
+      availableBalanceNZD: totalAvailableNZD,
+      description: `amountNZD (${amountNZD}) is below minAmountNZD (${dcaOrder.minAmountNZD})`,
+    })
+    if (dcaOrderHistory instanceof Error) {
+      return dcaOrderHistory
     }
 
+    console.log(dcaOrderHistory)
+  } else {
     const offsetPercent = (dcaOrder.marketOffset + 100) / 100
     const orderPriceNZD = round(2, marketPriceNZD * offsetPercent)
 
     const amountBTC = round(8, amountNZD / orderPriceNZD)
-    if (amountBTC < MINIMUM_BTC_BID) {
-      console.log(
-        `Bid amount is below MINIMUM_BTC_BID: ${amountBTC}/${MINIMUM_BTC_BID}`,
-      )
-    } else {
-      const freshOrder = await dasset.createOrder(config, {
-        amount: amountBTC,
-        limit: orderPriceNZD,
-        orderType: 'LIMIT',
-        side: dasset.OrderType.BUY,
-        timeInForce: 'GOOD_TIL_CANCELLED',
-        tradingPair: 'BTC-NZD',
-      })
-      if (freshOrder instanceof Error) {
-        return freshOrder
-      }
-
-      const order = await insertOrder(pool, {
-        userUID: dcaOrder.userUID,
-        exchangeUID: dcaOrder.exchangeUID,
-        ID: freshOrder.order.orderId,
-        symbol: 'BTC',
-        type: OrderType.BUY,
-        priceNZD: orderPriceNZD,
-        amount: amountBTC,
-        openedAt: DateTime.local(),
-        closedAt: undefined,
-      })
-      if (order instanceof Error) {
-        return order
-      }
-
-      const dcaOrderHistory = await insertDCAOrderHistory(pool, {
-        userUID: dcaOrder.userUID,
-        dcaOrderUID: dcaOrder.UID,
-        orderUID: order.UID,
-        marketPriceNZD,
-        marketOffset: dcaOrder.marketOffset,
-      })
-      if (dcaOrderHistory instanceof Error) {
-        return dcaOrderHistory
-      }
-
-      console.log({
-        dcaOrderHistoryUID: dcaOrderHistory.UID,
-        orderUID: order.UID,
-        orderID: order.ID,
-        marketPriceNZD,
-        marketOffset: dcaOrderHistory.marketOffset,
-        priceNZD: order.priceNZD,
-        amountBTC: order.amount,
-        valueNZD: order.amount * order.priceNZD,
-      })
+    const freshOrder = await dasset.createOrder(config, {
+      amount: amountBTC,
+      limit: orderPriceNZD,
+      orderType: 'LIMIT',
+      side: dasset.OrderType.BUY,
+      timeInForce: 'GOOD_TIL_CANCELLED',
+      tradingPair: 'BTC-NZD',
+    })
+    if (freshOrder instanceof Error) {
+      return freshOrder
     }
+
+    const order = await insertOrder(pool, {
+      userUID: dcaOrder.userUID,
+      exchangeUID: dcaOrder.exchangeUID,
+      ID: freshOrder.order.orderId,
+      symbol: 'BTC',
+      type: OrderType.BUY,
+      priceNZD: orderPriceNZD,
+      amount: amountBTC,
+      openedAt: DateTime.local(),
+      closedAt: undefined,
+    })
+    if (order instanceof Error) {
+      return order
+    }
+
+    const dcaOrderHistory = await insertDCAOrderHistory(pool, {
+      userUID: dcaOrder.userUID,
+      dcaOrderUID: dcaOrder.UID,
+      orderUID: order.UID,
+      marketPriceNZD,
+      marketOffset: dcaOrder.marketOffset,
+      calculatedAmountNZD: goalAmountNZD,
+      availableBalanceNZD: totalAvailableNZD,
+      description: 'Created order',
+    })
+    if (dcaOrderHistory instanceof Error) {
+      return dcaOrderHistory
+    }
+
+    console.log({
+      dcaOrderHistoryUID: dcaOrderHistory.UID,
+      orderUID: order.UID,
+      orderID: order.ID,
+      marketPriceNZD,
+      marketOffset: dcaOrderHistory.marketOffset,
+      priceNZD: order.priceNZD,
+      amountBTC: order.amount,
+      valueNZD: order.amount * order.priceNZD,
+    })
   }
 }
 

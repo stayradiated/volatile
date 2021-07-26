@@ -5,15 +5,7 @@ import { errorBoundary } from '@stayradiated/error-boundary'
 import { Except } from 'type-fest'
 
 import type { Pool } from '../../types.js'
-
-type DCAOrderHistory = {
-  UID: string
-  userUID: string
-  dcaOrderUID: string
-  orderUID: string
-  marketPriceNZD: number
-  marketOffset: number
-}
+import type { DCAOrderHistory } from './types.js'
 
 type InsertDCAOrderHistoryOptions = Except<DCAOrderHistory, 'UID'>
 
@@ -29,9 +21,13 @@ const insertDCAOrderHistory = async (
     updated_at: now,
     user_uid: options.userUID,
     dca_order_uid: options.dcaOrderUID,
+    created_order: options.orderUID !== undefined,
     order_uid: options.orderUID,
     market_price_nzd: options.marketPriceNZD,
     market_offset: options.marketOffset,
+    calculated_amount_nzd: options.calculatedAmountNZD,
+    available_balance_nzd: options.availableBalanceNZD,
+    description: options.description,
   }
 
   const rows = await errorBoundary(async () =>
@@ -54,4 +50,4 @@ const insertDCAOrderHistory = async (
   }
 }
 
-export { insertDCAOrderHistory }
+export { insertDCAOrderHistory, InsertDCAOrderHistoryOptions }
