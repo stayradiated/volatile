@@ -4,16 +4,16 @@ import { DateTime, Duration } from 'luxon'
 import { MarketPriceSource } from '../../utils/market-price-source.js'
 
 type Options = {
-  source?: kiwiCoin.ExtPriceSource
+  type?: kiwiCoin.TopOrderPriceType
 }
 
 const marketSource: MarketPriceSource<Options> = {
   minCacheDuration: Duration.fromISOTime('00:00:30'),
   fetch: async (options) => {
-    const { source = kiwiCoin.ExtPriceSource.worldwide } = options
+    const { type = kiwiCoin.TopOrderPriceType.sell } = options
     const lastUpdated = DateTime.local()
 
-    const result = await kiwiCoin.extPrice({ source })
+    const result = await kiwiCoin.topOrderPrice({ type })
     if (result instanceof Error) {
       return result
     }
