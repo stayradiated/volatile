@@ -104,14 +104,13 @@ CREATE TABLE kc.market (
 --
 
 CREATE TABLE kc.market_price (
-    created_at timestamp with time zone NOT NULL,
-    updated_at timestamp with time zone NOT NULL,
     "timestamp" timestamp with time zone NOT NULL,
     market_uid uuid NOT NULL,
     price numeric(12,2) NOT NULL,
     currency character(3) NOT NULL,
     fx_rate numeric(12,6) NOT NULL,
-    price_nzd numeric(12,2) NOT NULL
+    price_nzd numeric(12,2) NOT NULL,
+    symbol character varying(5) NOT NULL
 );
 
 
@@ -416,4 +415,5 @@ INSERT INTO kc.schema_migrations (version) VALUES
     ('20210722105131'),
     ('20210725002018'),
     ('20210725035023'),
-    ('20210726092656');
+    ('20210726092656'),
+    ('20210727082212');

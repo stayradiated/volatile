@@ -2,48 +2,35 @@ import * as db from 'zapatos/db'
 import type * as s from 'zapatos/schema'
 import { errorBoundary } from '@stayradiated/error-boundary'
 
-import { getMarketUID, Market } from '../market/index.js'
 import type { Pool } from '../../types.js'
-import type { Currency } from './currency-config.js'
-
-type InsertMarketPriceOptions = {
-  timestamp: Date
-  market: Market
-  price: number
-  currency: Currency
-  fxRate: number
-  priceNZD: number
-}
+import type { MarketPrice } from './types.js'
 
 const insertMarketPrice = async (
   pool: Pool,
-  options: InsertMarketPriceOptions,
-): Promise<void | Error> => {
-  const { timestamp, market, price, currency, fxRate, priceNZD } = options
+  options: MarketPrice,
+): Promise<MarketPrice | Error> => {
+  const { timestamp, marketUID, price, currency, symbol, fxRate, priceNZD } =
+    options
 
-  const marketUID = await getMarketUID(pool, market)
-  if (marketUID instanceof Error) {
-    return marketUID
-  }
-
-  const now = new Date()
   const marketPrice: s.market_price.Insertable = {
-    created_at: now,
-    updated_at: now,
     timestamp,
     market_uid: marketUID,
     price,
     currency,
+    symbol,
     fx_rate: fxRate,
     price_nzd: priceNZD,
   }
 
-  const result = await errorBoundary(async () =>
-    db.insert('market_price', marketPrice).run(pool),
+  const error = await errorBoundary(async () =>
+    db.insert('market_price', marketPrice, { returning: [] }).run(pool),
   )
+  if (error instanceof Error) {
+    return error
+  }
 
-  if (result instanceof Error) {
-    return result
+  return {
+    ...options,
   }
 }
 

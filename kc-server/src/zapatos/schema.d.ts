@@ -1314,18 +1314,6 @@ declare module 'zapatos/schema' {
     export type Table = 'market_price';
     export interface Selectable {
       /**
-      * **market_price.created_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      created_at: Date;
-      /**
-      * **market_price.updated_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      updated_at: Date;
-      /**
       * **market_price.timestamp**
       * - `timestamptz` in database
       * - `NOT NULL`, no default
@@ -1361,20 +1349,14 @@ declare module 'zapatos/schema' {
       * - `NOT NULL`, no default
       */
       price_nzd: number;
+      /**
+      * **market_price.symbol**
+      * - `varchar` in database
+      * - `NOT NULL`, no default
+      */
+      symbol: string;
     }
     export interface JSONSelectable {
-      /**
-      * **market_price.created_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      created_at: db.TimestampTzString;
-      /**
-      * **market_price.updated_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      updated_at: db.TimestampTzString;
       /**
       * **market_price.timestamp**
       * - `timestamptz` in database
@@ -1411,20 +1393,14 @@ declare module 'zapatos/schema' {
       * - `NOT NULL`, no default
       */
       price_nzd: number;
+      /**
+      * **market_price.symbol**
+      * - `varchar` in database
+      * - `NOT NULL`, no default
+      */
+      symbol: string;
     }
     export interface Whereable {
-      /**
-      * **market_price.created_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      created_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
-      /**
-      * **market_price.updated_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      updated_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
       /**
       * **market_price.timestamp**
       * - `timestamptz` in database
@@ -1461,20 +1437,14 @@ declare module 'zapatos/schema' {
       * - `NOT NULL`, no default
       */
       price_nzd?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **market_price.symbol**
+      * - `varchar` in database
+      * - `NOT NULL`, no default
+      */
+      symbol?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
     }
     export interface Insertable {
-      /**
-      * **market_price.created_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      created_at: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment;
-      /**
-      * **market_price.updated_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      updated_at: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment;
       /**
       * **market_price.timestamp**
       * - `timestamptz` in database
@@ -1511,20 +1481,14 @@ declare module 'zapatos/schema' {
       * - `NOT NULL`, no default
       */
       price_nzd: number | db.Parameter<number> | db.SQLFragment;
+      /**
+      * **market_price.symbol**
+      * - `varchar` in database
+      * - `NOT NULL`, no default
+      */
+      symbol: string | db.Parameter<string> | db.SQLFragment;
     }
     export interface Updatable {
-      /**
-      * **market_price.created_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      created_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment>;
-      /**
-      * **market_price.updated_at**
-      * - `timestamptz` in database
-      * - `NOT NULL`, no default
-      */
-      updated_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment>;
       /**
       * **market_price.timestamp**
       * - `timestamptz` in database
@@ -1561,6 +1525,12 @@ declare module 'zapatos/schema' {
       * - `NOT NULL`, no default
       */
       price_nzd?: number | db.Parameter<number> | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
+      /**
+      * **market_price.symbol**
+      * - `varchar` in database
+      * - `NOT NULL`, no default
+      */
+      symbol?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
     }
     export type UniqueIndex = 'market_price_pkey';
     export type Column = keyof Selectable;

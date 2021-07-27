@@ -63,7 +63,7 @@ const executeDCAOrder = async (
     totalAvailableNZD,
   )
 
-  const marketPriceNZD = await getMarketPrice(pool, dcaOrder.marketUID)
+  const marketPriceNZD = await getMarketPrice(pool, dcaOrder.marketUID, 'BTC')
   if (marketPriceNZD instanceof Error) {
     return marketPriceNZD
   }

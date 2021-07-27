@@ -14,7 +14,8 @@ const easyCrypto = ky.create({
 })
 
 type Options = {
-  symbol?: string
+  symbol: string
+  currency: string
 }
 
 type APIResponse = {
@@ -26,16 +27,21 @@ type APIResponse = {
 const marketSource: MarketPriceSource<Options> = {
   minCacheDuration: Duration.fromISOTime('00:00:30'),
   fetch: async (options) => {
-    const { symbol = 'BTCNZD' } = options
-
+    const { symbol, currency } = options
     if (symbol.toUpperCase() !== symbol) {
       return new Error(`Symbol must be uppercase, received "${symbol}".`)
     }
 
+    if (currency.toUpperCase() !== currency) {
+      return new Error(`Currency must be uppercase, received "${currency}".`)
+    }
+
+    const tradingPair = symbol + currency
+
     const lastUpdated = DateTime.local()
 
     const result = await errorBoundary<APIResponse>(async () =>
-      easyCrypto.get(`ticker/${symbol}`).json(),
+      easyCrypto.get(`ticker/${tradingPair}`).json(),
     )
     if (result instanceof Error) {
       log(result.message)
