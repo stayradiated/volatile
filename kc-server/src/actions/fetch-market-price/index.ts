@@ -3,15 +3,13 @@ import { inspect } from 'util'
 import debug from 'debug'
 
 import type { ActionHandlerFn } from '../../utils/action-handler.js'
+import { getMarketUID } from '../../models/market/index.js'
 import { insertMarketPrice } from '../../models/market-price/index.js'
-import {
-  currencyConfigList,
-  Currency,
-} from '../../models/market-price/currency-config.js'
+import { currencyConfigList, Currency } from './currency-config.js'
 import {
   marketPriceConfigList,
   MarketPriceInstance,
-} from '../../models/market-price/market-price-config.js'
+} from './market-price-config.js'
 
 type Input = Record<string, unknown>
 type Output = void
@@ -36,7 +34,7 @@ const fetchMarketPriceHandler: ActionHandlerFn<Input, Output> = async (
   const fetchCurrencyRate = async (
     currency: Currency,
   ): Promise<number | Error> => {
-    if (currency === Currency.NZD) {
+    if (currency === 'NZD') {
       return 1
     }
 
@@ -53,17 +51,31 @@ const fetchMarketPriceHandler: ActionHandlerFn<Input, Output> = async (
   }
 
   const marketPriceInstanceList: MarketPriceInstance[] =
-    marketPriceConfigList.map((marketPriceConfig) => {
-      const { createFetchPriceFn } = marketPriceConfig
-      return {
-        ...marketPriceConfig,
-        fetchPrice: createFetchPriceFn(config),
-      }
+    marketPriceConfigList.flatMap((marketPriceConfig) => {
+      const { market, createFetchPriceFn, currency, symbols } =
+        marketPriceConfig
+      return symbols.map((symbol) => ({
+        market,
+        currency,
+        symbol,
+        fetchPrice: createFetchPriceFn({
+          config,
+          symbol,
+          currency,
+        }),
+      }))
     })
 
   const initLoop = async (marketPriceInstance: MarketPriceInstance) => {
     const loop = async (): Promise<void> => {
-      const { market, fetchPrice, currency } = marketPriceInstance
+      const { market, fetchPrice, currency, symbol } = marketPriceInstance
+
+      const marketUID = await getMarketUID(pool, market)
+      if (marketUID instanceof Error) {
+        log(marketUID)
+        return
+      }
+
       const timestamp = new Date()
 
       const [price, fxRate] = await Promise.all([
@@ -80,9 +92,10 @@ const fetchMarketPriceHandler: ActionHandlerFn<Input, Output> = async (
 
         await insertMarketPrice(pool, {
           timestamp,
-          market,
+          marketUID,
           price,
           currency,
+          symbol,
           fxRate,
           priceNZD,
         })

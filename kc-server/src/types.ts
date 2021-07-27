@@ -1,4 +1,7 @@
 import type { Config } from '@stayradiated/kc-config'
 import type { Pool } from 'pg'
 
-export { Pool, Config }
+type Currency = 'USD' | 'NZD'
+type CryptoSymbol = 'BTC' | 'ETH'
+
+export { Pool, Config, Currency, CryptoSymbol }

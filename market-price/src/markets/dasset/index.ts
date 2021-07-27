@@ -1,4 +1,5 @@
-import ky from 'ky-universal'
+import
+ky from 'ky-universal'
 import debug from 'debug'
 import { DateTime, Duration } from 'luxon'
 import { errorBoundary } from '@stayradiated/error-boundary'
@@ -20,7 +21,8 @@ type DassetConfig = {
 
 type Options = {
   config: DassetConfig
-  symbol?: string
+  symbol: string
+  currency: string
 }
 
 type APIResponse = Array<{
@@ -33,18 +35,24 @@ type APIResponse = Array<{
 const marketSource: MarketPriceSource<Options> = {
   minCacheDuration: Duration.fromISOTime('00:00:05'),
   fetch: async (options) => {
-    const { config, symbol = 'BTC-NZD' } = options
+    const { config, symbol, currency } = options
     const { apiKey, accountId } = config
 
     if (symbol.toUpperCase() !== symbol) {
       return new Error(`Symbol must be uppercase, received "${symbol}".`)
     }
 
+    if (currency.toUpperCase() !== currency) {
+      return new Error(`Currency must be uppercase, received "${currency}".`)
+    }
+
+    const tradingPair = `${symbol}-${currency}`
+
     const lastUpdated = DateTime.local()
 
     const result = await errorBoundary<APIResponse>(async () =>
       dasset
-        .get(`markets/${symbol}/ticker`, {
+        .get(`markets/${tradingPair}/ticker`, {
           headers: {
             'x-api-key': apiKey,
             'x-account-id': accountId,

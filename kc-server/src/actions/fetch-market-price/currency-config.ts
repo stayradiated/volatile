@@ -3,12 +3,7 @@ import {
   currencySources,
 } from '@stayradiated/market-price'
 
-import type { Config } from '../../types.js'
-
-enum Currency {
-  USD = 'USD',
-  NZD = 'NZD',
-}
+import type { Config, Currency } from '../../types.js'
 
 type CurrencyConfig = {
   readonly currency: Currency
@@ -17,11 +12,11 @@ type CurrencyConfig = {
 
 const currencyConfigList: readonly CurrencyConfig[] = [
   {
-    currency: Currency.NZD,
+    currency: 'NZD',
     createFetchRateFn: () => async () => Promise.resolve(1),
   },
   {
-    currency: Currency.USD,
+    currency: 'USD',
     createFetchRateFn: (config: Config) =>
       createCachedFetchFn(currencySources.USD_NZD, {
         config: config.openExchangeRates,

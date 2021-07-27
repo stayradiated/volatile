@@ -14,7 +14,8 @@ const binance = ky.create({
 })
 
 type Options = {
-  symbol?: string
+  symbol: string
+  currency: string,
 }
 
 type APIResponse = {
@@ -25,11 +26,16 @@ type APIResponse = {
 const marketSource: MarketPriceSource<Options> = {
   minCacheDuration: Duration.fromISOTime('00:00:05'),
   fetch: async (options) => {
-    const { symbol = 'BTCUSD' } = options
+    const { symbol, currency } = options
 
     if (symbol.toUpperCase() !== symbol) {
       return new Error(`Symbol must be uppercase, received "${symbol}".`)
     }
+    if (currency.toUpperCase() !== currency) {
+      return new Error(`Currency must be uppercase, received "${currency}".`)
+    }
+
+    const tradingPair = symbol + currency
 
     const lastUpdated = DateTime.local()
 
@@ -37,7 +43,7 @@ const marketSource: MarketPriceSource<Options> = {
       binance
         .get('v3/avgPrice', {
           searchParams: {
-            symbol,
+            symbol: tradingPair
           },
         })
         .json(),
