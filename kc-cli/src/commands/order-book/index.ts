@@ -40,7 +40,7 @@ const toRow = (order: [string, string], worldPrice: number): Row => {
 
 export const handler = createHandler(async (config) => {
   const [binanceRate, usdRate, orderBook] = await Promise.all([
-    marketPriceSources.binance.fetch({}),
+    marketPriceSources.binance.fetch({ currency: 'USD', symbol: 'BTC' }),
     currencySources.USD_NZD.fetch({ config: config.openExchangeRates }),
     kiwiCoin.orderBook(),
   ])

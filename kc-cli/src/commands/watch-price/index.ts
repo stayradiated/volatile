@@ -14,24 +14,31 @@ export const desc = 'Continuously print the current price of BTC/NZD.'
 export const builder = {}
 
 export const handler = createHandler(async (config) => {
-  const fetchKiwiCoinPrice = createCachedFetchFn(
-    marketPriceSources.kiwiCoin,
-    {},
-  )
+  const fetchKiwiCoinPrice = createCachedFetchFn(marketPriceSources.kiwiCoin, {
+    currency: 'NZD',
+    symbol: 'BTC',
+  })
 
-  const fetchBinancePrice = createCachedFetchFn(marketPriceSources.binance, {})
+  const fetchBinancePrice = createCachedFetchFn(marketPriceSources.binance, {
+    currency: 'NZD',
+    symbol: 'BTC',
+  })
 
   const fetchEasyCryptoPrice = createCachedFetchFn(
     marketPriceSources.easyCrypto,
-    {},
+    { currency: 'NZD', symbol: 'BTC' },
   )
 
   const fetchUSDExchangeRate = createCachedFetchFn(currencySources.USD_NZD, {
     config: config.openExchangeRates,
+    currency: 'NZD',
+    symbol: 'BTC',
   })
 
   const fetchDassetPrice = createCachedFetchFn(marketPriceSources.dasset, {
     config: config.dasset,
+    currency: 'NZD',
+    symbol: 'BTC',
   })
 
   // CSV header
