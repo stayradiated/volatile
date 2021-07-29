@@ -1,16 +1,14 @@
-import * as kiwiCoin from '@stayradiated/kiwi-coin-api'
-import { DateTime } from 'luxon'
-
 import {
-  getExchangeUID,
+  getExchange,
+  EXCHANGE_DASSET,
   EXCHANGE_KIWI_COIN,
 } from '../../models/exchange/index.js'
 import { ActionHandlerFn } from '../../utils/action-handler.js'
-import { mustGetUserKiwiCoinExchangeKeys } from '../../models/user-exchange-keys/index.js'
-import { insertTrade } from '../../models/trade/insert-trade.js'
-import { selectOrderByID } from '../../models/order/index.js'
+
+import { syncKiwiCoinTradeList, syncDassetTradeList } from './exchange/index.js'
 
 type Input = {
+  exchange_uid: string
   user_exchange_keys_uid: string
 }
 
@@ -23,55 +21,26 @@ const syncExchangeTradeListHandler: ActionHandlerFn<Input, Output> = async (
 ) => {
   const { input, pool, session } = context
   const { userUID } = session
-  const { user_exchange_keys_uid: userExchangeKeysUID } = input
-
   if (!userUID) {
     return new Error('userUID is required')
   }
 
-  const exchangeUID = await getExchangeUID(pool, EXCHANGE_KIWI_COIN)
-  if (exchangeUID instanceof Error) {
-    return exchangeUID
-  }
+  const {
+    exchange_uid: exchangeUID,
+    user_exchange_keys_uid: userExchangeKeysUID,
+  } = input
+  const exchange = await getExchange(pool, exchangeUID)
 
-  const config = await mustGetUserKiwiCoinExchangeKeys(
-    pool,
-    userExchangeKeysUID,
-  )
-  if (config instanceof Error) {
-    return config
-  }
-
-  const allTrades = await kiwiCoin.trades(config, 'all')
-  if (allTrades instanceof Error) {
-    return allTrades
-  }
-
-  await Promise.all(
-    allTrades.map(async (trade) => {
-      const maybeOrder = await selectOrderByID(pool, {
-        userUID,
-        exchangeUID,
-        ID: String(trade.order_id),
-      })
-
-      const orderUID = maybeOrder instanceof Error ? undefined : maybeOrder.UID
-
-      await insertTrade(pool, {
-        userUID,
-        exchangeUID,
-        orderUID,
-        timestamp: DateTime.fromSeconds(trade.datetime),
-        ID: String(trade.transaction_id),
-        type: trade.trade_type,
-        amount: trade.income,
-        symbol: 'BTC',
-        priceNZD: trade.price,
-        totalNZD: trade.trade_size * trade.price,
-        feeNZD: trade.fee * trade.price,
-      })
-    }),
-  )
+  await (async () => {
+    switch (exchange) {
+      case EXCHANGE_KIWI_COIN:
+        return syncKiwiCoinTradeList(pool, { userUID, userExchangeKeysUID })
+      case EXCHANGE_DASSET:
+        return syncDassetTradeList(pool, { userUID, userExchangeKeysUID })
+      default:
+        return new Error('Not implemented')
+    }
+  })()
 
   return {
     user_uid: userUID,

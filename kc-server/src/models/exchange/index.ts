@@ -2,6 +2,8 @@ import { randomUUID } from 'crypto'
 import * as db from 'zapatos/db'
 import type * as s from 'zapatos/schema'
 
+import { explainError } from '../../utils/error.js'
+
 import type { Pool } from '../../types.js'
 
 type Exchange = {
@@ -49,13 +51,49 @@ const forceGetExchangeUID = async (
   return row.uid
 }
 
-const localCache = new Map<Exchange, string>()
+const forceGetExchange = async (
+  pool: Pool,
+  exchangeUID: string,
+): Promise<Exchange | Error> => {
+  const row = await db
+    .selectExactlyOne(
+      'exchange',
+      {
+        uid: exchangeUID,
+      },
+      {
+        columns: ['id'],
+      },
+    )
+    .run(pool)
+  if (row instanceof Error) {
+    return explainError(
+      'forceGetExchange: Could not find exchange.',
+      { exchangeUID },
+      row,
+    )
+  }
+
+  switch (row.id) {
+    case EXCHANGE_KIWI_COIN.ID:
+      return EXCHANGE_KIWI_COIN
+    case EXCHANGE_DASSET.ID:
+      return EXCHANGE_DASSET
+    default:
+      return explainError('forceGetExchange: Could not identify exchange.', {
+        exchangeID: row.id,
+      })
+  }
+}
+
+const globalUIDCache = new Map<Exchange, string>()
+
 const getExchangeUID = async (
   pool: Pool,
   exchange: Exchange,
 ): Promise<string | Error> => {
-  if (localCache.has(exchange)) {
-    return localCache.get(exchange)!
+  if (globalUIDCache.has(exchange)) {
+    return globalUIDCache.get(exchange)!
   }
 
   const exchangeUID = await forceGetExchangeUID(pool, exchange)
@@ -63,8 +101,27 @@ const getExchangeUID = async (
     return exchangeUID
   }
 
-  localCache.set(exchange, exchangeUID)
+  globalUIDCache.set(exchange, exchangeUID)
   return exchangeUID
+}
+
+const getExchange = async (
+  pool: Pool,
+  exchangeUID: string,
+): Promise<Exchange | Error> => {
+  for (const entry of globalUIDCache.entries()) {
+    if (entry[1] === exchangeUID) {
+      return entry[0]
+    }
+  }
+
+  const exchange = await forceGetExchange(pool, exchangeUID)
+  if (exchange instanceof Error) {
+    return exchange
+  }
+
+  globalUIDCache.set(exchange, exchangeUID)
+  return exchange
 }
 
 export {
@@ -72,5 +129,7 @@ export {
   EXCHANGE_KIWI_COIN,
   EXCHANGE_DASSET,
   forceGetExchangeUID,
+  forceGetExchange,
   getExchangeUID,
+  getExchange,
 }
