@@ -34,10 +34,17 @@ const mustGetUserKiwiCoinExchangeKeys = async (
 ): Promise<kiwiCoin.Config | Error> => {
   const keys = await getUserExchangeKeys(pool, userExchangeKeysUID)
   if (keys instanceof Error) {
-    return keys
+    return explainError(
+      'userExchangeKeysUID not found',
+      {
+        userExchangeKeysUID,
+      },
+      keys,
+    )
   }
 
   const config = keys.keys
+  console.log(config)
 
   if (!kiwiCoin.isValidConfig(config)) {
     return explainError(

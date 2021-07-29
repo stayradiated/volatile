@@ -17,10 +17,16 @@ actions:
     handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/create_user'
   permissions:
   - role: guest
-- name: set_user_exchange_keys
+- name: create_user_exchange_keys
   definition:
     kind: synchronous
-    handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/set_user_exchange_keys'
+    handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/create_user_exchange_keys'
+  permissions:
+  - role: user
+- name: sync_exchange_trade_list
+  definition:
+    kind: synchronous
+    handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/sync_exchange_trade_list'
   permissions:
   - role: user
 - name: validate_user_exchange_keys
@@ -77,4 +83,25 @@ custom_types:
       field_mapping:
         user_exchange_keys_uid: uid
   - name: CreateDCAOrderResult
+  - name: SyncTradeListOutput
+    relationships:
+    - remote_table:
+        schema: kc
+        name: user
+      name: user
+      source: default
+      type: object
+      field_mapping:
+        user_uid: uid
+  - name: SyncExchangeTradeListOutput
+    relationships:
+    - remote_table:
+        schema: kc
+        name: user
+      name: user
+      source: default
+      type: object
+      field_mapping:
+        user_uid: uid
+  - name: CreateUserExchangeKeysOutput
   scalars: []

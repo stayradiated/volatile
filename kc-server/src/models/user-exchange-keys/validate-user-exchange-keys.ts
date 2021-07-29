@@ -69,7 +69,7 @@ const validateUserExchangeKeys = async (
   const kiwiCoinExchangeUID = await getExchangeUID(pool, EXCHANGE_KIWI_COIN)
   const dassetExchangeUID = await getExchangeUID(pool, EXCHANGE_DASSET)
 
-  const result = (async (): Promise<true | Error> => {
+  const result = await (async (): Promise<true | Error> => {
     switch (userExchangeKeys.exchangeUID) {
       case kiwiCoinExchangeUID: {
         return validateKiwiCoinKeys(userExchangeKeys.keys)
@@ -84,7 +84,6 @@ const validateUserExchangeKeys = async (
       }
     }
   })()
-
   if (result instanceof Error) {
     return {
       isValid: false,

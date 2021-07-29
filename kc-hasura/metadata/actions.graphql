@@ -27,11 +27,17 @@ type Mutation {
 }
 
 type Mutation {
-  set_user_exchange_keys (
+  create_user_exchange_keys (
     exchange_uid: uuid!
     keys: jsonb!
     description: String!
-  ): SetUserExchangeKeysOutput
+  ): CreateUserExchangeKeysOutput
+}
+
+type Mutation {
+  sync_exchange_trade_list (
+    user_exchange_keys_uid: uuid!
+  ): SyncExchangeTradeListOutput
 }
 
 type Mutation {
@@ -74,5 +80,17 @@ type ValidateUserExchangeKeysOutput {
 
 type CreateDCAOrderResult {
   dca_order_uid : uuid!
+}
+
+type SyncTradeListOutput {
+  user_uid : uuid!
+}
+
+type SyncExchangeTradeListOutput {
+  user_uid : uuid!
+}
+
+type CreateUserExchangeKeysOutput {
+  user_exchange_keys_uid : uuid!
 }
 

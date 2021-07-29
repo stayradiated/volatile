@@ -80,7 +80,7 @@ const wrapActionHandler =
   async (request, reply) => {
     if (typeof request.body !== 'object' || request.body === null) {
       await reply.code(401).send({
-        error: `Invalid request body`,
+        message: `Invalid request body`,
       })
     }
 
@@ -88,14 +88,14 @@ const wrapActionHandler =
     const session = parseSessionVariables(sessionVariables)
     if (session instanceof Error) {
       await reply.code(401).send({
-        error: `Invalid session_variables. ${session.message}`,
+        message: `Invalid session_variables. ${session.message}`,
       })
       return
     }
 
     if (action.name !== actionName) {
       await reply.code(404).send({
-        error: `Action name mismatch, expecting '${actionName}', received: '${action.name}'`,
+        message: `Action name mismatch, expecting '${actionName}', received: '${action.name}'`,
       })
       return
     }
@@ -103,7 +103,8 @@ const wrapActionHandler =
     const context = { pool, input, session, config }
     const output = await fn(context)
     if (output instanceof Error) {
-      await reply.code(500).send({ error: output.message })
+      await reply.code(400).send({ message: output.message })
+      return
     }
 
     await reply.send(output)

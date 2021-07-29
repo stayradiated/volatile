@@ -144,6 +144,28 @@ CREATE TABLE kc.schema_migrations (
 
 
 --
+-- Name: trade; Type: TABLE; Schema: kc; Owner: -
+--
+
+CREATE TABLE kc.trade (
+    uid uuid NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL,
+    "timestamp" timestamp with time zone NOT NULL,
+    user_uid uuid NOT NULL,
+    exchange_uid uuid NOT NULL,
+    order_uid uuid,
+    id character varying NOT NULL,
+    type smallint NOT NULL,
+    symbol character varying NOT NULL,
+    amount numeric(16,8) NOT NULL,
+    price_nzd numeric(12,2) NOT NULL,
+    total_nzd numeric(12,2) NOT NULL,
+    fee_nzd numeric(12,4) NOT NULL
+);
+
+
+--
 -- Name: user; Type: TABLE; Schema: kc; Owner: -
 --
 
@@ -241,6 +263,14 @@ ALTER TABLE ONLY kc.schema_migrations
 
 
 --
+-- Name: trade trade_pkey; Type: CONSTRAINT; Schema: kc; Owner: -
+--
+
+ALTER TABLE ONLY kc.trade
+    ADD CONSTRAINT trade_pkey PRIMARY KEY (uid);
+
+
+--
 -- Name: customer unique_customer_id; Type: CONSTRAINT; Schema: kc; Owner: -
 --
 
@@ -278,6 +308,14 @@ ALTER TABLE ONLY kc."order"
 
 ALTER TABLE ONLY kc.market
     ADD CONSTRAINT unique_market_id UNIQUE (id);
+
+
+--
+-- Name: trade unique_trade_exchange_order_id; Type: CONSTRAINT; Schema: kc; Owner: -
+--
+
+ALTER TABLE ONLY kc.trade
+    ADD CONSTRAINT unique_trade_exchange_order_id UNIQUE (exchange_uid, id);
 
 
 --
@@ -385,6 +423,30 @@ ALTER TABLE ONLY kc.market_price
 
 
 --
+-- Name: trade fk_trade_exchange; Type: FK CONSTRAINT; Schema: kc; Owner: -
+--
+
+ALTER TABLE ONLY kc.trade
+    ADD CONSTRAINT fk_trade_exchange FOREIGN KEY (exchange_uid) REFERENCES kc.exchange(uid) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: trade fk_trade_order; Type: FK CONSTRAINT; Schema: kc; Owner: -
+--
+
+ALTER TABLE ONLY kc.trade
+    ADD CONSTRAINT fk_trade_order FOREIGN KEY (order_uid) REFERENCES kc."order"(uid) ON UPDATE CASCADE ON DELETE SET NULL;
+
+
+--
+-- Name: trade fk_trade_user; Type: FK CONSTRAINT; Schema: kc; Owner: -
+--
+
+ALTER TABLE ONLY kc.trade
+    ADD CONSTRAINT fk_trade_user FOREIGN KEY (user_uid) REFERENCES kc."user"(uid) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
 -- Name: user_exchange_keys fk_user_exchange_keys_exchange; Type: FK CONSTRAINT; Schema: kc; Owner: -
 --
 
@@ -411,9 +473,11 @@ ALTER TABLE ONLY kc.user_exchange_keys
 
 INSERT INTO kc.schema_migrations (version) VALUES
     ('20210614092417'),
+    ('20210720084814'),
     ('20210721191422'),
     ('20210722105131'),
     ('20210725002018'),
     ('20210725035023'),
     ('20210726092656'),
-    ('20210727082212');
+    ('20210727082212'),
+    ('20210729091009');

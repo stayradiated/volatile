@@ -35,7 +35,10 @@ const fetchKiwiCoinTrades = async (
     return trades
   }
 
-  return trades.map((trade) => toRowData(trade))
+  return trades.map((trade) => {
+    console.log(trade)
+    return toRowData(trade)
+  })
 }
 
 export { fetchKiwiCoinTrades }

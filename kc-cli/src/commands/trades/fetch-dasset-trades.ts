@@ -35,7 +35,10 @@ const fetchDassetTrades = async (
 
   return orders.results
     .filter((order) => order.status === dasset.OrderStatus.COMPLETED)
-    .map((trade) => toRowData(trade))
+    .map((trade) => {
+      console.log(trade)
+      return toRowData(trade)
+    })
 }
 
 export { fetchDassetTrades }

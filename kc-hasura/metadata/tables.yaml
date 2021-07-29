@@ -115,6 +115,13 @@
         table:
           schema: kc
           name: order
+  - name: trades
+    using:
+      foreign_key_constraint_on:
+        column: exchange_uid
+        table:
+          schema: kc
+          name: trade
   - name: user_exchange_keys
     using:
       foreign_key_constraint_on:
@@ -212,6 +219,40 @@
           _eq: X-Hasura-User-Id
 - table:
     schema: kc
+    name: trade
+  object_relationships:
+  - name: exchange
+    using:
+      foreign_key_constraint_on: exchange_uid
+  - name: order
+    using:
+      foreign_key_constraint_on: order_uid
+  - name: user
+    using:
+      foreign_key_constraint_on: user_uid
+  select_permissions:
+  - role: user
+    permission:
+      columns:
+      - uid
+      - created_at
+      - updated_at
+      - timestamp
+      - user_uid
+      - exchange_uid
+      - order_uid
+      - id
+      - type
+      - symbol
+      - amount
+      - price_nzd
+      - total_nzd
+      - fee_nzd
+      filter:
+        user_uid:
+          _eq: X-Hasura-User-Id
+- table:
+    schema: kc
     name: user
   array_relationships:
   - name: dca_order_histories
@@ -235,6 +276,13 @@
         table:
           schema: kc
           name: order
+  - name: trades
+    using:
+      foreign_key_constraint_on:
+        column: user_uid
+        table:
+          schema: kc
+          name: trade
   - name: user_exchange_keys
     using:
       foreign_key_constraint_on:

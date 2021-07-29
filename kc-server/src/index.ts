@@ -28,6 +28,7 @@ addRoute('create_user', actions.createUserHandler)
 // AddRoute('fetch_market_price', actions.fetchMarketPriceHandler)
 addRoute('create_user_exchange_keys', actions.createUserExchangeKeysHandler)
 addRoute('validate_user_exchange_keys', actions.validateUserExchangeKeysHandler)
+addRoute('sync_exchange_trade_list', actions.syncExchangeTradeListHandler)
 
 void fastify.listen(PORT, '0.0.0.0')
 
@@ -47,9 +48,10 @@ void (async function () {
     },
   }
 
-  await Promise.all([
-    actions.fetchMarketPriceHandler(context),
-    actions.autoBuyKiwiCoinHandler(context),
-    actions.autoBuyDassetHandler(context),
-  ])
+  console.log(context)
+  // Await Promise.all([
+  //   actions.fetchMarketPriceHandler(context),
+  //   actions.autoBuyKiwiCoinHandler(context),
+  //   actions.autoBuyDassetHandler(context),
+  // ])
 })()

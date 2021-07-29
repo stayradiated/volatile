@@ -1,8 +1,9 @@
 import * as db from 'zapatos/db'
 import { errorBoundary } from '@stayradiated/error-boundary'
-import { DateTime } from 'luxon'
 
 import type { Pool } from '../../types.js'
+import { mapRowToOrder } from './map-row-to-order.js'
+
 import type { Order } from './types.js'
 
 type SelectOpenOrdersForDCAOptions = {
@@ -38,18 +39,8 @@ const selectOpenOrdersForDCA = async (
 
   const orders = rows
     .flatMap((row) => row.orders)
-    .map((order) => ({
-      UID: order.uid,
-      userUID: order.user_uid,
-      exchangeUID: order.exchange_uid,
-      ID: order.id,
-      symbol: order.symbol,
-      priceNZD: order.price_nzd,
-      amount: order.amount,
-      type: order.type,
-      openedAt: DateTime.fromISO(order.opened_at),
-      closedAt: order.closed_at ? DateTime.fromISO(order.closed_at) : undefined,
-    }))
+    .map((row) => mapRowToOrder(row))
+
   return orders
 }
 
