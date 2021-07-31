@@ -53,7 +53,7 @@ const executeDCAOrder = async (
   }
 
   const goalAmountNZD = await calculateOrderAmountNZD({
-    config,
+    pool,
     dcaOrder,
   })
   if (goalAmountNZD instanceof Error) {
@@ -110,7 +110,7 @@ const executeDCAOrder = async (
     const order = await insertOrder(pool, {
       userUID: dcaOrder.userUID,
       exchangeUID: dcaOrder.exchangeUID,
-      ID: freshOrder.order.orderId,
+      orderID: freshOrder.order.orderId,
       symbol: 'BTC',
       type: OrderType.BUY,
       priceNZD: orderPriceNZD,
@@ -139,7 +139,7 @@ const executeDCAOrder = async (
     console.log({
       dcaOrderHistoryUID: dcaOrderHistory.UID,
       orderUID: order.UID,
-      orderID: order.ID,
+      orderID: order.orderID,
       marketPriceNZD,
       marketOffset: dcaOrderHistory.marketOffset,
       priceNZD: order.priceNZD,

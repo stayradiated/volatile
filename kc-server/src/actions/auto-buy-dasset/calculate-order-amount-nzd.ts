@@ -1,38 +1,36 @@
-import * as dasset from '@stayradiated/dasset-api'
 import { DateTime } from 'luxon'
 
 import { explainError } from '../../utils/error.js'
+import { selectTradesAfterDate } from '../../models/trade/index.js'
 
 import type { DCAOrder } from '../../models/dca-order/index.js'
+import type { Pool } from '../../types.js'
 
 type CalculateOrderAmountNZDOptions = {
-  config: dasset.Config
+  pool: Pool
   dcaOrder: DCAOrder
 }
 
 const calculateOrderAmountNZD = async (
   options: CalculateOrderAmountNZDOptions,
 ): Promise<number | Error> => {
-  const { config, dcaOrder } = options
-  const { startAt, dailyAverage } = dcaOrder
+  const { pool, dcaOrder } = options
+  const { userUID, exchangeUID, startAt, dailyAverage } = dcaOrder
 
-  const allClosedOrders = await dasset.paginate(config, dasset.closedOrders)
-  if (allClosedOrders instanceof Error) {
-    return allClosedOrders
-  }
-
-  const trades = allClosedOrders.results.filter((order) => {
-    if (order.status !== dasset.OrderStatus.COMPLETED) {
-      return false
-    }
-
-    const tradeDate = DateTime.fromISO(order.timestamp)
-    return tradeDate >= startAt
+  const trades = await selectTradesAfterDate(pool, {
+    userUID,
+    exchangeUID,
+    symbol: 'BTC',
+    type: 0,
+    afterDate: startAt,
   })
+  if (trades instanceof Error) {
+    return trades
+  }
 
   // eslint-disable-next-line unicorn/no-array-reduce
   const sum = trades.reduce((sum, trade) => {
-    const nzd = trade.details.total
+    const nzd = trade.totalNZD
     return sum + nzd
   }, 0)
 

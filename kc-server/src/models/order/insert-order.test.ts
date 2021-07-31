@@ -15,7 +15,7 @@ test('insertOrder', async (t) => {
   const input = {
     userUID,
     exchangeUID,
-    ID: 'insert-order',
+    orderID: 'insert-order',
     symbol: 'BTC',
     priceNZD: 50_000,
     amount: 2,
@@ -35,7 +35,7 @@ test('insertOrder', async (t) => {
 
   const row = await db.selectExactlyOne('order', { uid: result.UID }).run(pool)
   t.like(row, {
-    id: input.ID,
+    id: input.orderID,
     uid: result.UID,
     type: input.type,
     price_nzd: input.priceNZD,

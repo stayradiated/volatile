@@ -14,7 +14,7 @@ const closeOrders = async (
   const error = await errorListBoundary(async () =>
     Promise.all(
       openOrders.map(async (order): Promise<void | Error> => {
-        const error = await dasset.cancelOrder(config, order.ID)
+        const error = await dasset.cancelOrder(config, order.orderID)
         if (
           error instanceof dasset.APIError &&
           error.response.code === dasset.APIErrorCode.PreconditionFailed
@@ -23,7 +23,7 @@ const closeOrders = async (
         } else if (error instanceof Error) {
           return explainError(
             'Failed to cancel order',
-            { orderID: order.ID },
+            { orderID: order.orderID },
             error,
           )
         }

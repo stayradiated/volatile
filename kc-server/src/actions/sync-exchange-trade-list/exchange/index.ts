@@ -1,2 +1,2 @@
-export * from './kiwi-coin'
-export * from './dasset'
+export * from './kiwi-coin.js'
+export * from './dasset.js'

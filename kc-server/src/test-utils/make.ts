@@ -119,7 +119,7 @@ const makeOrder: MakeFn = (make) =>
       exchangeUID,
       symbol: 'BTC',
       priceNZD: round(2, Math.random() * 100_000),
-      ID: randomUUID(),
+      orderID: randomUUID(),
       amount: round(6, Math.random()),
       type: OrderType.BUY,
       openedAt: DateTime.local(),

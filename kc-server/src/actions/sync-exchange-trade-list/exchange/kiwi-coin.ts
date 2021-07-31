@@ -42,7 +42,7 @@ const syncKiwiCoinTradeList = async (pool: Pool, options: Options) => {
       const maybeOrder = await selectOrderByID(pool, {
         userUID,
         exchangeUID,
-        ID: String(trade.order_id),
+        orderID: String(trade.order_id),
       })
 
       const orderUID = maybeOrder instanceof Error ? undefined : maybeOrder.UID

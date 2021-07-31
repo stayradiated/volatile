@@ -29,9 +29,13 @@ const syncExchangeTradeListHandler: ActionHandlerFn<Input, Output> = async (
     exchange_uid: exchangeUID,
     user_exchange_keys_uid: userExchangeKeysUID,
   } = input
-  const exchange = await getExchange(pool, exchangeUID)
 
-  await (async () => {
+  const exchange = await getExchange(pool, exchangeUID)
+  if (exchange instanceof Error) {
+    return exchange
+  }
+
+  const error = await (async () => {
     switch (exchange) {
       case EXCHANGE_KIWI_COIN:
         return syncKiwiCoinTradeList(pool, { userUID, userExchangeKeysUID })
@@ -41,6 +45,10 @@ const syncExchangeTradeListHandler: ActionHandlerFn<Input, Output> = async (
         return new Error('Not implemented')
     }
   })()
+
+  if (error instanceof Error) {
+    return error
+  }
 
   return {
     user_uid: userUID,

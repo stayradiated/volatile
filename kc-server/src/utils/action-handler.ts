@@ -1,3 +1,4 @@
+import { inspect } from 'util'
 import type { FastifyInstance, RouteHandlerMethod } from 'fastify'
 import type {
   RawServerDefault,
@@ -100,14 +101,18 @@ const wrapActionHandler =
       return
     }
 
-    const context = { pool, input, session, config }
-    const output = await fn(context)
-    if (output instanceof Error) {
-      await reply.code(400).send({ message: output.message })
-      return
-    }
+    try {
+      const context = { pool, input, session, config }
+      const output = await fn(context)
+      if (output instanceof Error) {
+        await reply.code(400).send({ message: output.message })
+        return
+      }
 
-    await reply.send(output)
+      await reply.send(output)
+    } catch (error: unknown) {
+      await reply.code(500).send({ message: inspect(error) })
+    }
   }
 
 const bindActionHandler =

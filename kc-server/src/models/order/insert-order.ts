@@ -21,7 +21,7 @@ const insertOrder = async (
     updated_at: now,
     user_uid: options.userUID,
     exchange_uid: options.exchangeUID,
-    id: options.ID,
+    id: options.orderID,
     symbol: options.symbol,
     price_nzd: options.priceNZD,
     amount: options.amount,

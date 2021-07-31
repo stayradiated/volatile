@@ -110,14 +110,14 @@ const executeDCAOrder = async (
     const amountBTC = round(8, amountNZD / orderPriceNZD)
     await Promise.all(
       previousOrders.map(async (previousOrder) => {
-        const previousOrderID = Number.parseInt(previousOrder.ID, 10)
+        const previousOrderID = Number.parseInt(previousOrder.orderID, 10)
 
         const error = await kiwiCoin.cancelOrder(config, previousOrderID)
         if (error instanceof Error) {
           console.error(
             explainError(
               'Failed to cancel order',
-              { orderID: previousOrder.ID },
+              { orderID: previousOrder.orderID },
               error,
             ),
           )
@@ -141,7 +141,7 @@ const executeDCAOrder = async (
     const order = await insertOrder(pool, {
       userUID: dcaOrder.userUID,
       exchangeUID: dcaOrder.exchangeUID,
-      ID: String(freshOrder.id),
+      orderID: String(freshOrder.id),
       symbol: 'BTC',
       type: OrderType.BUY,
       priceNZD: orderPriceNZD,
@@ -170,7 +170,7 @@ const executeDCAOrder = async (
     console.log({
       dcaOrderHistoryUID: dcaOrderHistory.UID,
       orderUID: order.UID,
-      orderID: order.ID,
+      orderID: order.orderID,
       marketPriceNZD,
       marketOffset: dcaOrderHistory.marketOffset,
       priceNZD: order.priceNZD,

@@ -9,20 +9,20 @@ import type { Order } from './types.js'
 type SelectOrderByIDOptions = {
   userUID: string
   exchangeUID: string
-  ID: string
+  orderID: string
 }
 
 const selectOrderByID = async (
   pool: Pool,
   options: SelectOrderByIDOptions,
 ): Promise<Order | Error> => {
-  const { userUID, exchangeUID, ID } = options
+  const { userUID, exchangeUID, orderID } = options
   const row = await errorBoundary(async () =>
     db
       .selectExactlyOne('order', {
         user_uid: userUID,
         exchange_uid: exchangeUID,
-        id: ID,
+        id: orderID,
       })
       .run(pool),
   )

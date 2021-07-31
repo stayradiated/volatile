@@ -9,7 +9,7 @@ type Order = {
   UID: string
   userUID: string
   exchangeUID: string
-  ID: string
+  orderID: string
   symbol: string
   priceNZD: number
   amount: number

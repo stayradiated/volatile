@@ -3,36 +3,15 @@ import debug from 'debug'
 import { errorBoundary } from '@stayradiated/error-boundary'
 import { HTTPError } from 'ky'
 
+import { APIError } from './api-error.js'
+import type {
+  Config,
+  PaginationOptions,
+  PaginatedList,
+  APIErrorResponse,
+} from './types.js'
+
 const log = debug('dasset-api')
-
-enum APIErrorCode {
-  ResourceNotFound = 4043,
-  PreconditionFailed = 4092,
-}
-
-type APIErrorResponse = {
-  status: number
-  type: string
-  code: APIErrorCode
-  message: string
-}
-
-// eslint-disable-next-line fp/no-class
-class APIError extends Error {
-  response: APIErrorResponse
-  constructor(url: string, response: APIErrorResponse) {
-    const message = `${url} ${JSON.stringify(response)}`
-    super(message)
-
-    // eslint-disable-next-line fp/no-this
-    this.response = response
-  }
-}
-
-export type Config = {
-  apiKey: string
-  accountId: string
-}
 
 const isValidConfig = (config: Record<string, string>): config is Config =>
   typeof config === 'object' &&
@@ -109,52 +88,6 @@ const balanceSingle = async (
   }
 
   return result[0] as BalanceResult
-}
-
-export type PaginationOptions = {
-  limit?: number
-  page?: number
-}
-
-export type PaginatedList<T> = {
-  total: number
-  results: T[]
-}
-
-type PaginatedFetchFn<T> = (
-  config: Config,
-  options: PaginationOptions,
-) => Promise<PaginatedList<T> | Error>
-
-const paginate = async <T>(
-  config: Config,
-  fetchFn: PaginatedFetchFn<T>,
-): Promise<PaginatedList<T> | Error> => {
-  const allResults: T[] = []
-
-  // eslint-disable-next-line fp/no-let
-  let page = 1
-  while (true) {
-    // eslint-disable-next-line no-await-in-loop
-    const response = await fetchFn(config, { limit: 100, page })
-
-    if (response instanceof Error) {
-      return response
-    }
-
-    const { total, results } = response
-
-    // eslint-disable-next-line fp/no-mutating-methods
-    allResults.push(...results)
-    if (allResults.length >= total) {
-      return {
-        total,
-        results: allResults,
-      }
-    }
-
-    page += 1
-  }
 }
 
 export enum OrderType {
@@ -289,9 +222,11 @@ const cancelOrder = async (
   return result[0]!
 }
 
+export * from './pagination.js'
+export * from './types.js'
+export * from './api-error.js'
+
 export {
-  APIErrorCode,
-  APIError,
   isValidConfig,
   balanceSingle,
   balanceAll,
@@ -299,5 +234,4 @@ export {
   closedOrders,
   createOrder,
   cancelOrder,
-  paginate,
 }

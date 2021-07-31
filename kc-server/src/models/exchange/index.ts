@@ -1,5 +1,6 @@
 import { randomUUID } from 'crypto'
 import * as db from 'zapatos/db'
+import { errorBoundary } from '@stayradiated/error-boundary'
 import type * as s from 'zapatos/schema'
 
 import { explainError } from '../../utils/error.js'
@@ -33,7 +34,8 @@ const forceGetExchangeUID = async (
     name: exchange.name,
   }
 
-  const rows = await db.sql<s.exchange.SQL, s.exchange.Selectable[]>`
+  const rows = await errorBoundary(async () =>
+    db.sql<s.exchange.SQL, s.exchange.Selectable[]>`
     INSERT INTO ${'exchange'} (${db.cols(insert)})
     VALUES (${db.vals(insert)})
     ON CONFLICT ON CONSTRAINT unique_exchange_id 
@@ -41,7 +43,11 @@ const forceGetExchangeUID = async (
         name = EXCLUDED.name,
         updated_at = EXCLUDED.updated_at
     RETURNING uid
-  `.run(pool)
+  `.run(pool),
+  )
+  if (rows instanceof Error) {
+    return rows
+  }
 
   const row = rows[0]
   if (!row) {
@@ -55,17 +61,19 @@ const forceGetExchange = async (
   pool: Pool,
   exchangeUID: string,
 ): Promise<Exchange | Error> => {
-  const row = await db
-    .selectExactlyOne(
-      'exchange',
-      {
-        uid: exchangeUID,
-      },
-      {
-        columns: ['id'],
-      },
-    )
-    .run(pool)
+  const row = await errorBoundary(async () =>
+    db
+      .selectExactlyOne(
+        'exchange',
+        {
+          uid: exchangeUID,
+        },
+        {
+          columns: ['id'],
+        },
+      )
+      .run(pool),
+  )
   if (row instanceof Error) {
     return explainError(
       'forceGetExchange: Could not find exchange.',
