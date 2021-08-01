@@ -1,5 +1,4 @@
-import
-ky from 'ky-universal'
+import ky from 'ky-universal'
 import debug from 'debug'
 import { DateTime, Duration } from 'luxon'
 import { errorBoundary } from '@stayradiated/error-boundary'

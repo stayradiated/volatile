@@ -37,7 +37,7 @@ const selectTradesAfterDate = async (
     return rows
   }
 
-  return rows.map(mapRowToTrade)
+  return rows.map((row) => mapRowToTrade(row))
 }
 
 export { selectTradesAfterDate }

@@ -11,8 +11,8 @@ const CONFIG: Config = {
 
 const mockPaginate = <T>(list: T[]): PaginatedFetchFn<T> => {
   const total = list.length
-  const fn: PaginatedFetchFn<T>  = async (_config, options) => {
-    const { limit = 25, page = 1} = options
+  const fn: PaginatedFetchFn<T> = async (_config, options) => {
+    const { limit = 25, page = 1 } = options
     const start = (page - 1) * limit
     const end = page * limit
     const results = list.slice(start, end)
@@ -21,6 +21,7 @@ const mockPaginate = <T>(list: T[]): PaginatedFetchFn<T> => {
       results,
     }
   }
+
   return fn
 }
 

@@ -1,4 +1,5 @@
 import { DateTime } from 'luxon'
+import { errorListBoundary } from '@stayradiated/error-boundary'
 import * as dasset from '@stayradiated/dasset-api'
 
 import { mustGetUserDassetExchangeKeys } from '../../../models/user-exchange-keys/index.js'
@@ -17,7 +18,7 @@ import type { CryptoSymbol, Pool } from '../../../types.js'
 
 const LIMIT = 25
 
-type FetchNextPageOptions = {
+type FetchPageLoopOptions = {
   page: number
   pool: Pool
   config: dasset.Config
@@ -26,7 +27,7 @@ type FetchNextPageOptions = {
 }
 
 const fetchPageLoop = async (
-  options: FetchNextPageOptions,
+  options: FetchPageLoopOptions,
 ): Promise<void | Error> => {
   const { page, pool, config, userUID, exchangeUID } = options
 
@@ -38,68 +39,77 @@ const fetchPageLoop = async (
   const totalOrderCount = orders.results.length
 
   console.log(`Fetched ${totalOrderCount}/${orders.total} results`)
-  let matchedCount = 0
 
-  for (const order of orders.results) {
-    const hasOrder = await hasOrderByID(pool, {
-      userUID,
-      exchangeUID,
-      orderID: order.id,
-    })
+  const matchedList = await errorListBoundary(async () =>
+    Promise.all(
+      orders.results.map(async (order): Promise<boolean | Error> => {
+        const hasOrder = await hasOrderByID(pool, {
+          userUID,
+          exchangeUID,
+          orderID: order.id,
+        })
 
-    if (hasOrder) {
-      matchedCount += 1
-    }
+        if (!hasOrder) {
+          const error = await insertOrder(pool, {
+            userUID,
+            exchangeUID,
+            orderID: order.id,
+            symbol: order.baseSymbol,
+            priceNZD: order.details.price,
+            amount: order.baseAmount,
+            type: order.type === dasset.OrderType.BUY ? 0 : 1,
+            openedAt: DateTime.fromISO(order.timestamp),
+            closedAt: order.isOpen ? undefined : DateTime.local(),
+          })
+          if (error instanceof Error) {
+            return error
+          }
+        }
 
-    if (!hasOrder) {
-      const error = await insertOrder(pool, {
-        userUID,
-        exchangeUID,
-        orderID: order.id,
-        symbol: order.baseSymbol,
-        priceNZD: order.details.price,
-        amount: order.baseAmount,
-        type: order.type === dasset.OrderType.BUY ? 0 : 1,
-        openedAt: DateTime.fromISO(order.timestamp),
-        closedAt: order.isOpen ? undefined : DateTime.local(),
-      })
-      if (error instanceof Error) {
-        return error
-      }
-    }
+        if (order.status === dasset.OrderStatus.COMPLETED) {
+          const maybeOrder = await selectOrderByID(pool, {
+            userUID,
+            exchangeUID,
+            orderID: order.id,
+          })
 
-    if (order.status === dasset.OrderStatus.COMPLETED) {
-      const maybeOrder = await selectOrderByID(pool, {
-        userUID,
-        exchangeUID,
-        orderID: order.id,
-      })
+          const orderUID =
+            maybeOrder instanceof Error ? undefined : maybeOrder.UID
 
-      const orderUID = maybeOrder instanceof Error ? undefined : maybeOrder.UID
+          await insertTrade(pool, {
+            userUID,
+            exchangeUID,
+            orderUID,
+            timestamp: DateTime.fromISO(order.timestamp),
+            ID: order.id,
+            type: order.type === dasset.OrderType.BUY ? 0 : 1,
+            amount: order.details.filled,
+            symbol: order.baseSymbol as CryptoSymbol,
+            priceNZD: order.details.price,
+            totalNZD: order.details.total,
+            feeNZD: order.details.nzdFee,
+          })
+        }
 
-      await insertTrade(pool, {
-        userUID,
-        exchangeUID,
-        orderUID,
-        timestamp: DateTime.fromISO(order.timestamp),
-        ID: order.id,
-        type: order.type === dasset.OrderType.BUY ? 0 : 1,
-        amount: order.details.filled,
-        symbol: order.baseSymbol as CryptoSymbol,
-        priceNZD: order.details.price,
-        totalNZD: order.details.total,
-        feeNZD: order.details.nzdFee,
-      })
-    }
+        return hasOrder
+      }),
+    ),
+  )
+  if (matchedList instanceof Error) {
+    return matchedList
   }
 
+  const matchedCount = matchedList.filter(Boolean).length
   console.log(`Matched ${matchedCount}/${orders.results.length} orders`)
   if (matchedCount === orders.results.length) {
     return
   }
 
   if (orders.hasNext) {
-    return fetchPageLoop(options)
+    return fetchPageLoop({
+      ...options,
+      page: page + 1,
+    })
   }
 }
 
