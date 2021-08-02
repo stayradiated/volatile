@@ -2,17 +2,17 @@ import createFastify from 'fastify'
 
 import { PORT } from './env.js'
 import { pool } from './pool.js'
-import { config } from './utils/config.js'
+import { config } from './util/config.js'
 
-import { getExchangeUID, EXCHANGE_KIWI_COIN } from './models/exchange/index.js'
+import { getExchangeUID, EXCHANGE_KIWI_COIN } from './model/exchange/index.js'
 import {
   getMarketUID,
   MARKET_KIWI_COIN,
   MARKET_BINANCE_US,
-} from './models/market/index.js'
+} from './model/market/index.js'
 
-import * as actions from './actions/index.js'
-import { bindActionHandler, SessionRole } from './utils/action-handler.js'
+import * as actions from './action/index.js'
+import { bindActionHandler, SessionRole } from './util/action-handler.js'
 
 const fastify = createFastify({
   logger: true,
@@ -48,10 +48,9 @@ void (async function () {
     },
   }
 
-  console.log(context)
-  // Await Promise.all([
-  //   actions.fetchMarketPriceHandler(context),
-  //   actions.autoBuyKiwiCoinHandler(context),
-  //   actions.autoBuyDassetHandler(context),
-  // ])
+  await Promise.all([
+    actions.fetchMarketPriceHandler(context),
+    actions.autoBuyKiwiCoinHandler(context),
+    actions.autoBuyDassetHandler(context),
+  ])
 })()
