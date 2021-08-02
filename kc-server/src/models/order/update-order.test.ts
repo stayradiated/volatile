@@ -1,6 +1,6 @@
-import { inspect } from 'util'
 import { DateTime } from 'luxon'
 import * as db from 'zapatos/db'
+import { throwIfError } from '@stayradiated/error-boundary'
 
 import test from '../../test-utils/ava.js'
 
@@ -15,11 +15,7 @@ test('updatedOrder', async (t) => {
     closedAt: DateTime.local(),
   }
 
-  const result = await updateOrder(pool, input)
-  if (result instanceof Error) {
-    t.fail(inspect(result))
-    return
-  }
+  await throwIfError(updateOrder(pool, input))
 
   const row = await db.selectExactlyOne('order', { uid: orderUID }).run(pool)
 

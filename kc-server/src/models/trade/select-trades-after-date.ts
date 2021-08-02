@@ -2,16 +2,16 @@ import * as db from 'zapatos/db'
 import { errorBoundary } from '@stayradiated/error-boundary'
 import type { DateTime } from 'luxon'
 
-import type { Pool, CryptoSymbol } from '../../types.js'
+import type { Pool, CryptoSymbol, BuySell } from '../../types.js'
 import { mapRowToTrade } from './map-row-to-trade.js'
 
-import type { Trade, TradeType } from './types.js'
+import type { Trade } from './types.js'
 
 type SelectTradesAfterDateOptions = {
   userUID: string
   exchangeUID: string
   symbol: CryptoSymbol
-  type: TradeType
+  type: BuySell
   afterDate: DateTime
 }
 

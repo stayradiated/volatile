@@ -1,11 +1,6 @@
 import type { DateTime } from 'luxon'
 
-import type { CryptoSymbol } from '../../types.js'
-
-enum TradeType {
-  BUY = 0,
-  SELL = 1,
-}
+import type { BuySell, CryptoSymbol } from '../../types.js'
 
 type Trade = {
   UID: string
@@ -13,8 +8,8 @@ type Trade = {
   exchangeUID: string
   orderUID: string | undefined
   timestamp: DateTime
-  ID: string
-  type: TradeType
+  tradeID: string
+  type: BuySell
   symbol: CryptoSymbol
   amount: number
   priceNZD: number
@@ -22,4 +17,4 @@ type Trade = {
   feeNZD: number
 }
 
-export { Trade, TradeType }
+export { Trade }

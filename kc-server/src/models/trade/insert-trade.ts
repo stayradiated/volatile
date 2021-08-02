@@ -24,7 +24,7 @@ const insertTrade = async (
           user_uid: trade.userUID,
           exchange_uid: trade.exchangeUID,
           order_uid: trade.orderUID,
-          id: trade.ID,
+          trade_id: trade.tradeID,
           type: trade.type,
           symbol: trade.symbol,
           amount: trade.amount,

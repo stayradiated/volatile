@@ -21,7 +21,7 @@ const hasOrderByID = async (
         {
           user_uid: userUID,
           exchange_uid: exchangeUID,
-          id: orderID,
+          order_id: orderID,
         },
         {
           columns: ['uid'],

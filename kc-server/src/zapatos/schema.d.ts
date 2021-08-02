@@ -1577,11 +1577,11 @@ declare module 'zapatos/schema' {
       */
       exchange_uid: string;
       /**
-      * **order.id**
+      * **order.order_id**
       * - `varchar` in database
       * - `NOT NULL`, no default
       */
-      id: string;
+      order_id: string;
       /**
       * **order.symbol**
       * - `varchar` in database
@@ -1601,12 +1601,6 @@ declare module 'zapatos/schema' {
       */
       amount: number;
       /**
-      * **order.type**
-      * - `int2` in database
-      * - `NOT NULL`, no default
-      */
-      type: number;
-      /**
       * **order.opened_at**
       * - `timestamptz` in database
       * - `NOT NULL`, no default
@@ -1618,6 +1612,12 @@ declare module 'zapatos/schema' {
       * - Nullable, no default
       */
       closed_at: Date | null;
+      /**
+      * **order.type**
+      * - `varchar` in database
+      * - `NOT NULL`, no default
+      */
+      type: string;
     }
     export interface JSONSelectable {
       /**
@@ -1651,11 +1651,11 @@ declare module 'zapatos/schema' {
       */
       exchange_uid: string;
       /**
-      * **order.id**
+      * **order.order_id**
       * - `varchar` in database
       * - `NOT NULL`, no default
       */
-      id: string;
+      order_id: string;
       /**
       * **order.symbol**
       * - `varchar` in database
@@ -1675,12 +1675,6 @@ declare module 'zapatos/schema' {
       */
       amount: number;
       /**
-      * **order.type**
-      * - `int2` in database
-      * - `NOT NULL`, no default
-      */
-      type: number;
-      /**
       * **order.opened_at**
       * - `timestamptz` in database
       * - `NOT NULL`, no default
@@ -1692,6 +1686,12 @@ declare module 'zapatos/schema' {
       * - Nullable, no default
       */
       closed_at: db.TimestampTzString | null;
+      /**
+      * **order.type**
+      * - `varchar` in database
+      * - `NOT NULL`, no default
+      */
+      type: string;
     }
     export interface Whereable {
       /**
@@ -1725,11 +1725,11 @@ declare module 'zapatos/schema' {
       */
       exchange_uid?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
       /**
-      * **order.id**
+      * **order.order_id**
       * - `varchar` in database
       * - `NOT NULL`, no default
       */
-      id?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      order_id?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
       /**
       * **order.symbol**
       * - `varchar` in database
@@ -1749,12 +1749,6 @@ declare module 'zapatos/schema' {
       */
       amount?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
       /**
-      * **order.type**
-      * - `int2` in database
-      * - `NOT NULL`, no default
-      */
-      type?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
-      /**
       * **order.opened_at**
       * - `timestamptz` in database
       * - `NOT NULL`, no default
@@ -1766,6 +1760,12 @@ declare module 'zapatos/schema' {
       * - Nullable, no default
       */
       closed_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **order.type**
+      * - `varchar` in database
+      * - `NOT NULL`, no default
+      */
+      type?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
     }
     export interface Insertable {
       /**
@@ -1799,11 +1799,11 @@ declare module 'zapatos/schema' {
       */
       exchange_uid: string | db.Parameter<string> | db.SQLFragment;
       /**
-      * **order.id**
+      * **order.order_id**
       * - `varchar` in database
       * - `NOT NULL`, no default
       */
-      id: string | db.Parameter<string> | db.SQLFragment;
+      order_id: string | db.Parameter<string> | db.SQLFragment;
       /**
       * **order.symbol**
       * - `varchar` in database
@@ -1823,12 +1823,6 @@ declare module 'zapatos/schema' {
       */
       amount: number | db.Parameter<number> | db.SQLFragment;
       /**
-      * **order.type**
-      * - `int2` in database
-      * - `NOT NULL`, no default
-      */
-      type: number | db.Parameter<number> | db.SQLFragment;
-      /**
       * **order.opened_at**
       * - `timestamptz` in database
       * - `NOT NULL`, no default
@@ -1840,6 +1834,12 @@ declare module 'zapatos/schema' {
       * - Nullable, no default
       */
       closed_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment;
+      /**
+      * **order.type**
+      * - `varchar` in database
+      * - `NOT NULL`, no default
+      */
+      type: string | db.Parameter<string> | db.SQLFragment;
     }
     export interface Updatable {
       /**
@@ -1873,11 +1873,11 @@ declare module 'zapatos/schema' {
       */
       exchange_uid?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
       /**
-      * **order.id**
+      * **order.order_id**
       * - `varchar` in database
       * - `NOT NULL`, no default
       */
-      id?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+      order_id?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
       /**
       * **order.symbol**
       * - `varchar` in database
@@ -1897,12 +1897,6 @@ declare module 'zapatos/schema' {
       */
       amount?: number | db.Parameter<number> | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
       /**
-      * **order.type**
-      * - `int2` in database
-      * - `NOT NULL`, no default
-      */
-      type?: number | db.Parameter<number> | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
-      /**
       * **order.opened_at**
       * - `timestamptz` in database
       * - `NOT NULL`, no default
@@ -1914,6 +1908,12 @@ declare module 'zapatos/schema' {
       * - Nullable, no default
       */
       closed_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment>;
+      /**
+      * **order.type**
+      * - `varchar` in database
+      * - `NOT NULL`, no default
+      */
+      type?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
     }
     export type UniqueIndex = 'order_pkey' | 'unique_exchange_order_id';
     export type Column = keyof Selectable;
@@ -2025,17 +2025,17 @@ declare module 'zapatos/schema' {
       */
       order_uid: string | null;
       /**
-      * **trade.id**
+      * **trade.trade_id**
       * - `varchar` in database
       * - `NOT NULL`, no default
       */
-      id: string;
+      trade_id: string;
       /**
       * **trade.type**
-      * - `int2` in database
+      * - `varchar` in database
       * - `NOT NULL`, no default
       */
-      type: number;
+      type: string;
       /**
       * **trade.symbol**
       * - `varchar` in database
@@ -2111,17 +2111,17 @@ declare module 'zapatos/schema' {
       */
       order_uid: string | null;
       /**
-      * **trade.id**
+      * **trade.trade_id**
       * - `varchar` in database
       * - `NOT NULL`, no default
       */
-      id: string;
+      trade_id: string;
       /**
       * **trade.type**
-      * - `int2` in database
+      * - `varchar` in database
       * - `NOT NULL`, no default
       */
-      type: number;
+      type: string;
       /**
       * **trade.symbol**
       * - `varchar` in database
@@ -2197,17 +2197,17 @@ declare module 'zapatos/schema' {
       */
       order_uid?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
       /**
-      * **trade.id**
+      * **trade.trade_id**
       * - `varchar` in database
       * - `NOT NULL`, no default
       */
-      id?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      trade_id?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
       /**
       * **trade.type**
-      * - `int2` in database
+      * - `varchar` in database
       * - `NOT NULL`, no default
       */
-      type?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+      type?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
       /**
       * **trade.symbol**
       * - `varchar` in database
@@ -2283,17 +2283,17 @@ declare module 'zapatos/schema' {
       */
       order_uid?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment;
       /**
-      * **trade.id**
+      * **trade.trade_id**
       * - `varchar` in database
       * - `NOT NULL`, no default
       */
-      id: string | db.Parameter<string> | db.SQLFragment;
+      trade_id: string | db.Parameter<string> | db.SQLFragment;
       /**
       * **trade.type**
-      * - `int2` in database
+      * - `varchar` in database
       * - `NOT NULL`, no default
       */
-      type: number | db.Parameter<number> | db.SQLFragment;
+      type: string | db.Parameter<string> | db.SQLFragment;
       /**
       * **trade.symbol**
       * - `varchar` in database
@@ -2369,17 +2369,17 @@ declare module 'zapatos/schema' {
       */
       order_uid?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment>;
       /**
-      * **trade.id**
+      * **trade.trade_id**
       * - `varchar` in database
       * - `NOT NULL`, no default
       */
-      id?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+      trade_id?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
       /**
       * **trade.type**
-      * - `int2` in database
+      * - `varchar` in database
       * - `NOT NULL`, no default
       */
-      type?: number | db.Parameter<number> | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
+      type?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
       /**
       * **trade.symbol**
       * - `varchar` in database
@@ -2411,7 +2411,7 @@ declare module 'zapatos/schema' {
       */
       fee_nzd?: number | db.Parameter<number> | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
     }
-    export type UniqueIndex = 'trade_pkey' | 'unique_trade_exchange_order_id';
+    export type UniqueIndex = 'trade_pkey' | 'unique_trade_exchange_trade_id';
     export type Column = keyof Selectable;
     export type OnlyCols<T extends readonly Column[]> = Pick<Selectable, T[number]>;
     export type SQLExpression = db.GenericSQLExpression | db.ColumnNames<Updatable | (keyof Updatable)[]> | db.ColumnValues<Updatable> | Table | Whereable | Column;

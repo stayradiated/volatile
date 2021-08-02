@@ -1,11 +1,11 @@
-import { inspect } from 'util'
 import * as db from 'zapatos/db'
 import { DateTime } from 'luxon'
+import { throwIfError } from '@stayradiated/error-boundary'
 
 import test from '../../test-utils/ava.js'
 
 import { insertTrade, InsertTradeOptions } from './insert-trade.js'
-import { TradeType } from './types.js'
+import type { Trade } from './types.js'
 
 test('insertTrade', async (t) => {
   const { pool, make } = t.context
@@ -18,8 +18,8 @@ test('insertTrade', async (t) => {
     exchangeUID,
     orderUID,
     timestamp: DateTime.local(),
-    ID: 'insert-trade.test',
-    type: TradeType.BUY,
+    tradeID: 'insert-trade.test',
+    type: 'BUY',
     symbol: 'BTC',
     amount: 0.876_543_21,
     priceNZD: 12_345.67,
@@ -27,11 +27,7 @@ test('insertTrade', async (t) => {
     feeNZD: 0.2345,
   }
 
-  const output = await insertTrade(pool, input)
-  if (output instanceof Error) {
-    t.fail(inspect(output))
-    return
-  }
+  const output = await throwIfError<Trade>(insertTrade(pool, input))
 
   t.like(output, input)
   t.is('string', typeof output.UID)
@@ -42,7 +38,7 @@ test('insertTrade', async (t) => {
     user_uid: input.userUID,
     exchange_uid: input.exchangeUID,
     order_uid: input.orderUID,
-    id: input.ID,
+    trade_id: input.tradeID,
     type: input.type,
     amount: input.amount,
     price_nzd: input.priceNZD,

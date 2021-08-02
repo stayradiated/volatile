@@ -21,7 +21,7 @@ const calculateOrderAmountNZD = async (
     userUID,
     exchangeUID,
     symbol: 'BTC',
-    type: 0,
+    type: 'BUY',
     afterDate: startAt,
   })
   if (trades instanceof Error) {

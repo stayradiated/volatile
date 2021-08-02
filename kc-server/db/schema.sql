@@ -124,13 +124,13 @@ CREATE TABLE kc."order" (
     updated_at timestamp with time zone NOT NULL,
     user_uid uuid NOT NULL,
     exchange_uid uuid NOT NULL,
-    id character varying NOT NULL,
+    order_id character varying NOT NULL,
     symbol character varying NOT NULL,
     price_nzd numeric(12,2) NOT NULL,
     amount numeric(16,8) NOT NULL,
-    type smallint NOT NULL,
     opened_at timestamp with time zone NOT NULL,
-    closed_at timestamp with time zone
+    closed_at timestamp with time zone,
+    type character varying(4) NOT NULL
 );
 
 
@@ -155,8 +155,8 @@ CREATE TABLE kc.trade (
     user_uid uuid NOT NULL,
     exchange_uid uuid NOT NULL,
     order_uid uuid,
-    id character varying NOT NULL,
-    type smallint NOT NULL,
+    trade_id character varying NOT NULL,
+    type character varying(4) NOT NULL,
     symbol character varying NOT NULL,
     amount numeric(16,8) NOT NULL,
     price_nzd numeric(12,2) NOT NULL,
@@ -299,7 +299,7 @@ ALTER TABLE ONLY kc.exchange
 --
 
 ALTER TABLE ONLY kc."order"
-    ADD CONSTRAINT unique_exchange_order_id UNIQUE (exchange_uid, id);
+    ADD CONSTRAINT unique_exchange_order_id UNIQUE (exchange_uid, order_id);
 
 
 --
@@ -311,11 +311,11 @@ ALTER TABLE ONLY kc.market
 
 
 --
--- Name: trade unique_trade_exchange_order_id; Type: CONSTRAINT; Schema: kc; Owner: -
+-- Name: trade unique_trade_exchange_trade_id; Type: CONSTRAINT; Schema: kc; Owner: -
 --
 
 ALTER TABLE ONLY kc.trade
-    ADD CONSTRAINT unique_trade_exchange_order_id UNIQUE (exchange_uid, id);
+    ADD CONSTRAINT unique_trade_exchange_trade_id UNIQUE (exchange_uid, trade_id);
 
 
 --

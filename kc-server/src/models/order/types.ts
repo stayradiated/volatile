@@ -1,9 +1,6 @@
 import type { DateTime } from 'luxon'
 
-enum OrderType {
-  BUY = 0,
-  SELL = 1,
-}
+import type { BuySell } from '../../types.js'
 
 type Order = {
   UID: string
@@ -13,9 +10,9 @@ type Order = {
   symbol: string
   priceNZD: number
   amount: number
-  type: OrderType
+  type: BuySell
   openedAt: DateTime
   closedAt: DateTime | undefined
 }
 
-export { Order, OrderType }
+export { Order }

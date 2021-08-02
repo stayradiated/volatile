@@ -1,7 +1,7 @@
 import { DateTime } from 'luxon'
 import type * as s from 'zapatos/schema'
 
-import type { CryptoSymbol } from '../../types.js'
+import type { CryptoSymbol, BuySell } from '../../types.js'
 import type { Trade } from './types.js'
 
 const mapRowToTrade = (row: s.trade.JSONSelectable): Trade => ({
@@ -10,8 +10,8 @@ const mapRowToTrade = (row: s.trade.JSONSelectable): Trade => ({
   exchangeUID: row.exchange_uid,
   orderUID: row.order_uid ? row.order_uid : undefined,
   timestamp: DateTime.fromISO(row.timestamp),
-  ID: row.id,
-  type: row.type,
+  tradeID: row.trade_id,
+  type: row.type as BuySell,
   symbol: row.symbol as CryptoSymbol,
   amount: row.amount,
   priceNZD: row.price_nzd,

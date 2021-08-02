@@ -22,7 +22,7 @@ const selectOrderByID = async (
       .selectExactlyOne('order', {
         user_uid: userUID,
         exchange_uid: exchangeUID,
-        id: orderID,
+        order_id: orderID,
       })
       .run(pool),
   )

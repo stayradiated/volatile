@@ -7,8 +7,8 @@ CREATE TABLE kc.trade(
   user_uid UUID NOT NULL,
   exchange_uid UUID NOT NULL,
   order_uid UUID NULL,
-  id VARCHAR NOT NULL,
-  type SMALLINT NOT NULL,
+  trade_id VARCHAR NOT NULL,
+  type VARCHAR(4) NOT NULL,
   symbol VARCHAR NOT NULL,
   amount NUMERIC(16,8) NOT NULL,
   price_nzd NUMERIC(12,2) NOT NULL,
@@ -16,7 +16,7 @@ CREATE TABLE kc.trade(
   fee_nzd NUMERIC(12,4) NOT NULL,
 
   PRIMARY KEY(uid),
-  CONSTRAINT unique_trade_exchange_order_id UNIQUE(exchange_uid, id),
+  CONSTRAINT unique_trade_exchange_trade_id UNIQUE(exchange_uid, trade_id),
   CONSTRAINT fk_trade_user
     FOREIGN KEY(user_uid) REFERENCES kc.user(uid)
     ON DELETE CASCADE ON UPDATE CASCADE,
@@ -28,6 +28,19 @@ CREATE TABLE kc.trade(
     ON DELETE SET NULL ON UPDATE CASCADE
 );
 
+ALTER TABLE kc.order ADD COLUMN new_type VARCHAR(4);
+UPDATE kc.order SET new_type = CASE WHEN type = 0 THEN 'BUY' ELSE 'SELL' END;
+ALTER TABLE kc.order ALTER new_type SET NOT NULL;
+ALTER TABLE kc.order DROP type;
+ALTER TABLE kc.order RENAME new_type TO type;
+
+ALTER TABLE kc.order RENAME id TO order_id;
 
 -- migrate:down
+ALTER TABLE kc.order ADD COLUMN old_type SMALLINT;
+UPDATE kc.order SET old_type = CASE WHEN type = 'BUY' THEN 0 ELSE 1 END;
+ALTER TABLE kc.order ALTER old_type SET NOT NULL;
+ALTER TABLE kc.order DROP type;
+ALTER TABLE kc.order RENAME old_type TO type;
+
 DROP TABLE kc.trade;

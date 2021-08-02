@@ -8,7 +8,6 @@ import {
   insertOrder,
   updateOrder,
   selectOpenOrdersForDCA,
-  OrderType,
 } from '../../models/order/index.js'
 import { insertDCAOrderHistory } from '../../models/dca-order-history/index.js'
 import { round } from '../../utils/round.js'
@@ -143,7 +142,7 @@ const executeDCAOrder = async (
       exchangeUID: dcaOrder.exchangeUID,
       orderID: String(freshOrder.id),
       symbol: 'BTC',
-      type: OrderType.BUY,
+      type: 'BUY',
       priceNZD: orderPriceNZD,
       amount: amountBTC,
       openedAt: DateTime.local(),

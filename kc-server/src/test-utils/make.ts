@@ -8,9 +8,10 @@ import { createUser } from '../models/user/index.js'
 import { getExchangeUID, EXCHANGE_KIWI_COIN } from '../models/exchange/index.js'
 import { getMarketUID, MARKET_KIWI_COIN } from '../models/market/index.js'
 import { insertDCAOrder } from '../models/dca-order/index.js'
-import { insertOrder, OrderType } from '../models/order/index.js'
+import { insertOrder } from '../models/order/index.js'
 import { insertDCAOrderHistory } from '../models/dca-order-history/index.js'
 import { insertUserExchangeKeys } from '../models/user-exchange-keys/index.js'
+import { insertTrade } from '../models/trade/index.js'
 import { pool } from '../pool.js'
 import { round } from '../utils/round.js'
 
@@ -24,6 +25,7 @@ type MakeInstance = {
   dcaOrder: MakeInstanceFn
   dcaOrderHistory: MakeInstanceFn
   order: MakeInstanceFn
+  trade: MakeInstanceFn
 }
 
 type MakeFn = (instance: MakeInstance) => MakeInstanceFn
@@ -109,6 +111,32 @@ const makeDCAOrder: MakeFn = (make) =>
     return dcaOrder.UID
   })
 
+const makeTrade: MakeFn = (make) =>
+  once(async () => {
+    const userUID = await make.user()
+    const exchangeUID = await make.exchange()
+    const orderUID = await make.order()
+
+    const trade = await insertTrade(pool, {
+      userUID,
+      exchangeUID,
+      orderUID,
+      tradeID: randomUUID(),
+      symbol: 'BTC',
+      amount: round(6, Math.random()),
+      type: Math.random() > 0.5 ? 'BUY' : 'SELL',
+      priceNZD: round(2, Math.random() * 100_000),
+      totalNZD: round(2, Math.random() * 100_000),
+      feeNZD: round(2, Math.random() * 10),
+      timestamp: DateTime.local(),
+    })
+    if (trade instanceof Error) {
+      throw trade
+    }
+
+    return trade.UID
+  })
+
 const makeOrder: MakeFn = (make) =>
   once(async () => {
     const userUID = await make.user()
@@ -121,7 +149,7 @@ const makeOrder: MakeFn = (make) =>
       priceNZD: round(2, Math.random() * 100_000),
       orderID: randomUUID(),
       amount: round(6, Math.random()),
-      type: OrderType.BUY,
+      type: Math.random() > 0.5 ? 'BUY' : 'SELL',
       openedAt: DateTime.local(),
       closedAt: undefined,
     })
@@ -171,6 +199,7 @@ const createMakeInstance = () => {
   instance.dcaOrder = makeDCAOrder(instance)
   instance.dcaOrderHistory = makeDCAOrderHistory(instance)
   instance.order = makeOrder(instance)
+  instance.trade = makeTrade(instance)
 
   return instance
 }
