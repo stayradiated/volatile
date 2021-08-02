@@ -44,7 +44,6 @@ const mustGetUserKiwiCoinExchangeKeys = async (
   }
 
   const config = keys.keys
-  console.log(config)
 
   if (!kiwiCoin.isValidConfig(config)) {
     return explainError(

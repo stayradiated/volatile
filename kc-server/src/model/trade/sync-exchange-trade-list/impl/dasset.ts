@@ -16,6 +16,7 @@ import type { CryptoSymbol, Pool } from '../../../../types.js'
 const LIMIT = 25
 
 type FetchPageLoopOptions = {
+  prevFetchCount: number
   page: number
   pool: Pool
   config: dasset.Config
@@ -26,15 +27,14 @@ type FetchPageLoopOptions = {
 const fetchPageLoop = async (
   options: FetchPageLoopOptions,
 ): Promise<void | Error> => {
-  const { page, pool, config, userUID, exchangeUID } = options
+  const { prevFetchCount, page, pool, config, userUID, exchangeUID } = options
 
   const orders = await dasset.getPage(config, dasset.closedOrders, LIMIT, page)
   if (orders instanceof Error) {
     return orders
   }
 
-  const totalOrderCount = orders.results.length
-
+  const totalOrderCount = prevFetchCount + orders.results.length
   console.log(`Fetched ${totalOrderCount}/${orders.total} results`)
 
   const matchedList = await errorListBoundary(async () =>
@@ -105,6 +105,7 @@ const fetchPageLoop = async (
   if (orders.hasNext) {
     return fetchPageLoop({
       ...options,
+      prevFetchCount: totalOrderCount,
       page: page + 1,
     })
   }
@@ -132,6 +133,7 @@ const syncDassetTradeList = async (
   }
 
   const error = await fetchPageLoop({
+    prevFetchCount: 0,
     pool,
     config,
     page: 1,
