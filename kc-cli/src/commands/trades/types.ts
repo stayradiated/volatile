@@ -1,19 +1,14 @@
 import type { DateTime } from 'luxon'
 
-enum TradeType {
-  buy = 0,
-  sell = 1,
-}
-
 type RowData = {
   date: DateTime
+  exchange: string,
+  symbol: string,
   price: number
   nzd: number
-  xbt: number
+  btc: number
   fee: number
-  bought: number
-  sold: number
-  type: TradeType | undefined
+  type: string,
 }
 
-export { TradeType, RowData }
+export { RowData }
