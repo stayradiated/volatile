@@ -15,7 +15,7 @@ const binance = ky.create({
 
 type Options = {
   symbol: string
-  currency: string,
+  currency: string
 }
 
 type APIResponse = {
@@ -31,6 +31,7 @@ const marketSource: MarketPriceSource<Options> = {
     if (symbol.toUpperCase() !== symbol) {
       return new Error(`Symbol must be uppercase, received "${symbol}".`)
     }
+
     if (currency.toUpperCase() !== currency) {
       return new Error(`Currency must be uppercase, received "${currency}".`)
     }
@@ -43,7 +44,7 @@ const marketSource: MarketPriceSource<Options> = {
       binance
         .get('v3/avgPrice', {
           searchParams: {
-            symbol: tradingPair
+            symbol: tradingPair,
           },
         })
         .json(),

@@ -27,7 +27,8 @@
     "debug": "4.3.2",
     "ky": "0.28.5",
     "ky-universal": "0.9.1",
-    "luxon": "2.0.1"
+    "luxon": "2.0.1",
+    "rambda": "6.9.0"
   },
   "devDependencies": {
     "@stayradiated/jsconfig": "1.14.0",

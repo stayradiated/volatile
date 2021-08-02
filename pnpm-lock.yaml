@@ -16,6 +16,7 @@ importers:
       ky-universal: 0.9.1
       luxon: 2.0.1
       nock: 13.1.1
+      rambda: 6.9.0
       typescript: 4.3.5
       xo: 0.42.0
     dependencies:
@@ -24,6 +25,7 @@ importers:
       ky: 0.28.5
       ky-universal: 0.9.1_ky@0.28.5
       luxon: 2.0.1
+      rambda: 6.9.0
     devDependencies:
       '@stayradiated/jsconfig': 1.14.0
       '@types/debug': 4.1.6
@@ -4097,6 +4099,10 @@ packages:
 
   /rambda/6.8.2:
     resolution: {integrity: sha512-fIVr6nuqfHfJTguthGsWF930DkNq/ENraeSpYBj1kYvO/ieacux7rj2NW27JwwFrllFJwXkLpGyFMz99EwCJ3Q==}
+    dev: false
+
+  /rambda/6.9.0:
+    resolution: {integrity: sha512-yosVdGg1hNGkXPzqGiOYNEpXKjEOxzUCg2rB0l+NKdyCaSf4z+i5ojbN0IqDSezMMf71YEglI+ZUTgTffn5afw==}
     dev: false
 
   /rc/1.2.8:

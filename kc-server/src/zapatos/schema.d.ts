@@ -1577,11 +1577,11 @@ declare module 'zapatos/schema' {
       */
       exchange_uid: string;
       /**
-      * **order.id**
+      * **order.order_id**
       * - `varchar` in database
       * - `NOT NULL`, no default
       */
-      id: string;
+      order_id: string;
       /**
       * **order.symbol**
       * - `varchar` in database
@@ -1601,12 +1601,6 @@ declare module 'zapatos/schema' {
       */
       amount: number;
       /**
-      * **order.type**
-      * - `int2` in database
-      * - `NOT NULL`, no default
-      */
-      type: number;
-      /**
       * **order.opened_at**
       * - `timestamptz` in database
       * - `NOT NULL`, no default
@@ -1618,6 +1612,12 @@ declare module 'zapatos/schema' {
       * - Nullable, no default
       */
       closed_at: Date | null;
+      /**
+      * **order.type**
+      * - `varchar` in database
+      * - `NOT NULL`, no default
+      */
+      type: string;
     }
     export interface JSONSelectable {
       /**
@@ -1651,11 +1651,11 @@ declare module 'zapatos/schema' {
       */
       exchange_uid: string;
       /**
-      * **order.id**
+      * **order.order_id**
       * - `varchar` in database
       * - `NOT NULL`, no default
       */
-      id: string;
+      order_id: string;
       /**
       * **order.symbol**
       * - `varchar` in database
@@ -1675,12 +1675,6 @@ declare module 'zapatos/schema' {
       */
       amount: number;
       /**
-      * **order.type**
-      * - `int2` in database
-      * - `NOT NULL`, no default
-      */
-      type: number;
-      /**
       * **order.opened_at**
       * - `timestamptz` in database
       * - `NOT NULL`, no default
@@ -1692,6 +1686,12 @@ declare module 'zapatos/schema' {
       * - Nullable, no default
       */
       closed_at: db.TimestampTzString | null;
+      /**
+      * **order.type**
+      * - `varchar` in database
+      * - `NOT NULL`, no default
+      */
+      type: string;
     }
     export interface Whereable {
       /**
@@ -1725,11 +1725,11 @@ declare module 'zapatos/schema' {
       */
       exchange_uid?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
       /**
-      * **order.id**
+      * **order.order_id**
       * - `varchar` in database
       * - `NOT NULL`, no default
       */
-      id?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      order_id?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
       /**
       * **order.symbol**
       * - `varchar` in database
@@ -1749,12 +1749,6 @@ declare module 'zapatos/schema' {
       */
       amount?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
       /**
-      * **order.type**
-      * - `int2` in database
-      * - `NOT NULL`, no default
-      */
-      type?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
-      /**
       * **order.opened_at**
       * - `timestamptz` in database
       * - `NOT NULL`, no default
@@ -1766,6 +1760,12 @@ declare module 'zapatos/schema' {
       * - Nullable, no default
       */
       closed_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **order.type**
+      * - `varchar` in database
+      * - `NOT NULL`, no default
+      */
+      type?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
     }
     export interface Insertable {
       /**
@@ -1799,11 +1799,11 @@ declare module 'zapatos/schema' {
       */
       exchange_uid: string | db.Parameter<string> | db.SQLFragment;
       /**
-      * **order.id**
+      * **order.order_id**
       * - `varchar` in database
       * - `NOT NULL`, no default
       */
-      id: string | db.Parameter<string> | db.SQLFragment;
+      order_id: string | db.Parameter<string> | db.SQLFragment;
       /**
       * **order.symbol**
       * - `varchar` in database
@@ -1823,12 +1823,6 @@ declare module 'zapatos/schema' {
       */
       amount: number | db.Parameter<number> | db.SQLFragment;
       /**
-      * **order.type**
-      * - `int2` in database
-      * - `NOT NULL`, no default
-      */
-      type: number | db.Parameter<number> | db.SQLFragment;
-      /**
       * **order.opened_at**
       * - `timestamptz` in database
       * - `NOT NULL`, no default
@@ -1840,6 +1834,12 @@ declare module 'zapatos/schema' {
       * - Nullable, no default
       */
       closed_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment;
+      /**
+      * **order.type**
+      * - `varchar` in database
+      * - `NOT NULL`, no default
+      */
+      type: string | db.Parameter<string> | db.SQLFragment;
     }
     export interface Updatable {
       /**
@@ -1873,11 +1873,11 @@ declare module 'zapatos/schema' {
       */
       exchange_uid?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
       /**
-      * **order.id**
+      * **order.order_id**
       * - `varchar` in database
       * - `NOT NULL`, no default
       */
-      id?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+      order_id?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
       /**
       * **order.symbol**
       * - `varchar` in database
@@ -1897,12 +1897,6 @@ declare module 'zapatos/schema' {
       */
       amount?: number | db.Parameter<number> | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
       /**
-      * **order.type**
-      * - `int2` in database
-      * - `NOT NULL`, no default
-      */
-      type?: number | db.Parameter<number> | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
-      /**
       * **order.opened_at**
       * - `timestamptz` in database
       * - `NOT NULL`, no default
@@ -1914,6 +1908,12 @@ declare module 'zapatos/schema' {
       * - Nullable, no default
       */
       closed_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment>;
+      /**
+      * **order.type**
+      * - `varchar` in database
+      * - `NOT NULL`, no default
+      */
+      type?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
     }
     export type UniqueIndex = 'order_pkey' | 'unique_exchange_order_id';
     export type Column = keyof Selectable;
@@ -1969,6 +1969,449 @@ declare module 'zapatos/schema' {
       version?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
     }
     export type UniqueIndex = 'schema_migrations_pkey';
+    export type Column = keyof Selectable;
+    export type OnlyCols<T extends readonly Column[]> = Pick<Selectable, T[number]>;
+    export type SQLExpression = db.GenericSQLExpression | db.ColumnNames<Updatable | (keyof Updatable)[]> | db.ColumnValues<Updatable> | Table | Whereable | Column;
+    export type SQL = SQLExpression | SQLExpression[];
+  }
+
+  /**
+   * **trade**
+   * - Table in database
+   */
+  export namespace trade {
+    export type Table = 'trade';
+    export interface Selectable {
+      /**
+      * **trade.uid**
+      * - `uuid` in database
+      * - `NOT NULL`, no default
+      */
+      uid: string;
+      /**
+      * **trade.created_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+      created_at: Date;
+      /**
+      * **trade.updated_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+      updated_at: Date;
+      /**
+      * **trade.timestamp**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+      timestamp: Date;
+      /**
+      * **trade.user_uid**
+      * - `uuid` in database
+      * - `NOT NULL`, no default
+      */
+      user_uid: string;
+      /**
+      * **trade.exchange_uid**
+      * - `uuid` in database
+      * - `NOT NULL`, no default
+      */
+      exchange_uid: string;
+      /**
+      * **trade.order_uid**
+      * - `uuid` in database
+      * - Nullable, no default
+      */
+      order_uid: string | null;
+      /**
+      * **trade.trade_id**
+      * - `varchar` in database
+      * - `NOT NULL`, no default
+      */
+      trade_id: string;
+      /**
+      * **trade.type**
+      * - `varchar` in database
+      * - `NOT NULL`, no default
+      */
+      type: string;
+      /**
+      * **trade.symbol**
+      * - `varchar` in database
+      * - `NOT NULL`, no default
+      */
+      symbol: string;
+      /**
+      * **trade.amount**
+      * - `numeric` in database
+      * - `NOT NULL`, no default
+      */
+      amount: number;
+      /**
+      * **trade.price_nzd**
+      * - `numeric` in database
+      * - `NOT NULL`, no default
+      */
+      price_nzd: number;
+      /**
+      * **trade.total_nzd**
+      * - `numeric` in database
+      * - `NOT NULL`, no default
+      */
+      total_nzd: number;
+      /**
+      * **trade.fee_nzd**
+      * - `numeric` in database
+      * - `NOT NULL`, no default
+      */
+      fee_nzd: number;
+    }
+    export interface JSONSelectable {
+      /**
+      * **trade.uid**
+      * - `uuid` in database
+      * - `NOT NULL`, no default
+      */
+      uid: string;
+      /**
+      * **trade.created_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+      created_at: db.TimestampTzString;
+      /**
+      * **trade.updated_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+      updated_at: db.TimestampTzString;
+      /**
+      * **trade.timestamp**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+      timestamp: db.TimestampTzString;
+      /**
+      * **trade.user_uid**
+      * - `uuid` in database
+      * - `NOT NULL`, no default
+      */
+      user_uid: string;
+      /**
+      * **trade.exchange_uid**
+      * - `uuid` in database
+      * - `NOT NULL`, no default
+      */
+      exchange_uid: string;
+      /**
+      * **trade.order_uid**
+      * - `uuid` in database
+      * - Nullable, no default
+      */
+      order_uid: string | null;
+      /**
+      * **trade.trade_id**
+      * - `varchar` in database
+      * - `NOT NULL`, no default
+      */
+      trade_id: string;
+      /**
+      * **trade.type**
+      * - `varchar` in database
+      * - `NOT NULL`, no default
+      */
+      type: string;
+      /**
+      * **trade.symbol**
+      * - `varchar` in database
+      * - `NOT NULL`, no default
+      */
+      symbol: string;
+      /**
+      * **trade.amount**
+      * - `numeric` in database
+      * - `NOT NULL`, no default
+      */
+      amount: number;
+      /**
+      * **trade.price_nzd**
+      * - `numeric` in database
+      * - `NOT NULL`, no default
+      */
+      price_nzd: number;
+      /**
+      * **trade.total_nzd**
+      * - `numeric` in database
+      * - `NOT NULL`, no default
+      */
+      total_nzd: number;
+      /**
+      * **trade.fee_nzd**
+      * - `numeric` in database
+      * - `NOT NULL`, no default
+      */
+      fee_nzd: number;
+    }
+    export interface Whereable {
+      /**
+      * **trade.uid**
+      * - `uuid` in database
+      * - `NOT NULL`, no default
+      */
+      uid?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **trade.created_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+      created_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **trade.updated_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+      updated_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **trade.timestamp**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+      timestamp?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **trade.user_uid**
+      * - `uuid` in database
+      * - `NOT NULL`, no default
+      */
+      user_uid?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **trade.exchange_uid**
+      * - `uuid` in database
+      * - `NOT NULL`, no default
+      */
+      exchange_uid?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **trade.order_uid**
+      * - `uuid` in database
+      * - Nullable, no default
+      */
+      order_uid?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **trade.trade_id**
+      * - `varchar` in database
+      * - `NOT NULL`, no default
+      */
+      trade_id?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **trade.type**
+      * - `varchar` in database
+      * - `NOT NULL`, no default
+      */
+      type?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **trade.symbol**
+      * - `varchar` in database
+      * - `NOT NULL`, no default
+      */
+      symbol?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **trade.amount**
+      * - `numeric` in database
+      * - `NOT NULL`, no default
+      */
+      amount?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **trade.price_nzd**
+      * - `numeric` in database
+      * - `NOT NULL`, no default
+      */
+      price_nzd?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **trade.total_nzd**
+      * - `numeric` in database
+      * - `NOT NULL`, no default
+      */
+      total_nzd?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **trade.fee_nzd**
+      * - `numeric` in database
+      * - `NOT NULL`, no default
+      */
+      fee_nzd?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+    }
+    export interface Insertable {
+      /**
+      * **trade.uid**
+      * - `uuid` in database
+      * - `NOT NULL`, no default
+      */
+      uid: string | db.Parameter<string> | db.SQLFragment;
+      /**
+      * **trade.created_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+      created_at: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment;
+      /**
+      * **trade.updated_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+      updated_at: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment;
+      /**
+      * **trade.timestamp**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+      timestamp: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment;
+      /**
+      * **trade.user_uid**
+      * - `uuid` in database
+      * - `NOT NULL`, no default
+      */
+      user_uid: string | db.Parameter<string> | db.SQLFragment;
+      /**
+      * **trade.exchange_uid**
+      * - `uuid` in database
+      * - `NOT NULL`, no default
+      */
+      exchange_uid: string | db.Parameter<string> | db.SQLFragment;
+      /**
+      * **trade.order_uid**
+      * - `uuid` in database
+      * - Nullable, no default
+      */
+      order_uid?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment;
+      /**
+      * **trade.trade_id**
+      * - `varchar` in database
+      * - `NOT NULL`, no default
+      */
+      trade_id: string | db.Parameter<string> | db.SQLFragment;
+      /**
+      * **trade.type**
+      * - `varchar` in database
+      * - `NOT NULL`, no default
+      */
+      type: string | db.Parameter<string> | db.SQLFragment;
+      /**
+      * **trade.symbol**
+      * - `varchar` in database
+      * - `NOT NULL`, no default
+      */
+      symbol: string | db.Parameter<string> | db.SQLFragment;
+      /**
+      * **trade.amount**
+      * - `numeric` in database
+      * - `NOT NULL`, no default
+      */
+      amount: number | db.Parameter<number> | db.SQLFragment;
+      /**
+      * **trade.price_nzd**
+      * - `numeric` in database
+      * - `NOT NULL`, no default
+      */
+      price_nzd: number | db.Parameter<number> | db.SQLFragment;
+      /**
+      * **trade.total_nzd**
+      * - `numeric` in database
+      * - `NOT NULL`, no default
+      */
+      total_nzd: number | db.Parameter<number> | db.SQLFragment;
+      /**
+      * **trade.fee_nzd**
+      * - `numeric` in database
+      * - `NOT NULL`, no default
+      */
+      fee_nzd: number | db.Parameter<number> | db.SQLFragment;
+    }
+    export interface Updatable {
+      /**
+      * **trade.uid**
+      * - `uuid` in database
+      * - `NOT NULL`, no default
+      */
+      uid?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+      /**
+      * **trade.created_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+      created_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment>;
+      /**
+      * **trade.updated_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+      updated_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment>;
+      /**
+      * **trade.timestamp**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+      timestamp?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment>;
+      /**
+      * **trade.user_uid**
+      * - `uuid` in database
+      * - `NOT NULL`, no default
+      */
+      user_uid?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+      /**
+      * **trade.exchange_uid**
+      * - `uuid` in database
+      * - `NOT NULL`, no default
+      */
+      exchange_uid?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+      /**
+      * **trade.order_uid**
+      * - `uuid` in database
+      * - Nullable, no default
+      */
+      order_uid?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment>;
+      /**
+      * **trade.trade_id**
+      * - `varchar` in database
+      * - `NOT NULL`, no default
+      */
+      trade_id?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+      /**
+      * **trade.type**
+      * - `varchar` in database
+      * - `NOT NULL`, no default
+      */
+      type?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+      /**
+      * **trade.symbol**
+      * - `varchar` in database
+      * - `NOT NULL`, no default
+      */
+      symbol?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+      /**
+      * **trade.amount**
+      * - `numeric` in database
+      * - `NOT NULL`, no default
+      */
+      amount?: number | db.Parameter<number> | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
+      /**
+      * **trade.price_nzd**
+      * - `numeric` in database
+      * - `NOT NULL`, no default
+      */
+      price_nzd?: number | db.Parameter<number> | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
+      /**
+      * **trade.total_nzd**
+      * - `numeric` in database
+      * - `NOT NULL`, no default
+      */
+      total_nzd?: number | db.Parameter<number> | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
+      /**
+      * **trade.fee_nzd**
+      * - `numeric` in database
+      * - `NOT NULL`, no default
+      */
+      fee_nzd?: number | db.Parameter<number> | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
+    }
+    export type UniqueIndex = 'trade_pkey' | 'unique_trade_exchange_trade_id';
     export type Column = keyof Selectable;
     export type OnlyCols<T extends readonly Column[]> = Pick<Selectable, T[number]>;
     export type SQLExpression = db.GenericSQLExpression | db.ColumnNames<Updatable | (keyof Updatable)[]> | db.ColumnValues<Updatable> | Table | Whereable | Column;
@@ -2533,19 +2976,19 @@ declare module 'zapatos/schema' {
 
   /* === cross-table types === */
 
-  export type Table = customer.Table | dca_order.Table | dca_order_history.Table | exchange.Table | market.Table | market_price.Table | order.Table | schema_migrations.Table | user.Table | user_exchange_keys.Table;
-  export type Selectable = customer.Selectable | dca_order.Selectable | dca_order_history.Selectable | exchange.Selectable | market.Selectable | market_price.Selectable | order.Selectable | schema_migrations.Selectable | user.Selectable | user_exchange_keys.Selectable;
-  export type JSONSelectable = customer.JSONSelectable | dca_order.JSONSelectable | dca_order_history.JSONSelectable | exchange.JSONSelectable | market.JSONSelectable | market_price.JSONSelectable | order.JSONSelectable | schema_migrations.JSONSelectable | user.JSONSelectable | user_exchange_keys.JSONSelectable;
-  export type Whereable = customer.Whereable | dca_order.Whereable | dca_order_history.Whereable | exchange.Whereable | market.Whereable | market_price.Whereable | order.Whereable | schema_migrations.Whereable | user.Whereable | user_exchange_keys.Whereable;
-  export type Insertable = customer.Insertable | dca_order.Insertable | dca_order_history.Insertable | exchange.Insertable | market.Insertable | market_price.Insertable | order.Insertable | schema_migrations.Insertable | user.Insertable | user_exchange_keys.Insertable;
-  export type Updatable = customer.Updatable | dca_order.Updatable | dca_order_history.Updatable | exchange.Updatable | market.Updatable | market_price.Updatable | order.Updatable | schema_migrations.Updatable | user.Updatable | user_exchange_keys.Updatable;
-  export type UniqueIndex = customer.UniqueIndex | dca_order.UniqueIndex | dca_order_history.UniqueIndex | exchange.UniqueIndex | market.UniqueIndex | market_price.UniqueIndex | order.UniqueIndex | schema_migrations.UniqueIndex | user.UniqueIndex | user_exchange_keys.UniqueIndex;
-  export type Column = customer.Column | dca_order.Column | dca_order_history.Column | exchange.Column | market.Column | market_price.Column | order.Column | schema_migrations.Column | user.Column | user_exchange_keys.Column;
-  export type AllBaseTables = [customer.Table, dca_order.Table, dca_order_history.Table, exchange.Table, market.Table, market_price.Table, order.Table, schema_migrations.Table, user.Table, user_exchange_keys.Table];
+  export type Table = customer.Table | dca_order.Table | dca_order_history.Table | exchange.Table | market.Table | market_price.Table | order.Table | schema_migrations.Table | trade.Table | user.Table | user_exchange_keys.Table;
+  export type Selectable = customer.Selectable | dca_order.Selectable | dca_order_history.Selectable | exchange.Selectable | market.Selectable | market_price.Selectable | order.Selectable | schema_migrations.Selectable | trade.Selectable | user.Selectable | user_exchange_keys.Selectable;
+  export type JSONSelectable = customer.JSONSelectable | dca_order.JSONSelectable | dca_order_history.JSONSelectable | exchange.JSONSelectable | market.JSONSelectable | market_price.JSONSelectable | order.JSONSelectable | schema_migrations.JSONSelectable | trade.JSONSelectable | user.JSONSelectable | user_exchange_keys.JSONSelectable;
+  export type Whereable = customer.Whereable | dca_order.Whereable | dca_order_history.Whereable | exchange.Whereable | market.Whereable | market_price.Whereable | order.Whereable | schema_migrations.Whereable | trade.Whereable | user.Whereable | user_exchange_keys.Whereable;
+  export type Insertable = customer.Insertable | dca_order.Insertable | dca_order_history.Insertable | exchange.Insertable | market.Insertable | market_price.Insertable | order.Insertable | schema_migrations.Insertable | trade.Insertable | user.Insertable | user_exchange_keys.Insertable;
+  export type Updatable = customer.Updatable | dca_order.Updatable | dca_order_history.Updatable | exchange.Updatable | market.Updatable | market_price.Updatable | order.Updatable | schema_migrations.Updatable | trade.Updatable | user.Updatable | user_exchange_keys.Updatable;
+  export type UniqueIndex = customer.UniqueIndex | dca_order.UniqueIndex | dca_order_history.UniqueIndex | exchange.UniqueIndex | market.UniqueIndex | market_price.UniqueIndex | order.UniqueIndex | schema_migrations.UniqueIndex | trade.UniqueIndex | user.UniqueIndex | user_exchange_keys.UniqueIndex;
+  export type Column = customer.Column | dca_order.Column | dca_order_history.Column | exchange.Column | market.Column | market_price.Column | order.Column | schema_migrations.Column | trade.Column | user.Column | user_exchange_keys.Column;
+  export type AllBaseTables = [customer.Table, dca_order.Table, dca_order_history.Table, exchange.Table, market.Table, market_price.Table, order.Table, schema_migrations.Table, trade.Table, user.Table, user_exchange_keys.Table];
   export type AllForeignTables = [];
   export type AllViews = [];
   export type AllMaterializedViews = [];
-  export type AllTablesAndViews = [customer.Table, dca_order.Table, dca_order_history.Table, exchange.Table, market.Table, market_price.Table, order.Table, schema_migrations.Table, user.Table, user_exchange_keys.Table];
+  export type AllTablesAndViews = [customer.Table, dca_order.Table, dca_order_history.Table, exchange.Table, market.Table, market_price.Table, order.Table, schema_migrations.Table, trade.Table, user.Table, user_exchange_keys.Table];
 
 
   export type SelectableForTable<T extends Table> = {
@@ -2557,6 +3000,7 @@ declare module 'zapatos/schema' {
     market_price: market_price.Selectable;
     order: order.Selectable;
     schema_migrations: schema_migrations.Selectable;
+    trade: trade.Selectable;
     user: user.Selectable;
     user_exchange_keys: user_exchange_keys.Selectable;
   }[T];
@@ -2570,6 +3014,7 @@ declare module 'zapatos/schema' {
     market_price: market_price.JSONSelectable;
     order: order.JSONSelectable;
     schema_migrations: schema_migrations.JSONSelectable;
+    trade: trade.JSONSelectable;
     user: user.JSONSelectable;
     user_exchange_keys: user_exchange_keys.JSONSelectable;
   }[T];
@@ -2583,6 +3028,7 @@ declare module 'zapatos/schema' {
     market_price: market_price.Whereable;
     order: order.Whereable;
     schema_migrations: schema_migrations.Whereable;
+    trade: trade.Whereable;
     user: user.Whereable;
     user_exchange_keys: user_exchange_keys.Whereable;
   }[T];
@@ -2596,6 +3042,7 @@ declare module 'zapatos/schema' {
     market_price: market_price.Insertable;
     order: order.Insertable;
     schema_migrations: schema_migrations.Insertable;
+    trade: trade.Insertable;
     user: user.Insertable;
     user_exchange_keys: user_exchange_keys.Insertable;
   }[T];
@@ -2609,6 +3056,7 @@ declare module 'zapatos/schema' {
     market_price: market_price.Updatable;
     order: order.Updatable;
     schema_migrations: schema_migrations.Updatable;
+    trade: trade.Updatable;
     user: user.Updatable;
     user_exchange_keys: user_exchange_keys.Updatable;
   }[T];
@@ -2622,6 +3070,7 @@ declare module 'zapatos/schema' {
     market_price: market_price.UniqueIndex;
     order: order.UniqueIndex;
     schema_migrations: schema_migrations.UniqueIndex;
+    trade: trade.UniqueIndex;
     user: user.UniqueIndex;
     user_exchange_keys: user_exchange_keys.UniqueIndex;
   }[T];
@@ -2635,6 +3084,7 @@ declare module 'zapatos/schema' {
     market_price: market_price.Column;
     order: order.Column;
     schema_migrations: schema_migrations.Column;
+    trade: trade.Column;
     user: user.Column;
     user_exchange_keys: user_exchange_keys.Column;
   }[T];
@@ -2648,6 +3098,7 @@ declare module 'zapatos/schema' {
     market_price: market_price.SQL;
     order: order.SQL;
     schema_migrations: schema_migrations.SQL;
+    trade: trade.SQL;
     user: user.SQL;
     user_exchange_keys: user_exchange_keys.SQL;
   }[T];
