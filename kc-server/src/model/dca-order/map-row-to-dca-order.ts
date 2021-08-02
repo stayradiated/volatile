@@ -12,10 +12,10 @@ const mapRowToDCAOrder = (row: s.dca_order.JSONSelectable): DCAOrder => ({
   startAt: DateTime.fromISO(row.start_at),
   marketOffset: row.market_offset,
   dailyAverage: row.daily_average,
-  minPriceNZD: row.min_price_nzd ?? 0,
-  maxPriceNZD: row.max_price_nzd ?? Number.POSITIVE_INFINITY,
-  minAmountNZD: row.min_amount_nzd ?? 0,
-  maxAmountNZD: row.max_amount_nzd ?? Number.POSITIVE_INFINITY,
+  minPriceNZD: row.min_price_nzd ?? undefined,
+  maxPriceNZD: row.max_price_nzd ?? undefined,
+  minAmountNZD: row.min_amount_nzd ?? undefined,
+  maxAmountNZD: row.max_amount_nzd ?? undefined,
 })
 
 export { mapRowToDCAOrder }
