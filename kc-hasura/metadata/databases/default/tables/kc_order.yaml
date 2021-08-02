@@ -1,0 +1,37 @@
+table:
+  name: order
+  schema: kc
+object_relationships:
+- name: exchange
+  using:
+    foreign_key_constraint_on: exchange_uid
+- name: user
+  using:
+    foreign_key_constraint_on: user_uid
+array_relationships:
+- name: dca_order_histories
+  using:
+    foreign_key_constraint_on:
+      column: order_uid
+      table:
+        name: dca_order_history
+        schema: kc
+select_permissions:
+- permission:
+    columns:
+    - uid
+    - created_at
+    - updated_at
+    - user_uid
+    - exchange_uid
+    - order_id
+    - symbol
+    - price_nzd
+    - amount
+    - type
+    - opened_at
+    - closed_at
+    filter:
+      user_uid:
+        _eq: X-Hasura-User-Id
+  role: user

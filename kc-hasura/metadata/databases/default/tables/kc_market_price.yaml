@@ -1,0 +1,17 @@
+table:
+  name: market_price
+  schema: kc
+object_relationships:
+- name: market
+  using:
+    foreign_key_constraint_on: market_uid
+select_permissions:
+- permission:
+    columns:
+    - currency
+    - fx_rate
+    - price
+    - price_nzd
+    - timestamp
+    filter: {}
+  role: user

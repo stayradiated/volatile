@@ -1,0 +1,26 @@
+table:
+  name: market
+  schema: kc
+array_relationships:
+- name: dca_orders
+  using:
+    foreign_key_constraint_on:
+      column: market_uid
+      table:
+        name: dca_order
+        schema: kc
+- name: market_prices
+  using:
+    foreign_key_constraint_on:
+      column: market_uid
+      table:
+        name: market_price
+        schema: kc
+select_permissions:
+- permission:
+    columns:
+    - id
+    - name
+    - uid
+    filter: {}
+  role: user

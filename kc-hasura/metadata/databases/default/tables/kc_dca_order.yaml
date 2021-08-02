@@ -1,0 +1,67 @@
+table:
+  name: dca_order
+  schema: kc
+object_relationships:
+- name: exchange
+  using:
+    foreign_key_constraint_on: exchange_uid
+- name: market
+  using:
+    foreign_key_constraint_on: market_uid
+- name: user
+  using:
+    foreign_key_constraint_on: user_uid
+- name: user_exchange_keys
+  using:
+    foreign_key_constraint_on: user_exchange_keys_uid
+array_relationships:
+- name: dca_order_histories
+  using:
+    foreign_key_constraint_on:
+      column: dca_order_uid
+      table:
+        name: dca_order_history
+        schema: kc
+select_permissions:
+- permission:
+    columns:
+    - daily_average
+    - exchange_uid
+    - market_offset
+    - market_uid
+    - max_amount_nzd
+    - max_price_nzd
+    - min_amount_nzd
+    - min_price_nzd
+    - start_at
+    - uid
+    - user_uid
+    filter:
+      user_uid:
+        _eq: X-Hasura-User-Id
+  role: user
+update_permissions:
+- permission:
+    check:
+      user_uid:
+        _eq: X-Hasura-User-Id
+    columns:
+    - daily_average
+    - market_offset
+    - market_uid
+    - max_amount_nzd
+    - max_price_nzd
+    - min_amount_nzd
+    - min_price_nzd
+    - start_at
+    - updated_at
+    filter:
+      user_uid:
+        _eq: X-Hasura-User-Id
+  role: user
+delete_permissions:
+- permission:
+    filter:
+      user_uid:
+        _eq: X-Hasura-User-Id
+  role: user

@@ -1,0 +1,40 @@
+table:
+  name: exchange
+  schema: kc
+array_relationships:
+- name: dca_orders
+  using:
+    foreign_key_constraint_on:
+      column: exchange_uid
+      table:
+        name: dca_order
+        schema: kc
+- name: orders
+  using:
+    foreign_key_constraint_on:
+      column: exchange_uid
+      table:
+        name: order
+        schema: kc
+- name: trades
+  using:
+    foreign_key_constraint_on:
+      column: exchange_uid
+      table:
+        name: trade
+        schema: kc
+- name: user_exchange_keys
+  using:
+    foreign_key_constraint_on:
+      column: exchange_uid
+      table:
+        name: user_exchange_keys
+        schema: kc
+select_permissions:
+- permission:
+    columns:
+    - id
+    - name
+    - uid
+    filter: {}
+  role: user
