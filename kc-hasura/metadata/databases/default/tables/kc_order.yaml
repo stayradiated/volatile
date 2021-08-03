@@ -34,4 +34,5 @@ select_permissions:
     filter:
       user_uid:
         _eq: X-Hasura-User-Id
+    limit: 92
   role: user

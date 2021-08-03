@@ -19,8 +19,10 @@ array_relationships:
 select_permissions:
 - permission:
     columns:
+    - uid
+    - created_at
+    - updated_at
     - id
     - name
-    - uid
     filter: {}
   role: user

@@ -19,6 +19,7 @@ array_relationships:
 select_permissions:
 - permission:
     columns:
+    - created_at
     - description
     - exchange_uid
     - invalidated_at

@@ -25,20 +25,26 @@ array_relationships:
 select_permissions:
 - permission:
     columns:
-    - daily_average
+    - uid
+    - created_at
+    - updated_at
+    - user_uid
     - exchange_uid
-    - market_offset
     - market_uid
-    - max_amount_nzd
+    - start_at
+    - market_offset
+    - daily_average
+    - min_price_nzd
     - max_price_nzd
     - min_amount_nzd
-    - min_price_nzd
-    - start_at
-    - uid
-    - user_uid
+    - max_amount_nzd
+    - user_exchange_keys_uid
+    - enabled_at
+    - symbol
     filter:
       user_uid:
         _eq: X-Hasura-User-Id
+    limit: 100
   role: user
 update_permissions:
 - permission:

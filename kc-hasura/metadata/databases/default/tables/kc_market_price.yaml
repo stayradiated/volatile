@@ -8,10 +8,13 @@ object_relationships:
 select_permissions:
 - permission:
     columns:
+    - timestamp
+    - market_uid
+    - price
     - currency
     - fx_rate
-    - price
     - price_nzd
-    - timestamp
+    - symbol
     filter: {}
+    limit: 100
   role: user
