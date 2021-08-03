@@ -6,8 +6,8 @@ importers:
     specifiers:
       '@stayradiated/error-boundary': 1.2.0
       '@stayradiated/jsconfig': 1.14.0
-      '@types/debug': 4.1.6
-      '@types/node': 16.4.1
+      '@types/debug': 4.1.7
+      '@types/node': 16.4.10
       ava: 3.15.0
       debug: 4.3.2
       del-cli: 4.0.1
@@ -28,8 +28,8 @@ importers:
       rambda: 6.9.0
     devDependencies:
       '@stayradiated/jsconfig': 1.14.0
-      '@types/debug': 4.1.6
-      '@types/node': 16.4.1
+      '@types/debug': 4.1.7
+      '@types/node': 16.4.10
       ava: 3.15.0
       del-cli: 4.0.1
       eslint-plugin-fp: 2.3.0
@@ -46,13 +46,13 @@ importers:
       '@stayradiated/market-price': workspace:1.0.0
       '@types/luxon': 1.27.1
       '@types/yargs': 17.0.2
-      '@vercel/ncc': ^0.28
+      '@vercel/ncc': ^0.29
       ava: 3.15.0
       console-table-printer: 2.9.0
       del-cli: 4.0.1
       eslint-plugin-fp: 2.3.0
       luxon: 2.0.1
-      rambda: 6.8.2
+      rambda: 6.9.0
       table: 6.7.1
       typescript: 4.3.5
       xo: 0.42.0
@@ -64,22 +64,19 @@ importers:
       '@stayradiated/market-price': link:../market-price
       console-table-printer: 2.9.0
       luxon: 2.0.1
-      rambda: 6.8.2
+      rambda: 6.9.0
       table: 6.7.1
       yargs: 17.0.1
     devDependencies:
       '@stayradiated/jsconfig': 1.14.0
       '@types/luxon': 1.27.1
       '@types/yargs': 17.0.2
-      '@vercel/ncc': 0.28.6
+      '@vercel/ncc': 0.29.0
       ava: 3.15.0
       del-cli: 4.0.1
       eslint-plugin-fp: 2.3.0
       typescript: 4.3.5
       xo: 0.42.0
-
-  kc-cli/dist/ncc:
-    specifiers: {}
 
   kc-config:
     specifiers:
@@ -106,9 +103,9 @@ importers:
 
   kc-hasura:
     specifiers:
-      hasura-cli: 2.0.2
+      hasura-cli: 2.0.3
     dependencies:
-      hasura-cli: 2.0.2
+      hasura-cli: 2.0.3
 
   kc-keyring:
     specifiers:
@@ -138,7 +135,7 @@ importers:
       '@types/bcrypt': 5.0.0
       '@types/luxon': 1.27.1
       '@types/pg': 8.6.1
-      '@vercel/ncc': ^0.28
+      '@vercel/ncc': ^0.29
       ava: 3.15.0
       bcrypt: 5.0.1
       debug: 4.3.2
@@ -146,12 +143,12 @@ importers:
       dotenv: 10.0.0
       env-var: 7.0.1
       eslint-plugin-fp: 2.3.0
-      fastify: 3.19.2
+      fastify: 3.20.0
       luxon: 2.0.1
       njwt: 1.1.0
-      pg: 8.6.0
-      rambda: 6.8.2
-      type-fest: 1.2.2
+      pg: 8.7.1
+      rambda: 6.9.0
+      type-fest: 1.3.0
       typescript: 4.3.5
       xo: 0.42.0
       zapatos: 5.0.0
@@ -166,22 +163,22 @@ importers:
       debug: 4.3.2
       dotenv: 10.0.0
       env-var: 7.0.1
-      fastify: 3.19.2
+      fastify: 3.20.0
       luxon: 2.0.1
       njwt: 1.1.0
-      pg: 8.6.0
-      rambda: 6.8.2
-      zapatos: 5.0.0_5422b3f4638d9e955d8a96498713115e
+      pg: 8.7.1
+      rambda: 6.9.0
+      zapatos: 5.0.0_05d70cfefa80cdc01bbefd7042981540
     devDependencies:
       '@stayradiated/jsconfig': 1.14.0
       '@types/bcrypt': 5.0.0
       '@types/luxon': 1.27.1
       '@types/pg': 8.6.1
-      '@vercel/ncc': 0.28.6
+      '@vercel/ncc': 0.29.0
       ava: 3.15.0
       del-cli: 4.0.1
       eslint-plugin-fp: 2.3.0
-      type-fest: 1.2.2
+      type-fest: 1.3.0
       typescript: 4.3.5
       xo: 0.42.0
 
@@ -189,8 +186,8 @@ importers:
     specifiers:
       '@stayradiated/error-boundary': 1.2.0
       '@stayradiated/jsconfig': 1.14.0
-      '@types/debug': 4.1.6
-      '@types/node': 16.4.1
+      '@types/debug': 4.1.7
+      '@types/node': 16.4.10
       ava: 3.15.0
       debug: 4.3.2
       del-cli: 4.0.1
@@ -209,8 +206,8 @@ importers:
       luxon: 2.0.1
     devDependencies:
       '@stayradiated/jsconfig': 1.14.0
-      '@types/debug': 4.1.6
-      '@types/node': 16.4.1
+      '@types/debug': 4.1.7
+      '@types/node': 16.4.10
       ava: 3.15.0
       del-cli: 4.0.1
       eslint-plugin-fp: 2.3.0
@@ -223,7 +220,7 @@ importers:
       '@stayradiated/error-boundary': 1.2.0
       '@stayradiated/jsconfig': 1.14.0
       '@stayradiated/kiwi-coin-api': workspace:1.0.1
-      '@types/debug': 4.1.6
+      '@types/debug': 4.1.7
       '@types/luxon': 1.27.1
       ava: 3.15.0
       debug: 4.3.2
@@ -243,7 +240,7 @@ importers:
       luxon: 2.0.1
     devDependencies:
       '@stayradiated/jsconfig': 1.14.0
-      '@types/debug': 4.1.6
+      '@types/debug': 4.1.7
       '@types/luxon': 1.27.1
       ava: 3.15.0
       del-cli: 4.0.1
@@ -601,8 +598,10 @@ packages:
       '@types/node': 16.0.0
     dev: true
 
-  /@types/debug/4.1.6:
-    resolution: {integrity: sha512-7fDOJFA/x8B+sO1901BmHlf5dE1cxBU8mRXj8QOEDnn16hhGJv/IHxJtZhvsabZsIMn0eLIyeOKAeqSNJJYTpA==}
+  /@types/debug/4.1.7:
+    resolution: {integrity: sha512-9AonUzyTjXXhEOa0DnqpzZi6VHlqKMswga9EXjpXnnqxwLtdvPPtlO8evrI5D9S6asFRCQ6v+wpiUKbw+vKqyg==}
+    dependencies:
+      '@types/ms': 0.7.31
     dev: true
 
   /@types/eslint/7.2.13:
@@ -632,6 +631,10 @@ packages:
     resolution: {integrity: sha512-jhuKLIRrhvCPLqwPcx6INqmKeiA5EWrsCOPhrlFSrbrmU4ZMPjj5Ul/oLCMDO98XRUIwVm78xICz4EPCektzeQ==}
     dev: true
 
+  /@types/ms/0.7.31:
+    resolution: {integrity: sha512-iiUgKzV9AuaEkZqkOLDIvlQiL6ltuZd9tGcW3gwpnX8JbuiuhFlEGmmFXEXkN50Cvq7Os88IY2v0dkDqXYWVgA==}
+    dev: true
+
   /@types/node/15.14.2:
     resolution: {integrity: sha512-dvMUE/m2LbXPwlvVuzCyslTEtQ2ZwuuFClDrOQ6mp2CenCg971719PTILZ4I6bTP27xfFFc+o7x2TkLuun/MPw==}
     dev: false
@@ -644,8 +647,8 @@ packages:
     resolution: {integrity: sha512-N87VuQi7HEeRJkhzovao/JviiqKjDKMVKxKMfUvSKw+MbkbW8R0nA3fi/MQhhlxV2fQ+2ReM+/Nt4efdrJx3zA==}
     dev: true
 
-  /@types/node/16.4.1:
-    resolution: {integrity: sha512-UW7cbLqf/Wu5XH2RKKY1cHwUNLicIDRLMraYKz+HHAerJ0ZffUEk+fMnd8qU2JaS6cAy0r8tsaf7yqHASf/Y0Q==}
+  /@types/node/16.4.10:
+    resolution: {integrity: sha512-TmVHsm43br64js9BqHWqiDZA+xMtbUpI1MBIA0EyiBmoV9pcEYFOSdj5fr6enZNfh4fChh+AGOLIzGwJnkshyQ==}
     dev: true
 
   /@types/normalize-package-data/2.4.0:
@@ -779,8 +782,8 @@ packages:
       eslint-visitor-keys: 2.1.0
     dev: true
 
-  /@vercel/ncc/0.28.6:
-    resolution: {integrity: sha512-t4BoSSuyK8BZaUE0gV18V6bkFs4st7baumtFGa50dv1tMu2GDBEBF8sUZaKBdKiL6DzJ2D2+XVCwYWWDcQOYdQ==}
+  /@vercel/ncc/0.29.0:
+    resolution: {integrity: sha512-p+sB835wOSDdgm2mgFgSOcXJF84AqZ+vBEnnGS0sm8veA92Hia7sqH0qEnqeFilPl+cXtxbdh2er+WdlfbVCZA==}
     hasBin: true
     dev: true
 
@@ -2284,8 +2287,8 @@ packages:
     resolution: {integrity: sha512-s1EQguBw/9qtc1p/WTY4eq9WMRIACkj+HTcOIK1in4MV5aFaQC9ZCIt0dJ7pr5bIf4lPpHvAtP2ywpTNgs7hqw==}
     dev: false
 
-  /fastify/3.19.2:
-    resolution: {integrity: sha512-s9naCdC0V1ynEzxMoe/0oX8XgcLk90VAnIms4z6KcF7Rpn1XiguoMyZSviTmv1x5rgy/OjGGBM45sNpMoBzCUQ==}
+  /fastify/3.20.0:
+    resolution: {integrity: sha512-JByESVCk+zIXVRgsHlnZb2Ye+XnSW2kgHwwDGmbdVWXgNqUI9M65pO/SKUJ6B82hDfyVaI53bqgFZbqhWnPEGQ==}
     dependencies:
       '@fastify/ajv-compiler': 1.1.0
       abstract-logging: 2.0.1
@@ -2628,8 +2631,8 @@ packages:
       function-bind: 1.1.1
     dev: true
 
-  /hasura-cli/2.0.2:
-    resolution: {integrity: sha512-HQeJ+9BoJtoGmP4cba4E6GCgs6azCSINCYgvqIKq9i7J6ECvARf6csXjjnv+ziNH/KfQ+c3dZPRYyy8tWRyrKQ==}
+  /hasura-cli/2.0.3:
+    resolution: {integrity: sha512-OxPPv8HBBf0o5p2EqgAgn1XX2VJ5U2nPOkeWD3Y+YhG0kRzV0rJsn5/yXcPoR+5L0cOZkUVsMzgOUd0El5n8tA==}
     engines: {node: '>=8'}
     hasBin: true
     requiresBuild: true
@@ -3864,12 +3867,12 @@ packages:
     resolution: {integrity: sha512-WCtabS6t3c8SkpDBUlb1kjOs7l66xsGdKpIPZsg4wR+B3+u9UAum2odSsF9tnvxg80h4ZxLWMy4pRjOsFIqQpw==}
     engines: {node: '>=4.0.0'}
 
-  /pg-pool/3.3.0_pg@8.6.0:
-    resolution: {integrity: sha512-0O5huCql8/D6PIRFAlmccjphLYWC+JIzvUhSzXSpGaf+tjTZc4nn+Lr7mLXBbFJfvwbP0ywDv73EiaBsxn7zdg==}
+  /pg-pool/3.4.1_pg@8.7.1:
+    resolution: {integrity: sha512-TVHxR/gf3MeJRvchgNHxsYsTCHQ+4wm3VIHSS19z8NC0+gioEhq1okDY1sm/TYbfoP6JLFx01s0ShvZ3puP/iQ==}
     peerDependencies:
       pg: '>=8.0'
     dependencies:
-      pg: 8.6.0
+      pg: 8.7.1
     dev: false
 
   /pg-protocol/1.5.0:
@@ -3885,8 +3888,8 @@ packages:
       postgres-date: 1.0.7
       postgres-interval: 1.2.0
 
-  /pg/8.6.0:
-    resolution: {integrity: sha512-qNS9u61lqljTDFvmk/N66EeGq3n6Ujzj0FFyNMGQr6XuEv4tgNTXvJQTfJdcvGit5p5/DWPu+wj920hAJFI+QQ==}
+  /pg/8.7.1:
+    resolution: {integrity: sha512-7bdYcv7V6U3KAtWjpQJJBww0UEsWuh4yQ/EjNf2HeO/NnvKjpvhEIe/A/TleP6wtmSKnUnghs5A9jUoK6iDdkA==}
     engines: {node: '>= 8.0.0'}
     peerDependencies:
       pg-native: '>=2.0.0'
@@ -3897,7 +3900,7 @@ packages:
       buffer-writer: 2.0.0
       packet-reader: 1.0.0
       pg-connection-string: 2.5.0
-      pg-pool: 3.3.0_pg@8.6.0
+      pg-pool: 3.4.1_pg@8.7.1
       pg-protocol: 1.5.0
       pg-types: 2.2.0
       pgpass: 1.0.4
@@ -4096,10 +4099,6 @@ packages:
   /rambda/6.7.0:
     resolution: {integrity: sha512-qg2atEwhAS4ipYoNfggkIP7qBUbY2OqdW17n25VqZIz5YC1MIwSpIToQ7XacvqSCZz16efM8Y8QKLx+Js1Sybg==}
     dev: true
-
-  /rambda/6.8.2:
-    resolution: {integrity: sha512-fIVr6nuqfHfJTguthGsWF930DkNq/ENraeSpYBj1kYvO/ieacux7rj2NW27JwwFrllFJwXkLpGyFMz99EwCJ3Q==}
-    dev: false
 
   /rambda/6.9.0:
     resolution: {integrity: sha512-yosVdGg1hNGkXPzqGiOYNEpXKjEOxzUCg2rB0l+NKdyCaSf4z+i5ojbN0IqDSezMMf71YEglI+ZUTgTffn5afw==}
@@ -4775,6 +4774,11 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
+  /type-fest/1.3.0:
+    resolution: {integrity: sha512-mYUYkAy6fPatVWtUeCV/qGeGL3IVucmdJOzeAEfwgCJDx8gP0JaW8jn6KQ5xDfPec31e0KXWn5EUOZMhquR1zA==}
+    engines: {node: '>=10'}
+    dev: true
+
   /typedarray-to-buffer/3.1.5:
     resolution: {integrity: sha512-zdu8XMNEDepKKR+XYOXAVPtWui0ly0NtohUscw+UmaHiAWT8hrV1rr//H6V+0DvJ3OQ19S979M0laLfX8rm82Q==}
     dependencies:
@@ -5071,7 +5075,7 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
-  /zapatos/5.0.0_5422b3f4638d9e955d8a96498713115e:
+  /zapatos/5.0.0_05d70cfefa80cdc01bbefd7042981540:
     resolution: {integrity: sha512-N/u/HQNcNLjL09DcV27V16iDIBs+cR9UfOkeWKK67kII8mbpSHHg0hZrmMymdYnwy9ioJ4Pdm5QhpNNF0/AZBA==}
     hasBin: true
     requiresBuild: true
@@ -5081,6 +5085,6 @@ packages:
       typescript: '>=4.1'
     dependencies:
       '@types/pg': 8.6.1
-      pg: 8.6.0
+      pg: 8.7.1
       typescript: 4.3.5
     dev: false
