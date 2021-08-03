@@ -1,7 +1,8 @@
 import { DateTime } from 'luxon'
 import * as s from 'zapatos/schema'
 
-import { DCAOrder } from './types.js'
+import type { CryptoSymbol } from '../../types.js'
+import type { DCAOrder } from './types.js'
 
 const mapRowToDCAOrder = (row: s.dca_order.JSONSelectable): DCAOrder => ({
   UID: row.uid,
@@ -9,6 +10,7 @@ const mapRowToDCAOrder = (row: s.dca_order.JSONSelectable): DCAOrder => ({
   exchangeUID: row.exchange_uid,
   userExchangeKeysUID: row.user_exchange_keys_uid,
   marketUID: row.market_uid,
+  symbol: row.symbol as CryptoSymbol,
   startAt: DateTime.fromISO(row.start_at),
   marketOffset: row.market_offset,
   dailyAverage: row.daily_average,

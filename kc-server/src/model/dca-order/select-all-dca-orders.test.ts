@@ -4,7 +4,7 @@ import { DateTime } from 'luxon'
 import test from '../../test-util/ava.js'
 
 import { selectAllDCAOrders } from './select-all-dca-orders.js'
-import { insertDCAOrder } from './insert-dca-order.js'
+import { insertDCAOrder, InsertDCAOrderOptions } from './insert-dca-order.js'
 
 test('dcaOrder', async (t) => {
   const { pool, make } = t.context
@@ -13,11 +13,12 @@ test('dcaOrder', async (t) => {
   const userExchangeKeysUID = await make.userExchangeKeys()
   const marketUID = await make.market()
 
-  const input = {
+  const input: InsertDCAOrderOptions = {
     userUID,
     exchangeUID,
     userExchangeKeysUID,
     marketUID,
+    symbol: 'BTC',
     startAt: DateTime.local(),
     dailyAverage: 10,
     marketOffset: -10,

@@ -96,6 +96,7 @@ const makeDCAOrder: MakeFn = (make) =>
       exchangeUID,
       userExchangeKeysUID,
       marketUID,
+      symbol: 'BTC',
       startAt: DateTime.local(),
       marketOffset: round(2, Math.random() * -100),
       dailyAverage: round(0, Math.random() * 1000),

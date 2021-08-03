@@ -73,7 +73,11 @@ const executeDCAOrder = async (
     totalAvailableNZD,
   )
 
-  const marketPriceNZD = await getMarketPrice(pool, dcaOrder.marketUID, 'BTC')
+  const marketPriceNZD = await getMarketPrice(
+    pool,
+    dcaOrder.marketUID,
+    dcaOrder.symbol,
+  )
   if (marketPriceNZD instanceof Error) {
     return marketPriceNZD
   }
@@ -100,14 +104,14 @@ const executeDCAOrder = async (
     const offsetPercent = (dcaOrder.marketOffset + 100) / 100
     const orderPriceNZD = round(2, marketPriceNZD * offsetPercent)
 
-    const amountBTC = round(8, amountNZD / orderPriceNZD)
+    const amountCrypto = round(8, amountNZD / orderPriceNZD)
     const freshOrder = await dasset.createOrder(config, {
-      amount: amountBTC,
+      amount: amountCrypto,
       limit: orderPriceNZD,
       orderType: 'LIMIT',
       side: dasset.OrderType.BUY,
       timeInForce: 'GOOD_TIL_CANCELLED',
-      tradingPair: 'BTC-NZD',
+      tradingPair: `${dcaOrder.symbol}-NZD`,
     })
     if (freshOrder instanceof Error) {
       return freshOrder
@@ -117,10 +121,10 @@ const executeDCAOrder = async (
       userUID: dcaOrder.userUID,
       exchangeUID: dcaOrder.exchangeUID,
       orderID: freshOrder.order.orderId,
-      symbol: 'BTC',
+      symbol: dcaOrder.symbol,
       type: 'BUY',
       priceNZD: orderPriceNZD,
-      amount: amountBTC,
+      amount: amountCrypto,
       openedAt: DateTime.local(),
       closedAt: undefined,
     })
@@ -149,8 +153,8 @@ const executeDCAOrder = async (
       marketPriceNZD,
       marketOffset: dcaOrderHistory.marketOffset,
       priceNZD: order.priceNZD,
-      amountBTC: order.amount,
-      valueNZD: order.amount * order.priceNZD,
+      amount: order.amount,
+      totalNZD: order.amount * order.priceNZD,
     })
   }
 }

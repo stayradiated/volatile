@@ -3,10 +3,12 @@ import { DateTime } from 'luxon'
 import { ActionHandlerFn } from '../../util/action-handler.js'
 import { insertDCAOrder } from '../../model/dca-order/index.js'
 import { getUserExchangeKeys } from '../../model/user-exchange-keys/index.js'
+import type { CryptoSymbol } from '../../types.js'
 
 type Input = {
   user_exchange_keys_uid: string
   market_uid: string
+  symbol: CryptoSymbol
   start_at: string
   market_offset: number
   daily_average: number
@@ -32,6 +34,7 @@ const createDCAOrderHandler: ActionHandlerFn<Input, Output> = async (
   const {
     user_exchange_keys_uid: userExchangeKeysUID,
     market_uid: marketUID,
+    symbol,
     start_at: startAt,
     market_offset: marketOffset,
     daily_average: dailyAverage,
@@ -51,6 +54,7 @@ const createDCAOrderHandler: ActionHandlerFn<Input, Output> = async (
     exchangeUID: userExchangeKeys.exchangeUID,
     userExchangeKeysUID,
     marketUID,
+    symbol,
     startAt: DateTime.fromISO(startAt),
     marketOffset,
     dailyAverage,
