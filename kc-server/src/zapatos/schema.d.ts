@@ -686,6 +686,12 @@ declare module 'zapatos/schema' {
       * - `NOT NULL`, no default
       */
       description: string;
+      /**
+      * **dca_order_history.symbol**
+      * - `varchar` in database
+      * - `NOT NULL`, no default
+      */
+      symbol: string;
     }
     export interface JSONSelectable {
       /**
@@ -760,6 +766,12 @@ declare module 'zapatos/schema' {
       * - `NOT NULL`, no default
       */
       description: string;
+      /**
+      * **dca_order_history.symbol**
+      * - `varchar` in database
+      * - `NOT NULL`, no default
+      */
+      symbol: string;
     }
     export interface Whereable {
       /**
@@ -834,6 +846,12 @@ declare module 'zapatos/schema' {
       * - `NOT NULL`, no default
       */
       description?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **dca_order_history.symbol**
+      * - `varchar` in database
+      * - `NOT NULL`, no default
+      */
+      symbol?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
     }
     export interface Insertable {
       /**
@@ -908,6 +926,12 @@ declare module 'zapatos/schema' {
       * - `NOT NULL`, no default
       */
       description: string | db.Parameter<string> | db.SQLFragment;
+      /**
+      * **dca_order_history.symbol**
+      * - `varchar` in database
+      * - `NOT NULL`, no default
+      */
+      symbol: string | db.Parameter<string> | db.SQLFragment;
     }
     export interface Updatable {
       /**
@@ -982,6 +1006,12 @@ declare module 'zapatos/schema' {
       * - `NOT NULL`, no default
       */
       description?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+      /**
+      * **dca_order_history.symbol**
+      * - `varchar` in database
+      * - `NOT NULL`, no default
+      */
+      symbol?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
     }
     export type UniqueIndex = 'dca_order_history_pkey' | 'unique_dca_order';
     export type Column = keyof Selectable;

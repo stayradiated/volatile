@@ -72,7 +72,11 @@ const executeDCAOrder = async (
     totalAvailableNZD,
   )
 
-  const marketPriceNZD = await getMarketPrice(pool, dcaOrder.marketUID, 'BTC')
+  const marketPriceNZD = await getMarketPrice(
+    pool,
+    dcaOrder.marketUID,
+    dcaOrder.symbol,
+  )
   if (marketPriceNZD instanceof Error) {
     return marketPriceNZD
   }
@@ -83,6 +87,7 @@ const executeDCAOrder = async (
       dcaOrderUID: dcaOrder.UID,
       orderUID: undefined,
       marketPriceNZD,
+      symbol: dcaOrder.symbol,
       marketOffset: dcaOrder.marketOffset,
       calculatedAmountNZD: goalAmountNZD,
       availableBalanceNZD: totalAvailableNZD,
@@ -116,7 +121,7 @@ const executeDCAOrder = async (
       console.log('Lowering bid price to just below lowest ask price')
     }
 
-    const amountBTC = round(8, amountNZD / orderPriceNZD)
+    const amountCrypto = round(8, amountNZD / orderPriceNZD)
     await Promise.all(
       previousOrders.map(async (previousOrder) => {
         const previousOrderID = Number.parseInt(previousOrder.orderID, 10)
@@ -141,7 +146,7 @@ const executeDCAOrder = async (
 
     const freshOrder = await kiwiCoin.buy(config, {
       price: orderPriceNZD,
-      amount: amountBTC,
+      amount: amountCrypto,
     })
     if (freshOrder instanceof Error) {
       return freshOrder
@@ -151,10 +156,10 @@ const executeDCAOrder = async (
       userUID: dcaOrder.userUID,
       exchangeUID: dcaOrder.exchangeUID,
       orderID: String(freshOrder.id),
-      symbol: 'BTC',
+      symbol: dcaOrder.symbol,
       type: 'BUY',
       priceNZD: orderPriceNZD,
-      amount: amountBTC,
+      amount: amountCrypto,
       openedAt: DateTime.local(),
       closedAt: undefined,
     })
@@ -167,6 +172,7 @@ const executeDCAOrder = async (
       dcaOrderUID: dcaOrder.UID,
       orderUID: order.UID,
       marketPriceNZD,
+      symbol: dcaOrder.symbol,
       marketOffset: dcaOrder.marketOffset,
       calculatedAmountNZD: goalAmountNZD,
       availableBalanceNZD: totalAvailableNZD,
@@ -183,7 +189,7 @@ const executeDCAOrder = async (
       marketPriceNZD,
       marketOffset: dcaOrderHistory.marketOffset,
       priceNZD: order.priceNZD,
-      amountBTC: order.amount,
+      amountCrypto: order.amount,
       valueNZD: order.amount * order.priceNZD,
     })
   }

@@ -70,7 +70,8 @@ CREATE TABLE kc.dca_order_history (
     calculated_amount_nzd numeric(12,2) NOT NULL,
     available_balance_nzd numeric(12,2) NOT NULL,
     created_order boolean NOT NULL,
-    description character varying NOT NULL
+    description character varying NOT NULL,
+    symbol character varying(4) NOT NULL
 );
 
 
@@ -482,4 +483,5 @@ INSERT INTO kc.schema_migrations (version) VALUES
     ('20210726092656'),
     ('20210727082212'),
     ('20210729091009'),
-    ('20210803064848');
+    ('20210803064848'),
+    ('20210803071520');

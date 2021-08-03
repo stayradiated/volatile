@@ -18,6 +18,7 @@ test('insertDCAOrderHistory', async (t) => {
     userUID,
     dcaOrderUID,
     orderUID,
+    symbol: 'BTC',
     marketPriceNZD: 54_321,
     marketOffset: -1.234,
     calculatedAmountNZD: 22.22,
