@@ -1,13 +1,12 @@
 import type { DateTime } from 'luxon'
 
 type RowData = {
-  date: DateTime
-  exchange: string
+  exchangeID: string
+  openedAt: DateTime
+  amount: number
+  priceNZD: number
+  totalNZD: number
   symbol: string
-  price: number
-  nzd: number
-  btc: number
-  fee: number
   type: string
 }
 

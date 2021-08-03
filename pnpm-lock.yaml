@@ -39,18 +39,16 @@ importers:
 
   kc-cli:
     specifiers:
-      '@stayradiated/dasset-api': workspace:1.0.1
+      '@stayradiated/error-boundary': 1.2.0
       '@stayradiated/jsconfig': 1.14.0
-      '@stayradiated/kc-config': workspace:1.0.0
-      '@stayradiated/kiwi-coin-api': workspace:1.0.1
-      '@stayradiated/market-price': workspace:1.0.0
       '@types/luxon': 1.27.1
       '@types/yargs': 17.0.2
       '@vercel/ncc': ^0.29
       ava: 3.15.0
-      console-table-printer: 2.9.0
       del-cli: 4.0.1
       eslint-plugin-fp: 2.3.0
+      ky: 0.28.5
+      ky-universal: 0.9.1
       luxon: 2.0.1
       rambda: 6.9.0
       table: 6.7.1
@@ -58,11 +56,9 @@ importers:
       xo: 0.42.0
       yargs: 17.0.1
     dependencies:
-      '@stayradiated/dasset-api': link:../dasset-api
-      '@stayradiated/kc-config': link:../kc-config
-      '@stayradiated/kiwi-coin-api': link:../kiwi-coin-api
-      '@stayradiated/market-price': link:../market-price
-      console-table-printer: 2.9.0
+      '@stayradiated/error-boundary': 1.2.0
+      ky: 0.28.5
+      ky-universal: 0.9.1_ky@0.28.5
       luxon: 2.0.1
       rambda: 6.9.0
       table: 6.7.1
@@ -1437,12 +1433,6 @@ packages:
 
   /console-control-strings/1.1.0:
     resolution: {integrity: sha1-PXz0Rk22RG6mRL9LOVB/mFEAjo4=}
-    dev: false
-
-  /console-table-printer/2.9.0:
-    resolution: {integrity: sha512-20o73riqnclLYJt5ggNqP2ZjtgL5OxJPWzTVi3LyVFVtubMH0XN+oOn9outL1XI5ldJgPcjdMAWc92vRscHAKA==}
-    dependencies:
-      simple-wcswidth: 1.0.1
     dev: false
 
   /convert-source-map/1.8.0:
@@ -4391,10 +4381,6 @@ packages:
 
   /signal-exit/3.0.3:
     resolution: {integrity: sha512-VUJ49FC8U1OxwZLxIbTTrDvLnf/6TDgxZcK8wxR8zs13xpx7xbG60ndBlhNrFi2EMuFRoeDoJO7wthSLq42EjA==}
-
-  /simple-wcswidth/1.0.1:
-    resolution: {integrity: sha512-xMO/8eNREtaROt7tJvWJqHBDTMFN4eiQ5I4JRMuilwfnFcV5W9u7RUkueNkdw0jPqGMX36iCywelS5yilTuOxg==}
-    dev: false
 
   /slash/3.0.0:
     resolution: {integrity: sha512-g9Q1haeby36OSStwb4ntCGGGaKsaVSjQ68fBxoQcutl5fS1vuY18H3wSt3jFyFtrkx+Kz0V1G85A4MyAdDMi2Q==}

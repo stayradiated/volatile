@@ -1,4 +1,11 @@
-import { readConfig, Config } from '@stayradiated/kc-config'
+import fs from 'fs/promises'
+import { errorBoundary } from '@stayradiated/error-boundary'
+
+type Config = {
+  endpoint: string
+  email: string
+  password: string
+}
 
 type Argv<T extends Record<string, unknown>> = T & {
   config?: string
@@ -18,7 +25,10 @@ const createHandler =
         return new Error('--config is required!')
       }
 
-      const config = await readConfig(configPath)
+      const config = await errorBoundary(async () => {
+        const contents = await fs.readFile(configPath, 'utf8')
+        return JSON.parse(contents)
+      })
       if (config instanceof Error) {
         return config
       }
