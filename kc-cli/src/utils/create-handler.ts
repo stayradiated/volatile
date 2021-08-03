@@ -2,8 +2,9 @@ import fs from 'fs/promises'
 import { errorBoundary } from '@stayradiated/error-boundary'
 
 type Config = {
-  endpoint: string,
-  auth_token: string,
+  endpoint: string
+  email: string
+  password: string
 }
 
 type Argv<T extends Record<string, unknown>> = T & {

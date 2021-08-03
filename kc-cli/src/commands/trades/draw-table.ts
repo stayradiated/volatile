@@ -1,7 +1,7 @@
-import { table as printTable } from 'table'
 import { sort } from 'rambda'
 import { DateTime } from 'luxon'
 
+import { table, Row8 } from '../../utils/table.js'
 import { RowData } from './types.js'
 
 const sortByDateAsc = sort<RowData>(
@@ -39,7 +39,7 @@ const calcTotals = (rows: readonly RowData[]): RowData => {
   }
 }
 
-const formatRow = (row: RowData): string[] => {
+const formatRow = (row: RowData): Row8 => {
   const date =
     row.date.valueOf() === 0 ? '-' : row.date.toFormat('yyyy-LL-dd HH:mm:ss')
   const exchange = row.exchange
@@ -55,44 +55,21 @@ const formatRow = (row: RowData): string[] => {
 
 const drawTable = (unsortedRows: RowData[]): string => {
   const rowData = sortByDateAsc(unsortedRows)
-  const totals = calcTotals(rowData)
 
-  const headers = ['date', 'exchange', 'symbol', 'price', 'nzd', 'btc', 'fee', 'type']
-  const rows = [...rowData, totals].map((row) => formatRow(row))
+  const header: Row8 = [
+    'date',
+    'exchange',
+    'symbol',
+    'price',
+    'nzd',
+    'btc',
+    'fee',
+    'type',
+  ]
+  const rows = rowData.map((row) => formatRow(row))
+  const footer = formatRow(calcTotals(rowData))
 
-  const table = [headers, ...rows]
-
-  const tableString = printTable(table, {
-    border: {
-      topBody: '-',
-      topJoin: '+',
-      topLeft: '|',
-      topRight: '|',
-      bottomBody: '-',
-      bottomJoin: '+',
-      bottomLeft: '|',
-      bottomRight: '|',
-      bodyLeft: '|',
-      bodyRight: '|',
-      bodyJoin: '|',
-      headerJoin: '+',
-      joinBody: '-',
-      joinLeft: '|',
-      joinRight: '|',
-      joinJoin: '+',
-    },
-    drawHorizontalLine: (lineIndex, rowCount) =>
-      lineIndex === 0 ||
-      lineIndex === 1 ||
-      lineIndex === rowCount - 1 ||
-      lineIndex === rowCount,
-    columnDefault: {
-      alignment: 'right',
-    },
-  })
-
-  // Add markdown alignment indicators
-  return tableString.replace(/---(\+|\|)/g, '--:$1')
+  return table({ header, rows, footer })
 }
 
 export { drawTable }

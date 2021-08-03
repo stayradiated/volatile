@@ -1,9 +1,8 @@
-import ky from 'ky-universal'
-import { HTTPError } from 'ky'
-import { errorBoundary } from '@stayradiated/error-boundary'
 import { DateTime } from 'luxon'
 
-import { createHandler, Config } from '../../utils/create-handler.js'
+import { graphql } from '../../utils/graphql.js'
+import { getAuthHeaders } from '../../utils/auth.js'
+import { createHandler } from '../../utils/create-handler.js'
 import { drawTable } from './draw-table.js'
 import type { RowData } from './types.js'
 
@@ -17,12 +16,12 @@ type GetTradesResult = {
   data: {
     kc_trade: Array<{
       exchange: {
-        id: string,
+        id: string
       }
-      timestamp: string,
-      amount: number,
-      symbol: string,
-      type: 'BUY' | 'SELL',
+      timestamp: string
+      amount: number
+      symbol: string
+      type: 'BUY' | 'SELL'
       price_nzd: number
       total_nzd: number
       fee_nzd: number
@@ -47,41 +46,32 @@ query getTrades {
 }
 `
 
-const graphql = async <T>(config: Config, query: string, variables: Record<string, unknown>): Promise<T|Error> => {
-  const result = await errorBoundary(async () => ky.post(config.endpoint, {
-    headers: {
-      Authorization: `Bearer ${config.auth_token}`,
-    },
-    body: JSON.stringify({ query, variables })
-  }).json())
-  if (result instanceof Error) {
-    if (result instanceof HTTPError) {
-      const response = (await result.response.json())
-      console.log(response)
-    }
-    return result
+export const handler = createHandler(async (config): Promise<void | Error> => {
+  const authHeaders = await getAuthHeaders(config)
+  if (authHeaders instanceof Error) {
+    return authHeaders
   }
-  return result as T
-}
 
-export const handler = createHandler(
-  async (config): Promise<void | Error> => {
-    const result = await graphql<GetTradesResult>(config, QUERY_GET_TRADES, {})
-    if (result instanceof Error) {
-      throw result
-    }
+  const result = await graphql<GetTradesResult>(
+    config.endpoint,
+    authHeaders,
+    QUERY_GET_TRADES,
+    {},
+  )
+  if (result instanceof Error) {
+    throw result
+  }
 
-    const rowData = result.data.kc_trade.map<RowData>((trade) => ({
-      exchange: trade.exchange.id,
-      date: DateTime.fromISO(trade.timestamp),
-      price: trade.price_nzd,
-      symbol: trade.symbol,
-      nzd: trade.total_nzd,
-      btc: trade.amount,
-      fee: trade.fee_nzd / trade.total_nzd * 100,
-      type: trade.type,
-    }))
+  const rowData = result.data.kc_trade.map<RowData>((trade) => ({
+    exchange: trade.exchange.id,
+    date: DateTime.fromISO(trade.timestamp),
+    price: trade.price_nzd,
+    symbol: trade.symbol,
+    nzd: trade.total_nzd,
+    btc: trade.amount,
+    fee: (trade.fee_nzd / trade.total_nzd) * 100,
+    type: trade.type,
+  }))
 
-    console.log(drawTable(rowData))
-  },
-)
+  console.log(drawTable(rowData))
+})
