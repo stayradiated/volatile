@@ -39,7 +39,6 @@ select_permissions:
     - min_amount_nzd
     - max_amount_nzd
     - user_exchange_keys_uid
-    - enabled_at
     - symbol
     filter:
       user_uid:
