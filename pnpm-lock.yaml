@@ -74,29 +74,6 @@ importers:
       typescript: 4.3.5
       xo: 0.42.0
 
-  kc-config:
-    specifiers:
-      '@stayradiated/error-boundary': 1.2.0
-      '@stayradiated/jsconfig': 1.14.0
-      '@stayradiated/kiwi-coin-api': workspace:1.0.1
-      '@stayradiated/market-price': workspace:1.0.0
-      ava: 3.15.0
-      del-cli: 4.0.1
-      eslint-plugin-fp: 2.3.0
-      typescript: 4.3.5
-      xo: 0.42.0
-    dependencies:
-      '@stayradiated/error-boundary': 1.2.0
-      '@stayradiated/kiwi-coin-api': link:../kiwi-coin-api
-      '@stayradiated/market-price': link:../market-price
-    devDependencies:
-      '@stayradiated/jsconfig': 1.14.0
-      ava: 3.15.0
-      del-cli: 4.0.1
-      eslint-plugin-fp: 2.3.0
-      typescript: 4.3.5
-      xo: 0.42.0
-
   kc-hasura:
     specifiers:
       hasura-cli: 2.0.3
@@ -124,7 +101,6 @@ importers:
       '@stayradiated/dasset-api': workspace:1.0.1
       '@stayradiated/error-boundary': 1.2.0
       '@stayradiated/jsconfig': 1.14.0
-      '@stayradiated/kc-config': workspace:1.0.0
       '@stayradiated/kc-keyring': workspace:1.0.0
       '@stayradiated/kiwi-coin-api': workspace:1.0.1
       '@stayradiated/market-price': workspace:1.0.0
@@ -152,7 +128,6 @@ importers:
     dependencies:
       '@stayradiated/dasset-api': link:../dasset-api
       '@stayradiated/error-boundary': 1.2.0
-      '@stayradiated/kc-config': link:../kc-config
       '@stayradiated/kc-keyring': link:../kc-keyring
       '@stayradiated/kiwi-coin-api': link:../kiwi-coin-api
       '@stayradiated/market-price': link:../market-price
@@ -182,8 +157,8 @@ importers:
 
   kc-web:
     specifiers:
-      '@apollo/client': 3.3.21
-      '@types/react': 17.0.14
+      '@apollo/client': 3.4.4
+      '@types/react': 17.0.15
       graphql: 15.5.1
       next: 11.0.1
       react: 17.0.2
@@ -191,14 +166,14 @@ importers:
       react-select: 5.0.0-beta.0
       typescript: 4.3.5
     dependencies:
-      '@apollo/client': 3.3.21_graphql@15.5.1+react@17.0.2
+      '@apollo/client': 3.4.4_graphql@15.5.1+react@17.0.2
       graphql: 15.5.1
       next: 11.0.1_f31b35bdaa3b7c2fce82404f09d2dac4
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
-      react-select: 5.0.0-beta.0_28c0df05a9559c3217649c6005b51123
+      react-select: 5.0.0-beta.0_6ed7afba42f0472a9770b39da668445f
     devDependencies:
-      '@types/react': 17.0.14
+      '@types/react': 17.0.15
       typescript: 4.3.5
 
   kiwi-coin-api:
@@ -269,8 +244,8 @@ importers:
 
 packages:
 
-  /@apollo/client/3.3.21_graphql@15.5.1+react@17.0.2:
-    resolution: {integrity: sha512-RAmZReFuKCKx0Rs5C0nVJwKomAHUHn+gGP/YvbEsXQWu0sXoncEUZa71UqlfCPVXa/0MkYOIbCXSQdOcuRrHgw==}
+  /@apollo/client/3.4.4_graphql@15.5.1+react@17.0.2:
+    resolution: {integrity: sha512-XuFudJUA/YDBeEbxxkUK80FEhpABaphvOuKu8VPwgvu9681Rrqju9e6tGpsoCBIBtcBjFMrFkEafAai7H+dVNw==}
     peerDependencies:
       graphql: ^14.0.0 || ^15.0.0
       react: ^16.8.0 || ^17.0.0
@@ -282,10 +257,9 @@ packages:
         optional: true
     dependencies:
       '@graphql-typed-document-node/core': 3.1.0_graphql@15.5.1
-      '@types/zen-observable': 0.8.3
       '@wry/context': 0.6.0
       '@wry/equality': 0.5.1
-      fast-json-stable-stringify: 2.1.0
+      '@wry/trie': 0.3.0
       graphql: 15.5.1
       graphql-tag: 2.12.5_graphql@15.5.1
       hoist-non-react-statics: 3.3.2
@@ -293,9 +267,9 @@ packages:
       prop-types: 15.7.2
       react: 17.0.2
       symbol-observable: 4.0.0
-      ts-invariant: 0.8.2
-      tslib: 1.14.1
-      zen-observable: 0.8.15
+      ts-invariant: 0.9.1
+      tslib: 2.3.0
+      zen-observable-ts: 1.1.0
     dev: false
 
   /@babel/code-frame/7.12.11:
@@ -574,7 +548,7 @@ packages:
     resolution: {integrity: sha512-igX9a37DR2ZPGYtV6suZ6whr8pTFtyHL3K/oLUotxpSVO2ASaprmAe2Dkq7tBo7CRY7MMDrAa9nuQP9/YG8FxQ==}
     dev: false
 
-  /@emotion/react/11.4.0_b2f98f1a44929e460196386bafc39b6a:
+  /@emotion/react/11.4.0_5801e6465414ef85acbf5710ce4c0dcf:
     resolution: {integrity: sha512-4XklWsl9BdtatLoJpSjusXhpKv9YVteYKh9hPKP1Sxl+mswEFoUe0WtmtWjxEjkA51DQ2QRMCNOvKcSlCQ7ivg==}
     peerDependencies:
       '@babel/core': ^7.0.0
@@ -592,7 +566,7 @@ packages:
       '@emotion/sheet': 1.0.1
       '@emotion/utils': 1.0.0
       '@emotion/weak-memoize': 0.2.5
-      '@types/react': 17.0.14
+      '@types/react': 17.0.15
       hoist-non-react-statics: 3.3.2
       react: 17.0.2
     dev: false
@@ -885,6 +859,15 @@ packages:
       '@types/prop-types': 15.7.4
       '@types/scheduler': 0.16.2
       csstype: 3.0.8
+    dev: false
+
+  /@types/react/17.0.15:
+    resolution: {integrity: sha512-uTKHDK9STXFHLaKv6IMnwp52fm0hwU+N89w/p9grdUqcFA6WuqDyPhaWopbNyE1k/VhgzmHl8pu1L4wITtmlLw==}
+    dependencies:
+      '@types/prop-types': 15.7.4
+      '@types/scheduler': 0.16.2
+      csstype: 3.0.8
+    dev: true
 
   /@types/scheduler/0.16.2:
     resolution: {integrity: sha512-hppQEBDmlwhFAXKJX2KnWLYu5yMfi91yazPb2l+lbJiwW+wdo1gNeRA+3RgNSO39WYX2euey41KEwnqesU2Jew==}
@@ -5145,7 +5128,7 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: false
 
-  /react-select/5.0.0-beta.0_28c0df05a9559c3217649c6005b51123:
+  /react-select/5.0.0-beta.0_6ed7afba42f0472a9770b39da668445f:
     resolution: {integrity: sha512-++fesS5HKxH0nbbDJDIaoupJlJzcItGJXxR29Q5y2FK37PRTpTKN8X0tfnmL5KvdTE2wLRw1qiL5dAiAPgM4tA==}
     peerDependencies:
       react: ^16.8.0 || ^17.0.0
@@ -5153,7 +5136,7 @@ packages:
     dependencies:
       '@babel/runtime': 7.14.8
       '@emotion/cache': 11.4.0
-      '@emotion/react': 11.4.0_b2f98f1a44929e460196386bafc39b6a
+      '@emotion/react': 11.4.0_5801e6465414ef85acbf5710ce4c0dcf
       '@types/react-transition-group': 4.4.2
       memoize-one: 5.2.1
       prop-types: 15.7.2
@@ -5965,8 +5948,8 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: true
 
-  /ts-invariant/0.8.2:
-    resolution: {integrity: sha512-VI1ZSMW8soizP5dU8DsMbj/TncHf7bIUqavuE7FTeYeQat454HHurJ8wbfCnVWcDOMkyiBUWOW2ytew3xUxlRw==}
+  /ts-invariant/0.9.1:
+    resolution: {integrity: sha512-hSeYibh29ULlHkuEfukcoiyTct+s2RzczMLTv4x3NWC/YrBy7x7ps5eYq/b4Y3Sb9/uAlf54+/5CAEMVxPhuQw==}
     engines: {node: '>=8'}
     dependencies:
       tslib: 2.3.0
@@ -5995,6 +5978,7 @@ packages:
 
   /tslib/1.14.1:
     resolution: {integrity: sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==}
+    dev: true
 
   /tslib/2.3.0:
     resolution: {integrity: sha512-N82ooyxVNm6h1riLCoyS9e3fuJ3AMG2zIZs2Gd1ATcSFjSA23Q0fzjjZeh0jbJvWVDZ0cJT8yaNNaaXHzueNjg==}
@@ -6461,6 +6445,13 @@ packages:
       '@types/pg': 8.6.1
       pg: 8.7.1
       typescript: 4.3.5
+    dev: false
+
+  /zen-observable-ts/1.1.0:
+    resolution: {integrity: sha512-1h4zlLSqI2cRLPJUHJFL8bCWHhkpuXkF+dbGkRaWjgDIG26DmzyshUMrdV/rL3UnR+mhaX4fRq8LPouq0MYYIA==}
+    dependencies:
+      '@types/zen-observable': 0.8.3
+      zen-observable: 0.8.15
     dev: false
 
   /zen-observable/0.8.15:

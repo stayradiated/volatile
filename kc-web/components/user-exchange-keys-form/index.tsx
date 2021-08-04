@@ -48,7 +48,7 @@ const UserExchangeKeysForm = () => {
   const { data, loading, error } = useQuery<QueryExchangeKeysFormData>(QUERY_EXCHANGE_KEYS_FORM);
   const [createUserExchangeKeys] = useMutation(MUTATION_CREATE_USER_EXCHANGE_KEYS)
 
-  const exchangeRef = useRef<SelectInstance<Exchange>>()
+  const exchangeRef = useRef<SelectInstance<Exchange>>(null)
   const descriptionRef = useRef<HTMLInputElement>(null)
   const keysRef = useRef<HTMLInputElement>(null)
 
