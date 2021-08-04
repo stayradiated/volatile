@@ -9,3 +9,7 @@ node_modules
 
 # pnpm log files
 *.log
+
+# databaes backups
+*.sql
+*.tar

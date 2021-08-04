@@ -24,6 +24,7 @@ array_relationships:
         schema: kc
 select_permissions:
 - permission:
+    allow_aggregations: true
     columns:
     - uid
     - created_at
@@ -40,6 +41,7 @@ select_permissions:
     - max_amount_nzd
     - user_exchange_keys_uid
     - symbol
+    - enabled_at
     filter:
       user_uid:
         _eq: X-Hasura-User-Id

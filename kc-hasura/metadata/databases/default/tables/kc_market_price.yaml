@@ -17,4 +17,16 @@ select_permissions:
     - symbol
     filter: {}
     limit: 100
+  role: guest
+- permission:
+    columns:
+    - timestamp
+    - market_uid
+    - price
+    - currency
+    - fx_rate
+    - price_nzd
+    - symbol
+    filter: {}
+    limit: 100
   role: user

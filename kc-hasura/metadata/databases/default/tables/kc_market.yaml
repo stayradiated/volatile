@@ -25,4 +25,13 @@ select_permissions:
     - id
     - name
     filter: {}
+  role: guest
+- permission:
+    columns:
+    - uid
+    - created_at
+    - updated_at
+    - id
+    - name
+    filter: {}
   role: user

@@ -16,6 +16,7 @@ actions:
     kind: synchronous
     handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/create_user'
   permissions:
+  - role: user
   - role: guest
 - name: create_user_exchange_keys
   definition:

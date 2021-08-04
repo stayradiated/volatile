@@ -49,8 +49,8 @@ CREATE TABLE kc.dca_order (
     min_amount_nzd numeric(12,2),
     max_amount_nzd numeric(12,2),
     user_exchange_keys_uid uuid NOT NULL,
-    enabled_at timestamp with time zone,
-    symbol character varying(4) NOT NULL
+    symbol character varying(4) NOT NULL,
+    enabled_at timestamp with time zone
 );
 
 
@@ -475,7 +475,6 @@ ALTER TABLE ONLY kc.user_exchange_keys
 
 INSERT INTO kc.schema_migrations (version) VALUES
     ('20210614092417'),
-    ('20210720084814'),
     ('20210721191422'),
     ('20210722105131'),
     ('20210725002018'),
