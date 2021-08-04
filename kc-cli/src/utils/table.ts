@@ -45,22 +45,22 @@ type RowAny =
   | Row10
 
 type TableOptions<R extends RowAny> = {
-  header?: R,
+  header?: R
   rows: R[]
-  footer?: R,
+  footer?: R
 }
 
 const table = <R extends RowAny>(options: TableOptions<R>): string => {
   const { header, rows, footer } = options
 
-  const allRows = [...rows]
-  if (header) {
-    allRows.unshift(header)
-  }
-
-  if (footer) {
-    allRows.push(footer)
-  }
+  const allRows =
+    header && footer
+      ? [header, ...rows, footer]
+      : header
+      ? [header, ...rows]
+      : footer
+      ? [...rows, footer]
+      : rows
 
   const tableString = formatArrayAsTable(allRows, {
     border: {

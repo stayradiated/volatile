@@ -23,15 +23,15 @@ mutation getAuthToken($email: String!, $password: String!) {
 `
 
 const getAuthToken = async (config: Config): Promise<string | Error> => {
-  const result = await graphql<GetAuthTokenResult>(
-    config.endpoint,
-    GUEST_SESSION,
-    QUERY_CREATE_AUTH_TOKEN,
-    {
+  const result = await graphql<GetAuthTokenResult>({
+    endpoint: config.endpoint,
+    headers: GUEST_SESSION,
+    query: QUERY_CREATE_AUTH_TOKEN,
+    variables: {
       email: config.email,
       password: config.password,
     },
-  )
+  })
   if (result instanceof Error) {
     return result
   }

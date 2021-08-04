@@ -38,20 +38,20 @@ query getOpenOrdesr {
 }
 `
 
-export const handler = createHandler(async (config): Promise<void | Error> => {
+export const handler = createHandler(async (config) => {
   const authHeaders = await getAuthHeaders(config)
   if (authHeaders instanceof Error) {
     return authHeaders
   }
 
-  const result = await graphql<GetOpenOrdersResult>(
-    config.endpoint,
-    authHeaders,
-    QUERY_GET_OPEN_ORDERS,
-    {},
-  )
+  const result = await graphql<GetOpenOrdersResult>({
+    endpoint: config.endpoint,
+    headers: authHeaders,
+    query: QUERY_GET_OPEN_ORDERS,
+    variables: {},
+  })
   if (result instanceof Error) {
-    throw result
+    return result
   }
 
   const rowData = result.data.kc_order.map<RowData>((order) => ({
@@ -65,4 +65,5 @@ export const handler = createHandler(async (config): Promise<void | Error> => {
   }))
 
   console.log(drawTable(rowData))
+  return undefined
 })

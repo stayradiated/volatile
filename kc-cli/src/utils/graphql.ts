@@ -2,12 +2,16 @@ import ky from 'ky-universal'
 import { HTTPError } from 'ky'
 import { errorBoundary } from '@stayradiated/error-boundary'
 
-const graphql = async <T>(
-  endpoint: string,
-  headers: Record<string, string>,
-  query: string,
-  variables: Record<string, unknown>,
-): Promise<T | Error> => {
+type GraphqlOptions = {
+  endpoint: string
+  headers: Record<string, string>
+  query: string
+  variables: Record<string, unknown>
+}
+
+const graphql = async <T>(options: GraphqlOptions): Promise<T | Error> => {
+  const { endpoint, headers, query, variables } = options
+
   const result = await errorBoundary(async () =>
     ky
       .post(endpoint, {
@@ -18,7 +22,7 @@ const graphql = async <T>(
   )
   if (result instanceof Error) {
     if (result instanceof HTTPError) {
-      const response = await result.response.json()
+      const response = (await result.response.json()) as Record<string, any>
       console.log(response)
     }
 
@@ -28,4 +32,57 @@ const graphql = async <T>(
   return result as T
 }
 
-export { graphql }
+type GraphqlPaginateOptions<T> = {
+  endpoint: string
+  query: string
+  headers: Record<string, string>
+  getTotal: (row: T) => number
+  merge: (a: T, b: T) => T
+  limit?: number
+  offset?: number
+}
+
+const graphqlPaginate = async <T>(
+  options: GraphqlPaginateOptions<T>,
+): Promise<T | Error> => {
+  const {
+    endpoint,
+    query,
+    headers,
+    getTotal,
+    merge,
+    limit = 100,
+    offset = 0,
+  } = options
+
+  const result = await graphql<T>({
+    endpoint,
+    query,
+    headers,
+    variables: {
+      limit,
+      offset,
+    },
+  })
+  if (result instanceof Error) {
+    return result
+  }
+
+  const count = limit + offset
+  const total = getTotal(result)
+  if (total > count) {
+    const nextResults = await graphqlPaginate({
+      ...options,
+      offset: offset + limit,
+    })
+    if (nextResults instanceof Error) {
+      return nextResults
+    }
+
+    return merge(result, nextResults)
+  }
+
+  return result
+}
+
+export { graphql, graphqlPaginate }

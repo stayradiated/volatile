@@ -25,9 +25,9 @@ const createHandler =
         return new Error('--config is required!')
       }
 
-      const config = await errorBoundary(async () => {
+      const config = await errorBoundary<Config>(async () => {
         const contents = await fs.readFile(configPath, 'utf8')
-        return JSON.parse(contents)
+        return JSON.parse(contents) as Config
       })
       if (config instanceof Error) {
         return config

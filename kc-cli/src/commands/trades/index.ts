@@ -1,6 +1,6 @@
 import { DateTime } from 'luxon'
 
-import { graphql } from '../../utils/graphql.js'
+import { graphqlPaginate } from '../../utils/graphql.js'
 import { getAuthHeaders } from '../../utils/auth.js'
 import { createHandler } from '../../utils/create-handler.js'
 import { drawTable } from './draw-table.js'
@@ -14,6 +14,11 @@ export const builder = {}
 
 type GetTradesResult = {
   data: {
+    kc_trade_aggregate: {
+      aggregate: {
+        count: number
+      }
+    }
     kc_trade: Array<{
       exchange: {
         id: string
@@ -30,11 +35,10 @@ type GetTradesResult = {
 }
 
 const QUERY_GET_TRADES = `
-query getTrades {
-  kc_trade(order_by: {timestamp: asc}) {
-    exchange {
-      id
-    }
+query getTrades($limit: Int!, $offset: Int!) {
+  kc_trade_aggregate { aggregate { count } }
+  kc_trade(order_by: {timestamp: asc}, limit: $limit, offset: $offset) {
+    exchange { id }
     timestamp
     amount
     symbol
@@ -46,20 +50,26 @@ query getTrades {
 }
 `
 
-export const handler = createHandler(async (config): Promise<void | Error> => {
+export const handler = createHandler(async (config) => {
   const authHeaders = await getAuthHeaders(config)
   if (authHeaders instanceof Error) {
     return authHeaders
   }
 
-  const result = await graphql<GetTradesResult>(
-    config.endpoint,
-    authHeaders,
-    QUERY_GET_TRADES,
-    {},
-  )
+  const result = await graphqlPaginate<GetTradesResult>({
+    endpoint: config.endpoint,
+    query: QUERY_GET_TRADES,
+    headers: authHeaders,
+    getTotal: (result) => result.data.kc_trade_aggregate.aggregate.count,
+    merge: (a, b) => ({
+      data: {
+        kc_trade_aggregate: a.data.kc_trade_aggregate,
+        kc_trade: [...a.data.kc_trade, ...b.data.kc_trade],
+      },
+    }),
+  })
   if (result instanceof Error) {
-    throw result
+    return result
   }
 
   const rowData = result.data.kc_trade.map<RowData>((trade) => ({
@@ -74,4 +84,6 @@ export const handler = createHandler(async (config): Promise<void | Error> => {
   }))
 
   console.log(drawTable(rowData))
+
+  return undefined
 })
