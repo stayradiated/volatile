@@ -5,8 +5,8 @@ import type * as s from 'zapatos/schema'
 
 import { pool } from '../../pool.js'
 import * as hash from '../../util/hash.js'
-import { insertUser } from './index.js'
 import { keyring } from '../../util/keyring.js'
+import { insertUser } from './index.js'
 
 test('insertUser: should create a user', async (t) => {
   const email = 'user@domain.com'

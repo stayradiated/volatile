@@ -17,6 +17,14 @@ const STRIPE_WEBHOOK_SECRET = env
   .required()
   .asString()
 
+const DASSET_API_KEY = env.get('DASSET_API_KEY').required().asString()
+const DASSET_ACCOUNT_ID = env.get('DASSET_ACCOUNT_ID').required().asString()
+
+const OPEN_EXCHANGE_RATES_APP_ID = env
+  .get('OPEN_EXCHANGE_RATES_APP_ID')
+  .required()
+  .asString()
+
 export {
   PORT,
   CONFIG_PATH,
@@ -26,4 +34,7 @@ export {
   JWT_SECRET,
   STRIPE_API_KEY,
   STRIPE_WEBHOOK_SECRET,
+  DASSET_ACCOUNT_ID,
+  DASSET_API_KEY,
+  OPEN_EXCHANGE_RATES_APP_ID,
 }

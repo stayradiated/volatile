@@ -11,8 +11,7 @@ import type {
 import { errorBoundary } from '@stayradiated/error-boundary'
 
 import { pool } from '../pool.js'
-import type { Pool, Config } from '../types.js'
-import { config } from './config.js'
+import type { Pool } from '../types.js'
 
 type RouteHandler<RequestGeneric> = RouteHandlerMethod<
   RawServerDefault,
@@ -27,7 +26,6 @@ type HandlerRequest<Input> = {
 
 type Context<Input> = {
   pool: Pool
-  config: Config
   request: FastifyRequest<HandlerRequest<Input>>
 }
 
@@ -40,7 +38,7 @@ const wrapHandler =
     fn: HandlerFn<Input, Output>,
   ): RouteHandler<HandlerRequest<Input>> =>
   async (request, reply) => {
-    const context: Context<Input> = { pool, request, config }
+    const context: Context<Input> = { pool, request }
 
     const output = await fn(context)
     if (output instanceof Error) {
@@ -53,23 +51,28 @@ const wrapHandler =
 
 const bindHandler =
   (fastify: FastifyInstance) =>
-  <Request, Output>(path: string, fn: HandlerFn<Request, Output>) =>
-    fastify.register((fastify, _options, done) => {
-      fastify.addContentTypeParser(
-        'application/json',
-        { parseAs: 'buffer' },
-        (_request, body, done) => {
-          const error = errorBoundary(() => {
-            const newBody = { raw: body }
-            done(null, newBody)
-          })
-          if (error instanceof Error) {
-            done(error, undefined)
-          }
-        },
-      )
-      fastify.post(path, wrapHandler<Request, Output>(fn))
-      done()
+  <Request, Output>(path: string, fn: HandlerFn<Request, Output>) => {
+    Promise.resolve(
+      fastify.register((fastify, _options, done) => {
+        fastify.addContentTypeParser(
+          'application/json',
+          { parseAs: 'buffer' },
+          (_request, body, done) => {
+            const error = errorBoundary(() => {
+              const newBody = { raw: body }
+              done(null, newBody)
+            })
+            if (error instanceof Error) {
+              done(error, undefined)
+            }
+          },
+        )
+        fastify.post(path, wrapHandler<Request, Output>(fn))
+        done()
+      }),
+    ).catch((error) => {
+      console.error(error)
     })
+  }
 
 export { HandlerFn, wrapHandler, bindHandler }

@@ -2,7 +2,7 @@ import { inspect } from 'util'
 import * as db from 'zapatos/db'
 import type * as s from 'zapatos/schema'
 
-import test from '../../test-utils/ava.js'
+import test from '../../test-util/ava.js'
 
 import { insertUserExchangeKeys, getUserExchangeKeys } from './index.js'
 

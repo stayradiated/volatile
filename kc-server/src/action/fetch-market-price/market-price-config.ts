@@ -3,6 +3,8 @@ import {
   marketPriceSources,
 } from '@stayradiated/market-price'
 
+import { DASSET_API_KEY, DASSET_ACCOUNT_ID } from '../../env.js'
+
 import {
   Market,
   MARKET_BINANCE_US,
@@ -10,10 +12,9 @@ import {
   MARKET_KIWI_COIN,
   MARKET_EASY_CRYPTO,
 } from '../../model/market/index.js'
-import type { Config, Currency, CryptoSymbol } from '../../types.js'
+import type { Currency, CryptoSymbol } from '../../types.js'
 
 type FetchContext = {
-  config: Config
   symbol: CryptoSymbol
   currency: Currency
 }
@@ -44,9 +45,12 @@ const marketPriceConfigList: MarketPriceConfig[] = [
     market: MARKET_DASSET,
     currency: 'NZD',
     symbols: ['BTC', 'ETH'],
-    createFetchPriceFn: ({ config, symbol, currency }) =>
+    createFetchPriceFn: ({ symbol, currency }) =>
       createCachedFetchFn(marketPriceSources.dasset, {
-        config: config.dasset,
+        config: {
+          apiKey: DASSET_API_KEY,
+          accountId: DASSET_ACCOUNT_ID,
+        },
         symbol,
         currency,
       }),

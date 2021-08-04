@@ -7,8 +7,7 @@ import type {
 } from 'fastify/types/utils'
 
 import { pool } from '../pool.js'
-import type { Pool, Config } from '../types.js'
-import { config } from './config.js'
+import type { Pool } from '../types.js'
 
 type RouteHandler<RouteGeneric> = RouteHandlerMethod<
   RawServerDefault,
@@ -66,7 +65,6 @@ type Context<Input> = {
   pool: Pool
   input: Input
   session: Session
-  config: Config
   headers: RawRequestDefaultExpression['headers']
 }
 
@@ -87,8 +85,6 @@ const wrapActionHandler =
       return
     }
 
-    console.log(request.body)
-
     const { session_variables: sessionVariables, input, action } = request.body
     const session = parseSessionVariables(sessionVariables)
     if (session instanceof Error) {
@@ -106,7 +102,7 @@ const wrapActionHandler =
     }
 
     try {
-      const context = { pool, input, session, config, headers: request.headers }
+      const context = { pool, input, session, headers: request.headers }
       const output = await fn(context)
       if (output instanceof Error) {
         await reply.code(400).send({ message: output.message })
@@ -116,7 +112,6 @@ const wrapActionHandler =
       await reply.send(output)
     } catch (error: unknown) {
       await reply.code(500).send({ message: inspect(error) })
-      return
     }
   }
 

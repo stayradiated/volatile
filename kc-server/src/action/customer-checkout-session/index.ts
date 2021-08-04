@@ -1,7 +1,7 @@
-import { ActionHandlerFn } from '../../utils/action-handler.js'
-import { stripe } from '../../utils/stripe.js'
+import { ActionHandlerFn } from '../../util/action-handler.js'
+import { stripe } from '../../util/stripe.js'
 
-import { getOrCreateCustomer } from '../../models/customer/index.js'
+import { getOrCreateCustomer } from '../../model/customer/index.js'
 
 const PRICE_ID = 'price_1JGejYDbaust07uDDS1lHEus'
 

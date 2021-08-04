@@ -1,7 +1,7 @@
 import { errorBoundary } from '@stayradiated/error-boundary'
 
-import { HandlerFn } from '../../utils/handler.js'
-import { stripe } from '../../utils/stripe.js'
+import { HandlerFn } from '../../util/handler.js'
+import { stripe } from '../../util/stripe.js'
 import { STRIPE_WEBHOOK_SECRET } from '../../env.js'
 
 type Input = {

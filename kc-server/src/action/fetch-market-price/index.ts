@@ -21,13 +21,13 @@ const SLEEP_MS = 60 * 1000
 const fetchMarketPriceHandler: ActionHandlerFn<Input, Output> = async (
   context,
 ): Promise<void> => {
-  const { config, pool } = context
+  const { pool } = context
 
   const currencyFnList = currencyConfigList.map((currencyConfig) => {
     const { createFetchRateFn } = currencyConfig
     return {
       ...currencyConfig,
-      fetchRate: createFetchRateFn(config),
+      fetchRate: createFetchRateFn(),
     }
   })
 
@@ -59,7 +59,6 @@ const fetchMarketPriceHandler: ActionHandlerFn<Input, Output> = async (
         currency,
         symbol,
         fetchPrice: createFetchPriceFn({
-          config,
           symbol,
           currency,
         }),

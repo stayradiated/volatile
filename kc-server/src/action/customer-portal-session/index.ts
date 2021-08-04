@@ -1,6 +1,6 @@
-import { ActionHandlerFn } from '../../utils/action-handler.js'
-import { stripe } from '../../utils/stripe.js'
-import { getCustomer } from '../../models/customer/index.js'
+import { ActionHandlerFn } from '../../util/action-handler.js'
+import { stripe } from '../../util/stripe.js'
+import { getCustomer } from '../../model/customer/index.js'
 
 type Input = Record<string, unknown>
 

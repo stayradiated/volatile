@@ -23,12 +23,6 @@ actions:
     handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/create_user_exchange_keys'
   permissions:
   - role: user
-- name: sync_exchange_trade_list
-  definition:
-    kind: synchronous
-    handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/sync_exchange_trade_list'
-  permissions:
-  - role: user
 - name: customer_checkout_session
   definition:
     kind: ""
@@ -39,6 +33,12 @@ actions:
   definition:
     kind: ""
     handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/customer_portal_session'
+  permissions:
+  - role: user
+- name: sync_exchange_trade_list
+  definition:
+    kind: synchronous
+    handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/sync_exchange_trade_list'
   permissions:
   - role: user
 - name: validate_user_exchange_keys
@@ -102,7 +102,6 @@ custom_types:
       field_mapping:
         user_exchange_keys_uid: uid
   - name: CreateDCAOrderResult
-<<<<<<< HEAD
   - name: SyncTradeListOutput
     relationships:
     - remote_table:
@@ -124,23 +123,6 @@ custom_types:
       field_mapping:
         user_uid: uid
   - name: CreateUserExchangeKeysOutput
-||||||| parent of bdcd03e (feat: forms and lists)
-=======
-    relationships:
-    - remote_table:
-        schema: kc
-        name: dca_order
-      name: dca_order
-      source: default
-      type: object
-      field_mapping:
-        dca_order_uid: uid
->>>>>>> bdcd03e (feat: forms and lists)
-  - name: WebhookOutput
-  - name: CreateCheckoutSession
-  - name: CreateCustomerPortalSession
-  - name: CustomerCheckoutSessionOutput
-  - name: CreateUserExchangeKeysOutput
     relationships:
     - remote_table:
         schema: kc
@@ -150,4 +132,8 @@ custom_types:
       type: object
       field_mapping:
         user_exchange_keys_uid: uid
+  - name: WebhookOutput
+  - name: CreateCheckoutSession
+  - name: CreateCustomerPortalSession
+  - name: CustomerCheckoutSessionOutput
   scalars: []

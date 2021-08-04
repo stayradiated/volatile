@@ -1,7 +1,7 @@
 import * as db from 'zapatos/db'
 import { errorBoundary } from '@stayradiated/error-boundary'
 
-import { keyring } from '../../utils/keyring.js'
+import { keyring } from '../../util/keyring.js'
 
 import type { Pool } from '../../types.js'
 

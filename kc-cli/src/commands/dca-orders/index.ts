@@ -29,8 +29,8 @@ type GetDCAOrdersResult = {
         description: string
 
         order: {
-          price_nzd: number,
-          amount: number,
+          price_nzd: number
+          amount: number
         }
       }>
     }>

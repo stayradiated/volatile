@@ -1,7 +1,7 @@
 import { errorBoundary } from '@stayradiated/error-boundary'
 
-import { stripe } from '../../utils/stripe.js'
-import { getUserEmail } from '../../models/user/index.js'
+import { stripe } from '../../util/stripe.js'
+import { getUserEmail } from '../../model/user/index.js'
 import type { Pool } from '../../types.js'
 import { insertCustomer } from './insert-customer.js'
 
