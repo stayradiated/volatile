@@ -1,1 +1,13 @@
-[]
+- name: Fetch Market Price
+  webhook: '{{HASURA_ACTIONS_ENDPOINT}}/cron/fetch_market_price'
+  schedule: '* * * * *'
+  include_in_metadata: true
+  payload:
+    session_variables:
+      role: admin
+    input: {}
+    action:
+      name: fetch_market_price
+  headers:
+  - name: x-hasura-actions-secret
+    value_from_env: HASURA_ACTIONS_SECRET

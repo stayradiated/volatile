@@ -1,3 +1,4 @@
+import { Buffer } from 'buffer'
 import { errorBoundary } from '@stayradiated/error-boundary'
 
 import { HandlerFn } from '../../util/handler.js'

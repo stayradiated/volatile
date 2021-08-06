@@ -1,7 +1,7 @@
 import { inspect } from 'util'
 import { DateTime } from 'luxon'
 
-import test from '../../test-util/ava.js'
+import { test } from '../../test-util/ava.js'
 
 import { selectAllDCAOrders } from './select-all-dca-orders.js'
 import { insertDCAOrder, InsertDCAOrderOptions } from './insert-dca-order.js'

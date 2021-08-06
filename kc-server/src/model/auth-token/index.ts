@@ -26,6 +26,8 @@ const createAuthToken = async (
     WHERE ${{ email_hash: emailHash }}
   `.run(pool)
 
+  console.log(emailHash)
+
   if (!row) {
     return new Error('Invalid email or password.')
   }

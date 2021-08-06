@@ -1,7 +1,7 @@
 import { DateTime } from 'luxon'
 import { throwIfError } from '@stayradiated/error-boundary'
 
-import test from '../../test-util/ava.js'
+import { test } from '../../test-util/ava.js'
 
 import { insertDCAOrder, InsertDCAOrderOptions } from './insert-dca-order.js'
 import type { DCAOrder } from './types.js'

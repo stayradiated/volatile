@@ -1,7 +1,7 @@
 import { DateTime } from 'luxon'
 import { throwIfError } from '@stayradiated/error-boundary'
 
-import test from '../../test-util/ava.js'
+import { test } from '../../test-util/ava.js'
 
 import { insertTrade } from '../trade/index.js'
 import { getDCAOrderCurrentAmountNZD } from './get-dca-order-current-amount-nzd.js'

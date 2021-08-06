@@ -3,18 +3,28 @@ actions:
   definition:
     kind: synchronous
     handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/create_auth_token'
+    headers:
+    - name: x-hasura-actions-secret
+      value_from_env: HASURA_ACTIONS_SECRET
   permissions:
+  - role: user
   - role: guest
 - name: create_dca_order
   definition:
     kind: synchronous
     handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/create_dca_order'
+    headers:
+    - name: x-hasura-actions-secret
+      value_from_env: HASURA_ACTIONS_SECRET
   permissions:
   - role: user
 - name: create_user
   definition:
     kind: synchronous
     handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/create_user'
+    headers:
+    - name: x-hasura-actions-secret
+      value_from_env: HASURA_ACTIONS_SECRET
   permissions:
   - role: user
   - role: guest
@@ -22,39 +32,56 @@ actions:
   definition:
     kind: synchronous
     handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/create_user_exchange_keys'
+    headers:
+    - name: x-hasura-actions-secret
+      value_from_env: HASURA_ACTIONS_SECRET
   permissions:
   - role: user
 - name: customer_checkout_session
   definition:
     kind: ""
     handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/customer_checkout_session'
+    headers:
+    - name: x-hasura-actions-secret
+      value_from_env: HASURA_ACTIONS_SECRET
   permissions:
   - role: user
 - name: customer_portal_session
   definition:
     kind: ""
     handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/customer_portal_session'
+    headers:
+    - value: HASURA_ACTIONS_SECRET
+      name: x-hasura-actions-secret
   permissions:
   - role: user
 - name: sync_exchange_trade_list
   definition:
     kind: synchronous
     handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/sync_exchange_trade_list'
+    headers:
+    - value: HASURA_ACTIONS_SECRET
+      name: x-hasura-actions-secret
+  permissions:
+  - role: user
+- name: update_user
+  definition:
+    kind: synchronous
+    handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/update_user'
+    headers:
+    - name: x-hasura-actions-secret
+      value_from_env: HASURA_ACTIONS_SECRET
   permissions:
   - role: user
 - name: validate_user_exchange_keys
   definition:
     kind: synchronous
     handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/validate_user_exchange_keys'
+    headers:
+    - value: HASURA_ACTIONS_SECRET
+      name: x-hasura-actions-secret
   permissions:
   - role: user
-- name: webhook
-  definition:
-    kind: synchronous
-    handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/webhook'
-    forward_client_headers: true
-  permissions:
-  - role: guest
 custom_types:
   enums: []
   input_objects:
@@ -137,4 +164,15 @@ custom_types:
   - name: CreateCheckoutSession
   - name: CreateCustomerPortalSession
   - name: CustomerCheckoutSessionOutput
+  - name: UpdateUserPasswordOutput
+  - name: UpdateUserOutput
+    relationships:
+    - remote_table:
+        schema: kc
+        name: user
+      name: user
+      source: default
+      type: object
+      field_mapping:
+        user_uid: uid
   scalars: []

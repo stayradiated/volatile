@@ -4,12 +4,12 @@ import type { Hooks } from 'ky'
 const createDebugHooks = (debug: Debugger): Hooks => ({
   beforeRequest: [
     (request) => {
-      debug(request.url)
+      debug(`∙ ${request.url}`)
     },
   ],
   afterResponse: [
     (request) => {
-      debug(request.url)
+      debug(`✓ ${request.url}`)
     },
   ],
 })

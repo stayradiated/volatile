@@ -1,4 +1,5 @@
 import fs from 'fs/promises'
+import * as process from 'process'
 import { errorBoundary } from '@stayradiated/error-boundary'
 
 type Config = {

@@ -35,6 +35,7 @@ const graphql = async <T>(options: GraphqlOptions): Promise<T | Error> => {
 type GraphqlPaginateOptions<T> = {
   endpoint: string
   query: string
+  variables: Record<string, unknown>
   headers: Record<string, string>
   getTotal: (row: T) => number
   merge: (a: T, b: T) => T
@@ -48,6 +49,7 @@ const graphqlPaginate = async <T>(
   const {
     endpoint,
     query,
+    variables,
     headers,
     getTotal,
     merge,
@@ -60,6 +62,7 @@ const graphqlPaginate = async <T>(
     query,
     headers,
     variables: {
+      ...variables,
       limit,
       offset,
     },

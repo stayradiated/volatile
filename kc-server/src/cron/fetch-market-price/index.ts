@@ -2,7 +2,7 @@ import { setTimeout } from 'timers/promises'
 import { inspect } from 'util'
 import debug from 'debug'
 
-import type { ActionHandlerFn } from '../../util/action-handler.js'
+import type { CronHandlerFn } from '../../util/cron-handler.js'
 import { getMarketUID } from '../../model/market/index.js'
 import { insertMarketPrice } from '../../model/market-price/index.js'
 import { currencyConfigList, Currency } from './currency-config.js'
@@ -18,7 +18,7 @@ const log = debug('market-price')
 
 const SLEEP_MS = 60 * 1000
 
-const fetchMarketPriceHandler: ActionHandlerFn<Input, Output> = async (
+const fetchMarketPriceHandler: CronHandlerFn<Input, Output> = async (
   context,
 ): Promise<void> => {
   const { pool } = context

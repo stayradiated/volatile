@@ -1,27 +1,27 @@
-import { inspect } from 'util'
-import test from 'ava'
+import { throwIfError } from '@stayradiated/error-boundary'
 import * as db from 'zapatos/db'
 import type * as s from 'zapatos/schema'
 
-import { pool } from '../../pool.js'
+import { test } from '../../test-util/ava.js'
 import * as hash from '../../util/hash.js'
 import { keyring } from '../../util/keyring.js'
-import { insertUser } from './index.js'
+import { insertUser } from './insert-user.js'
+import type { User } from './types.js'
 
 test('insertUser: should create a user', async (t) => {
-  const email = 'user@domain.com'
+  const { pool } = t.context
+
+  const email = 'sealscarf@example.com'
   const emailHash = hash.sha256(email)
 
   const password = 'hunter2'
 
-  const userResult = await insertUser(pool, {
-    email,
-    password,
-  })
-  if (userResult instanceof Error) {
-    t.fail(inspect(userResult))
-    return
-  }
+  const userResult = await throwIfError<User>(
+    insertUser(pool, {
+      email,
+      password,
+    }),
+  )
 
   const rows = await db.sql<s.user.SQL, s.user.Selectable[]>`
     SELECT * FROM ${'user'}
@@ -50,17 +50,19 @@ test('insertUser: should create a user', async (t) => {
 })
 
 test('insertUser: should enforce unique emails', async (t) => {
-  const user = await insertUser(pool, {
-    email: 'user.a@domain.com',
-    password: 'password',
-  })
-  if (user instanceof Error) {
-    t.fail(inspect(user))
-    return
-  }
+  const { pool } = t.context
+
+  const email = 'telescope@example.com'
+
+  await throwIfError<User>(
+    insertUser(pool, {
+      email,
+      password: 'password',
+    }),
+  )
 
   const error = await insertUser(pool, {
-    email: 'user.a@domain.com',
+    email,
     password: 'password',
   })
   t.true(error instanceof Error)

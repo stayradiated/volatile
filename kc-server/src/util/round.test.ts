@@ -1,4 +1,4 @@
-import test from 'ava'
+import { test } from '../test-util/ava.js'
 
 import { round } from './round.js'
 

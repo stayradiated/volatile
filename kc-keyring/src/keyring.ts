@@ -1,4 +1,5 @@
 import crypto from 'crypto'
+import { Buffer } from 'buffer'
 
 type Algorithm = string
 type KeySize = number

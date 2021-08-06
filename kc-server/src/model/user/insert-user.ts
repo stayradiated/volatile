@@ -5,8 +5,9 @@ import { errorBoundary } from '@stayradiated/error-boundary'
 
 import { keyring } from '../../util/keyring.js'
 import * as hash from '../../util/hash.js'
-
 import type { Pool } from '../../types.js'
+import { hasUserByEmailHash } from './has-user-by-email-hash.js'
+
 import type { User } from './types.js'
 
 type InsertUserOptions = {
@@ -27,12 +28,12 @@ const insertUser = async (
 
   const emailHash = hash.sha256(email)
 
-  const [existsRow] = await db.sql<s.user.SQL, Array<{ exists: boolean }>>`
-    SELECT EXISTS(
-      SELECT 1 FROM ${'user'} WHERE ${{ email_hash: emailHash }}
-    )
-  `.run(pool)
-  if (existsRow?.exists) {
+  const emailIsAlreadyUsed = await hasUserByEmailHash(pool, emailHash)
+  if (emailIsAlreadyUsed instanceof Error) {
+    return emailIsAlreadyUsed
+  }
+
+  if (emailIsAlreadyUsed) {
     return new Error('Could not create user, email already exists in DB.')
   }
 
@@ -52,10 +53,7 @@ const insertUser = async (
   }
 
   const error = await errorBoundary(async () =>
-    db.sql<s.user.SQL>`
-    INSERT INTO ${'user'} (${db.cols(insert)})
-    VALUES (${db.vals(insert)})
-  `.run(pool),
+    db.insert('user', insert).run(pool),
   )
   if (error instanceof Error) {
     return error

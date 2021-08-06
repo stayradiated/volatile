@@ -1,7 +1,7 @@
 import { inspect } from 'util'
 import * as db from 'zapatos/db'
 
-import test from '../../test-util/ava.js'
+import { test } from '../../test-util/ava.js'
 
 import {
   insertDCAOrderHistory,

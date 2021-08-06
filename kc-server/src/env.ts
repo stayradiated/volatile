@@ -1,3 +1,4 @@
+import { Buffer } from 'buffer'
 import env from 'env-var'
 import { UserKeys } from '@stayradiated/kc-keyring'
 
@@ -10,6 +11,11 @@ const JWT_SECRET = Buffer.from(
   env.get('JWT_SECRET').required().asString(),
   'utf8',
 )
+
+const HASURA_ACTIONS_SECRET = env
+  .get('HASURA_ACTIONS_SECRET')
+  .required()
+  .asString()
 
 const STRIPE_API_KEY = env.get('STRIPE_API_KEY').required().asString()
 const STRIPE_WEBHOOK_SECRET = env
@@ -32,6 +38,7 @@ export {
   DIGEST_SALT,
   BCRYPT_SALT_ROUNDS,
   JWT_SECRET,
+  HASURA_ACTIONS_SECRET,
   STRIPE_API_KEY,
   STRIPE_WEBHOOK_SECRET,
   DASSET_ACCOUNT_ID,

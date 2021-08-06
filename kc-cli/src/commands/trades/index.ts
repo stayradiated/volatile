@@ -1,3 +1,4 @@
+import type { Argv } from 'yargs'
 import { DateTime } from 'luxon'
 
 import { graphqlPaginate } from '../../utils/graphql.js'
@@ -10,7 +11,16 @@ export const command = 'trades'
 
 export const desc = 'Print trades'
 
-export const builder = {}
+type Options = {
+  symbol: string
+}
+
+export const builder = (yargs: Argv) =>
+  yargs.option('symbol', {
+    alias: 's',
+    type: 'string',
+    required: true,
+  })
 
 type GetTradesResult = {
   data: {
@@ -35,9 +45,18 @@ type GetTradesResult = {
 }
 
 const QUERY_GET_TRADES = `
-query getTrades($limit: Int!, $offset: Int!) {
+query getTrades(
+  $symbol: String!,
+  $limit: Int!,
+  $offset: Int!
+) {
   kc_trade_aggregate { aggregate { count } }
-  kc_trade(order_by: {timestamp: asc}, limit: $limit, offset: $offset) {
+  kc_trade(
+    where: { symbol: { _eq: $symbol } },
+    order_by: { timestamp: asc },
+    limit: $limit,
+    offset: $offset
+  ) {
     exchange { id }
     timestamp
     amount
@@ -50,7 +69,9 @@ query getTrades($limit: Int!, $offset: Int!) {
 }
 `
 
-export const handler = createHandler(async (config) => {
+export const handler = createHandler<Options>(async (config, argv) => {
+  const { symbol } = argv
+
   const authHeaders = await getAuthHeaders(config)
   if (authHeaders instanceof Error) {
     return authHeaders
@@ -59,6 +80,9 @@ export const handler = createHandler(async (config) => {
   const result = await graphqlPaginate<GetTradesResult>({
     endpoint: config.endpoint,
     query: QUERY_GET_TRADES,
+    variables: {
+      symbol,
+    },
     headers: authHeaders,
     getTotal: (result) => result.data.kc_trade_aggregate.aggregate.count,
     merge: (a, b) => ({

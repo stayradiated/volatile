@@ -50,23 +50,16 @@ type Mutation {
 }
 
 type Mutation {
-  validate_user_exchange_keys (
-    user_exchange_keys_uid: String!
-  ): ValidateUserExchangeKeysOutput
+  update_user (
+    email: String
+    password: String
+  ): UpdateUserOutput!
 }
 
 type Mutation {
-  webhook (
-    api_version: String
-    created: Int
-    data: jsonb
-    id: String
-    livemode: Boolean
-    object: String
-    pending_webhooks: Int
-    request: jsonb
-    type: String
-  ): WebhookOutput
+  validate_user_exchange_keys (
+    user_exchange_keys_uid: String!
+  ): ValidateUserExchangeKeysOutput
 }
 
 input SampleInput {
@@ -131,5 +124,13 @@ type CreateCustomerPortalSession {
 
 type CustomerCheckoutSessionOutput {
   session_url : String!
+}
+
+type UpdateUserPasswordOutput {
+  user_uid : uuid!
+}
+
+type UpdateUserOutput {
+  user_uid : uuid!
 }
 
