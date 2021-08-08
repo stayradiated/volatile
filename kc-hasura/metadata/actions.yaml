@@ -55,6 +55,33 @@ actions:
       name: x-hasura-actions-secret
   permissions:
   - role: user
+- name: enable_user_2fa
+  definition:
+    kind: synchronous
+    handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/enable_user_2fa'
+    headers:
+    - name: x-hasura-actions-secret
+      value_from_env: HASURA_ACTIONS_SECRET
+  permissions:
+  - role: user
+- name: reset_user_password
+  definition:
+    kind: synchronous
+    handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/reset_user_password'
+    headers:
+    - name: x-hasura-actions-secret
+      value_from_env: HASURA_ACTIONS_SECRET
+  permissions:
+  - role: user
+- name: send_user_password_reset
+  definition:
+    kind: synchronous
+    handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/send_user_password_reset'
+    headers:
+    - name: x-hasura-actions-secret
+      value_from_env: HASURA_ACTIONS_SECRET
+  permissions:
+  - role: user
 - name: sync_exchange_trade_list
   definition:
     kind: synchronous
@@ -175,4 +202,7 @@ custom_types:
       type: object
       field_mapping:
         user_uid: uid
+  - name: EnableUser2FAOutput
+  - name: SendUserPasswordResetOutput
+  - name: ResetUserPasswordOutput
   scalars: []

@@ -183,6 +183,37 @@ CREATE TABLE kc."user" (
 
 
 --
+-- Name: user_2fa; Type: TABLE; Schema: kc; Owner: -
+--
+
+CREATE TABLE kc.user_2fa (
+    uid uuid NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL,
+    user_uid uuid NOT NULL,
+    name text NOT NULL,
+    secret_encrypted text NOT NULL,
+    secret_keyring_id smallint NOT NULL
+);
+
+
+--
+-- Name: user_device; Type: TABLE; Schema: kc; Owner: -
+--
+
+CREATE TABLE kc.user_device (
+    uid uuid NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL,
+    accessed_at timestamp with time zone NOT NULL,
+    user_uid uuid NOT NULL,
+    name text NOT NULL,
+    device_id_hash text NOT NULL,
+    trusted boolean NOT NULL
+);
+
+
+--
 -- Name: user_exchange_keys; Type: TABLE; Schema: kc; Owner: -
 --
 
@@ -197,6 +228,20 @@ CREATE TABLE kc.user_exchange_keys (
     keys_hash character varying NOT NULL,
     description character varying(128) NOT NULL,
     invalidated_at timestamp with time zone
+);
+
+
+--
+-- Name: user_password_reset; Type: TABLE; Schema: kc; Owner: -
+--
+
+CREATE TABLE kc.user_password_reset (
+    uid uuid NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL,
+    expires_at timestamp with time zone NOT NULL,
+    user_uid uuid NOT NULL,
+    secret_hash text NOT NULL
 );
 
 
@@ -321,6 +366,22 @@ ALTER TABLE ONLY kc.trade
 
 
 --
+-- Name: user_2fa unique_user_2fa_user_uid; Type: CONSTRAINT; Schema: kc; Owner: -
+--
+
+ALTER TABLE ONLY kc.user_2fa
+    ADD CONSTRAINT unique_user_2fa_user_uid UNIQUE (user_uid);
+
+
+--
+-- Name: user_device unique_user_device_user_uid_device_id_hash; Type: CONSTRAINT; Schema: kc; Owner: -
+--
+
+ALTER TABLE ONLY kc.user_device
+    ADD CONSTRAINT unique_user_device_user_uid_device_id_hash UNIQUE (user_uid, device_id_hash);
+
+
+--
 -- Name: user unique_user_email_hash; Type: CONSTRAINT; Schema: kc; Owner: -
 --
 
@@ -329,11 +390,43 @@ ALTER TABLE ONLY kc."user"
 
 
 --
+-- Name: user_password_reset unique_user_password_reset_secret_hash; Type: CONSTRAINT; Schema: kc; Owner: -
+--
+
+ALTER TABLE ONLY kc.user_password_reset
+    ADD CONSTRAINT unique_user_password_reset_secret_hash UNIQUE (secret_hash);
+
+
+--
+-- Name: user_2fa user_2fa_pkey; Type: CONSTRAINT; Schema: kc; Owner: -
+--
+
+ALTER TABLE ONLY kc.user_2fa
+    ADD CONSTRAINT user_2fa_pkey PRIMARY KEY (uid);
+
+
+--
+-- Name: user_device user_device_pkey; Type: CONSTRAINT; Schema: kc; Owner: -
+--
+
+ALTER TABLE ONLY kc.user_device
+    ADD CONSTRAINT user_device_pkey PRIMARY KEY (uid);
+
+
+--
 -- Name: user_exchange_keys user_exchange_keys_pkey; Type: CONSTRAINT; Schema: kc; Owner: -
 --
 
 ALTER TABLE ONLY kc.user_exchange_keys
     ADD CONSTRAINT user_exchange_keys_pkey PRIMARY KEY (uid);
+
+
+--
+-- Name: user_password_reset user_password_reset_pkey; Type: CONSTRAINT; Schema: kc; Owner: -
+--
+
+ALTER TABLE ONLY kc.user_password_reset
+    ADD CONSTRAINT user_password_reset_pkey PRIMARY KEY (uid);
 
 
 --
@@ -449,6 +542,22 @@ ALTER TABLE ONLY kc.trade
 
 
 --
+-- Name: user_2fa fk_user_2fa_user; Type: FK CONSTRAINT; Schema: kc; Owner: -
+--
+
+ALTER TABLE ONLY kc.user_2fa
+    ADD CONSTRAINT fk_user_2fa_user FOREIGN KEY (user_uid) REFERENCES kc."user"(uid) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: user_device fk_user_device_user; Type: FK CONSTRAINT; Schema: kc; Owner: -
+--
+
+ALTER TABLE ONLY kc.user_device
+    ADD CONSTRAINT fk_user_device_user FOREIGN KEY (user_uid) REFERENCES kc."user"(uid) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
 -- Name: user_exchange_keys fk_user_exchange_keys_exchange; Type: FK CONSTRAINT; Schema: kc; Owner: -
 --
 
@@ -462,6 +571,14 @@ ALTER TABLE ONLY kc.user_exchange_keys
 
 ALTER TABLE ONLY kc.user_exchange_keys
     ADD CONSTRAINT fk_user_exchange_keys_user FOREIGN KEY (user_uid) REFERENCES kc."user"(uid) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: user_password_reset fk_user_password_reset_user; Type: FK CONSTRAINT; Schema: kc; Owner: -
+--
+
+ALTER TABLE ONLY kc.user_password_reset
+    ADD CONSTRAINT fk_user_password_reset_user FOREIGN KEY (user_uid) REFERENCES kc."user"(uid) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
@@ -483,4 +600,5 @@ INSERT INTO kc.schema_migrations (version) VALUES
     ('20210727082212'),
     ('20210729091009'),
     ('20210803064848'),
-    ('20210803071520');
+    ('20210803071520'),
+    ('20210807084803');

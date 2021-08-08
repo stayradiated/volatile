@@ -67,7 +67,6 @@ type Context<Input> = {
   pool: Pool
   input: Input
   session: Session
-  headers: RawRequestDefaultExpression['headers']
 }
 
 type ActionHandlerFn<Input, Output> = (
@@ -124,7 +123,6 @@ const wrapActionHandler =
         pool,
         input,
         session,
-        headers: request.headers,
       }
       const output = await fn(context)
       if (output instanceof Error) {

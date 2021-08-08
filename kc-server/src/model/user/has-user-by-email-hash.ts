@@ -11,7 +11,9 @@ const hasUserByEmailHash = async (
   const rows = await errorBoundary(async () =>
     db.sql<s.user.SQL, Array<{ exists: boolean }>>`
     SELECT EXISTS(
-      SELECT 1 FROM ${'user'} WHERE ${{ email_hash: emailHash }}
+      SELECT 1
+      FROM ${'user'}
+      WHERE ${{ email_hash: emailHash }}
     )
   `.run(pool),
   )

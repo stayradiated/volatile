@@ -1,6 +1,6 @@
 - name: Fetch Market Price
   webhook: '{{HASURA_ACTIONS_ENDPOINT}}/cron/fetch_market_price'
-  schedule: '* * * * *'
+  schedule: 0 12 * * 5
   include_in_metadata: true
   payload:
     session_variables:

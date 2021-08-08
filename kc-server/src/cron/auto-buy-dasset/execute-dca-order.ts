@@ -61,7 +61,11 @@ const executeDCAOrder = async (
     return syncError
   }
 
-  const goalAmountNZD = await getDCAOrderCurrentAmountNZD(pool, dcaOrder)
+  const goalAmountNZD = await getDCAOrderCurrentAmountNZD(
+    pool,
+    dcaOrder,
+    DateTime.local(),
+  )
   if (goalAmountNZD instanceof Error) {
     return goalAmountNZD
   }

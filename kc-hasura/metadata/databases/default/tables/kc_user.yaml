@@ -1,6 +1,14 @@
 table:
   name: user
   schema: kc
+object_relationships:
+- name: user2FA
+  using:
+    foreign_key_constraint_on:
+      column: user_uid
+      table:
+        name: user_2fa
+        schema: kc
 array_relationships:
 - name: dca_order_histories
   using:
@@ -29,6 +37,13 @@ array_relationships:
       column: user_uid
       table:
         name: trade
+        schema: kc
+- name: user_devices
+  using:
+    foreign_key_constraint_on:
+      column: user_uid
+      table:
+        name: user_device
         schema: kc
 - name: user_exchange_keys
   using:

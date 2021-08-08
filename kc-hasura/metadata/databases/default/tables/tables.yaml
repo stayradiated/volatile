@@ -6,4 +6,7 @@
 - "!include kc_order.yaml"
 - "!include kc_trade.yaml"
 - "!include kc_user.yaml"
+- "!include kc_user_2fa.yaml"
+- "!include kc_user_device.yaml"
 - "!include kc_user_exchange_keys.yaml"
+- "!include kc_user_reset_password.yaml"

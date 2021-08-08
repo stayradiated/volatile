@@ -18,8 +18,11 @@ addAction('create_user', actions.createUserHandler)
 addAction('create_user_exchange_keys', actions.createUserExchangeKeysHandler)
 addAction('customer_checkout_session', actions.customerCheckoutSessionHandler)
 addAction('customer_portal_session', actions.customerPortalSessionHandler)
-addAction('update_user', actions.updateUserHandler)
+addAction('enable_user_2fa', actions.enableUser2FAHandler)
+addAction('reset_user_password', actions.resetUserPasswordHandler)
+addAction('send_user_password_reset', actions.sendUserPasswordResetHandler)
 addAction('sync_exchange_trade_list', actions.syncExchangeTradeListHandler)
+addAction('update_user', actions.updateUserHandler)
 addAction(
   'validate_user_exchange_keys',
   actions.validateUserExchangeKeysHandler,

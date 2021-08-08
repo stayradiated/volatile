@@ -118,6 +118,7 @@ importers:
       fastify: 3.20.1
       luxon: 2.0.1
       njwt: 1.1.0
+      otplib: 12.0.1
       pg: 8.7.1
       rambda: 6.9.0
       stripe: 8.168.0
@@ -138,6 +139,7 @@ importers:
       fastify: 3.20.1
       luxon: 2.0.1
       njwt: 1.1.0
+      otplib: 12.0.1
       pg: 8.7.1
       rambda: 6.9.0
       stripe: 8.168.0
@@ -742,6 +744,39 @@ packages:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.11.1
     dev: true
+
+  /@otplib/core/12.0.1:
+    resolution: {integrity: sha512-4sGntwbA/AC+SbPhbsziRiD+jNDdIzsZ3JUyfZwjtKyc/wufl1pnSIaG4Uqx8ymPagujub0o92kgBnB89cuAMA==}
+    dev: false
+
+  /@otplib/plugin-crypto/12.0.1:
+    resolution: {integrity: sha512-qPuhN3QrT7ZZLcLCyKOSNhuijUi9G5guMRVrxq63r9YNOxxQjPm59gVxLM+7xGnHnM6cimY57tuKsjK7y9LM1g==}
+    dependencies:
+      '@otplib/core': 12.0.1
+    dev: false
+
+  /@otplib/plugin-thirty-two/12.0.1:
+    resolution: {integrity: sha512-MtT+uqRso909UkbrrYpJ6XFjj9D+x2Py7KjTO9JDPhL0bJUYVu5kFP4TFZW4NFAywrAtFRxOVY261u0qwb93gA==}
+    dependencies:
+      '@otplib/core': 12.0.1
+      thirty-two: 1.0.2
+    dev: false
+
+  /@otplib/preset-default/12.0.1:
+    resolution: {integrity: sha512-xf1v9oOJRyXfluBhMdpOkr+bsE+Irt+0D5uHtvg6x1eosfmHCsCC6ej/m7FXiWqdo0+ZUI6xSKDhJwc8yfiOPQ==}
+    dependencies:
+      '@otplib/core': 12.0.1
+      '@otplib/plugin-crypto': 12.0.1
+      '@otplib/plugin-thirty-two': 12.0.1
+    dev: false
+
+  /@otplib/preset-v11/12.0.1:
+    resolution: {integrity: sha512-9hSetMI7ECqbFiKICrNa4w70deTUfArtwXykPUvSHWOdzOlfa9ajglu7mNCntlvxycTiOAXkQGwjQCzzDEMRMg==}
+    dependencies:
+      '@otplib/core': 12.0.1
+      '@otplib/plugin-crypto': 12.0.1
+      '@otplib/plugin-thirty-two': 12.0.1
+    dev: false
 
   /@sindresorhus/is/0.14.0:
     resolution: {integrity: sha512-9NET910DNaIPngYnLLPeg+Ogzqsi9uM4mSboU5y6p8S5DzMTVEsJZrawi+BoDNUVBa2DhJqQYUFvMDfgU062LQ==}
@@ -4611,6 +4646,14 @@ packages:
     resolution: {integrity: sha1-hUNzx/XCMVkU/Jv8a9gjj92h7Cc=}
     dev: false
 
+  /otplib/12.0.1:
+    resolution: {integrity: sha512-xDGvUOQjop7RDgxTQ+o4pOol0/3xSZzawTiPKRrHnQWAy0WjhNs/5HdIDJCrqC4MBynmjXgULc6YfioaxZeFgg==}
+    dependencies:
+      '@otplib/core': 12.0.1
+      '@otplib/preset-default': 12.0.1
+      '@otplib/preset-v11': 12.0.1
+    dev: false
+
   /p-cancelable/1.1.0:
     resolution: {integrity: sha512-s73XxOZ4zpt1edZYZzvhqFa6uvQc1vwUa0K0BdtIZgQMAJj9IbebH+JkgKZc9h+B05PKHLOTl4ajG1BmNrVZlw==}
     engines: {node: '>=6'}
@@ -5992,6 +6035,11 @@ packages:
   /text-table/0.2.0:
     resolution: {integrity: sha1-f17oI66AUgfACvLfSoTsP8+lcLQ=}
     dev: true
+
+  /thirty-two/1.0.2:
+    resolution: {integrity: sha1-TKL//AKlEpDSdEueP1V2k8prYno=}
+    engines: {node: '>=0.2.6'}
+    dev: false
 
   /time-zone/1.0.0:
     resolution: {integrity: sha1-mcW/VZWJZq9tBtg73zgA3IL67F0=}

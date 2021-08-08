@@ -2,6 +2,10 @@ type Mutation {
   create_auth_token (
     email: String!
     password: String!
+    device_id: String!
+    device_name: String!
+    device_trusted: Boolean!
+    token_2fa: String
   ): CreateAuthTokenOutput
 }
 
@@ -40,6 +44,31 @@ type Query {
 
 type Query {
   customer_portal_session : CreateCustomerPortalSession
+}
+
+type Mutation {
+  enable_user_2fa (
+    name: String!
+    secret: String!
+    token: String!
+  ): EnableUser2FAOutput
+}
+
+type Mutation {
+  reset_user_password (
+    password_reset_secret: String!
+    new_password: String!
+    device_id: String!
+    device_name: String!
+    device_trusted: Boolean!
+    token_2fa: String
+  ): ResetUserPasswordOutput!
+}
+
+type Mutation {
+  send_user_password_reset (
+    email: String!
+  ): SendUserPasswordResetOutput!
 }
 
 type Mutation {
@@ -132,5 +161,18 @@ type UpdateUserPasswordOutput {
 
 type UpdateUserOutput {
   user_uid : uuid!
+}
+
+type EnableUser2FAOutput {
+  user_uid : uuid!
+}
+
+type SendUserPasswordResetOutput {
+  secret : String!
+}
+
+type ResetUserPasswordOutput {
+  user_uid : uuid!
+  auth_token : String!
 }
 

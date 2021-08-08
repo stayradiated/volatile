@@ -1,7 +1,9 @@
 import { DateTime } from 'luxon'
 
-import { createAuthToken } from '../../model/auth-token/index.js'
 import type { ActionHandlerFn } from '../../util/action-handler.js'
+import { selectUserPasswordResetBySecret } from '../../model/user-password-reset/index.js'
+import { updateUser } from '../../model/user/index.js'
+import { generateAuthToken } from '../../model/auth-token/index.js'
 import {
   hasTrustedUserDeviceByDeviceID,
   upsertUserDevice,
@@ -11,40 +13,42 @@ import {
   verifyUser2FAToken,
 } from '../../model/user-2fa/index.js'
 
-type CreateAuthTokenInput = {
-  email: string
-  password: string
+type Input = {
+  password_reset_secret: string
+  new_password: string
   device_id: string
   device_name: string
   device_trusted: boolean
   token_2fa: string | undefined
 }
 
-type CreateAuthTokenOutput = {
+type Output = {
   user_uid: string
   auth_token: string
 }
 
-const createAuthTokenHandler: ActionHandlerFn<
-  CreateAuthTokenInput,
-  CreateAuthTokenOutput
-> = async (context) => {
+const resetUserPasswordHandler: ActionHandlerFn<Input, Output> = async (
+  context,
+) => {
   const { pool, input } = context
   const {
-    email,
-    password,
+    password_reset_secret: passwordResetSecret,
+    new_password: newPassword,
     device_id: deviceID,
     device_name: deviceName,
     device_trusted: deviceTrusted,
     token_2fa: token2FA,
   } = input
 
-  const result = await createAuthToken(pool, { email, password })
-  if (result instanceof Error) {
-    return result
+  const userPasswordReset = await selectUserPasswordResetBySecret(
+    pool,
+    passwordResetSecret,
+  )
+  if (userPasswordReset instanceof Error) {
+    return userPasswordReset
   }
 
-  const { userUID, authToken } = result
+  const { userUID } = userPasswordReset
 
   const isTrustedDevice = await hasTrustedUserDeviceByDeviceID(pool, deviceID)
 
@@ -71,15 +75,25 @@ const createAuthTokenHandler: ActionHandlerFn<
     }
   }
 
-  const error = await upsertUserDevice(pool, {
+  const userError = await updateUser(pool, {
+    userUID,
+    password: newPassword,
+  })
+  if (userError instanceof Error) {
+    return userError
+  }
+
+  const authToken = generateAuthToken(userUID)
+
+  const userDeviceError = await upsertUserDevice(pool, {
     userUID,
     accessedAt: DateTime.local(),
     deviceID,
     name: deviceName,
     trusted: deviceTrusted,
   })
-  if (error instanceof Error) {
-    return error
+  if (userDeviceError instanceof Error) {
+    return userDeviceError
   }
 
   return {
@@ -88,4 +102,4 @@ const createAuthTokenHandler: ActionHandlerFn<
   }
 }
 
-export { createAuthTokenHandler, CreateAuthTokenInput, CreateAuthTokenOutput }
+export { resetUserPasswordHandler }
