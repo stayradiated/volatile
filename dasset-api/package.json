@@ -27,7 +27,7 @@
     "debug": "4.3.2",
     "ky": "0.28.5",
     "ky-universal": "0.9.1",
-    "luxon": "2.0.1",
+    "luxon": "2.0.2",
     "rambda": "6.9.0"
   },
   "devDependencies": {
@@ -39,7 +39,7 @@
     "eslint-plugin-fp": "2.3.0",
     "nock": "13.1.1",
     "typescript": "4.3.5",
-    "xo": "0.43.0"
+    "xo": "0.44.0"
   },
   "scripts": {
     "tidy": "xo --fix",
