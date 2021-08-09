@@ -1,5 +1,6 @@
-import { authenticator } from 'otplib'
 import { errorBoundary } from '@stayradiated/error-boundary'
+
+import { authenticator } from '../../util/otplib.js'
 
 import type { Pool } from '../../types.js'
 import { selectUser2FAByUserUID } from './select-user-2fa-by-user-uid.js'

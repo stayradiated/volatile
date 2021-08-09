@@ -18,13 +18,13 @@ const updateUserHandler: ActionHandlerFn<Input, Output> = async (context) => {
 
   const { email, password } = input
 
-  const result = await updateUser(pool, { userUID, email, password })
-  if (result instanceof Error) {
-    return result
+  const error = await updateUser(pool, { userUID, email, password })
+  if (error instanceof Error) {
+    return error
   }
 
   return {
-    user_uid: result.UID,
+    user_uid: userUID,
   }
 }
 

@@ -1,8 +1,8 @@
 import { randomUUID } from 'crypto'
 import { throwIfError } from '@stayradiated/error-boundary'
-import { authenticator } from 'otplib'
 import { DateTime } from 'luxon'
 
+import { authenticator } from '../../util/otplib.js'
 import { test } from '../../test-util/ava.js'
 import { asError } from '../../test-util/as-error.js'
 

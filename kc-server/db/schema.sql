@@ -178,7 +178,8 @@ CREATE TABLE kc."user" (
     email_keyring_id smallint NOT NULL,
     email_encrypted character varying NOT NULL,
     email_hash character varying NOT NULL,
-    password_hash character varying NOT NULL
+    password_hash character varying NOT NULL,
+    email_verified boolean NOT NULL
 );
 
 
@@ -210,6 +211,19 @@ CREATE TABLE kc.user_device (
     name text NOT NULL,
     device_id_hash text NOT NULL,
     trusted boolean NOT NULL
+);
+
+
+--
+-- Name: user_email_verify; Type: TABLE; Schema: kc; Owner: -
+--
+
+CREATE TABLE kc.user_email_verify (
+    uid uuid NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL,
+    user_uid uuid NOT NULL,
+    secret_hash text NOT NULL
 );
 
 
@@ -390,6 +404,22 @@ ALTER TABLE ONLY kc."user"
 
 
 --
+-- Name: user_email_verify unique_user_email_verify_secret_hash; Type: CONSTRAINT; Schema: kc; Owner: -
+--
+
+ALTER TABLE ONLY kc.user_email_verify
+    ADD CONSTRAINT unique_user_email_verify_secret_hash UNIQUE (secret_hash);
+
+
+--
+-- Name: user_email_verify unique_user_email_verify_user_uid; Type: CONSTRAINT; Schema: kc; Owner: -
+--
+
+ALTER TABLE ONLY kc.user_email_verify
+    ADD CONSTRAINT unique_user_email_verify_user_uid UNIQUE (user_uid);
+
+
+--
 -- Name: user_password_reset unique_user_password_reset_secret_hash; Type: CONSTRAINT; Schema: kc; Owner: -
 --
 
@@ -411,6 +441,14 @@ ALTER TABLE ONLY kc.user_2fa
 
 ALTER TABLE ONLY kc.user_device
     ADD CONSTRAINT user_device_pkey PRIMARY KEY (uid);
+
+
+--
+-- Name: user_email_verify user_email_verify_pkey; Type: CONSTRAINT; Schema: kc; Owner: -
+--
+
+ALTER TABLE ONLY kc.user_email_verify
+    ADD CONSTRAINT user_email_verify_pkey PRIMARY KEY (uid);
 
 
 --
@@ -601,4 +639,5 @@ INSERT INTO kc.schema_migrations (version) VALUES
     ('20210729091009'),
     ('20210803064848'),
     ('20210803071520'),
-    ('20210807084803');
+    ('20210807084803'),
+    ('20210808043640');

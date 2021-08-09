@@ -66,6 +66,10 @@ type Mutation {
 }
 
 type Mutation {
+  send_user_email_verify : SendUserEmailVerifyOutput!
+}
+
+type Mutation {
   send_user_password_reset (
     email: String!
   ): SendUserPasswordResetOutput!
@@ -89,6 +93,12 @@ type Mutation {
   validate_user_exchange_keys (
     user_exchange_keys_uid: String!
   ): ValidateUserExchangeKeysOutput
+}
+
+type Mutation {
+  verify_user_email (
+    email_verify_secret: String!
+  ): VerifyUserEmailOutput!
 }
 
 input SampleInput {
@@ -174,5 +184,14 @@ type SendUserPasswordResetOutput {
 type ResetUserPasswordOutput {
   user_uid : uuid!
   auth_token : String!
+}
+
+type SendUserEmailVerifyOutput {
+  user_uid : uuid!
+  secret : String!
+}
+
+type VerifyUserEmailOutput {
+  user_uid : uuid!
 }
 

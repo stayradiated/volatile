@@ -7,5 +7,5 @@ import { generateUserPasswordResetSecret } from './generate-user-password-reset-
 test('generate random secret', async (t) => {
   const secret = await throwIfError<string>(generateUserPasswordResetSecret())
   t.is('string', typeof secret)
-  t.is(20, secret.length)
+  t.is(80, secret.length)
 })

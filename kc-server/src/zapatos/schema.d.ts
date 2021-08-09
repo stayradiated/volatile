@@ -2527,6 +2527,12 @@ declare module 'zapatos/schema' {
       * - `NOT NULL`, no default
       */
       password_hash: string;
+      /**
+      * **user.email_verified**
+      * - `bool` in database
+      * - `NOT NULL`, no default
+      */
+      email_verified: boolean;
     }
     export interface JSONSelectable {
       /**
@@ -2571,6 +2577,12 @@ declare module 'zapatos/schema' {
       * - `NOT NULL`, no default
       */
       password_hash: string;
+      /**
+      * **user.email_verified**
+      * - `bool` in database
+      * - `NOT NULL`, no default
+      */
+      email_verified: boolean;
     }
     export interface Whereable {
       /**
@@ -2615,6 +2627,12 @@ declare module 'zapatos/schema' {
       * - `NOT NULL`, no default
       */
       password_hash?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **user.email_verified**
+      * - `bool` in database
+      * - `NOT NULL`, no default
+      */
+      email_verified?: boolean | db.Parameter<boolean> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, boolean | db.Parameter<boolean> | db.SQLFragment | db.ParentColumn>;
     }
     export interface Insertable {
       /**
@@ -2659,6 +2677,12 @@ declare module 'zapatos/schema' {
       * - `NOT NULL`, no default
       */
       password_hash: string | db.Parameter<string> | db.SQLFragment;
+      /**
+      * **user.email_verified**
+      * - `bool` in database
+      * - `NOT NULL`, no default
+      */
+      email_verified: boolean | db.Parameter<boolean> | db.SQLFragment;
     }
     export interface Updatable {
       /**
@@ -2703,6 +2727,12 @@ declare module 'zapatos/schema' {
       * - `NOT NULL`, no default
       */
       password_hash?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+      /**
+      * **user.email_verified**
+      * - `bool` in database
+      * - `NOT NULL`, no default
+      */
+      email_verified?: boolean | db.Parameter<boolean> | db.SQLFragment | db.SQLFragment<any, boolean | db.Parameter<boolean> | db.SQLFragment>;
     }
     export type UniqueIndex = 'unique_user_email_hash' | 'user_pkey';
     export type Column = keyof Selectable;
@@ -3201,6 +3231,179 @@ declare module 'zapatos/schema' {
       trusted?: boolean | db.Parameter<boolean> | db.SQLFragment | db.SQLFragment<any, boolean | db.Parameter<boolean> | db.SQLFragment>;
     }
     export type UniqueIndex = 'unique_user_device_user_uid_device_id_hash' | 'user_device_pkey';
+    export type Column = keyof Selectable;
+    export type OnlyCols<T extends readonly Column[]> = Pick<Selectable, T[number]>;
+    export type SQLExpression = db.GenericSQLExpression | db.ColumnNames<Updatable | (keyof Updatable)[]> | db.ColumnValues<Updatable> | Table | Whereable | Column;
+    export type SQL = SQLExpression | SQLExpression[];
+  }
+
+  /**
+   * **user_email_verify**
+   * - Table in database
+   */
+  export namespace user_email_verify {
+    export type Table = 'user_email_verify';
+    export interface Selectable {
+      /**
+      * **user_email_verify.uid**
+      * - `uuid` in database
+      * - `NOT NULL`, no default
+      */
+      uid: string;
+      /**
+      * **user_email_verify.created_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+      created_at: Date;
+      /**
+      * **user_email_verify.updated_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+      updated_at: Date;
+      /**
+      * **user_email_verify.user_uid**
+      * - `uuid` in database
+      * - `NOT NULL`, no default
+      */
+      user_uid: string;
+      /**
+      * **user_email_verify.secret_hash**
+      * - `text` in database
+      * - `NOT NULL`, no default
+      */
+      secret_hash: string;
+    }
+    export interface JSONSelectable {
+      /**
+      * **user_email_verify.uid**
+      * - `uuid` in database
+      * - `NOT NULL`, no default
+      */
+      uid: string;
+      /**
+      * **user_email_verify.created_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+      created_at: db.TimestampTzString;
+      /**
+      * **user_email_verify.updated_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+      updated_at: db.TimestampTzString;
+      /**
+      * **user_email_verify.user_uid**
+      * - `uuid` in database
+      * - `NOT NULL`, no default
+      */
+      user_uid: string;
+      /**
+      * **user_email_verify.secret_hash**
+      * - `text` in database
+      * - `NOT NULL`, no default
+      */
+      secret_hash: string;
+    }
+    export interface Whereable {
+      /**
+      * **user_email_verify.uid**
+      * - `uuid` in database
+      * - `NOT NULL`, no default
+      */
+      uid?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **user_email_verify.created_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+      created_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **user_email_verify.updated_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+      updated_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **user_email_verify.user_uid**
+      * - `uuid` in database
+      * - `NOT NULL`, no default
+      */
+      user_uid?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **user_email_verify.secret_hash**
+      * - `text` in database
+      * - `NOT NULL`, no default
+      */
+      secret_hash?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+    }
+    export interface Insertable {
+      /**
+      * **user_email_verify.uid**
+      * - `uuid` in database
+      * - `NOT NULL`, no default
+      */
+      uid: string | db.Parameter<string> | db.SQLFragment;
+      /**
+      * **user_email_verify.created_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+      created_at: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment;
+      /**
+      * **user_email_verify.updated_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+      updated_at: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment;
+      /**
+      * **user_email_verify.user_uid**
+      * - `uuid` in database
+      * - `NOT NULL`, no default
+      */
+      user_uid: string | db.Parameter<string> | db.SQLFragment;
+      /**
+      * **user_email_verify.secret_hash**
+      * - `text` in database
+      * - `NOT NULL`, no default
+      */
+      secret_hash: string | db.Parameter<string> | db.SQLFragment;
+    }
+    export interface Updatable {
+      /**
+      * **user_email_verify.uid**
+      * - `uuid` in database
+      * - `NOT NULL`, no default
+      */
+      uid?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+      /**
+      * **user_email_verify.created_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+      created_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment>;
+      /**
+      * **user_email_verify.updated_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+      updated_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment>;
+      /**
+      * **user_email_verify.user_uid**
+      * - `uuid` in database
+      * - `NOT NULL`, no default
+      */
+      user_uid?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+      /**
+      * **user_email_verify.secret_hash**
+      * - `text` in database
+      * - `NOT NULL`, no default
+      */
+      secret_hash?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+    }
+    export type UniqueIndex = 'unique_user_email_verify_secret_hash' | 'unique_user_email_verify_user_uid' | 'user_email_verify_pkey';
     export type Column = keyof Selectable;
     export type OnlyCols<T extends readonly Column[]> = Pick<Selectable, T[number]>;
     export type SQLExpression = db.GenericSQLExpression | db.ColumnNames<Updatable | (keyof Updatable)[]> | db.ColumnValues<Updatable> | Table | Whereable | Column;
@@ -3735,19 +3938,19 @@ declare module 'zapatos/schema' {
 
   /* === cross-table types === */
 
-  export type Table = customer.Table | dca_order.Table | dca_order_history.Table | exchange.Table | market.Table | market_price.Table | order.Table | schema_migrations.Table | trade.Table | user.Table | user_2fa.Table | user_device.Table | user_exchange_keys.Table | user_password_reset.Table;
-  export type Selectable = customer.Selectable | dca_order.Selectable | dca_order_history.Selectable | exchange.Selectable | market.Selectable | market_price.Selectable | order.Selectable | schema_migrations.Selectable | trade.Selectable | user.Selectable | user_2fa.Selectable | user_device.Selectable | user_exchange_keys.Selectable | user_password_reset.Selectable;
-  export type JSONSelectable = customer.JSONSelectable | dca_order.JSONSelectable | dca_order_history.JSONSelectable | exchange.JSONSelectable | market.JSONSelectable | market_price.JSONSelectable | order.JSONSelectable | schema_migrations.JSONSelectable | trade.JSONSelectable | user.JSONSelectable | user_2fa.JSONSelectable | user_device.JSONSelectable | user_exchange_keys.JSONSelectable | user_password_reset.JSONSelectable;
-  export type Whereable = customer.Whereable | dca_order.Whereable | dca_order_history.Whereable | exchange.Whereable | market.Whereable | market_price.Whereable | order.Whereable | schema_migrations.Whereable | trade.Whereable | user.Whereable | user_2fa.Whereable | user_device.Whereable | user_exchange_keys.Whereable | user_password_reset.Whereable;
-  export type Insertable = customer.Insertable | dca_order.Insertable | dca_order_history.Insertable | exchange.Insertable | market.Insertable | market_price.Insertable | order.Insertable | schema_migrations.Insertable | trade.Insertable | user.Insertable | user_2fa.Insertable | user_device.Insertable | user_exchange_keys.Insertable | user_password_reset.Insertable;
-  export type Updatable = customer.Updatable | dca_order.Updatable | dca_order_history.Updatable | exchange.Updatable | market.Updatable | market_price.Updatable | order.Updatable | schema_migrations.Updatable | trade.Updatable | user.Updatable | user_2fa.Updatable | user_device.Updatable | user_exchange_keys.Updatable | user_password_reset.Updatable;
-  export type UniqueIndex = customer.UniqueIndex | dca_order.UniqueIndex | dca_order_history.UniqueIndex | exchange.UniqueIndex | market.UniqueIndex | market_price.UniqueIndex | order.UniqueIndex | schema_migrations.UniqueIndex | trade.UniqueIndex | user.UniqueIndex | user_2fa.UniqueIndex | user_device.UniqueIndex | user_exchange_keys.UniqueIndex | user_password_reset.UniqueIndex;
-  export type Column = customer.Column | dca_order.Column | dca_order_history.Column | exchange.Column | market.Column | market_price.Column | order.Column | schema_migrations.Column | trade.Column | user.Column | user_2fa.Column | user_device.Column | user_exchange_keys.Column | user_password_reset.Column;
-  export type AllBaseTables = [customer.Table, dca_order.Table, dca_order_history.Table, exchange.Table, market.Table, market_price.Table, order.Table, schema_migrations.Table, trade.Table, user.Table, user_2fa.Table, user_device.Table, user_exchange_keys.Table, user_password_reset.Table];
+  export type Table = customer.Table | dca_order.Table | dca_order_history.Table | exchange.Table | market.Table | market_price.Table | order.Table | schema_migrations.Table | trade.Table | user.Table | user_2fa.Table | user_device.Table | user_email_verify.Table | user_exchange_keys.Table | user_password_reset.Table;
+  export type Selectable = customer.Selectable | dca_order.Selectable | dca_order_history.Selectable | exchange.Selectable | market.Selectable | market_price.Selectable | order.Selectable | schema_migrations.Selectable | trade.Selectable | user.Selectable | user_2fa.Selectable | user_device.Selectable | user_email_verify.Selectable | user_exchange_keys.Selectable | user_password_reset.Selectable;
+  export type JSONSelectable = customer.JSONSelectable | dca_order.JSONSelectable | dca_order_history.JSONSelectable | exchange.JSONSelectable | market.JSONSelectable | market_price.JSONSelectable | order.JSONSelectable | schema_migrations.JSONSelectable | trade.JSONSelectable | user.JSONSelectable | user_2fa.JSONSelectable | user_device.JSONSelectable | user_email_verify.JSONSelectable | user_exchange_keys.JSONSelectable | user_password_reset.JSONSelectable;
+  export type Whereable = customer.Whereable | dca_order.Whereable | dca_order_history.Whereable | exchange.Whereable | market.Whereable | market_price.Whereable | order.Whereable | schema_migrations.Whereable | trade.Whereable | user.Whereable | user_2fa.Whereable | user_device.Whereable | user_email_verify.Whereable | user_exchange_keys.Whereable | user_password_reset.Whereable;
+  export type Insertable = customer.Insertable | dca_order.Insertable | dca_order_history.Insertable | exchange.Insertable | market.Insertable | market_price.Insertable | order.Insertable | schema_migrations.Insertable | trade.Insertable | user.Insertable | user_2fa.Insertable | user_device.Insertable | user_email_verify.Insertable | user_exchange_keys.Insertable | user_password_reset.Insertable;
+  export type Updatable = customer.Updatable | dca_order.Updatable | dca_order_history.Updatable | exchange.Updatable | market.Updatable | market_price.Updatable | order.Updatable | schema_migrations.Updatable | trade.Updatable | user.Updatable | user_2fa.Updatable | user_device.Updatable | user_email_verify.Updatable | user_exchange_keys.Updatable | user_password_reset.Updatable;
+  export type UniqueIndex = customer.UniqueIndex | dca_order.UniqueIndex | dca_order_history.UniqueIndex | exchange.UniqueIndex | market.UniqueIndex | market_price.UniqueIndex | order.UniqueIndex | schema_migrations.UniqueIndex | trade.UniqueIndex | user.UniqueIndex | user_2fa.UniqueIndex | user_device.UniqueIndex | user_email_verify.UniqueIndex | user_exchange_keys.UniqueIndex | user_password_reset.UniqueIndex;
+  export type Column = customer.Column | dca_order.Column | dca_order_history.Column | exchange.Column | market.Column | market_price.Column | order.Column | schema_migrations.Column | trade.Column | user.Column | user_2fa.Column | user_device.Column | user_email_verify.Column | user_exchange_keys.Column | user_password_reset.Column;
+  export type AllBaseTables = [customer.Table, dca_order.Table, dca_order_history.Table, exchange.Table, market.Table, market_price.Table, order.Table, schema_migrations.Table, trade.Table, user.Table, user_2fa.Table, user_device.Table, user_email_verify.Table, user_exchange_keys.Table, user_password_reset.Table];
   export type AllForeignTables = [];
   export type AllViews = [];
   export type AllMaterializedViews = [];
-  export type AllTablesAndViews = [customer.Table, dca_order.Table, dca_order_history.Table, exchange.Table, market.Table, market_price.Table, order.Table, schema_migrations.Table, trade.Table, user.Table, user_2fa.Table, user_device.Table, user_exchange_keys.Table, user_password_reset.Table];
+  export type AllTablesAndViews = [customer.Table, dca_order.Table, dca_order_history.Table, exchange.Table, market.Table, market_price.Table, order.Table, schema_migrations.Table, trade.Table, user.Table, user_2fa.Table, user_device.Table, user_email_verify.Table, user_exchange_keys.Table, user_password_reset.Table];
 
 
   export type SelectableForTable<T extends Table> = {
@@ -3763,6 +3966,7 @@ declare module 'zapatos/schema' {
     user: user.Selectable;
     user_2fa: user_2fa.Selectable;
     user_device: user_device.Selectable;
+    user_email_verify: user_email_verify.Selectable;
     user_exchange_keys: user_exchange_keys.Selectable;
     user_password_reset: user_password_reset.Selectable;
   }[T];
@@ -3780,6 +3984,7 @@ declare module 'zapatos/schema' {
     user: user.JSONSelectable;
     user_2fa: user_2fa.JSONSelectable;
     user_device: user_device.JSONSelectable;
+    user_email_verify: user_email_verify.JSONSelectable;
     user_exchange_keys: user_exchange_keys.JSONSelectable;
     user_password_reset: user_password_reset.JSONSelectable;
   }[T];
@@ -3797,6 +4002,7 @@ declare module 'zapatos/schema' {
     user: user.Whereable;
     user_2fa: user_2fa.Whereable;
     user_device: user_device.Whereable;
+    user_email_verify: user_email_verify.Whereable;
     user_exchange_keys: user_exchange_keys.Whereable;
     user_password_reset: user_password_reset.Whereable;
   }[T];
@@ -3814,6 +4020,7 @@ declare module 'zapatos/schema' {
     user: user.Insertable;
     user_2fa: user_2fa.Insertable;
     user_device: user_device.Insertable;
+    user_email_verify: user_email_verify.Insertable;
     user_exchange_keys: user_exchange_keys.Insertable;
     user_password_reset: user_password_reset.Insertable;
   }[T];
@@ -3831,6 +4038,7 @@ declare module 'zapatos/schema' {
     user: user.Updatable;
     user_2fa: user_2fa.Updatable;
     user_device: user_device.Updatable;
+    user_email_verify: user_email_verify.Updatable;
     user_exchange_keys: user_exchange_keys.Updatable;
     user_password_reset: user_password_reset.Updatable;
   }[T];
@@ -3848,6 +4056,7 @@ declare module 'zapatos/schema' {
     user: user.UniqueIndex;
     user_2fa: user_2fa.UniqueIndex;
     user_device: user_device.UniqueIndex;
+    user_email_verify: user_email_verify.UniqueIndex;
     user_exchange_keys: user_exchange_keys.UniqueIndex;
     user_password_reset: user_password_reset.UniqueIndex;
   }[T];
@@ -3865,6 +4074,7 @@ declare module 'zapatos/schema' {
     user: user.Column;
     user_2fa: user_2fa.Column;
     user_device: user_device.Column;
+    user_email_verify: user_email_verify.Column;
     user_exchange_keys: user_exchange_keys.Column;
     user_password_reset: user_password_reset.Column;
   }[T];
@@ -3882,6 +4092,7 @@ declare module 'zapatos/schema' {
     user: user.SQL;
     user_2fa: user_2fa.SQL;
     user_device: user_device.SQL;
+    user_email_verify: user_email_verify.SQL;
     user_exchange_keys: user_exchange_keys.SQL;
     user_password_reset: user_password_reset.SQL;
   }[T];

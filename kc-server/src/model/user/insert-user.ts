@@ -50,6 +50,7 @@ const insertUser = async (
     email_encrypted: emailEncrypted.encrypted,
     email_hash: emailHash,
     password_hash: passwordHash,
+    email_verified: false,
   }
 
   const error = await errorBoundary(async () =>
@@ -59,7 +60,7 @@ const insertUser = async (
     return error
   }
 
-  return { UID }
+  return { UID, emailVerified: false }
 }
 
 export { insertUser }

@@ -20,6 +20,7 @@ addAction('customer_checkout_session', actions.customerCheckoutSessionHandler)
 addAction('customer_portal_session', actions.customerPortalSessionHandler)
 addAction('enable_user_2fa', actions.enableUser2FAHandler)
 addAction('reset_user_password', actions.resetUserPasswordHandler)
+addAction('send_user_email_verify', actions.sendUserEmailVerifyHandler)
 addAction('send_user_password_reset', actions.sendUserPasswordResetHandler)
 addAction('sync_exchange_trade_list', actions.syncExchangeTradeListHandler)
 addAction('update_user', actions.updateUserHandler)
@@ -27,6 +28,7 @@ addAction(
   'validate_user_exchange_keys',
   actions.validateUserExchangeKeysHandler,
 )
+addAction('verify_user_email', actions.verifyUserEmailHandler)
 
 const addCron = bindCronHandler(fastify)
 addCron('fetch_market_price', cron.fetchMarketPriceHandler)

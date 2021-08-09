@@ -7,19 +7,18 @@ import * as hash from '../../util/hash.js'
 import type { Pool } from '../../types.js'
 import { hasUserByEmailHash } from './has-user-by-email-hash.js'
 
-import type { User } from './types.js'
-
 type UpdateUserOptions = {
   userUID: string
   email?: string
   password?: string
+  emailVerified?: boolean
 }
 
 const updateUser = async (
   pool: Pool,
   options: UpdateUserOptions,
-): Promise<User | Error> => {
-  const { userUID, email, password } = options
+): Promise<void | Error> => {
+  const { userUID, email, password, emailVerified } = options
 
   const fields: s.user.Updatable = {
     updated_at: new Date(),
@@ -51,6 +50,10 @@ const updateUser = async (
     fields.password_hash = passwordHash
   }
 
+  if (typeof emailVerified === 'boolean') {
+    fields.email_verified = emailVerified
+  }
+
   const error = await errorBoundary(async () =>
     db.update('user', fields, { uid: userUID }).run(pool),
   )
@@ -58,7 +61,7 @@ const updateUser = async (
     return error
   }
 
-  return { UID: userUID }
+  return undefined
 }
 
 export { updateUser }

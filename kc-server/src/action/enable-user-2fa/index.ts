@@ -1,5 +1,6 @@
-import { authenticator } from 'otplib'
 import { errorBoundary } from '@stayradiated/error-boundary'
+
+import { authenticator } from '../../util/otplib.js'
 
 import type { ActionHandlerFn } from '../../util/action-handler.js'
 import {
