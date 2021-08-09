@@ -39,7 +39,6 @@ const executeDCAOrder = async (
     return error
   }
 
-  // eslint-disable-next-line unicorn/no-array-reduce
   const previousOrderNZD = previousOrders.reduce(
     (sum, order) => sum + order.priceNZD * order.amount,
     0,

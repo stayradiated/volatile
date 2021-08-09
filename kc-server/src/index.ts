@@ -24,6 +24,7 @@ addAction('send_user_email_verify', actions.sendUserEmailVerifyHandler)
 addAction('send_user_password_reset', actions.sendUserPasswordResetHandler)
 addAction('sync_exchange_trade_list', actions.syncExchangeTradeListHandler)
 addAction('update_user', actions.updateUserHandler)
+addAction('update_user_exchange_keys', actions.updateUserExchangeKeysHandler)
 addAction(
   'validate_user_exchange_keys',
   actions.validateUserExchangeKeysHandler,
@@ -32,6 +33,8 @@ addAction('verify_user_email', actions.verifyUserEmailHandler)
 
 const addCron = bindCronHandler(fastify)
 addCron('fetch_market_price', cron.fetchMarketPriceHandler)
+addCron('auto_buy_dasset', cron.autoBuyDassetHandler)
+addCron('auto_buy_kiwi_coin', cron.autoBuyKiwiCoinHandler)
 
 const addRoute = bindHandler(fastify)
 addRoute('/webhook/stripe', webhooks.stripeHandler)

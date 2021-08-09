@@ -1,4 +1,3 @@
-import { setTimeout } from 'timers/promises'
 import { inspect } from 'util'
 import debug from 'debug'
 
@@ -15,8 +14,6 @@ type Input = Record<string, unknown>
 type Output = void
 
 const log = debug('market-price')
-
-const SLEEP_MS = 60 * 1000
 
 const fetchMarketPriceHandler: CronHandlerFn<Input, Output> = async (
   context,
@@ -65,50 +62,43 @@ const fetchMarketPriceHandler: CronHandlerFn<Input, Output> = async (
       }))
     })
 
-  const initLoop = async (marketPriceInstance: MarketPriceInstance) => {
-    const loop = async (): Promise<void> => {
-      const { market, fetchPrice, currency, symbol } = marketPriceInstance
+  const fetchMarketPrice = async (marketPriceInstance: MarketPriceInstance) => {
+    const { market, fetchPrice, currency, symbol } = marketPriceInstance
 
-      const marketUID = await getMarketUID(pool, market)
-      if (marketUID instanceof Error) {
-        log(marketUID)
-        return
-      }
-
-      const timestamp = new Date()
-
-      const [price, fxRate] = await Promise.all([
-        fetchPrice(),
-        fetchCurrencyRate(currency),
-      ])
-
-      if (price instanceof Error) {
-        log(price)
-      } else if (fxRate instanceof Error) {
-        log(fxRate)
-      } else {
-        const priceNZD = price * fxRate
-
-        await insertMarketPrice(pool, {
-          timestamp,
-          marketUID,
-          price,
-          currency,
-          symbol,
-          fxRate,
-          priceNZD,
-        })
-      }
-
-      await setTimeout(SLEEP_MS)
-      await loop()
+    const marketUID = await getMarketUID(pool, market)
+    if (marketUID instanceof Error) {
+      log(marketUID)
+      return
     }
 
-    return loop()
+    const timestamp = new Date()
+
+    const [price, fxRate] = await Promise.all([
+      fetchPrice(),
+      fetchCurrencyRate(currency),
+    ])
+
+    if (price instanceof Error) {
+      log(price)
+    } else if (fxRate instanceof Error) {
+      log(fxRate)
+    } else {
+      const priceNZD = price * fxRate
+
+      await insertMarketPrice(pool, {
+        timestamp,
+        marketUID,
+        price,
+        currency,
+        symbol,
+        fxRate,
+        priceNZD,
+      })
+    }
   }
 
   await Promise.all(
-    marketPriceInstanceList.map(async (instance) => initLoop(instance)),
+    marketPriceInstanceList.map(async (instance) => fetchMarketPrice(instance)),
   )
 }
 

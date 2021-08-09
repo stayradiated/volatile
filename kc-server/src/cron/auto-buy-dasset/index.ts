@@ -1,16 +1,14 @@
-import { setTimeout } from 'timers/promises'
+import { errorListBoundary } from '@stayradiated/error-boundary'
 
 import { selectAllDCAOrders } from '../../model/dca-order/index.js'
 import { getExchangeUID, EXCHANGE_DASSET } from '../../model/exchange/index.js'
-import type { ActionHandlerFn } from '../../util/action-handler.js'
+import type { CronHandlerFn } from '../../util/cron-handler.js'
 import { executeDCAOrder } from './execute-dca-order.js'
 
-type Input = Record<string, unknown>
+type Input = void
 type Output = void
 
-const autoBuyDassetHandler: ActionHandlerFn<Input, Output> = async (
-  context,
-) => {
+const autoBuyDassetHandler: CronHandlerFn<Input, Output> = async (context) => {
   const { pool } = context
 
   const exchangeUID = await getExchangeUID(pool, EXCHANGE_DASSET)
@@ -18,29 +16,22 @@ const autoBuyDassetHandler: ActionHandlerFn<Input, Output> = async (
     return exchangeUID
   }
 
-  const loop = async (): Promise<void> => {
-    const dcaOrderList = await selectAllDCAOrders(pool, {
-      exchangeUID,
-    })
-    if (dcaOrderList instanceof Error) {
-      console.error(dcaOrderList)
-      return
-    }
-
-    await Promise.all(
-      dcaOrderList.map(async (dcaOrder) => {
-        const error = await executeDCAOrder(pool, dcaOrder)
-        if (error instanceof Error) {
-          console.error(error)
-        }
-      }),
-    )
-
-    await setTimeout(5 * 60 * 1000)
-    return loop()
+  const dcaOrderList = await selectAllDCAOrders(pool, {
+    exchangeUID,
+  })
+  if (dcaOrderList instanceof Error) {
+    return dcaOrderList
   }
 
-  await loop()
+  const error = await errorListBoundary(async () =>
+    Promise.allSettled(
+      dcaOrderList.map(async (dcaOrder) => executeDCAOrder(pool, dcaOrder)),
+    ),
+  )
+  if (error instanceof Error) {
+    return error
+  }
+
   return undefined
 }
 

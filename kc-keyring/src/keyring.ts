@@ -1,5 +1,6 @@
 import crypto from 'crypto'
 import { Buffer } from 'buffer'
+import { errorBoundary } from '@stayradiated/error-boundary'
 
 type Algorithm = string
 type KeySize = number
@@ -80,50 +81,53 @@ const encrypt = (
     return new Error('encrypt: message must be a string')
   }
 
-  const key = currentKey(keys)
-  const iv = crypto.randomBytes(16)
-  const cipher = crypto.createCipheriv(algorithm, key.encryptionKey, iv)
-  const encrypted = Buffer.concat([
-    cipher.update(Buffer.from(message)),
-    cipher.final(),
-  ])
+  return errorBoundary<EncryptResult>(() => {
+    const key = currentKey(keys)
+    const iv = crypto.randomBytes(16)
+    const cipher = crypto.createCipheriv(algorithm, key.encryptionKey, iv)
+    const encrypted = Buffer.concat([
+      cipher.update(Buffer.from(message)),
+      cipher.final(),
+    ])
 
-  const hmac = hmacDigest(key.signingKey, Buffer.concat([iv, encrypted]))
-  const returnValue = Buffer.concat([hmac, iv, encrypted]).toString('base64')
+    const hmac = hmacDigest(key.signingKey, Buffer.concat([iv, encrypted]))
+    const returnValue = Buffer.concat([hmac, iv, encrypted]).toString('base64')
 
-  return { encrypted: returnValue, keyringId: key.id }
+    return { encrypted: returnValue, keyringId: key.id }
+  })
 }
 
 const decrypt = (
   key: Key,
   algorithm: Algorithm,
   message: string,
-): string | Error => {
-  const decoded = Buffer.from(message, 'base64')
-  const hmac = decoded.slice(0, 32)
-  const iv = decoded.slice(32, 48)
-  const encrypted = decoded.slice(48)
-  const decipher = crypto.createDecipheriv(algorithm, key.encryptionKey, iv)
-  const decrypted = Buffer.concat([
-    decipher.update(encrypted),
-    decipher.final(),
-  ])
+): string | Error =>
+  errorBoundary<string>(() => {
+    const decoded = Buffer.from(message, 'base64')
+    const hmac = decoded.slice(0, 32)
+    const iv = decoded.slice(32, 48)
+    const encrypted = decoded.slice(48)
+    const decipher = crypto.createDecipheriv(algorithm, key.encryptionKey, iv)
+    const decrypted = Buffer.concat([
+      decipher.update(encrypted),
+      decipher.final(),
+    ])
 
-  const expectedHmac = hmacDigest(
-    key.signingKey,
-    Buffer.concat([iv, encrypted]),
-  )
-
-  if (!verifySignature(expectedHmac, hmac)) {
-    return new Error(
-      `Expected HMAC to be ${expectedHmac.toString(
-        'base64',
-      )}; got ${hmac.toString('base64')} instead`,
+    const expectedHmac = hmacDigest(
+      key.signingKey,
+      Buffer.concat([iv, encrypted]),
     )
-  }
 
-  return decrypted.toString()
-}
+    if (!verifySignature(expectedHmac, hmac)) {
+      return new Error(
+        `Expected HMAC to be ${expectedHmac.toString(
+          'base64',
+        )}; got ${hmac.toString('base64')} instead`,
+      )
+    }
+
+    return decrypted.toString()
+  })
 
 const validateKeyring = (keys: Key[]): void | Error => {
   if (keys.length === 0) {

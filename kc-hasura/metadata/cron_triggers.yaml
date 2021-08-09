@@ -1,13 +1,16 @@
+- name: Auto Buy Dasset
+  webhook: '{{HASURA_ACTIONS_ENDPOINT}}/cron/auto_buy_dasset'
+  schedule: 0 12 * * 5
+  include_in_metadata: true
+  payload: {}
+  headers:
+  - name: x-hasura-actions-secret
+    value_from_env: HASURA_ACTIONS_SECRET
 - name: Fetch Market Price
   webhook: '{{HASURA_ACTIONS_ENDPOINT}}/cron/fetch_market_price'
   schedule: 0 12 * * 5
   include_in_metadata: true
-  payload:
-    session_variables:
-      role: admin
-    input: {}
-    action:
-      name: fetch_market_price
+  payload: {}
   headers:
   - name: x-hasura-actions-secret
     value_from_env: HASURA_ACTIONS_SECRET

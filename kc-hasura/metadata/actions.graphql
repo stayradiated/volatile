@@ -90,6 +90,14 @@ type Mutation {
 }
 
 type Mutation {
+  update_user_exchange_keys (
+    user_exchange_keys_uid: uuid!
+    keys: jsonb!
+    description: String!
+  ): UpdateUserExchangeKeysOutput
+}
+
+type Mutation {
   validate_user_exchange_keys (
     user_exchange_keys_uid: String!
   ): ValidateUserExchangeKeysOutput
@@ -193,5 +201,9 @@ type SendUserEmailVerifyOutput {
 
 type VerifyUserEmailOutput {
   user_uid : uuid!
+}
+
+type UpdateUserExchangeKeysOutput {
+  user_exchange_keys_uid : uuid!
 }
 
