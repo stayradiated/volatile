@@ -2,9 +2,7 @@ import { sort } from 'rambda'
 import { table, Row7 } from '../../utils/table.js'
 import { RowData } from './types.js'
 
-const sortByPriceNZD = sort<RowData>(
-  (a, b): number => a.priceNZD - b.priceNZD
-)
+const sortByPriceNZD = sort<RowData>((a, b): number => a.priceNZD - b.priceNZD)
 
 const formatRow = (row: RowData): Row7 => [
   row.marketName,

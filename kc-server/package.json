@@ -36,7 +36,7 @@
   "devDependencies": {
     "@stayradiated/jsconfig": "1.14.0",
     "@types/bcrypt": "5.0.0",
-    "@types/luxon": "1.27.1",
+    "@types/luxon": "2.0.0",
     "@types/pg": "8.6.1",
     "@vercel/ncc": "^0.29",
     "ava": "3.15.0",

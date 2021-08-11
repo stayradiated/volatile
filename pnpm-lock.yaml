@@ -41,7 +41,7 @@ importers:
     specifiers:
       '@stayradiated/error-boundary': 1.2.0
       '@stayradiated/jsconfig': 1.14.0
-      '@types/luxon': 1.27.1
+      '@types/luxon': 2.0.0
       '@types/yargs': 17.0.2
       '@vercel/ncc': ^0.29
       ava: 3.15.0
@@ -65,7 +65,7 @@ importers:
       yargs: 17.1.0
     devDependencies:
       '@stayradiated/jsconfig': 1.14.0
-      '@types/luxon': 1.27.1
+      '@types/luxon': 2.0.0
       '@types/yargs': 17.0.2
       '@vercel/ncc': 0.29.0
       ava: 3.15.0
@@ -108,7 +108,7 @@ importers:
       '@stayradiated/kiwi-coin-api': workspace:1.0.1
       '@stayradiated/market-price': workspace:1.0.0
       '@types/bcrypt': 5.0.0
-      '@types/luxon': 1.27.1
+      '@types/luxon': 2.0.0
       '@types/pg': 8.6.1
       '@vercel/ncc': ^0.29
       ava: 3.15.0
@@ -150,7 +150,7 @@ importers:
     devDependencies:
       '@stayradiated/jsconfig': 1.14.0
       '@types/bcrypt': 5.0.0
-      '@types/luxon': 1.27.1
+      '@types/luxon': 2.0.0
       '@types/pg': 8.6.1
       '@vercel/ncc': 0.29.0
       ava: 3.15.0
@@ -162,8 +162,8 @@ importers:
 
   kc-web:
     specifiers:
-      '@apollo/client': 3.4.6
-      '@types/react': 17.0.16
+      '@apollo/client': 3.4.7
+      '@types/react': 17.0.17
       graphql: 15.5.1
       next: 11.0.1
       react: 17.0.2
@@ -171,14 +171,14 @@ importers:
       react-select: 5.0.0-beta.0
       typescript: 4.3.5
     dependencies:
-      '@apollo/client': 3.4.6_graphql@15.5.1+react@17.0.2
+      '@apollo/client': 3.4.7_graphql@15.5.1+react@17.0.2
       graphql: 15.5.1
       next: 11.0.1_f31b35bdaa3b7c2fce82404f09d2dac4
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
-      react-select: 5.0.0-beta.0_a1bbe17b69ce74ad68a61ee76e049e19
+      react-select: 5.0.0-beta.0_9c423dff26c1034f6157071c372957fe
     devDependencies:
-      '@types/react': 17.0.16
+      '@types/react': 17.0.17
       typescript: 4.3.5
 
   kiwi-coin-api:
@@ -220,7 +220,7 @@ importers:
       '@stayradiated/jsconfig': 1.14.0
       '@stayradiated/kiwi-coin-api': workspace:1.0.1
       '@types/debug': 4.1.7
-      '@types/luxon': 1.27.1
+      '@types/luxon': 2.0.0
       '@types/sinon': 10.0.2
       ava: 3.15.0
       debug: 4.3.2
@@ -242,7 +242,7 @@ importers:
     devDependencies:
       '@stayradiated/jsconfig': 1.14.0
       '@types/debug': 4.1.7
-      '@types/luxon': 1.27.1
+      '@types/luxon': 2.0.0
       '@types/sinon': 10.0.2
       ava: 3.15.0
       del-cli: 4.0.1
@@ -253,8 +253,8 @@ importers:
 
 packages:
 
-  /@apollo/client/3.4.6_graphql@15.5.1+react@17.0.2:
-    resolution: {integrity: sha512-zgSsTGGrURvFTi1t/ovSM17i8AN5F/X0Vx+sWDnfxleD3JStsR4bZhz0qqIgok0nU2AEwYU7qS1BmwKbQ4Xuag==}
+  /@apollo/client/3.4.7_graphql@15.5.1+react@17.0.2:
+    resolution: {integrity: sha512-EmqGxXD8hr05cIFWJFwtGXifc+Lo8hTCEuiaQMtKknHszJfqIFXSxqP+H+eJnjfuoxH74aTSsZKtJlnE83Vt6w==}
     peerDependencies:
       graphql: ^14.0.0 || ^15.0.0
       react: ^16.8.0 || ^17.0.0
@@ -562,7 +562,7 @@ packages:
     resolution: {integrity: sha512-igX9a37DR2ZPGYtV6suZ6whr8pTFtyHL3K/oLUotxpSVO2ASaprmAe2Dkq7tBo7CRY7MMDrAa9nuQP9/YG8FxQ==}
     dev: false
 
-  /@emotion/react/11.4.0_15528815d0fdcbb9a8cf5c0542e8230f:
+  /@emotion/react/11.4.0_9280ae23271fd1e8184f767af1a90e55:
     resolution: {integrity: sha512-4XklWsl9BdtatLoJpSjusXhpKv9YVteYKh9hPKP1Sxl+mswEFoUe0WtmtWjxEjkA51DQ2QRMCNOvKcSlCQ7ivg==}
     peerDependencies:
       '@babel/core': ^7.0.0
@@ -580,7 +580,7 @@ packages:
       '@emotion/sheet': 1.0.1
       '@emotion/utils': 1.0.0
       '@emotion/weak-memoize': 0.2.5
-      '@types/react': 17.0.16
+      '@types/react': 17.0.17
       hoist-non-react-statics: 3.3.2
       react: 17.0.2
     dev: false
@@ -884,8 +884,8 @@ packages:
     resolution: {integrity: sha1-7ihweulOEdK4J7y+UnC86n8+ce4=}
     dev: true
 
-  /@types/luxon/1.27.1:
-    resolution: {integrity: sha512-cPiXpOvPFDr2edMnOXlz3UBDApwUfR+cpizvxCy0n3vp9bz/qe8BWzHPIEFcy+ogUOyjKuCISgyq77ELZPmkkg==}
+  /@types/luxon/2.0.0:
+    resolution: {integrity: sha512-L7iL3FitRSeuz8fbeLtql7qU6inHVtwEDWI1+vBXgyp0J2tmxOD7TgMBiEQjII/Y/TPcwrKasXb1BPuiCXRgxg==}
     dev: true
 
   /@types/minimist/1.2.2:
@@ -948,8 +948,8 @@ packages:
       csstype: 3.0.8
     dev: false
 
-  /@types/react/17.0.16:
-    resolution: {integrity: sha512-3kCUiOOlQTwUUvjNFkbBTWMTxdTGybz/PfjCw9JmaRGcEDBQh+nGMg7/E9P2rklhJuYVd25IYLNcvqgSPCPksg==}
+  /@types/react/17.0.17:
+    resolution: {integrity: sha512-nrfi7I13cAmrd0wje8czYpf5SFbryczCtPzFc6ijqvdjKcyA3tCvGxwchOUlxb2ucBPuJ9Y3oUqKrRqZvrz0lw==}
     dependencies:
       '@types/prop-types': 15.7.4
       '@types/scheduler': 0.16.2
@@ -5273,7 +5273,7 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: false
 
-  /react-select/5.0.0-beta.0_a1bbe17b69ce74ad68a61ee76e049e19:
+  /react-select/5.0.0-beta.0_9c423dff26c1034f6157071c372957fe:
     resolution: {integrity: sha512-++fesS5HKxH0nbbDJDIaoupJlJzcItGJXxR29Q5y2FK37PRTpTKN8X0tfnmL5KvdTE2wLRw1qiL5dAiAPgM4tA==}
     peerDependencies:
       react: ^16.8.0 || ^17.0.0
@@ -5281,7 +5281,7 @@ packages:
     dependencies:
       '@babel/runtime': 7.14.8
       '@emotion/cache': 11.4.0
-      '@emotion/react': 11.4.0_15528815d0fdcbb9a8cf5c0542e8230f
+      '@emotion/react': 11.4.0_9280ae23271fd1e8184f767af1a90e55
       '@types/react-transition-group': 4.4.2
       memoize-one: 5.2.1
       prop-types: 15.7.2

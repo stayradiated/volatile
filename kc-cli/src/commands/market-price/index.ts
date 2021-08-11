@@ -77,22 +77,24 @@ export const handler = createHandler<Options>(async (config, argv) => {
     return result
   }
 
-  const rowData = result.data.kc_market.map<RowData|undefined>((market) => {
-    const marketPrice = market.market_prices[0]
-    if (!marketPrice) {
-      return undefined
-    }
+  const rowData = result.data.kc_market
+    .map<RowData | undefined>((market) => {
+      const marketPrice = market.market_prices[0]
+      if (!marketPrice) {
+        return undefined
+      }
 
-    return {
-      marketName: market.name,
-      timestamp: DateTime.fromISO(marketPrice.timestamp),
-      symbol: marketPrice.symbol,
-      currency: marketPrice.currency,
-      fxRate: marketPrice.fx_rate,
-      price: marketPrice.price,
-      priceNZD: marketPrice.price_nzd,
-    }
-  }).filter(Boolean) as RowData[]
+      return {
+        marketName: market.name,
+        timestamp: DateTime.fromISO(marketPrice.timestamp),
+        symbol: marketPrice.symbol,
+        currency: marketPrice.currency,
+        fxRate: marketPrice.fx_rate,
+        price: marketPrice.price,
+        priceNZD: marketPrice.price_nzd,
+      }
+    })
+    .filter(Boolean) as RowData[]
 
   console.log(drawTable(rowData))
   return undefined
