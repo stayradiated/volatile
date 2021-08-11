@@ -110,7 +110,7 @@ importers:
       '@types/bcrypt': 5.0.0
       '@types/luxon': 2.0.0
       '@types/pg': 8.6.1
-      '@vercel/ncc': ^0.29
+      '@vercel/ncc': ^0.28
       ava: 3.15.0
       bcrypt: 5.0.1
       debug: 4.3.2
@@ -124,7 +124,7 @@ importers:
       otplib: 12.0.1
       pg: 8.7.1
       rambda: 6.9.0
-      stripe: 8.168.0
+      stripe: 8.169.0
       type-fest: 2.0.0
       typescript: 4.3.5
       xo: 0.44.0
@@ -145,14 +145,14 @@ importers:
       otplib: 12.0.1
       pg: 8.7.1
       rambda: 6.9.0
-      stripe: 8.168.0
+      stripe: 8.169.0
       zapatos: 5.0.0_05d70cfefa80cdc01bbefd7042981540
     devDependencies:
       '@stayradiated/jsconfig': 1.14.0
       '@types/bcrypt': 5.0.0
       '@types/luxon': 2.0.0
       '@types/pg': 8.6.1
-      '@vercel/ncc': 0.29.0
+      '@vercel/ncc': 0.28.6
       ava: 3.15.0
       del-cli: 4.0.1
       eslint-plugin-fp: 2.3.0
@@ -914,6 +914,11 @@ packages:
 
   /@types/node/16.4.13:
     resolution: {integrity: sha512-bLL69sKtd25w7p1nvg9pigE4gtKVpGTPojBFLMkGHXuUgap2sLqQt2qUnqmVCDfzGUL0DRNZP+1prIZJbMeAXg==}
+    dev: true
+
+  /@types/node/16.4.14:
+    resolution: {integrity: sha512-GZpnVRNtv7sHDXIFncsERt+qvj4rzAgRQtnvzk3Z7OVNtThD2dHXYCMDNc80D5mv4JE278qo8biZCwcmkbdpqw==}
+    dev: false
 
   /@types/normalize-package-data/2.4.0:
     resolution: {integrity: sha512-f5j5b/Gf71L+dbqxIpQ4Z2WlmI/mPJ0fOkGGmFgtb6sAu97EPczzbS3/tJKxmcYDj55OX6ssqwDAWOHIYDRDGA==}
@@ -1082,6 +1087,11 @@ packages:
     dependencies:
       '@typescript-eslint/types': 4.29.0
       eslint-visitor-keys: 2.1.0
+    dev: true
+
+  /@vercel/ncc/0.28.6:
+    resolution: {integrity: sha512-t4BoSSuyK8BZaUE0gV18V6bkFs4st7baumtFGa50dv1tMu2GDBEBF8sUZaKBdKiL6DzJ2D2+XVCwYWWDcQOYdQ==}
+    hasBin: true
     dev: true
 
   /@vercel/ncc/0.29.0:
@@ -5915,11 +5925,11 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
-  /stripe/8.168.0:
-    resolution: {integrity: sha512-MQXTarijIOagtLajGe1zBFc9KMbB7jIoFv/kr1WsDPJO/S+/hhZjsXCgBkNvnlwK7Yl0VUn+YrgXl9/9wU6WCw==}
+  /stripe/8.169.0:
+    resolution: {integrity: sha512-h4JVMGnhYwkEu8dFHX0MewtTFEWcjJQ2zTiFcvhW5toa/2JcEeObfwH27Z29A6t/6s2vnXrXxEnuyL7gBBAXqA==}
     engines: {node: ^8.1 || >=10.*}
     dependencies:
-      '@types/node': 16.4.13
+      '@types/node': 16.4.14
       qs: 6.10.1
     dev: false
 
