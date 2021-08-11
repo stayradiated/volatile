@@ -1,6 +1,6 @@
 import { inspect } from 'util'
 
-import test from '../../test-util/ava.js'
+import { test } from '../../test-util/ava.js'
 
 import {
   EXCHANGE_KIWI_COIN,

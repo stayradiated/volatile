@@ -1,7 +1,7 @@
 import { DateTime } from 'luxon'
 import { throwIfError } from '@stayradiated/error-boundary'
 
-import test from '../../test-util/ava.js'
+import { test } from '../../test-util/ava.js'
 
 import { insertTrade } from '../trade/index.js'
 import { getDCAOrderCurrentAmountNZD } from './get-dca-order-current-amount-nzd.js'
@@ -18,8 +18,8 @@ test('should calculate without trades', async (t) => {
 
   const dailyAverage = 100
 
-  // Start at === 24 hours ago
-  const startAt = DateTime.local().minus({ days: 1 })
+  const currentTime = DateTime.local()
+  const startAt = currentTime.minus({ days: 1 })
 
   const dcaOrder = await throwIfError<DCAOrder>(
     insertDCAOrder(pool, {
@@ -38,7 +38,7 @@ test('should calculate without trades', async (t) => {
     }),
   )
 
-  const sum = await getDCAOrderCurrentAmountNZD(pool, dcaOrder)
+  const sum = await getDCAOrderCurrentAmountNZD(pool, dcaOrder, currentTime)
   t.is(dailyAverage, sum)
 })
 
@@ -53,8 +53,8 @@ test('should calculate with multiple trade', async (t) => {
   const dailyAverage = 100
   const tradedTotal = 90
 
-  // Start at === 24 hours ago
-  const startAt = DateTime.local().minus({ days: 1 })
+  const currentTime = DateTime.local()
+  const startAt = currentTime.minus({ days: 1 })
 
   const dcaOrder = await throwIfError<DCAOrder>(
     insertDCAOrder(pool, {
@@ -105,6 +105,6 @@ test('should calculate with multiple trade', async (t) => {
     }),
   )
 
-  const sum = await getDCAOrderCurrentAmountNZD(pool, dcaOrder)
+  const sum = await getDCAOrderCurrentAmountNZD(pool, dcaOrder, currentTime)
   t.is(dailyAverage - tradedTotal, sum)
 })

@@ -1,4 +1,4 @@
-import test from 'ava'
+import { test } from '../../test-util/ava.js'
 
 import { pool } from '../../pool.js'
 import { MARKET_BINANCE_US, MARKET_DASSET, forceGetMarketUID } from './index.js'

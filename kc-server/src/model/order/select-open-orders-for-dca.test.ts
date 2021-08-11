@@ -1,7 +1,7 @@
 import { DateTime } from 'luxon'
 import { throwIfError } from '@stayradiated/error-boundary'
 
-import test from '../../test-util/ava.js'
+import { test } from '../../test-util/ava.js'
 
 import { selectOpenOrdersForDCA } from './select-open-orders-for-dca.js'
 import { updateOrder } from './update-order.js'

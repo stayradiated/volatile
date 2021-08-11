@@ -6,9 +6,10 @@ import type {
   RawReplyDefaultExpression,
 } from 'fastify/types/utils'
 
+import { HASURA_ACTIONS_SECRET } from '../env.js'
+
 import { pool } from '../pool.js'
-import type { Pool, Config } from '../types.js'
-import { config } from './config.js'
+import type { Pool } from '../types.js'
 
 type RouteHandler<RouteGeneric> = RouteHandlerMethod<
   RawServerDefault,
@@ -19,9 +20,9 @@ type RouteHandler<RouteGeneric> = RouteHandlerMethod<
 
 type ActionHandlerRequest<Input> = {
   Body: {
-    input: Input
-    action: { name: string }
-    session_variables: {
+    input?: Input
+    action?: { name?: string }
+    session_variables?: {
       'x-hasura-role'?: string
       'x-hasura-user-id'?: string
     }
@@ -40,7 +41,7 @@ type Session = {
 }
 
 const parseSessionVariables = (
-  input: Record<string, string>,
+  input: Record<string, string> | undefined,
 ): Session | Error => {
   if (typeof input !== 'object' || input === null) {
     return new Error('session_variables must be an object.')
@@ -66,7 +67,6 @@ type Context<Input> = {
   pool: Pool
   input: Input
   session: Session
-  config: Config
 }
 
 type ActionHandlerFn<Input, Output> = (
@@ -79,10 +79,18 @@ const wrapActionHandler =
     fn: ActionHandlerFn<Input, Output>,
   ): RouteHandler<ActionHandlerRequest<Input>> =>
   async (request, reply) => {
+    if (request.headers['x-hasura-actions-secret'] !== HASURA_ACTIONS_SECRET) {
+      await reply.code(403).send({
+        message: 'Invalid x-hasura-actions-secret',
+      })
+      return
+    }
+
     if (typeof request.body !== 'object' || request.body === null) {
       await reply.code(401).send({
         message: `Invalid request body`,
       })
+      return
     }
 
     const { session_variables: sessionVariables, input, action } = request.body
@@ -94,15 +102,28 @@ const wrapActionHandler =
       return
     }
 
-    if (action.name !== actionName) {
+    if (action?.name !== actionName) {
       await reply.code(404).send({
-        message: `Action name mismatch, expecting '${actionName}', received: '${action.name}'`,
+        message: `Action name mismatch, expecting ${inspect(
+          actionName,
+        )}, received: ${inspect(action?.name)}`,
+      })
+      return
+    }
+
+    if (input === undefined || input === null) {
+      await reply.code(400).send({
+        message: `Action requires input to be defined.`,
       })
       return
     }
 
     try {
-      const context = { pool, input, session, config }
+      const context: Context<Input> = {
+        pool,
+        input,
+        session,
+      }
       const output = await fn(context)
       if (output instanceof Error) {
         await reply.code(400).send({ message: output.message })

@@ -17,6 +17,7 @@ type CachedFetchConfig<Args, ReturnValue> = {
 type CachedFetchFn<ReturnValue> = () => Promise<ReturnValue | Error>
 
 type State<T> = {
+  promise: Promise<T | Error> | undefined
   ready: boolean
   lastUpdated: DateTime
   lastValue?: T
@@ -29,12 +30,17 @@ const createCachedFetchFn = <Args, ReturnValue>(
   const { minCacheDuration, fetch } = config
 
   const state: State<ReturnValue> = {
+    promise: undefined,
     ready: false,
     lastUpdated: DateTime.fromSeconds(0),
     lastValue: undefined,
   }
 
   const cachedFetchFn: CachedFetchFn<ReturnValue> = async () => {
+    if (state.promise) {
+      return state.promise
+    }
+
     if (state.ready) {
       const timeSinceLastUpdated = DateTime.local()
         .diff(state.lastUpdated)
@@ -45,15 +51,20 @@ const createCachedFetchFn = <Args, ReturnValue>(
       }
     }
 
-    const result = await fetch(fnArgs)
-    if (result instanceof Error) {
-      return result
-    }
+    state.promise = (async (): Promise<ReturnValue | Error> => {
+      const result = await fetch(fnArgs)
+      if (result instanceof Error) {
+        return result
+      }
 
-    state.ready = true
-    state.lastUpdated = result.lastUpdated
-    state.lastValue = result.value
-    return result.value
+      state.promise = undefined
+      state.ready = true
+      state.lastUpdated = result.lastUpdated
+      state.lastValue = result.value
+      return result.value
+    })()
+
+    return state.promise
   }
 
   return cachedFetchFn

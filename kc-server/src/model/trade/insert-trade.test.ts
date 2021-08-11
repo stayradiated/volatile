@@ -2,7 +2,7 @@ import * as db from 'zapatos/db'
 import { DateTime } from 'luxon'
 import { throwIfError } from '@stayradiated/error-boundary'
 
-import test from '../../test-util/ava.js'
+import { test } from '../../test-util/ava.js'
 
 import { insertTrade, InsertTradeOptions } from './insert-trade.js'
 import type { Trade } from './types.js'

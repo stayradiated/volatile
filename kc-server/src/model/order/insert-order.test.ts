@@ -2,7 +2,7 @@ import { DateTime } from 'luxon'
 import * as db from 'zapatos/db'
 import { throwIfError } from '@stayradiated/error-boundary'
 
-import test from '../../test-util/ava.js'
+import { test } from '../../test-util/ava.js'
 
 import { insertOrder, InsertOrderOptions } from './insert-order.js'
 import type { Order } from './types.js'

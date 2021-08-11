@@ -2,6 +2,10 @@ type Mutation {
   create_auth_token (
     email: String!
     password: String!
+    device_id: String!
+    device_name: String!
+    device_trusted: Boolean!
+    token_2fa: String
   ): CreateAuthTokenOutput
 }
 
@@ -34,6 +38,43 @@ type Mutation {
   ): CreateUserExchangeKeysOutput
 }
 
+type Query {
+  customer_checkout_session : CustomerCheckoutSessionOutput!
+}
+
+type Query {
+  customer_portal_session : CreateCustomerPortalSession
+}
+
+type Mutation {
+  enable_user_2fa (
+    name: String!
+    secret: String!
+    token: String!
+  ): EnableUser2FAOutput
+}
+
+type Mutation {
+  reset_user_password (
+    password_reset_secret: String!
+    new_password: String!
+    device_id: String!
+    device_name: String!
+    device_trusted: Boolean!
+    token_2fa: String
+  ): ResetUserPasswordOutput!
+}
+
+type Mutation {
+  send_user_email_verify : SendUserEmailVerifyOutput!
+}
+
+type Mutation {
+  send_user_password_reset (
+    email: String!
+  ): SendUserPasswordResetOutput!
+}
+
 type Mutation {
   sync_exchange_trade_list (
     user_exchange_keys_uid: uuid!
@@ -42,9 +83,30 @@ type Mutation {
 }
 
 type Mutation {
+  update_user (
+    email: String
+    password: String
+  ): UpdateUserOutput!
+}
+
+type Mutation {
+  update_user_exchange_keys (
+    user_exchange_keys_uid: uuid!
+    keys: jsonb!
+    description: String!
+  ): UpdateUserExchangeKeysOutput
+}
+
+type Mutation {
   validate_user_exchange_keys (
     user_exchange_keys_uid: String!
   ): ValidateUserExchangeKeysOutput
+}
+
+type Mutation {
+  verify_user_email (
+    email_verify_secret: String!
+  ): VerifyUserEmailOutput!
 }
 
 input SampleInput {
@@ -92,6 +154,56 @@ type SyncExchangeTradeListOutput {
 }
 
 type CreateUserExchangeKeysOutput {
+  user_exchange_keys_uid : uuid!
+}
+
+type WebhookOutput {
+  success : Boolean!
+}
+
+type CreateCheckoutSession {
+  session_url : String!
+}
+
+type CreateCustomerPortalSession {
+  session_url : String!
+}
+
+type CustomerCheckoutSessionOutput {
+  session_url : String!
+}
+
+type UpdateUserPasswordOutput {
+  user_uid : uuid!
+}
+
+type UpdateUserOutput {
+  user_uid : uuid!
+}
+
+type EnableUser2FAOutput {
+  user_uid : uuid!
+}
+
+type SendUserPasswordResetOutput {
+  secret : String!
+}
+
+type ResetUserPasswordOutput {
+  user_uid : uuid!
+  auth_token : String!
+}
+
+type SendUserEmailVerifyOutput {
+  user_uid : uuid!
+  secret : String!
+}
+
+type VerifyUserEmailOutput {
+  user_uid : uuid!
+}
+
+type UpdateUserExchangeKeysOutput {
   user_exchange_keys_uid : uuid!
 }
 

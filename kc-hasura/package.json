@@ -9,6 +9,6 @@
   "author": "George Czabania <george@czabania.com>",
   "license": "GPL-3.0",
   "dependencies": {
-    "hasura-cli": "2.0.3"
+    "hasura-cli": "2.0.5"
   }
 }

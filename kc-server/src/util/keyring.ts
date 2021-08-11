@@ -1,3 +1,4 @@
+import * as process from 'process'
 import { createKeyring, Keyring } from '@stayradiated/kc-keyring'
 
 import { KEYRING } from '../env.js'

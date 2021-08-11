@@ -14,4 +14,4 @@ test.before((t) => {
   t.context.make = createMakeInstance()
 })
 
-export default test
+export { test }

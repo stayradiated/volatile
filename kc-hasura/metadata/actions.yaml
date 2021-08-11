@@ -3,36 +3,136 @@ actions:
   definition:
     kind: synchronous
     handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/create_auth_token'
+    headers:
+    - name: x-hasura-actions-secret
+      value_from_env: HASURA_ACTIONS_SECRET
   permissions:
+  - role: user
   - role: guest
 - name: create_dca_order
   definition:
     kind: synchronous
     handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/create_dca_order'
+    headers:
+    - name: x-hasura-actions-secret
+      value_from_env: HASURA_ACTIONS_SECRET
   permissions:
   - role: user
 - name: create_user
   definition:
     kind: synchronous
     handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/create_user'
+    headers:
+    - name: x-hasura-actions-secret
+      value_from_env: HASURA_ACTIONS_SECRET
   permissions:
   - role: guest
 - name: create_user_exchange_keys
   definition:
     kind: synchronous
     handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/create_user_exchange_keys'
+    headers:
+    - name: x-hasura-actions-secret
+      value_from_env: HASURA_ACTIONS_SECRET
+  permissions:
+  - role: user
+- name: customer_checkout_session
+  definition:
+    kind: ""
+    handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/customer_checkout_session'
+    headers:
+    - name: x-hasura-actions-secret
+      value_from_env: HASURA_ACTIONS_SECRET
+  permissions:
+  - role: user
+- name: customer_portal_session
+  definition:
+    kind: ""
+    handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/customer_portal_session'
+    headers:
+    - name: x-hasura-actions-secret
+      value_from_env: HASURA_ACTIONS_SECRET
+  permissions:
+  - role: user
+- name: enable_user_2fa
+  definition:
+    kind: synchronous
+    handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/enable_user_2fa'
+    headers:
+    - name: x-hasura-actions-secret
+      value_from_env: HASURA_ACTIONS_SECRET
+  permissions:
+  - role: user
+- name: reset_user_password
+  definition:
+    kind: synchronous
+    handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/reset_user_password'
+    headers:
+    - name: x-hasura-actions-secret
+      value_from_env: HASURA_ACTIONS_SECRET
+  permissions:
+  - role: user
+- name: send_user_email_verify
+  definition:
+    kind: synchronous
+    handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/send_user_email_verify'
+    headers:
+    - name: x-hasura-actions-secret
+      value_from_env: HASURA_ACTIONS_SECRET
+  permissions:
+  - role: user
+- name: send_user_password_reset
+  definition:
+    kind: synchronous
+    handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/send_user_password_reset'
+    headers:
+    - name: x-hasura-actions-secret
+      value_from_env: HASURA_ACTIONS_SECRET
   permissions:
   - role: user
 - name: sync_exchange_trade_list
   definition:
     kind: synchronous
     handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/sync_exchange_trade_list'
+    headers:
+    - name: x-hasura-actions-secret
+      value_from_env: HASURA_ACTIONS_SECRET
+  permissions:
+  - role: user
+- name: update_user
+  definition:
+    kind: synchronous
+    handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/update_user'
+    headers:
+    - name: x-hasura-actions-secret
+      value_from_env: HASURA_ACTIONS_SECRET
+  permissions:
+  - role: user
+- name: update_user_exchange_keys
+  definition:
+    kind: synchronous
+    handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/update_user_exchange_keys'
+    headers:
+    - name: x-hasura-actions-secret
+      value_from_env: HASURA_ACTIONS_SECRET
   permissions:
   - role: user
 - name: validate_user_exchange_keys
   definition:
     kind: synchronous
     handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/validate_user_exchange_keys'
+    headers:
+    - name: x-hasura-actions-secret
+      value_from_env: HASURA_ACTIONS_SECRET
+  permissions:
+  - role: user
+- name: verify_user_email
+  definition:
+    kind: synchronous
+    handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/verify_user_email'
+    headers:
+    - name: x-hasura-actions-secret
+      value_from_env: HASURA_ACTIONS_SECRET
   permissions:
   - role: user
 custom_types:
@@ -42,15 +142,6 @@ custom_types:
   objects:
   - name: SampleOutput
   - name: CreateUserOutput
-    relationships:
-    - remote_table:
-        schema: kc
-        name: user
-      name: user
-      source: default
-      type: object
-      field_mapping:
-        user_uid: uid
   - name: CreateAuthTokenOutput
     relationships:
     - remote_table:
@@ -104,4 +195,43 @@ custom_types:
       field_mapping:
         user_uid: uid
   - name: CreateUserExchangeKeysOutput
+    relationships:
+    - remote_table:
+        schema: kc
+        name: user_exchange_keys
+      name: user_exchange_keys
+      source: default
+      type: object
+      field_mapping:
+        user_exchange_keys_uid: uid
+  - name: WebhookOutput
+  - name: CreateCheckoutSession
+  - name: CreateCustomerPortalSession
+  - name: CustomerCheckoutSessionOutput
+  - name: UpdateUserPasswordOutput
+  - name: UpdateUserOutput
+    relationships:
+    - remote_table:
+        schema: kc
+        name: user
+      name: user
+      source: default
+      type: object
+      field_mapping:
+        user_uid: uid
+  - name: EnableUser2FAOutput
+  - name: SendUserPasswordResetOutput
+  - name: ResetUserPasswordOutput
+  - name: SendUserEmailVerifyOutput
+  - name: VerifyUserEmailOutput
+    relationships:
+    - remote_table:
+        schema: kc
+        name: user
+      name: user
+      source: default
+      type: object
+      field_mapping:
+        user_uid: uid
+  - name: UpdateUserExchangeKeysOutput
   scalars: []

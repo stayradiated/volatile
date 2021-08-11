@@ -1,13 +1,15 @@
 import { CommandModule } from 'yargs'
 
-import * as trades from './trades/index.js'
-import * as openOrders from './open-orders/index.js'
 import * as dcaOrders from './dca-orders/index.js'
+import * as marketPrice from './market-price/index.js'
+import * as openOrders from './open-orders/index.js'
+import * as trades from './trades/index.js'
 
 const commandsList: Array<CommandModule<any, any>> = [
   trades,
   openOrders,
   dcaOrders,
+  marketPrice,
 ]
 
 // Force type to CommandModule to fix typescript error

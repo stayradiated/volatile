@@ -1,0 +1,36 @@
+table:
+  name: user_device
+  schema: kc
+select_permissions:
+- permission:
+    columns:
+    - accessed_at
+    - created_at
+    - name
+    - trusted
+    - uid
+    - updated_at
+    - user_uid
+    filter:
+      user_uid:
+        _eq: X-Hasura-User-Id
+    limit: 100
+  role: user
+update_permissions:
+- permission:
+    check:
+      user_uid:
+        _eq: X-Hasura-User-Id
+    columns:
+    - name
+    - updated_at
+    filter:
+      user_uid:
+        _eq: X-Hasura-User-Id
+  role: user
+delete_permissions:
+- permission:
+    filter:
+      user_uid:
+        _eq: X-Hasura-User-Id
+  role: user

@@ -1,5 +1,5 @@
 import { ActionHandlerFn } from '../../util/action-handler.js'
-import { createUser } from '../../model/user/index.js'
+import { insertUser } from '../../model/user/index.js'
 
 type Input = {
   email: string
@@ -12,7 +12,7 @@ type Output = {
 const createUserHandler: ActionHandlerFn<Input, Output> = async (context) => {
   const { pool, input } = context
   const { email, password } = input
-  const result = await createUser(pool, { email, password })
+  const result = await insertUser(pool, { email, password })
   if (result instanceof Error) {
     return result
   }

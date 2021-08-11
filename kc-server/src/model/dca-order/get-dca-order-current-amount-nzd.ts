@@ -11,6 +11,7 @@ import type { DCAOrder } from './types.js'
 const getDCAOrderCurrentAmountNZD = async (
   pool: Pool,
   dcaOrder: DCAOrder,
+  currentTime: DateTime,
 ): Promise<number | Error> => {
   const {
     userUID,
@@ -39,8 +40,7 @@ const getDCAOrderCurrentAmountNZD = async (
     return sum + nzd
   }, 0)
 
-  const now = DateTime.local()
-  const minutesSinceStartDate = now.diff(startAt).as('minutes')
+  const minutesSinceStartDate = currentTime.diff(startAt).as('minutes')
   const goalPerMinute = dailyAverage / 24 / 60
 
   const orderAmountNZD = round(

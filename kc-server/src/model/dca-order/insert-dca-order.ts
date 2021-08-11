@@ -29,22 +29,14 @@ const insertDCAOrder = async (
     max_price_nzd: dcaOrder.maxPriceNZD,
     min_amount_nzd: dcaOrder.minAmountNZD,
     max_amount_nzd: dcaOrder.maxAmountNZD,
+    enabled_at: null,
   }
 
-  const rows = await errorBoundary(async () =>
-    db.sql<s.dca_order.SQL, s.dca_order.Selectable[]>`
-INSERT INTO ${'dca_order'} (${db.cols(insert)})
-VALUES (${db.vals(insert)})
-RETURNING uid
-  `.run(pool),
+  const row = await errorBoundary(async () =>
+    db.insert('dca_order', insert, { returning: ['uid'] }).run(pool),
   )
-  if (rows instanceof Error) {
-    return rows
-  }
-
-  const row = rows[0]
-  if (!row) {
-    return new Error('Failed to insert row into dca_order.')
+  if (row instanceof Error) {
+    return row
   }
 
   return {
