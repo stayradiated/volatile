@@ -1,5 +1,5 @@
 import { inspect } from 'util'
-import debug from 'debug'
+import { errorListBoundary } from '@stayradiated/error-boundary'
 
 import type { CronHandlerFn } from '../../util/cron-handler.js'
 import { getMarketUID } from '../../model/market/index.js'
@@ -13,11 +13,9 @@ import {
 type Input = Record<string, unknown>
 type Output = void
 
-const log = debug('market-price')
-
 const fetchMarketPriceHandler: CronHandlerFn<Input, Output> = async (
   context,
-): Promise<void> => {
+) => {
   const { pool } = context
 
   const currencyFnList = currencyConfigList.map((currencyConfig) => {
@@ -62,13 +60,14 @@ const fetchMarketPriceHandler: CronHandlerFn<Input, Output> = async (
       }))
     })
 
-  const fetchMarketPrice = async (marketPriceInstance: MarketPriceInstance) => {
+  const fetchMarketPrice = async (
+    marketPriceInstance: MarketPriceInstance,
+  ): Promise<void | Error> => {
     const { market, fetchPrice, currency, symbol } = marketPriceInstance
 
     const marketUID = await getMarketUID(pool, market)
     if (marketUID instanceof Error) {
-      log(marketUID)
-      return
+      return marketUID
     }
 
     const timestamp = new Date()
@@ -79,27 +78,43 @@ const fetchMarketPriceHandler: CronHandlerFn<Input, Output> = async (
     ])
 
     if (price instanceof Error) {
-      log(price)
-    } else if (fxRate instanceof Error) {
-      log(fxRate)
-    } else {
-      const priceNZD = price * fxRate
-
-      await insertMarketPrice(pool, {
-        timestamp,
-        marketUID,
-        price,
-        currency,
-        symbol,
-        fxRate,
-        priceNZD,
-      })
+      return price
     }
+
+    if (fxRate instanceof Error) {
+      return fxRate
+    }
+
+    const priceNZD = price * fxRate
+
+    const error = await insertMarketPrice(pool, {
+      timestamp,
+      marketUID,
+      price,
+      currency,
+      symbol,
+      fxRate,
+      priceNZD,
+    })
+    if (error instanceof Error) {
+      return error
+    }
+
+    return undefined
   }
 
-  await Promise.all(
-    marketPriceInstanceList.map(async (instance) => fetchMarketPrice(instance)),
+  const error = await errorListBoundary(async () =>
+    Promise.all(
+      marketPriceInstanceList.map(async (instance) =>
+        fetchMarketPrice(instance),
+      ),
+    ),
   )
+  if (error instanceof Error) {
+    return error
+  }
+
+  return undefined
 }
 
 export { fetchMarketPriceHandler }

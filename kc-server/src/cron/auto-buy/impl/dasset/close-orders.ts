@@ -2,9 +2,9 @@ import * as dasset from '@stayradiated/dasset-api'
 import { errorListBoundary } from '@stayradiated/error-boundary'
 import { DateTime } from 'luxon'
 
-import { updateOrder, Order } from '../../model/order/index.js'
-import { explainError } from '../../util/error.js'
-import type { Pool } from '../../types.js'
+import { updateOrder, Order } from '../../../../model/order/index.js'
+import { explainError } from '../../../../util/error.js'
+import type { Pool } from '../../../../types.js'
 
 const closeOrders = async (
   pool: Pool,

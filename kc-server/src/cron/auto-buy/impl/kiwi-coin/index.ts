@@ -1,25 +1,25 @@
 import * as kiwiCoin from '@stayradiated/kiwi-coin-api'
 import { DateTime } from 'luxon'
 
-import type { Pool } from '../../types.js'
+import type { Pool } from '../../../../types.js'
 import {
   DCAOrder,
   getDCAOrderCurrentAmountNZD,
-} from '../../model/dca-order/index.js'
-import { getMarketPrice } from '../../model/market-price/index.js'
+} from '../../../../model/dca-order/index.js'
+import { getMarketPrice } from '../../../../model/market-price/index.js'
 import {
   insertOrder,
   updateOrder,
   selectOpenOrdersForDCA,
-} from '../../model/order/index.js'
-import { insertDCAOrderHistory } from '../../model/dca-order-history/index.js'
-import { round } from '../../util/round.js'
-import { explainError } from '../../util/error.js'
-import { mustGetUserKiwiCoinExchangeKeys } from '../../model/user-exchange-keys/index.js'
-import { syncExchangeTradeList } from '../../model/trade/index.js'
+} from '../../../../model/order/index.js'
+import { insertDCAOrderHistory } from '../../../../model/dca-order-history/index.js'
+import { round } from '../../../../util/round.js'
+import { explainError } from '../../../../util/error.js'
+import { mustGetUserKiwiCoinExchangeKeys } from '../../../../model/user-exchange-keys/index.js'
+import { syncExchangeTradeList } from '../../../../model/trade/index.js'
 import { fetchAvailableNZD } from './fetch-available-nzd.js'
 
-const executeDCAOrder = async (
+const executeKiwiCoinDCAOrder = async (
   pool: Pool,
   dcaOrder: DCAOrder,
 ): Promise<void | Error> => {
@@ -198,4 +198,4 @@ const executeDCAOrder = async (
   }
 }
 
-export { executeDCAOrder }
+export { executeKiwiCoinDCAOrder }

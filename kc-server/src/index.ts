@@ -33,8 +33,7 @@ addAction('verify_user_email', actions.verifyUserEmailHandler)
 
 const addCron = bindCronHandler(fastify)
 addCron('fetch_market_price', cron.fetchMarketPriceHandler)
-addCron('auto_buy_dasset', cron.autoBuyDassetHandler)
-addCron('auto_buy_kiwi_coin', cron.autoBuyKiwiCoinHandler)
+addCron('auto_buy', cron.autoBuyHandler)
 
 const addRoute = bindHandler(fastify)
 addRoute('/webhook/stripe', webhooks.stripeHandler)

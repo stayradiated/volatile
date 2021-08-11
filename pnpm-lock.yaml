@@ -4,7 +4,7 @@ importers:
 
   dasset-api:
     specifiers:
-      '@stayradiated/error-boundary': 1.2.0
+      '@stayradiated/error-boundary': 1.3.0
       '@stayradiated/jsconfig': 1.14.0
       '@types/debug': 4.1.7
       '@types/node': 16.4.13
@@ -20,7 +20,7 @@ importers:
       typescript: 4.3.5
       xo: 0.44.0
     dependencies:
-      '@stayradiated/error-boundary': 1.2.0
+      '@stayradiated/error-boundary': 1.3.0
       debug: 4.3.2
       ky: 0.28.5
       ky-universal: 0.9.1_ky@0.28.5
@@ -39,7 +39,7 @@ importers:
 
   kc-cli:
     specifiers:
-      '@stayradiated/error-boundary': 1.2.0
+      '@stayradiated/error-boundary': 1.3.0
       '@stayradiated/jsconfig': 1.14.0
       '@types/luxon': 2.0.0
       '@types/yargs': 17.0.2
@@ -56,7 +56,7 @@ importers:
       xo: 0.44.0
       yargs: 17.1.0
     dependencies:
-      '@stayradiated/error-boundary': 1.2.0
+      '@stayradiated/error-boundary': 1.3.0
       ky: 0.28.5
       ky-universal: 0.9.1_ky@0.28.5
       luxon: 2.0.2
@@ -82,7 +82,7 @@ importers:
 
   kc-keyring:
     specifiers:
-      '@stayradiated/error-boundary': 1.2.0
+      '@stayradiated/error-boundary': 1.3.0
       '@stayradiated/jsconfig': 1.14.0
       ava: 3.15.0
       del-cli: 4.0.1
@@ -90,7 +90,7 @@ importers:
       typescript: 4.3.5
       xo: 0.44.0
     dependencies:
-      '@stayradiated/error-boundary': 1.2.0
+      '@stayradiated/error-boundary': 1.3.0
     devDependencies:
       '@stayradiated/jsconfig': 1.14.0
       ava: 3.15.0
@@ -102,7 +102,7 @@ importers:
   kc-server:
     specifiers:
       '@stayradiated/dasset-api': workspace:1.0.1
-      '@stayradiated/error-boundary': 1.2.0
+      '@stayradiated/error-boundary': 1.3.0
       '@stayradiated/jsconfig': 1.14.0
       '@stayradiated/kc-keyring': workspace:1.0.0
       '@stayradiated/kiwi-coin-api': workspace:1.0.1
@@ -131,7 +131,7 @@ importers:
       zapatos: 5.0.0
     dependencies:
       '@stayradiated/dasset-api': link:../dasset-api
-      '@stayradiated/error-boundary': 1.2.0
+      '@stayradiated/error-boundary': 1.3.0
       '@stayradiated/kc-keyring': link:../kc-keyring
       '@stayradiated/kiwi-coin-api': link:../kiwi-coin-api
       '@stayradiated/market-price': link:../market-price
@@ -183,7 +183,7 @@ importers:
 
   kiwi-coin-api:
     specifiers:
-      '@stayradiated/error-boundary': 1.2.0
+      '@stayradiated/error-boundary': 1.3.0
       '@stayradiated/jsconfig': 1.14.0
       '@types/debug': 4.1.7
       '@types/node': 16.4.13
@@ -198,7 +198,7 @@ importers:
       typescript: 4.3.5
       xo: 0.44.0
     dependencies:
-      '@stayradiated/error-boundary': 1.2.0
+      '@stayradiated/error-boundary': 1.3.0
       debug: 4.3.2
       ky: 0.28.5
       ky-universal: 0.9.1_ky@0.28.5
@@ -216,7 +216,7 @@ importers:
 
   market-price:
     specifiers:
-      '@stayradiated/error-boundary': 1.2.0
+      '@stayradiated/error-boundary': 1.3.0
       '@stayradiated/jsconfig': 1.14.0
       '@stayradiated/kiwi-coin-api': workspace:1.0.1
       '@types/debug': 4.1.7
@@ -233,7 +233,7 @@ importers:
       typescript: 4.3.5
       xo: 0.44.0
     dependencies:
-      '@stayradiated/error-boundary': 1.2.0
+      '@stayradiated/error-boundary': 1.3.0
       '@stayradiated/kiwi-coin-api': link:../kiwi-coin-api
       debug: 4.3.2
       ky: 0.28.5
@@ -832,8 +832,8 @@ packages:
     resolution: {integrity: sha512-+iTbntw2IZPb/anVDbypzfQa+ay64MW0Zo8aJ8gZPWMMK6/OubMVb6lUPMagqjOPnmtauXnFCACVl3O7ogjeqQ==}
     dev: true
 
-  /@stayradiated/error-boundary/1.2.0:
-    resolution: {integrity: sha512-kwkxOviDhgiVIW8G8n0RlG6bDMC+6Zg4Kbgf6z35KY2jZm0yw+lBvwT5+VLDcY1Hi8kFv0oedRyEsZpOHx2OZg==}
+  /@stayradiated/error-boundary/1.3.0:
+    resolution: {integrity: sha512-BK2C4QhVCm9RQA0E4l6A0p/eFzODjR3TokoTlsSMdP6kyQDnPZWZeFv/2Zj/S5rBU8gia1/cEUi62jThsfAO9Q==}
     dev: false
 
   /@stayradiated/jsconfig/1.14.0:
