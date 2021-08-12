@@ -304,7 +304,7 @@ ALTER TABLE ONLY kc.market
 --
 
 ALTER TABLE ONLY kc.market_price
-    ADD CONSTRAINT market_price_pkey PRIMARY KEY ("timestamp", market_uid);
+    ADD CONSTRAINT market_price_pkey PRIMARY KEY ("timestamp", market_uid, symbol);
 
 
 --
@@ -640,4 +640,5 @@ INSERT INTO kc.schema_migrations (version) VALUES
     ('20210803064848'),
     ('20210803071520'),
     ('20210807084803'),
-    ('20210808043640');
+    ('20210808043640'),
+    ('20210812091127');
