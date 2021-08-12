@@ -13,6 +13,7 @@ object_relationships:
     foreign_key_constraint_on: user_uid
 select_permissions:
 - permission:
+    allow_aggregations: true
     columns:
     - uid
     - created_at

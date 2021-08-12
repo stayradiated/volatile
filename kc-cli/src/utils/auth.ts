@@ -15,8 +15,20 @@ type GetAuthTokenResult = {
 }
 
 const QUERY_CREATE_AUTH_TOKEN = `
-mutation getAuthToken($email: String!, $password: String!) {
-  create_auth_token(email: $email, password: $password) {
+mutation getAuthToken(
+  $email: String!
+  $password: String!
+  $deviceId: String!
+  $deviceName: String!
+  $deviceTrusted: Boolean!
+) {
+  create_auth_token(
+    email: $email
+    password: $password
+    device_id: $deviceId
+    device_name: $deviceName
+    device_trusted: $deviceTrusted
+  ) {
     auth_token
   }
 }
@@ -30,6 +42,9 @@ const getAuthToken = async (config: Config): Promise<string | Error> => {
     variables: {
       email: config.email,
       password: config.password,
+      deviceId: 'f0836586-d657-46cb-98cd-812edfebfe42',
+      deviceName: 'kc-cli',
+      deviceTrusted: false,
     },
   })
   if (result instanceof Error) {

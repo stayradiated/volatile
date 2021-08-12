@@ -1,4 +1,4 @@
-import { graphql } from '../../utils/graphql.js'
+import { graphql, GraphQLResult } from '../../utils/graphql.js'
 import { getAuthHeaders } from '../../utils/auth.js'
 import { createHandler } from '../../utils/create-handler.js'
 
@@ -8,34 +8,32 @@ export const desc = 'Print dca orders'
 
 export const builder = {}
 
-type GetDCAOrdersResult = {
-  data: {
-    kc_dca_order: Array<{
-      exchange: { id: string }
-      market: { id: string }
-      symbol: string
-      start_at: string
-      daily_average: number
-      market_offset: number
-      min_amount_nzd: number | null
-      max_amount_nzd: number | null
+type GetDCAOrdersResult = GraphQLResult<{
+  kc_dca_order: Array<{
+    exchange: { id: string }
+    market: { id: string }
+    symbol: string
+    start_at: string
+    daily_average: number
+    market_offset: number
+    min_amount_nzd: number | null
+    max_amount_nzd: number | null
 
-      dca_order_histories: Array<{
-        created_at: string
-        market_price_nzd: number
-        available_balance_nzd: number
-        calculated_amount_nzd: number
-        created_order: boolean
-        description: string
+    dca_order_histories: Array<{
+      created_at: string
+      market_price_nzd: number
+      available_balance_nzd: number
+      calculated_amount_nzd: number
+      created_order: boolean
+      description: string
 
-        order: {
-          price_nzd: number
-          amount: number
-        }
-      }>
+      order: {
+        price_nzd: number
+        amount: number
+      }
     }>
-  }
-}
+  }>
+}>
 
 const QUERY_GET_DCA_ORDERS = `
 query getDCAOrders {

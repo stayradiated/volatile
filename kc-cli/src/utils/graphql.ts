@@ -9,7 +9,15 @@ type GraphqlOptions = {
   variables: Record<string, unknown>
 }
 
-const graphql = async <T>(options: GraphqlOptions): Promise<T | Error> => {
+type GraphQLResult<Data> = {
+  data: Data,
+  errors?: Array<{
+    message: string,
+    extensions: unknown,
+  }>
+}
+
+const graphql = async <T extends GraphQLResult<any>>(options: GraphqlOptions): Promise<T | Error> => {
   const { endpoint, headers, query, variables } = options
 
   const result = await errorBoundary(async () =>
@@ -19,7 +27,8 @@ const graphql = async <T>(options: GraphqlOptions): Promise<T | Error> => {
         body: JSON.stringify({ query, variables }),
       })
       .json(),
-  )
+  ) as T|Error
+
   if (result instanceof Error) {
     if (result instanceof HTTPError) {
       const response = (await result.response.json()) as Record<string, any>
@@ -29,7 +38,11 @@ const graphql = async <T>(options: GraphqlOptions): Promise<T | Error> => {
     return result
   }
 
-  return result as T
+  if (Array.isArray(result.errors) && result.errors[0]) {
+    return new Error(result.errors[0].message)
+  }
+
+  return result
 }
 
 type GraphqlPaginateOptions<T> = {
@@ -43,7 +56,7 @@ type GraphqlPaginateOptions<T> = {
   offset?: number
 }
 
-const graphqlPaginate = async <T>(
+const graphqlPaginate = async <T extends GraphQLResult<any>>(
   options: GraphqlPaginateOptions<T>,
 ): Promise<T | Error> => {
   const {
@@ -88,4 +101,4 @@ const graphqlPaginate = async <T>(
   return result
 }
 
-export { graphql, graphqlPaginate }
+export { graphql, graphqlPaginate, GraphQLResult }
