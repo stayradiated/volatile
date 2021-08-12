@@ -6,7 +6,7 @@ import sinon from 'sinon'
 
 import { createCachedFetchFn } from './cached-fetch.js'
 
-test('createCachedFetchFn: should return value', async (t) => {
+test('should return value', async (t) => {
   const source = {
     log: debug('test'),
     minCacheDuration: Duration.fromISOTime('00:00:01'),
@@ -22,7 +22,7 @@ test('createCachedFetchFn: should return value', async (t) => {
   t.is(value, 0)
 })
 
-test('createCachedFetchFn: should only call fetch when needed', async (t) => {
+test('should only call fetch when needed', async (t) => {
   const source = {
     log: debug('test'),
     minCacheDuration: Duration.fromISOTime('00:00:00.500'),
