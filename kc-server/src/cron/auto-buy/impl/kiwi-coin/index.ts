@@ -6,7 +6,7 @@ import {
   DCAOrder,
   getDCAOrderCurrentAmountNZD,
 } from '../../../../model/dca-order/index.js'
-import { getMarketPrice } from '../../../../model/market-price/index.js'
+import { selectAvgMarketPrice } from '../../../../model/market-price/index.js'
 import {
   insertOrder,
   updateOrder,
@@ -75,11 +75,10 @@ const executeKiwiCoinDCAOrder = async (
     totalAvailableNZD,
   )
 
-  const marketPriceNZD = await getMarketPrice(
-    pool,
-    dcaOrder.marketUID,
-    dcaOrder.symbol,
-  )
+  const marketPriceNZD = await selectAvgMarketPrice(pool, {
+    marketUID: dcaOrder.marketUID,
+    symbol: dcaOrder.symbol,
+  })
   if (marketPriceNZD instanceof Error) {
     return marketPriceNZD
   }

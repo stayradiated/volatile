@@ -1,7 +1,8 @@
+import type { DateTime } from 'luxon'
 import type { Currency } from '../../types.js'
 
 type MarketPrice = {
-  timestamp: Date
+  timestamp: DateTime
   marketUID: string
   price: number
   currency: Currency

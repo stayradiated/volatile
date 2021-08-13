@@ -1,3 +1,4 @@
+import { DateTime } from 'luxon'
 import { errorListBoundary } from '@stayradiated/error-boundary'
 
 import { getMarketUID } from '../../model/market/index.js'
@@ -26,7 +27,7 @@ const fetchMarketPriceHandler: CronHandlerFn<Input, Output> = async (
       return marketUID
     }
 
-    const timestamp = new Date()
+    const timestamp = DateTime.local()
 
     const [price, fxRate] = await Promise.all([
       fetchPrice(),

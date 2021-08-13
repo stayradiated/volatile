@@ -5,6 +5,7 @@ import { throwIfError } from '@stayradiated/error-boundary'
 
 import { getExchangeUID, EXCHANGE_KIWI_COIN } from '../model/exchange/index.js'
 import { getMarketUID, MARKET_KIWI_COIN } from '../model/market/index.js'
+import { insertMarketPrice } from '../model/market-price/index.js'
 import { insertDCAOrder, DCAOrder } from '../model/dca-order/index.js'
 import {
   insertDCAOrderHistory,
@@ -27,6 +28,7 @@ type MakeInstance = {
   exchange: MakeInstanceFn
   userExchangeKeys: MakeInstanceFn
   market: MakeInstanceFn
+  marketPrice: MakeInstanceFn
   dcaOrder: MakeInstanceFn
   dcaOrderHistory: MakeInstanceFn
   order: MakeInstanceFn
@@ -83,6 +85,29 @@ const makeMarket: MakeFn = () =>
     )
 
     return marketUID
+  })
+
+const makeMarketPrice: MakeFn = (make) =>
+  once(async () => {
+    const marketUID = await make.market()
+    const price = round(2, Math.random() * 1_000_000)
+    const fxRate = round(6, Math.random() * 3)
+    const priceNZD = price * fxRate
+    const timestamp = DateTime.local()
+
+    await throwIfError(
+      insertMarketPrice(pool, {
+        timestamp,
+        marketUID,
+        symbol: 'BTC',
+        currency: 'USD',
+        fxRate,
+        price,
+        priceNZD,
+      }),
+    )
+
+    return timestamp.toISO()
   })
 
 const makeDCAOrder: MakeFn = (make) =>
@@ -183,18 +208,13 @@ const makeDCAOrderHistory: MakeFn = (make) =>
   })
 
 const createMakeInstance = () => {
-  const instance: MakeInstance = {
-    user: undefined,
-    exchange: undefined,
-    market: undefined,
-    dcaOrder: undefined,
-    order: undefined,
-  } as unknown as MakeInstance
+  const instance: MakeInstance = {} as unknown as MakeInstance
 
   instance.user = makeUser(instance)
   instance.exchange = makeExchange(instance)
   instance.userExchangeKeys = makeUserExchangeKeys(instance)
   instance.market = makeMarket(instance)
+  instance.marketPrice = makeMarketPrice(instance)
   instance.dcaOrder = makeDCAOrder(instance)
   instance.dcaOrderHistory = makeDCAOrderHistory(instance)
   instance.order = makeOrder(instance)

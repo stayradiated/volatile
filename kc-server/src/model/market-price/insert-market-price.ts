@@ -8,18 +8,15 @@ import type { MarketPrice } from './types.js'
 const insertMarketPrice = async (
   pool: Pool,
   options: MarketPrice,
-): Promise<MarketPrice | Error> => {
-  const { timestamp, marketUID, price, currency, symbol, fxRate, priceNZD } =
-    options
-
+): Promise<void | Error> => {
   const marketPrice: s.market_price.Insertable = {
-    timestamp,
-    market_uid: marketUID,
-    price,
-    currency,
-    symbol,
-    fx_rate: fxRate,
-    price_nzd: priceNZD,
+    timestamp: options.timestamp.toJSDate(),
+    market_uid: options.marketUID,
+    price: options.price,
+    currency: options.currency,
+    symbol: options.symbol,
+    fx_rate: options.fxRate,
+    price_nzd: options.priceNZD,
   }
 
   const error = await errorBoundary(async () =>
@@ -29,9 +26,7 @@ const insertMarketPrice = async (
     return error
   }
 
-  return {
-    ...options,
-  }
+  return undefined
 }
 
 export { insertMarketPrice }
