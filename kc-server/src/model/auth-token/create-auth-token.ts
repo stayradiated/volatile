@@ -1,5 +1,6 @@
 import * as db from 'zapatos/db'
 import { errorBoundary } from '@stayradiated/error-boundary'
+import { DateTime } from 'luxon'
 
 import * as hash from '../../util/hash.js'
 import type { Pool } from '../../types.js'
@@ -13,6 +14,7 @@ type CreateAuthTokenOptions = {
 type AuthTokenResult = {
   userUID: string
   authToken: string
+  expiresAt: DateTime
 }
 
 const createAuthToken = async (
@@ -48,9 +50,9 @@ const createAuthToken = async (
   }
 
   const userUID = row.uid
-  const authToken = generateAuthToken(userUID)
+  const { authToken, expiresAt } = generateAuthToken(userUID)
 
-  return { userUID, authToken }
+  return { userUID, authToken, expiresAt }
 }
 
 export { createAuthToken }

@@ -125,6 +125,7 @@ type CreateUserOutput {
 type CreateAuthTokenOutput {
   user_uid : String!
   auth_token : String!
+  expires_at : timestamptz!
 }
 
 type GetEmailOutput {

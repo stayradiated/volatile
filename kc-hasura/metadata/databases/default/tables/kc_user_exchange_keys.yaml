@@ -18,6 +18,7 @@ array_relationships:
         schema: kc
 select_permissions:
 - permission:
+    allow_aggregations: true
     columns:
     - created_at
     - description
@@ -26,6 +27,12 @@ select_permissions:
     - uid
     - updated_at
     - user_uid
+    filter:
+      user_uid:
+        _eq: X-Hasura-User-Id
+  role: user
+delete_permissions:
+- permission:
     filter:
       user_uid:
         _eq: X-Hasura-User-Id

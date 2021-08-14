@@ -1,6 +1,6 @@
 - name: Auto Buy
   webhook: '{{HASURA_ACTIONS_ENDPOINT}}/cron/auto_buy'
-  schedule: '* * * * *'
+  schedule: '*/2 * * * *'
   include_in_metadata: true
   payload: {}
   headers:

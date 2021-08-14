@@ -23,6 +23,7 @@ type CreateAuthTokenInput = {
 type CreateAuthTokenOutput = {
   user_uid: string
   auth_token: string
+  expires_at: string
 }
 
 const createAuthTokenHandler: ActionHandlerFn<
@@ -44,7 +45,7 @@ const createAuthTokenHandler: ActionHandlerFn<
     return result
   }
 
-  const { userUID, authToken } = result
+  const { userUID, authToken, expiresAt } = result
 
   const isTrustedDevice = await hasTrustedUserDeviceByDeviceID(pool, deviceID)
 
@@ -85,6 +86,7 @@ const createAuthTokenHandler: ActionHandlerFn<
   return {
     user_uid: userUID,
     auth_token: authToken,
+    expires_at: expiresAt.toISO(),
   }
 }
 

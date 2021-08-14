@@ -83,7 +83,7 @@ const resetUserPasswordHandler: ActionHandlerFn<Input, Output> = async (
     return userError
   }
 
-  const authToken = generateAuthToken(userUID)
+  const { authToken, expiresAt } = generateAuthToken(userUID)
 
   const userDeviceError = await upsertUserDevice(pool, {
     userUID,
@@ -99,6 +99,7 @@ const resetUserPasswordHandler: ActionHandlerFn<Input, Output> = async (
   return {
     user_uid: userUID,
     auth_token: authToken,
+    expires_at: expiresAt.toISO(),
   }
 }
 

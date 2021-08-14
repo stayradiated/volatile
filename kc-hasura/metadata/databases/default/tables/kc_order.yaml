@@ -18,6 +18,7 @@ array_relationships:
         schema: kc
 select_permissions:
 - permission:
+    allow_aggregations: true
     columns:
     - uid
     - created_at
@@ -34,5 +35,5 @@ select_permissions:
     filter:
       user_uid:
         _eq: X-Hasura-User-Id
-    limit: 92
+    limit: 100
   role: user

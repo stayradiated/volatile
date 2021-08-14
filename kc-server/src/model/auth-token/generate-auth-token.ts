@@ -1,8 +1,16 @@
 import nJwt from 'njwt'
+import { DateTime } from 'luxon'
 
 import { JWT_SECRET } from '../../env.js'
 
-const generateAuthToken = (userUID: string): string => {
+type GenerateAuthTokenResult = {
+  authToken: string
+  expiresAt: DateTime
+}
+
+const generateAuthToken = (userUID: string): GenerateAuthTokenResult => {
+  const expiresAt = DateTime.local().plus({ hours: 24 })
+
   const authToken = nJwt
     .create(
       {
@@ -16,9 +24,13 @@ const generateAuthToken = (userUID: string): string => {
       },
       JWT_SECRET,
     )
+    .setExpiration(expiresAt.toJSDate())
     .compact()
 
-  return authToken
+  return {
+    authToken,
+    expiresAt,
+  }
 }
 
 export { generateAuthToken }
