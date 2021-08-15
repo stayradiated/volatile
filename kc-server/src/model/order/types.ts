@@ -7,7 +7,7 @@ type Order = {
   userUID: string
   exchangeUID: string
   orderID: string
-  symbol: string
+  assetSymbol: string
   priceNZD: number
   amount: number
   type: BuySell

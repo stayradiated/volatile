@@ -77,7 +77,7 @@ const executeKiwiCoinDCAOrder = async (
 
   const marketPriceNZD = await selectAvgMarketPrice(pool, {
     marketUID: dcaOrder.marketUID,
-    symbol: dcaOrder.symbol,
+    assetSymbol: dcaOrder.assetSymbol,
   })
   if (marketPriceNZD instanceof Error) {
     return marketPriceNZD
@@ -89,7 +89,7 @@ const executeKiwiCoinDCAOrder = async (
       dcaOrderUID: dcaOrder.UID,
       orderUID: undefined,
       marketPriceNZD,
-      symbol: dcaOrder.symbol,
+      assetSymbol: dcaOrder.assetSymbol,
       marketOffset: dcaOrder.marketOffset,
       calculatedAmountNZD: goalAmountNZD,
       availableBalanceNZD: totalAvailableNZD,
@@ -158,7 +158,7 @@ const executeKiwiCoinDCAOrder = async (
       userUID: dcaOrder.userUID,
       exchangeUID: dcaOrder.exchangeUID,
       orderID: String(freshOrder.id),
-      symbol: dcaOrder.symbol,
+      assetSymbol: dcaOrder.assetSymbol,
       type: 'BUY',
       priceNZD: orderPriceNZD,
       amount: amountCrypto,
@@ -174,7 +174,7 @@ const executeKiwiCoinDCAOrder = async (
       dcaOrderUID: dcaOrder.UID,
       orderUID: order.UID,
       marketPriceNZD,
-      symbol: dcaOrder.symbol,
+      assetSymbol: dcaOrder.assetSymbol,
       marketOffset: dcaOrder.marketOffset,
       calculatedAmountNZD: goalAmountNZD,
       availableBalanceNZD: totalAvailableNZD,

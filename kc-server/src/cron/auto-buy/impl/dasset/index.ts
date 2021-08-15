@@ -81,7 +81,7 @@ const executeDassetDCAOrder = async (
 
   const marketPriceNZD = await selectAvgMarketPrice(pool, {
     marketUID: dcaOrder.marketUID,
-    symbol: dcaOrder.symbol,
+    assetSymbol: dcaOrder.assetSymbol,
   })
   if (marketPriceNZD instanceof Error) {
     return marketPriceNZD
@@ -93,7 +93,7 @@ const executeDassetDCAOrder = async (
       dcaOrderUID: dcaOrder.UID,
       orderUID: undefined,
       marketPriceNZD,
-      symbol: dcaOrder.symbol,
+      assetSymbol: dcaOrder.assetSymbol,
       marketOffset: dcaOrder.marketOffset,
       calculatedAmountNZD: goalAmountNZD,
       availableBalanceNZD: totalAvailableNZD,
@@ -117,7 +117,7 @@ const executeDassetDCAOrder = async (
       orderType: 'LIMIT',
       side: dasset.OrderType.BUY,
       timeInForce: 'GOOD_TIL_CANCELLED',
-      tradingPair: `${dcaOrder.symbol}-NZD`,
+      tradingPair: `${dcaOrder.assetSymbol}-NZD`,
     })
     if (freshOrder instanceof Error) {
       return freshOrder
@@ -127,7 +127,7 @@ const executeDassetDCAOrder = async (
       userUID: dcaOrder.userUID,
       exchangeUID: dcaOrder.exchangeUID,
       orderID: freshOrder.order.orderId,
-      symbol: dcaOrder.symbol,
+      assetSymbol: dcaOrder.assetSymbol,
       type: 'BUY',
       priceNZD: orderPriceNZD,
       amount: amountCrypto,
@@ -142,7 +142,7 @@ const executeDassetDCAOrder = async (
       userUID: dcaOrder.userUID,
       dcaOrderUID: dcaOrder.UID,
       orderUID: order.UID,
-      symbol: dcaOrder.symbol,
+      assetSymbol: dcaOrder.assetSymbol,
       marketPriceNZD,
       marketOffset: dcaOrder.marketOffset,
       calculatedAmountNZD: goalAmountNZD,

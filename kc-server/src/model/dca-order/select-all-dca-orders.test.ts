@@ -18,7 +18,7 @@ test('dcaOrder', async (t) => {
     exchangeUID,
     userExchangeKeysUID,
     marketUID,
-    symbol: 'BTC',
+    assetSymbol: 'BTC',
     startAt: DateTime.local(),
     dailyAverage: 10,
     marketOffset: -10,

@@ -3,50 +3,61 @@ import { gql, useQuery, useMutation } from '@apollo/client'
 import Select, { SelectInstance, OptionBase } from 'react-select'
 
 const QUERY_EXCHANGE_KEYS_FORM = gql`
-query query_exchange_keys_form {
-  kc_exchange {
-    uid
-    name
+  query query_exchange_keys_form {
+    kc_exchange {
+      uid
+      name
+    }
   }
-}`
+`
 
 type QueryExchangeKeysFormData = {
   kc_exchange: {
-    uid: string,
-    name: string,
+    uid: string
+    name: string
   }
 }
 
 const MUTATION_CREATE_USER_EXCHANGE_KEYS = gql`
-mutation create_user_exchange_keys(
-  $description: String!,
-  $exchangeUID: uuid!,
-  $keys: jsonb!
-){
-  create_user_exchange_keys(
-    description: $description,
-    exchange_uid: $exchangeUID,
-    keys: $keys
+  mutation create_user_exchange_keys(
+    $description: String!
+    $exchangeUID: uuid!
+    $keys: jsonb!
   ) {
-    user_exchange_keys {
-      uid
-      description
-      exchange { uid }
-      invalidated_at
-      dca_orders_aggregate { aggregate{ count } }
+    create_user_exchange_keys(
+      description: $description
+      exchange_uid: $exchangeUID
+      keys: $keys
+    ) {
+      user_exchange_keys {
+        uid
+        description
+        exchange {
+          uid
+        }
+        invalidated_at
+        dca_orders_aggregate {
+          aggregate {
+            count
+          }
+        }
+      }
     }
   }
-}
 `
 
 type Exchange = OptionBase & {
-  uid: string,
-  name: string,
+  uid: string
+  name: string
 }
 
 const UserExchangeKeysForm = () => {
-  const { data, loading, error } = useQuery<QueryExchangeKeysFormData>(QUERY_EXCHANGE_KEYS_FORM);
-  const [createUserExchangeKeys] = useMutation(MUTATION_CREATE_USER_EXCHANGE_KEYS)
+  const { data, loading, error } = useQuery<QueryExchangeKeysFormData>(
+    QUERY_EXCHANGE_KEYS_FORM,
+  )
+  const [createUserExchangeKeys] = useMutation(
+    MUTATION_CREATE_USER_EXCHANGE_KEYS,
+  )
 
   const exchangeRef = useRef<SelectInstance<Exchange>>(null)
   const descriptionRef = useRef<HTMLInputElement>(null)
@@ -76,20 +87,26 @@ const UserExchangeKeysForm = () => {
               const newItem = cache.writeFragment({
                 data: data.create_user_exchange_keys.user_exchange_keys,
                 fragment: gql`
-                fragment NewKeys on kc_user_exchange_keys {
-                  uid
-                  description
-                  exchange { uid }
-                  invalidated_at
-                  dca_orders_aggregate { aggregate{ count } }
-                }
-                `
+                  fragment NewKeys on kc_user_exchange_keys {
+                    uid
+                    description
+                    exchange {
+                      uid
+                    }
+                    invalidated_at
+                    dca_orders_aggregate {
+                      aggregate {
+                        count
+                      }
+                    }
+                  }
+                `,
               })
               return [...list, newItem]
-            }
-          }
+            },
+          },
         })
-      }
+      },
     })
   }, [])
 

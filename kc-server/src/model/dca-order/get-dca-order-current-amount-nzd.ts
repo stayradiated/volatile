@@ -16,7 +16,7 @@ const getDCAOrderCurrentAmountNZD = async (
   const {
     userUID,
     exchangeUID,
-    symbol,
+    assetSymbol,
     startAt,
     dailyAverage,
     minPriceNZD,
@@ -26,7 +26,7 @@ const getDCAOrderCurrentAmountNZD = async (
   const trades = await selectTradesAfterDate(pool, {
     userUID,
     exchangeUID,
-    symbol,
+    assetSymbol,
     type: 'BUY',
     afterDate: startAt,
   })

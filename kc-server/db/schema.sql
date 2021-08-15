@@ -21,6 +21,18 @@ SET default_tablespace = '';
 SET default_table_access_method = heap;
 
 --
+-- Name: asset; Type: TABLE; Schema: kc; Owner: -
+--
+
+CREATE TABLE kc.asset (
+    symbol text NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL,
+    name text NOT NULL
+);
+
+
+--
 -- Name: customer; Type: TABLE; Schema: kc; Owner: -
 --
 
@@ -49,7 +61,7 @@ CREATE TABLE kc.dca_order (
     min_amount_nzd numeric(12,2),
     max_amount_nzd numeric(12,2),
     user_exchange_keys_uid uuid NOT NULL,
-    symbol character varying(4) NOT NULL,
+    asset_symbol character varying(4) NOT NULL,
     enabled_at timestamp with time zone
 );
 
@@ -71,7 +83,7 @@ CREATE TABLE kc.dca_order_history (
     available_balance_nzd numeric(12,2) NOT NULL,
     created_order boolean NOT NULL,
     description character varying NOT NULL,
-    symbol character varying(4) NOT NULL
+    asset_symbol character varying(4) NOT NULL
 );
 
 
@@ -85,6 +97,18 @@ CREATE TABLE kc.exchange (
     updated_at timestamp with time zone NOT NULL,
     id character varying(32) NOT NULL,
     name character varying(64) NOT NULL
+);
+
+
+--
+-- Name: exchange_asset; Type: TABLE; Schema: kc; Owner: -
+--
+
+CREATE TABLE kc.exchange_asset (
+    exchange_uid uuid NOT NULL,
+    asset_symbol text NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL
 );
 
 
@@ -112,7 +136,7 @@ CREATE TABLE kc.market_price (
     currency character(3) NOT NULL,
     fx_rate numeric(12,6) NOT NULL,
     price_nzd numeric(12,2) NOT NULL,
-    symbol character varying(5) NOT NULL
+    asset_symbol character varying(5) NOT NULL
 );
 
 
@@ -127,7 +151,7 @@ CREATE TABLE kc."order" (
     user_uid uuid NOT NULL,
     exchange_uid uuid NOT NULL,
     order_id character varying NOT NULL,
-    symbol character varying NOT NULL,
+    asset_symbol character varying NOT NULL,
     price_nzd numeric(12,2) NOT NULL,
     amount numeric(16,8) NOT NULL,
     opened_at timestamp with time zone NOT NULL,
@@ -159,7 +183,7 @@ CREATE TABLE kc.trade (
     order_uid uuid,
     trade_id character varying NOT NULL,
     type character varying(4) NOT NULL,
-    symbol character varying NOT NULL,
+    asset_symbol character varying NOT NULL,
     amount numeric(16,8) NOT NULL,
     price_nzd numeric(12,2) NOT NULL,
     total_nzd numeric(12,2) NOT NULL,
@@ -260,6 +284,14 @@ CREATE TABLE kc.user_password_reset (
 
 
 --
+-- Name: asset asset_pkey; Type: CONSTRAINT; Schema: kc; Owner: -
+--
+
+ALTER TABLE ONLY kc.asset
+    ADD CONSTRAINT asset_pkey PRIMARY KEY (symbol);
+
+
+--
 -- Name: customer customer_pkey; Type: CONSTRAINT; Schema: kc; Owner: -
 --
 
@@ -284,6 +316,14 @@ ALTER TABLE ONLY kc.dca_order
 
 
 --
+-- Name: exchange_asset exchange_asset_pkey; Type: CONSTRAINT; Schema: kc; Owner: -
+--
+
+ALTER TABLE ONLY kc.exchange_asset
+    ADD CONSTRAINT exchange_asset_pkey PRIMARY KEY (exchange_uid, asset_symbol);
+
+
+--
 -- Name: exchange exchange_pkey; Type: CONSTRAINT; Schema: kc; Owner: -
 --
 
@@ -304,7 +344,7 @@ ALTER TABLE ONLY kc.market
 --
 
 ALTER TABLE ONLY kc.market_price
-    ADD CONSTRAINT market_price_pkey PRIMARY KEY ("timestamp", market_uid, symbol);
+    ADD CONSTRAINT market_price_pkey PRIMARY KEY ("timestamp", market_uid, asset_symbol);
 
 
 --
@@ -548,6 +588,22 @@ ALTER TABLE ONLY kc.dca_order
 
 
 --
+-- Name: exchange_asset fk_exchange_asset_asset_symbol; Type: FK CONSTRAINT; Schema: kc; Owner: -
+--
+
+ALTER TABLE ONLY kc.exchange_asset
+    ADD CONSTRAINT fk_exchange_asset_asset_symbol FOREIGN KEY (asset_symbol) REFERENCES kc.asset(symbol) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: exchange_asset fk_exchange_asset_exchange_uid; Type: FK CONSTRAINT; Schema: kc; Owner: -
+--
+
+ALTER TABLE ONLY kc.exchange_asset
+    ADD CONSTRAINT fk_exchange_asset_exchange_uid FOREIGN KEY (exchange_uid) REFERENCES kc.exchange(uid) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
 -- Name: market_price fk_market_price_market; Type: FK CONSTRAINT; Schema: kc; Owner: -
 --
 
@@ -641,4 +697,5 @@ INSERT INTO kc.schema_migrations (version) VALUES
     ('20210803071520'),
     ('20210807084803'),
     ('20210808043640'),
-    ('20210812091127');
+    ('20210812091127'),
+    ('20210814232237');

@@ -1,19 +1,19 @@
 import { gql, useQuery } from '@apollo/client'
 
 const QUERY_EXCHANGE_LIST = gql`
-query exchange_list {
-  kc_exchange {
-    uid
-    id
-    name
+  query exchange_list {
+    kc_exchange {
+      uid
+      id
+      name
+    }
   }
-}
 `
 
 type Exchange = {
-  uid: string,
-  id: string,
-  name: string,
+  uid: string
+  id: string
+  name: string
 }
 
 type ExchangeListItemProps = {
@@ -26,14 +26,18 @@ const ExchangeListItem = (props: ExchangeListItemProps) => {
   return (
     <tr>
       <td>{name}</td>
-      <td><code>{id}</code></td>
-      <td><code>{uid}</code></td>
+      <td>
+        <code>{id}</code>
+      </td>
+      <td>
+        <code>{uid}</code>
+      </td>
     </tr>
   )
 }
 
 const ExchangeList = () => {
-  const { data, loading, error } = useQuery(QUERY_EXCHANGE_LIST);
+  const { data, loading, error } = useQuery(QUERY_EXCHANGE_LIST)
 
   if (loading) {
     return <p>loading exchange list...</p>
@@ -51,9 +55,7 @@ const ExchangeList = () => {
     <div>
       <h4>Exchange List</h4>
       <table>
-        <tbody>
-          {children}
-        </tbody>
+        <tbody>{children}</tbody>
       </table>
     </div>
   )

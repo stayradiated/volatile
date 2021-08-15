@@ -58,7 +58,7 @@ const syncKiwiCoinTradeList = async (
         tradeID: String(trade.transaction_id),
         type: trade.trade_type === 0 ? 'BUY' : 'SELL',
         amount: trade.income,
-        symbol: 'BTC',
+        assetSymbol: 'BTC',
         priceNZD: trade.price,
         totalNZD: trade.trade_size * trade.price,
         feeNZD: trade.fee * trade.price,

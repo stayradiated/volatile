@@ -1,8 +1,8 @@
-import { ApolloProvider } from "@apollo/client";
-import { client } from "../utils/apollo-client";
+import { ApolloProvider } from '@apollo/client'
 import type { AppProps } from 'next/app'
+import { client } from '../utils/apollo-client'
 
-import '../styles/globals.css'
+import 'antd/dist/antd.css'
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -11,4 +11,5 @@ function MyApp({ Component, pageProps }: AppProps) {
     </ApolloProvider>
   )
 }
+
 export default MyApp

@@ -1,59 +1,82 @@
-import { useCallback, useRef, useState } from 'react'
-import { gql, useMutation } from '@apollo/client'
+import { Form, Input, Button, Alert } from 'antd'
+import { UserOutlined, LockOutlined } from '@ant-design/icons'
+import { useCallback, useState } from 'react'
 
-import type { Session } from '../../utils/session-store'
-
-const CREATE_AUTH_TOKEN = gql`
-mutation create_auth_token($email: String!, $password: String!) {
-  create_auth_token(email:$email, password:$password) {
-    user_uid
-    auth_token
-  }
-}`;
+import { useCreateAuthToken } from '../../hooks/mutations/use-create-auth-token'
+import { Session } from '../../utils/session-store'
 
 type LoginFormProps = {
   onSession: (session: Session) => void
 }
 
+type LoginFormState = {
+  email: string
+  password: string
+}
+
 const LoginForm = (props: LoginFormProps) => {
   const { onSession } = props
 
-  const [createAuthToken, { data }] = useMutation(CREATE_AUTH_TOKEN);
-  console.log(data)
+  const createAuthToken = useCreateAuthToken()
+  const [error, setError] = useState<Error | undefined>(undefined)
+  const [loading, setLoading] = useState(false)
 
-  const [loading, setLoading] = useState<boolean>(false)
-  const [error, setError] = useState<string|undefined>(undefined)
+  const onFinish = useCallback(
+    (state: LoginFormState) => {
+      const { email, password } = state
 
-  const emailRef = useRef<HTMLInputElement>(null)
-  const passwordRef = useRef<HTMLInputElement>(null)
+      setError(undefined)
 
-  const handleSubmit = useCallback((event) => {
-    event.preventDefault()
-    const email = emailRef?.current?.value as string
-    const password = passwordRef?.current?.value as string
-    console.log({ email, password })
-    setLoading(true)
-    setError(undefined)
-    createAuthToken({ variables: { email, password }}).then((result) => {
-      const authToken = result.data.create_auth_token.auth_token as string
-      setLoading(false)
-      onSession({ role: 'user', email, authToken })
-    }, (error) => {
-      setError(error.message)
-      setLoading(false)
-    })
-  }, [createAuthToken])
+      createAuthToken({ email, password }).then(
+        (session) => {
+          setLoading(false)
+          onSession(session)
+        },
+        (error) => {
+          setError(error)
+          setLoading(false)
+        },
+      )
+    },
+    [createAuthToken],
+  )
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input type='email' placeholder='email' ref={emailRef} disabled={loading} />
-      <input type='password' placeholder='password' ref={passwordRef} disabled={loading} />
-      <input type='submit' value='Login' disabled={loading} />
-      {error && (
-        <p>{error}</p>
-      )}
-      {data && (<code>{JSON.stringify(data, null, 2)}</code>)}
-    </form>
+    <Form
+      name="basic"
+      labelCol={{ span: 8 }}
+      wrapperCol={{ span: 16 }}
+      initialValues={{}}
+      onFinish={onFinish}
+    >
+      {error && <Alert message={error.message} type="error" />}
+      <Form.Item
+        label="Email"
+        name="email"
+        rules={[{ required: true, message: 'Please input your email' }]}
+      >
+        <Input
+          placeholder="Email"
+          prefix={<UserOutlined disabled={loading} />}
+        />
+      </Form.Item>
+      <Form.Item
+        label="Password"
+        name="password"
+        rules={[{ required: true, message: 'Please input your password' }]}
+      >
+        <Input.Password
+          placeholder="Password"
+          prefix={<LockOutlined />}
+          disabled={loading}
+        />
+      </Form.Item>
+      <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+        <Button type="primary" htmlType="submit" loading={loading}>
+          Submit
+        </Button>
+      </Form.Item>
+    </Form>
   )
 }
 

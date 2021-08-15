@@ -26,7 +26,7 @@ const insertTrade = async (
           order_uid: trade.orderUID,
           trade_id: trade.tradeID,
           type: trade.type,
-          symbol: trade.symbol,
+          asset_symbol: trade.assetSymbol,
           amount: trade.amount,
           price_nzd: trade.priceNZD,
           total_nzd: trade.totalNZD,

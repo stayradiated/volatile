@@ -22,6 +22,149 @@ declare module 'zapatos/schema' {
   /* --- tables --- */
 
   /**
+   * **asset**
+   * - Table in database
+   */
+  export namespace asset {
+    export type Table = 'asset';
+    export interface Selectable {
+      /**
+      * **asset.symbol**
+      * - `text` in database
+      * - `NOT NULL`, no default
+      */
+      symbol: string;
+      /**
+      * **asset.created_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+      created_at: Date;
+      /**
+      * **asset.updated_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+      updated_at: Date;
+      /**
+      * **asset.name**
+      * - `text` in database
+      * - `NOT NULL`, no default
+      */
+      name: string;
+    }
+    export interface JSONSelectable {
+      /**
+      * **asset.symbol**
+      * - `text` in database
+      * - `NOT NULL`, no default
+      */
+      symbol: string;
+      /**
+      * **asset.created_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+      created_at: db.TimestampTzString;
+      /**
+      * **asset.updated_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+      updated_at: db.TimestampTzString;
+      /**
+      * **asset.name**
+      * - `text` in database
+      * - `NOT NULL`, no default
+      */
+      name: string;
+    }
+    export interface Whereable {
+      /**
+      * **asset.symbol**
+      * - `text` in database
+      * - `NOT NULL`, no default
+      */
+      symbol?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **asset.created_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+      created_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **asset.updated_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+      updated_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **asset.name**
+      * - `text` in database
+      * - `NOT NULL`, no default
+      */
+      name?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+    }
+    export interface Insertable {
+      /**
+      * **asset.symbol**
+      * - `text` in database
+      * - `NOT NULL`, no default
+      */
+      symbol: string | db.Parameter<string> | db.SQLFragment;
+      /**
+      * **asset.created_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+      created_at: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment;
+      /**
+      * **asset.updated_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+      updated_at: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment;
+      /**
+      * **asset.name**
+      * - `text` in database
+      * - `NOT NULL`, no default
+      */
+      name: string | db.Parameter<string> | db.SQLFragment;
+    }
+    export interface Updatable {
+      /**
+      * **asset.symbol**
+      * - `text` in database
+      * - `NOT NULL`, no default
+      */
+      symbol?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+      /**
+      * **asset.created_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+      created_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment>;
+      /**
+      * **asset.updated_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+      updated_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment>;
+      /**
+      * **asset.name**
+      * - `text` in database
+      * - `NOT NULL`, no default
+      */
+      name?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+    }
+    export type UniqueIndex = 'asset_pkey';
+    export type Column = keyof Selectable;
+    export type OnlyCols<T extends readonly Column[]> = Pick<Selectable, T[number]>;
+    export type SQLExpression = db.GenericSQLExpression | db.ColumnNames<Updatable | (keyof Updatable)[]> | db.ColumnValues<Updatable> | Table | Whereable | Column;
+    export type SQL = SQLExpression | SQLExpression[];
+  }
+
+  /**
    * **customer**
    * - Table in database
    */
@@ -196,11 +339,11 @@ declare module 'zapatos/schema' {
       */
       user_exchange_keys_uid: string;
       /**
-      * **dca_order.symbol**
+      * **dca_order.asset_symbol**
       * - `varchar` in database
       * - `NOT NULL`, no default
       */
-      symbol: string;
+      asset_symbol: string;
       /**
       * **dca_order.enabled_at**
       * - `timestamptz` in database
@@ -294,11 +437,11 @@ declare module 'zapatos/schema' {
       */
       user_exchange_keys_uid: string;
       /**
-      * **dca_order.symbol**
+      * **dca_order.asset_symbol**
       * - `varchar` in database
       * - `NOT NULL`, no default
       */
-      symbol: string;
+      asset_symbol: string;
       /**
       * **dca_order.enabled_at**
       * - `timestamptz` in database
@@ -392,11 +535,11 @@ declare module 'zapatos/schema' {
       */
       user_exchange_keys_uid?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
       /**
-      * **dca_order.symbol**
+      * **dca_order.asset_symbol**
       * - `varchar` in database
       * - `NOT NULL`, no default
       */
-      symbol?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      asset_symbol?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
       /**
       * **dca_order.enabled_at**
       * - `timestamptz` in database
@@ -490,11 +633,11 @@ declare module 'zapatos/schema' {
       */
       user_exchange_keys_uid: string | db.Parameter<string> | db.SQLFragment;
       /**
-      * **dca_order.symbol**
+      * **dca_order.asset_symbol**
       * - `varchar` in database
       * - `NOT NULL`, no default
       */
-      symbol: string | db.Parameter<string> | db.SQLFragment;
+      asset_symbol: string | db.Parameter<string> | db.SQLFragment;
       /**
       * **dca_order.enabled_at**
       * - `timestamptz` in database
@@ -588,11 +731,11 @@ declare module 'zapatos/schema' {
       */
       user_exchange_keys_uid?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
       /**
-      * **dca_order.symbol**
+      * **dca_order.asset_symbol**
       * - `varchar` in database
       * - `NOT NULL`, no default
       */
-      symbol?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+      asset_symbol?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
       /**
       * **dca_order.enabled_at**
       * - `timestamptz` in database
@@ -687,11 +830,11 @@ declare module 'zapatos/schema' {
       */
       description: string;
       /**
-      * **dca_order_history.symbol**
+      * **dca_order_history.asset_symbol**
       * - `varchar` in database
       * - `NOT NULL`, no default
       */
-      symbol: string;
+      asset_symbol: string;
     }
     export interface JSONSelectable {
       /**
@@ -767,11 +910,11 @@ declare module 'zapatos/schema' {
       */
       description: string;
       /**
-      * **dca_order_history.symbol**
+      * **dca_order_history.asset_symbol**
       * - `varchar` in database
       * - `NOT NULL`, no default
       */
-      symbol: string;
+      asset_symbol: string;
     }
     export interface Whereable {
       /**
@@ -847,11 +990,11 @@ declare module 'zapatos/schema' {
       */
       description?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
       /**
-      * **dca_order_history.symbol**
+      * **dca_order_history.asset_symbol**
       * - `varchar` in database
       * - `NOT NULL`, no default
       */
-      symbol?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      asset_symbol?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
     }
     export interface Insertable {
       /**
@@ -927,11 +1070,11 @@ declare module 'zapatos/schema' {
       */
       description: string | db.Parameter<string> | db.SQLFragment;
       /**
-      * **dca_order_history.symbol**
+      * **dca_order_history.asset_symbol**
       * - `varchar` in database
       * - `NOT NULL`, no default
       */
-      symbol: string | db.Parameter<string> | db.SQLFragment;
+      asset_symbol: string | db.Parameter<string> | db.SQLFragment;
     }
     export interface Updatable {
       /**
@@ -1007,11 +1150,11 @@ declare module 'zapatos/schema' {
       */
       description?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
       /**
-      * **dca_order_history.symbol**
+      * **dca_order_history.asset_symbol**
       * - `varchar` in database
       * - `NOT NULL`, no default
       */
-      symbol?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+      asset_symbol?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
     }
     export type UniqueIndex = 'dca_order_history_pkey' | 'unique_dca_order';
     export type Column = keyof Selectable;
@@ -1187,6 +1330,149 @@ declare module 'zapatos/schema' {
       name?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
     }
     export type UniqueIndex = 'exchange_pkey' | 'unique_exchange_id';
+    export type Column = keyof Selectable;
+    export type OnlyCols<T extends readonly Column[]> = Pick<Selectable, T[number]>;
+    export type SQLExpression = db.GenericSQLExpression | db.ColumnNames<Updatable | (keyof Updatable)[]> | db.ColumnValues<Updatable> | Table | Whereable | Column;
+    export type SQL = SQLExpression | SQLExpression[];
+  }
+
+  /**
+   * **exchange_asset**
+   * - Table in database
+   */
+  export namespace exchange_asset {
+    export type Table = 'exchange_asset';
+    export interface Selectable {
+      /**
+      * **exchange_asset.exchange_uid**
+      * - `uuid` in database
+      * - `NOT NULL`, no default
+      */
+      exchange_uid: string;
+      /**
+      * **exchange_asset.asset_symbol**
+      * - `text` in database
+      * - `NOT NULL`, no default
+      */
+      asset_symbol: string;
+      /**
+      * **exchange_asset.created_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+      created_at: Date;
+      /**
+      * **exchange_asset.updated_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+      updated_at: Date;
+    }
+    export interface JSONSelectable {
+      /**
+      * **exchange_asset.exchange_uid**
+      * - `uuid` in database
+      * - `NOT NULL`, no default
+      */
+      exchange_uid: string;
+      /**
+      * **exchange_asset.asset_symbol**
+      * - `text` in database
+      * - `NOT NULL`, no default
+      */
+      asset_symbol: string;
+      /**
+      * **exchange_asset.created_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+      created_at: db.TimestampTzString;
+      /**
+      * **exchange_asset.updated_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+      updated_at: db.TimestampTzString;
+    }
+    export interface Whereable {
+      /**
+      * **exchange_asset.exchange_uid**
+      * - `uuid` in database
+      * - `NOT NULL`, no default
+      */
+      exchange_uid?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **exchange_asset.asset_symbol**
+      * - `text` in database
+      * - `NOT NULL`, no default
+      */
+      asset_symbol?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **exchange_asset.created_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+      created_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **exchange_asset.updated_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+      updated_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
+    }
+    export interface Insertable {
+      /**
+      * **exchange_asset.exchange_uid**
+      * - `uuid` in database
+      * - `NOT NULL`, no default
+      */
+      exchange_uid: string | db.Parameter<string> | db.SQLFragment;
+      /**
+      * **exchange_asset.asset_symbol**
+      * - `text` in database
+      * - `NOT NULL`, no default
+      */
+      asset_symbol: string | db.Parameter<string> | db.SQLFragment;
+      /**
+      * **exchange_asset.created_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+      created_at: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment;
+      /**
+      * **exchange_asset.updated_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+      updated_at: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment;
+    }
+    export interface Updatable {
+      /**
+      * **exchange_asset.exchange_uid**
+      * - `uuid` in database
+      * - `NOT NULL`, no default
+      */
+      exchange_uid?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+      /**
+      * **exchange_asset.asset_symbol**
+      * - `text` in database
+      * - `NOT NULL`, no default
+      */
+      asset_symbol?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+      /**
+      * **exchange_asset.created_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+      created_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment>;
+      /**
+      * **exchange_asset.updated_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+      updated_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment>;
+    }
+    export type UniqueIndex = 'exchange_asset_pkey';
     export type Column = keyof Selectable;
     export type OnlyCols<T extends readonly Column[]> = Pick<Selectable, T[number]>;
     export type SQLExpression = db.GenericSQLExpression | db.ColumnNames<Updatable | (keyof Updatable)[]> | db.ColumnValues<Updatable> | Table | Whereable | Column;
@@ -1410,11 +1696,11 @@ declare module 'zapatos/schema' {
       */
       price_nzd: number;
       /**
-      * **market_price.symbol**
+      * **market_price.asset_symbol**
       * - `varchar` in database
       * - `NOT NULL`, no default
       */
-      symbol: string;
+      asset_symbol: string;
     }
     export interface JSONSelectable {
       /**
@@ -1454,11 +1740,11 @@ declare module 'zapatos/schema' {
       */
       price_nzd: number;
       /**
-      * **market_price.symbol**
+      * **market_price.asset_symbol**
       * - `varchar` in database
       * - `NOT NULL`, no default
       */
-      symbol: string;
+      asset_symbol: string;
     }
     export interface Whereable {
       /**
@@ -1498,11 +1784,11 @@ declare module 'zapatos/schema' {
       */
       price_nzd?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
       /**
-      * **market_price.symbol**
+      * **market_price.asset_symbol**
       * - `varchar` in database
       * - `NOT NULL`, no default
       */
-      symbol?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      asset_symbol?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
     }
     export interface Insertable {
       /**
@@ -1542,11 +1828,11 @@ declare module 'zapatos/schema' {
       */
       price_nzd: number | db.Parameter<number> | db.SQLFragment;
       /**
-      * **market_price.symbol**
+      * **market_price.asset_symbol**
       * - `varchar` in database
       * - `NOT NULL`, no default
       */
-      symbol: string | db.Parameter<string> | db.SQLFragment;
+      asset_symbol: string | db.Parameter<string> | db.SQLFragment;
     }
     export interface Updatable {
       /**
@@ -1586,11 +1872,11 @@ declare module 'zapatos/schema' {
       */
       price_nzd?: number | db.Parameter<number> | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
       /**
-      * **market_price.symbol**
+      * **market_price.asset_symbol**
       * - `varchar` in database
       * - `NOT NULL`, no default
       */
-      symbol?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+      asset_symbol?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
     }
     export type UniqueIndex = 'market_price_pkey';
     export type Column = keyof Selectable;
@@ -1643,11 +1929,11 @@ declare module 'zapatos/schema' {
       */
       order_id: string;
       /**
-      * **order.symbol**
+      * **order.asset_symbol**
       * - `varchar` in database
       * - `NOT NULL`, no default
       */
-      symbol: string;
+      asset_symbol: string;
       /**
       * **order.price_nzd**
       * - `numeric` in database
@@ -1717,11 +2003,11 @@ declare module 'zapatos/schema' {
       */
       order_id: string;
       /**
-      * **order.symbol**
+      * **order.asset_symbol**
       * - `varchar` in database
       * - `NOT NULL`, no default
       */
-      symbol: string;
+      asset_symbol: string;
       /**
       * **order.price_nzd**
       * - `numeric` in database
@@ -1791,11 +2077,11 @@ declare module 'zapatos/schema' {
       */
       order_id?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
       /**
-      * **order.symbol**
+      * **order.asset_symbol**
       * - `varchar` in database
       * - `NOT NULL`, no default
       */
-      symbol?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      asset_symbol?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
       /**
       * **order.price_nzd**
       * - `numeric` in database
@@ -1865,11 +2151,11 @@ declare module 'zapatos/schema' {
       */
       order_id: string | db.Parameter<string> | db.SQLFragment;
       /**
-      * **order.symbol**
+      * **order.asset_symbol**
       * - `varchar` in database
       * - `NOT NULL`, no default
       */
-      symbol: string | db.Parameter<string> | db.SQLFragment;
+      asset_symbol: string | db.Parameter<string> | db.SQLFragment;
       /**
       * **order.price_nzd**
       * - `numeric` in database
@@ -1939,11 +2225,11 @@ declare module 'zapatos/schema' {
       */
       order_id?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
       /**
-      * **order.symbol**
+      * **order.asset_symbol**
       * - `varchar` in database
       * - `NOT NULL`, no default
       */
-      symbol?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+      asset_symbol?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
       /**
       * **order.price_nzd**
       * - `numeric` in database
@@ -2097,11 +2383,11 @@ declare module 'zapatos/schema' {
       */
       type: string;
       /**
-      * **trade.symbol**
+      * **trade.asset_symbol**
       * - `varchar` in database
       * - `NOT NULL`, no default
       */
-      symbol: string;
+      asset_symbol: string;
       /**
       * **trade.amount**
       * - `numeric` in database
@@ -2183,11 +2469,11 @@ declare module 'zapatos/schema' {
       */
       type: string;
       /**
-      * **trade.symbol**
+      * **trade.asset_symbol**
       * - `varchar` in database
       * - `NOT NULL`, no default
       */
-      symbol: string;
+      asset_symbol: string;
       /**
       * **trade.amount**
       * - `numeric` in database
@@ -2269,11 +2555,11 @@ declare module 'zapatos/schema' {
       */
       type?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
       /**
-      * **trade.symbol**
+      * **trade.asset_symbol**
       * - `varchar` in database
       * - `NOT NULL`, no default
       */
-      symbol?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      asset_symbol?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
       /**
       * **trade.amount**
       * - `numeric` in database
@@ -2355,11 +2641,11 @@ declare module 'zapatos/schema' {
       */
       type: string | db.Parameter<string> | db.SQLFragment;
       /**
-      * **trade.symbol**
+      * **trade.asset_symbol**
       * - `varchar` in database
       * - `NOT NULL`, no default
       */
-      symbol: string | db.Parameter<string> | db.SQLFragment;
+      asset_symbol: string | db.Parameter<string> | db.SQLFragment;
       /**
       * **trade.amount**
       * - `numeric` in database
@@ -2441,11 +2727,11 @@ declare module 'zapatos/schema' {
       */
       type?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
       /**
-      * **trade.symbol**
+      * **trade.asset_symbol**
       * - `varchar` in database
       * - `NOT NULL`, no default
       */
-      symbol?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+      asset_symbol?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
       /**
       * **trade.amount**
       * - `numeric` in database
@@ -3938,26 +4224,28 @@ declare module 'zapatos/schema' {
 
   /* === cross-table types === */
 
-  export type Table = customer.Table | dca_order.Table | dca_order_history.Table | exchange.Table | market.Table | market_price.Table | order.Table | schema_migrations.Table | trade.Table | user.Table | user_2fa.Table | user_device.Table | user_email_verify.Table | user_exchange_keys.Table | user_password_reset.Table;
-  export type Selectable = customer.Selectable | dca_order.Selectable | dca_order_history.Selectable | exchange.Selectable | market.Selectable | market_price.Selectable | order.Selectable | schema_migrations.Selectable | trade.Selectable | user.Selectable | user_2fa.Selectable | user_device.Selectable | user_email_verify.Selectable | user_exchange_keys.Selectable | user_password_reset.Selectable;
-  export type JSONSelectable = customer.JSONSelectable | dca_order.JSONSelectable | dca_order_history.JSONSelectable | exchange.JSONSelectable | market.JSONSelectable | market_price.JSONSelectable | order.JSONSelectable | schema_migrations.JSONSelectable | trade.JSONSelectable | user.JSONSelectable | user_2fa.JSONSelectable | user_device.JSONSelectable | user_email_verify.JSONSelectable | user_exchange_keys.JSONSelectable | user_password_reset.JSONSelectable;
-  export type Whereable = customer.Whereable | dca_order.Whereable | dca_order_history.Whereable | exchange.Whereable | market.Whereable | market_price.Whereable | order.Whereable | schema_migrations.Whereable | trade.Whereable | user.Whereable | user_2fa.Whereable | user_device.Whereable | user_email_verify.Whereable | user_exchange_keys.Whereable | user_password_reset.Whereable;
-  export type Insertable = customer.Insertable | dca_order.Insertable | dca_order_history.Insertable | exchange.Insertable | market.Insertable | market_price.Insertable | order.Insertable | schema_migrations.Insertable | trade.Insertable | user.Insertable | user_2fa.Insertable | user_device.Insertable | user_email_verify.Insertable | user_exchange_keys.Insertable | user_password_reset.Insertable;
-  export type Updatable = customer.Updatable | dca_order.Updatable | dca_order_history.Updatable | exchange.Updatable | market.Updatable | market_price.Updatable | order.Updatable | schema_migrations.Updatable | trade.Updatable | user.Updatable | user_2fa.Updatable | user_device.Updatable | user_email_verify.Updatable | user_exchange_keys.Updatable | user_password_reset.Updatable;
-  export type UniqueIndex = customer.UniqueIndex | dca_order.UniqueIndex | dca_order_history.UniqueIndex | exchange.UniqueIndex | market.UniqueIndex | market_price.UniqueIndex | order.UniqueIndex | schema_migrations.UniqueIndex | trade.UniqueIndex | user.UniqueIndex | user_2fa.UniqueIndex | user_device.UniqueIndex | user_email_verify.UniqueIndex | user_exchange_keys.UniqueIndex | user_password_reset.UniqueIndex;
-  export type Column = customer.Column | dca_order.Column | dca_order_history.Column | exchange.Column | market.Column | market_price.Column | order.Column | schema_migrations.Column | trade.Column | user.Column | user_2fa.Column | user_device.Column | user_email_verify.Column | user_exchange_keys.Column | user_password_reset.Column;
-  export type AllBaseTables = [customer.Table, dca_order.Table, dca_order_history.Table, exchange.Table, market.Table, market_price.Table, order.Table, schema_migrations.Table, trade.Table, user.Table, user_2fa.Table, user_device.Table, user_email_verify.Table, user_exchange_keys.Table, user_password_reset.Table];
+  export type Table = asset.Table | customer.Table | dca_order.Table | dca_order_history.Table | exchange.Table | exchange_asset.Table | market.Table | market_price.Table | order.Table | schema_migrations.Table | trade.Table | user.Table | user_2fa.Table | user_device.Table | user_email_verify.Table | user_exchange_keys.Table | user_password_reset.Table;
+  export type Selectable = asset.Selectable | customer.Selectable | dca_order.Selectable | dca_order_history.Selectable | exchange.Selectable | exchange_asset.Selectable | market.Selectable | market_price.Selectable | order.Selectable | schema_migrations.Selectable | trade.Selectable | user.Selectable | user_2fa.Selectable | user_device.Selectable | user_email_verify.Selectable | user_exchange_keys.Selectable | user_password_reset.Selectable;
+  export type JSONSelectable = asset.JSONSelectable | customer.JSONSelectable | dca_order.JSONSelectable | dca_order_history.JSONSelectable | exchange.JSONSelectable | exchange_asset.JSONSelectable | market.JSONSelectable | market_price.JSONSelectable | order.JSONSelectable | schema_migrations.JSONSelectable | trade.JSONSelectable | user.JSONSelectable | user_2fa.JSONSelectable | user_device.JSONSelectable | user_email_verify.JSONSelectable | user_exchange_keys.JSONSelectable | user_password_reset.JSONSelectable;
+  export type Whereable = asset.Whereable | customer.Whereable | dca_order.Whereable | dca_order_history.Whereable | exchange.Whereable | exchange_asset.Whereable | market.Whereable | market_price.Whereable | order.Whereable | schema_migrations.Whereable | trade.Whereable | user.Whereable | user_2fa.Whereable | user_device.Whereable | user_email_verify.Whereable | user_exchange_keys.Whereable | user_password_reset.Whereable;
+  export type Insertable = asset.Insertable | customer.Insertable | dca_order.Insertable | dca_order_history.Insertable | exchange.Insertable | exchange_asset.Insertable | market.Insertable | market_price.Insertable | order.Insertable | schema_migrations.Insertable | trade.Insertable | user.Insertable | user_2fa.Insertable | user_device.Insertable | user_email_verify.Insertable | user_exchange_keys.Insertable | user_password_reset.Insertable;
+  export type Updatable = asset.Updatable | customer.Updatable | dca_order.Updatable | dca_order_history.Updatable | exchange.Updatable | exchange_asset.Updatable | market.Updatable | market_price.Updatable | order.Updatable | schema_migrations.Updatable | trade.Updatable | user.Updatable | user_2fa.Updatable | user_device.Updatable | user_email_verify.Updatable | user_exchange_keys.Updatable | user_password_reset.Updatable;
+  export type UniqueIndex = asset.UniqueIndex | customer.UniqueIndex | dca_order.UniqueIndex | dca_order_history.UniqueIndex | exchange.UniqueIndex | exchange_asset.UniqueIndex | market.UniqueIndex | market_price.UniqueIndex | order.UniqueIndex | schema_migrations.UniqueIndex | trade.UniqueIndex | user.UniqueIndex | user_2fa.UniqueIndex | user_device.UniqueIndex | user_email_verify.UniqueIndex | user_exchange_keys.UniqueIndex | user_password_reset.UniqueIndex;
+  export type Column = asset.Column | customer.Column | dca_order.Column | dca_order_history.Column | exchange.Column | exchange_asset.Column | market.Column | market_price.Column | order.Column | schema_migrations.Column | trade.Column | user.Column | user_2fa.Column | user_device.Column | user_email_verify.Column | user_exchange_keys.Column | user_password_reset.Column;
+  export type AllBaseTables = [asset.Table, customer.Table, dca_order.Table, dca_order_history.Table, exchange.Table, exchange_asset.Table, market.Table, market_price.Table, order.Table, schema_migrations.Table, trade.Table, user.Table, user_2fa.Table, user_device.Table, user_email_verify.Table, user_exchange_keys.Table, user_password_reset.Table];
   export type AllForeignTables = [];
   export type AllViews = [];
   export type AllMaterializedViews = [];
-  export type AllTablesAndViews = [customer.Table, dca_order.Table, dca_order_history.Table, exchange.Table, market.Table, market_price.Table, order.Table, schema_migrations.Table, trade.Table, user.Table, user_2fa.Table, user_device.Table, user_email_verify.Table, user_exchange_keys.Table, user_password_reset.Table];
+  export type AllTablesAndViews = [asset.Table, customer.Table, dca_order.Table, dca_order_history.Table, exchange.Table, exchange_asset.Table, market.Table, market_price.Table, order.Table, schema_migrations.Table, trade.Table, user.Table, user_2fa.Table, user_device.Table, user_email_verify.Table, user_exchange_keys.Table, user_password_reset.Table];
 
 
   export type SelectableForTable<T extends Table> = {
+    asset: asset.Selectable;
     customer: customer.Selectable;
     dca_order: dca_order.Selectable;
     dca_order_history: dca_order_history.Selectable;
     exchange: exchange.Selectable;
+    exchange_asset: exchange_asset.Selectable;
     market: market.Selectable;
     market_price: market_price.Selectable;
     order: order.Selectable;
@@ -3972,10 +4260,12 @@ declare module 'zapatos/schema' {
   }[T];
 
   export type JSONSelectableForTable<T extends Table> = {
+    asset: asset.JSONSelectable;
     customer: customer.JSONSelectable;
     dca_order: dca_order.JSONSelectable;
     dca_order_history: dca_order_history.JSONSelectable;
     exchange: exchange.JSONSelectable;
+    exchange_asset: exchange_asset.JSONSelectable;
     market: market.JSONSelectable;
     market_price: market_price.JSONSelectable;
     order: order.JSONSelectable;
@@ -3990,10 +4280,12 @@ declare module 'zapatos/schema' {
   }[T];
 
   export type WhereableForTable<T extends Table> = {
+    asset: asset.Whereable;
     customer: customer.Whereable;
     dca_order: dca_order.Whereable;
     dca_order_history: dca_order_history.Whereable;
     exchange: exchange.Whereable;
+    exchange_asset: exchange_asset.Whereable;
     market: market.Whereable;
     market_price: market_price.Whereable;
     order: order.Whereable;
@@ -4008,10 +4300,12 @@ declare module 'zapatos/schema' {
   }[T];
 
   export type InsertableForTable<T extends Table> = {
+    asset: asset.Insertable;
     customer: customer.Insertable;
     dca_order: dca_order.Insertable;
     dca_order_history: dca_order_history.Insertable;
     exchange: exchange.Insertable;
+    exchange_asset: exchange_asset.Insertable;
     market: market.Insertable;
     market_price: market_price.Insertable;
     order: order.Insertable;
@@ -4026,10 +4320,12 @@ declare module 'zapatos/schema' {
   }[T];
 
   export type UpdatableForTable<T extends Table> = {
+    asset: asset.Updatable;
     customer: customer.Updatable;
     dca_order: dca_order.Updatable;
     dca_order_history: dca_order_history.Updatable;
     exchange: exchange.Updatable;
+    exchange_asset: exchange_asset.Updatable;
     market: market.Updatable;
     market_price: market_price.Updatable;
     order: order.Updatable;
@@ -4044,10 +4340,12 @@ declare module 'zapatos/schema' {
   }[T];
 
   export type UniqueIndexForTable<T extends Table> = {
+    asset: asset.UniqueIndex;
     customer: customer.UniqueIndex;
     dca_order: dca_order.UniqueIndex;
     dca_order_history: dca_order_history.UniqueIndex;
     exchange: exchange.UniqueIndex;
+    exchange_asset: exchange_asset.UniqueIndex;
     market: market.UniqueIndex;
     market_price: market_price.UniqueIndex;
     order: order.UniqueIndex;
@@ -4062,10 +4360,12 @@ declare module 'zapatos/schema' {
   }[T];
 
   export type ColumnForTable<T extends Table> = {
+    asset: asset.Column;
     customer: customer.Column;
     dca_order: dca_order.Column;
     dca_order_history: dca_order_history.Column;
     exchange: exchange.Column;
+    exchange_asset: exchange_asset.Column;
     market: market.Column;
     market_price: market_price.Column;
     order: order.Column;
@@ -4080,10 +4380,12 @@ declare module 'zapatos/schema' {
   }[T];
 
   export type SQLForTable<T extends Table> = {
+    asset: asset.SQL;
     customer: customer.SQL;
     dca_order: dca_order.SQL;
     dca_order_history: dca_order_history.SQL;
     exchange: exchange.SQL;
+    exchange_asset: exchange_asset.SQL;
     market: market.SQL;
     market_price: market_price.SQL;
     order: order.SQL;

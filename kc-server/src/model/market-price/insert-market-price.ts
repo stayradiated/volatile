@@ -14,7 +14,7 @@ const insertMarketPrice = async (
     market_uid: options.marketUID,
     price: options.price,
     currency: options.currency,
-    symbol: options.symbol,
+    asset_symbol: options.assetSymbol,
     fx_rate: options.fxRate,
     price_nzd: options.priceNZD,
   }

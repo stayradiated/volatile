@@ -12,24 +12,24 @@ import {
   MARKET_KIWI_COIN,
   MARKET_EASY_CRYPTO,
 } from '../../model/market/index.js'
-import type { Currency, CryptoSymbol } from '../../types.js'
+import type { Currency } from '../../types.js'
 
 type FetchContext = {
-  symbol: CryptoSymbol
+  assetSymbol: string
   currency: Currency
 }
 
 type MarketPriceConfig = {
   market: Market
   currency: Currency
-  symbols: CryptoSymbol[]
+  assetSymbols: string[]
   createFetchPriceFn: (ctx: FetchContext) => () => Promise<number | Error>
 }
 
 type MarketPriceInstance = {
   market: Market
   currency: Currency
-  symbol: CryptoSymbol
+  assetSymbol: string
   fetchPrice: () => Promise<number | Error>
 }
 
@@ -37,37 +37,46 @@ const marketPriceConfigList: MarketPriceConfig[] = [
   {
     market: MARKET_BINANCE_US,
     currency: 'USD',
-    symbols: ['BTC', 'ETH'],
-    createFetchPriceFn: ({ symbol, currency }) =>
-      createCachedFetchFn(marketPriceSources.binance, { symbol, currency }),
+    assetSymbols: ['BTC', 'ETH'],
+    createFetchPriceFn: ({ assetSymbol, currency }) =>
+      createCachedFetchFn(marketPriceSources.binance, {
+        symbol: assetSymbol,
+        currency,
+      }),
   },
   {
     market: MARKET_DASSET,
     currency: 'NZD',
-    symbols: ['BTC', 'ETH'],
-    createFetchPriceFn: ({ symbol, currency }) =>
+    assetSymbols: ['BTC', 'ETH'],
+    createFetchPriceFn: ({ assetSymbol, currency }) =>
       createCachedFetchFn(marketPriceSources.dasset, {
         config: {
           apiKey: DASSET_API_KEY,
           accountId: DASSET_ACCOUNT_ID,
         },
-        symbol,
+        symbol: assetSymbol,
         currency,
       }),
   },
   {
     market: MARKET_KIWI_COIN,
     currency: 'NZD',
-    symbols: ['BTC'],
-    createFetchPriceFn: ({ symbol, currency }) =>
-      createCachedFetchFn(marketPriceSources.kiwiCoin, { symbol, currency }),
+    assetSymbols: ['BTC'],
+    createFetchPriceFn: ({ assetSymbol, currency }) =>
+      createCachedFetchFn(marketPriceSources.kiwiCoin, {
+        symbol: assetSymbol,
+        currency,
+      }),
   },
   {
     market: MARKET_EASY_CRYPTO,
     currency: 'NZD',
-    symbols: ['BTC', 'ETH'],
-    createFetchPriceFn: ({ symbol, currency }) =>
-      createCachedFetchFn(marketPriceSources.easyCrypto, { symbol, currency }),
+    assetSymbols: ['BTC', 'ETH'],
+    createFetchPriceFn: ({ assetSymbol, currency }) =>
+      createCachedFetchFn(marketPriceSources.easyCrypto, {
+        symbol: assetSymbol,
+        currency,
+      }),
   },
 ]
 

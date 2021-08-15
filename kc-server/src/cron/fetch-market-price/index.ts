@@ -20,7 +20,7 @@ const fetchMarketPriceHandler: CronHandlerFn<Input, Output> = async (
   const fetchMarketPrice = async (
     marketPriceInstance: MarketPriceInstance,
   ): Promise<void | Error> => {
-    const { market, fetchPrice, currency, symbol } = marketPriceInstance
+    const { market, fetchPrice, currency, assetSymbol } = marketPriceInstance
 
     const marketUID = await getMarketUID(pool, market)
     if (marketUID instanceof Error) {
@@ -49,7 +49,7 @@ const fetchMarketPriceHandler: CronHandlerFn<Input, Output> = async (
       marketUID,
       price,
       currency,
-      symbol,
+      assetSymbol,
       fxRate,
       priceNZD,
     })

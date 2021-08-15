@@ -9,13 +9,13 @@ import { insertMarketPrice } from './insert-market-price.js'
 test('selectOpenOrdersForDCA: should return open orders', async (t) => {
   const { pool, make } = t.context
   const marketUID = await make.market()
-  const symbol = 'BTC'
+  const assetSymbol = 'BTC'
 
   const makeMarketPrice = async (minutesAgo: number, priceNZD: number) => {
     const timestamp = DateTime.local().minus({ minutes: minutesAgo })
     return insertMarketPrice(pool, {
       timestamp,
-      symbol,
+      assetSymbol,
       marketUID,
       currency: 'NZD',
       fxRate: 1,
@@ -38,7 +38,7 @@ test('selectOpenOrdersForDCA: should return open orders', async (t) => {
   await makeMarketPrice(13, 300)
 
   const avgPrice = await throwIfError<number>(
-    selectAvgMarketPrice(pool, { marketUID, symbol }),
+    selectAvgMarketPrice(pool, { marketUID, assetSymbol }),
   )
 
   t.is(avgPrice, 15)

@@ -22,7 +22,7 @@ const insertOrder = async (
     user_uid: options.userUID,
     exchange_uid: options.exchangeUID,
     order_id: options.orderID,
-    symbol: options.symbol,
+    asset_symbol: options.assetSymbol,
     price_nzd: options.priceNZD,
     amount: options.amount,
     type: options.type,

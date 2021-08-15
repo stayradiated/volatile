@@ -9,7 +9,7 @@ const mapRowToOrder = (row: s.order.JSONSelectable): Order => ({
   userUID: row.user_uid,
   exchangeUID: row.exchange_uid,
   orderID: row.order_id,
-  symbol: row.symbol,
+  assetSymbol: row.asset_symbol,
   priceNZD: row.price_nzd,
   amount: row.amount,
   type: row.type as BuySell,

@@ -6,7 +6,7 @@ type MarketPrice = {
   marketUID: string
   price: number
   currency: Currency
-  symbol: string
+  assetSymbol: string
   fxRate: number
   priceNZD: number
 }

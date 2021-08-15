@@ -11,7 +11,7 @@ import {
   insertOrder,
 } from '../../../order/index.js'
 
-import type { CryptoSymbol, Pool } from '../../../../types.js'
+import type { Pool } from '../../../../types.js'
 
 const LIMIT = 25
 
@@ -51,7 +51,7 @@ const fetchPageLoop = async (
             userUID,
             exchangeUID,
             orderID: order.id,
-            symbol: order.baseSymbol,
+            assetSymbol: order.baseSymbol,
             priceNZD: order.details.price,
             amount: order.baseAmount,
             type: order.type,
@@ -81,7 +81,7 @@ const fetchPageLoop = async (
             tradeID: order.id,
             type: order.type,
             amount: order.details.filled,
-            symbol: order.baseSymbol as CryptoSymbol,
+            assetSymbol: order.baseSymbol,
             priceNZD: order.details.price,
             totalNZD: order.details.total,
             feeNZD: order.details.nzdFee,

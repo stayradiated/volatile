@@ -19,7 +19,7 @@ const insertDCAOrder = async (
     updated_at: new Date(),
     user_uid: dcaOrder.userUID,
     exchange_uid: dcaOrder.exchangeUID,
-    symbol: dcaOrder.symbol,
+    asset_symbol: dcaOrder.assetSymbol,
     user_exchange_keys_uid: dcaOrder.userExchangeKeysUID,
     market_uid: dcaOrder.marketUID,
     start_at: dcaOrder.startAt.toJSDate(),

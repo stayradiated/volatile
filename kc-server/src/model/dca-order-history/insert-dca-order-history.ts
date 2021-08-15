@@ -23,7 +23,7 @@ const insertDCAOrderHistory = async (
     dca_order_uid: options.dcaOrderUID,
     created_order: options.orderUID !== undefined,
     order_uid: options.orderUID,
-    symbol: options.symbol,
+    asset_symbol: options.assetSymbol,
     market_price_nzd: options.marketPriceNZD,
     market_offset: options.marketOffset,
     calculated_amount_nzd: options.calculatedAmountNZD,

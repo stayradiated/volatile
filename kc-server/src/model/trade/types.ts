@@ -1,6 +1,6 @@
 import type { DateTime } from 'luxon'
 
-import type { BuySell, CryptoSymbol } from '../../types.js'
+import type { BuySell } from '../../types.js'
 
 type Trade = {
   UID: string
@@ -10,7 +10,7 @@ type Trade = {
   timestamp: DateTime
   tradeID: string
   type: BuySell
-  symbol: CryptoSymbol
+  assetSymbol: string
   amount: number
   priceNZD: number
   totalNZD: number

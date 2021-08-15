@@ -32,13 +32,14 @@ const fetchCurrencyRate = async (
 
 const marketPriceInstanceList: MarketPriceInstance[] =
   marketPriceConfigList.flatMap((marketPriceConfig) => {
-    const { market, createFetchPriceFn, currency, symbols } = marketPriceConfig
-    return symbols.map((symbol) => ({
+    const { market, createFetchPriceFn, currency, assetSymbols } =
+      marketPriceConfig
+    return assetSymbols.map((assetSymbol) => ({
       market,
       currency,
-      symbol,
+      assetSymbol,
       fetchPrice: createFetchPriceFn({
-        symbol,
+        assetSymbol,
         currency,
       }),
     }))
