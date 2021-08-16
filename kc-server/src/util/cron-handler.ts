@@ -82,7 +82,7 @@ const wrapCronHandler =
       }
       const output = await fn(context)
       if (output instanceof Error) {
-        await reply.code(400).send({ message: output.message })
+        await reply.code(400).send({ message: inspect(output) })
         return
       }
 
