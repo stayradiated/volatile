@@ -52,7 +52,7 @@ const fetchPageLoop = async (
             exchangeUID,
             orderID: order.id,
             assetSymbol: order.baseSymbol,
-            priceNZD: order.details.price,
+            priceNZD: order.details.price ?? 0,
             amount: order.baseAmount,
             type: order.type,
             openedAt: DateTime.fromISO(order.timestamp),
@@ -82,9 +82,9 @@ const fetchPageLoop = async (
             type: order.type,
             amount: order.details.filled,
             assetSymbol: order.baseSymbol,
-            priceNZD: order.details.price,
-            totalNZD: order.details.total,
-            feeNZD: order.details.nzdFee,
+            priceNZD: order.details.price ?? 0,
+            totalNZD: order.details.total ?? 0,
+            feeNZD: order.details.nzdFee ?? 0,
           })
         }
 

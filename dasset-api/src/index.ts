@@ -111,16 +111,16 @@ export type Order = {
   description: string
   status: OrderStatus
   baseAmount: number
-  quoteAmount: number
+  quoteAmount: number | null
   details: {
     precision: number
     orderType: string
-    price: number
-    total: number
+    price: number | null
+    total: number | null
     orderId: string
     filled: number
-    fee: number
-    nzdFee: number
+    fee: number | null
+    nzdFee: number | null
   }
   isOpen: boolean
 }
