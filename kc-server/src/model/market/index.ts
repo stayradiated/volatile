@@ -29,6 +29,11 @@ const MARKET_EASY_CRYPTO: Market = {
   name: 'Easy Crypto',
 }
 
+const MARKET_INDEPENDENT_RESERVE: Market = {
+  ID: 'independentreserve.com',
+  name: 'Independent Reserve',
+}
+
 const forceGetMarketUID = async (
   pool: Pool,
   market: Market,
@@ -84,6 +89,7 @@ export {
   MARKET_BINANCE_US,
   MARKET_KIWI_COIN,
   MARKET_EASY_CRYPTO,
+  MARKET_INDEPENDENT_RESERVE,
   getMarketUID,
   forceGetMarketUID,
 }

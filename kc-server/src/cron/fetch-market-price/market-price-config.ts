@@ -11,6 +11,7 @@ import {
   MARKET_DASSET,
   MARKET_KIWI_COIN,
   MARKET_EASY_CRYPTO,
+  MARKET_INDEPENDENT_RESERVE,
 } from '../../model/market/index.js'
 import type { Currency } from '../../types.js'
 
@@ -74,6 +75,16 @@ const marketPriceConfigList: MarketPriceConfig[] = [
     assetSymbols: ['BTC', 'ETH'],
     createFetchPriceFn: ({ assetSymbol, currency }) =>
       createCachedFetchFn(marketPriceSources.easyCrypto, {
+        symbol: assetSymbol,
+        currency,
+      }),
+  },
+  {
+    market: MARKET_INDEPENDENT_RESERVE,
+    currency: 'NZD',
+    assetSymbols: ['BTC', 'ETH'],
+    createFetchPriceFn: ({ assetSymbol, currency }) =>
+      createCachedFetchFn(marketPriceSources.independentReserve, {
         symbol: assetSymbol,
         currency,
       }),

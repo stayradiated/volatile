@@ -38,7 +38,7 @@ const MUTATION_CREATE_DCA_ORDER = gql`
       start_at: $startAt
       market_offset: $marketOffset
       daily_average: $dailyAverage
-      symbol: $symbol
+      asset_symbol: $symbol
     ) {
       dca_order_uid
     }

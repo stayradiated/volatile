@@ -41,7 +41,7 @@
     "luxon": "2.0.2",
     "rambda": "6.9.0",
     "table": "6.7.1",
-    "yargs": "17.1.0"
+    "yargs": "17.1.1"
   },
   "devDependencies": {
     "@stayradiated/jsconfig": "1.14.0",

@@ -53,6 +53,7 @@ const columns: TableColumnsType<Trade> = [
   {
     title: 'Amount',
     dataIndex: 'amount',
+    render: (amount) => amount.toFixed(8),
   },
   {
     title: 'Type',
@@ -61,12 +62,12 @@ const columns: TableColumnsType<Trade> = [
   {
     title: 'Price NZD',
     dataIndex: 'price_nzd',
-    render: (priceNZD) => '$' + priceNZD.toLocaleString(),
+    render: (priceNZD) => '$' + Math.round(priceNZD).toLocaleString(),
   },
   {
     title: 'Total NZD',
     dataIndex: 'total_nzd',
-    render: (totalNZD) => '$' + totalNZD.toLocaleString(),
+    render: (totalNZD) => '$' + totalNZD.toFixed(2),
   },
   {
     title: 'Fee NZD',

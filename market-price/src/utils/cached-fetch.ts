@@ -1,4 +1,5 @@
 import { DateTime, Duration } from 'luxon'
+import { errorBoundary } from '@stayradiated/error-boundary'
 
 type FetchFnResult<ReturnValue> = {
   lastUpdated: DateTime
@@ -52,8 +53,9 @@ const createCachedFetchFn = <Args, ReturnValue>(
     }
 
     state.promise = (async (): Promise<ReturnValue | Error> => {
-      const result = await fetch(fnArgs)
+      const result = await errorBoundary(async () => fetch(fnArgs))
       if (result instanceof Error) {
+        state.promise = undefined
         return result
       }
 
