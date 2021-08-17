@@ -26,12 +26,14 @@ test('dcaOrder', async (t) => {
     maxPriceNZD: 10_000,
     minAmountNZD: 0,
     maxAmountNZD: 1000,
+    enabledAt: DateTime.local()
   }
 
   await insertDCAOrder(pool, input)
 
   const dcaOrderList = await selectAllDCAOrders(pool, {
     userUID,
+    enabled: true,
   })
   if (dcaOrderList instanceof Error) {
     t.fail(inspect(dcaOrderList))

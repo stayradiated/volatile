@@ -61,6 +61,7 @@ const createDCAOrderHandler: ActionHandlerFn<Input, Output> = async (
     maxPriceNZD,
     minAmountNZD,
     maxAmountNZD,
+    enabledAt: undefined,
   })
   if (dcaOrder instanceof Error) {
     return dcaOrder

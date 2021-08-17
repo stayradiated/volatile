@@ -16,7 +16,9 @@ type Output = void
 const autoBuyHandler: CronHandlerFn<Input, Output> = async (context) => {
   const { pool } = context
 
-  const dcaOrderList = await selectAllDCAOrders(pool, {})
+  const dcaOrderList = await selectAllDCAOrders(pool, {
+    enabled: true,
+  })
   if (dcaOrderList instanceof Error) {
     return dcaOrderList
   }

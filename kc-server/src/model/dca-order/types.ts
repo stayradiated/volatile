@@ -14,6 +14,7 @@ type DCAOrder = {
   maxPriceNZD: number | undefined
   minAmountNZD: number | undefined
   maxAmountNZD: number | undefined
+  enabledAt: DateTime | undefined
 }
 
 export { DCAOrder }

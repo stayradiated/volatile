@@ -17,6 +17,7 @@ const mapRowToDCAOrder = (row: s.dca_order.JSONSelectable): DCAOrder => ({
   maxPriceNZD: row.max_price_nzd ?? undefined,
   minAmountNZD: row.min_amount_nzd ?? undefined,
   maxAmountNZD: row.max_amount_nzd ?? undefined,
+  enabledAt: row.enabled_at ? DateTime.fromISO(row.enabled_at) : undefined,
 })
 
 export { mapRowToDCAOrder }

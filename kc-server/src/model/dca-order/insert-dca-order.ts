@@ -29,7 +29,7 @@ const insertDCAOrder = async (
     max_price_nzd: dcaOrder.maxPriceNZD,
     min_amount_nzd: dcaOrder.minAmountNZD,
     max_amount_nzd: dcaOrder.maxAmountNZD,
-    enabled_at: null,
+    enabled_at: dcaOrder.enabledAt ? dcaOrder.enabledAt.toJSDate() : undefined,
   }
 
   const row = await errorBoundary(async () =>

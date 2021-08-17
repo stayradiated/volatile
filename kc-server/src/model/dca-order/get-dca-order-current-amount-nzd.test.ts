@@ -35,6 +35,7 @@ test('should calculate without trades', async (t) => {
       maxPriceNZD: undefined,
       minAmountNZD: undefined,
       maxAmountNZD: undefined,
+      enabledAt: undefined,
     }),
   )
 
@@ -70,6 +71,7 @@ test('should calculate with multiple trade', async (t) => {
       maxPriceNZD: undefined,
       minAmountNZD: undefined,
       maxAmountNZD: undefined,
+      enabledAt: undefined,
     }),
   )
 

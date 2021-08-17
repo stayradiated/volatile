@@ -10,6 +10,7 @@ type SelectAllDCAOrdersOptions = {
   exchangeUID?: string
   marketUID?: string
   userUID?: string
+  enabled?: boolean
 }
 
 const selectAllDCAOrders = async (
@@ -27,6 +28,10 @@ const selectAllDCAOrders = async (
 
   if (options.marketUID) {
     where.market_uid = options.marketUID
+  }
+
+  if (options.enabled) {
+    where.enabled_at = db.sql`${db.self} <= now()`
   }
 
   const rows = await errorBoundary(async () =>
