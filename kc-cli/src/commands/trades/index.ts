@@ -12,11 +12,11 @@ export const command = 'trades'
 export const desc = 'Print trades'
 
 type Options = {
-  symbol: string
+  asset: string
 }
 
 export const builder = (yargs: Argv) =>
-  yargs.option('symbol', {
+  yargs.option('asset', {
     alias: 's',
     type: 'string',
     required: true,
@@ -35,7 +35,7 @@ type GetTradesResult = {
       }
       timestamp: string
       amount: number
-      symbol: string
+      asset_symbol: string
       type: 'BUY' | 'SELL'
       price_nzd: number
       total_nzd: number
@@ -46,13 +46,13 @@ type GetTradesResult = {
 
 const QUERY_GET_TRADES = `
 query getTrades(
-  $symbol: String!,
+  $assetSymbol: String!,
   $limit: Int!,
   $offset: Int!
 ) {
   kc_trade_aggregate { aggregate { count } }
   kc_trade(
-    where: { symbol: { _eq: $symbol } },
+    where: { asset_symbol: { _eq: $assetSymbol } },
     order_by: { timestamp: asc },
     limit: $limit,
     offset: $offset
@@ -60,7 +60,7 @@ query getTrades(
     exchange { id }
     timestamp
     amount
-    symbol
+    asset_symbol
     type
     price_nzd
     total_nzd
@@ -70,7 +70,7 @@ query getTrades(
 `
 
 export const handler = createHandler<Options>(async (config, argv) => {
-  const { symbol } = argv
+  const { asset } = argv
 
   const authHeaders = await getAuthHeaders(config)
   if (authHeaders instanceof Error) {
@@ -81,7 +81,7 @@ export const handler = createHandler<Options>(async (config, argv) => {
     endpoint: config.endpoint,
     query: QUERY_GET_TRADES,
     variables: {
-      symbol,
+      assetSymbol: asset,
     },
     headers: authHeaders,
     getTotal: (result) => result.data.kc_trade_aggregate.aggregate.count,
@@ -100,7 +100,7 @@ export const handler = createHandler<Options>(async (config, argv) => {
     exchange: trade.exchange.id,
     date: DateTime.fromISO(trade.timestamp),
     price: trade.price_nzd,
-    symbol: trade.symbol,
+    assetSymbol: trade.asset_symbol,
     nzd: trade.total_nzd,
     btc: trade.amount,
     fee: (trade.fee_nzd / trade.total_nzd) * 100,

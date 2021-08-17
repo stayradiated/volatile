@@ -16,10 +16,10 @@ const formatRow = (row: RowData): Row7 => {
   const amount = row.amount.toFixed(8)
   const priceNZD = row.priceNZD.toFixed(2)
   const total = row.totalNZD.toFixed(2)
-  const symbol = row.symbol
+  const assetSymbol = row.assetSymbol
   const type = row.type
 
-  return [date, exchange, amount, priceNZD, total, symbol, type]
+  return [date, exchange, amount, priceNZD, total, assetSymbol, type]
 }
 
 const drawTable = (unsortedRows: RowData[]): string => {
@@ -31,7 +31,7 @@ const drawTable = (unsortedRows: RowData[]): string => {
     'amount',
     'price',
     'total',
-    'symbol',
+    'asset',
     'type',
   ]
   const rows = rowData.map((row) => formatRow(row))

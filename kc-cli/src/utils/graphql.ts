@@ -10,24 +10,26 @@ type GraphqlOptions = {
 }
 
 type GraphQLResult<Data> = {
-  data: Data,
+  data: Data
   errors?: Array<{
-    message: string,
-    extensions: unknown,
+    message: string
+    extensions: unknown
   }>
 }
 
-const graphql = async <T extends GraphQLResult<any>>(options: GraphqlOptions): Promise<T | Error> => {
+const graphql = async <T extends GraphQLResult<any>>(
+  options: GraphqlOptions,
+): Promise<T | Error> => {
   const { endpoint, headers, query, variables } = options
 
-  const result = await errorBoundary(async () =>
+  const result = (await errorBoundary(async () =>
     ky
       .post(endpoint, {
         headers,
         body: JSON.stringify({ query, variables }),
       })
       .json(),
-  ) as T|Error
+  )) as T
 
   if (result instanceof Error) {
     if (result instanceof HTTPError) {

@@ -12,7 +12,7 @@ type GetDCAOrdersResult = GraphQLResult<{
   kc_dca_order: Array<{
     exchange: { id: string }
     market: { id: string }
-    symbol: string
+    asset_symbol: string
     start_at: string
     daily_average: number
     market_offset: number
@@ -40,7 +40,7 @@ query getDCAOrders {
   kc_dca_order {
     exchange { id }
     market { id }
-    symbol
+    asset_symbol
     start_at
     daily_average
     market_offset

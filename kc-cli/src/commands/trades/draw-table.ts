@@ -12,7 +12,7 @@ const calcTotals = (rows: readonly RowData[]): RowData => {
   const sum: RowData = {
     date: DateTime.fromSeconds(0),
     exchange: '-',
-    symbol: '-',
+    assetSymbol: '-',
     price: 0,
     nzd: 0,
     btc: 0,
@@ -43,14 +43,14 @@ const formatRow = (row: RowData): Row8 => {
   const date =
     row.date.valueOf() === 0 ? '-' : row.date.toFormat('yyyy-LL-dd HH:mm:ss')
   const exchange = row.exchange
-  const symbol = row.symbol
+  const assetSymbol = row.assetSymbol
   const price = row.price.toFixed(2)
   const nzd = row.nzd.toFixed(2)
   const btc = row.btc.toFixed(8)
   const fee = row.fee.toFixed(2) + '%'
   const type = row.type
 
-  return [date, exchange, symbol, price, nzd, btc, fee, type]
+  return [date, exchange, assetSymbol, price, nzd, btc, fee, type]
 }
 
 const drawTable = (unsortedRows: RowData[]): string => {
@@ -59,7 +59,7 @@ const drawTable = (unsortedRows: RowData[]): string => {
   const header: Row8 = [
     'date',
     'exchange',
-    'symbol',
+    'asset',
     'price',
     'nzd',
     'btc',

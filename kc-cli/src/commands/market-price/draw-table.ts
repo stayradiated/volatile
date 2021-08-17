@@ -7,7 +7,7 @@ const sortByPriceNZD = sort<RowData>((a, b): number => a.priceNZD - b.priceNZD)
 const formatRow = (row: RowData): Row7 => [
   row.marketName,
   row.timestamp.toFormat('yyyy-LL-dd HH:mm:ss'),
-  row.symbol,
+  row.assetSymbol,
   row.price.toFixed(2),
   row.currency,
   row.fxRate.toFixed(2),
@@ -20,7 +20,7 @@ const drawTable = (input: RowData[]): string => {
   const header: Row7 = [
     'market',
     'date',
-    'symbol',
+    'asset',
     'price',
     'currency',
     'fx rate',

@@ -19,7 +19,7 @@ type GetOpenOrdersResult = {
       opened_at: string
       amount: number
       price_nzd: number
-      symbol: string
+      asset_symbol: string
       type: string
     }>
   }
@@ -32,7 +32,7 @@ query getOpenOrdesr {
     opened_at
     amount
     price_nzd
-    symbol
+    asset_symbol
     type
   }
 }
@@ -60,7 +60,7 @@ export const handler = createHandler(async (config) => {
     amount: order.amount,
     priceNZD: order.price_nzd,
     totalNZD: order.amount * order.price_nzd,
-    symbol: order.symbol,
+    assetSymbol: order.asset_symbol,
     type: order.type,
   }))
 

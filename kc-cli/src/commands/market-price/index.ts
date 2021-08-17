@@ -13,11 +13,11 @@ export const command = 'market-price'
 export const desc = 'Print current market price'
 
 type Options = {
-  symbol: string
+  asset: string
 }
 
 export const builder = (yargs: Argv) =>
-  yargs.option('symbol', {
+  yargs.option('asset', {
     alias: 's',
     type: 'string',
     required: true,
@@ -29,7 +29,7 @@ type GetMarketPriceResult = {
       name: string
       market_prices: Array<{
         timestamp: string
-        symbol: string
+        asset_symbol: string
         currency: string
         fx_rate: number
         price: number
@@ -40,16 +40,16 @@ type GetMarketPriceResult = {
 }
 
 const QUERY_GET_MARKET_PRICE = `
-query getMarketPrice($symbol: String!) {
+query getMarketPrice($assetSymbol: String!) {
   kc_market {
     name
     market_prices(
-      where: { symbol: { _eq: $symbol } },
+      where: { asset_symbol: { _eq: $assetSymbol } },
       order_by:{timestamp:desc},
       limit: 1
     ) {
       timestamp
-      symbol
+      asset_symbol
       currency
       fx_rate
       price
@@ -60,7 +60,7 @@ query getMarketPrice($symbol: String!) {
 `
 
 export const handler = createHandler<Options>(async (config, argv) => {
-  const { symbol } = argv
+  const { asset } = argv
 
   const authHeaders = await getAuthHeaders(config)
   if (authHeaders instanceof Error) {
@@ -71,7 +71,7 @@ export const handler = createHandler<Options>(async (config, argv) => {
     endpoint: config.endpoint,
     headers: authHeaders,
     query: QUERY_GET_MARKET_PRICE,
-    variables: { symbol },
+    variables: { assetSymbol: asset },
   })
   if (result instanceof Error) {
     return result
@@ -87,7 +87,7 @@ export const handler = createHandler<Options>(async (config, argv) => {
       return {
         marketName: market.name,
         timestamp: DateTime.fromISO(marketPrice.timestamp),
-        symbol: marketPrice.symbol,
+        assetSymbol: marketPrice.asset_symbol,
         currency: marketPrice.currency,
         fxRate: marketPrice.fx_rate,
         price: marketPrice.price,

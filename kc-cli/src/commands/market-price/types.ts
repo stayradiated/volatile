@@ -3,7 +3,7 @@ import type { DateTime } from 'luxon'
 type RowData = {
   marketName: string
   timestamp: DateTime
-  symbol: string
+  assetSymbol: string
   currency: string
   fxRate: number
   price: number

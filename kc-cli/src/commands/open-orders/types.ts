@@ -6,7 +6,7 @@ type RowData = {
   amount: number
   priceNZD: number
   totalNZD: number
-  symbol: string
+  assetSymbol: string
   type: string
 }
 
