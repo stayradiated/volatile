@@ -26,7 +26,7 @@ select_permissions:
     - user_uid
     - exchange_uid
     - order_id
-    - symbol
+    - asset_symbol
     - price_nzd
     - amount
     - type

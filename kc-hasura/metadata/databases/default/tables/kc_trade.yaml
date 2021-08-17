@@ -24,7 +24,7 @@ select_permissions:
     - order_uid
     - trade_id
     - type
-    - symbol
+    - asset_symbol
     - amount
     - price_nzd
     - total_nzd

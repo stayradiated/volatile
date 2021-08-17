@@ -1,0 +1,22 @@
+table:
+  name: asset
+  schema: kc
+select_permissions:
+- permission:
+    columns:
+    - asset_symbol
+    - created_at
+    - updated_at
+    - name
+    filter: {}
+    limit: 100
+  role: guest
+- permission:
+    columns:
+    - asset_symbol
+    - created_at
+    - updated_at
+    - name
+    filter: {}
+    limit: 100
+  role: user

@@ -14,7 +14,7 @@ select_permissions:
     - currency
     - fx_rate
     - price_nzd
-    - symbol
+    - asset_symbol
     filter: {}
     limit: 100
   role: guest
@@ -26,7 +26,7 @@ select_permissions:
     - currency
     - fx_rate
     - price_nzd
-    - symbol
+    - asset_symbol
     filter: {}
     limit: 100
   role: user

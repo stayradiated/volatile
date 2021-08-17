@@ -13,6 +13,7 @@ type Mutation {
   create_dca_order (
     user_exchange_keys_uid: uuid!
     market_uid: uuid!
+    asset_symbol: String!
     start_at: timestamp!
     market_offset: Float!
     daily_average: Float!

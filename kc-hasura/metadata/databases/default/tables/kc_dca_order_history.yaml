@@ -27,7 +27,7 @@ select_permissions:
     - available_balance_nzd
     - created_order
     - description
-    - symbol
+    - asset_symbol
     filter:
       user_uid:
         _eq: X-Hasura-User-Id
