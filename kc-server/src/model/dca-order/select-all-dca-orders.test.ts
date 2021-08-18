@@ -26,7 +26,7 @@ test('dcaOrder', async (t) => {
     maxPriceNZD: 10_000,
     minAmountNZD: 0,
     maxAmountNZD: 1000,
-    enabledAt: DateTime.local()
+    enabledAt: DateTime.local(),
   }
 
   await insertDCAOrder(pool, input)

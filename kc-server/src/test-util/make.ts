@@ -131,7 +131,7 @@ const makeDCAOrder: MakeFn = (make) =>
         maxPriceNZD: round(0, Math.random() * 10_000),
         minAmountNZD: round(0, Math.random() * 100),
         maxAmountNZD: round(0, Math.random() * 10_000),
-        enabledAt: DateTime.local()
+        enabledAt: DateTime.local(),
       }),
     )
 

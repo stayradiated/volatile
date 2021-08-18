@@ -19,7 +19,11 @@ const isValidConfig = (config: Record<string, string>): config is Config =>
   typeof config['apiKey'] === 'string' &&
   typeof config['accountId'] === 'string'
 
-const buildHeaders = (config: Config): Record<string, string> => {
+const buildHeaders = (config: Config): Record<string, string> | Error => {
+  if (!isValidConfig(config)) {
+    return new Error('dasset: config is invalid')
+  }
+
   const { apiKey, accountId } = config
   return {
     'x-api-key': apiKey,
@@ -58,12 +62,13 @@ export type BalanceResult = {
 }
 
 const balanceAll = async (config: Config): Promise<BalanceResult[] | Error> => {
+  const headers = buildHeaders(config)
+  if (headers instanceof Error) {
+    return headers
+  }
+
   const result = await errorBoundary(async () =>
-    dasset
-      .get('balances', {
-        headers: buildHeaders(config),
-      })
-      .json(),
+    dasset.get('balances', { headers }).json(),
   )
   if (result instanceof Error) {
     return result
@@ -76,10 +81,15 @@ const balanceSingle = async (
   config: Config,
   symbol: string,
 ): Promise<BalanceResult | Error> => {
+  const headers = buildHeaders(config)
+  if (headers instanceof Error) {
+    return headers
+  }
+
   const result = await errorBoundary(async () =>
     dasset
       .get(`balances/${symbol}`, {
-        headers: buildHeaders(config),
+        headers,
       })
       .json(),
   )
@@ -129,10 +139,15 @@ const openOrders = async (
   config: Config,
   options?: PaginationOptions,
 ): Promise<PaginatedList<Order> | Error> => {
+  const headers = buildHeaders(config)
+  if (headers instanceof Error) {
+    return headers
+  }
+
   const result = await errorBoundary(async () =>
     dasset
       .get('orders/open', {
-        headers: buildHeaders(config),
+        headers,
         searchParams: options,
       })
       .json(),
@@ -148,10 +163,15 @@ const closedOrders = async (
   config: Config,
   options?: PaginationOptions,
 ): Promise<PaginatedList<Order> | Error> => {
+  const headers = buildHeaders(config)
+  if (headers instanceof Error) {
+    return headers
+  }
+
   const result = await errorBoundary(async () =>
     dasset
       .get('orders', {
-        headers: buildHeaders(config),
+        headers,
         searchParams: options,
       })
       .json(),
@@ -180,10 +200,15 @@ const createOrder = async (
   config: Config,
   options: CreateOrderOptions,
 ): Promise<CreateOrderResult | Error> => {
+  const headers = buildHeaders(config)
+  if (headers instanceof Error) {
+    return headers
+  }
+
   const result = await errorBoundary(async () =>
     dasset
       .post('orders', {
-        headers: buildHeaders(config),
+        headers,
         body: JSON.stringify(options),
       })
       .json(),
@@ -203,10 +228,15 @@ const cancelOrder = async (
   config: Config,
   orderId: string,
 ): Promise<CancelOrderResult | Error> => {
+  const headers = buildHeaders(config)
+  if (headers instanceof Error) {
+    return headers
+  }
+
   const result = await errorBoundary<CancelOrderResult[]>(async () =>
     dasset
       .delete(`orders/${orderId}`, {
-        headers: buildHeaders(config),
+        headers,
       })
       .json(),
   )
@@ -222,6 +252,67 @@ const cancelOrder = async (
   return result[0]!
 }
 
+type TicketResult = {
+  lastTradeRate: string
+  bidRate: string
+  askRate: string
+  symbol: string
+}
+
+const ticker = async (
+  config: Config,
+  tradingPair: string,
+): Promise<TicketResult | Error> => {
+  const headers = buildHeaders(config)
+  if (headers instanceof Error) {
+    return headers
+  }
+
+  const result = await errorBoundary<[TicketResult]>(async () =>
+    dasset
+      .get(`markets/${tradingPair}/ticker`, {
+        headers,
+      })
+      .json(),
+  )
+  if (result instanceof Error) {
+    return result
+  }
+
+  return result[0]
+}
+
+type OrderBookResult = {
+  bid: Array<{
+    quantity: string
+    rate: string
+  }>
+  ask: Array<{
+    quantity: string
+    rate: string
+  }>
+}
+
+const orderBook = async (config: Config, tradingPair: string) => {
+  const headers = buildHeaders(config)
+  if (headers instanceof Error) {
+    return headers
+  }
+
+  const result = await errorBoundary<[OrderBookResult]>(async () =>
+    dasset
+      .get(`markets/${tradingPair}/orderbook`, {
+        headers,
+      })
+      .json(),
+  )
+  if (result instanceof Error) {
+    return result
+  }
+
+  return result[0]
+}
+
 export * from './pagination.js'
 export * from './types.js'
 export * from './api-error.js'
@@ -234,4 +325,6 @@ export {
   closedOrders,
   createOrder,
   cancelOrder,
+  ticker,
+  orderBook,
 }

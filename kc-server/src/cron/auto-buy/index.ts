@@ -7,8 +7,13 @@ import {
   EXCHANGE_KIWI_COIN,
 } from '../../model/exchange/index.js'
 import type { CronHandlerFn } from '../../util/cron-handler.js'
+import * as exchangeAPIs from '../../exchange-api/index.js'
 
-import { executeKiwiCoinDCAOrder, executeDassetDCAOrder } from './impl/index.js'
+import {
+  mustGetUserDassetExchangeKeys,
+  mustGetUserKiwiCoinExchangeKeys,
+} from '../../model/user-exchange-keys/index.js'
+import { executeDCAOrder } from './execute-dca-order.js'
 
 type Input = void
 type Output = void
@@ -33,14 +38,45 @@ const autoBuyHandler: CronHandlerFn<Input, Output> = async (context) => {
           return exchange
         }
 
-        const error = await (() => {
+        const error = await (async () => {
           switch (exchange) {
-            case EXCHANGE_KIWI_COIN:
-              return executeKiwiCoinDCAOrder(pool, dcaOrder)
-            case EXCHANGE_DASSET:
-              return executeDassetDCAOrder(pool, dcaOrder)
-            default:
+            case EXCHANGE_KIWI_COIN: {
+              const config = await mustGetUserKiwiCoinExchangeKeys(
+                pool,
+                dcaOrder.userExchangeKeysUID,
+              )
+              if (config instanceof Error) {
+                return config
+              }
+
+              return executeDCAOrder(
+                pool,
+                config,
+                exchangeAPIs.kiwiCoin,
+                dcaOrder,
+              )
+            }
+
+            case EXCHANGE_DASSET: {
+              const config = await mustGetUserDassetExchangeKeys(
+                pool,
+                dcaOrder.userExchangeKeysUID,
+              )
+              if (config instanceof Error) {
+                return config
+              }
+
+              return executeDCAOrder(
+                pool,
+                config,
+                exchangeAPIs.dasset,
+                dcaOrder,
+              )
+            }
+
+            default: {
               return new Error('Unexpected exchange')
+            }
           }
         })()
         if (error instanceof Error) {

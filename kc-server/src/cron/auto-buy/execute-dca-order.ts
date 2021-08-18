@@ -1,36 +1,29 @@
-import * as kiwiCoin from '@stayradiated/kiwi-coin-api'
 import { DateTime } from 'luxon'
+import { errorListBoundary } from '@stayradiated/error-boundary'
 
-import type { Pool } from '../../../../types.js'
+import type { Pool } from '../../types.js'
 import {
   DCAOrder,
   getDCAOrderCurrentAmountNZD,
-} from '../../../../model/dca-order/index.js'
-import { selectAvgMarketPrice } from '../../../../model/market-price/index.js'
+} from '../../model/dca-order/index.js'
+import { selectAvgMarketPrice } from '../../model/market-price/index.js'
 import {
   insertOrder,
   updateOrder,
   selectOpenOrdersForDCA,
-} from '../../../../model/order/index.js'
-import { insertDCAOrderHistory } from '../../../../model/dca-order-history/index.js'
-import { round } from '../../../../util/round.js'
-import { explainError } from '../../../../util/error.js'
-import { mustGetUserKiwiCoinExchangeKeys } from '../../../../model/user-exchange-keys/index.js'
-import { syncExchangeTradeList } from '../../../../model/trade/index.js'
-import { fetchAvailableNZD } from './fetch-available-nzd.js'
+} from '../../model/order/index.js'
+import { insertDCAOrderHistory } from '../../model/dca-order-history/index.js'
+import { round } from '../../util/round.js'
+import { syncExchangeTradeList } from '../../model/trade/index.js'
 
-const executeKiwiCoinDCAOrder = async (
+import type { ExchangeAPI } from '../../exchange-api/index.js'
+
+const executeDCAOrder = async <Config>(
   pool: Pool,
+  config: Config,
+  exchangeAPI: ExchangeAPI<Config>,
   dcaOrder: DCAOrder,
 ): Promise<void | Error> => {
-  const config = await mustGetUserKiwiCoinExchangeKeys(
-    pool,
-    dcaOrder.userExchangeKeysUID,
-  )
-  if (config instanceof Error) {
-    return config
-  }
-
   const previousOrders = await selectOpenOrdersForDCA(pool, {
     dcaOrderUID: dcaOrder.UID,
   })
@@ -38,13 +31,35 @@ const executeKiwiCoinDCAOrder = async (
     return previousOrders
   }
 
+  const cancelOrderError = await errorListBoundary(async () =>
+    Promise.all(
+      previousOrders.map(async (order): Promise<void | Error> => {
+        const error = exchangeAPI.cancelOrder({
+          config,
+          orderID: order.orderID,
+        })
+        if (error instanceof Error) {
+          return error
+        }
+
+        await updateOrder(pool, {
+          UID: order.UID,
+          closedAt: DateTime.local(),
+        })
+      }),
+    ),
+  )
+  if (cancelOrderError instanceof Error) {
+    return cancelOrderError
+  }
+
   const previousOrderNZD = previousOrders.reduce(
     (sum, order) => sum + order.priceNZD * order.amount,
     0,
   )
 
-  // Should really be done concurrently, but kiwi-coin.com often returns a 401?
-  const availableNZD = await fetchAvailableNZD(config)
+  // Should really be done concurrently
+  const availableNZD = await exchangeAPI.getBalance({ config, currency: 'NZD' })
   if (availableNZD instanceof Error) {
     return availableNZD
   }
@@ -103,52 +118,34 @@ const executeKiwiCoinDCAOrder = async (
 
     console.log(dcaOrderHistory)
   } else {
-    const orderBook = await kiwiCoin.orderBook()
-    if (orderBook instanceof Error) {
-      return orderBook
+    const lowestAskPriceNZD = await exchangeAPI.getLowestAskPrice({
+      config,
+      assetSymbol: dcaOrder.assetSymbol,
+      currency: 'NZD',
+    })
+    if (lowestAskPriceNZD instanceof Error) {
+      return lowestAskPriceNZD
     }
 
     const offsetPercent = (dcaOrder.marketOffset + 100) / 100
-    const maxOrderPrice = round(2, marketPriceNZD * offsetPercent)
-
-    const lowestAsk = orderBook.asks[0]
-    const lowestAskPrice = lowestAsk
-      ? Number.parseFloat(lowestAsk[0])
-      : Number.POSITIVE_INFINITY
+    const maxOrderPriceNZD = round(2, marketPriceNZD * offsetPercent)
 
     const orderPriceNZD =
-      maxOrderPrice > lowestAskPrice ? lowestAskPrice - 0.01 : maxOrderPrice
+      maxOrderPriceNZD > lowestAskPriceNZD
+        ? lowestAskPriceNZD - 0.01
+        : maxOrderPriceNZD
 
-    if (orderPriceNZD !== maxOrderPrice) {
+    if (orderPriceNZD !== maxOrderPriceNZD) {
       console.log('Lowering bid price to just below lowest ask price')
     }
 
     const amountCrypto = round(8, amountNZD / orderPriceNZD)
-    await Promise.all(
-      previousOrders.map(async (previousOrder) => {
-        const previousOrderID = Number.parseInt(previousOrder.orderID, 10)
-
-        const error = await kiwiCoin.cancelOrder(config, previousOrderID)
-        if (error instanceof Error) {
-          console.error(
-            explainError(
-              'Failed to cancel order',
-              { orderID: previousOrder.orderID },
-              error,
-            ),
-          )
-        }
-
-        await updateOrder(pool, {
-          UID: previousOrder.UID,
-          closedAt: DateTime.local(),
-        })
-      }),
-    )
-
-    const freshOrder = await kiwiCoin.buy(config, {
-      price: orderPriceNZD,
+    const freshOrder = await exchangeAPI.createOrder({
+      config,
       amount: amountCrypto,
+      price: orderPriceNZD,
+      assetSymbol: dcaOrder.assetSymbol,
+      currency: 'NZD',
     })
     if (freshOrder instanceof Error) {
       return freshOrder
@@ -157,7 +154,7 @@ const executeKiwiCoinDCAOrder = async (
     const order = await insertOrder(pool, {
       userUID: dcaOrder.userUID,
       exchangeUID: dcaOrder.exchangeUID,
-      orderID: String(freshOrder.id),
+      orderID: freshOrder.orderID,
       assetSymbol: dcaOrder.assetSymbol,
       type: 'BUY',
       priceNZD: orderPriceNZD,
@@ -173,8 +170,8 @@ const executeKiwiCoinDCAOrder = async (
       userUID: dcaOrder.userUID,
       dcaOrderUID: dcaOrder.UID,
       orderUID: order.UID,
-      marketPriceNZD,
       assetSymbol: dcaOrder.assetSymbol,
+      marketPriceNZD,
       marketOffset: dcaOrder.marketOffset,
       calculatedAmountNZD: goalAmountNZD,
       availableBalanceNZD: totalAvailableNZD,
@@ -191,10 +188,10 @@ const executeKiwiCoinDCAOrder = async (
       marketPriceNZD,
       marketOffset: dcaOrderHistory.marketOffset,
       priceNZD: order.priceNZD,
-      amountCrypto: order.amount,
-      valueNZD: order.amount * order.priceNZD,
+      amount: order.amount,
+      totalNZD: order.amount * order.priceNZD,
     })
   }
 }
 
-export { executeKiwiCoinDCAOrder }
+export { executeDCAOrder }

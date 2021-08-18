@@ -26,7 +26,7 @@ test('insertDCAOrder', async (t) => {
     maxPriceNZD: 50_000,
     minAmountNZD: 20,
     maxAmountNZD: 1000,
-    enabledAt: DateTime.local()
+    enabledAt: DateTime.local(),
   }
 
   const dcaOrder = await throwIfError<DCAOrder>(insertDCAOrder(pool, input))
@@ -55,7 +55,7 @@ test('insertDCAOrder (no min/max)', async (t) => {
     maxPriceNZD: undefined,
     minAmountNZD: undefined,
     maxAmountNZD: undefined,
-    enabledAt: undefined
+    enabledAt: undefined,
   }
 
   const dcaOrder = await throwIfError<DCAOrder>(insertDCAOrder(pool, input))
