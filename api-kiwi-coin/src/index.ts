@@ -2,6 +2,7 @@ import { createHmac } from 'crypto'
 import ky from 'ky-universal'
 import debug from 'debug'
 import { errorBoundary } from '@stayradiated/error-boundary'
+import { inspect } from 'util'
 
 import * as privateAPI from './private/index.js'
 
@@ -190,13 +191,16 @@ const cancelOrder = async (
 
 export type TradeOptions = { price: number; amount: number }
 
-type APIError = { error: string }
+type APIError = { error: string | Record<string, unknown> }
+
 export type BuyResult = Order | APIError
 
 const isAPIError = (response: Record<string, unknown>): response is APIError =>
   typeof response === 'object' &&
   response !== null &&
-  typeof response['error'] === 'string'
+  (typeof response['error'] === 'string' || (
+    typeof response['error'] === 'object' && response['error'] !== null
+  ))
 
 const buy = async (
   config: Config,
@@ -218,7 +222,7 @@ const buy = async (
   }
 
   if (isAPIError(response)) {
-    return new Error(response.error)
+    return new Error(inspect(response.error))
   }
 
   return response

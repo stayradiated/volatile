@@ -34,7 +34,7 @@ const executeDCAOrder = async <Config>(
   const cancelOrderError = await errorListBoundary(async () =>
     Promise.all(
       previousOrders.map(async (order): Promise<void | Error> => {
-        const error = exchangeAPI.cancelOrder({
+        const error = await exchangeAPI.cancelOrder({
           config,
           orderID: order.orderID,
         })
