@@ -39,7 +39,7 @@ const dasset: ExchangeAPI<d.Config> = {
     const { config, amount, price, assetSymbol, currency } = options
     const order = await d.createOrder(config, {
       amount,
-      limit: price,
+      limit: price * (1 - 0.0035), // balance out fee
       orderType: 'LIMIT',
       side: d.OrderType.BUY,
       timeInForce: 'GOOD_TIL_CANCELLED',
