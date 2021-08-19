@@ -1,7 +1,7 @@
 import * as kiwiCoin from '@stayradiated/kiwi-coin-api'
 import * as dasset from '@stayradiated/dasset-api'
 
-import { explainError } from '../../util/error.js'
+import { ConfigError } from '../../util/error.js'
 import type { Pool } from '../../types.js'
 import { getUserExchangeKeys } from './get-user-exchange-keys.js'
 
@@ -11,18 +11,20 @@ const mustGetUserDassetExchangeKeys = async (
 ): Promise<dasset.Config | Error> => {
   const keys = await getUserExchangeKeys(pool, userExchangeKeysUID)
   if (keys instanceof Error) {
-    return keys
+    return new ConfigError({
+      message: 'Could not get user exchange keys.',
+      cause: keys,
+      context: { userExchangeKeysUID },
+    })
   }
 
   const config = keys.keys
 
   if (!dasset.isValidConfig(config)) {
-    return explainError(
-      'user_exchange_keys are not valid for dassetx.com exchange',
-      {
-        userExchangeKeysUID,
-      },
-    )
+    return new ConfigError({
+      message: 'User Exchange Keys are not valid for dassetx.com exchange',
+      context: { userExchangeKeysUID },
+    })
   }
 
   return config
@@ -34,24 +36,20 @@ const mustGetUserKiwiCoinExchangeKeys = async (
 ): Promise<kiwiCoin.Config | Error> => {
   const keys = await getUserExchangeKeys(pool, userExchangeKeysUID)
   if (keys instanceof Error) {
-    return explainError(
-      'userExchangeKeysUID not found',
-      {
-        userExchangeKeysUID,
-      },
-      keys,
-    )
+    return new ConfigError({
+      message: 'Could not get user exchange keys.',
+      cause: keys,
+      context: { userExchangeKeysUID },
+    })
   }
 
   const config = keys.keys
 
   if (!kiwiCoin.isValidConfig(config)) {
-    return explainError(
-      'user_exchange_keys are not valid for kiwi-coin.com exchange',
-      {
-        userExchangeKeysUID,
-      },
-    )
+    return new ConfigError({
+      message: 'User Exchange Keys are not valid for kiwi-coin.com exchange',
+      context: { userExchangeKeysUID },
+    })
   }
 
   return config

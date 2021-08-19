@@ -1,4 +1,6 @@
 import { inspect } from 'util'
+
+import { IllegalArgumentError } from '../../util/error.js'
 import { currencyConfigList, Currency } from './currency-config.js'
 import {
   marketPriceConfigList,
@@ -24,7 +26,10 @@ const fetchCurrencyRate = async (
     (currencyConfig) => currencyConfig.currency === currency,
   )
   if (!currencyConfig) {
-    return new Error(`Could not find currency config for ${inspect(currency)}.`)
+    return new IllegalArgumentError({
+      message: `Could not find currency config for ${inspect(currency)}.`,
+      context: { currency },
+    })
   }
 
   return currencyConfig.fetchRate()

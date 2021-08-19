@@ -1,7 +1,7 @@
 import * as kiwiCoin from '@stayradiated/kiwi-coin-api'
 import * as dasset from '@stayradiated/dasset-api'
 
-import { explainError } from '../../util/error.js'
+import { ConfigError, ExchangeError } from '../../util/error.js'
 
 import type { Pool } from '../../types.js'
 import {
@@ -15,12 +15,17 @@ const validateDassetKeys = async (
   config: Record<string, string>,
 ): Promise<true | Error> => {
   if (!dasset.isValidConfig(config)) {
-    return new Error('userExchangeKeys is not a valid kiwi-coin.com config')
+    return new ConfigError({
+      message: 'userExchangeKeys is not a valid dassetx.com config',
+    })
   }
 
   const balance = await dasset.balanceSingle(config, 'NZD')
   if (balance instanceof Error) {
-    return explainError('Could not query account balance.', undefined, balance)
+    return new ExchangeError({
+      message: 'Could not query account balance on dassetx.com.',
+      cause: balance,
+    })
   }
 
   return true
@@ -30,12 +35,17 @@ const validateKiwiCoinKeys = async (
   config: Record<string, string>,
 ): Promise<true | Error> => {
   if (!kiwiCoin.isValidConfig(config)) {
-    return new Error('userExchangeKeys is not a valid kiwi-coin.com config')
+    return new ConfigError({
+      message: 'userExchangeKeys is not a valid kiwi-coin.com config',
+    })
   }
 
   const balance = await kiwiCoin.balance(config)
   if (balance instanceof Error) {
-    return explainError('Could not query account balance.', undefined, balance)
+    return new ExchangeError({
+      message: 'Could not query account balance on kiwi-coin.com.',
+      cause: balance,
+    })
   }
 
   return true
@@ -80,7 +90,13 @@ const validateUserExchangeKeys = async (
       }
 
       default: {
-        return new Error('Unable to validate config for this exchange')
+        return new ConfigError({
+          message: 'Unable to validate config for this exchange',
+          context: {
+            userExchangeKeysUID,
+            exchangeUID: userExchangeKeys.exchangeUID,
+          },
+        })
       }
     }
   })()

@@ -4,6 +4,7 @@ import {
   EXCHANGE_KIWI_COIN,
 } from '../../exchange/index.js'
 
+import { IllegalArgumentError } from '../../../util/error.js'
 import type { Pool } from '../../../types.js'
 import { syncKiwiCoinTradeList, syncDassetTradeList } from './impl/index.js'
 
@@ -31,7 +32,10 @@ const syncExchangeTradeList = async (
       case EXCHANGE_DASSET:
         return syncDassetTradeList(pool, { userUID, userExchangeKeysUID })
       default:
-        return new Error('Not implemented')
+        return new IllegalArgumentError({
+          message: 'Exchange is not supported.',
+          context: { exchange },
+        })
     }
   })()
 

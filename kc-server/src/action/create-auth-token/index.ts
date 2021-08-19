@@ -1,5 +1,7 @@
 import { DateTime } from 'luxon'
 
+import { AuthError } from '../../util/error.js'
+
 import { createAuthToken } from '../../model/auth-token/index.js'
 import type { ActionHandlerFn } from '../../util/action-handler.js'
 import {
@@ -54,7 +56,10 @@ const createAuthTokenHandler: ActionHandlerFn<
 
   if (requires2FA) {
     if (!isTrustedDevice && !has2FAToken) {
-      return new Error('This user has 2FA enabled.')
+      return new AuthError({
+        message: 'This user has 2FA enabled.',
+        context: { userUID, requires2FA, isTrustedDevice, has2FAToken },
+      })
     }
 
     if (has2FAToken) {
@@ -67,7 +72,10 @@ const createAuthTokenHandler: ActionHandlerFn<
       }
 
       if (!isValidToken) {
-        return new Error('Invalid 2FA token.')
+        return new AuthError({
+          message: 'Invalid 2FA token.',
+          context: { userUID, isValidToken },
+        })
       }
     }
   }

@@ -1,5 +1,10 @@
 import { errorBoundary } from '@stayradiated/error-boundary'
 
+import {
+  MissingRequiredArgumentError,
+  IllegalStateError,
+  IllegalArgumentError,
+} from '../../util/error.js'
 import { authenticator } from '../../util/otplib.js'
 
 import type { ActionHandlerFn } from '../../util/action-handler.js'
@@ -24,12 +29,18 @@ const enableUser2FAHandler: ActionHandlerFn<Input, Output> = async (
   const { pool, input, session } = context
   const { userUID } = session
   if (!userUID) {
-    return new Error('userUID is required')
+    return new MissingRequiredArgumentError({
+      message: 'userUID is required',
+      context: { userUID },
+    })
   }
 
   const alreadyHas2FAEnabled = await hasUser2FAByUserUID(pool, userUID)
   if (alreadyHas2FAEnabled) {
-    return new Error('This user already has 2FA enabled.')
+    return new IllegalStateError({
+      message: 'This user already has 2FA enabled.',
+      context: { userUID, alreadyHas2FAEnabled },
+    })
   }
 
   const { name, secret, token } = input
@@ -40,7 +51,10 @@ const enableUser2FAHandler: ActionHandlerFn<Input, Output> = async (
   }
 
   if (!isValid) {
-    return new Error('Token is not valid for secret.')
+    return new IllegalArgumentError({
+      message: 'Token is not valid for secret.',
+      context: { userUID, token, isValid },
+    })
   }
 
   const error = await insertUser2FA(pool, {

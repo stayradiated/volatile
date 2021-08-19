@@ -4,6 +4,8 @@ import * as s from 'zapatos/schema'
 import { errorBoundary } from '@stayradiated/error-boundary'
 import { Except } from 'type-fest'
 
+import { DBError } from '../../util/error.js'
+
 import type { Pool } from '../../types.js'
 import type { Order } from './types.js'
 
@@ -15,7 +17,7 @@ const insertOrder = async (
 ): Promise<Order | Error> => {
   const now = new Date()
 
-  const insertable: s.order.Insertable = {
+  const value: s.order.Insertable = {
     uid: randomUUID(),
     created_at: now,
     updated_at: now,
@@ -31,20 +33,19 @@ const insertOrder = async (
   }
 
   const rows = await errorBoundary(async () =>
-    db.insert('order', [insertable], { returning: ['uid'] }).run(pool),
+    db.insert('order', [value], { returning: ['uid'] }).run(pool),
   )
-  if (rows instanceof Error) {
-    return rows
-  }
-
-  const row = rows[0]
-  if (!row) {
-    return new Error('Could not insert row into kc.order.')
+  if (rows instanceof Error || !rows) {
+    return new DBError({
+      message: 'Could not insert row into kc.order.',
+      cause: rows,
+      context: { value },
+    })
   }
 
   return {
     ...options,
-    UID: row.uid,
+    UID: rows[0]!.uid,
   }
 }
 

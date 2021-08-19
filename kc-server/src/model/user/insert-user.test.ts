@@ -67,6 +67,7 @@ test('insertUser: should enforce unique emails', async (t) => {
   })
   t.true(error instanceof Error)
   t.like(error, {
-    message: 'Could not create user, email already exists in DB.',
+    message:
+      'E_ILLEGAL_ARGUMENT: Could not create user, email already exists in DB.',
   })
 })

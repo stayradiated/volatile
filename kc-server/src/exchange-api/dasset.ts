@@ -1,6 +1,6 @@
 import * as d from '@stayradiated/dasset-api'
 
-import { explainError } from '../util/error.js'
+import { ExchangeError } from '../util/error.js'
 
 import type { ExchangeAPI } from './index.js'
 
@@ -28,8 +28,9 @@ const dasset: ExchangeAPI<d.Config> = {
 
     const availableNZD = balance.total
     if (typeof availableNZD !== 'number' || Number.isNaN(availableNZD)) {
-      return explainError('Could not fetch available NZD from dassetx.com', {
-        balance: JSON.stringify(balance),
+      return new ExchangeError({
+        message: 'Could not fetch available NZD from dassetx.com',
+        context: { balance },
       })
     }
 
@@ -38,7 +39,7 @@ const dasset: ExchangeAPI<d.Config> = {
   createOrder: async (options) => {
     const { config, amount, price, assetSymbol, currency } = options
     const order = await d.createOrder(config, {
-      amount: amount * (1 - 0.0036), // account for 0.35% trading fee,
+      amount: amount * (1 - 0.0036), // Account for 0.35% trading fee,
       limit: price,
       orderType: 'LIMIT',
       side: d.OrderType.BUY,
@@ -56,13 +57,12 @@ const dasset: ExchangeAPI<d.Config> = {
   cancelOrder: async (options) => {
     const { config, orderID } = options
     const error = d.cancelOrder(config, orderID)
-    if (
-      error instanceof d.APIError &&
-      error.response.code === d.APIErrorCode.PreconditionFailed
-    ) {
-      console.error(error)
-    } else if (error instanceof Error) {
-      return explainError('Failed to cancel order', { orderID }, error)
+    if (error instanceof Error) {
+      return new ExchangeError({
+        message: 'Failed to cancel order',
+        cause: error,
+        context: { orderID },
+      })
     }
 
     return undefined

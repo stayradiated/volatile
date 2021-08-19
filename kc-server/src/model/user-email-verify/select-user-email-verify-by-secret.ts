@@ -1,6 +1,7 @@
 import { errorBoundary } from '@stayradiated/error-boundary'
 import * as db from 'zapatos/db'
 
+import { AuthError } from '../../util/error.js'
 import * as hash from '../../util/hash.js'
 
 import type { Pool } from '../../types.js'
@@ -20,12 +21,12 @@ const selectUserEmailVerifyBySecret = async (
       })
       .run(pool),
   )
-  if (row instanceof Error) {
-    return row
-  }
-
-  if (!row) {
-    return new Error('Invalid email verify secret.')
+  if (!row || row instanceof Error) {
+    return new AuthError({
+      message: 'Invalid email verify secret.',
+      cause: row,
+      context: { secretHash },
+    })
   }
 
   return {

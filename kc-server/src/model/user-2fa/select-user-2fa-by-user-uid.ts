@@ -4,7 +4,7 @@ import type { Pool } from '../../types.js'
 
 import { keyring } from '../../util/keyring.js'
 
-import { explainError } from '../../util/error.js'
+import { DBError } from '../../util/error.js'
 import type { User2FA } from './types.js'
 
 const selectUser2FAByUserUID = async (
@@ -14,12 +14,12 @@ const selectUser2FAByUserUID = async (
   const row = await errorBoundary(async () =>
     db.selectOne('user_2fa', { user_uid: userUID }).run(pool),
   )
-  if (row instanceof Error) {
-    return row
-  }
-
-  if (!row) {
-    return explainError('Could not find user 2FA.', { userUID })
+  if (row instanceof Error || !row) {
+    return new DBError({
+      message: 'Could not find user 2FA.',
+      cause: row,
+      context: { userUID },
+    })
   }
 
   const secret = keyring.decrypt(row.secret_encrypted, row.secret_keyring_id)

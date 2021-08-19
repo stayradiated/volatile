@@ -1,7 +1,7 @@
 import * as db from 'zapatos/db'
 import { errorBoundary } from '@stayradiated/error-boundary'
 
-import { explainError } from '../../util/error.js'
+import { DBError } from '../../util/error.js'
 import * as hash from '../../util/hash.js'
 
 import type { Pool } from '../../types.js'
@@ -21,13 +21,13 @@ const selectUserDeviceByID = async (
       })
       .run(pool),
   )
-  if (row instanceof Error) {
-    return row
-  }
-
-  if (!row) {
-    return explainError('Could not find user device.', {
-      deviceIDHash,
+  if (row instanceof Error || !row) {
+    return new DBError({
+      message: 'Could not find user device.',
+      cause: row,
+      context: {
+        deviceIDHash,
+      },
     })
   }
 

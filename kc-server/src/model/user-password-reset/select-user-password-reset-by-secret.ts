@@ -2,6 +2,7 @@ import { errorBoundary } from '@stayradiated/error-boundary'
 import * as db from 'zapatos/db'
 import { DateTime } from 'luxon'
 
+import { AuthError } from '../../util/error.js'
 import * as hash from '../../util/hash.js'
 
 import type { Pool } from '../../types.js'
@@ -28,12 +29,12 @@ const selectUserPasswordResetBySecret = async (
       })
       .run(pool),
   )
-  if (row instanceof Error) {
-    return row
-  }
-
-  if (!row) {
-    return new Error('Invalid password reset secret.')
+  if (!row || row instanceof Error) {
+    return new AuthError({
+      message: 'Invalid password reset secret.',
+      cause: row,
+      context: { secretHash },
+    })
   }
 
   return {

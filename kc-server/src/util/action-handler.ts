@@ -6,6 +6,7 @@ import type {
   RawReplyDefaultExpression,
 } from 'fastify/types/utils'
 
+import { IllegalArgumentError } from '../util/error.js'
 import { HASURA_ACTIONS_SECRET } from '../env.js'
 
 import { pool } from '../pool.js'
@@ -44,17 +45,23 @@ const parseSessionVariables = (
   input: Record<string, string> | undefined,
 ): Session | Error => {
   if (typeof input !== 'object' || input === null) {
-    return new Error('session_variables must be an object.')
+    return new IllegalArgumentError({
+      message: 'session_variables must be an object.',
+    })
   }
 
   const role = input['x-hasura-role'] as SessionRole
   if (!Object.values(SessionRole).includes(role)) {
-    return new Error('session_variables has an invalid x-hasura-role.')
+    return new IllegalArgumentError({
+      message: 'session_variables has an invalid x-hasura-role.',
+    })
   }
 
   const userUID = input['x-hasura-user-id']
   if (role !== SessionRole.GUEST && !userUID) {
-    return new Error('session_variables is missing x-hasura-user-uid.')
+    return new IllegalArgumentError({
+      message: 'session_variables is missing x-hasura-user-uid.',
+    })
   }
 
   return {

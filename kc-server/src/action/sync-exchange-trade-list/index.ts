@@ -1,3 +1,5 @@
+import { MissingRequiredArgumentError } from '../../util/error.js'
+
 import { ActionHandlerFn } from '../../util/action-handler.js'
 
 import { syncExchangeTradeList } from '../../model/trade/index.js'
@@ -17,7 +19,10 @@ const syncExchangeTradeListHandler: ActionHandlerFn<Input, Output> = async (
   const { input, pool, session } = context
   const { userUID } = session
   if (!userUID) {
-    return new Error('userUID is required')
+    return new MissingRequiredArgumentError({
+      message: 'userUID is required',
+      context: { userUID },
+    })
   }
 
   const {

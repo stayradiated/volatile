@@ -53,5 +53,8 @@ test('updateUser: should check that email is unique', async (t) => {
   }
 
   t.true(error instanceof Error)
-  t.is(error.message, 'Could not create user, email already exists in DB.')
+  t.is(
+    error.message,
+    'E_ILLEGAL_ARGUMENT: Could not create user, email already exists in DB.',
+  )
 })

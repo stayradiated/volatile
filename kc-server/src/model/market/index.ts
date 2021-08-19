@@ -1,7 +1,9 @@
 import { randomUUID } from 'crypto'
 import * as db from 'zapatos/db'
 import type * as s from 'zapatos/schema'
+import { errorBoundary } from '@stayradiated/error-boundary'
 
+import { DBError } from '../../util/error.js'
 import type { Pool } from '../../types.js'
 
 type Market = {
@@ -38,7 +40,7 @@ const forceGetMarketUID = async (
   pool: Pool,
   market: Market,
 ): Promise<string | Error> => {
-  const insert: s.market.Insertable = {
+  const value: s.market.Insertable = {
     uid: randomUUID(),
     created_at: new Date(),
     updated_at: new Date(),
@@ -46,22 +48,23 @@ const forceGetMarketUID = async (
     name: market.name,
   }
 
-  const rows = await db.sql<s.market.SQL, s.market.Selectable[]>`
-    INSERT INTO ${'market'} (${db.cols(insert)})
-    VALUES (${db.vals(insert)})
-    ON CONFLICT ON CONSTRAINT unique_market_id 
-      DO UPDATE SET
-        name = EXCLUDED.name,
-        updated_at = EXCLUDED.updated_at
-    RETURNING uid
-  `.run(pool)
+  const rows = await errorBoundary(async () =>
+    db
+      .upsert('market', [value], db.constraint('unique_market_id'), {
+        updateColumns: ['name', 'updated_at'],
+        returning: ['uid'],
+      })
+      .run(pool),
+  )
 
-  const row = rows[0]
-  if (!row) {
-    return new Error('forceGetMarketUID received 0 rows')
+  if (rows instanceof Error || !rows) {
+    return new DBError({
+      message: 'Could not upsert market',
+      context: { market },
+    })
   }
 
-  return row.uid
+  return rows[0]!.uid
 }
 
 const localCache = new Map<Market, string>()

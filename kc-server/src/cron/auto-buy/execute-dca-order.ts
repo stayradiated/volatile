@@ -1,5 +1,6 @@
 import { DateTime } from 'luxon'
 import { errorListBoundary } from '@stayradiated/error-boundary'
+import { BetterError } from '@northscaler/better-error'
 
 import type { Pool } from '../../types.js'
 import {
@@ -28,7 +29,11 @@ const executeDCAOrder = async <Config>(
     dcaOrderUID: dcaOrder.UID,
   })
   if (previousOrders instanceof Error) {
-    return previousOrders
+    return new BetterError({
+      message: 'Could not select open orders for DCA.',
+      cause: previousOrders,
+      context: { dcaOrderUID: dcaOrder.UID },
+    })
   }
 
   const cancelOrderError = await errorListBoundary(async () =>

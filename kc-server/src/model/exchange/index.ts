@@ -3,7 +3,7 @@ import * as db from 'zapatos/db'
 import { errorBoundary } from '@stayradiated/error-boundary'
 import type * as s from 'zapatos/schema'
 
-import { explainError } from '../../util/error.js'
+import { DBError, IllegalStateError } from '../../util/error.js'
 
 import type { Pool } from '../../types.js'
 
@@ -26,7 +26,7 @@ const forceGetExchangeUID = async (
   pool: Pool,
   exchange: Exchange,
 ): Promise<string | Error> => {
-  const insert: s.exchange.Insertable = {
+  const value: s.exchange.Insertable = {
     uid: randomUUID(),
     created_at: new Date(),
     updated_at: new Date(),
@@ -35,26 +35,22 @@ const forceGetExchangeUID = async (
   }
 
   const rows = await errorBoundary(async () =>
-    db.sql<s.exchange.SQL, s.exchange.Selectable[]>`
-    INSERT INTO ${'exchange'} (${db.cols(insert)})
-    VALUES (${db.vals(insert)})
-    ON CONFLICT ON CONSTRAINT unique_exchange_id 
-      DO UPDATE SET
-        name = EXCLUDED.name,
-        updated_at = EXCLUDED.updated_at
-    RETURNING uid
-  `.run(pool),
+    db
+      .upsert('exchange', [value], db.constraint('unique_exchange_id'), {
+        updateColumns: ['name', 'updated_at'],
+        returning: ['uid'],
+      })
+      .run(pool),
   )
-  if (rows instanceof Error) {
-    return rows
+
+  if (rows instanceof Error || !rows) {
+    return new DBError({
+      message: 'Could not upsert exchange.',
+      context: { exchange },
+    })
   }
 
-  const row = rows[0]
-  if (!row) {
-    return new Error('forceGetExchangeUID received 0 rows')
-  }
-
-  return row.uid
+  return rows[0]!.uid
 }
 
 const forceGetExchange = async (
@@ -75,11 +71,11 @@ const forceGetExchange = async (
       .run(pool),
   )
   if (row instanceof Error) {
-    return explainError(
-      'forceGetExchange: Could not find exchange.',
-      { exchangeUID },
-      row,
-    )
+    return new DBError({
+      message: 'Could not find exchange.',
+      cause: row,
+      context: { exchangeUID },
+    })
   }
 
   switch (row.id) {
@@ -88,8 +84,9 @@ const forceGetExchange = async (
     case EXCHANGE_DASSET.ID:
       return EXCHANGE_DASSET
     default:
-      return explainError('forceGetExchange: Could not identify exchange.', {
-        exchangeID: row.id,
+      return new IllegalStateError({
+        message: 'Could not identify exchange.',
+        context: { exchangeID: row.id },
       })
   }
 }

@@ -4,6 +4,7 @@ import * as s from 'zapatos/schema'
 import { errorBoundary } from '@stayradiated/error-boundary'
 import { Except } from 'type-fest'
 
+import { DBError } from '../../util/error.js'
 import type { Pool } from '../../types.js'
 import type { DCAOrderHistory } from './types.js'
 
@@ -15,7 +16,7 @@ const insertDCAOrderHistory = async (
 ): Promise<DCAOrderHistory | Error> => {
   const now = new Date()
 
-  const insertable: s.dca_order_history.Insertable = {
+  const value: s.dca_order_history.Insertable = {
     uid: randomUUID(),
     created_at: now,
     updated_at: now,
@@ -32,22 +33,19 @@ const insertDCAOrderHistory = async (
   }
 
   const rows = await errorBoundary(async () =>
-    db
-      .insert('dca_order_history', [insertable], { returning: ['uid'] })
-      .run(pool),
+    db.insert('dca_order_history', [value], { returning: ['uid'] }).run(pool),
   )
-  if (rows instanceof Error) {
-    return rows
-  }
-
-  const row = rows[0]
-  if (!row) {
-    return new Error('Could not insert row into kc.dca_order_history.')
+  if (rows instanceof Error || !rows) {
+    return new DBError({
+      message: 'Could not insert row into kc.dca_order_history.',
+      cause: rows,
+      context: { value },
+    })
   }
 
   return {
     ...options,
-    UID: row.uid,
+    UID: rows[0]!.uid,
   }
 }
 

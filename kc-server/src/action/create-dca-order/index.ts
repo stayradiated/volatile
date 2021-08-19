@@ -1,5 +1,7 @@
 import { DateTime } from 'luxon'
 
+import { MissingRequiredArgumentError } from '../../util/error.js'
+
 import { ActionHandlerFn } from '../../util/action-handler.js'
 import { insertDCAOrder } from '../../model/dca-order/index.js'
 import { getUserExchangeKeys } from '../../model/user-exchange-keys/index.js'
@@ -27,7 +29,10 @@ const createDCAOrderHandler: ActionHandlerFn<Input, Output> = async (
   const { pool, input, session } = context
   const { userUID } = session
   if (!userUID) {
-    return new Error('userUID is required')
+    return new MissingRequiredArgumentError({
+      message: 'userUID is required',
+      context: { userUID },
+    })
   }
 
   const {

@@ -1,5 +1,6 @@
 import { errorListBoundary } from '@stayradiated/error-boundary'
 
+import { IllegalStateError } from '../../util/error.js'
 import { selectAllDCAOrders } from '../../model/dca-order/index.js'
 import {
   getExchange,
@@ -75,7 +76,10 @@ const autoBuyHandler: CronHandlerFn<Input, Output> = async (context) => {
             }
 
             default: {
-              return new Error('Unexpected exchange')
+              return new IllegalStateError({
+                message: 'Unexpected exchange',
+                context: { exchange },
+              })
             }
           }
         })()

@@ -69,7 +69,7 @@ test('should fail if email does not exist', async (t) => {
     }),
   )
 
-  t.is('Invalid email or password.', error.message)
+  t.is('E_AUTH: Invalid email or password.', error.message)
 })
 
 test('should fail if password is incorrect', async (t) => {
@@ -97,7 +97,7 @@ test('should fail if password is incorrect', async (t) => {
     }),
   )
 
-  t.is('Invalid email or password.', error.message)
+  t.is('E_AUTH: Invalid email or password.', error.message)
 })
 
 test('should fail if 2FA token is required.', async (t) => {
@@ -135,7 +135,7 @@ test('should fail if 2FA token is required.', async (t) => {
     }),
   )
 
-  t.is('This user has 2FA enabled.', error.message)
+  t.is('E_AUTH: This user has 2FA enabled.', error.message)
 })
 
 test('should login with email/password/token_2fa', async (t) => {
@@ -225,7 +225,7 @@ test('should fail if 2FA is required and device is not trusted', async (t) => {
       session: GUEST_SESSION,
     }),
   )
-  t.is('This user has 2FA enabled.', error.message)
+  t.is('E_AUTH: This user has 2FA enabled.', error.message)
 })
 
 test('should skip 2FA when using a trusted device', async (t) => {

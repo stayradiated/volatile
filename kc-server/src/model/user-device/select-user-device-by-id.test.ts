@@ -1,6 +1,8 @@
 import { DateTime } from 'luxon'
 import { throwIfError } from '@stayradiated/error-boundary'
+
 import { test } from '../../test-util/ava.js'
+import { asError } from '../../test-util/as-error.js'
 
 import { selectUserDeviceByID } from './select-user-device-by-id.js'
 import {
@@ -38,14 +40,7 @@ test('can find a device by its device ID', async (t) => {
 test('should handle missing device', async (t) => {
   const { pool } = t.context
   const deviceID = 'weddingherb'
-  const error = await selectUserDeviceByID(pool, deviceID)
-  if (!(error instanceof Error)) {
-    t.fail(`Expected selectUserDeviceByID to fail, but it didn't!`)
-    return
-  }
+  const error = await asError(selectUserDeviceByID(pool, deviceID))
 
-  t.is(
-    error.message,
-    `Could not find user device. | deviceIDHash='RfvFueNUJken/fQTkJsvkCaio5L/NK2Hh8SeVwp4uWc='`,
-  )
+  t.is(error.message, `E_DB: Could not find user device.`)
 })

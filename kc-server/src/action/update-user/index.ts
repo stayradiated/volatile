@@ -1,5 +1,6 @@
 import { ActionHandlerFn } from '../../util/action-handler.js'
 import { updateUser } from '../../model/user/index.js'
+import { MissingRequiredArgumentError } from '../../util/error'
 
 type Input = {
   password?: string
@@ -13,7 +14,10 @@ const updateUserHandler: ActionHandlerFn<Input, Output> = async (context) => {
   const { session, pool, input } = context
   const { userUID } = session
   if (!userUID) {
-    return new Error('userUID is required')
+    return new MissingRequiredArgumentError({
+      message: 'userUID is required',
+      context: { userUID },
+    })
   }
 
   const { email, password } = input

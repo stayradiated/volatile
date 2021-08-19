@@ -37,7 +37,7 @@ test('should fail for invalid password reset secret.', async (t) => {
 
   const error = await asError(selectUserPasswordResetBySecret(pool, secret))
 
-  t.is('Invalid password reset secret.', error.message)
+  t.is('E_AUTH: Invalid password reset secret.', error.message)
 })
 
 test('should fail for expired password reset', async (t) => {
@@ -56,5 +56,5 @@ test('should fail for expired password reset', async (t) => {
 
   const error = await asError(selectUserPasswordResetBySecret(pool, secret))
 
-  t.is('Invalid password reset secret.', error.message)
+  t.is('E_AUTH: Invalid password reset secret.', error.message)
 })

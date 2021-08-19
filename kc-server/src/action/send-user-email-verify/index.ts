@@ -1,3 +1,8 @@
+import {
+  MissingRequiredArgumentError,
+  IllegalStateError,
+} from '../../util/error.js'
+
 import type { ActionHandlerFn } from '../../util/action-handler.js'
 import {
   generateUserEmailVerifySecret,
@@ -18,7 +23,10 @@ const sendUserEmailVerifyHandler: ActionHandlerFn<Input, Output> = async (
   const { pool, session } = context
   const { userUID } = session
   if (!userUID) {
-    return new Error('userUID is required.')
+    return new MissingRequiredArgumentError({
+      message: 'userUID is required.',
+      context: { userUID },
+    })
   }
 
   const user = await selectUser(pool, userUID)
@@ -27,7 +35,10 @@ const sendUserEmailVerifyHandler: ActionHandlerFn<Input, Output> = async (
   }
 
   if (user.emailVerified) {
-    return new Error('User has already verified their email address.')
+    return new IllegalStateError({
+      message: 'User has already verified their email address.',
+      context: { userUID },
+    })
   }
 
   const secret = await generateUserEmailVerifySecret()

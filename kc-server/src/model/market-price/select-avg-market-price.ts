@@ -1,6 +1,8 @@
 import * as db from 'zapatos/db'
 import type * as s from 'zapatos/schema'
+import { errorBoundary } from '@stayradiated/error-boundary'
 
+import { DBError } from '../../util/error.js'
 import type { Pool } from '../../types.js'
 
 type SelectAvgMarketPriceOptions = {
@@ -14,10 +16,8 @@ const selectAvgMarketPrice = async (
 ): Promise<number | Error> => {
   const { marketUID, assetSymbol } = options
 
-  const rows = await db.sql<
-    s.market_price.SQL,
-    Array<{ avg_price_nzd: string }>
-  >`
+  const rows = await errorBoundary(async () =>
+    db.sql<s.market_price.SQL, Array<{ avg_price_nzd: string }>>`
     SELECT (
       SELECT round(avg(t2.${'price_nzd'}), 4) as avg_price_nzd
       FROM ${'market_price'} t2
@@ -29,11 +29,23 @@ const selectAvgMarketPrice = async (
     WHERE ${{ market_uid: marketUID, asset_symbol: assetSymbol }}
     ORDER BY ${'timestamp'} DESC
     FETCH FIRST ROW ONLY
-  `.run(pool)
+  `.run(pool),
+  )
+
+  if (rows instanceof Error) {
+    return new DBError({
+      message: 'Could not execute avgMarketPrice query.',
+      cause: rows,
+      context: { marketUID, assetSymbol },
+    })
+  }
 
   const row = rows[0]
   if (!row) {
-    return new Error(`Could not get market price for marketUID='${marketUID}'`)
+    return new DBError({
+      message: 'Could not get average market price.',
+      context: { marketUID, assetSymbol },
+    })
   }
 
   return Number.parseFloat(row.avg_price_nzd)

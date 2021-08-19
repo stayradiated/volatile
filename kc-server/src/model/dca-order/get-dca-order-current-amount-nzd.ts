@@ -1,6 +1,6 @@
 import { DateTime } from 'luxon'
 
-import { explainError } from '../../util/error.js'
+import { IllegalStateError } from '../../util/error.js'
 import { round } from '../../util/round.js'
 
 import { selectTradesAfterDate } from '../trade/index.js'
@@ -50,10 +50,13 @@ const getDCAOrderCurrentAmountNZD = async (
   )
 
   if (Number.isNaN(orderAmountNZD)) {
-    return explainError('orderAmountNZD is NaN', {
-      goalPerMinute: String(goalPerMinute),
-      tradedAmountNZD: String(tradedAmountNZD),
-      minutesSinceStartDate: String(minutesSinceStartDate),
+    return new IllegalStateError({
+      message: 'orderAmountNZD is NaN',
+      context: {
+        goalPerMinute,
+        tradedAmountNZD,
+        minutesSinceStartDate,
+      },
     })
   }
 

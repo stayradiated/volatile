@@ -1,7 +1,7 @@
 import * as db from 'zapatos/db'
 import { errorBoundary } from '@stayradiated/error-boundary'
 
-import { explainError } from '../../util/error.js'
+import { DBError } from '../../util/error.js'
 
 import type { Pool } from '../../types.js'
 import type { Order } from './types.js'
@@ -24,7 +24,11 @@ const updateOrder = async (
       .run(pool),
   )
   if (error instanceof Error) {
-    return explainError('updateOrder failed', { orderUID: UID }, error)
+    return new DBError({
+      message: 'updateOrder failed',
+      cause: error,
+      context: { orderUID: UID },
+    })
   }
 }
 

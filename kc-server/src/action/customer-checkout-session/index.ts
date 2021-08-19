@@ -1,3 +1,5 @@
+import { MissingRequiredArgumentError } from '../../util/error.js'
+
 import { ActionHandlerFn } from '../../util/action-handler.js'
 import { stripe } from '../../util/stripe.js'
 
@@ -17,7 +19,10 @@ const customerCheckoutSessionHandler: ActionHandlerFn<Input, Output> = async (
   const { pool, session } = context
   const { userUID } = session
   if (!userUID) {
-    return new Error('userUID is required')
+    return new MissingRequiredArgumentError({
+      message: 'userUID is required',
+      context: { userUID },
+    })
   }
 
   const customer = await getOrCreateCustomer(pool, userUID)

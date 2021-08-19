@@ -3,6 +3,8 @@ import * as db from 'zapatos/db'
 import { errorBoundary } from '@stayradiated/error-boundary'
 import type { Except } from 'type-fest'
 
+import { DBError } from '../../util/error.js'
+
 import * as hash from '../../util/hash.js'
 
 import type { Pool } from '../../types.js'
@@ -42,7 +44,11 @@ const upsertUserDevice = async (
   )
 
   if (error instanceof Error) {
-    return error
+    return new DBError({
+      message: 'Could not upsert user device.',
+      cause: error,
+      context: { options },
+    })
   }
 
   return undefined

@@ -1,6 +1,7 @@
 import * as db from 'zapatos/db'
 import { errorBoundary } from '@stayradiated/error-boundary'
 
+import { DBError } from '../../util/error.js'
 import * as hash from '../../util/hash.js'
 
 import type { Pool } from '../../types.js'
@@ -23,12 +24,13 @@ const selectUserByEmail = async (
       )
       .run(pool),
   )
-  if (row instanceof Error) {
-    return row
-  }
 
-  if (!row) {
-    return new Error('Could not find user by email')
+  if (!row || row instanceof Error) {
+    return new DBError({
+      message: 'Could not find user by email',
+      cause: row,
+      context: { emailHash },
+    })
   }
 
   return {

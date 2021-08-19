@@ -1,3 +1,5 @@
+import { MissingRequiredArgumentError } from '../../util/error.js'
+
 import { ActionHandlerFn } from '../../util/action-handler.js'
 import { updateUserExchangeKeys } from '../../model/user-exchange-keys/index.js'
 
@@ -20,7 +22,10 @@ const updateUserExchangeKeysHandler: ActionHandlerFn<Input, Output> = async (
   } = input
   const { userUID } = session
   if (!userUID) {
-    return new Error('userUID is required')
+    return new MissingRequiredArgumentError({
+      message: 'userUID is required',
+      context: { userUID },
+    })
   }
 
   const error = await updateUserExchangeKeys(pool, {
