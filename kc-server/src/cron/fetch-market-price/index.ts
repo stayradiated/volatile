@@ -10,7 +10,9 @@ import { fetchCurrencyRate, marketPriceInstanceList } from './instance.js'
 import type { MarketPriceInstance } from './market-price-config.js'
 
 type Input = Record<string, unknown>
-type Output = void
+type Output = {
+  message: string
+}
 
 const fetchMarketPriceHandler: CronHandlerFn<Input, Output> = async (
   context,
@@ -71,7 +73,9 @@ const fetchMarketPriceHandler: CronHandlerFn<Input, Output> = async (
     return error
   }
 
-  return undefined
+  return {
+    message: `Successfully fetched price for ${marketPriceInstanceList.length} market(s).`,
+  }
 }
 
 export { fetchMarketPriceHandler }

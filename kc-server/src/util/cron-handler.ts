@@ -1,4 +1,3 @@
-import { inspect } from 'util'
 import type { FastifyInstance, RouteHandlerMethod } from 'fastify'
 import type {
   RawServerDefault,
@@ -7,6 +6,7 @@ import type {
 } from 'fastify/types/utils'
 import { DateTime } from 'luxon'
 
+import { UnexpectedError, CronError } from '../util/error.js'
 import { HASURA_ACTIONS_SECRET } from '../env.js'
 
 import { pool } from '../pool.js'
@@ -41,6 +41,7 @@ type CronHandlerFn<Input, Output> = (
 
 const wrapCronHandler =
   <Input, Output>(
+    path: string,
     fn: CronHandlerFn<Input, Output>,
   ): RouteHandler<CronHandlerRequest<Input>> =>
   async (request, reply) => {
@@ -82,13 +83,29 @@ const wrapCronHandler =
       }
       const output = await fn(context)
       if (output instanceof Error) {
-        await reply.code(400).send({ message: inspect(output) })
+        const cronError = new CronError({
+          message: `Error returned by cron handler for "${path}"`,
+          cause: output,
+          context: {
+            path,
+            input,
+          },
+        })
+        await reply.code(400).send(cronError.toObject({ omitting: false }))
         return
       }
 
       await reply.send(output)
     } catch (error: unknown) {
-      await reply.code(500).send({ message: inspect(error) })
+      const unexpectedError = new UnexpectedError({
+        message: `Unexpected error thrown while executing cron hrndler for "${path}"`,
+        cause: error as Error,
+        context: {
+          path,
+          input,
+        },
+      })
+      await reply.code(500).send(unexpectedError.toObject({ omitting: false }))
     }
   }
 
@@ -96,7 +113,7 @@ const bindCronHandler =
   (fastify: FastifyInstance) =>
   <Input, Output>(pathName: string, fn: CronHandlerFn<Input, Output>) => {
     const path = `/cron/${pathName}`
-    return fastify.post(path, wrapCronHandler<Input, Output>(fn))
+    return fastify.post(path, wrapCronHandler<Input, Output>(path, fn))
   }
 
 export { CronHandlerFn, wrapCronHandler, bindCronHandler }

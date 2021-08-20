@@ -17,7 +17,9 @@ import {
 import { executeDCAOrder } from './execute-dca-order.js'
 
 type Input = void
-type Output = void
+type Output = {
+  message: string
+}
 
 const autoBuyHandler: CronHandlerFn<Input, Output> = async (context) => {
   const { pool } = context
@@ -95,7 +97,9 @@ const autoBuyHandler: CronHandlerFn<Input, Output> = async (context) => {
     return error
   }
 
-  return undefined
+  return {
+    message: `Successfully executed ${dcaOrderList.length} DCA order(s).`,
+  }
 }
 
 export { autoBuyHandler }

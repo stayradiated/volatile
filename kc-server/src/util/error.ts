@@ -5,6 +5,18 @@ import {
   BetterErrorConstructorArg,
 } from '@northscaler/better-error'
 
+class UnexpectedError extends BetterError {
+  constructor(arg?: BetterErrorConstructorArg) {
+    super(arg)
+  }
+}
+
+class CronError extends BetterError {
+  constructor(arg?: BetterErrorConstructorArg) {
+    super(arg)
+  }
+}
+
 class ConfigError extends BetterError {
   constructor(arg?: BetterErrorConstructorArg) {
     super(arg)
@@ -66,6 +78,8 @@ class IllegalStateError extends BetterError {
 }
 
 export {
+  UnexpectedError,
+  CronError,
   ExchangeError,
   ConfigError,
   DBError,
