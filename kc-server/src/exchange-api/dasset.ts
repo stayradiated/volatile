@@ -1,7 +1,6 @@
 import * as d from '@stayradiated/dasset-api'
 
 import { ExchangeError } from '../util/error.js'
-
 import type { ExchangeAPI } from './index.js'
 
 const dasset: ExchangeAPI<d.Config> = {
@@ -9,7 +8,11 @@ const dasset: ExchangeAPI<d.Config> = {
     const { config, assetSymbol, currency } = options
     const orderBook = await d.orderBook(config, `${assetSymbol}-${currency}`)
     if (orderBook instanceof Error) {
-      return orderBook
+      return new ExchangeError({
+        message: 'Failed to get lowest ask price from dassetx.com',
+        cause: orderBook,
+        context: { assetSymbol, currency },
+      })
     }
 
     const lowestAsk = orderBook.ask[0]
@@ -23,7 +26,11 @@ const dasset: ExchangeAPI<d.Config> = {
     const { config, currency } = options
     const balance = await d.balanceSingle(config, currency)
     if (balance instanceof Error) {
-      return balance
+      return new ExchangeError({
+        message: 'Failed to fetch available NZD from dassetx.com',
+        cause: balance,
+        context: { currency },
+      })
     }
 
     const availableNZD = balance.total
@@ -47,7 +54,11 @@ const dasset: ExchangeAPI<d.Config> = {
       tradingPair: `${assetSymbol}-${currency}`,
     })
     if (order instanceof Error) {
-      return order
+      return new ExchangeError({
+        message: 'Failed to create order on dassetx.com',
+        cause: order,
+        context: { amount, price, assetSymbol, currency },
+      })
     }
 
     return {
@@ -59,7 +70,7 @@ const dasset: ExchangeAPI<d.Config> = {
     const error = d.cancelOrder(config, orderID)
     if (error instanceof Error) {
       return new ExchangeError({
-        message: 'Failed to cancel order',
+        message: 'Failed to cancel order on dassetx.com',
         cause: error,
         context: { orderID },
       })
