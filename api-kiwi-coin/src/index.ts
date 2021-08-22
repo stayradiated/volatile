@@ -1,10 +1,10 @@
 import { createHmac } from 'crypto'
+import { inspect } from 'util'
 import ky from 'ky-universal'
 import debug from 'debug'
 import { errorBoundary } from '@stayradiated/error-boundary'
-import { inspect } from 'util'
 
-import * as privateAPI from './private/index.js'
+import * as internalAPI from './internal/index.js'
 
 const log = debug('kiwi-coin-api')
 
@@ -49,12 +49,12 @@ const kiwiCoin = ky.create({
   hooks: {
     beforeRequest: [
       (request) => {
-        log(request.url)
+        log(request.method.slice(0, 3), request.url)
       },
     ],
     afterResponse: [
       (request) => {
-        log(request.url)
+        log(request.method.slice(0, 3), request.url)
       },
     ],
   },
@@ -198,9 +198,8 @@ export type BuyResult = Order | APIError
 const isAPIError = (response: Record<string, unknown>): response is APIError =>
   typeof response === 'object' &&
   response !== null &&
-  (typeof response['error'] === 'string' || (
-    typeof response['error'] === 'object' && response['error'] !== null
-  ))
+  (typeof response['error'] === 'string' ||
+    (typeof response['error'] === 'object' && response['error'] !== null))
 
 const buy = async (
   config: Config,
@@ -331,5 +330,5 @@ export {
   sell,
   extPrice,
   topOrderPrice,
-  privateAPI,
+  internalAPI,
 }
