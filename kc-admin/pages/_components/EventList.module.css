@@ -1,0 +1,8 @@
+.container {
+  height: 800px;
+  display: flex;
+}
+
+.list {
+  overflow-y: scroll;
+}
