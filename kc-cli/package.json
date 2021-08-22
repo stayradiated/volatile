@@ -9,7 +9,8 @@
     "test": "ava",
     "tidy": "xo --fix",
     "build": "del-cli dist && tsc",
-    "build:ncc": "ncc build ./src/index.ts -o ./dist/ncc && mv ./dist/ncc/index.js ./dist/ncc/kc-cli.js"
+    "build:ncc": "ncc build ./src/index.ts -o ./dist/ncc && mv ./dist/ncc/index.js ./dist/ncc/kc-cli.js",
+    "graphql": "graphql-codegen --config ./graphql.codegen.cjs"
   },
   "repository": {
     "type": "git",
@@ -44,6 +45,11 @@
     "yargs": "17.1.1"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "2.0.1",
+    "@graphql-codegen/introspection": "2.0.0",
+    "@graphql-codegen/near-operation-file-preset": "2.1.0",
+    "@graphql-codegen/typescript": "2.0.0",
+    "@graphql-codegen/typescript-operations": "2.0.1",
     "@stayradiated/jsconfig": "1.14.0",
     "@types/luxon": "2.0.0",
     "@types/yargs": "17.0.2",

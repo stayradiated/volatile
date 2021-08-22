@@ -3,6 +3,8 @@ import type { DateTime } from 'luxon'
 type RowData = {
   date: DateTime
   exchange: string
+  orderID: string | undefined
+  orderCreatedAt: DateTime | undefined
   assetSymbol: string
   price: number
   nzd: number

@@ -1,7 +1,7 @@
 import { sort } from 'rambda'
 import { DateTime } from 'luxon'
 
-import { table, Row8 } from '../../utils/table.js'
+import { table, Row10 } from '../../utils/table.js'
 import { RowData } from './types.js'
 
 const sortByDateAsc = sort<RowData>(
@@ -10,6 +10,8 @@ const sortByDateAsc = sort<RowData>(
 
 const calcTotals = (rows: readonly RowData[]): RowData => {
   const sum: RowData = {
+    orderID: undefined,
+    orderCreatedAt: undefined,
     date: DateTime.fromSeconds(0),
     exchange: '-',
     assetSymbol: '-',
@@ -39,7 +41,11 @@ const calcTotals = (rows: readonly RowData[]): RowData => {
   }
 }
 
-const formatRow = (row: RowData): Row8 => {
+const formatRow = (row: RowData): Row10 => {
+  const orderID = row.orderID ?? '-'
+  const orderCreatedAt = row.orderCreatedAt
+    ? row.orderCreatedAt.toFormat('yyyy-LL-dd HH:mm:ss')
+    : '-'
   const date =
     row.date.valueOf() === 0 ? '-' : row.date.toFormat('yyyy-LL-dd HH:mm:ss')
   const exchange = row.exchange
@@ -50,14 +56,27 @@ const formatRow = (row: RowData): Row8 => {
   const fee = row.fee.toFixed(2) + '%'
   const type = row.type
 
-  return [date, exchange, assetSymbol, price, nzd, btc, fee, type]
+  return [
+    orderID,
+    orderCreatedAt,
+    date,
+    exchange,
+    assetSymbol,
+    price,
+    nzd,
+    btc,
+    fee,
+    type,
+  ]
 }
 
 const drawTable = (unsortedRows: RowData[]): string => {
   const rowData = sortByDateAsc(unsortedRows)
 
-  const header: Row8 = [
-    'date',
+  const header: Row10 = [
+    'orderID',
+    'created at',
+    'trade at',
     'exchange',
     'asset',
     'price',

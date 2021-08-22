@@ -1,41 +1,40 @@
 import { graphql } from './graphql.js'
 
 import type { Config } from './create-handler.js'
+import type {
+  GetAuthTokenMutation,
+  GetAuthTokenMutationVariables,
+} from './auth.graphql'
 
 const GUEST_SESSION = {
   'x-hasura-role': 'guest',
 }
 
-type GetAuthTokenResult = {
-  data: {
-    create_auth_token: {
-      auth_token: string
+const QUERY_CREATE_AUTH_TOKEN = /* GraphQL */ `
+  mutation getAuthToken(
+    $email: String!
+    $password: String!
+    $deviceId: String!
+    $deviceName: String!
+    $deviceTrusted: Boolean!
+  ) {
+    create_auth_token(
+      email: $email
+      password: $password
+      device_id: $deviceId
+      device_name: $deviceName
+      device_trusted: $deviceTrusted
+    ) {
+      auth_token
     }
   }
-}
-
-const QUERY_CREATE_AUTH_TOKEN = `
-mutation getAuthToken(
-  $email: String!
-  $password: String!
-  $deviceId: String!
-  $deviceName: String!
-  $deviceTrusted: Boolean!
-) {
-  create_auth_token(
-    email: $email
-    password: $password
-    device_id: $deviceId
-    device_name: $deviceName
-    device_trusted: $deviceTrusted
-  ) {
-    auth_token
-  }
-}
 `
 
 const getAuthToken = async (config: Config): Promise<string | Error> => {
-  const result = await graphql<GetAuthTokenResult>({
+  const result = await graphql<
+    GetAuthTokenMutation,
+    GetAuthTokenMutationVariables
+  >({
     endpoint: config.endpoint,
     headers: GUEST_SESSION,
     query: QUERY_CREATE_AUTH_TOKEN,
@@ -51,7 +50,12 @@ const getAuthToken = async (config: Config): Promise<string | Error> => {
     return result
   }
 
-  return result.data.create_auth_token.auth_token
+  const authToken = result.data.create_auth_token?.auth_token
+  if (!authToken) {
+    return new Error('Failed to get auth token from server')
+  }
+
+  return authToken
 }
 
 type AuthHeaders = {

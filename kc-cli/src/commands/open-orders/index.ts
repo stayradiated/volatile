@@ -6,36 +6,27 @@ import { createHandler } from '../../utils/create-handler.js'
 import { drawTable } from './draw-table.js'
 import type { RowData } from './types.js'
 
+import type { GetOpenOrdersQuery } from './index.graphql'
+
 export const command = 'open-orders'
 
 export const desc = 'Print open orders'
 
 export const builder = {}
 
-type GetOpenOrdersResult = {
-  data: {
-    kc_order: Array<{
-      exchange: { id: string }
-      opened_at: string
-      amount: number
-      price_nzd: number
-      asset_symbol: string
-      type: string
-    }>
+const QUERY_GET_OPEN_ORDERS = /* GraphQL */ `
+  query getOpenOrders {
+    kc_order(where: { closed_at: { _is_null: true } }) {
+      exchange {
+        id
+      }
+      opened_at
+      amount
+      price_nzd
+      asset_symbol
+      type
+    }
   }
-}
-
-const QUERY_GET_OPEN_ORDERS = `
-query getOpenOrdesr {
-  kc_order(where:{closed_at:{_is_null: true}}) {
-    exchange { id }
-    opened_at
-    amount
-    price_nzd
-    asset_symbol
-    type
-  }
-}
 `
 
 export const handler = createHandler(async (config) => {
@@ -44,7 +35,7 @@ export const handler = createHandler(async (config) => {
     return authHeaders
   }
 
-  const result = await graphql<GetOpenOrdersResult>({
+  const result = await graphql<GetOpenOrdersQuery>({
     endpoint: config.endpoint,
     headers: authHeaders,
     query: QUERY_GET_OPEN_ORDERS,

@@ -2,11 +2,11 @@ import ky from 'ky-universal'
 import { HTTPError } from 'ky'
 import { errorBoundary } from '@stayradiated/error-boundary'
 
-type GraphqlOptions = {
+type GraphqlOptions<Variables> = {
   endpoint: string
   headers: Record<string, string>
   query: string
-  variables: Record<string, unknown>
+  variables: Variables
 }
 
 type GraphQLResult<Data> = {
@@ -17,9 +17,9 @@ type GraphQLResult<Data> = {
   }>
 }
 
-const graphql = async <T extends GraphQLResult<any>>(
-  options: GraphqlOptions,
-): Promise<T | Error> => {
+const graphql = async <Data, Variables = Record<string, unknown>>(
+  options: GraphqlOptions<Variables>,
+): Promise<GraphQLResult<Data> | Error> => {
   const { endpoint, headers, query, variables } = options
 
   const result = (await errorBoundary(async () =>
@@ -29,7 +29,7 @@ const graphql = async <T extends GraphQLResult<any>>(
         body: JSON.stringify({ query, variables }),
       })
       .json(),
-  )) as T
+  )) as GraphQLResult<Data>
 
   if (result instanceof Error) {
     if (result instanceof HTTPError) {
@@ -47,20 +47,20 @@ const graphql = async <T extends GraphQLResult<any>>(
   return result
 }
 
-type GraphqlPaginateOptions<T> = {
+type GraphqlPaginateOptions<Data> = {
   endpoint: string
   query: string
   variables: Record<string, unknown>
   headers: Record<string, string>
-  getTotal: (row: T) => number
-  merge: (a: T, b: T) => T
+  getTotal: (row: Data) => number
+  merge: (a: Data, b: Data) => Data
   limit?: number
   offset?: number
 }
 
-const graphqlPaginate = async <T extends GraphQLResult<any>>(
-  options: GraphqlPaginateOptions<T>,
-): Promise<T | Error> => {
+const graphqlPaginate = async <Data>(
+  options: GraphqlPaginateOptions<Data>,
+): Promise<GraphQLResult<Data> | Error> => {
   const {
     endpoint,
     query,
@@ -72,7 +72,7 @@ const graphqlPaginate = async <T extends GraphQLResult<any>>(
     offset = 0,
   } = options
 
-  const result = await graphql<T>({
+  const result = await graphql<Data>({
     endpoint,
     query,
     headers,
@@ -87,7 +87,7 @@ const graphqlPaginate = async <T extends GraphQLResult<any>>(
   }
 
   const count = limit + offset
-  const total = getTotal(result)
+  const total = getTotal(result.data)
   if (total > count) {
     const nextResults = await graphqlPaginate({
       ...options,
@@ -97,7 +97,10 @@ const graphqlPaginate = async <T extends GraphQLResult<any>>(
       return nextResults
     }
 
-    return merge(result, nextResults)
+    return {
+      ...result,
+      data: merge(result.data, nextResults.data),
+    }
   }
 
   return result

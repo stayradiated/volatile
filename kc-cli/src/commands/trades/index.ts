@@ -6,6 +6,7 @@ import { getAuthHeaders } from '../../utils/auth.js'
 import { createHandler } from '../../utils/create-handler.js'
 import { drawTable } from './draw-table.js'
 import type { RowData } from './types.js'
+import type { GetTradesQuery } from './index.graphql'
 
 export const command = 'trades'
 
@@ -22,51 +23,35 @@ export const builder = (yargs: Argv) =>
     required: true,
   })
 
-type GetTradesResult = {
-  data: {
-    kc_trade_aggregate: {
-      aggregate: {
-        count: number
+const QUERY_GET_TRADES = /* GraphQL */ `
+  query getTrades($assetSymbol: String!, $limit: Int!, $offset: Int!) {
+    kc_trade_aggregate {
+      aggregate {
+        count
       }
     }
-    kc_trade: Array<{
-      exchange: {
-        id: string
+    kc_trade(
+      where: { asset_symbol: { _eq: $assetSymbol } }
+      order_by: { timestamp: asc }
+      limit: $limit
+      offset: $offset
+    ) {
+      exchange {
+        id
       }
-      timestamp: string
-      amount: number
-      asset_symbol: string
-      type: 'BUY' | 'SELL'
-      price_nzd: number
-      total_nzd: number
-      fee_nzd: number
-    }>
+      order {
+        created_at
+        order_id
+      }
+      timestamp
+      amount
+      asset_symbol
+      type
+      price_nzd
+      total_nzd
+      fee_nzd
+    }
   }
-}
-
-const QUERY_GET_TRADES = `
-query getTrades(
-  $assetSymbol: String!,
-  $limit: Int!,
-  $offset: Int!
-) {
-  kc_trade_aggregate { aggregate { count } }
-  kc_trade(
-    where: { asset_symbol: { _eq: $assetSymbol } },
-    order_by: { timestamp: asc },
-    limit: $limit,
-    offset: $offset
-  ) {
-    exchange { id }
-    timestamp
-    amount
-    asset_symbol
-    type
-    price_nzd
-    total_nzd
-    fee_nzd
-  }
-}
 `
 
 export const handler = createHandler<Options>(async (config, argv) => {
@@ -77,19 +62,17 @@ export const handler = createHandler<Options>(async (config, argv) => {
     return authHeaders
   }
 
-  const result = await graphqlPaginate<GetTradesResult>({
+  const result = await graphqlPaginate<GetTradesQuery>({
     endpoint: config.endpoint,
     query: QUERY_GET_TRADES,
     variables: {
       assetSymbol: asset,
     },
     headers: authHeaders,
-    getTotal: (result) => result.data.kc_trade_aggregate.aggregate.count,
+    getTotal: (result) => result.kc_trade_aggregate.aggregate?.count ?? 0,
     merge: (a, b) => ({
-      data: {
-        kc_trade_aggregate: a.data.kc_trade_aggregate,
-        kc_trade: [...a.data.kc_trade, ...b.data.kc_trade],
-      },
+      kc_trade_aggregate: a.kc_trade_aggregate,
+      kc_trade: [...a.kc_trade, ...b.kc_trade],
     }),
   })
   if (result instanceof Error) {
@@ -98,6 +81,10 @@ export const handler = createHandler<Options>(async (config, argv) => {
 
   const rowData = result.data.kc_trade.map<RowData>((trade) => ({
     exchange: trade.exchange.id,
+    orderID: trade.order?.order_id,
+    orderCreatedAt: trade.order
+      ? DateTime.fromISO(trade.order.created_at)
+      : undefined,
     date: DateTime.fromISO(trade.timestamp),
     price: trade.price_nzd,
     assetSymbol: trade.asset_symbol,

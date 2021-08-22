@@ -7,6 +7,7 @@ import { createHandler } from '../../utils/create-handler.js'
 
 import { drawTable } from './draw-table.js'
 import type { RowData } from './types.js'
+import type { GetMarketPriceQuery } from './index.graphql'
 
 export const command = 'market-price'
 
@@ -23,40 +24,24 @@ export const builder = (yargs: Argv) =>
     required: true,
   })
 
-type GetMarketPriceResult = {
-  data: {
-    kc_market: Array<{
-      name: string
-      market_prices: Array<{
-        timestamp: string
-        asset_symbol: string
-        currency: string
-        fx_rate: number
-        price: number
-        price_nzd: number
-      }>
-    }>
-  }
-}
-
-const QUERY_GET_MARKET_PRICE = `
-query getMarketPrice($assetSymbol: String!) {
-  kc_market {
-    name
-    market_prices(
-      where: { asset_symbol: { _eq: $assetSymbol } },
-      order_by:{timestamp:desc},
-      limit: 1
-    ) {
-      timestamp
-      asset_symbol
-      currency
-      fx_rate
-      price
-      price_nzd
+const QUERY_GET_MARKET_PRICE = /* GraphQL */ `
+  query getMarketPrice($assetSymbol: String!) {
+    kc_market {
+      name
+      market_prices(
+        where: { asset_symbol: { _eq: $assetSymbol } }
+        order_by: { timestamp: desc }
+        limit: 1
+      ) {
+        timestamp
+        asset_symbol
+        currency
+        fx_rate
+        price
+        price_nzd
+      }
     }
   }
-}
 `
 
 export const handler = createHandler<Options>(async (config, argv) => {
@@ -67,7 +52,7 @@ export const handler = createHandler<Options>(async (config, argv) => {
     return authHeaders
   }
 
-  const result = await graphql<GetMarketPriceResult>({
+  const result = await graphql<GetMarketPriceQuery>({
     endpoint: config.endpoint,
     headers: authHeaders,
     query: QUERY_GET_MARKET_PRICE,
