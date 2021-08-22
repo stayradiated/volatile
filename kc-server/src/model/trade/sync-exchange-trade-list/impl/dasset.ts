@@ -4,7 +4,7 @@ import * as dasset from '@stayradiated/dasset-api'
 
 import { mustGetUserDassetExchangeKeys } from '../../../user-exchange-keys/index.js'
 import { getExchangeUID, EXCHANGE_DASSET } from '../../../exchange/index.js'
-import { insertTrade } from '../../../trade/insert-trade.js'
+import { upsertTrade } from '../../../trade/upsert-trade.js'
 import {
   hasOrderByID,
   selectOrderByID,
@@ -82,7 +82,7 @@ const fetchPageLoop = async (
           const orderUID =
             maybeOrder instanceof Error ? undefined : maybeOrder.UID
 
-          const insertTradeError = await insertTrade(pool, {
+          const upsertTradeError = await upsertTrade(pool, {
             userUID,
             exchangeUID,
             orderUID,
@@ -95,8 +95,8 @@ const fetchPageLoop = async (
             totalNZD: order.details.total ?? 0,
             feeNZD: order.details.nzdFee ?? 0,
           })
-          if (insertTradeError instanceof Error) {
-            return insertTradeError
+          if (upsertTradeError instanceof Error) {
+            return upsertTradeError
           }
         }
 
