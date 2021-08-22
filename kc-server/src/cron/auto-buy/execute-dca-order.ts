@@ -63,12 +63,6 @@ const executeDCAOrder = async <Config>(
     0,
   )
 
-  // Should really be done concurrently
-  const availableNZD = await exchangeAPI.getBalance({ config, currency: 'NZD' })
-  if (availableNZD instanceof Error) {
-    return availableNZD
-  }
-
   // Must do this before calling getDCAOrderCurrentAmountNZD
   const syncError = await syncExchangeTradeList(pool, {
     userUID: dcaOrder.userUID,
@@ -86,6 +80,12 @@ const executeDCAOrder = async <Config>(
   )
   if (goalAmountNZD instanceof Error) {
     return goalAmountNZD
+  }
+
+  // Should really be done concurrently
+  const availableNZD = await exchangeAPI.getBalance({ config, currency: 'NZD' })
+  if (availableNZD instanceof Error) {
+    return availableNZD
   }
 
   const totalAvailableNZD = availableNZD + previousOrderNZD

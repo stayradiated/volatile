@@ -24,6 +24,11 @@ type FetchPageLoopOptions = {
   exchangeUID: string
 }
 
+type IntemediateResult = {
+  hasOrder: boolean
+  isTrade: boolean
+}
+
 const fetchPageLoop = async (
   options: FetchPageLoopOptions,
 ): Promise<void | Error> => {
@@ -37,17 +42,20 @@ const fetchPageLoop = async (
   const totalOrderCount = prevFetchCount + orders.results.length
   console.log(`Fetched ${totalOrderCount}/${orders.total} results`)
 
-  const matchedList = await errorListBoundary(async () =>
+  const resultList = await errorListBoundary(async () =>
     Promise.all(
-      orders.results.map(async (order): Promise<boolean | Error> => {
+      orders.results.map(async (order): Promise<IntemediateResult | Error> => {
         const hasOrder = await hasOrderByID(pool, {
           userUID,
           exchangeUID,
           orderID: order.id,
         })
+        if (hasOrder instanceof Error) {
+          return hasOrder
+        }
 
         if (!hasOrder) {
-          const error = await insertOrder(pool, {
+          const insertOrderError = await insertOrder(pool, {
             userUID,
             exchangeUID,
             orderID: order.id,
@@ -58,12 +66,13 @@ const fetchPageLoop = async (
             openedAt: DateTime.fromISO(order.timestamp),
             closedAt: order.isOpen ? undefined : DateTime.local(),
           })
-          if (error instanceof Error) {
-            return error
+          if (insertOrderError instanceof Error) {
+            return insertOrderError
           }
         }
 
-        if (order.status === dasset.OrderStatus.COMPLETED) {
+        const isTrade = order.status === dasset.OrderStatus.COMPLETED
+        if (isTrade) {
           const maybeOrder = await selectOrderByID(pool, {
             userUID,
             exchangeUID,
@@ -73,7 +82,7 @@ const fetchPageLoop = async (
           const orderUID =
             maybeOrder instanceof Error ? undefined : maybeOrder.UID
 
-          await insertTrade(pool, {
+          const insertTradeError = await insertTrade(pool, {
             userUID,
             exchangeUID,
             orderUID,
@@ -86,19 +95,29 @@ const fetchPageLoop = async (
             totalNZD: order.details.total ?? 0,
             feeNZD: order.details.nzdFee ?? 0,
           })
+          if (insertTradeError instanceof Error) {
+            return insertTradeError
+          }
         }
 
-        return hasOrder
+        return {
+          hasOrder,
+          isTrade,
+        }
       }),
     ),
   )
-  if (matchedList instanceof Error) {
-    return matchedList
+  if (resultList instanceof Error) {
+    return resultList
   }
 
-  const matchedCount = matchedList.filter(Boolean).length
-  console.log(`Matched ${matchedCount}/${orders.results.length} orders`)
-  if (matchedCount === orders.results.length) {
+  const isTradeCount = resultList.filter((result) => result.isTrade).length
+  console.log(`Found ${isTradeCount} trades`)
+
+  const hasOrderCount = resultList.filter((result) => result.hasOrder).length
+  console.log(`Matched ${hasOrderCount}/${orders.results.length} orders`)
+
+  if (hasOrderCount === orders.results.length) {
     return
   }
 
