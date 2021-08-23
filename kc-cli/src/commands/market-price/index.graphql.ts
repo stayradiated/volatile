@@ -11,12 +11,12 @@ export type GetMarketPriceQuery = {
     name: string
     market_prices: Array<{
       __typename?: 'kc_market_price'
-      timestamp: any
+      timestamp: string
       asset_symbol: string
-      currency: any
-      fx_rate: any
-      price: any
-      price_nzd: any
+      currency: string
+      fx_rate: number
+      price: number
+      price_nzd: number
     }>
   }>
 }

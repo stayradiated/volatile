@@ -17,17 +17,17 @@ export type GetTradesQuery = {
   }
   kc_trade: Array<{
     __typename?: 'kc_trade'
-    timestamp: any
-    amount: any
+    timestamp: string
+    amount: number
     asset_symbol: string
     type: string
-    price_nzd: any
-    total_nzd: any
-    fee_nzd: any
+    price_nzd: number
+    total_nzd: number
+    fee_nzd: number
     exchange: { __typename?: 'kc_exchange'; id: string }
     order?: Types.Maybe<{
       __typename?: 'kc_order'
-      created_at: any
+      created_at: string
       order_id: string
     }>
   }>

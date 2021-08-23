@@ -14,6 +14,14 @@ module.exports = {
   generates: {
     './src/types.graphql.ts': {
       plugins: ['typescript'],
+    },
+    'src/': {
+      preset: 'near-operation-file',
+      presetConfig: {
+        extension: '.graphql.ts',
+        baseTypesPath: './types.graphql.ts',
+      },
+      plugins: ['typescript-operations'],
       config: {
         skipTypename: false,
         withHooks: false,
@@ -30,14 +38,6 @@ module.exports = {
           uuid: 'string',
         },
       },
-    },
-    'src/': {
-      preset: 'near-operation-file',
-      presetConfig: {
-        extension: '.graphql.ts',
-        baseTypesPath: './types.graphql.ts',
-      },
-      plugins: ['typescript-operations'],
     },
     './graphql.schema.json': {
       plugins: ['introspection'],

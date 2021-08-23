@@ -13,12 +13,12 @@ export type Scalars = {
   Boolean: boolean
   Int: number
   Float: number
-  bpchar: string
-  jsonb: unknown
-  numeric: number
-  timestamp: string
-  timestamptz: string
-  uuid: string
+  bpchar: any
+  jsonb: any
+  numeric: any
+  timestamp: any
+  timestamptz: any
+  uuid: any
 }
 
 /** Boolean expression to compare columns of type "Boolean". All fields are combined with logical 'AND'. */
