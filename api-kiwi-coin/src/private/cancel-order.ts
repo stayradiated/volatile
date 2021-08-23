@@ -5,27 +5,37 @@ import { client } from '../util/client.js'
 import { createSignedBody } from '../util/signature.js'
 import type { Config } from '../util/types.js'
 
+type CancelOrderOptions = {
+  config: Config
+  orderID: number
+}
+
 type CancelOrderResult = boolean | { error: string }
 
 const cancelOrder = async (
-  config: Config,
-  orderId: number,
+  options: CancelOrderOptions,
 ): Promise<CancelOrderResult | Error> => {
+  const { config, orderID } = options
+
   const endpoint = 'cancel_order'
+
+  const body = createSignedBody(config, endpoint, {
+    id: String(orderID),
+  })
+  if (body instanceof Error) {
+    return body
+  }
+
   const result = await errorBoundary(async () =>
-    client
-      .post(endpoint, {
-        body: createSignedBody(config, endpoint, { id: orderId.toString() }),
-      })
-      .json(),
+    client.post(endpoint, { body }).json(),
   )
   if (result instanceof Error) {
     return new NetError({
-      message: `Could not cancel order "${orderId}" on kiwi-coin.com`,
+      message: `Could not cancel order "${orderID}" on kiwi-coin.com`,
       cause: result,
       context: {
         config,
-        orderId,
+        orderID,
       },
     })
   }
@@ -34,4 +44,4 @@ const cancelOrder = async (
 }
 
 export { cancelOrder }
-export type { CancelOrderResult }
+export type { CancelOrderOptions, CancelOrderResult }

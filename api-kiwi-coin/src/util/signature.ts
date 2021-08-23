@@ -1,17 +1,26 @@
 import { createHmac } from 'crypto'
 
+import { isValidConfig } from './is-valid-config.js'
+import { ConfigError } from './error.js'
 import type { Config } from './types.js'
+
+type Signature = {
+  key: string
+  nonce: string
+  signature: string
+}
 
 const createSignature = (
   config: Config,
   endpoint: string,
   args: string[] = [],
-) => {
+): Signature => {
   const { userId, apiKey, apiSecret } = config
 
   const nonce = Date.now().toString()
+
   const message = [
-    nonce.toString(),
+    nonce,
     userId,
     apiKey,
     ';',
@@ -29,7 +38,18 @@ const createSignedBody = (
   config: Config,
   endpoint: string,
   parameters: Record<string, string> = {},
-) => {
+): URLSearchParams | Error => {
+  if (!isValidConfig(config)) {
+    return new ConfigError({
+      message: 'Config is not valid for kiwi-coin.com',
+      context: {
+        config,
+        endpoint,
+        parameters,
+      },
+    })
+  }
+
   const body = new URLSearchParams(parameters)
   const args: string[] = Object.values(parameters)
 

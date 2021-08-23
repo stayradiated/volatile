@@ -3,7 +3,9 @@ import { errorBoundary } from '@stayradiated/error-boundary'
 import { NetError } from '../util/error.js'
 import { client } from '../util/client.js'
 
-const lowestAsk = async (): Promise<number | Error> => {
+type GetLowestAskResult = number
+
+const getLowestAsk = async (): Promise<GetLowestAskResult | Error> => {
   const price = await errorBoundary(async () =>
     client
       .get('extprice', {
@@ -23,4 +25,5 @@ const lowestAsk = async (): Promise<number | Error> => {
   return Number.parseFloat(price)
 }
 
-export { lowestAsk }
+export { getLowestAsk }
+export type { GetLowestAskResult }

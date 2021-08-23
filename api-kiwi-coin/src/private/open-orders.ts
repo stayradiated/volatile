@@ -5,14 +5,23 @@ import { client } from '../util/client.js'
 import { createSignedBody } from '../util/signature.js'
 import type { Config, Order } from '../util/types.js'
 
-type OpenOrdersResult = Order[]
+type GetOpenOrderListOptions = { config: Config }
+type GetOpenOrderListResult = Order[]
 
-const openOrders = async (
-  config: Config,
-): Promise<OpenOrdersResult | Error> => {
+const getOpenOrderList = async (
+  options: GetOpenOrderListOptions,
+): Promise<GetOpenOrderListResult | Error> => {
+  const { config } = options
+
   const endpoint = 'open_orders'
+
+  const body = createSignedBody(config, endpoint)
+  if (body instanceof Error) {
+    return body
+  }
+
   const result = await errorBoundary(async () =>
-    client.post(endpoint, { body: createSignedBody(config, endpoint) }).json(),
+    client.post(endpoint, { body }).json(),
   )
   if (result instanceof Error) {
     return new NetError({
@@ -27,5 +36,5 @@ const openOrders = async (
   return result
 }
 
-export { openOrders }
-export type { Order, OpenOrdersResult }
+export { getOpenOrderList }
+export type { GetOpenOrderListOptions, GetOpenOrderListResult }

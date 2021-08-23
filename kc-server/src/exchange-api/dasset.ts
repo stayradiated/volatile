@@ -6,7 +6,10 @@ import type { ExchangeAPI } from './index.js'
 const dasset: ExchangeAPI<d.Config> = {
   getLowestAskPrice: async (options) => {
     const { config, assetSymbol, currency } = options
-    const orderBook = await d.orderBook(config, `${assetSymbol}-${currency}`)
+    const orderBook = await d.getMarketOrderBook({
+      config,
+      marketSymbol: `${assetSymbol}-${currency}`,
+    })
     if (orderBook instanceof Error) {
       return new ExchangeError({
         message: 'Failed to get lowest ask price from dassetx.com',
@@ -24,7 +27,7 @@ const dasset: ExchangeAPI<d.Config> = {
   },
   getBalance: async (options) => {
     const { config, currency } = options
-    const balance = await d.balanceSingle(config, currency)
+    const balance = await d.getBalance({ config, currencySymbol: currency })
     if (balance instanceof Error) {
       return new ExchangeError({
         message: 'Failed to fetch available NZD from dassetx.com',
@@ -45,13 +48,16 @@ const dasset: ExchangeAPI<d.Config> = {
   },
   createOrder: async (options) => {
     const { config, amount, price, assetSymbol, currency } = options
-    const order = await d.createOrder(config, {
-      amount: amount * (1 - 0.0036), // Account for 0.35% trading fee,
-      limit: price,
-      orderType: 'LIMIT',
-      side: d.OrderType.BUY,
-      timeInForce: 'GOOD_TIL_CANCELLED',
-      tradingPair: `${assetSymbol}-${currency}`,
+    const order = await d.createOrder({
+      config,
+      order: {
+        amount: amount * (1 - 0.0036), // Account for 0.35% trading fee,
+        limit: price,
+        orderType: 'LIMIT',
+        side: 'BUY',
+        timeInForce: 'GOOD_TIL_CANCELLED',
+        tradingPair: `${assetSymbol}-${currency}`,
+      }
     })
     if (order instanceof Error) {
       return new ExchangeError({
@@ -67,7 +73,7 @@ const dasset: ExchangeAPI<d.Config> = {
   },
   cancelOrder: async (options) => {
     const { config, orderID } = options
-    const error = d.cancelOrder(config, orderID)
+    const error = d.cancelOrder({ config, orderID })
     if (error instanceof Error) {
       return new ExchangeError({
         message: 'Failed to cancel order on dassetx.com',

@@ -20,7 +20,7 @@ const validateDassetKeys = async (
     })
   }
 
-  const balance = await dasset.balanceSingle(config, 'NZD')
+  const balance = await dasset.getBalance({ config, currencySymbol: 'NZD' })
   if (balance instanceof Error) {
     return new ExchangeError({
       message: 'Could not query account balance on dassetx.com.',
@@ -40,7 +40,7 @@ const validateKiwiCoinKeys = async (
     })
   }
 
-  const balance = await kiwiCoin.balance(config)
+  const balance = await kiwiCoin.getBalance({ config })
   if (balance instanceof Error) {
     return new ExchangeError({
       message: 'Could not query account balance on kiwi-coin.com.',

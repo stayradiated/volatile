@@ -5,7 +5,11 @@ import { client } from '../util/client.js'
 import { createSignedBody } from '../util/signature.js'
 import type { Config } from '../util/types.js'
 
-type BalanceResult = {
+type GetBalanceOptions = {
+  config: Config
+}
+
+type GetBalanceResult = {
   nzd_available: string
   nzd_reserved: string
   nzd_balance: string
@@ -16,10 +20,20 @@ type BalanceResult = {
   mmfee: string
 }
 
-const balance = async (config: Config): Promise<BalanceResult | Error> => {
+const getBalance = async (
+  options: GetBalanceOptions,
+): Promise<GetBalanceResult | Error> => {
+  const { config } = options
+
   const endpoint = 'balance'
+
+  const body = createSignedBody(config, endpoint)
+  if (body instanceof Error) {
+    return body
+  }
+
   const result = await errorBoundary(async () =>
-    client.post(endpoint, { body: createSignedBody(config, endpoint) }).json(),
+    client.post(endpoint, { body }).json(),
   )
   if (result instanceof Error) {
     return new NetError({
@@ -34,5 +48,5 @@ const balance = async (config: Config): Promise<BalanceResult | Error> => {
   return result
 }
 
-export { balance }
-export type { BalanceResult }
+export { getBalance }
+export type { GetBalanceOptions, GetBalanceResult }

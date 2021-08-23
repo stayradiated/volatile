@@ -6,22 +6,26 @@ import { createSignedBody } from '../util/signature.js'
 import { isAPIErrorBody, APIErrorBody } from '../util/is-api-error-body.js'
 import type { Config, Order } from '../util/types.js'
 
-type SellOptions = { price: number; amount: number }
+type CreateSellOrderOptions = { config: Config; price: number; amount: number }
+type CreateSellOrderResult = Order
 
-const sell = async (
-  config: Config,
-  options: SellOptions,
-): Promise<Order | Error> => {
+const createSellOrder = async (
+  options: CreateSellOrderOptions,
+): Promise<CreateSellOrderResult | Error> => {
+  const { config, price, amount } = options
+
   const endpoint = 'sell'
+
+  const body = createSignedBody(config, endpoint, {
+    price: String(price),
+    amount: String(amount),
+  })
+  if (body instanceof Error) {
+    return body
+  }
+
   const result = await errorBoundary<Order | APIErrorBody>(async () =>
-    client
-      .post(endpoint, {
-        body: createSignedBody(config, endpoint, {
-          price: options.price.toString(),
-          amount: options.amount.toString(),
-        }),
-      })
-      .json(),
+    client.post(endpoint, { body }).json(),
   )
   if (result instanceof Error) {
     return new NetError({
@@ -46,5 +50,5 @@ const sell = async (
   return result
 }
 
-export { sell }
-export type { SellOptions }
+export { createSellOrder }
+export type { CreateSellOrderOptions, CreateSellOrderResult }

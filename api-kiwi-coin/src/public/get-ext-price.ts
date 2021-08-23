@@ -3,22 +3,20 @@ import { errorBoundary } from '@stayradiated/error-boundary'
 import { NetError } from '../util/error.js'
 import { client } from '../util/client.js'
 
-enum ExtPriceSource {
+enum GetExtPriceSource {
   worldwide = '1',
   europe = '2',
 }
 
-type ExtPriceOptions = {
-  source: ExtPriceSource
+type GetExtPriceOptions = {
+  source: GetExtPriceSource
 }
 
-type ExtPriceResult = {
-  price: number
-}
+type GetExtPriceResult = number
 
-const extPrice = async (
-  options: ExtPriceOptions,
-): Promise<ExtPriceResult | Error> => {
+const getExtPrice = async (
+  options: GetExtPriceOptions,
+): Promise<GetExtPriceResult | Error> => {
   const { source } = options
 
   const price = await errorBoundary(async () =>
@@ -40,10 +38,8 @@ const extPrice = async (
     })
   }
 
-  return {
-    price: Number.parseFloat(price),
-  }
+  return Number.parseFloat(price)
 }
 
-export { extPrice }
-export type { ExtPriceSource, ExtPriceOptions, ExtPriceResult }
+export { getExtPrice }
+export type { GetExtPriceSource, GetExtPriceOptions, GetExtPriceResult }

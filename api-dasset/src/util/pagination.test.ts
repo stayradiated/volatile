@@ -11,7 +11,7 @@ const CONFIG: Config = {
 
 const mockPaginate = <T>(list: T[]): PaginatedFetchFn<T> => {
   const total = list.length
-  const fn: PaginatedFetchFn<T> = async (_config, options) => {
+  const fn: PaginatedFetchFn<T> = async (options) => {
     const { limit = 25, page = 1 } = options
     const start = (page - 1) * limit
     const end = page * limit
@@ -28,7 +28,7 @@ const mockPaginate = <T>(list: T[]): PaginatedFetchFn<T> => {
 test('getPage: 0 pages', async (t) => {
   const fetchFn = mockPaginate([])
 
-  const result = await getPage(CONFIG, fetchFn, 4, 1)
+  const result = await getPage({ config: CONFIG, fetchFn, limit: 4, page: 1 })
   t.deepEqual(
     {
       total: 0,
@@ -44,7 +44,7 @@ test('getPage: 0 pages', async (t) => {
 test('getPage: 1 page', async (t) => {
   const fetchFn = mockPaginate(range(0, 4))
 
-  const result = await getPage(CONFIG, fetchFn, 4, 1)
+  const result = await getPage({ config: CONFIG, fetchFn, limit: 4, page: 1 })
   t.deepEqual(
     {
       total: 4,
@@ -60,7 +60,7 @@ test('getPage: 1 page', async (t) => {
 test('getPage: 2 pages', async (t) => {
   const fetchFn = mockPaginate(range(0, 8))
   {
-    const result = await getPage(CONFIG, fetchFn, 4, 1)
+    const result = await getPage({ config: CONFIG, fetchFn, limit: 4, page: 1 })
     t.deepEqual(
       {
         total: 8,
@@ -74,7 +74,7 @@ test('getPage: 2 pages', async (t) => {
   }
 
   {
-    const result = await getPage(CONFIG, fetchFn, 4, 2)
+    const result = await getPage({ config: CONFIG, fetchFn, limit: 4, page: 2 })
     t.deepEqual(
       {
         total: 8,
@@ -91,6 +91,6 @@ test('getPage: 2 pages', async (t) => {
 test('getAllPages', async (t) => {
   const fetchFn = mockPaginate(range(0, 350))
 
-  const results = await getAllPages(CONFIG, fetchFn)
+  const results = await getAllPages({ config: CONFIG, fetchFn })
   t.deepEqual(range(0, 350), results)
 })

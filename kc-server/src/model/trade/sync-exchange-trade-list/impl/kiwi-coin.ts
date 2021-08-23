@@ -35,7 +35,7 @@ const syncKiwiCoinTradeList = async (
     return config
   }
 
-  const allTrades = await kiwiCoin.trades(config, 'all')
+  const allTrades = await kiwiCoin.getTradeList({ config, timeframe: 'all' })
   if (allTrades instanceof Error) {
     return allTrades
   }

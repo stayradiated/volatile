@@ -3,7 +3,7 @@ import { errorBoundary } from '@stayradiated/error-boundary'
 import { NetError } from '../util/error.js'
 import { client } from '../util/client.js'
 
-type TickerResult = {
+type GetTickerResult = {
   last: number
   date: number
   high: number
@@ -14,7 +14,7 @@ type TickerResult = {
   ask: number
 }
 
-const ticker = async (): Promise<TickerResult | Error> => {
+const getTicker = async (): Promise<GetTickerResult | Error> => {
   const result = await errorBoundary(async () => client.get('ticker').json())
   if (result instanceof Error) {
     return new NetError({
@@ -26,5 +26,5 @@ const ticker = async (): Promise<TickerResult | Error> => {
   return result
 }
 
-export { ticker }
-export type { TickerResult }
+export { getTicker }
+export type { GetTickerResult }

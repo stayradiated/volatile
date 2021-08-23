@@ -22,7 +22,7 @@ const marketSource: MarketPriceSource<Options> = {
 
     const lastUpdated = DateTime.local()
 
-    const value = await kiwiCoin.lowestAsk()
+    const value = await kiwiCoin.getLowestAsk()
     if (value instanceof Error) {
       return value
     }

@@ -3,8 +3,9 @@ import { errorListBoundary } from '@stayradiated/error-boundary'
 import type { Config, PaginationOptions, PaginatedList } from './types.js'
 
 type PaginatedFetchFn<T> = (
-  config: Config,
-  options: PaginationOptions,
+  options: PaginationOptions & {
+    config: Config
+  },
 ) => Promise<PaginatedList<T> | Error>
 
 type PaginatorState<T> = PaginatedList<T> & {
@@ -13,13 +14,19 @@ type PaginatorState<T> = PaginatedList<T> & {
   page: number
 }
 
+type GetPageOptions<T> = {
+  config: Config
+  fetchFn: PaginatedFetchFn<T>
+  limit: number
+  page: number
+}
+
 const getPage = async <T>(
-  config: Config,
-  fetchFn: PaginatedFetchFn<T>,
-  limit: number,
-  page: number,
+  options: GetPageOptions<T>,
 ): Promise<PaginatorState<T> | Error> => {
-  const response = await fetchFn(config, { limit, page })
+  const { config, fetchFn, limit, page } = options
+
+  const response = await fetchFn({ config, limit, page })
   if (response instanceof Error) {
     return response
   }
@@ -35,14 +42,19 @@ const getPage = async <T>(
   }
 }
 
+type GetAllPagesOptions<T> = {
+  config: Config
+  fetchFn: PaginatedFetchFn<T>
+  limit?: number
+}
+
 const getAllPages = async <T>(
-  config: Config,
-  fetchFn: PaginatedFetchFn<T>,
+  options: GetAllPagesOptions<T>,
 ): Promise<T[] | Error> => {
-  const limit = 100
+  const { config, fetchFn, limit = 100 } = options
 
   // Find out how many pages there are
-  const state = await getPage(config, fetchFn, 1, 1)
+  const state = await getPage({ config, fetchFn, limit: 1, page: 1 })
   if (state instanceof Error) {
     return state
   }
@@ -56,7 +68,7 @@ const getAllPages = async <T>(
   // Fetch all the pages
   const list = await errorListBoundary(async () =>
     Promise.all(
-      pageArray.map(async (page) => getPage(config, fetchFn, limit, page)),
+      pageArray.map(async (page) => getPage({ config, fetchFn, limit, page })),
     ),
   )
   if (list instanceof Error) {
@@ -66,4 +78,25 @@ const getAllPages = async <T>(
   return list.flatMap((item) => item.results)
 }
 
-export { PaginatedFetchFn, PaginatorState, getPage, getAllPages }
+const buildPaginationSearchParameters = (
+  options: PaginationOptions,
+): Record<string, number> => {
+  const searchParameters: Record<string, number> = {}
+  if (typeof options.limit === 'number') {
+    searchParameters['limit'] = options.limit
+  }
+
+  if (typeof options.page === 'number') {
+    searchParameters['page'] = options.page
+  }
+
+  return searchParameters
+}
+
+export {
+  PaginatedFetchFn,
+  PaginatorState,
+  getPage,
+  getAllPages,
+  buildPaginationSearchParameters as buildPaginationSearchParams,
+}

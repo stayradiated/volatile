@@ -34,7 +34,12 @@ const fetchPageLoop = async (
 ): Promise<void | Error> => {
   const { prevFetchCount, page, pool, config, userUID, exchangeUID } = options
 
-  const orders = await dasset.getPage(config, dasset.closedOrders, LIMIT, page)
+  const orders = await dasset.getPage({
+    config,
+    fetchFn: dasset.getClosedOrderList,
+    limit: LIMIT,
+    page,
+  })
   if (orders instanceof Error) {
     return orders
   }
@@ -42,7 +47,7 @@ const fetchPageLoop = async (
   const totalOrderCount = prevFetchCount + orders.results.length
   console.log(`Fetched ${totalOrderCount}/${orders.total} results`)
 
-  const resultList = await errorListBoundary(async () =>
+  const resultList = await errorListBoundary<IntemediateResult>(async () =>
     Promise.all(
       orders.results.map(async (order): Promise<IntemediateResult | Error> => {
         const hasOrder = await hasOrderByID(pool, {
@@ -71,7 +76,7 @@ const fetchPageLoop = async (
           }
         }
 
-        const isTrade = order.status === dasset.OrderStatus.COMPLETED
+        const isTrade = order.status === 'Completed'
         if (isTrade) {
           const maybeOrder = await selectOrderByID(pool, {
             userUID,

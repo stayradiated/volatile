@@ -3,7 +3,9 @@ import { errorBoundary } from '@stayradiated/error-boundary'
 import { NetError } from '../util/error.js'
 import { client } from '../util/client.js'
 
-const highestBid = async (): Promise<number | Error> => {
+type GetHighestBidResult = number
+
+const getHighestBid = async (): Promise<GetHighestBidResult | Error> => {
   const price = await errorBoundary(async () =>
     client
       .get('extprice', {
@@ -23,4 +25,5 @@ const highestBid = async (): Promise<number | Error> => {
   return Number.parseFloat(price)
 }
 
-export { highestBid }
+export { getHighestBid }
+export type { GetHighestBidResult }

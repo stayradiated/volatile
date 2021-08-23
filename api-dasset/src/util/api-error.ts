@@ -1,4 +1,14 @@
-import type { APIErrorResponse } from './types.js'
+enum APIErrorCode {
+  ResourceNotFound = 4043,
+  PreconditionFailed = 4092,
+}
+
+type APIErrorResponse = {
+  status: number
+  type: string
+  code: APIErrorCode
+  message: string
+}
 
 // eslint-disable-next-line fp/no-class
 class APIError extends Error {
@@ -12,4 +22,5 @@ class APIError extends Error {
   }
 }
 
-export { APIError }
+export { APIError, APIErrorCode }
+export type { APIErrorResponse }

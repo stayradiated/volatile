@@ -3,13 +3,13 @@ import { errorBoundary } from '@stayradiated/error-boundary'
 import { NetError } from '../util/error.js'
 import { client } from '../util/client.js'
 
-type OrderBookResult = {
+type GetOrderBookResult = {
   timestamp: string
   bids: Array<[string, string]>
   asks: Array<[string, string]>
 }
 
-const orderBook = async (): Promise<OrderBookResult | Error> => {
+const getOrderBook = async (): Promise<GetOrderBookResult | Error> => {
   const result = await errorBoundary(async () =>
     client.get('order_book').json(),
   )
@@ -23,5 +23,5 @@ const orderBook = async (): Promise<OrderBookResult | Error> => {
   return result
 }
 
-export { orderBook }
-export type { OrderBookResult }
+export { getOrderBook }
+export type { GetOrderBookResult }

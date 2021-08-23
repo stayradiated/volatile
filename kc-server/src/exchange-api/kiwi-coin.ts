@@ -5,7 +5,7 @@ import type { ExchangeAPI } from './index.js'
 
 const kiwiCoin: ExchangeAPI<kc.Config> = {
   getLowestAskPrice: async () => {
-    const orderBook = await kc.orderBook()
+    const orderBook = await kc.getOrderBook()
     if (orderBook instanceof Error) {
       return new ExchangeError({
         message: 'Failed to get lowest ask price from kiwi-coin.com',
@@ -23,7 +23,7 @@ const kiwiCoin: ExchangeAPI<kc.Config> = {
   getBalance: async (options) => {
     const { config } = options
 
-    const balance = await kc.balance(config)
+    const balance = await kc.getBalance({ config })
     if (balance instanceof Error) {
       return new ExchangeError({
         message: 'Failed to get balance from kiwi-coin.com',
@@ -36,7 +36,7 @@ const kiwiCoin: ExchangeAPI<kc.Config> = {
   },
   createOrder: async (options) => {
     const { config, price, amount } = options
-    const order = await kc.buy(config, { price, amount })
+    const order = await kc.createBuyOrder({ config, price, amount })
     if (order instanceof Error) {
       return new ExchangeError({
         message: 'Failed to create order on kiwi-coin.com',
@@ -51,7 +51,7 @@ const kiwiCoin: ExchangeAPI<kc.Config> = {
   },
   cancelOrder: async (options) => {
     const { config, orderID } = options
-    const error = await kc.cancelOrder(config, Number.parseInt(orderID, 10))
+    const error = await kc.cancelOrder({ config, orderID: Number.parseInt(orderID, 10) })
     if (error instanceof Error) {
       return new ExchangeError({
         message: 'Failed to cancel order on kiwi-coin.com',
