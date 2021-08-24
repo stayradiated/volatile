@@ -1,7 +1,7 @@
 import { errorBoundary } from '@stayradiated/error-boundary'
 
 import { client } from '../util/client.js'
-import { NetError } from '../util/error.js'
+import { NetError, getCause } from '../util/error.js'
 import { buildHeaders } from '../util/build-headers.js'
 import { buildPaginationSearchParams } from '../util/pagination.js'
 import type { PaginationOptions, PaginatedList, Config } from '../util/types.js'
@@ -56,10 +56,7 @@ const getOpenOrderList = async (
   if (result instanceof Error) {
     return new NetError({
       message: 'Could not get open order list from dasset.com',
-      cause: result,
-      context: {
-        config,
-      },
+      cause: await getCause(result),
     })
   }
 

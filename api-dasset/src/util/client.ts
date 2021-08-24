@@ -6,6 +6,8 @@ const log = debug('dasset-api')
 
 const client: typeof KyClient = ky.create({
   prefixUrl: 'https://api.dassetx.com/api/',
+  timeout: 15_000,
+  throwHttpErrors: true,
   hooks: {
     beforeRequest: [
       (request) => {

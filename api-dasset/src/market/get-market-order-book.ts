@@ -1,7 +1,7 @@
 import { errorBoundary } from '@stayradiated/error-boundary'
 
 import { client } from '../util/client.js'
-import { NetError } from '../util/error.js'
+import { NetError, getCause } from '../util/error.js'
 import { buildHeaders } from '../util/build-headers.js'
 import type { Config } from '../util/types.js'
 
@@ -41,9 +41,8 @@ const getMarketOrderBook = async (
   if (result instanceof Error) {
     return new NetError({
       message: 'Could not get market order book from dasset.com',
-      cause: result,
+      cause: await getCause(result),
       context: {
-        config,
         marketSymbol,
       },
     })
