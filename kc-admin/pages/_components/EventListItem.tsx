@@ -7,10 +7,11 @@ import type {Invocation } from '../_utils/types.invocation'
 
 type EventListItemProps = {
   invocation: Invocation
+  onClick?: (event: Invocation) => void,
 }
 
 const EventListItem = (props: EventListItemProps) => {
-  const { invocation } = props
+  const { invocation, onClick } = props
   const { status } = invocation
   const createdAt = DateTime.fromISO(invocation.created_at)
   
@@ -20,11 +21,13 @@ const EventListItem = (props: EventListItemProps) => {
 
   const body = JSON.parse(invocation.response.data.body)
 
+  const handleClick = () => onClick && onClick(invocation)
+
   return (
-    <div className={styles.container}>
+    <div className={styles.container} onClick={handleClick}>
       <div className={statusClassName}>{status}</div>
       <div className={styles.createdAt}>{createdAt.toFormat('ff')}</div>
-      <div classNaem={styles.message}>{body.message}</div>
+      <div className={styles.message}>{body.message}</div>
     </div>
   )
 }

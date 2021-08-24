@@ -6,6 +6,11 @@
   line-height: 32px;
   padding-bottom: 4px;
   font-family: monospace;
+
+  cursor: pointer;
+}
+.container:hover {
+  text-decoration: underline;
 }
 
 .status {
@@ -34,4 +39,8 @@
 }
 
 .message {
+  flex: 1;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
