@@ -5,11 +5,16 @@ import { ConfigError } from '../../util/error.js'
 import type { Pool } from '../../types.js'
 import { getUserExchangeKeys } from './get-user-exchange-keys.js'
 
+import type { UserExchangeKeys } from './types.js'
+
 const mustGetUserDassetExchangeKeys = async (
   pool: Pool,
   userExchangeKeysUID: string,
-): Promise<dasset.Config | Error> => {
-  const keys = await getUserExchangeKeys(pool, userExchangeKeysUID)
+): Promise<UserExchangeKeys<dasset.Config> | Error> => {
+  const keys = await getUserExchangeKeys<dasset.Config>(
+    pool,
+    userExchangeKeysUID,
+  )
   if (keys instanceof Error) {
     return new ConfigError({
       message: 'Could not get user exchange keys.',
@@ -18,23 +23,24 @@ const mustGetUserDassetExchangeKeys = async (
     })
   }
 
-  const config = keys.keys
-
-  if (!dasset.isValidConfig(config)) {
+  if (!dasset.isValidConfig(keys.keys)) {
     return new ConfigError({
       message: 'User Exchange Keys are not valid for dassetx.com exchange',
       context: { userExchangeKeysUID },
     })
   }
 
-  return config
+  return keys
 }
 
 const mustGetUserKiwiCoinExchangeKeys = async (
   pool: Pool,
   userExchangeKeysUID: string,
-): Promise<kiwiCoin.Config | Error> => {
-  const keys = await getUserExchangeKeys(pool, userExchangeKeysUID)
+): Promise<UserExchangeKeys<kiwiCoin.Config> | Error> => {
+  const keys = await getUserExchangeKeys<kiwiCoin.Config>(
+    pool,
+    userExchangeKeysUID,
+  )
   if (keys instanceof Error) {
     return new ConfigError({
       message: 'Could not get user exchange keys.',
@@ -43,16 +49,14 @@ const mustGetUserKiwiCoinExchangeKeys = async (
     })
   }
 
-  const config = keys.keys
-
-  if (!kiwiCoin.isValidConfig(config)) {
+  if (!kiwiCoin.isValidConfig(keys.keys)) {
     return new ConfigError({
       message: 'User Exchange Keys are not valid for kiwi-coin.com exchange',
       context: { userExchangeKeysUID },
     })
   }
 
-  return config
+  return keys
 }
 
 export { mustGetUserKiwiCoinExchangeKeys, mustGetUserDassetExchangeKeys }

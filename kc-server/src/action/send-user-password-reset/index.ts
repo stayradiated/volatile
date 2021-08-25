@@ -31,11 +31,14 @@ const sendUserPasswordResetHandler: ActionHandlerFn<Input, Output> = async (
     return secret
   }
 
-  await insertUserPasswordReset(pool, {
+  const error = await insertUserPasswordReset(pool, {
     userUID: user.UID,
     expiresAt: DateTime.local().plus({ minutes: 30 }),
     secret,
   })
+  if (error instanceof Error) {
+    return error
+  }
 
   return {
     secret,

@@ -2,7 +2,7 @@ import { MissingRequiredArgumentError } from '../../util/error.js'
 
 import { ActionHandlerFn } from '../../util/action-handler.js'
 
-import { syncExchangeTradeList } from '../../model/trade/index.js'
+import { syncExchangeOpenOrderList } from '../../model/order/index.js'
 
 type Input = {
   exchange_uid: string
@@ -13,7 +13,7 @@ type Output = {
   user_uid: string
 }
 
-const syncExchangeTradeListHandler: ActionHandlerFn<Input, Output> = async (
+const syncExchangeOpenOrderListHandler: ActionHandlerFn<Input, Output> = async (
   context,
 ) => {
   const { input, pool, session } = context
@@ -30,7 +30,7 @@ const syncExchangeTradeListHandler: ActionHandlerFn<Input, Output> = async (
     user_exchange_keys_uid: userExchangeKeysUID,
   } = input
 
-  const error = await syncExchangeTradeList(pool, {
+  const error = await syncExchangeOpenOrderList(pool, {
     userUID,
     exchangeUID,
     userExchangeKeysUID,
@@ -44,4 +44,4 @@ const syncExchangeTradeListHandler: ActionHandlerFn<Input, Output> = async (
   }
 }
 
-export { syncExchangeTradeListHandler }
+export { syncExchangeOpenOrderListHandler }

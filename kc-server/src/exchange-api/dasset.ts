@@ -1,11 +1,12 @@
 import * as d from '@stayradiated/dasset-api'
+import { DateTime } from 'luxon'
 
 import { ExchangeError } from '../util/error.js'
-import type { ExchangeAPI } from './index.js'
+import type { ExchangeAPI, UserExchangeAPI } from './index.js'
 
 const dasset: ExchangeAPI<d.Config> = {
-  getLowestAskPrice: async (options) => {
-    const { config, assetSymbol, currency } = options
+  getLowestAskPrice: (config) => async (options) => {
+    const { assetSymbol, currency } = options
     const orderBook = await d.getMarketOrderBook({
       config,
       marketSymbol: `${assetSymbol}-${currency}`,
@@ -25,8 +26,8 @@ const dasset: ExchangeAPI<d.Config> = {
 
     return lowestAskPrice
   },
-  getBalance: async (options) => {
-    const { config, currency } = options
+  getBalance: (config) => async (options) => {
+    const { currency } = options
     const balance = await d.getBalance({ config, currencySymbol: currency })
     if (balance instanceof Error) {
       return new ExchangeError({
@@ -46,8 +47,26 @@ const dasset: ExchangeAPI<d.Config> = {
 
     return availableNZD
   },
-  createOrder: async (options) => {
-    const { config, amount, price, assetSymbol, currency } = options
+  getOpenOrders: (config) => async () => {
+    const openOrders = await d.getOpenOrderList({ config })
+    if (openOrders instanceof Error) {
+      return new ExchangeError({
+        message: 'Failed to get open orders for dassetx.com',
+        cause: openOrders,
+      })
+    }
+
+    return openOrders.results.map((order) => ({
+      orderID: order.id,
+      assetSymbol: order.baseSymbol,
+      priceNZD: order.quoteAmount ?? 0,
+      amount: order.baseAmount,
+      type: order.type,
+      openedAt: DateTime.fromISO(order.timestamp),
+    }))
+  },
+  createOrder: (config) => async (options) => {
+    const { amount, price, assetSymbol, currency } = options
     const order = await d.createOrder({
       config,
       order: {
@@ -57,7 +76,7 @@ const dasset: ExchangeAPI<d.Config> = {
         side: 'BUY',
         timeInForce: 'GOOD_TIL_CANCELLED',
         tradingPair: `${assetSymbol}-${currency}`,
-      }
+      },
     })
     if (order instanceof Error) {
       return new ExchangeError({
@@ -71,8 +90,8 @@ const dasset: ExchangeAPI<d.Config> = {
       orderID: order.order.orderId,
     }
   },
-  cancelOrder: async (options) => {
-    const { config, orderID } = options
+  cancelOrder: (config) => async (options) => {
+    const { orderID } = options
     const error = d.cancelOrder({ config, orderID })
     if (error instanceof Error) {
       return new ExchangeError({
@@ -86,4 +105,22 @@ const dasset: ExchangeAPI<d.Config> = {
   },
 }
 
-export { dasset }
+const getDassetExchangeAPI = (
+  config: Record<string, string>,
+): UserExchangeAPI | Error => {
+  if (!d.isValidConfig(config)) {
+    return new ExchangeError({
+      message: 'Config is not valid for dassetx.com.',
+    })
+  }
+
+  return {
+    getLowestAskPrice: dasset.getLowestAskPrice(config),
+    getBalance: dasset.getBalance(config),
+    getOpenOrders: dasset.getOpenOrders(config),
+    createOrder: dasset.createOrder(config),
+    cancelOrder: dasset.cancelOrder(config),
+  }
+}
+
+export { dasset, getDassetExchangeAPI }

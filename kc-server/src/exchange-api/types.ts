@@ -1,52 +1,70 @@
-type CreateOrderOptions<Config> = {
-  config: Config
+import type { DateTime } from 'luxon'
+
+import type { BuySell } from '../types.js'
+
+type CreateOrderOptions = {
   amount: number
   price: number
   assetSymbol: string
   currency: string
 }
 
-type Order = {
+type CreateOrderResult = {
   orderID: string
 }
 
-type CreateOrderFn<Config> = (
-  options: CreateOrderOptions<Config>,
-) => Promise<Order | Error>
+type CreateOrderFn = (
+  options: CreateOrderOptions,
+) => Promise<CreateOrderResult | Error>
 
-type CancelOrderOptions<Config> = {
-  config: Config
+type CancelOrderOptions = {
   orderID: string
 }
 
-type CancelOrderFn<Config> = (
-  options: CancelOrderOptions<Config>,
-) => Promise<void | Error>
+type CancelOrderFn = (options: CancelOrderOptions) => Promise<void | Error>
 
-type GetBalanceOptions<Config> = {
-  config: Config
+type GetBalanceOptions = {
   currency: string
 }
 
-type GetBalanceFn<Config> = (
-  options: GetBalanceOptions<Config>,
-) => Promise<number | Error>
+type GetBalanceFn = (options: GetBalanceOptions) => Promise<number | Error>
 
-type GetLowestAskPriceOptions<Config> = {
-  config: Config
+type GetLowestAskPriceOptions = {
   assetSymbol: string
   currency: string
 }
 
-type GetLowestAskPriceFn<Config> = (
-  options: GetLowestAskPriceOptions<Config>,
+type GetLowestAskPriceFn = (
+  options: GetLowestAskPriceOptions,
 ) => Promise<number | Error>
 
+type GetOpenOrdersResult = Array<{
+  orderID: string
+  assetSymbol: string
+  priceNZD: number
+  amount: number
+  type: BuySell
+  openedAt: DateTime
+}>
+
+type GetOpenOrders = () => Promise<GetOpenOrdersResult | Error>
+
+type WithConfig<Config, Fn> = (config: Config) => Fn
+
 type ExchangeAPI<Config> = {
-  getLowestAskPrice: GetLowestAskPriceFn<Config>
-  getBalance: GetBalanceFn<Config>
-  createOrder: CreateOrderFn<Config>
-  cancelOrder: CancelOrderFn<Config>
+  getLowestAskPrice: WithConfig<Config, GetLowestAskPriceFn>
+  getBalance: WithConfig<Config, GetBalanceFn>
+  getOpenOrders: WithConfig<Config, GetOpenOrders>
+  createOrder: WithConfig<Config, CreateOrderFn>
+  cancelOrder: WithConfig<Config, CancelOrderFn>
 }
 
-export type { ExchangeAPI }
+type UserExchangeAPI = {
+  getLowestAskPrice: GetLowestAskPriceFn
+  getBalance: GetBalanceFn
+  getOpenOrders: GetOpenOrders
+  createOrder: CreateOrderFn
+  cancelOrder: CancelOrderFn
+}
+
+export type { ExchangeAPI, UserExchangeAPI }

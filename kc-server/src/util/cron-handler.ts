@@ -96,6 +96,7 @@ const wrapCronHandler =
       }
 
       await reply.send(output)
+      return
     } catch (error: unknown) {
       const unexpectedError = new UnexpectedError({
         message: `Unexpected error thrown while executing cron hrndler for "${path}"`,

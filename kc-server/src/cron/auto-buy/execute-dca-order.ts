@@ -17,14 +17,19 @@ import { insertDCAOrderHistory } from '../../model/dca-order-history/index.js'
 import { round } from '../../util/round.js'
 import { syncExchangeTradeList } from '../../model/trade/index.js'
 
-import type { ExchangeAPI } from '../../exchange-api/index.js'
+import type { UserExchangeAPI } from '../../exchange-api/index.js'
 
-const executeDCAOrder = async <Config>(
+type ExecuteDCAOrderOptions = {
+  userExchangeAPI: UserExchangeAPI
+  dcaOrder: DCAOrder
+}
+
+const executeDCAOrder = async (
   pool: Pool,
-  config: Config,
-  exchangeAPI: ExchangeAPI<Config>,
-  dcaOrder: DCAOrder,
+  options: ExecuteDCAOrderOptions,
 ): Promise<void | Error> => {
+  const { userExchangeAPI, dcaOrder } = options
+
   const previousOrders = await selectOpenOrdersForDCA(pool, {
     dcaOrderUID: dcaOrder.UID,
   })
@@ -39,18 +44,22 @@ const executeDCAOrder = async <Config>(
   const cancelOrderError = await errorListBoundary(async () =>
     Promise.all(
       previousOrders.map(async (order): Promise<void | Error> => {
-        const error = await exchangeAPI.cancelOrder({
-          config,
+        const cancelOrderError = await userExchangeAPI.cancelOrder({
           orderID: order.orderID,
         })
-        if (error instanceof Error) {
-          return error
+        if (cancelOrderError instanceof Error) {
+          return cancelOrderError
         }
 
-        await updateOrder(pool, {
+        const updateOrderError = await updateOrder(pool, {
           UID: order.UID,
           closedAt: DateTime.local(),
         })
+        if (updateOrderError instanceof Error) {
+          return updateOrderError
+        }
+
+        return undefined
       }),
     ),
   )
@@ -83,7 +92,7 @@ const executeDCAOrder = async <Config>(
   }
 
   // Should really be done concurrently
-  const availableNZD = await exchangeAPI.getBalance({ config, currency: 'NZD' })
+  const availableNZD = await userExchangeAPI.getBalance({ currency: 'NZD' })
   if (availableNZD instanceof Error) {
     return availableNZD
   }
@@ -123,8 +132,7 @@ const executeDCAOrder = async <Config>(
 
     console.log(dcaOrderHistory)
   } else {
-    const lowestAskPriceNZD = await exchangeAPI.getLowestAskPrice({
-      config,
+    const lowestAskPriceNZD = await userExchangeAPI.getLowestAskPrice({
       assetSymbol: dcaOrder.assetSymbol,
       currency: 'NZD',
     })
@@ -145,8 +153,7 @@ const executeDCAOrder = async <Config>(
     }
 
     const amountCrypto = round(8, amountNZD / orderPriceNZD)
-    const freshOrder = await exchangeAPI.createOrder({
-      config,
+    const freshOrder = await userExchangeAPI.createOrder({
       amount: amountCrypto,
       price: orderPriceNZD,
       assetSymbol: dcaOrder.assetSymbol,

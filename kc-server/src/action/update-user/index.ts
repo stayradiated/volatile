@@ -1,6 +1,6 @@
 import { ActionHandlerFn } from '../../util/action-handler.js'
 import { updateUser } from '../../model/user/index.js'
-import { MissingRequiredArgumentError } from '../../util/error'
+import { MissingRequiredArgumentError } from '../../util/error.js'
 
 type Input = {
   password?: string

@@ -7,10 +7,10 @@ import type { Pool } from '../../types.js'
 import { mapRowToUserExchangeKeys } from './map-row-to-user-exchange-keys.js'
 import type { UserExchangeKeys } from './types.js'
 
-const getUserExchangeKeys = async (
+const getUserExchangeKeys = async <Keys extends Record<string, string>>(
   pool: Pool,
   userExchangeKeysUID: string,
-): Promise<UserExchangeKeys | Error> => {
+): Promise<UserExchangeKeys<Keys> | Error> => {
   const row = await errorBoundary(async () =>
     db.selectOne('user_exchange_keys', { uid: userExchangeKeysUID }).run(pool),
   )
@@ -22,7 +22,7 @@ const getUserExchangeKeys = async (
     })
   }
 
-  return mapRowToUserExchangeKeys(row)
+  return mapRowToUserExchangeKeys<Keys>(row)
 }
 
 export { getUserExchangeKeys }

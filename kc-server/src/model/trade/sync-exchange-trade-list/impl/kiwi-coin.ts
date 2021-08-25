@@ -1,5 +1,6 @@
 import { DateTime } from 'luxon'
 import * as kiwiCoin from '@stayradiated/kiwi-coin-api'
+import { errorListBoundary } from '@stayradiated/error-boundary'
 
 import { mustGetUserKiwiCoinExchangeKeys } from '../../../../model/user-exchange-keys/index.js'
 import {
@@ -27,44 +28,58 @@ const syncKiwiCoinTradeList = async (
     return exchangeUID
   }
 
-  const config = await mustGetUserKiwiCoinExchangeKeys(
+  const userExchangeKeys = await mustGetUserKiwiCoinExchangeKeys(
     pool,
     userExchangeKeysUID,
   )
-  if (config instanceof Error) {
-    return config
+  if (userExchangeKeys instanceof Error) {
+    return userExchangeKeys
   }
 
-  const allTrades = await kiwiCoin.getTradeList({ config, timeframe: 'all' })
+  const allTrades = await kiwiCoin.getTradeList({
+    config: userExchangeKeys.keys,
+    timeframe: 'all',
+  })
   if (allTrades instanceof Error) {
     return allTrades
   }
 
-  await Promise.all(
-    allTrades.map(async (trade) => {
-      const maybeOrder = await selectOrderByID(pool, {
-        userUID,
-        exchangeUID,
-        orderID: String(trade.order_id),
-      })
+  const resultList = await errorListBoundary(async () =>
+    Promise.all(
+      allTrades.map(async (trade) => {
+        const maybeOrder = await selectOrderByID(pool, {
+          userUID,
+          exchangeUID,
+          orderID: String(trade.order_id),
+        })
 
-      const orderUID = maybeOrder instanceof Error ? undefined : maybeOrder.UID
+        const orderUID =
+          maybeOrder instanceof Error ? undefined : maybeOrder.UID
 
-      await insertTrade(pool, {
-        userUID,
-        exchangeUID,
-        orderUID,
-        timestamp: DateTime.fromSeconds(trade.datetime),
-        tradeID: String(trade.transaction_id),
-        type: trade.trade_type === 0 ? 'BUY' : 'SELL',
-        amount: trade.income,
-        assetSymbol: 'BTC',
-        priceNZD: trade.price,
-        totalNZD: trade.trade_size * trade.price,
-        feeNZD: trade.fee * trade.price,
-      })
-    }),
+        const insertTradeError = await insertTrade(pool, {
+          userUID,
+          exchangeUID,
+          orderUID,
+          timestamp: DateTime.fromSeconds(trade.datetime),
+          tradeID: String(trade.transaction_id),
+          type: trade.trade_type === 0 ? 'BUY' : 'SELL',
+          amount: trade.income,
+          assetSymbol: 'BTC',
+          priceNZD: trade.price,
+          totalNZD: trade.trade_size * trade.price,
+          feeNZD: trade.fee * trade.price,
+        })
+        if (insertTradeError instanceof Error) {
+          return insertTradeError
+        }
+
+        return undefined
+      }),
+    ),
   )
+  if (resultList instanceof Error) {
+    return resultList
+  }
 
   return undefined
 }

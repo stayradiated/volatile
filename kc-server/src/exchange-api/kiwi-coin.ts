@@ -1,10 +1,11 @@
 import * as kc from '@stayradiated/kiwi-coin-api'
+import { DateTime } from 'luxon'
 
 import { ExchangeError } from '../util/error.js'
-import type { ExchangeAPI } from './index.js'
+import type { ExchangeAPI, UserExchangeAPI } from './index.js'
 
 const kiwiCoin: ExchangeAPI<kc.Config> = {
-  getLowestAskPrice: async () => {
+  getLowestAskPrice: () => async () => {
     const orderBook = await kc.getOrderBook()
     if (orderBook instanceof Error) {
       return new ExchangeError({
@@ -20,9 +21,7 @@ const kiwiCoin: ExchangeAPI<kc.Config> = {
 
     return lowestAskPrice
   },
-  getBalance: async (options) => {
-    const { config } = options
-
+  getBalance: (config) => async () => {
     const balance = await kc.getBalance({ config })
     if (balance instanceof Error) {
       return new ExchangeError({
@@ -34,8 +33,26 @@ const kiwiCoin: ExchangeAPI<kc.Config> = {
     const availableNZD = Number.parseFloat(balance.nzd_available)
     return availableNZD
   },
-  createOrder: async (options) => {
-    const { config, price, amount } = options
+  getOpenOrders: (config) => async () => {
+    const openOrders = await kc.getOpenOrderList({ config })
+    if (openOrders instanceof Error) {
+      return new ExchangeError({
+        message: 'Failed to get open orders for kiwi-coin.com',
+        cause: openOrders,
+      })
+    }
+
+    return openOrders.map((order) => ({
+      orderID: String(order.id),
+      assetSymbol: 'BTC',
+      priceNZD: Number.parseFloat(order.price),
+      amount: Number.parseFloat(order.amount),
+      type: order.type === 0 ? 'BUY' : 'SELL',
+      openedAt: DateTime.fromISO(order.datetime),
+    }))
+  },
+  createOrder: (config) => async (options) => {
+    const { price, amount } = options
     const order = await kc.createBuyOrder({ config, price, amount })
     if (order instanceof Error) {
       return new ExchangeError({
@@ -49,9 +66,12 @@ const kiwiCoin: ExchangeAPI<kc.Config> = {
       orderID: String(order.id),
     }
   },
-  cancelOrder: async (options) => {
-    const { config, orderID } = options
-    const error = await kc.cancelOrder({ config, orderID: Number.parseInt(orderID, 10) })
+  cancelOrder: (config) => async (options) => {
+    const { orderID } = options
+    const error = await kc.cancelOrder({
+      config,
+      orderID: Number.parseInt(orderID, 10),
+    })
     if (error instanceof Error) {
       return new ExchangeError({
         message: 'Failed to cancel order on kiwi-coin.com',
@@ -64,4 +84,22 @@ const kiwiCoin: ExchangeAPI<kc.Config> = {
   },
 }
 
-export { kiwiCoin }
+const getKiwiCoinExchangeAPI = (
+  config: Record<string, string>,
+): UserExchangeAPI | Error => {
+  if (!kc.isValidConfig(config)) {
+    return new ExchangeError({
+      message: 'Config is not valid for kiwi-coin.com.',
+    })
+  }
+
+  return {
+    getLowestAskPrice: kiwiCoin.getLowestAskPrice(config),
+    getBalance: kiwiCoin.getBalance(config),
+    getOpenOrders: kiwiCoin.getOpenOrders(config),
+    createOrder: kiwiCoin.createOrder(config),
+    cancelOrder: kiwiCoin.cancelOrder(config),
+  }
+}
+
+export { kiwiCoin, getKiwiCoinExchangeAPI }

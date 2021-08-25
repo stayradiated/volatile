@@ -1,5 +1,5 @@
 type Mutation {
-  create_auth_token (
+  create_auth_token(
     email: String!
     password: String!
     device_id: String!
@@ -10,7 +10,7 @@ type Mutation {
 }
 
 type Mutation {
-  create_dca_order (
+  create_dca_order(
     user_exchange_keys_uid: uuid!
     market_uid: uuid!
     asset_symbol: String!
@@ -25,14 +25,14 @@ type Mutation {
 }
 
 type Mutation {
-  create_user (
+  create_user(
     email: String!
     password: String!
   ): CreateUserOutput
 }
 
 type Mutation {
-  create_user_exchange_keys (
+  create_user_exchange_keys(
     exchange_uid: uuid!
     keys: jsonb!
     description: String!
@@ -40,15 +40,15 @@ type Mutation {
 }
 
 type Query {
-  customer_checkout_session : CustomerCheckoutSessionOutput!
+  customer_checkout_session: CustomerCheckoutSessionOutput!
 }
 
 type Query {
-  customer_portal_session : CreateCustomerPortalSession
+  customer_portal_session: CreateCustomerPortalSession
 }
 
 type Mutation {
-  enable_user_2fa (
+  enable_user_2fa(
     name: String!
     secret: String!
     token: String!
@@ -56,7 +56,7 @@ type Mutation {
 }
 
 type Mutation {
-  reset_user_password (
+  reset_user_password(
     password_reset_secret: String!
     new_password: String!
     device_id: String!
@@ -67,31 +67,38 @@ type Mutation {
 }
 
 type Mutation {
-  send_user_email_verify : SendUserEmailVerifyOutput!
+  send_user_email_verify: SendUserEmailVerifyOutput!
 }
 
 type Mutation {
-  send_user_password_reset (
+  send_user_password_reset(
     email: String!
   ): SendUserPasswordResetOutput!
 }
 
 type Mutation {
-  sync_exchange_trade_list (
+  sync_exchange_open_order_list(
+    user_exchange_keys_uid: uuid!
+    exchange_uid: uuid!
+  ): SyncExchangeOpenOrderListOutput
+}
+
+type Mutation {
+  sync_exchange_trade_list(
     user_exchange_keys_uid: uuid!
     exchange_uid: uuid!
   ): SyncExchangeTradeListOutput
 }
 
 type Mutation {
-  update_user (
+  update_user(
     email: String
     password: String
   ): UpdateUserOutput!
 }
 
 type Mutation {
-  update_user_exchange_keys (
+  update_user_exchange_keys(
     user_exchange_keys_uid: uuid!
     keys: jsonb!
     description: String!
@@ -99,113 +106,117 @@ type Mutation {
 }
 
 type Mutation {
-  validate_user_exchange_keys (
+  validate_user_exchange_keys(
     user_exchange_keys_uid: String!
   ): ValidateUserExchangeKeysOutput
 }
 
 type Mutation {
-  verify_user_email (
+  verify_user_email(
     email_verify_secret: String!
   ): VerifyUserEmailOutput!
 }
 
 input SampleInput {
-  username : String!
-  password : String!
+  username: String!
+  password: String!
 }
 
 type SampleOutput {
-  accessToken : String!
+  accessToken: String!
 }
 
 type CreateUserOutput {
-  user_uid : String!
+  user_uid: String!
 }
 
 type CreateAuthTokenOutput {
-  user_uid : String!
-  auth_token : String!
-  expires_at : timestamptz!
+  user_uid: String!
+  auth_token: String!
+  expires_at: timestamptz!
 }
 
 type GetEmailOutput {
-  email : String!
+  email: String!
 }
 
 type SetUserExchangeKeysOutput {
-  user_exchange_keys_uid : uuid!
+  user_exchange_keys_uid: uuid!
 }
 
 type ValidateUserExchangeKeysOutput {
-  user_exchange_keys_uid : String!
-  is_valid : Boolean!
-  validation_message : String
+  user_exchange_keys_uid: String!
+  is_valid: Boolean!
+  validation_message: String
 }
 
 type CreateDCAOrderResult {
-  dca_order_uid : uuid!
+  dca_order_uid: uuid!
 }
 
 type SyncTradeListOutput {
-  user_uid : uuid!
+  user_uid: uuid!
 }
 
 type SyncExchangeTradeListOutput {
-  user_uid : uuid!
+  user_uid: uuid!
 }
 
 type CreateUserExchangeKeysOutput {
-  user_exchange_keys_uid : uuid!
+  user_exchange_keys_uid: uuid!
 }
 
 type WebhookOutput {
-  success : Boolean!
+  success: Boolean!
 }
 
 type CreateCheckoutSession {
-  session_url : String!
+  session_url: String!
 }
 
 type CreateCustomerPortalSession {
-  session_url : String!
+  session_url: String!
 }
 
 type CustomerCheckoutSessionOutput {
-  session_url : String!
+  session_url: String!
 }
 
 type UpdateUserPasswordOutput {
-  user_uid : uuid!
+  user_uid: uuid!
 }
 
 type UpdateUserOutput {
-  user_uid : uuid!
+  user_uid: uuid!
 }
 
 type EnableUser2FAOutput {
-  user_uid : uuid!
+  user_uid: uuid!
 }
 
 type SendUserPasswordResetOutput {
-  secret : String!
+  secret: String!
 }
 
 type ResetUserPasswordOutput {
-  user_uid : uuid!
-  auth_token : String!
+  user_uid: uuid!
+  auth_token: String!
 }
 
 type SendUserEmailVerifyOutput {
-  user_uid : uuid!
-  secret : String!
+  user_uid: uuid!
+  secret: String!
 }
 
 type VerifyUserEmailOutput {
-  user_uid : uuid!
+  user_uid: uuid!
 }
 
 type UpdateUserExchangeKeysOutput {
-  user_exchange_keys_uid : uuid!
+  user_exchange_keys_uid: uuid!
+}
+
+type SyncExchangeOpenOrderListOutput {
+  user_uid: uuid!
 }
 

@@ -151,15 +151,18 @@ const syncDassetTradeList = async (
     return exchangeUID
   }
 
-  const config = await mustGetUserDassetExchangeKeys(pool, userExchangeKeysUID)
-  if (config instanceof Error) {
-    return config
+  const userExchangeKeys = await mustGetUserDassetExchangeKeys(
+    pool,
+    userExchangeKeysUID,
+  )
+  if (userExchangeKeys instanceof Error) {
+    return userExchangeKeys
   }
 
   const error = await fetchPageLoop({
     prevFetchCount: 0,
     pool,
-    config,
+    config: userExchangeKeys.keys,
     page: 1,
     userUID,
     exchangeUID,

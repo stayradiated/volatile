@@ -23,6 +23,10 @@ addAction('reset_user_password', actions.resetUserPasswordHandler)
 addAction('send_user_email_verify', actions.sendUserEmailVerifyHandler)
 addAction('send_user_password_reset', actions.sendUserPasswordResetHandler)
 addAction('sync_exchange_trade_list', actions.syncExchangeTradeListHandler)
+addAction(
+  'sync_exchange_open_order_list',
+  actions.syncExchangeOpenOrderListHandler,
+)
 addAction('update_user', actions.updateUserHandler)
 addAction('update_user_exchange_keys', actions.updateUserExchangeKeysHandler)
 addAction(
