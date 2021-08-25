@@ -4,7 +4,9 @@
   "description": "Config for Hasura server",
   "scripts": {
     "hasura:local": "HASURA_GRAPHQL_ENDPOINT=http://localhost:9999 HASURA_GRAPHQL_ADMIN_SECRET=unlockedinfinity hasura",
-    "hasura:local:export": "pnpm run hasura:local metadata export"
+    "hasura:prod": "HASURA_GRAPHQL_ENDPOINT=http://localhost:5556 hasura",
+    "hasura:local:export": "pnpm run hasura:local metadata export",
+    "hasura:prod:export": "pnpm run hasura:prod metadata export"
   },
   "author": "George Czabania <george@czabania.com>",
   "license": "GPL-3.0",
