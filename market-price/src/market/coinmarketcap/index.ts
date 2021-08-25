@@ -3,8 +3,9 @@ import debug from 'debug'
 import { DateTime, Duration } from 'luxon'
 import { errorBoundary } from '@stayradiated/error-boundary'
 
-import { createDebugHooks } from '../../utils/hooks.js'
-import { MarketPriceSource } from '../../utils/market-price-source.js'
+import { NetError, withErrorResponse } from '../../util/error.js'
+import { createDebugHooks } from '../../util/hooks.js'
+import { MarketPriceSource } from '../../util/market-price-source.js'
 
 import * as privateAPI from './private-api.js'
 
@@ -88,8 +89,14 @@ const marketSource: MarketPriceSource<CoinMarketCapConfig> = {
     )
 
     if (result instanceof Error) {
-      log(result.message)
-      return result
+      return new NetError({
+        message: 'Could not fetch market price from coinmarketcap.com',
+        cause: await withErrorResponse(result),
+        context: {
+          slug,
+          currency,
+        },
+      })
     }
 
     const quote = result.data['1']?.quote[currency]

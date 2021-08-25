@@ -344,6 +344,8 @@ importers:
 
   market-price:
     specifiers:
+      '@northscaler/better-error': 0.1.0-dev.10
+      '@stayradiated/dasset-api': workspace:1.0.1
       '@stayradiated/error-boundary': 1.4.0
       '@stayradiated/independent-reserve-api': workspace:1.0.1
       '@stayradiated/jsconfig': 1.15.0
@@ -362,6 +364,8 @@ importers:
       typescript: 4.3.5
       xo: 0.44.0
     dependencies:
+      '@northscaler/better-error': 0.1.0-dev.10
+      '@stayradiated/dasset-api': link:../api-dasset
       '@stayradiated/error-boundary': 1.4.0
       '@stayradiated/independent-reserve-api': link:../api-independent-reserve
       '@stayradiated/kiwi-coin-api': link:../api-kiwi-coin

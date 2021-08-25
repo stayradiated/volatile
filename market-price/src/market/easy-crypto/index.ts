@@ -3,13 +3,14 @@ import debug from 'debug'
 import { DateTime, Duration } from 'luxon'
 import { errorBoundary } from '@stayradiated/error-boundary'
 
-import { createDebugHooks } from '../../utils/hooks.js'
-import { MarketPriceSource } from '../../utils/market-price-source.js'
+import { NetError, withErrorResponse } from '../../util/error.js'
+import { createDebugHooks } from '../../util/hooks.js'
+import { MarketPriceSource } from '../../util/market-price-source.js'
 
-const log = debug('market-price:binance-us')
+const log = debug('market-price:easy-crypto')
 
-const binance = ky.create({
-  prefixUrl: 'https://api.binance.us/api/',
+const easyCrypto = ky.create({
+  prefixUrl: 'https://r.easycrypto.nz/pub/',
   hooks: createDebugHooks(log),
 })
 
@@ -19,15 +20,15 @@ type Options = {
 }
 
 type APIResponse = {
-  price: string
   symbol: string
+  ask: string
+  bid: string
 }
 
 const marketSource: MarketPriceSource<Options> = {
-  minCacheDuration: Duration.fromISOTime('00:00:05'),
+  minCacheDuration: Duration.fromISOTime('00:00:30'),
   fetch: async (options) => {
     const { symbol, currency } = options
-
     if (symbol.toUpperCase() !== symbol) {
       return new Error(`Symbol must be uppercase, received "${symbol}".`)
     }
@@ -41,21 +42,23 @@ const marketSource: MarketPriceSource<Options> = {
     const lastUpdated = DateTime.local()
 
     const result = await errorBoundary<APIResponse>(async () =>
-      binance
-        .get('v3/avgPrice', {
-          searchParams: {
-            symbol: tradingPair,
-          },
-        })
-        .json(),
+      easyCrypto.get(`ticker/${tradingPair}`).json(),
     )
-
     if (result instanceof Error) {
-      log(result.message)
-      return result
+      return new NetError({
+        message: 'Could not ticker price from easycrypto.ai',
+        cause: await withErrorResponse(result),
+        context: {
+          symbol,
+          currency,
+        },
+      })
     }
 
-    const value = Number.parseFloat(result.price)
+    // Const bid = Number.parseFloat(result.bid)
+    const ask = Number.parseFloat(result.ask)
+    // Const value = Math.round(((bid + ask) / 2) * 100) / 100
+    const value = ask
 
     return {
       value,

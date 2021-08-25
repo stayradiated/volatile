@@ -30,6 +30,8 @@
   },
   "homepage": "https://github.com/stayradiated/kc#readme",
   "dependencies": {
+    "@northscaler/better-error": "0.1.0-dev.10",
+    "@stayradiated/dasset-api": "workspace:1.0.1",
     "@stayradiated/error-boundary": "1.4.0",
     "@stayradiated/independent-reserve-api": "workspace:1.0.1",
     "@stayradiated/kiwi-coin-api": "workspace:1.0.1",

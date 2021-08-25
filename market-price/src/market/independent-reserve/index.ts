@@ -1,7 +1,7 @@
 import * as ir from '@stayradiated/independent-reserve-api'
 import { DateTime, Duration } from 'luxon'
 
-import { MarketPriceSource } from '../../utils/market-price-source.js'
+import { MarketPriceSource } from '../../util/market-price-source.js'
 
 type Options = {
   symbol: string

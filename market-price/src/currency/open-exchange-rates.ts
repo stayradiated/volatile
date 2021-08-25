@@ -4,8 +4,8 @@ import debug from 'debug'
 import { DateTime, Duration } from 'luxon'
 import { errorBoundary } from '@stayradiated/error-boundary'
 
-import { createDebugHooks } from '../utils/hooks.js'
-import { MarketPriceSource } from '../utils/market-price-source.js'
+import { createDebugHooks } from '../util/hooks.js'
+import { MarketPriceSource } from '../util/market-price-source.js'
 
 const log = debug('market-price:open-exchange-rates')
 
