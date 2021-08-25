@@ -2,13 +2,10 @@ import { DateTime } from 'luxon'
 import * as kiwiCoin from '@stayradiated/kiwi-coin-api'
 import { errorListBoundary } from '@stayradiated/error-boundary'
 
-import { mustGetUserKiwiCoinExchangeKeys } from '../../../../model/user-exchange-keys/index.js'
-import {
-  getExchangeUID,
-  EXCHANGE_KIWI_COIN,
-} from '../../../../model/exchange/index.js'
-import { insertTrade } from '../../../../model/trade/insert-trade.js'
-import { selectOrderByID } from '../../../../model/order/index.js'
+import { mustGetUserKiwiCoinExchangeKeys } from '../../../user-exchange-keys/index.js'
+import { getExchangeUID, EXCHANGE_KIWI_COIN } from '../../../exchange/index.js'
+import { upsertTrade } from '../../upsert-trade.js'
+import { selectOrderByID } from '../../../order/index.js'
 
 import type { Pool } from '../../../../types.js'
 
@@ -56,7 +53,7 @@ const syncKiwiCoinTradeList = async (
         const orderUID =
           maybeOrder instanceof Error ? undefined : maybeOrder.UID
 
-        const insertTradeError = await insertTrade(pool, {
+        const upsertTradeError = await upsertTrade(pool, {
           userUID,
           exchangeUID,
           orderUID,
@@ -69,8 +66,8 @@ const syncKiwiCoinTradeList = async (
           totalNZD: trade.trade_size * trade.price,
           feeNZD: trade.fee * trade.price,
         })
-        if (insertTradeError instanceof Error) {
-          return insertTradeError
+        if (upsertTradeError instanceof Error) {
+          return upsertTradeError
         }
 
         return undefined
