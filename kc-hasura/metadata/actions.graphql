@@ -79,7 +79,6 @@ type Mutation {
 type Mutation {
   sync_exchange_open_order_list(
     user_exchange_keys_uid: uuid!
-    exchange_uid: uuid!
   ): SyncExchangeOpenOrderListOutput
 }
 
