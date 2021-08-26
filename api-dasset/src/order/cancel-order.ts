@@ -1,9 +1,7 @@
 import { errorBoundary } from '@stayradiated/error-boundary'
-import { HTTPError } from 'ky'
 
 import { client } from '../util/client.js'
 import { NetError, getCause } from '../util/error.js'
-import { APIError, APIErrorResponse } from '../util/api-error.js'
 import { buildHeaders } from '../util/build-headers.js'
 import type { Config } from '../util/types.js'
 
@@ -34,11 +32,6 @@ const cancelOrder = async (
       .json(),
   )
   if (result instanceof Error) {
-    if (result instanceof HTTPError) {
-      const response = (await result.response.json()) as APIErrorResponse
-      return new APIError(result.response.url, response)
-    }
-
     return new NetError({
       message: 'Could not cancel order on dasset.com',
       cause: await getCause(result),
