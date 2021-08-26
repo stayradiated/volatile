@@ -24,9 +24,7 @@ const syncExchangeOpenOrderListHandler: ActionHandlerFn<Input, Output> = async (
     })
   }
 
-  const {
-    user_exchange_keys_uid: userExchangeKeysUID,
-  } = input
+  const { user_exchange_keys_uid: userExchangeKeysUID } = input
 
   const error = await syncExchangeOpenOrderList(pool, {
     userUID,

@@ -8,7 +8,7 @@ import { upsertTrade } from '../../../trade/upsert-trade.js'
 import {
   hasOrderByID,
   selectOrderByID,
-  insertOrder,
+  upsertOrder,
 } from '../../../order/index.js'
 
 import type { Pool } from '../../../../types.js'
@@ -68,21 +68,19 @@ const fetchPageLoop = async (
           return hasOrder
         }
 
-        if (!hasOrder) {
-          const insertOrderError = await insertOrder(pool, {
-            userUID,
-            exchangeUID,
-            orderID: order.id,
-            assetSymbol: order.baseSymbol,
-            priceNZD: order.details.price ?? 0,
-            amount: order.baseAmount,
-            type: order.type,
-            openedAt: DateTime.fromISO(order.timestamp),
-            closedAt: order.isOpen ? undefined : DateTime.local(),
-          })
-          if (insertOrderError instanceof Error) {
-            return insertOrderError
-          }
+        const upsertOrderError = await upsertOrder(pool, {
+          userUID,
+          exchangeUID,
+          orderID: order.id,
+          assetSymbol: order.baseSymbol,
+          priceNZD: order.details.price ?? 0,
+          amount: order.baseAmount,
+          type: order.type,
+          openedAt: DateTime.fromISO(order.timestamp),
+          closedAt: order.isOpen ? undefined : DateTime.local(),
+        })
+        if (upsertOrderError instanceof Error) {
+          return upsertOrderError
         }
 
         const isTrade = order.status === 'Completed'
