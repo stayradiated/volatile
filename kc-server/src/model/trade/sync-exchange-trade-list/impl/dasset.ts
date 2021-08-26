@@ -33,7 +33,15 @@ type IntemediateResult = {
 const fetchPageLoop = async (
   options: FetchPageLoopOptions,
 ): Promise<void | Error> => {
-  const { prevFetchCount, page, pool, config, userUID, exchangeUID, forceSync } = options
+  const {
+    prevFetchCount,
+    page,
+    pool,
+    config,
+    userUID,
+    exchangeUID,
+    forceSync,
+  } = options
 
   const orders = await dasset.getPage({
     config,

@@ -29,7 +29,7 @@ const syncExchangeTradeListHandler: ActionHandlerFn<Input, Output> = async (
   const {
     exchange_uid: exchangeUID,
     user_exchange_keys_uid: userExchangeKeysUID,
-    force_sync: forceSync
+    force_sync: forceSync,
   } = input
 
   const error = await syncExchangeTradeList(pool, {

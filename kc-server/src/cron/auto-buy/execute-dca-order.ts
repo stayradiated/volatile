@@ -1,6 +1,7 @@
 import { DateTime } from 'luxon'
 import { errorListBoundary } from '@stayradiated/error-boundary'
 import { BetterError } from '@northscaler/better-error'
+import debug from 'debug'
 
 import type { Pool } from '../../types.js'
 import {
@@ -30,6 +31,8 @@ const executeDCAOrder = async (
 ): Promise<void | Error> => {
   const { userExchangeAPI, dcaOrder } = options
 
+  const log = debug(`dca_${dcaOrder.UID.slice(0, 4)}`)
+
   const previousOrders = await selectOpenOrdersForDCA(pool, {
     dcaOrderUID: dcaOrder.UID,
   })
@@ -44,7 +47,7 @@ const executeDCAOrder = async (
   const cancelOrderError = await errorListBoundary(async () =>
     Promise.all(
       previousOrders.map(async (order): Promise<void | Error> => {
-        console.log(`[${dcaOrder.UID.slice(0, 4)}] Cancelling order ${order.orderID} from exchange.`)
+        log(`Cancelling order ${order.orderID} from exchange.`)
         const cancelOrderError = await userExchangeAPI.cancelOrder({
           orderID: order.orderID,
         })
@@ -52,7 +55,9 @@ const executeDCAOrder = async (
           return cancelOrderError
         }
 
-        console.log(`[${dcaOrder.UID.slice(0, 4)}] Updating order ${order.orderID} in DB.`)
+        log(`Finished cancelling order ${order.orderID} from exchange.`)
+
+        log(`Updating order ${order.orderID} in DB.`)
         const updateOrderError = await updateOrder(pool, {
           UID: order.UID,
           closedAt: DateTime.local(),
@@ -60,6 +65,8 @@ const executeDCAOrder = async (
         if (updateOrderError instanceof Error) {
           return updateOrderError
         }
+
+        log(`Finished updating order ${order.orderID} in DB.`)
 
         return undefined
       }),
@@ -74,7 +81,7 @@ const executeDCAOrder = async (
     0,
   )
 
-  console.log(`[${dcaOrder.UID.slice(0, 4)}] Syncing trade list from exchange.`)
+  log(`Syncing trade list from exchange.`)
   // Must do this before calling getDCAOrderCurrentAmountNZD
   const syncError = await syncExchangeTradeList(pool, {
     userUID: dcaOrder.userUID,
@@ -85,7 +92,9 @@ const executeDCAOrder = async (
     return syncError
   }
 
-  console.log(`[${dcaOrder.UID.slice(0, 4)}] Getting DCA order current amount.`)
+  log(`Finished syncing trade list from exchange.`)
+
+  log(`Getting DCA order current amount.`)
   const goalAmountNZD = await getDCAOrderCurrentAmountNZD(
     pool,
     dcaOrder,
@@ -95,8 +104,10 @@ const executeDCAOrder = async (
     return goalAmountNZD
   }
 
+  log(`Finished getting DCA order current amount.`)
+
   // Should really be done concurrently
-  console.log(`[${dcaOrder.UID.slice(0, 4)}] Geting balance of account`)
+  log(`Geting balance of account`)
   const availableNZD = await userExchangeAPI.getBalance({ currency: 'NZD' })
   if (availableNZD instanceof Error) {
     return availableNZD
@@ -135,7 +146,7 @@ const executeDCAOrder = async (
       return dcaOrderHistory
     }
 
-    console.log(dcaOrderHistory)
+    log(dcaOrderHistory)
   } else {
     const lowestAskPriceNZD = await userExchangeAPI.getLowestAskPrice({
       assetSymbol: dcaOrder.assetSymbol,
@@ -154,7 +165,7 @@ const executeDCAOrder = async (
         : maxOrderPriceNZD
 
     if (orderPriceNZD !== maxOrderPriceNZD) {
-      console.log('Lowering bid price to just below lowest ask price')
+      log('Lowering bid price to just below lowest ask price')
     }
 
     const amountCrypto = round(8, amountNZD / orderPriceNZD)
@@ -198,7 +209,7 @@ const executeDCAOrder = async (
       return dcaOrderHistory
     }
 
-    console.log(dcaOrderHistory)
+    log(dcaOrderHistory)
   }
 }
 

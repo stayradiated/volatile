@@ -92,7 +92,7 @@ const dasset: ExchangeAPI<d.Config> = {
   },
   cancelOrder: (config) => async (options) => {
     const { orderID } = options
-    const error = d.cancelOrder({ config, orderID })
+    const error = await d.cancelOrder({ config, orderID })
     if (error instanceof Error) {
       return new ExchangeError({
         message: 'Failed to cancel order on dassetx.com',
