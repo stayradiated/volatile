@@ -34,7 +34,6 @@ const cancelOrder = async (
       message: `Could not cancel order "${orderID}" on kiwi-coin.com`,
       cause: result,
       context: {
-        config,
         orderID,
       },
     })

@@ -42,7 +42,6 @@ const getTradeList = async (
       message: 'Could not fetch trades from kiwi-coin.com',
       cause: result,
       context: {
-        config,
         timeframe,
       },
     })

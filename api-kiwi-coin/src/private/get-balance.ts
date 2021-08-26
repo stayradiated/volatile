@@ -39,9 +39,6 @@ const getBalance = async (
     return new NetError({
       message: 'Could not fetch balance from kiwi-coin.com',
       cause: result,
-      context: {
-        config,
-      },
     })
   }
 

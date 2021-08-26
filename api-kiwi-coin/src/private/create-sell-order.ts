@@ -32,7 +32,6 @@ const createSellOrder = async (
       message: 'Could not create sell order on kiwi-coin.com',
       cause: result,
       context: {
-        config,
         options,
       },
     })

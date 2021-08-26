@@ -16,9 +16,9 @@ class ConfigError extends BetterError {
 const getCause = async (error: Error): Promise<Error> => {
   if (error instanceof HTTPError) {
     return errorBoundary(async () => {
-      const context = await error.response.json()
+      const context = (await error.response.json()) as Record<string, string>
       return new APIError({
-        message: context.message,
+        message: context['message'],
         context,
       })
     })

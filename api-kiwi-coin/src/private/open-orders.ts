@@ -27,9 +27,6 @@ const getOpenOrderList = async (
     return new NetError({
       message: 'Could not fetch open orders from kiwi-coin.com',
       cause: result,
-      context: {
-        config,
-      },
     })
   }
 
