@@ -245,4 +245,13 @@ custom_types:
         user_uid: uid
   - name: UpdateUserExchangeKeysOutput
   - name: SyncExchangeOpenOrderListOutput
+    relationships:
+    - remote_table:
+        schema: kc
+        name: user
+      name: user
+      source: default
+      type: object
+      field_mapping:
+        user_uid: uid
   scalars: []
