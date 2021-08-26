@@ -44,6 +44,7 @@ const executeDCAOrder = async (
   const cancelOrderError = await errorListBoundary(async () =>
     Promise.all(
       previousOrders.map(async (order): Promise<void | Error> => {
+        console.log(`[${dcaOrder.UID.slice(0, 4)}] Cancelling order ${order.orderID} from exchange.`)
         const cancelOrderError = await userExchangeAPI.cancelOrder({
           orderID: order.orderID,
         })
@@ -51,6 +52,7 @@ const executeDCAOrder = async (
           return cancelOrderError
         }
 
+        console.log(`[${dcaOrder.UID.slice(0, 4)}] Updating order ${order.orderID} in DB.`)
         const updateOrderError = await updateOrder(pool, {
           UID: order.UID,
           closedAt: DateTime.local(),
@@ -72,6 +74,7 @@ const executeDCAOrder = async (
     0,
   )
 
+  console.log(`[${dcaOrder.UID.slice(0, 4)}] Syncing trade list from exchange.`)
   // Must do this before calling getDCAOrderCurrentAmountNZD
   const syncError = await syncExchangeTradeList(pool, {
     userUID: dcaOrder.userUID,
@@ -82,6 +85,7 @@ const executeDCAOrder = async (
     return syncError
   }
 
+  console.log(`[${dcaOrder.UID.slice(0, 4)}] Getting DCA order current amount.`)
   const goalAmountNZD = await getDCAOrderCurrentAmountNZD(
     pool,
     dcaOrder,
@@ -92,6 +96,7 @@ const executeDCAOrder = async (
   }
 
   // Should really be done concurrently
+  console.log(`[${dcaOrder.UID.slice(0, 4)}] Geting balance of account`)
   const availableNZD = await userExchangeAPI.getBalance({ currency: 'NZD' })
   if (availableNZD instanceof Error) {
     return availableNZD
@@ -193,16 +198,7 @@ const executeDCAOrder = async (
       return dcaOrderHistory
     }
 
-    console.log({
-      dcaOrderHistoryUID: dcaOrderHistory.UID,
-      orderUID: order.UID,
-      orderID: order.orderID,
-      marketPriceNZD,
-      marketOffset: dcaOrderHistory.marketOffset,
-      priceNZD: order.priceNZD,
-      amount: order.amount,
-      totalNZD: order.amount * order.priceNZD,
-    })
+    console.log(dcaOrderHistory)
   }
 }
 
