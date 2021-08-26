@@ -5,7 +5,6 @@ import { ActionHandlerFn } from '../../util/action-handler.js'
 import { syncExchangeOpenOrderList } from '../../model/order/index.js'
 
 type Input = {
-  exchange_uid: string
   user_exchange_keys_uid: string
 }
 
@@ -26,13 +25,11 @@ const syncExchangeOpenOrderListHandler: ActionHandlerFn<Input, Output> = async (
   }
 
   const {
-    exchange_uid: exchangeUID,
     user_exchange_keys_uid: userExchangeKeysUID,
   } = input
 
   const error = await syncExchangeOpenOrderList(pool, {
     userUID,
-    exchangeUID,
     userExchangeKeysUID,
   })
   if (error instanceof Error) {

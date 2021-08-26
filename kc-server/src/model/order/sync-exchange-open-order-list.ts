@@ -2,14 +2,16 @@ import { errorListBoundary } from '@stayradiated/error-boundary'
 
 import { ModelError } from '../../util/error.js'
 
-import { getUserExchangeAPI } from '../user-exchange-keys/index.js'
+import {
+  getUserExchangeKeys,
+  getUserExchangeAPI,
+} from '../user-exchange-keys/index.js'
 
 import type { Pool } from '../../types.js'
 import { upsertOrder } from './upsert-order.js'
 
 type SyncExchangeOpenOrderListOptions = {
   userUID: string
-  exchangeUID: string
   userExchangeKeysUID: string
 }
 
@@ -17,7 +19,14 @@ const syncExchangeOpenOrderList = async (
   pool: Pool,
   options: SyncExchangeOpenOrderListOptions,
 ): Promise<void | Error> => {
-  const { userUID, exchangeUID, userExchangeKeysUID } = options
+  const { userUID, userExchangeKeysUID } = options
+
+  const userExchangeKeys = await getUserExchangeKeys(pool, userExchangeKeysUID)
+  if (userExchangeKeys instanceof Error) {
+    return userExchangeKeys
+  }
+
+  const { exchangeUID } = userExchangeKeys
 
   const userExchangeAPI = await getUserExchangeAPI(pool, userExchangeKeysUID)
   if (userExchangeAPI instanceof Error) {

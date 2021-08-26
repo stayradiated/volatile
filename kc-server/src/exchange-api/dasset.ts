@@ -59,7 +59,7 @@ const dasset: ExchangeAPI<d.Config> = {
     return openOrders.results.map((order) => ({
       orderID: order.id,
       assetSymbol: order.baseSymbol,
-      priceNZD: order.quoteAmount ?? 0,
+      priceNZD: order.details.price ?? 0,
       amount: order.baseAmount,
       type: order.type,
       openedAt: DateTime.fromISO(order.timestamp),
