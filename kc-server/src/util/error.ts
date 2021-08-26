@@ -17,6 +17,12 @@ class CronError extends BetterError {
   }
 }
 
+class ModelError extends BetterError {
+  constructor(arg?: BetterErrorConstructorArg) {
+    super(arg)
+  }
+}
+
 class ConfigError extends BetterError {
   constructor(arg?: BetterErrorConstructorArg) {
     super(arg)
@@ -78,16 +84,17 @@ class IllegalStateError extends BetterError {
 }
 
 export {
-  UnexpectedError,
-  CronError,
-  ExchangeError,
-  ConfigError,
-  DBError,
-  AuthError,
   AlreadyInitializedError,
-  NotInitializedError,
+  AuthError,
+  ConfigError,
+  CronError,
+  DBError,
+  ExchangeError,
   IllegalArgumentError,
   IllegalArgumentTypeError,
-  MissingRequiredArgumentError,
   IllegalStateError,
+  MissingRequiredArgumentError,
+  ModelError,
+  NotInitializedError,
+  UnexpectedError,
 }
