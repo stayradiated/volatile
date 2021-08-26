@@ -12,13 +12,14 @@ type SyncExchangeTradeListOptions = {
   userUID: string
   exchangeUID: string
   userExchangeKeysUID: string
+  forceSync?: boolean
 }
 
 const syncExchangeTradeList = async (
   pool: Pool,
   options: SyncExchangeTradeListOptions,
 ): Promise<void | Error> => {
-  const { userUID, exchangeUID, userExchangeKeysUID } = options
+  const { userUID, exchangeUID, userExchangeKeysUID, forceSync = false } = options
 
   const exchange = await getExchange(pool, exchangeUID)
   if (exchange instanceof Error) {
@@ -30,7 +31,7 @@ const syncExchangeTradeList = async (
       case EXCHANGE_KIWI_COIN:
         return syncKiwiCoinTradeList(pool, { userUID, userExchangeKeysUID })
       case EXCHANGE_DASSET:
-        return syncDassetTradeList(pool, { userUID, userExchangeKeysUID })
+        return syncDassetTradeList(pool, { userUID, userExchangeKeysUID, forceSync })
       default:
         return new IllegalArgumentError({
           message: 'Exchange is not supported.',

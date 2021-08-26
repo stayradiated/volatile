@@ -22,6 +22,7 @@ type FetchPageLoopOptions = {
   config: dasset.Config
   userUID: string
   exchangeUID: string
+  forceSync: boolean
 }
 
 type IntemediateResult = {
@@ -32,7 +33,7 @@ type IntemediateResult = {
 const fetchPageLoop = async (
   options: FetchPageLoopOptions,
 ): Promise<void | Error> => {
-  const { prevFetchCount, page, pool, config, userUID, exchangeUID } = options
+  const { prevFetchCount, page, pool, config, userUID, exchangeUID, forceSync } = options
 
   const orders = await dasset.getPage({
     config,
@@ -122,7 +123,7 @@ const fetchPageLoop = async (
   const hasOrderCount = resultList.filter((result) => result.hasOrder).length
   console.log(`Matched ${hasOrderCount}/${orders.results.length} orders`)
 
-  if (hasOrderCount === orders.results.length) {
+  if (!forceSync && hasOrderCount === orders.results.length) {
     return
   }
 
@@ -138,13 +139,14 @@ const fetchPageLoop = async (
 type Options = {
   userUID: string
   userExchangeKeysUID: string
+  forceSync?: boolean
 }
 
 const syncDassetTradeList = async (
   pool: Pool,
   options: Options,
 ): Promise<void | Error> => {
-  const { userUID, userExchangeKeysUID } = options
+  const { userUID, userExchangeKeysUID, forceSync = false } = options
 
   const exchangeUID = await getExchangeUID(pool, EXCHANGE_DASSET)
   if (exchangeUID instanceof Error) {
@@ -166,6 +168,7 @@ const syncDassetTradeList = async (
     page: 1,
     userUID,
     exchangeUID,
+    forceSync,
   })
 
   return error
