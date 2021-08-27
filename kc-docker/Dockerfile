@@ -19,6 +19,6 @@ COPY ./kc-server/db/migrations /migrations
 RUN adduser --disabled-login appuser
 USER appuser
 
-COPY entrypoint.sh /
+COPY ./kc-docker/entrypoint.sh /
 ENTRYPOINT /entrypoint.sh
 CMD []

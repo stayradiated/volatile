@@ -1,0 +1,5 @@
+*
+!/kc-docker/entrypoint.sh
+!/kc-hasura/metadata
+!/kc-server/dist/ncc
+!/kc-server/db/migrations
