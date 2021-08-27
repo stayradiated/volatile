@@ -29,7 +29,7 @@ function render(pageContext: PageContextBuiltIn & PageContext) {
         <title>${title}</title>
       </head>
       <body>
-        <div id="page-view">${html.dangerouslySkipEscape(pageContent)}</div>
+        <div id="root">${html.dangerouslySkipEscape(pageContent)}</div>
       </body>
     </html>`;
 }

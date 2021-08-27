@@ -6,6 +6,7 @@ import InfiniteLoader from 'react-window-infinite-loader'
 
 import styles from './EventList.module.css'
 
+import { useSessionContext } from '../_utils/session-context'
 import type { InvocationResponse, Invocation } from '../_utils/types.invocation'
 import { fetchMetadata } from '../_utils/fetch-metadata'
 
@@ -23,8 +24,10 @@ type EventListProps = {
 const EventList = (props: EventListProps) => {
   const { triggerName, onClick } = props
 
-  const { data, error, isValidating, setSize, size } = useSWRInfinite<InvocationResponse>(getKey, (offset) => {
-    return fetchMetadata('get_event_invocations', {
+  const session = useSessionContext()
+
+  const { data, error, isValidating, setSize, size } = useSWRInfinite<InvocationResponse>(getKey, (offset: number) => {
+    return fetchMetadata(session, 'get_event_invocations', {
       type: "cron",
       trigger_name: triggerName,
       limit: 100,

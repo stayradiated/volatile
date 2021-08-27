@@ -19,7 +19,12 @@ const EventListItem = (props: EventListItemProps) => {
     ? styles.statusSuccess
     : styles.statusError
 
-  const body = JSON.parse(invocation.response.data.body)
+  let message = invocation.response.data.body
+  try {
+    message = JSON.parse(invocation.response.data.body).message
+  } catch(error) {
+    console.error(error)
+  }
 
   const handleClick = () => onClick && onClick(invocation)
 
@@ -27,7 +32,7 @@ const EventListItem = (props: EventListItemProps) => {
     <div className={styles.container} onClick={handleClick}>
       <div className={statusClassName}>{status}</div>
       <div className={styles.createdAt}>{createdAt.toFormat('ff')}</div>
-      <div className={styles.message}>{body.message}</div>
+      <div className={styles.message}>{message}</div>
     </div>
   )
 }

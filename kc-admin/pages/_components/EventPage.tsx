@@ -18,9 +18,13 @@ const EventPage = (props: EventPageProps) => {
 
   return (
     <div className={styles.container}>
-      <h1>Event: {triggerName}</h1>
-      <EventList triggerName={triggerName} onClick={setSelectedEvent} />
-      <EventDetails event={selectedEvent} />
+      <header>
+        <h1>Event: {triggerName}</h1>
+      </header>
+      <main className={styles.main}>
+        <EventList triggerName={triggerName} onClick={setSelectedEvent} />
+        <EventDetails event={selectedEvent} />
+      </main>
     </div>
   )
 }

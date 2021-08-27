@@ -2,6 +2,8 @@ import React from 'react'
 
 import { EventResponse } from './EventResponse'
 
+import styles from './EventDetails.module.css'
+
 import type {Invocation } from '../_utils/types.invocation'
 
 type EventDetailsProps = {
@@ -12,9 +14,9 @@ const EventDetails = (props: EventDetailsProps) => {
   const { event } = props
 
   return (
-    <div>
+    <div className={styles.container}>
       <h1>Event Details</h1>
-      <p>{event?.id}</p>
+      <code>Event ID: {event?.id}</code>
       {event && <EventResponse event={event} />}
     </div>
   )

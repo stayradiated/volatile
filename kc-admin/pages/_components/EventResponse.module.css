@@ -1,0 +1,8 @@
+.container {
+  border-top: 1px solid #ccc;
+  padding-top: 4px;
+}
+
+.stack {
+  white-space: pre-wrap;
+}

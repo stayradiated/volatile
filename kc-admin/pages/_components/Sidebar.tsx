@@ -1,12 +1,19 @@
 import React from 'react'
 import useSWR from 'swr'
 
+import { useSessionContext } from '../_utils/session-context'
+
 import { fetchMetadata } from '../_utils/fetch-metadata'
 import { Link } from "../_default/Link";
 import type { Metadata } from '../_utils/types.metadata'
 
 const Sidebar = () => {
-  const { data, error } = useSWR<Metadata>('export_metadata', () => fetchMetadata('export_metadata', {}))
+  const session = useSessionContext()
+
+  const { data, error } = useSWR<Metadata>(
+    [session],
+    (session) => fetchMetadata(session, 'export_metadata', {})
+  )
 
   if (error) return <div>failed to load</div>
   if (!data) return <div>loading...</div>
