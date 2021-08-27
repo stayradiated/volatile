@@ -26,7 +26,7 @@ type APIResponse = {
 }
 
 const marketSource: MarketPriceSource<Options> = {
-  minCacheDuration: Duration.fromISOTime('00:00:30'),
+  minCacheDuration: Duration.fromISOTime('00:00:30', {}),
   fetch: async (options) => {
     const { symbol, currency } = options
     if (symbol.toUpperCase() !== symbol) {

@@ -67,7 +67,7 @@ type CoinMarketCapConfig = {
 }
 
 const marketSource: MarketPriceSource<CoinMarketCapConfig> = {
-  minCacheDuration: Duration.fromISOTime('00:01:00'),
+  minCacheDuration: Duration.fromISOTime('00:01:00', {}),
   fetch: async (options) => {
     const { apiKey } = options
 

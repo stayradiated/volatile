@@ -11,7 +11,7 @@ import { createCachedFetchFn } from './cached-fetch.js'
 test('should return value', async (t) => {
   const source = {
     log: debug('test'),
-    minCacheDuration: Duration.fromISOTime('00:00:01'),
+    minCacheDuration: Duration.fromISOTime('00:00:01', {}),
     fetch: async () => ({
       value: 0,
       lastUpdated: DateTime.local(),
@@ -27,7 +27,7 @@ test('should return value', async (t) => {
 test('should only call fetch when needed', async (t) => {
   const source = {
     log: debug('test'),
-    minCacheDuration: Duration.fromISOTime('00:00:00.500'),
+    minCacheDuration: Duration.fromISOTime('00:00:00.500', {}),
     fetch: sinon.spy(async () => ({
       value: Math.random(),
       lastUpdated: DateTime.local(),
@@ -55,7 +55,7 @@ test('should only call fetch when needed', async (t) => {
 test('should not cache errors', async (t) => {
   const source = {
     log: debug('test'),
-    minCacheDuration: Duration.fromISOTime('00:00:00.500'),
+    minCacheDuration: Duration.fromISOTime('00:00:00.500', {}),
     fetch: sinon.spy(async () => new Error('fail')),
   }
 

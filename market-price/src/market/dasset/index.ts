@@ -10,7 +10,7 @@ type Options = {
 }
 
 const marketSource: MarketPriceSource<Options> = {
-  minCacheDuration: Duration.fromISOTime('00:00:05'),
+  minCacheDuration: Duration.fromISOTime('00:00:05', {}),
   fetch: async (options) => {
     const { config, symbol, currency } = options
 
