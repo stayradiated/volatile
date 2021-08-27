@@ -1,5 +1,5 @@
 import { DateTime } from 'luxon'
-import { errorListBoundary } from '@stayradiated/error-boundary'
+import { errorListBoundary, MultiError } from '@stayradiated/error-boundary'
 import { BetterError } from '@northscaler/better-error'
 import debug from 'debug'
 
@@ -72,14 +72,12 @@ const executeDCAOrder = async (
       }),
     ),
   )
-  if (cancelOrderError instanceof Error) {
-    return cancelOrderError
+  if (cancelOrderError instanceof MultiError) {
+    console.error(cancelOrderError)
+    if (cancelOrderError.cause.length > 2) {
+      return cancelOrderError
+    }
   }
-
-  const previousOrderNZD = previousOrders.reduce(
-    (sum, order) => sum + order.priceNZD * order.amount,
-    0,
-  )
 
   log(`Syncing trade list from exchange.`)
   // Must do this before calling getDCAOrderCurrentAmountNZD
@@ -106,18 +104,16 @@ const executeDCAOrder = async (
 
   log(`Finished getting DCA order current amount.`)
 
-  // Should really be done concurrently
   log(`Geting balance of account`)
-  const availableNZD = await userExchangeAPI.getBalance({ currency: 'NZD' })
-  if (availableNZD instanceof Error) {
-    return availableNZD
+  const availableBalanceNZD = await userExchangeAPI.getBalance({ currency: 'NZD' })
+  if (availableBalanceNZD instanceof Error) {
+    return availableBalanceNZD
   }
 
-  const totalAvailableNZD = availableNZD + previousOrderNZD
   const amountNZD = Math.min(
     dcaOrder.maxAmountNZD ?? Number.POSITIVE_INFINITY,
     goalAmountNZD,
-    totalAvailableNZD,
+    availableBalanceNZD,
   )
 
   const marketPriceNZD = await selectAvgMarketPrice(pool, {
@@ -137,7 +133,7 @@ const executeDCAOrder = async (
       assetSymbol: dcaOrder.assetSymbol,
       marketOffset: dcaOrder.marketOffset,
       calculatedAmountNZD: goalAmountNZD,
-      availableBalanceNZD: totalAvailableNZD,
+      availableBalanceNZD: availableBalanceNZD,
       description: `amountNZD (${amountNZD.toFixed(
         2,
       )}) is below minAmountNZD (${dcaOrder.minAmountNZD ?? 0})`,
@@ -202,7 +198,7 @@ const executeDCAOrder = async (
       marketPriceNZD,
       marketOffset: dcaOrder.marketOffset,
       calculatedAmountNZD: goalAmountNZD,
-      availableBalanceNZD: totalAvailableNZD,
+      availableBalanceNZD,
       description: 'Created order',
     })
     if (dcaOrderHistory instanceof Error) {

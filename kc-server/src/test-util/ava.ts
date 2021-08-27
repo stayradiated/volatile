@@ -9,7 +9,7 @@ const test = anyTest as TestInterface<{
   make: MakeInstance
 }>
 
-test.before((t) => {
+test.beforeEach((t) => {
   t.context.pool = pool
   t.context.make = createMakeInstance()
 })

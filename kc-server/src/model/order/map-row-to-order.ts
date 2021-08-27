@@ -4,7 +4,21 @@ import type * as s from 'zapatos/schema'
 import type { BuySell } from '../../types.js'
 import type { Order } from './types.js'
 
-const mapRowToOrder = (row: s.order.JSONSelectable): Order => ({
+const mapToDateTime = (input: string | Date | DateTime): DateTime => {
+  if (typeof input === 'string') {
+    return DateTime.fromISO(input)
+  }
+
+  if (input instanceof Date) {
+    return DateTime.fromJSDate(input)
+  }
+
+  return input
+}
+
+const mapRowToOrder = (
+  row: s.order.Selectable | s.order.JSONSelectable,
+): Order => ({
   UID: row.uid,
   userUID: row.user_uid,
   exchangeUID: row.exchange_uid,
@@ -13,8 +27,8 @@ const mapRowToOrder = (row: s.order.JSONSelectable): Order => ({
   priceNZD: row.price_nzd,
   amount: row.amount,
   type: row.type as BuySell,
-  openedAt: DateTime.fromISO(row.opened_at),
-  closedAt: row.closed_at ? DateTime.fromISO(row.closed_at) : undefined,
+  openedAt: mapToDateTime(row.opened_at),
+  closedAt: row.closed_at ? mapToDateTime(row.closed_at) : undefined,
 })
 
 export { mapRowToOrder }

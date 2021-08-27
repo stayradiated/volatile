@@ -37,7 +37,7 @@ const dasset: ExchangeAPI<d.Config> = {
       })
     }
 
-    const availableNZD = balance.total
+    const availableNZD = balance.available
     if (typeof availableNZD !== 'number' || Number.isNaN(availableNZD)) {
       return new ExchangeError({
         message: 'Could not fetch available NZD from dassetx.com',
