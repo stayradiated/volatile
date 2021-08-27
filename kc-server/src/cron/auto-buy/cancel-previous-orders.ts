@@ -5,7 +5,7 @@ import type { Pool } from '../../types.js'
 import type { UserExchangeAPI } from '../../exchange-api/index.js'
 
 import { updateOrder, selectOpenOrdersForDCA } from '../../model/order/index.js'
-import { waitForBalanceToChange } from './wait-for-balance-to-change.js'
+// Import { waitForBalanceToChange } from './wait-for-balance-to-change.js'
 
 type CancelPreviousOrdersOptions = {
   dcaOrderUID: string
@@ -18,10 +18,10 @@ const cancelPreviousOrders = async (
 ): Promise<void | Error> => {
   const { dcaOrderUID, userExchangeAPI } = options
 
-  const initialBalance = await userExchangeAPI.getBalance({ currency: 'NZD' })
-  if (initialBalance instanceof Error) {
-    return initialBalance
-  }
+  // Const initialBalance = await userExchangeAPI.getBalance({ currency: 'NZD' })
+  // if (initialBalance instanceof Error) {
+  //   return initialBalance
+  // }
 
   const previousOrders = await selectOpenOrdersForDCA(pool, {
     dcaOrderUID,
@@ -58,13 +58,13 @@ const cancelPreviousOrders = async (
       return cancelOrderError
     }
 
-    const result = await waitForBalanceToChange({
-      initialBalance,
-      userExchangeAPI,
-    })
-    if (result instanceof Error) {
-      return result
-    }
+    // Const result = await waitForBalanceToChange({
+    //   initialBalance,
+    //   userExchangeAPI,
+    // })
+    // if (result instanceof Error) {
+    //   return result
+    // }
   }
 
   return undefined
