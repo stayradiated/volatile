@@ -12,7 +12,7 @@ env --ignore-environment \
   HOME="$HOME" \
   NODE_ENV="production" \
   DEBUG="*" \
-  PORT="3000" \
+  PORT="7946" \
   BCRYPT_SALT_ROUNDS=10 \
   DATABASE_URL="$DATABASE_URL" \
   KEYRING="$KEYRING" \
@@ -29,7 +29,7 @@ env --ignore-environment \
 # start hasura
 exec env --ignore-environment \
   HOME="$HOME" \
-  HASURA_ACTIONS_ENDPOINT="http://localhost:3000" \
+  HASURA_ACTIONS_ENDPOINT="http://localhost:7946" \
   HASURA_GRAPHQL_DATABASE_URL="$DATABASE_URL" \
   HASURA_GRAPHQL_ADMIN_SECRET="$HASURA_GRAPHQL_ADMIN_SECRET" \
   HASURA_GRAPHQL_JWT_SECRET="{\"type\":\"HS256\",\"key\":\"${JWT_SECRET}\",\"claims_format\":\"json\"}" \
@@ -39,4 +39,4 @@ exec env --ignore-environment \
   HASURA_GRAPHQL_DEV_MODE="false" \
   HASURA_GRAPHQL_ENABLED_LOG_TYPES="startup, http-log, webhook-log, websocket-log, query-log" \
   HASURA_GRAPHQL_UNAUTHORIZED_ROLE="guest" \
-  /bin/docker-entrypoint.sh graphql-engine serve --server-port 80
+  /bin/docker-entrypoint.sh graphql-engine serve --server-port 7947
