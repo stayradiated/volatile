@@ -4,8 +4,8 @@ import { setContext } from '@apollo/client/link/context'
 import { getSession } from './session-store'
 
 const httpLink = createHttpLink({
-  // Uri: 'http://localhost:9999/v1/graphql',
-  uri: 'http://localhost:5556/v1/graphql',
+  uri: 'http://localhost:9999/v1/graphql',
+  // uri: 'http://localhost:5556/v1/graphql',
 })
 
 const authLink = setContext((_request, { headers }) => {

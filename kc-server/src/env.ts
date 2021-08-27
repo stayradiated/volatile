@@ -3,7 +3,6 @@ import env from 'env-var'
 import { UserKeys } from '@stayradiated/kc-keyring'
 
 const PORT = env.get('PORT').required().asPortNumber()
-const CONFIG_PATH = env.get('CONFIG_PATH').required().asString()
 const KEYRING = env.get('KEYRING').required().asJson() as UserKeys
 const DIGEST_SALT = env.get('DIGEST_SALT').required().asString()
 const BCRYPT_SALT_ROUNDS = env.get('BCRYPT_SALT_ROUNDS').required().asInt()
@@ -12,8 +11,8 @@ const JWT_SECRET = Buffer.from(
   'utf8',
 )
 
-const HASURA_ACTIONS_SECRET = env
-  .get('HASURA_ACTIONS_SECRET')
+const ACTIONS_SECRET = env
+  .get('ACTIONS_SECRET')
   .required()
   .asString()
 
@@ -33,12 +32,11 @@ const OPEN_EXCHANGE_RATES_APP_ID = env
 
 export {
   PORT,
-  CONFIG_PATH,
   KEYRING,
   DIGEST_SALT,
   BCRYPT_SALT_ROUNDS,
   JWT_SECRET,
-  HASURA_ACTIONS_SECRET,
+  ACTIONS_SECRET,
   STRIPE_API_KEY,
   STRIPE_WEBHOOK_SECRET,
   DASSET_ACCOUNT_ID,

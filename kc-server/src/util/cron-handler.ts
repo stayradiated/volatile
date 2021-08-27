@@ -7,7 +7,7 @@ import type {
 import { DateTime } from 'luxon'
 
 import { UnexpectedError, CronError } from '../util/error.js'
-import { HASURA_ACTIONS_SECRET } from '../env.js'
+import { ACTIONS_SECRET } from '../env.js'
 
 import { pool } from '../pool.js'
 import type { Pool } from '../types.js'
@@ -45,7 +45,7 @@ const wrapCronHandler =
     fn: CronHandlerFn<Input, Output>,
   ): RouteHandler<CronHandlerRequest<Input>> =>
   async (request, reply) => {
-    if (request.headers['x-hasura-actions-secret'] !== HASURA_ACTIONS_SECRET) {
+    if (request.headers['x-hasura-actions-secret'] !== ACTIONS_SECRET) {
       await reply.code(403).send({
         message: 'Invalid x-hasura-actions-secret',
       })

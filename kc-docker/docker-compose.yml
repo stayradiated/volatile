@@ -1,0 +1,25 @@
+version: '3.1'
+
+services:
+  postgres:
+    image: postgres:13.3-alpine
+    restart: always
+    ports: 
+      - "127.0.0.1:5432:5432"
+    env_file:
+      - env_postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  kc:
+    image: stayradiated/kc
+    ports:
+      - "127.0.0.1:9999:80"
+    restart: always
+    env_file: 
+      - env_kc
+    depends_on:
+      - postgres
+
+volumes:
+  pgdata:
