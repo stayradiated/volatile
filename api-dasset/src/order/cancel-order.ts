@@ -1,7 +1,7 @@
 import { errorBoundary } from '@stayradiated/error-boundary'
 
 import { client } from '../util/client.js'
-import { NetError, getCause } from '../util/error.js'
+import { APIError, NetError, getCause } from '../util/error.js'
 import { buildHeaders } from '../util/build-headers.js'
 import type { Config } from '../util/types.js'
 
@@ -32,9 +32,17 @@ const cancelOrder = async (
       .json(),
   )
   if (result instanceof Error) {
+    const cause = await getCause(result)
+    if (cause instanceof APIError && cause.info.status === 409) {
+      // 409: order has already been cancelled
+      return {
+        message: cause.message,
+      }
+    }
+
     return new NetError({
       message: 'Could not cancel order on dasset.com',
-      cause: await getCause(result),
+      cause,
       context: {
         orderID,
       },

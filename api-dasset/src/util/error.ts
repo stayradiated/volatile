@@ -13,30 +13,43 @@ class ConfigError extends BetterError {
   }
 }
 
-const getCause = async (error: Error): Promise<Error> => {
-  if (error instanceof HTTPError) {
-    return errorBoundary(async () => {
-      const context = (await error.response.json()) as Record<string, string>
-      return new APIError({
-        message: context['message'],
-        context,
-      })
-    })
-  }
-
-  return error
-}
-
 class NetError extends BetterError {
   constructor(arg: BetterErrorConstructorArg) {
     super(arg)
   }
 }
 
+type APIErrorContext = {
+  status: number
+  type: string
+  code: number
+  message: string
+}
+
+type APIErrorConstructorArg = BetterErrorConstructorArg & {
+  context: APIErrorContext
+}
+
 class APIError extends BetterError {
-  constructor(arg: BetterErrorConstructorArg) {
+  declare info: APIErrorContext
+
+  constructor(arg: APIErrorConstructorArg) {
     super(arg)
   }
+}
+
+const getCause = async (error: Error): Promise<Error> => {
+  if (error instanceof HTTPError) {
+    return errorBoundary(async () => {
+      const context = (await error.response.json()) as APIErrorContext
+      return new APIError({
+        message: context.message,
+        context,
+      })
+    })
+  }
+
+  return error
 }
 
 export { ConfigError, NetError, APIError, getCause }
