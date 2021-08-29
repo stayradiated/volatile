@@ -11,8 +11,8 @@
     "graphql": "graphql-codegen --config ./graphql.codegen.js"
   },
   "dependencies": {
-    "@ant-design/icons": "4.6.3",
-    "@apollo/client": "3.4.9",
+    "@ant-design/icons": "4.6.4",
+    "@apollo/client": "3.4.10",
     "antd": "4.16.13",
     "graphql": "15.5.1",
     "luxon": "2.0.2",

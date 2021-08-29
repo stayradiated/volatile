@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import { useSWRInfinite } from 'swr'
+import useSWRInfinite from 'swr/infinite'
 import { FixedSizeList, FixedSizeListProps } from 'react-window'
 import AutoSizer from 'react-virtualized-auto-sizer'
 import InfiniteLoader from 'react-window-infinite-loader'

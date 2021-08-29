@@ -12,7 +12,9 @@ import { insertDCAOrderHistory } from '../../model/dca-order-history/index.js'
 import { round } from '../../util/round.js'
 import { syncExchangeTradeList } from '../../model/trade/index.js'
 import type { UserExchangeAPI } from '../../exchange-api/index.js'
+
 import { cancelPreviousOrders } from './cancel-previous-orders.js'
+import { calculateAmountNZDToBid } from './calculate-amount-nzd-to-bid.js'
 
 type ExecuteDCAOrderOptions = {
   userExchangeAPI: UserExchangeAPI
@@ -25,11 +27,6 @@ const executeDCAOrder = async (
 ): Promise<void | Error> => {
   const { userExchangeAPI, dcaOrder } = options
 
-  await cancelPreviousOrders(pool, {
-    dcaOrderUID: dcaOrder.UID,
-    userExchangeAPI,
-  })
-
   // Must do this before calling getDCAOrderCurrentAmountNZD
   const syncError = await syncExchangeTradeList(pool, {
     userUID: dcaOrder.userUID,
@@ -39,6 +36,12 @@ const executeDCAOrder = async (
   if (syncError instanceof Error) {
     return syncError
   }
+
+  // we cancel after sync in case to make sure we have kept track of failed errors
+  await cancelPreviousOrders(pool, {
+    dcaOrderUID: dcaOrder.UID,
+    userExchangeAPI,
+  })
 
   const goalAmountNZD = await getDCAOrderCurrentAmountNZD(
     pool,
@@ -56,11 +59,14 @@ const executeDCAOrder = async (
     return availableBalanceNZD
   }
 
-  const amountNZD = Math.min(
-    dcaOrder.maxAmountNZD ?? Number.POSITIVE_INFINITY,
+  const amountNZD = await calculateAmountNZDToBid(pool, {
+    dcaOrder,
     goalAmountNZD,
     availableBalanceNZD,
-  )
+  })
+  if (amountNZD instanceof Error) {
+    return amountNZD
+  }
 
   const marketPriceNZD = await selectAvgMarketPrice(pool, {
     marketUID: dcaOrder.marketUID,

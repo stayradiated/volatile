@@ -5,7 +5,7 @@ const fetchMetadata = async (session: Session, type: string, args: Record<string
     throw new Error('Cannot fetch metadata without an authenticated session!')
   }
 
-  const response = await fetch(`http://localhost:5556/v1/metadata`, {
+  const response = await fetch(`http://localhost:7947/v1/metadata`, {
     method: 'POST',
     headers: {
       'x-hasura-admin-secret': session.adminSecret,

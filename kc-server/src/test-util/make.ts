@@ -38,10 +38,10 @@ type MakeInstance = {
   marketPrice: MakeInstanceFn
   marketPriceUID?: string
 
-  dcaOrder: MakeInstanceFn
+  dcaOrder: MakeInstanceFn<DCAOrder>
   dcaOrderUID?: string
 
-  dcaOrderHistory: MakeInstanceFn
+  dcaOrderHistory: MakeInstanceFn<DCAOrderHistory>
   dcaOrderHistoryUID?: string
 
   order: MakeInstanceFn<InsertOrderOptions>
@@ -132,7 +132,7 @@ const makeMarketPrice: MakeFn = (make) => async () => {
   return timestamp.toISO()
 }
 
-const makeDCAOrder: MakeFn = (make) => async () => {
+const makeDCAOrder: MakeFn<DCAOrder> = (make) => async (options) => {
   const {
     userUID = await make.user(),
     exchangeUID = await make.exchange(),
@@ -155,6 +155,7 @@ const makeDCAOrder: MakeFn = (make) => async () => {
       minAmountNZD: round(0, Math.random() * 100),
       maxAmountNZD: round(0, Math.random() * 10_000),
       enabledAt: DateTime.local(),
+      ...options,
     }),
   )
 
@@ -215,7 +216,7 @@ const makeOrder: MakeFn<InsertOrderOptions> = (make) => async (options) => {
   return order.UID
 }
 
-const makeDCAOrderHistory: MakeFn = (make) => async () => {
+const makeDCAOrderHistory: MakeFn<DCAOrderHistory> = (make) => async (options) => {
   const {
     userUID = await make.user(),
     dcaOrderUID = await make.dcaOrder(),
@@ -233,6 +234,7 @@ const makeDCAOrderHistory: MakeFn = (make) => async () => {
       calculatedAmountNZD: round(2, Math.random() * 100),
       availableBalanceNZD: round(2, Math.random() * 20_000),
       description: 'test entry',
+      ...options,
     }),
   )
 

@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "description": "KC Server",
   "main": "./dist/index.js",
+  "type": "module",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "dbmate": "./bin/dbmate -e DB_URL",
-    "pretest": "./bin/dbmate -e TEST_DB_URL drop && ./bin/dbmate -e TEST_DB_URL --no-dump-schema up",
+    "pretest": "./bin/dbmate -e DATABASE_URL_TEST drop && ./bin/dbmate -e DATABASE_URL_TEST --no-dump-schema up",
     "test": "pnpm pretest && NODE_ENV=test ava --node-arguments='--require dotenv/config'",
     "tidy": "xo --fix --ignore ./src/zapatos",
     "build": "del-cli dist && tsc",
@@ -48,7 +48,7 @@
   "dependencies": {
     "@northscaler/better-error": "0.1.0-dev.10",
     "@stayradiated/dasset-api": "workspace:1.0.1",
-    "@stayradiated/error-boundary": "1.9.0",
+    "@stayradiated/error-boundary": "1.10.0",
     "@stayradiated/kc-keyring": "workspace:1.0.0",
     "@stayradiated/kiwi-coin-api": "workspace:1.0.1",
     "@stayradiated/market-price": "workspace:1.0.0",

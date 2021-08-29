@@ -36,7 +36,7 @@
   },
   "homepage": "https://github.com/stayradiated/kc#readme",
   "dependencies": {
-    "@stayradiated/error-boundary": "1.9.0",
+    "@stayradiated/error-boundary": "1.10.0",
     "ky": "0.28.5",
     "ky-universal": "0.9.1",
     "luxon": "2.0.2",
@@ -53,7 +53,7 @@
     "@stayradiated/jsconfig": "1.15.0",
     "@types/luxon": "2.0.1",
     "@types/yargs": "17.0.2",
-    "@vercel/ncc": "^0.29",
+    "@vercel/ncc": "^0.30",
     "ava": "3.15.0",
     "del-cli": "4.0.1",
     "eslint-plugin-fp": "2.3.0",

@@ -1,7 +1,6 @@
 dist
 node_modules
 env_*
+*.env
 *.log
 *.tar
-
-
