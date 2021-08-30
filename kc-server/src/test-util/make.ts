@@ -216,32 +216,34 @@ const makeOrder: MakeFn<InsertOrderOptions> = (make) => async (options) => {
   return order.UID
 }
 
-const makeDCAOrderHistory: MakeFn<DCAOrderHistory> = (make) => async (options) => {
-  const {
-    userUID = await make.user(),
-    dcaOrderUID = await make.dcaOrder(),
-    orderUID = await make.order(),
-  } = make
+const makeDCAOrderHistory: MakeFn<DCAOrderHistory> =
+  (make) => async (options) => {
+    const {
+      userUID = await make.user(),
+      dcaOrderUID = await make.dcaOrder(),
+      orderUID = await make.order(),
+    } = make
 
-  const dcaOrderHistory = await throwIfError<DCAOrderHistory>(
-    insertDCAOrderHistory(pool, {
-      userUID,
-      dcaOrderUID,
-      orderUID,
-      assetSymbol: 'BTC',
-      marketPriceNZD: round(2, Math.random() * 100_000),
-      marketOffset: round(4, Math.random() * -10 + 2),
-      calculatedAmountNZD: round(2, Math.random() * 100),
-      availableBalanceNZD: round(2, Math.random() * 20_000),
-      description: 'test entry',
-      ...options,
-    }),
-  )
+    const dcaOrderHistory = await throwIfError<DCAOrderHistory>(
+      insertDCAOrderHistory(pool, {
+        userUID,
+        dcaOrderUID,
+        orderUID,
+        assetSymbol: 'BTC',
+        marketPriceNZD: round(2, Math.random() * 100_000),
+        marketOffset: round(4, Math.random() * -10 + 2),
+        targetAmountNZD: round(2, Math.random() * 100),
+        amountNZD: round(2, Math.random() * 100),
+        availableBalanceNZD: round(2, Math.random() * 20_000),
+        description: 'test entry',
+        ...options,
+      }),
+    )
 
-  make.dcaOrderHistoryUID = dcaOrderHistory.UID
+    make.dcaOrderHistoryUID = dcaOrderHistory.UID
 
-  return dcaOrderHistory.UID
-}
+    return dcaOrderHistory.UID
+  }
 
 const createMakeInstance = () => {
   const instance: MakeInstance = {} as unknown as MakeInstance

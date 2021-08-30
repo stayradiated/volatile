@@ -18,9 +18,9 @@ const selectDCAOrder = async (
     return new DBError({
       message: `Could not select DCA order with UID=${dcaOrderUID}.`,
       cause: row,
-      context: { 
+      context: {
         dcaOrderUID,
-      }
+      },
     })
   }
 

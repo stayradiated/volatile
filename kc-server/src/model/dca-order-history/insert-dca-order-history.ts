@@ -27,7 +27,8 @@ const insertDCAOrderHistory = async (
     asset_symbol: options.assetSymbol,
     market_price_nzd: options.marketPriceNZD,
     market_offset: options.marketOffset,
-    calculated_amount_nzd: options.calculatedAmountNZD,
+    target_amount_nzd: options.targetAmountNZD,
+    amount_nzd: options.amountNZD,
     available_balance_nzd: options.availableBalanceNZD,
     description: options.description,
   }

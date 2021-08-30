@@ -21,7 +21,8 @@ test('insertDCAOrderHistory', async (t) => {
     assetSymbol: 'BTC',
     marketPriceNZD: 54_321,
     marketOffset: -1.234,
-    calculatedAmountNZD: 22.22,
+    targetAmountNZD: 33.33,
+    amountNZD: 22.22,
     availableBalanceNZD: 54.32,
     description: 'test entry',
   }
@@ -45,6 +46,10 @@ test('insertDCAOrderHistory', async (t) => {
     order_uid: input.orderUID,
     market_price_nzd: input.marketPriceNZD,
     market_offset: input.marketOffset,
+    target_amount_nzd: input.targetAmountNZD,
+    amount_nzd: input.amountNZD,
+    available_balance_nzd: input.availableBalanceNZD,
+    description: input.description,
   })
 
   t.is('string', typeof row.created_at)

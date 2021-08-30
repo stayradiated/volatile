@@ -806,11 +806,11 @@ declare module 'zapatos/schema' {
       */
       market_offset: number;
       /**
-      * **dca_order_history.calculated_amount_nzd**
+      * **dca_order_history.target_amount_nzd**
       * - `numeric` in database
       * - `NOT NULL`, no default
       */
-      calculated_amount_nzd: number;
+      target_amount_nzd: number;
       /**
       * **dca_order_history.available_balance_nzd**
       * - `numeric` in database
@@ -835,6 +835,12 @@ declare module 'zapatos/schema' {
       * - `NOT NULL`, no default
       */
       asset_symbol: string;
+      /**
+      * **dca_order_history.amount_nzd**
+      * - `numeric` in database
+      * - `NOT NULL`, no default
+      */
+      amount_nzd: number;
     }
     export interface JSONSelectable {
       /**
@@ -886,11 +892,11 @@ declare module 'zapatos/schema' {
       */
       market_offset: number;
       /**
-      * **dca_order_history.calculated_amount_nzd**
+      * **dca_order_history.target_amount_nzd**
       * - `numeric` in database
       * - `NOT NULL`, no default
       */
-      calculated_amount_nzd: number;
+      target_amount_nzd: number;
       /**
       * **dca_order_history.available_balance_nzd**
       * - `numeric` in database
@@ -915,6 +921,12 @@ declare module 'zapatos/schema' {
       * - `NOT NULL`, no default
       */
       asset_symbol: string;
+      /**
+      * **dca_order_history.amount_nzd**
+      * - `numeric` in database
+      * - `NOT NULL`, no default
+      */
+      amount_nzd: number;
     }
     export interface Whereable {
       /**
@@ -966,11 +978,11 @@ declare module 'zapatos/schema' {
       */
       market_offset?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
       /**
-      * **dca_order_history.calculated_amount_nzd**
+      * **dca_order_history.target_amount_nzd**
       * - `numeric` in database
       * - `NOT NULL`, no default
       */
-      calculated_amount_nzd?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+      target_amount_nzd?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
       /**
       * **dca_order_history.available_balance_nzd**
       * - `numeric` in database
@@ -995,6 +1007,12 @@ declare module 'zapatos/schema' {
       * - `NOT NULL`, no default
       */
       asset_symbol?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **dca_order_history.amount_nzd**
+      * - `numeric` in database
+      * - `NOT NULL`, no default
+      */
+      amount_nzd?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
     }
     export interface Insertable {
       /**
@@ -1046,11 +1064,11 @@ declare module 'zapatos/schema' {
       */
       market_offset: number | db.Parameter<number> | db.SQLFragment;
       /**
-      * **dca_order_history.calculated_amount_nzd**
+      * **dca_order_history.target_amount_nzd**
       * - `numeric` in database
       * - `NOT NULL`, no default
       */
-      calculated_amount_nzd: number | db.Parameter<number> | db.SQLFragment;
+      target_amount_nzd: number | db.Parameter<number> | db.SQLFragment;
       /**
       * **dca_order_history.available_balance_nzd**
       * - `numeric` in database
@@ -1075,6 +1093,12 @@ declare module 'zapatos/schema' {
       * - `NOT NULL`, no default
       */
       asset_symbol: string | db.Parameter<string> | db.SQLFragment;
+      /**
+      * **dca_order_history.amount_nzd**
+      * - `numeric` in database
+      * - `NOT NULL`, no default
+      */
+      amount_nzd: number | db.Parameter<number> | db.SQLFragment;
     }
     export interface Updatable {
       /**
@@ -1126,11 +1150,11 @@ declare module 'zapatos/schema' {
       */
       market_offset?: number | db.Parameter<number> | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
       /**
-      * **dca_order_history.calculated_amount_nzd**
+      * **dca_order_history.target_amount_nzd**
       * - `numeric` in database
       * - `NOT NULL`, no default
       */
-      calculated_amount_nzd?: number | db.Parameter<number> | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
+      target_amount_nzd?: number | db.Parameter<number> | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
       /**
       * **dca_order_history.available_balance_nzd**
       * - `numeric` in database
@@ -1155,6 +1179,12 @@ declare module 'zapatos/schema' {
       * - `NOT NULL`, no default
       */
       asset_symbol?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+      /**
+      * **dca_order_history.amount_nzd**
+      * - `numeric` in database
+      * - `NOT NULL`, no default
+      */
+      amount_nzd?: number | db.Parameter<number> | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
     }
     export type UniqueIndex = 'dca_order_history_pkey' | 'unique_dca_order';
     export type Column = keyof Selectable;

@@ -11,10 +11,7 @@ const JWT_SECRET = Buffer.from(
   'utf8',
 )
 
-const ACTIONS_SECRET = env
-  .get('ACTIONS_SECRET')
-  .required()
-  .asString()
+const ACTIONS_SECRET = env.get('ACTIONS_SECRET').required().asString()
 
 const STRIPE_API_KEY = env.get('STRIPE_API_KEY').required().asString()
 const STRIPE_WEBHOOK_SECRET = env

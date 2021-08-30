@@ -33,7 +33,6 @@ const cancelPreviousOrders = async (
   const cancelOrderError = await errorListBoundary(async () =>
     Promise.all(
       previousOrders.map(async (order): Promise<void | Error> => {
-
         // TODO: handle "stuck" orders on dasset
 
         const cancelOrderError = await userExchangeAPI.cancelOrder({

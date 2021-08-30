@@ -8,7 +8,7 @@ import { selectTradesAfterDate } from '../trade/index.js'
 import type { Pool } from '../../types.js'
 import type { DCAOrder } from './types.js'
 
-const getDCAOrderCurrentAmountNZD = async (
+const getDCAOrderTargetAmountNZD = async (
   pool: Pool,
   dcaOrder: DCAOrder,
   currentTime: DateTime,
@@ -19,8 +19,7 @@ const getDCAOrderCurrentAmountNZD = async (
     assetSymbol,
     startAt,
     dailyAverage,
-    minPriceNZD,
-    maxPriceNZD,
+    maxAmountNZD,
   } = dcaOrder
 
   const trades = await selectTradesAfterDate(pool, {
@@ -41,11 +40,11 @@ const getDCAOrderCurrentAmountNZD = async (
   }, 0)
 
   const minutesSinceStartDate = currentTime.diff(startAt).as('minutes')
-  const goalPerMinute = dailyAverage / 24 / 60
+  const minuteAverage = dailyAverage / 24 / 60
 
   const orderAmountNZD = round(
     4,
-    (goalPerMinute - tradedAmountNZD / minutesSinceStartDate) *
+    (minuteAverage - tradedAmountNZD / minutesSinceStartDate) *
       minutesSinceStartDate,
   )
 
@@ -53,7 +52,7 @@ const getDCAOrderCurrentAmountNZD = async (
     return new IllegalStateError({
       message: 'orderAmountNZD is NaN',
       context: {
-        goalPerMinute,
+        minuteAverage,
         tradedAmountNZD,
         minutesSinceStartDate,
       },
@@ -61,9 +60,9 @@ const getDCAOrderCurrentAmountNZD = async (
   }
 
   return Math.max(
-    minPriceNZD ?? 0,
-    Math.min(maxPriceNZD ?? Number.POSITIVE_INFINITY, orderAmountNZD),
+    0,
+    Math.min(maxAmountNZD ?? Number.POSITIVE_INFINITY, orderAmountNZD),
   )
 }
 
-export { getDCAOrderCurrentAmountNZD }
+export { getDCAOrderTargetAmountNZD }

@@ -6,7 +6,8 @@ type DCAOrderHistory = {
   assetSymbol: string
   marketPriceNZD: number
   marketOffset: number
-  calculatedAmountNZD: number
+  targetAmountNZD: number
+  amountNZD: number
   availableBalanceNZD: number
   description: string
 }

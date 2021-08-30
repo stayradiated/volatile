@@ -4,7 +4,7 @@ import { log } from '../../util/debug'
 import type { Pool } from '../../types.js'
 import {
   DCAOrder,
-  getDCAOrderCurrentAmountNZD,
+  getDCAOrderTargetAmountNZD,
 } from '../../model/dca-order/index.js'
 import { selectAvgMarketPrice } from '../../model/market-price/index.js'
 import { insertOrder } from '../../model/order/index.js'
@@ -27,7 +27,7 @@ const executeDCAOrder = async (
 ): Promise<void | Error> => {
   const { userExchangeAPI, dcaOrder } = options
 
-  // Must do this before calling getDCAOrderCurrentAmountNZD
+  // Must do this before calling getDCAOrderTargetAmountNZD
   const syncError = await syncExchangeTradeList(pool, {
     userUID: dcaOrder.userUID,
     exchangeUID: dcaOrder.exchangeUID,
@@ -37,19 +37,19 @@ const executeDCAOrder = async (
     return syncError
   }
 
-  // we cancel after sync in case to make sure we have kept track of failed errors
+  // We cancel after sync in case to make sure we have kept track of failed errors
   await cancelPreviousOrders(pool, {
     dcaOrderUID: dcaOrder.UID,
     userExchangeAPI,
   })
 
-  const goalAmountNZD = await getDCAOrderCurrentAmountNZD(
+  const targetAmountNZD = await getDCAOrderTargetAmountNZD(
     pool,
     dcaOrder,
     DateTime.local(),
   )
-  if (goalAmountNZD instanceof Error) {
-    return goalAmountNZD
+  if (targetAmountNZD instanceof Error) {
+    return targetAmountNZD
   }
 
   const availableBalanceNZD = await userExchangeAPI.getBalance({
@@ -60,8 +60,9 @@ const executeDCAOrder = async (
   }
 
   const amountNZD = await calculateAmountNZDToBid(pool, {
-    dcaOrder,
-    goalAmountNZD,
+    dcaOrderUID: dcaOrder.UID,
+    userExchangeKeysUID: dcaOrder.userExchangeKeysUID,
+    targetAmountNZD,
     availableBalanceNZD,
   })
   if (amountNZD instanceof Error) {
@@ -84,7 +85,8 @@ const executeDCAOrder = async (
       marketPriceNZD,
       assetSymbol: dcaOrder.assetSymbol,
       marketOffset: dcaOrder.marketOffset,
-      calculatedAmountNZD: goalAmountNZD,
+      targetAmountNZD,
+      amountNZD,
       availableBalanceNZD,
       description: `amountNZD (${amountNZD.toFixed(
         2,
@@ -149,7 +151,8 @@ const executeDCAOrder = async (
       assetSymbol: dcaOrder.assetSymbol,
       marketPriceNZD,
       marketOffset: dcaOrder.marketOffset,
-      calculatedAmountNZD: goalAmountNZD,
+      targetAmountNZD,
+      amountNZD,
       availableBalanceNZD,
       description: 'Created order',
     })

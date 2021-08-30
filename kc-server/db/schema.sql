@@ -79,11 +79,12 @@ CREATE TABLE kc.dca_order_history (
     order_uid uuid,
     market_price_nzd numeric(12,2) NOT NULL,
     market_offset numeric(12,6) NOT NULL,
-    calculated_amount_nzd numeric(12,2) NOT NULL,
+    target_amount_nzd numeric(12,2) NOT NULL,
     available_balance_nzd numeric(12,2) NOT NULL,
     created_order boolean NOT NULL,
     description character varying NOT NULL,
-    asset_symbol character varying(4) NOT NULL
+    asset_symbol character varying(4) NOT NULL,
+    amount_nzd numeric(12,2) NOT NULL
 );
 
 
@@ -698,4 +699,5 @@ INSERT INTO kc.schema_migrations (version) VALUES
     ('20210807084803'),
     ('20210808043640'),
     ('20210812091127'),
-    ('20210814232237');
+    ('20210814232237'),
+    ('20210830210200');
