@@ -13,13 +13,13 @@ const formatRow = (row: RowData): Row7 => {
       ? '-'
       : row.openedAt.toFormat('yyyy-LL-dd HH:mm:ss')
   const exchange = row.exchangeID
-  const amount = row.amount.toFixed(8)
-  const priceNZD = row.priceNZD.toFixed(2)
-  const total = row.totalNZD.toFixed(2)
-  const assetSymbol = row.assetSymbol
+  const volume = row.volume.toFixed(8)
+  const price = row.price.toFixed(2)
+  const value = row.value.toFixed(2)
+  const primaryCurrency = row.primaryCurrency
   const type = row.type
 
-  return [date, exchange, amount, priceNZD, total, assetSymbol, type]
+  return [date, exchange, value, price, volume, primaryCurrency, type]
 }
 
 const drawTable = (unsortedRows: RowData[]): string => {
@@ -28,9 +28,9 @@ const drawTable = (unsortedRows: RowData[]): string => {
   const header: Row7 = [
     'date',
     'exchange',
-    'amount',
+    'value',
     'price',
-    'total',
+    'volume',
     'asset',
     'type',
   ]

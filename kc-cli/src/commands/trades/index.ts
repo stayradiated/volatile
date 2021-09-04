@@ -31,7 +31,7 @@ const QUERY_GET_TRADES = /* GraphQL */ `
       }
     }
     kc_trade(
-      where: { asset_symbol: { _eq: $assetSymbol } }
+      where: { primary_currency: { _eq: $assetSymbol } }
       order_by: { timestamp: asc }
       limit: $limit
       offset: $offset
@@ -44,12 +44,12 @@ const QUERY_GET_TRADES = /* GraphQL */ `
         order_id
       }
       timestamp
-      amount
-      asset_symbol
+      volume
+      primary_currency
       type
-      price_nzd
-      total_nzd
-      fee_nzd
+      price
+      value
+      fee
     }
   }
 `
@@ -86,11 +86,11 @@ export const handler = createHandler<Options>(async (config, argv) => {
       ? DateTime.fromISO(trade.order.created_at)
       : undefined,
     date: DateTime.fromISO(trade.timestamp),
-    price: trade.price_nzd,
-    assetSymbol: trade.asset_symbol,
-    nzd: trade.total_nzd,
-    btc: trade.amount,
-    fee: (trade.fee_nzd / trade.total_nzd) * 100,
+    price: trade.price,
+    assetSymbol: trade.primary_currency,
+    nzd: trade.value,
+    btc: trade.volume,
+    fee: (trade.fee / trade.value) * 100,
     type: trade.type,
   }))
 

@@ -53,7 +53,7 @@ const syncPageLoop = async (
           exchangeUID,
           orderUID,
           timestamp: trade.timestamp,
-          tradeID: trade.orderID,
+          tradeID: trade.tradeID,
           type: trade.type,
           primaryCurrency: trade.primaryCurrency,
           secondaryCurrency: trade.secondaryCurrency,

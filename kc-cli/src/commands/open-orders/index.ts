@@ -21,9 +21,11 @@ const QUERY_GET_OPEN_ORDERS = /* GraphQL */ `
         id
       }
       opened_at
-      amount
-      price_nzd
-      asset_symbol
+      price
+      value
+      volume
+      primary_currency
+      secondary_currency
       type
     }
   }
@@ -48,10 +50,11 @@ export const handler = createHandler(async (config) => {
   const rowData = result.data.kc_order.map<RowData>((order) => ({
     exchangeID: order.exchange.id,
     openedAt: DateTime.fromISO(order.opened_at),
-    amount: order.amount,
-    priceNZD: order.price_nzd,
-    totalNZD: order.amount * order.price_nzd,
-    assetSymbol: order.asset_symbol,
+    value: order.value,
+    price: order.price,
+    volume: order.volume,
+    primaryCurrency: order.primary_currency,
+    secondaryCurrency: order.secondary_currency,
     type: order.type,
   }))
 

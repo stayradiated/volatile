@@ -19,24 +19,25 @@ const QUERY_GET_DCA_ORDERS = /* GraphQL */ `
       market {
         id
       }
-      asset_symbol
+      primary_currency
       start_at
       daily_average
       market_offset
-      min_amount_nzd
-      max_amount_nzd
+      min_value
+      max_value
 
       dca_order_histories(limit: 1, order_by: { created_at: desc }) {
         created_at
-        market_price_nzd
-        available_balance_nzd
-        calculated_amount_nzd
+        market_price
+        available_balance
+        target_value
         created_order
         description
 
         order {
-          price_nzd
-          amount
+          price
+          volume
+          value
         }
       }
     }
