@@ -52,10 +52,31 @@ const kiwiCoin: ExchangeAPI<kc.Config> = {
       openedAt: DateTime.fromISO(order.datetime),
     }))
   },
-  getClosedOrders: () => async () => ({
-    total: 0,
-    items: [],
-  }),
+  getTrades: (config) => async () => {
+    const allTrades = await kc.getTradeList({
+      config,
+      timeframe: 'all',
+    })
+    if (allTrades instanceof Error) {
+      return allTrades
+    }
+
+    return {
+      total: allTrades.length,
+      hasNextPage: false,
+      items: allTrades.map((trade) => ({
+        tradeID: String(trade.transaction_id),
+        orderID: String(trade.order_id),
+        timestamp: DateTime.fromSeconds(trade.datetime),
+        primaryCurrency: 'BTC',
+        secondaryCurrency: 'NZD',
+        price: trade.price,
+        volume: trade.income,
+        type: trade.trade_type === 0 ? 'BUY' : 'SELL',
+        fee: trade.fee * trade.price,
+      })),
+    }
+  },
   createOrder: (config) => async (options) => {
     const { price, volume } = options
     const order = await kc.createBuyOrder({ config, price, amount: volume })
@@ -102,7 +123,7 @@ const getKiwiCoinExchangeAPI = (
     getLowestAskPrice: kiwiCoin.getLowestAskPrice(config),
     getBalance: kiwiCoin.getBalance(config),
     getOpenOrders: kiwiCoin.getOpenOrders(config),
-    getClosedOrders: kiwiCoin.getClosedOrders(config),
+    getTrades: kiwiCoin.getTrades(config),
     createOrder: kiwiCoin.createOrder(config),
     cancelOrder: kiwiCoin.cancelOrder(config),
   }

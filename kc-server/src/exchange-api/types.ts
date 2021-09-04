@@ -54,28 +54,28 @@ type GetOpenOrders = () => Promise<GetOpenOrdersResult | Error>
 
 /* GET CLOSED ORDERS */
 
-type GetClosedOrdersResult = {
+type GetTradesResult = {
   total: number
+  hasNextPage: boolean
   items: Array<{
+    tradeID: string
     orderID: string
+    timestamp: DateTime
     primaryCurrency: string
     secondaryCurrency: string
     price: number
     volume: number
+    fee: number
     type: BuySell
-    openedAt: DateTime
-    closedAt: DateTime | undefined
   }>
 }
 
-type GetClosedOrdersOptions = {
-  page: number
-  limit: number
+type GetTradesOptions = {
+  pageIndex: number
+  pageSize: number
 }
 
-type GetClosedOrders = (
-  options: GetClosedOrdersOptions,
-) => Promise<GetClosedOrdersResult | Error>
+type GetTrades = (options: GetTradesOptions) => Promise<GetTradesResult | Error>
 
 /* EXCHANGE API */
 
@@ -85,7 +85,7 @@ type ExchangeAPI<Config> = {
   getLowestAskPrice: WithConfig<Config, GetLowestAskPriceFn>
   getBalance: WithConfig<Config, GetBalanceFn>
   getOpenOrders: WithConfig<Config, GetOpenOrders>
-  getClosedOrders: WithConfig<Config, GetClosedOrders>
+  getTrades: WithConfig<Config, GetTrades>
   createOrder: WithConfig<Config, CreateOrderFn>
   cancelOrder: WithConfig<Config, CancelOrderFn>
 }
@@ -94,7 +94,7 @@ type UserExchangeAPI = {
   getLowestAskPrice: GetLowestAskPriceFn
   getBalance: GetBalanceFn
   getOpenOrders: GetOpenOrders
-  getClosedOrders: GetClosedOrders
+  getTrades: GetTrades
   createOrder: CreateOrderFn
   cancelOrder: CancelOrderFn
 }

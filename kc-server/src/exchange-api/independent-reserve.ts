@@ -56,10 +56,34 @@ const independentReserve: ExchangeAPI<ir.Config> = {
       openedAt: DateTime.fromISO(order.CreatedTimestampUtc),
     }))
   },
-  getClosedOrders: () => async () => ({
-    total: 0,
-    items: [],
-  }),
+  getTrades: (config) => async (options) => {
+    const { pageIndex, pageSize } = options
+
+    const results = await ir.getTrades({
+      config,
+      pageIndex,
+      pageSize,
+    })
+    if (results instanceof Error) {
+      return results
+    }
+
+    return {
+      total: results.TotalItems,
+      hasNextPage: pageIndex < results.TotalPages,
+      items: results.Data.map((trade) => ({
+        tradeID: trade.TradeGuid,
+        orderID: trade.OrderGuid,
+        timestamp: DateTime.fromISO(trade.TradeTimestampUtc),
+        primaryCurrency: trade.PrimaryCurrencyCode,
+        secondaryCurrency: trade.SecondaryCurrencyCode,
+        price: trade.Price,
+        volume: trade.VolumeTraded,
+        fee: 0.005 * trade.VolumeTraded * trade.Price,
+        type: trade.OrderType === 'LimitBid' ? 'BUY' : 'SELL',
+      })),
+    }
+  },
   createOrder: (config) => async (options) => {
     const { volume, price, primaryCurrency, secondaryCurrency } = options
     const order = await ir.placeLimitOrder({
@@ -101,7 +125,7 @@ const getIndependentReserveExchangeAPI = (
     getLowestAskPrice: independentReserve.getLowestAskPrice(config),
     getBalance: independentReserve.getBalance(config),
     getOpenOrders: independentReserve.getOpenOrders(config),
-    getClosedOrders: independentReserve.getClosedOrders(config),
+    getTrades: independentReserve.getTrades(config),
     createOrder: independentReserve.createOrder(config),
     cancelOrder: independentReserve.cancelOrder(config),
   }

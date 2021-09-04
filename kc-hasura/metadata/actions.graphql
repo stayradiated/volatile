@@ -86,7 +86,6 @@ type Mutation {
 type Mutation {
   sync_exchange_trade_list(
     user_exchange_keys_uid: uuid!
-    exchange_uid: uuid!
     force_sync: Boolean
   ): SyncExchangeTradeListOutput
 }

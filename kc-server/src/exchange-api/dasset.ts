@@ -66,37 +66,39 @@ const dasset: ExchangeAPI<d.Config> = {
       openedAt: DateTime.fromISO(order.timestamp),
     }))
   },
-  getClosedOrders: (config) => async (options) => {
-    const { page, limit } = options
+  getTrades: (config) => async (options) => {
+    const { pageSize, pageIndex } = options
 
     const orders = await d.getPage({
       config,
       fetchFn: d.getClosedOrderList,
-      limit,
-      page,
+      limit: pageSize,
+      page: pageIndex,
     })
     if (orders instanceof Error) {
       return new ExchangeError({
         message: 'Failed to get closed orders from dassetx.com',
         cause: orders,
-        context: { page, limit },
+        context: { pageSize, pageIndex },
       })
     }
 
-    const items = orders.results.map((order) => ({
-      orderID: order.id,
-      primaryCurrency: order.baseSymbol,
-      secondaryCurrency: order.quoteSymbol,
-      price: order.details.price ?? 0,
-      volume: order.baseAmount,
-      type: order.type,
-      openedAt: DateTime.fromISO(order.timestamp),
-      closedAt: order.isOpen ? undefined : DateTime.local(),
-    }))
-
     return {
       total: orders.total,
-      items,
+      hasNextPage: orders.hasNext,
+      items: orders.results
+        .filter((order) => order.status === 'Completed')
+        .map((trade) => ({
+          tradeID: trade.id,
+          orderID: trade.id,
+          primaryCurrency: trade.baseSymbol,
+          secondaryCurrency: trade.quoteSymbol,
+          price: trade.details.price ?? 0,
+          volume: trade.baseAmount,
+          type: trade.type,
+          fee: trade.details.nzdFee ?? 0,
+          timestamp: DateTime.fromISO(trade.timestamp),
+        })),
     }
   },
   createOrder: (config) => async (options) => {
@@ -152,7 +154,7 @@ const getDassetExchangeAPI = (
     getLowestAskPrice: dasset.getLowestAskPrice(config),
     getBalance: dasset.getBalance(config),
     getOpenOrders: dasset.getOpenOrders(config),
-    getClosedOrders: dasset.getClosedOrders(config),
+    getTrades: dasset.getTrades(config),
     createOrder: dasset.createOrder(config),
     cancelOrder: dasset.cancelOrder(config),
   }

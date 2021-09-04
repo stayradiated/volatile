@@ -5,7 +5,6 @@ import { ActionHandlerFn } from '../../util/action-handler.js'
 import { syncExchangeTradeList } from '../../model/trade/index.js'
 
 type Input = {
-  exchange_uid: string
   user_exchange_keys_uid: string
   force_sync?: boolean
 }
@@ -26,15 +25,10 @@ const syncExchangeTradeListHandler: ActionHandlerFn<Input, Output> = async (
     })
   }
 
-  const {
-    exchange_uid: exchangeUID,
-    user_exchange_keys_uid: userExchangeKeysUID,
-    force_sync: forceSync,
-  } = input
+  const { user_exchange_keys_uid: userExchangeKeysUID, force_sync: forceSync } =
+    input
 
   const error = await syncExchangeTradeList(pool, {
-    userUID,
-    exchangeUID,
     userExchangeKeysUID,
     forceSync,
   })

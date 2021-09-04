@@ -29,8 +29,6 @@ const executeDCAOrder = async (
 
   // Must do this before calling getDCAOrderTargetValue
   const syncError = await syncExchangeTradeList(pool, {
-    userUID: dcaOrder.userUID,
-    exchangeUID: dcaOrder.exchangeUID,
     userExchangeKeysUID: dcaOrder.userExchangeKeysUID,
   })
   if (syncError instanceof Error) {
