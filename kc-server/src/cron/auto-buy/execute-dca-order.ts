@@ -1,7 +1,7 @@
 import { DateTime } from 'luxon'
 
-import { IllegalStateError } from '../../util/error'
-import { log } from '../../util/debug'
+import { IllegalStateError } from '../../util/error.js'
+import { log } from '../../util/debug.js'
 import type { Pool } from '../../types.js'
 import {
   DCAOrder,

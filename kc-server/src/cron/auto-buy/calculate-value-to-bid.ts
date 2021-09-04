@@ -2,7 +2,7 @@ import * as db from 'zapatos/db'
 import * as s from 'zapatos/schema'
 import { errorBoundary } from '@stayradiated/error-boundary'
 
-import { DBError } from '../../util/error.js'
+import { DBError, IllegalStateError } from '../../util/error.js'
 
 import type { Pool } from '../../types.js'
 
@@ -64,6 +64,20 @@ const calculateValueToBid = async (
   const portion = Math.min(1, targetValue / sumTarget) * sumAvailable
 
   const bid = Math.min(availableBalance, targetValue, portion)
+  if (typeof bid !== 'number' || Number.isNaN(bid)) {
+    return new IllegalStateError({
+      message: 'Calculated value to bid is not a number',
+      context: {
+        bid,
+        availableBalance,
+        targetValue,
+        portion,
+        sumAvailable,
+        sumTarget,
+      },
+    })
+  }
+
   return bid
 }
 

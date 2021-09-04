@@ -31,6 +31,13 @@ const kiwiCoin: ExchangeAPI<kc.Config> = {
     }
 
     const availableNZD = Number.parseFloat(balance.nzd_available)
+    if (typeof availableNZD !== 'number' || Number.isNaN(availableNZD)) {
+      return new ExchangeError({
+        message: 'Could not fetch available NZD from kiwi-coin.com',
+        context: { balance },
+      })
+    }
+
     return availableNZD
   },
   getOpenOrders: (config) => async () => {
