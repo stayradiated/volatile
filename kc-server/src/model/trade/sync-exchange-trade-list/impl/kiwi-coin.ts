@@ -60,11 +60,12 @@ const syncKiwiCoinTradeList = async (
           timestamp: DateTime.fromSeconds(trade.datetime),
           tradeID: String(trade.transaction_id),
           type: trade.trade_type === 0 ? 'BUY' : 'SELL',
-          amount: trade.income,
-          assetSymbol: 'BTC',
-          priceNZD: trade.price,
-          totalNZD: trade.trade_size * trade.price,
-          feeNZD: trade.fee * trade.price,
+          volume: trade.income,
+          primaryCurrency: 'BTC',
+          secondaryCurrency: 'NZD',
+          price: trade.price,
+          value: trade.trade_size * trade.price,
+          fee: trade.fee * trade.price,
         })
         if (upsertTradeError instanceof Error) {
           return upsertTradeError

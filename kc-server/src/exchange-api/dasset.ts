@@ -6,16 +6,16 @@ import type { ExchangeAPI, UserExchangeAPI } from './index.js'
 
 const dasset: ExchangeAPI<d.Config> = {
   getLowestAskPrice: (config) => async (options) => {
-    const { assetSymbol, currency } = options
+    const { primaryCurrency, secondaryCurrency } = options
     const orderBook = await d.getMarketOrderBook({
       config,
-      marketSymbol: `${assetSymbol}-${currency}`,
+      marketSymbol: `${primaryCurrency}-${secondaryCurrency}`,
     })
     if (orderBook instanceof Error) {
       return new ExchangeError({
         message: 'Failed to get lowest ask price from dassetx.com',
         cause: orderBook,
-        context: { assetSymbol, currency },
+        context: { primaryCurrency, secondaryCurrency },
       })
     }
 
@@ -58,31 +58,65 @@ const dasset: ExchangeAPI<d.Config> = {
 
     return openOrders.results.map((order) => ({
       orderID: order.id,
-      assetSymbol: order.baseSymbol,
-      priceNZD: order.details.price ?? 0,
-      amount: order.baseAmount,
+      primaryCurrency: order.baseSymbol,
+      secondaryCurrency: order.quoteSymbol,
+      price: order.details.price ?? 0,
+      volume: order.baseAmount,
       type: order.type,
       openedAt: DateTime.fromISO(order.timestamp),
     }))
   },
+  getClosedOrders: (config) => async (options) => {
+    const { page, limit } = options
+
+    const orders = await d.getPage({
+      config,
+      fetchFn: d.getClosedOrderList,
+      limit,
+      page,
+    })
+    if (orders instanceof Error) {
+      return new ExchangeError({
+        message: 'Failed to get closed orders from dassetx.com',
+        cause: orders,
+        context: { page, limit },
+      })
+    }
+
+    const items = orders.results.map((order) => ({
+      orderID: order.id,
+      primaryCurrency: order.baseSymbol,
+      secondaryCurrency: order.quoteSymbol,
+      price: order.details.price ?? 0,
+      volume: order.baseAmount,
+      type: order.type,
+      openedAt: DateTime.fromISO(order.timestamp),
+      closedAt: order.isOpen ? undefined : DateTime.local(),
+    }))
+
+    return {
+      total: orders.total,
+      items,
+    }
+  },
   createOrder: (config) => async (options) => {
-    const { amount, price, assetSymbol, currency } = options
+    const { volume, price, primaryCurrency, secondaryCurrency } = options
     const order = await d.createOrder({
       config,
       order: {
-        amount: amount * (1 - 0.0036), // Account for 0.35% trading fee,
+        amount: volume * (1 - 0.0036), // Account for 0.35% trading fee,
         limit: price,
         orderType: 'LIMIT',
         side: 'BUY',
         timeInForce: 'GOOD_TIL_CANCELLED',
-        tradingPair: `${assetSymbol}-${currency}`,
+        tradingPair: `${primaryCurrency}-${secondaryCurrency}`,
       },
     })
     if (order instanceof Error) {
       return new ExchangeError({
         message: 'Failed to create order on dassetx.com',
         cause: order,
-        context: { amount, price, assetSymbol, currency },
+        context: { volume, price, primaryCurrency, secondaryCurrency },
       })
     }
 
@@ -118,6 +152,7 @@ const getDassetExchangeAPI = (
     getLowestAskPrice: dasset.getLowestAskPrice(config),
     getBalance: dasset.getBalance(config),
     getOpenOrders: dasset.getOpenOrders(config),
+    getClosedOrders: dasset.getClosedOrders(config),
     createOrder: dasset.createOrder(config),
     cancelOrder: dasset.cancelOrder(config),
   }

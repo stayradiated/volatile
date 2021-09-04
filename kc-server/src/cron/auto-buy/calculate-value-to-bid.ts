@@ -6,11 +6,11 @@ import { DBError } from '../../util/error.js'
 
 import type { Pool } from '../../types.js'
 
-type CalculateAmountNZDToBidOptions = {
+type CalculateValueToBidOptions = {
   dcaOrderUID: string
   userExchangeKeysUID: string
-  targetAmountNZD: number
-  availableBalanceNZD: number
+  targetValue: number
+  availableBalance: number
 }
 
 type ResultSQL = {
@@ -18,16 +18,12 @@ type ResultSQL = {
   sum_target: string | null
 }
 
-const calculateAmountNZDToBid = async (
+const calculateValueToBid = async (
   pool: Pool,
-  options: CalculateAmountNZDToBidOptions,
+  options: CalculateValueToBidOptions,
 ): Promise<number | Error> => {
-  const {
-    dcaOrderUID,
-    userExchangeKeysUID,
-    targetAmountNZD,
-    availableBalanceNZD,
-  } = options
+  const { dcaOrderUID, userExchangeKeysUID, targetValue, availableBalance } =
+    options
 
   const rows = await errorBoundary(async () =>
     db.sql<
@@ -35,8 +31,8 @@ const calculateAmountNZDToBid = async (
       ResultSQL[]
     >`
   SELECT 
-    sum(${'dca_order_history'}.${'target_amount_nzd'}) as sum_target,
-    sum(${'order'}.${'amount'} * ${'order'}.${'price_nzd'}) as sum_bid
+    sum(${'dca_order_history'}.${'target_value'}) as sum_target,
+    sum(${'order'}.${'volume'} * ${'order'}.${'price'}) as sum_bid
   FROM ${'dca_order'}
   INNER JOIN ${'dca_order_history'}
     ON ${'dca_order_history'}.${'dca_order_uid'} = ${'dca_order'}.${'uid'}
@@ -52,7 +48,7 @@ const calculateAmountNZDToBid = async (
   )
   if (rows instanceof Error) {
     return new DBError({
-      message: 'Could not query dca orders for calculateAmountNZDToBid.',
+      message: 'Could not query dca orders for calculateValueToBid.',
       cause: rows,
       context: {
         dcaOrderUID,
@@ -62,15 +58,13 @@ const calculateAmountNZDToBid = async (
   }
 
   const row = rows[0]!
-  const sumTargetNZD =
-    Number.parseFloat(row.sum_target ?? '0') + targetAmountNZD
-  const sumAvailableNZD =
-    Number.parseFloat(row.sum_bid ?? '0') + availableBalanceNZD
+  const sumTarget = Number.parseFloat(row.sum_target ?? '0') + targetValue
+  const sumAvailable = Number.parseFloat(row.sum_bid ?? '0') + availableBalance
 
-  const portion = Math.min(1, targetAmountNZD / sumTargetNZD) * sumAvailableNZD
+  const portion = Math.min(1, targetValue / sumTarget) * sumAvailable
 
-  const bid = Math.min(availableBalanceNZD, targetAmountNZD, portion)
+  const bid = Math.min(availableBalance, targetValue, portion)
   return bid
 }
 
-export { calculateAmountNZDToBid }
+export { calculateValueToBid }

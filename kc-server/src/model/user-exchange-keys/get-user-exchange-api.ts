@@ -3,11 +3,13 @@ import {
   getExchange,
   EXCHANGE_DASSET,
   EXCHANGE_KIWI_COIN,
+  EXCHANGE_INDEPENDENT_RESERVE,
 } from '../../model/exchange/index.js'
 
 import {
   getDassetExchangeAPI,
   getKiwiCoinExchangeAPI,
+  getIndependentReserveExchangeAPI,
   UserExchangeAPI,
 } from '../../exchange-api/index.js'
 
@@ -34,6 +36,8 @@ const getUserExchangeAPI = async (
         return getDassetExchangeAPI(userExchangeKeys.keys)
       case EXCHANGE_KIWI_COIN:
         return getKiwiCoinExchangeAPI(userExchangeKeys.keys)
+      case EXCHANGE_INDEPENDENT_RESERVE:
+        return getIndependentReserveExchangeAPI(userExchangeKeys.keys)
       default:
         return new IllegalStateError({
           message: 'Unexpected exchange.',

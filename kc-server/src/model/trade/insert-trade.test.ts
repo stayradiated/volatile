@@ -20,11 +20,12 @@ test('insertTrade', async (t) => {
     timestamp: DateTime.local(),
     tradeID: 'insert-trade.test',
     type: 'BUY',
-    assetSymbol: 'BTC',
-    amount: 0.876_543_21,
-    priceNZD: 12_345.67,
-    totalNZD: 10_821.51,
-    feeNZD: 0.2345,
+    primaryCurrency: 'BTC',
+    secondaryCurrency: 'NZD',
+    volume: 0.876_543_21,
+    price: 12_345.67,
+    value: 10_821.51,
+    fee: 0.2345,
   }
 
   const output = await throwIfError<Trade>(insertTrade(pool, input))
@@ -40,11 +41,12 @@ test('insertTrade', async (t) => {
     order_uid: input.orderUID,
     trade_id: input.tradeID,
     type: input.type,
-    asset_symbol: input.assetSymbol,
-    amount: input.amount,
-    price_nzd: input.priceNZD,
-    total_nzd: input.totalNZD,
-    fee_nzd: input.feeNZD,
+    primary_currency: input.primaryCurrency,
+    secondary_currency: input.secondaryCurrency,
+    volume: input.volume,
+    price: input.price,
+    value: input.value,
+    fee: input.fee,
   })
   t.is('string', typeof row.created_at)
   t.is('string', typeof row.updated_at)

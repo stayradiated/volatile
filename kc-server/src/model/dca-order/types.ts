@@ -6,14 +6,15 @@ type DCAOrder = {
   exchangeUID: string
   userExchangeKeysUID: string
   marketUID: string
-  assetSymbol: string
+  primaryCurrency: string
+  secondaryCurrency: string
   startAt: DateTime
   marketOffset: number
   dailyAverage: number
-  minPriceNZD: number | undefined
-  maxPriceNZD: number | undefined
-  minAmountNZD: number | undefined
-  maxAmountNZD: number | undefined
+  minPrice: number | undefined
+  maxPrice: number | undefined
+  minValue: number | undefined
+  maxValue: number | undefined
   enabledAt: DateTime | undefined
 }
 

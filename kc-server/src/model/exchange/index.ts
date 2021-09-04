@@ -22,6 +22,11 @@ const EXCHANGE_DASSET: Exchange = {
   name: 'Dasset',
 }
 
+const EXCHANGE_INDEPENDENT_RESERVE: Exchange = {
+  ID: 'independentreserve.com',
+  name: 'Independent Reserve',
+}
+
 const forceGetExchangeUID = async (
   pool: Pool,
   exchange: Exchange,
@@ -83,6 +88,8 @@ const forceGetExchange = async (
       return EXCHANGE_KIWI_COIN
     case EXCHANGE_DASSET.ID:
       return EXCHANGE_DASSET
+    case EXCHANGE_INDEPENDENT_RESERVE.ID:
+      return EXCHANGE_INDEPENDENT_RESERVE
     default:
       return new IllegalStateError({
         message: 'Could not identify exchange.',
@@ -133,6 +140,7 @@ export {
   Exchange,
   EXCHANGE_KIWI_COIN,
   EXCHANGE_DASSET,
+  EXCHANGE_INDEPENDENT_RESERVE,
   forceGetExchangeUID,
   forceGetExchange,
   getExchangeUID,

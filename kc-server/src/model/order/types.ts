@@ -7,9 +7,11 @@ type Order = {
   userUID: string
   exchangeUID: string
   orderID: string
-  assetSymbol: string
-  priceNZD: number
-  amount: number
+  primaryCurrency: string
+  secondaryCurrency: string
+  price: number
+  volume: number
+  value: number
   type: BuySell
   openedAt: DateTime
   closedAt: DateTime | undefined

@@ -15,19 +15,21 @@ select_permissions:
 - permission:
     allow_aggregations: true
     columns:
-    - uid
+    - available_balance
     - created_at
+    - created_order
+    - dca_order_uid
+    - description
+    - market_offset
+    - market_price
+    - order_uid
+    - primary_currency
+    - secondary_currency
+    - target_value
+    - uid
     - updated_at
     - user_uid
-    - dca_order_uid
-    - order_uid
-    - market_price_nzd
-    - market_offset
-    - calculated_amount_nzd
-    - available_balance_nzd
-    - created_order
-    - description
-    - asset_symbol
+    - value
     filter:
       user_uid:
         _eq: X-Hasura-User-Id

@@ -38,6 +38,9 @@ test('createSignedBody', (t) => {
       nonce: '1629192445766',
       signature:
         '6BB0D678C9457A8D6F26A93A5DEBFBAF5B1C9DEE4E5EBE09EFCBE7E39A828E95',
+      a: 1,
+      b: 2,
+      c: 3,
     },
     body,
   )

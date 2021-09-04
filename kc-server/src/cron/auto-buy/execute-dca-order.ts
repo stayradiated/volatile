@@ -4,7 +4,7 @@ import { log } from '../../util/debug'
 import type { Pool } from '../../types.js'
 import {
   DCAOrder,
-  getDCAOrderTargetAmountNZD,
+  getDCAOrderTargetValue,
 } from '../../model/dca-order/index.js'
 import { selectAvgMarketPrice } from '../../model/market-price/index.js'
 import { insertOrder } from '../../model/order/index.js'
@@ -14,7 +14,7 @@ import { syncExchangeTradeList } from '../../model/trade/index.js'
 import type { UserExchangeAPI } from '../../exchange-api/index.js'
 
 import { cancelPreviousOrders } from './cancel-previous-orders.js'
-import { calculateAmountNZDToBid } from './calculate-amount-nzd-to-bid.js'
+import { calculateValueToBid } from './calculate-value-to-bid.js'
 
 type ExecuteDCAOrderOptions = {
   userExchangeAPI: UserExchangeAPI
@@ -27,7 +27,7 @@ const executeDCAOrder = async (
 ): Promise<void | Error> => {
   const { userExchangeAPI, dcaOrder } = options
 
-  // Must do this before calling getDCAOrderTargetAmountNZD
+  // Must do this before calling getDCAOrderTargetValue
   const syncError = await syncExchangeTradeList(pool, {
     userUID: dcaOrder.userUID,
     exchangeUID: dcaOrder.exchangeUID,
@@ -43,54 +43,55 @@ const executeDCAOrder = async (
     userExchangeAPI,
   })
 
-  const targetAmountNZD = await getDCAOrderTargetAmountNZD(
+  const targetValue = await getDCAOrderTargetValue(
     pool,
     dcaOrder,
     DateTime.local(),
   )
-  if (targetAmountNZD instanceof Error) {
-    return targetAmountNZD
+  if (targetValue instanceof Error) {
+    return targetValue
   }
 
-  const availableBalanceNZD = await userExchangeAPI.getBalance({
-    currency: 'NZD',
+  const availableBalance = await userExchangeAPI.getBalance({
+    currency: dcaOrder.secondaryCurrency,
   })
-  if (availableBalanceNZD instanceof Error) {
-    return availableBalanceNZD
+  if (availableBalance instanceof Error) {
+    return availableBalance
   }
 
-  const amountNZD = await calculateAmountNZDToBid(pool, {
+  const value = await calculateValueToBid(pool, {
     dcaOrderUID: dcaOrder.UID,
     userExchangeKeysUID: dcaOrder.userExchangeKeysUID,
-    targetAmountNZD,
-    availableBalanceNZD,
+    targetValue,
+    availableBalance,
   })
-  if (amountNZD instanceof Error) {
-    return amountNZD
+  if (value instanceof Error) {
+    return value
   }
 
-  const marketPriceNZD = await selectAvgMarketPrice(pool, {
+  const marketPrice = await selectAvgMarketPrice(pool, {
     marketUID: dcaOrder.marketUID,
-    assetSymbol: dcaOrder.assetSymbol,
+    assetSymbol: dcaOrder.primaryCurrency,
   })
-  if (marketPriceNZD instanceof Error) {
-    return marketPriceNZD
+  if (marketPrice instanceof Error) {
+    return marketPrice
   }
 
-  if (amountNZD <= (dcaOrder.minAmountNZD ?? 0)) {
+  if (value <= (dcaOrder.minValue ?? 0)) {
     const dcaOrderHistory = await insertDCAOrderHistory(pool, {
       userUID: dcaOrder.userUID,
       dcaOrderUID: dcaOrder.UID,
       orderUID: undefined,
-      marketPriceNZD,
-      assetSymbol: dcaOrder.assetSymbol,
+      marketPrice,
+      primaryCurrency: dcaOrder.primaryCurrency,
+      secondaryCurrency: dcaOrder.secondaryCurrency,
       marketOffset: dcaOrder.marketOffset,
-      targetAmountNZD,
-      amountNZD,
-      availableBalanceNZD,
-      description: `amountNZD (${amountNZD.toFixed(
-        2,
-      )}) is below minAmountNZD (${dcaOrder.minAmountNZD ?? 0})`,
+      targetValue,
+      value,
+      availableBalance,
+      description: `value (${value.toFixed(2)}) is below minValue (${
+        dcaOrder.minValue ?? 0
+      })`,
     })
     if (dcaOrderHistory instanceof Error) {
       return dcaOrderHistory
@@ -98,32 +99,30 @@ const executeDCAOrder = async (
 
     log(dcaOrderHistory)
   } else {
-    const lowestAskPriceNZD = await userExchangeAPI.getLowestAskPrice({
-      assetSymbol: dcaOrder.assetSymbol,
-      currency: 'NZD',
+    const lowestAskPrice = await userExchangeAPI.getLowestAskPrice({
+      primaryCurrency: dcaOrder.primaryCurrency,
+      secondaryCurrency: dcaOrder.secondaryCurrency,
     })
-    if (lowestAskPriceNZD instanceof Error) {
-      return lowestAskPriceNZD
+    if (lowestAskPrice instanceof Error) {
+      return lowestAskPrice
     }
 
     const offsetPercent = (dcaOrder.marketOffset + 100) / 100
-    const maxOrderPriceNZD = round(2, marketPriceNZD * offsetPercent)
+    const maxOrderPrice = round(2, marketPrice * offsetPercent)
 
-    const orderPriceNZD =
-      maxOrderPriceNZD > lowestAskPriceNZD
-        ? lowestAskPriceNZD - 0.01
-        : maxOrderPriceNZD
+    const orderPrice =
+      maxOrderPrice > lowestAskPrice ? lowestAskPrice - 0.01 : maxOrderPrice
 
-    if (orderPriceNZD !== maxOrderPriceNZD) {
+    if (orderPrice !== maxOrderPrice) {
       log('Lowering bid price to just below lowest ask price')
     }
 
-    const amountCrypto = round(8, amountNZD / orderPriceNZD)
+    const volume = round(8, value / orderPrice)
     const freshOrder = await userExchangeAPI.createOrder({
-      amount: amountCrypto,
-      price: orderPriceNZD,
-      assetSymbol: dcaOrder.assetSymbol,
-      currency: 'NZD',
+      volume,
+      price: orderPrice,
+      primaryCurrency: dcaOrder.primaryCurrency,
+      secondaryCurrency: dcaOrder.secondaryCurrency,
     })
     if (freshOrder instanceof Error) {
       return freshOrder
@@ -133,10 +132,12 @@ const executeDCAOrder = async (
       userUID: dcaOrder.userUID,
       exchangeUID: dcaOrder.exchangeUID,
       orderID: freshOrder.orderID,
-      assetSymbol: dcaOrder.assetSymbol,
+      primaryCurrency: dcaOrder.primaryCurrency,
+      secondaryCurrency: dcaOrder.secondaryCurrency,
       type: 'BUY',
-      priceNZD: orderPriceNZD,
-      amount: amountCrypto,
+      price: orderPrice,
+      volume,
+      value: orderPrice * volume,
       openedAt: DateTime.local(),
       closedAt: undefined,
     })
@@ -148,12 +149,13 @@ const executeDCAOrder = async (
       userUID: dcaOrder.userUID,
       dcaOrderUID: dcaOrder.UID,
       orderUID: order.UID,
-      assetSymbol: dcaOrder.assetSymbol,
-      marketPriceNZD,
+      primaryCurrency: dcaOrder.primaryCurrency,
+      secondaryCurrency: dcaOrder.secondaryCurrency,
+      marketPrice,
       marketOffset: dcaOrder.marketOffset,
-      targetAmountNZD,
-      amountNZD,
-      availableBalanceNZD,
+      targetValue,
+      value,
+      availableBalance,
       description: 'Created order',
     })
     if (dcaOrderHistory instanceof Error) {

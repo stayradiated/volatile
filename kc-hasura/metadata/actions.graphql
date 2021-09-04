@@ -13,14 +13,15 @@ type Mutation {
   create_dca_order(
     user_exchange_keys_uid: uuid!
     market_uid: uuid!
-    asset_symbol: String!
+    primary_currency: String!
+    secondary_currency: String!
     start_at: timestamp!
     market_offset: Float!
     daily_average: Float!
-    min_price_nzd: Float
-    max_price_nzd: Float
-    min_amount_nzd: Float
-    max_amount_nzd: Float
+    min_price: Float
+    max_price: Float
+    min_value: Float
+    max_value: Float
   ): CreateDCAOrderResult
 }
 

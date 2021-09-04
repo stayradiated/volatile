@@ -21,7 +21,18 @@ type PlaceLimitOrderOptions = {
   volume: number
 }
 
-type PlaceLimitOrderResult = Record<string, unknown>
+type PlaceLimitOrderResult = {
+  CreatedTimestampUtc: string
+  OrderGuid: string
+  Price: number
+  PrimaryCurrencyCode: string
+  ReservedAmount: number
+  SecondaryCurrencyCode: string
+  Status: 'Open' | 'PartiallyFilled' | 'Filled'
+  Type: 'LimitOffer' | 'LimitBid'
+  VolumeFilled: number
+  VolumeOrdered: number
+}
 
 const placeLimitOrder = async (
   options: PlaceLimitOrderOptions,

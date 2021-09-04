@@ -12,11 +12,12 @@ const mapRowToTrade = (row: s.trade.JSONSelectable): Trade => ({
   timestamp: DateTime.fromISO(row.timestamp),
   tradeID: row.trade_id,
   type: row.type as BuySell,
-  assetSymbol: row.asset_symbol,
-  amount: row.amount,
-  priceNZD: row.price_nzd,
-  totalNZD: row.total_nzd,
-  feeNZD: row.fee_nzd,
+  primaryCurrency: row.primary_currency,
+  secondaryCurrency: row.secondary_currency,
+  volume: row.volume,
+  price: row.price,
+  value: row.value,
+  fee: row.fee,
 })
 
 export { mapRowToTrade }

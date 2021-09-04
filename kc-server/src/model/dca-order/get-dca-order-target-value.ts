@@ -8,7 +8,7 @@ import { selectTradesAfterDate } from '../trade/index.js'
 import type { Pool } from '../../types.js'
 import type { DCAOrder } from './types.js'
 
-const getDCAOrderTargetAmountNZD = async (
+const getDCAOrderTargetValue = async (
   pool: Pool,
   dcaOrder: DCAOrder,
   currentTime: DateTime,
@@ -16,16 +16,19 @@ const getDCAOrderTargetAmountNZD = async (
   const {
     userUID,
     exchangeUID,
-    assetSymbol,
+    primaryCurrency,
+    secondaryCurrency,
     startAt,
     dailyAverage,
-    maxAmountNZD,
+    maxValue,
   } = dcaOrder
 
+  // TODO: find trades using dcaOrderUID
   const trades = await selectTradesAfterDate(pool, {
     userUID,
     exchangeUID,
-    assetSymbol,
+    primaryCurrency,
+    secondaryCurrency,
     type: 'BUY',
     afterDate: startAt,
   })
@@ -33,36 +36,29 @@ const getDCAOrderTargetAmountNZD = async (
     return trades
   }
 
-  // eslint-disable-next-line unicorn/no-array-reduce
-  const tradedAmountNZD = trades.reduce((sum, trade) => {
-    const nzd = trade.totalNZD
-    return sum + nzd
-  }, 0)
+  const tradedValue = trades.reduce((sum, trade) => sum + trade.value, 0)
 
   const minutesSinceStartDate = currentTime.diff(startAt).as('minutes')
   const minuteAverage = dailyAverage / 24 / 60
 
-  const orderAmountNZD = round(
+  const orderValue = round(
     4,
-    (minuteAverage - tradedAmountNZD / minutesSinceStartDate) *
+    (minuteAverage - tradedValue / minutesSinceStartDate) *
       minutesSinceStartDate,
   )
 
-  if (Number.isNaN(orderAmountNZD)) {
+  if (Number.isNaN(orderValue)) {
     return new IllegalStateError({
-      message: 'orderAmountNZD is NaN',
+      message: 'orderValue is NaN',
       context: {
         minuteAverage,
-        tradedAmountNZD,
+        tradedValue,
         minutesSinceStartDate,
       },
     })
   }
 
-  return Math.max(
-    0,
-    Math.min(maxAmountNZD ?? Number.POSITIVE_INFINITY, orderAmountNZD),
-  )
+  return Math.max(0, Math.min(maxValue ?? Number.POSITIVE_INFINITY, orderValue))
 }
 
-export { getDCAOrderTargetAmountNZD }
+export { getDCAOrderTargetValue }

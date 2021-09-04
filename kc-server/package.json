@@ -35,7 +35,7 @@
   "devDependencies": {
     "@stayradiated/jsconfig": "1.15.0",
     "@types/bcrypt": "5.0.0",
-    "@types/luxon": "2.0.1",
+    "@types/luxon": "2.0.2",
     "@types/pg": "8.6.1",
     "@vercel/ncc": "^0.30",
     "ava": "3.15.0",
@@ -51,6 +51,7 @@
     "@stayradiated/error-boundary": "1.10.0",
     "@stayradiated/kc-keyring": "workspace:1.0.0",
     "@stayradiated/kiwi-coin-api": "workspace:1.0.1",
+    "@stayradiated/independent-reserve-api": "workspace:1.0.1",
     "@stayradiated/market-price": "workspace:1.0.0",
     "bcrypt": "5.0.1",
     "debug": "4.3.2",
@@ -62,12 +63,15 @@
     "otplib": "12.0.1",
     "pg": "8.7.1",
     "rambda": "6.9.0",
-    "stripe": "8.171.0",
+    "stripe": "8.174.0",
     "zapatos": "5.0.0"
   },
   "__comment": "The following configs are managed by `npx @stayradiated/jsconfig`",
   "ava": {
-    "verbose": true
+    "verbose": true,
+    "files": [
+			"./dist/**/*.test.js"
+    ]
   },
   "xo": {
     "space": true,

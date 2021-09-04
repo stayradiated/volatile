@@ -56,13 +56,14 @@ CREATE TABLE kc.dca_order (
     start_at timestamp with time zone NOT NULL,
     market_offset numeric(12,6) NOT NULL,
     daily_average numeric(12,2) NOT NULL,
-    min_price_nzd numeric(12,2),
-    max_price_nzd numeric(12,2),
-    min_amount_nzd numeric(12,2),
-    max_amount_nzd numeric(12,2),
+    min_price numeric(12,2),
+    max_price numeric(12,2),
+    min_value numeric(12,2),
+    max_value numeric(12,2),
     user_exchange_keys_uid uuid NOT NULL,
-    asset_symbol character varying(4) NOT NULL,
-    enabled_at timestamp with time zone
+    primary_currency text NOT NULL,
+    enabled_at timestamp with time zone,
+    secondary_currency text NOT NULL
 );
 
 
@@ -77,14 +78,15 @@ CREATE TABLE kc.dca_order_history (
     user_uid uuid NOT NULL,
     dca_order_uid uuid NOT NULL,
     order_uid uuid,
-    market_price_nzd numeric(12,2) NOT NULL,
+    market_price numeric(12,2) NOT NULL,
     market_offset numeric(12,6) NOT NULL,
-    target_amount_nzd numeric(12,2) NOT NULL,
-    available_balance_nzd numeric(12,2) NOT NULL,
+    target_value numeric(12,2) NOT NULL,
+    available_balance numeric(12,2) NOT NULL,
     created_order boolean NOT NULL,
     description character varying NOT NULL,
-    asset_symbol character varying(4) NOT NULL,
-    amount_nzd numeric(12,2) NOT NULL
+    primary_currency character varying(4) NOT NULL,
+    value numeric(12,2) NOT NULL,
+    secondary_currency text NOT NULL
 );
 
 
@@ -152,12 +154,14 @@ CREATE TABLE kc."order" (
     user_uid uuid NOT NULL,
     exchange_uid uuid NOT NULL,
     order_id character varying NOT NULL,
-    asset_symbol character varying NOT NULL,
-    price_nzd numeric(12,2) NOT NULL,
-    amount numeric(16,8) NOT NULL,
+    primary_currency character varying(4) NOT NULL,
+    price numeric(12,2) NOT NULL,
+    volume numeric(16,8) NOT NULL,
     opened_at timestamp with time zone NOT NULL,
     closed_at timestamp with time zone,
-    type character varying(4) NOT NULL
+    type character varying(4) NOT NULL,
+    secondary_currency text NOT NULL,
+    value numeric(12,2) NOT NULL
 );
 
 
@@ -184,11 +188,12 @@ CREATE TABLE kc.trade (
     order_uid uuid,
     trade_id character varying NOT NULL,
     type character varying(4) NOT NULL,
-    asset_symbol character varying NOT NULL,
-    amount numeric(16,8) NOT NULL,
-    price_nzd numeric(12,2) NOT NULL,
-    total_nzd numeric(12,2) NOT NULL,
-    fee_nzd numeric(12,4) NOT NULL
+    primary_currency character varying(4) NOT NULL,
+    volume numeric(16,8) NOT NULL,
+    price numeric(12,2) NOT NULL,
+    value numeric(12,2) NOT NULL,
+    fee numeric(12,4) NOT NULL,
+    secondary_currency text NOT NULL
 );
 
 
@@ -700,4 +705,5 @@ INSERT INTO kc.schema_migrations (version) VALUES
     ('20210808043640'),
     ('20210812091127'),
     ('20210814232237'),
-    ('20210830210200');
+    ('20210830210200'),
+    ('20210904183924');

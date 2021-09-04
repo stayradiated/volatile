@@ -1,4 +1,4 @@
-export * from './get-dca-order-target-amount-nzd.js'
+export * from './get-dca-order-target-value.js'
 export * from './insert-dca-order.js'
 export * from './select-all-dca-orders.js'
 export * from './select-dca-order.js'

@@ -9,14 +9,15 @@ import { getUserExchangeKeys } from '../../model/user-exchange-keys/index.js'
 type Input = {
   user_exchange_keys_uid: string
   market_uid: string
-  asset_symbol: string
+  primary_currency: string
+  secondary_currency: string
   start_at: string
   market_offset: number
   daily_average: number
-  min_price_nzd: number | undefined
-  max_price_nzd: number | undefined
-  min_amount_nzd: number | undefined
-  max_amount_nzd: number | undefined
+  min_price: number | undefined
+  max_price: number | undefined
+  min_value: number | undefined
+  max_value: number | undefined
 }
 
 type Output = {
@@ -38,14 +39,15 @@ const createDCAOrderHandler: ActionHandlerFn<Input, Output> = async (
   const {
     user_exchange_keys_uid: userExchangeKeysUID,
     market_uid: marketUID,
-    asset_symbol: assetSymbol,
+    primary_currency: primaryCurrency,
+    secondary_currency: secondaryCurrency,
     start_at: startAt,
     market_offset: marketOffset,
     daily_average: dailyAverage,
-    min_price_nzd: minPriceNZD,
-    max_price_nzd: maxPriceNZD,
-    min_amount_nzd: minAmountNZD,
-    max_amount_nzd: maxAmountNZD,
+    min_price: minPrice,
+    max_price: maxPrice,
+    min_value: minValue,
+    max_value: maxValue,
   } = input
 
   const userExchangeKeys = await getUserExchangeKeys(pool, userExchangeKeysUID)
@@ -58,14 +60,15 @@ const createDCAOrderHandler: ActionHandlerFn<Input, Output> = async (
     exchangeUID: userExchangeKeys.exchangeUID,
     userExchangeKeysUID,
     marketUID,
-    assetSymbol,
+    primaryCurrency,
+    secondaryCurrency,
     startAt: DateTime.fromISO(startAt),
     marketOffset,
     dailyAverage,
-    minPriceNZD,
-    maxPriceNZD,
-    minAmountNZD,
-    maxAmountNZD,
+    minPrice,
+    maxPrice,
+    minValue,
+    maxValue,
     enabledAt: undefined,
   })
   if (dcaOrder instanceof Error) {

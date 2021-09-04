@@ -24,12 +24,13 @@ const insertDCAOrderHistory = async (
     dca_order_uid: options.dcaOrderUID,
     created_order: options.orderUID !== undefined,
     order_uid: options.orderUID,
-    asset_symbol: options.assetSymbol,
-    market_price_nzd: options.marketPriceNZD,
+    primary_currency: options.primaryCurrency,
+    secondary_currency: options.secondaryCurrency,
+    market_price: options.marketPrice,
     market_offset: options.marketOffset,
-    target_amount_nzd: options.targetAmountNZD,
-    amount_nzd: options.amountNZD,
-    available_balance_nzd: options.availableBalanceNZD,
+    target_value: options.targetValue,
+    value: options.value,
+    available_balance: options.availableBalance,
     description: options.description,
   }
 

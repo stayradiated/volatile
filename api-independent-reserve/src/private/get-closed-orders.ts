@@ -4,7 +4,7 @@ import type { Config } from '../types.js'
 import { createSignedBody } from '../signature.js'
 import { client } from '../client.js'
 
-type GetOpenOrdersOptions = {
+type GetClosedOrdersOptions = {
   config: Config
   primaryCurrencyCode?: string // The primary currency of orders. This is an optional parameter.
   secondaryCurrencyCode?: string // The secondary currency of orders. This is an optional parameter.
@@ -12,29 +12,14 @@ type GetOpenOrdersOptions = {
   pageSize: number // Must be greater or equal to 1 and less than or equal to 50. If a number greater than 50 is specified, then 50 will be used.
 }
 
-type GetOpenOrdersResult = {
-  PageSize: number
-  TotalItems: number
-  TotalPages: number
-  Data: Array<{
-    AvgPrice: number
-    CreatedTimestampUtc: string
-    FeePercent: number
-    OrderGuid: string
-    OrderType: 'LimitOffer' | 'LimitBid'
-    Outstanding: number
-    Price: number
-    PrimaryCurrencyCode: string
-    SecondaryCurrencyCode: string
-    Status: 'Open' | 'PartiallyFilled'
-    Value: number
-    Volume: number
-  }>
-}
+type GetClosedOrdersResult = Array<{
+  CurrencyCode: string
+  Fee: number
+}>
 
-const getOpenOrders = async (
-  options: GetOpenOrdersOptions,
-): Promise<GetOpenOrdersResult | Error> => {
+const getClosedOrders = async (
+  options: GetClosedOrdersOptions,
+): Promise<GetClosedOrdersResult | Error> => {
   const {
     config,
     primaryCurrencyCode,
@@ -44,10 +29,10 @@ const getOpenOrders = async (
   } = options
   return errorBoundary(async () =>
     client
-      .post('Private/GetOpenOrders', {
+      .post('Private/GetClosedOrders', {
         json: createSignedBody({
           config,
-          endpoint: 'Private/GetOpenOrders',
+          endpoint: 'Private/GetClosedOrders',
           parameters: {
             primaryCurrencyCode,
             secondaryCurrencyCode,
@@ -60,4 +45,4 @@ const getOpenOrders = async (
   )
 }
 
-export { getOpenOrders }
+export { getClosedOrders }

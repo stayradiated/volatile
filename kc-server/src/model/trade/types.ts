@@ -10,11 +10,12 @@ type Trade = {
   timestamp: DateTime
   tradeID: string
   type: BuySell
-  assetSymbol: string
-  amount: number
-  priceNZD: number
-  totalNZD: number
-  feeNZD: number
+  primaryCurrency: string
+  secondaryCurrency: string
+  volume: number
+  price: number
+  value: number
+  fee: number
 }
 
 export { Trade }

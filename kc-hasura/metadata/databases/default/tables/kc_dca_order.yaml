@@ -26,22 +26,23 @@ select_permissions:
 - permission:
     allow_aggregations: true
     columns:
-    - uid
     - created_at
-    - updated_at
-    - user_uid
-    - exchange_uid
-    - market_uid
-    - start_at
-    - market_offset
     - daily_average
-    - min_price_nzd
-    - max_price_nzd
-    - min_amount_nzd
-    - max_amount_nzd
-    - user_exchange_keys_uid
-    - asset_symbol
     - enabled_at
+    - exchange_uid
+    - market_offset
+    - market_uid
+    - max_price
+    - max_value
+    - min_price
+    - min_value
+    - primary_currency
+    - secondary_currency
+    - start_at
+    - uid
+    - updated_at
+    - user_exchange_keys_uid
+    - user_uid
     filter:
       user_uid:
         _eq: X-Hasura-User-Id
@@ -56,10 +57,10 @@ update_permissions:
     - daily_average
     - market_offset
     - market_uid
-    - max_amount_nzd
-    - max_price_nzd
-    - min_amount_nzd
-    - min_price_nzd
+    - max_value
+    - max_price
+    - min_value
+    - min_price
     - start_at
     - updated_at
     filter:

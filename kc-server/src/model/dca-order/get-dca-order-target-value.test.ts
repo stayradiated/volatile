@@ -4,7 +4,7 @@ import { throwIfError } from '@stayradiated/error-boundary'
 import { test } from '../../test-util/ava.js'
 
 import { insertTrade } from '../trade/index.js'
-import { getDCAOrderTargetAmountNZD } from './get-dca-order-target-amount-nzd.js'
+import { getDCAOrderTargetValue } from './get-dca-order-target-value.js'
 import { insertDCAOrder } from './insert-dca-order.js'
 import { selectDCAOrder } from './select-dca-order.js'
 import type { DCAOrder } from './types.js'
@@ -28,19 +28,20 @@ test('should calculate without trades', async (t) => {
       exchangeUID,
       userExchangeKeysUID,
       marketUID,
-      assetSymbol: 'BTC',
+      primaryCurrency: 'BTC',
+      secondaryCurrency: 'NZD',
       startAt,
       marketOffset: 0,
       dailyAverage,
-      minPriceNZD: undefined,
-      maxPriceNZD: undefined,
-      minAmountNZD: undefined,
-      maxAmountNZD: undefined,
+      minPrice: undefined,
+      maxPrice: undefined,
+      minValue: undefined,
+      maxValue: undefined,
       enabledAt: undefined,
     }),
   )
 
-  const sum = await getDCAOrderTargetAmountNZD(pool, dcaOrder, currentTime)
+  const sum = await getDCAOrderTargetValue(pool, dcaOrder, currentTime)
   t.is(dailyAverage, sum)
 })
 
@@ -53,7 +54,7 @@ test('should calculate with multiple trade', async (t) => {
   const marketUID = await make.market()
 
   const dailyAverage = 100
-  const tradedTotal = 90
+  const tradedValue = 90
 
   const currentTime = DateTime.local()
   const startAt = currentTime.minus({ days: 1 })
@@ -64,14 +65,15 @@ test('should calculate with multiple trade', async (t) => {
       exchangeUID,
       userExchangeKeysUID,
       marketUID,
-      assetSymbol: 'BTC',
+      primaryCurrency: 'BTC',
+      secondaryCurrency: 'NZD',
       startAt,
       marketOffset: 0,
       dailyAverage,
-      minPriceNZD: undefined,
-      maxPriceNZD: undefined,
-      minAmountNZD: undefined,
-      maxAmountNZD: undefined,
+      minPrice: undefined,
+      maxPrice: undefined,
+      minValue: undefined,
+      maxValue: undefined,
       enabledAt: undefined,
     }),
   )
@@ -84,11 +86,12 @@ test('should calculate with multiple trade', async (t) => {
       timestamp: DateTime.local(),
       tradeID: 'dca-order-trade-1',
       type: 'BUY',
-      assetSymbol: 'BTC',
-      amount: 0.4,
-      priceNZD: 1000,
-      feeNZD: 10,
-      totalNZD: tradedTotal / 2,
+      primaryCurrency: 'BTC',
+      secondaryCurrency: 'NZD',
+      volume: 0.4,
+      price: 1000,
+      fee: 10,
+      value: tradedValue / 2,
     }),
   )
 
@@ -100,19 +103,20 @@ test('should calculate with multiple trade', async (t) => {
       timestamp: DateTime.local(),
       tradeID: 'dca-order-trade-2',
       type: 'BUY',
-      assetSymbol: 'BTC',
-      amount: 0.4,
-      priceNZD: 1000,
-      feeNZD: 10,
-      totalNZD: tradedTotal / 2,
+      primaryCurrency: 'BTC',
+      secondaryCurrency: 'NZD',
+      volume: 0.4,
+      price: 1000,
+      fee: 10,
+      value: tradedValue / 2,
     }),
   )
 
-  const sum = await getDCAOrderTargetAmountNZD(pool, dcaOrder, currentTime)
-  t.is(dailyAverage - tradedTotal, sum)
+  const sum = await getDCAOrderTargetValue(pool, dcaOrder, currentTime)
+  t.is(dailyAverage - tradedValue, sum)
 })
 
-test('should ignore minAmountNZD', async (t) => {
+test('should ignore minValue', async (t) => {
   const { pool, make } = t.context
 
   const currentTime = DateTime.local()
@@ -127,11 +131,11 @@ test('should ignore minAmountNZD', async (t) => {
     selectDCAOrder(pool, dcaOrderUID),
   )
 
-  const sum = await getDCAOrderTargetAmountNZD(pool, dcaOrder, currentTime)
+  const sum = await getDCAOrderTargetValue(pool, dcaOrder, currentTime)
   t.is(dailyAverage, sum)
 })
 
-test('should cap target at maxAmountNZD', async (t) => {
+test('should cap target at maxValue', async (t) => {
   const { pool, make } = t.context
 
   const userUID = await make.user()
@@ -150,18 +154,19 @@ test('should cap target at maxAmountNZD', async (t) => {
       exchangeUID,
       userExchangeKeysUID,
       marketUID,
-      assetSymbol: 'BTC',
+      primaryCurrency: 'BTC',
+      secondaryCurrency: 'NZD',
       startAt,
       marketOffset: 0,
       dailyAverage,
-      minPriceNZD: undefined,
-      maxPriceNZD: undefined,
-      minAmountNZD: undefined,
-      maxAmountNZD: undefined,
+      minPrice: undefined,
+      maxPrice: undefined,
+      minValue: undefined,
+      maxValue: undefined,
       enabledAt: undefined,
     }),
   )
 
-  const sum = await getDCAOrderTargetAmountNZD(pool, dcaOrder, currentTime)
+  const sum = await getDCAOrderTargetValue(pool, dcaOrder, currentTime)
   t.is(dailyAverage, sum)
 })

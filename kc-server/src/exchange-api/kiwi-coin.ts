@@ -44,21 +44,26 @@ const kiwiCoin: ExchangeAPI<kc.Config> = {
 
     return openOrders.map((order) => ({
       orderID: String(order.id),
-      assetSymbol: 'BTC',
-      priceNZD: Number.parseFloat(order.price),
-      amount: Number.parseFloat(order.amount),
+      primaryCurrency: 'BTC',
+      secondaryCurrency: 'NZD',
+      price: Number.parseFloat(order.price),
+      volume: Number.parseFloat(order.amount),
       type: order.type === 0 ? 'BUY' : 'SELL',
       openedAt: DateTime.fromISO(order.datetime),
     }))
   },
+  getClosedOrders: () => async () => ({
+    total: 0,
+    items: [],
+  }),
   createOrder: (config) => async (options) => {
-    const { price, amount } = options
-    const order = await kc.createBuyOrder({ config, price, amount })
+    const { price, volume } = options
+    const order = await kc.createBuyOrder({ config, price, amount: volume })
     if (order instanceof Error) {
       return new ExchangeError({
         message: 'Failed to create order on kiwi-coin.com',
         cause: order,
-        context: { price, amount },
+        context: { price, volume },
       })
     }
 
@@ -97,6 +102,7 @@ const getKiwiCoinExchangeAPI = (
     getLowestAskPrice: kiwiCoin.getLowestAskPrice(config),
     getBalance: kiwiCoin.getBalance(config),
     getOpenOrders: kiwiCoin.getOpenOrders(config),
+    getClosedOrders: kiwiCoin.getClosedOrders(config),
     createOrder: kiwiCoin.createOrder(config),
     cancelOrder: kiwiCoin.cancelOrder(config),
   }

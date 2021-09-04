@@ -1,17 +1,15 @@
-import { DateTime } from 'luxon'
-import { errorListBoundary } from '@stayradiated/error-boundary'
-import * as dasset from '@stayradiated/dasset-api'
+/*
+Import { errorListBoundary } from '@stayradiated/error-boundary'
 
-import { mustGetUserDassetExchangeKeys } from '../../../user-exchange-keys/index.js'
-import { getExchangeUID, EXCHANGE_DASSET } from '../../../exchange/index.js'
-import { upsertTrade } from '../../../trade/upsert-trade.js'
+import { upsertTrade } from '../../trade/upsert-trade.js'
 import {
   hasOrderByID,
   selectOrderByID,
   upsertOrder,
-} from '../../../order/index.js'
+} from '../../order/index.js'
 
-import type { Pool } from '../../../../types.js'
+import type { Pool } from '../../../types.js'
+import type { UserExchangeAPI } from '../../../exchange-api/index.js'
 
 const LIMIT = 25
 
@@ -19,7 +17,7 @@ type FetchPageLoopOptions = {
   prevFetchCount: number
   page: number
   pool: Pool
-  config: dasset.Config
+  userExchangeAPI: UserExchangeAPI,
   userUID: string
   exchangeUID: string
   forceSync: boolean
@@ -37,15 +35,13 @@ const fetchPageLoop = async (
     prevFetchCount,
     page,
     pool,
-    config,
+    userExchangeAPI,
     userUID,
     exchangeUID,
     forceSync,
   } = options
 
-  const orders = await dasset.getPage({
-    config,
-    fetchFn: dasset.getClosedOrderList,
+  const orders = await userExchangeAPI.getClosedOrders({
     limit: LIMIT,
     page,
   })
@@ -53,37 +49,33 @@ const fetchPageLoop = async (
     return orders
   }
 
-  const totalOrderCount = prevFetchCount + orders.results.length
-  console.log(`Fetched ${totalOrderCount}/${orders.total} results`)
+  const totalOrderCount = prevFetchCount + orders.items.length
+  console.log(`Fetched ${totalOrderCount}/${orders.total} items`)
 
   const resultList = await errorListBoundary<IntemediateResult>(async () =>
     Promise.all(
-      orders.results.map(async (order): Promise<IntemediateResult | Error> => {
+      orders.items.map(async (order): Promise<IntemediateResult | Error> => {
         const hasOrder = await hasOrderByID(pool, {
           userUID,
           exchangeUID,
-          orderID: order.id,
+          orderID: order.orderID,
         })
         if (hasOrder instanceof Error) {
           return hasOrder
         }
 
-        const price = order.details.price ?? 0
-        const volume = order.baseAmount
-        const value = price * volume
-
         const upsertOrderError = await upsertOrder(pool, {
           userUID,
           exchangeUID,
-          orderID: order.id,
-          primaryCurrency: order.baseSymbol,
-          secondaryCurrency: order.quoteSymbol,
-          price,
-          volume,
-          value,
+          orderID: order.orderID,
+          primaryCurrency: order.primaryCurrency,
+          secondaryCurrency: order.secondaryCurrency,
+          price: order.price,
+          volume: order.volume,
+          value: order.price * order.volume,
           type: order.type,
-          openedAt: DateTime.fromISO(order.timestamp),
-          closedAt: order.isOpen ? undefined : DateTime.local(),
+          openedAt: order.openedAt,
+          closedAt: order.closedAt,
         })
         if (upsertOrderError instanceof Error) {
           return upsertOrderError
@@ -94,7 +86,7 @@ const fetchPageLoop = async (
           const maybeOrder = await selectOrderByID(pool, {
             userUID,
             exchangeUID,
-            orderID: order.id,
+            orderID: order.orderID,
           })
 
           const orderUID =
@@ -104,15 +96,15 @@ const fetchPageLoop = async (
             userUID,
             exchangeUID,
             orderUID,
-            timestamp: DateTime.fromISO(order.timestamp),
-            tradeID: order.id,
+            timestamp: order.openedAt,
+            tradeID: order.orderID,
             type: order.type,
-            volume: order.details.filled,
-            primaryCurrency: order.baseSymbol,
-            secondaryCurrency: order.baseSymbol,
-            price: order.details.price ?? 0,
-            value: order.details.total ?? 0,
-            fee: order.details.nzdFee ?? 0,
+            volume: order.volume,
+            primaryCurrency: order.primaryCurrency,
+            secondaryCurrency: order.secondaryCurrency,
+            price: order.price,
+            value: order.value,
+            fee: order.fee,
           })
           if (upsertTradeError instanceof Error) {
             return upsertTradeError
@@ -134,9 +126,9 @@ const fetchPageLoop = async (
   console.log(`Found ${isTradeCount} trades`)
 
   const hasOrderCount = resultList.filter((result) => result.hasOrder).length
-  console.log(`Matched ${hasOrderCount}/${orders.results.length} orders`)
+  console.log(`Matched ${hasOrderCount}/${orders.items.length} orders`)
 
-  if (!forceSync && hasOrderCount === orders.results.length) {
+  if (!forceSync && hasOrderCount === orders.items.length) {
     return
   }
 
@@ -188,3 +180,4 @@ const syncDassetTradeList = async (
 }
 
 export { syncDassetTradeList }
+*/

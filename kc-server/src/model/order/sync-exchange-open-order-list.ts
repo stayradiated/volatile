@@ -48,6 +48,7 @@ const syncExchangeOpenOrderList = async (
         // TODO: add userUID to unique constraint on order (exchangeUID + userUID + orderID)
         const error = await upsertOrder(pool, {
           ...order,
+          value: order.price * order.volume,
           exchangeUID,
           userUID,
           closedAt: undefined,

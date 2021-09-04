@@ -3,12 +3,13 @@ type DCAOrderHistory = {
   userUID: string
   dcaOrderUID: string
   orderUID: string | undefined
-  assetSymbol: string
-  marketPriceNZD: number
+  primaryCurrency: string
+  secondaryCurrency: string
+  marketPrice: number
   marketOffset: number
-  targetAmountNZD: number
-  amountNZD: number
-  availableBalanceNZD: number
+  targetValue: number
+  value: number
+  availableBalance: number
   description: string
 }
 

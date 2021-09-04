@@ -47,6 +47,7 @@ type CreateSignedBodyOptions = {
 }
 
 type SignedBody = {
+  [key: string]: string | number
   apiKey: string
   nonce: string
   signature: string

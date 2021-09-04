@@ -20,18 +20,20 @@ select_permissions:
 - permission:
     allow_aggregations: true
     columns:
-    - uid
+    - closed_at
     - created_at
+    - exchange_uid
+    - opened_at
+    - order_id
+    - price
+    - primary_currency
+    - secondary_currency
+    - type
+    - uid
     - updated_at
     - user_uid
-    - exchange_uid
-    - order_id
-    - asset_symbol
-    - price_nzd
-    - amount
-    - type
-    - opened_at
-    - closed_at
+    - value
+    - volume
     filter:
       user_uid:
         _eq: X-Hasura-User-Id
