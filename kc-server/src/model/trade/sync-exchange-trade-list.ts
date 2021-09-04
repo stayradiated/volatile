@@ -25,14 +25,8 @@ type SyncPageLoopOptions = {
 const syncPageLoop = async (
   options: SyncPageLoopOptions,
 ): Promise<void | Error> => {
-  const {
-    pageIndex,
-    pool,
-    userExchangeAPI,
-    userUID,
-    exchangeUID,
-    forceSync,
-  } = options
+  const { pageIndex, pool, userExchangeAPI, userUID, exchangeUID, forceSync } =
+    options
 
   const trades = await userExchangeAPI.getTrades({
     pageSize: PAGE_SIZE,

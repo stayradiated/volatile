@@ -1,5 +1,6 @@
 import { DateTime } from 'luxon'
 
+import { IllegalStateError } from '../../util/error'
 import { log } from '../../util/debug'
 import type { Pool } from '../../types.js'
 import {
@@ -116,6 +117,21 @@ const executeDCAOrder = async (
     }
 
     const volume = round(8, value / orderPrice)
+    if (typeof volume !== 'number' || Number.isNaN(volume)) {
+      return new IllegalStateError({
+        message: 'Calculated volume is not a number',
+        context: {
+          volume,
+          value,
+          orderPrice,
+          maxOrderPrice,
+          lowestAskPrice,
+          offsetPercent,
+          marketPrice,
+        },
+      })
+    }
+
     const freshOrder = await userExchangeAPI.createOrder({
       volume,
       price: orderPrice,

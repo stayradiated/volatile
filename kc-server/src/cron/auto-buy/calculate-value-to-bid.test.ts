@@ -28,13 +28,13 @@ test('sharing with 3 other orders for $50', async (t) => {
   const dcaOrderUID = await make.dcaOrder({ maxValue: undefined })
 
   await make.dcaOrder()
-  await make.order({ closedAt: undefined, volume: 0.005, price: 10_000 })
+  await make.order({ closedAt: undefined, value: 50 })
   await make.dcaOrderHistory({ targetValue: 100 })
-  await make.order({ closedAt: undefined, volume: 0.0025, price: 20_000 })
+  await make.order({ closedAt: undefined, value: 50 })
   await make.dcaOrderHistory({ targetValue: 100 })
 
   await make.dcaOrder()
-  await make.order({ closedAt: undefined, volume: 0.001_25, price: 40_000 })
+  await make.order({ closedAt: undefined, value: 50 })
   await make.dcaOrderHistory({ targetValue: 100 })
 
   const targetValue = 200

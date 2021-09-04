@@ -32,7 +32,7 @@ const calculateValueToBid = async (
     >`
   SELECT 
     sum(${'dca_order_history'}.${'target_value'}) as sum_target,
-    sum(${'order'}.${'volume'} * ${'order'}.${'price'}) as sum_bid
+    sum(${'order'}.${'value'}) as sum_bid
   FROM ${'dca_order'}
   INNER JOIN ${'dca_order_history'}
     ON ${'dca_order_history'}.${'dca_order_uid'} = ${'dca_order'}.${'uid'}
