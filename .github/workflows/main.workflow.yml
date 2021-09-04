@@ -57,8 +57,8 @@ jobs:
         run: |
           # pnpm -r build
           
-          sed --help
-
+          ls -alh ./kc-server/package.json
+          
           # hack to fix issue with ncc mixing CJS/ESM code
           sed -i -e 's/"type": "module"//' ./kc-server/package.json
           pnpm -r build:ncc
