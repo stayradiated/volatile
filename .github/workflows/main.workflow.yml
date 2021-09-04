@@ -56,6 +56,9 @@ jobs:
         name: Compile Typescript Packages
         run: |
           pnpm -r build
+
+          # hack to fix issue with ncc mixing CJS/ESM code
+          sed -i -e 's/"type": "module"//' ./kc-server/package.json
           pnpm -r build:ncc
 
       -
