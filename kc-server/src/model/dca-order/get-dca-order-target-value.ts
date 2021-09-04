@@ -47,9 +47,9 @@ const getDCAOrderTargetValue = async (
       minutesSinceStartDate,
   )
 
-  if (Number.isNaN(orderValue)) {
+  if (typeof orderValue !== 'number' || Number.isNaN(orderValue)) {
     return new IllegalStateError({
-      message: 'orderValue is NaN',
+      message: 'Calculated DCA order target value is not a number',
       context: {
         minuteAverage,
         tradedValue,

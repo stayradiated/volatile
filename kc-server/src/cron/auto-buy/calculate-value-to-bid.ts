@@ -61,7 +61,7 @@ const calculateValueToBid = async (
   const sumTarget = Number.parseFloat(row.sum_target ?? '0') + targetValue
   const sumAvailable = Number.parseFloat(row.sum_bid ?? '0') + availableBalance
 
-  const portion = Math.min(1, targetValue / sumTarget) * sumAvailable
+  const portion = Math.min(1, (targetValue / sumTarget) || 0) * sumAvailable
 
   const bid = Math.min(availableBalance, targetValue, portion)
   if (typeof bid !== 'number' || Number.isNaN(bid)) {
@@ -74,6 +74,7 @@ const calculateValueToBid = async (
         portion,
         sumAvailable,
         sumTarget,
+        row,
       },
     })
   }

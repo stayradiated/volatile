@@ -6082,12 +6082,12 @@ packages:
     resolution: {integrity: sha512-TXCMSDsEHMEEZ6eCA8rwRDbLu55MRGmrctljsBX/2v1d9/GzqHOxW5c5oPSgrUt2vBFXebu9rGqckXGPWOlYpg==}
     dependencies:
       has: 1.0.3
+    dev: true
 
   /is-core-module/2.6.0:
     resolution: {integrity: sha512-wShG8vs60jKfPWpF2KZRaAtvt3a20OAn7+IJ6hLPECpSABLcKtFKTTI4ZtH5QcBruBHlq+WsdHWyz0BCZW7svQ==}
     dependencies:
       has: 1.0.3
-    dev: true
 
   /is-date-object/1.0.5:
     resolution: {integrity: sha512-9YQaSxsAiSwcvS33MBk3wTCVnWK+HhF8VZR2jRxehM16QcVOdHqPn4VPHmRK4lSr38n9JriurInLcP90xsYNfQ==}
@@ -8990,7 +8990,7 @@ packages:
   /resolve/1.20.0:
     resolution: {integrity: sha512-wENBPt4ySzg4ybFQW2TT1zMQucPK95HSh/nq2CFTZVOGut2+pQvSsgtda4d26YrYcr067wjbmzOG8byDPBX63A==}
     dependencies:
-      is-core-module: 2.5.0
+      is-core-module: 2.6.0
       path-parse: 1.0.7
 
   /responselike/1.0.2:

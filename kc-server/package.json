@@ -49,9 +49,9 @@
     "@northscaler/better-error": "0.1.0-dev.10",
     "@stayradiated/dasset-api": "workspace:1.0.1",
     "@stayradiated/error-boundary": "1.10.0",
+    "@stayradiated/independent-reserve-api": "workspace:1.0.1",
     "@stayradiated/kc-keyring": "workspace:1.0.0",
     "@stayradiated/kiwi-coin-api": "workspace:1.0.1",
-    "@stayradiated/independent-reserve-api": "workspace:1.0.1",
     "@stayradiated/market-price": "workspace:1.0.0",
     "bcrypt": "5.0.1",
     "debug": "4.3.2",
@@ -70,7 +70,7 @@
   "ava": {
     "verbose": true,
     "files": [
-			"./dist/**/*.test.js"
+      "./dist/**/*.test.js"
     ]
   },
   "xo": {
