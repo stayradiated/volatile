@@ -9,6 +9,14 @@ import { bindActionHandler } from './util/action-handler.js'
 import { bindCronHandler } from './util/cron-handler.js'
 import { bindHandler } from './util/handler.js'
 
+import {
+  getExchangeUID,
+  EXCHANGE_DASSET,
+  EXCHANGE_INDEPENDENT_RESERVE,
+  EXCHANGE_KIWI_COIN,
+} from './model/exchange/index.js'
+import { pool } from './pool.js'
+
 const fastify = createFastify({ logger: true })
 
 const addAction = bindActionHandler(fastify)
@@ -43,3 +51,10 @@ const addRoute = bindHandler(fastify)
 addRoute('/webhook/stripe', webhooks.stripeHandler)
 
 void fastify.listen(PORT, '0.0.0.0')
+
+// Make sure exchanges exist in the database
+Promise.all([
+  getExchangeUID(pool, EXCHANGE_DASSET),
+  getExchangeUID(pool, EXCHANGE_KIWI_COIN),
+  getExchangeUID(pool, EXCHANGE_INDEPENDENT_RESERVE),
+]).catch(console.error)
