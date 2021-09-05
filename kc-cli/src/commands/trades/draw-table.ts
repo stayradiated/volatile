@@ -10,7 +10,7 @@ const sortByDateAsc = sort<RowData>(
 
 const calcTotals = (rows: readonly RowData[]): RowData => {
   const sum: RowData = {
-    orderID: undefined,
+    tradeID: '-',
     orderCreatedAt: undefined,
     date: DateTime.fromSeconds(0),
     exchange: '-',
@@ -42,7 +42,7 @@ const calcTotals = (rows: readonly RowData[]): RowData => {
 }
 
 const formatRow = (row: RowData): Row10 => {
-  const orderID = row.orderID ?? '-'
+  const tradeID = row.tradeID
   const orderCreatedAt = row.orderCreatedAt
     ? row.orderCreatedAt.toFormat('yyyy-LL-dd HH:mm:ss')
     : '-'
@@ -57,7 +57,7 @@ const formatRow = (row: RowData): Row10 => {
   const type = row.type
 
   return [
-    orderID,
+    tradeID,
     orderCreatedAt,
     date,
     exchange,
@@ -74,7 +74,7 @@ const drawTable = (unsortedRows: RowData[]): string => {
   const rowData = sortByDateAsc(unsortedRows)
 
   const header: Row10 = [
-    'orderID',
+    'tradeID',
     'created at',
     'trade at',
     'exchange',

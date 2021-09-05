@@ -14609,6 +14609,22 @@
             "deprecationReason": null
           },
           {
+            "name": "total_value",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "numeric",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "trade_id",
             "description": null,
             "args": [],
@@ -15142,6 +15158,18 @@
             "deprecationReason": null
           },
           {
+            "name": "total_value",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "value",
             "description": null,
             "args": [],
@@ -15191,6 +15219,18 @@
           },
           {
             "name": "price",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "total_value",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -15409,6 +15449,18 @@
             "deprecationReason": null
           },
           {
+            "name": "total_value",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "numeric_comparison_exp",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "trade_id",
             "description": null,
             "type": {
@@ -15611,6 +15663,18 @@
             "deprecationReason": null
           },
           {
+            "name": "total_value",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "numeric",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "trade_id",
             "description": null,
             "args": [],
@@ -15792,6 +15856,18 @@
           },
           {
             "name": "timestamp",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "total_value",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -15993,6 +16069,18 @@
             "deprecationReason": null
           },
           {
+            "name": "total_value",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "numeric",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "trade_id",
             "description": null,
             "args": [],
@@ -16174,6 +16262,18 @@
           },
           {
             "name": "timestamp",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "total_value",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -16400,6 +16500,18 @@
             "deprecationReason": null
           },
           {
+            "name": "total_value",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "trade_id",
             "description": null,
             "type": {
@@ -16557,6 +16669,12 @@
             "deprecationReason": null
           },
           {
+            "name": "total_value",
+            "description": "column name",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "trade_id",
             "description": "column name",
             "isDeprecated": false,
@@ -16631,6 +16749,18 @@
             "deprecationReason": null
           },
           {
+            "name": "total_value",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "value",
             "description": null,
             "args": [],
@@ -16691,6 +16821,18 @@
             "deprecationReason": null
           },
           {
+            "name": "total_value",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "value",
             "description": null,
             "type": {
@@ -16738,6 +16880,18 @@
           },
           {
             "name": "price",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "total_value",
             "description": null,
             "args": [],
             "type": {
@@ -16809,6 +16963,18 @@
             "deprecationReason": null
           },
           {
+            "name": "total_value",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "value",
             "description": null,
             "type": {
@@ -16856,6 +17022,18 @@
           },
           {
             "name": "price",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "total_value",
             "description": null,
             "args": [],
             "type": {
@@ -16927,6 +17105,18 @@
             "deprecationReason": null
           },
           {
+            "name": "total_value",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "value",
             "description": null,
             "type": {
@@ -16974,6 +17164,18 @@
           },
           {
             "name": "price",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "numeric",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "total_value",
             "description": null,
             "args": [],
             "type": {
@@ -17045,6 +17247,18 @@
             "deprecationReason": null
           },
           {
+            "name": "total_value",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "value",
             "description": null,
             "type": {
@@ -17092,6 +17306,18 @@
           },
           {
             "name": "price",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "total_value",
             "description": null,
             "args": [],
             "type": {
@@ -17163,6 +17389,18 @@
             "deprecationReason": null
           },
           {
+            "name": "total_value",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "value",
             "description": null,
             "type": {
@@ -17210,6 +17448,18 @@
           },
           {
             "name": "price",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "total_value",
             "description": null,
             "args": [],
             "type": {
@@ -17281,6 +17531,18 @@
             "deprecationReason": null
           },
           {
+            "name": "total_value",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "value",
             "description": null,
             "type": {
@@ -17328,6 +17590,18 @@
           },
           {
             "name": "price",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "total_value",
             "description": null,
             "args": [],
             "type": {
@@ -17388,6 +17662,18 @@
           },
           {
             "name": "price",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "total_value",
             "description": null,
             "type": {
               "kind": "ENUM",

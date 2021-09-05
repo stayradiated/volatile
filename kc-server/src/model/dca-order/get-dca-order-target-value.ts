@@ -36,7 +36,7 @@ const getDCAOrderTargetValue = async (
     return trades
   }
 
-  const tradedValue = trades.reduce((sum, trade) => sum + trade.value, 0)
+  const tradedValue = trades.reduce((sum, trade) => sum + trade.totalValue, 0)
 
   const minutesSinceStartDate = currentTime.diff(startAt).as('minutes')
   const minuteAverage = dailyAverage / 24 / 60

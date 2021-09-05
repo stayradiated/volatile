@@ -41,15 +41,15 @@ const QUERY_GET_TRADES = /* GraphQL */ `
       }
       order {
         created_at
-        order_id
       }
+      trade_id
       timestamp
       volume
       primary_currency
       type
       price
-      value
       fee
+      total_value
     }
   }
 `
@@ -81,16 +81,16 @@ export const handler = createHandler<Options>(async (config, argv) => {
 
   const rowData = result.data.kc_trade.map<RowData>((trade) => ({
     exchange: trade.exchange.id,
-    orderID: trade.order?.order_id,
+    tradeID: trade.trade_id,
     orderCreatedAt: trade.order
       ? DateTime.fromISO(trade.order.created_at)
       : undefined,
     date: DateTime.fromISO(trade.timestamp),
     price: trade.price,
     assetSymbol: trade.primary_currency,
-    nzd: trade.value,
+    nzd: trade.total_value,
     btc: trade.volume,
-    fee: (trade.fee / trade.value) * 100,
+    fee: (trade.fee / trade.total_value) * 100,
     type: trade.type,
   }))
 

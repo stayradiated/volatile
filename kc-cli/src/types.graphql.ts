@@ -1821,6 +1821,7 @@ export type Kc_Trade = {
   primary_currency: Scalars['String'];
   secondary_currency: Scalars['String'];
   timestamp: Scalars['timestamptz'];
+  total_value: Scalars['numeric'];
   trade_id: Scalars['String'];
   type: Scalars['String'];
   uid: Scalars['uuid'];
@@ -1882,6 +1883,7 @@ export type Kc_Trade_Avg_Fields = {
   __typename?: 'kc_trade_avg_fields';
   fee?: Maybe<Scalars['Float']>;
   price?: Maybe<Scalars['Float']>;
+  total_value?: Maybe<Scalars['Float']>;
   value?: Maybe<Scalars['Float']>;
   volume?: Maybe<Scalars['Float']>;
 };
@@ -1890,6 +1892,7 @@ export type Kc_Trade_Avg_Fields = {
 export type Kc_Trade_Avg_Order_By = {
   fee?: Maybe<Order_By>;
   price?: Maybe<Order_By>;
+  total_value?: Maybe<Order_By>;
   value?: Maybe<Order_By>;
   volume?: Maybe<Order_By>;
 };
@@ -1909,6 +1912,7 @@ export type Kc_Trade_Bool_Exp = {
   primary_currency?: Maybe<String_Comparison_Exp>;
   secondary_currency?: Maybe<String_Comparison_Exp>;
   timestamp?: Maybe<Timestamptz_Comparison_Exp>;
+  total_value?: Maybe<Numeric_Comparison_Exp>;
   trade_id?: Maybe<String_Comparison_Exp>;
   type?: Maybe<String_Comparison_Exp>;
   uid?: Maybe<Uuid_Comparison_Exp>;
@@ -1930,6 +1934,7 @@ export type Kc_Trade_Max_Fields = {
   primary_currency?: Maybe<Scalars['String']>;
   secondary_currency?: Maybe<Scalars['String']>;
   timestamp?: Maybe<Scalars['timestamptz']>;
+  total_value?: Maybe<Scalars['numeric']>;
   trade_id?: Maybe<Scalars['String']>;
   type?: Maybe<Scalars['String']>;
   uid?: Maybe<Scalars['uuid']>;
@@ -1949,6 +1954,7 @@ export type Kc_Trade_Max_Order_By = {
   primary_currency?: Maybe<Order_By>;
   secondary_currency?: Maybe<Order_By>;
   timestamp?: Maybe<Order_By>;
+  total_value?: Maybe<Order_By>;
   trade_id?: Maybe<Order_By>;
   type?: Maybe<Order_By>;
   uid?: Maybe<Order_By>;
@@ -1969,6 +1975,7 @@ export type Kc_Trade_Min_Fields = {
   primary_currency?: Maybe<Scalars['String']>;
   secondary_currency?: Maybe<Scalars['String']>;
   timestamp?: Maybe<Scalars['timestamptz']>;
+  total_value?: Maybe<Scalars['numeric']>;
   trade_id?: Maybe<Scalars['String']>;
   type?: Maybe<Scalars['String']>;
   uid?: Maybe<Scalars['uuid']>;
@@ -1988,6 +1995,7 @@ export type Kc_Trade_Min_Order_By = {
   primary_currency?: Maybe<Order_By>;
   secondary_currency?: Maybe<Order_By>;
   timestamp?: Maybe<Order_By>;
+  total_value?: Maybe<Order_By>;
   trade_id?: Maybe<Order_By>;
   type?: Maybe<Order_By>;
   uid?: Maybe<Order_By>;
@@ -2009,6 +2017,7 @@ export type Kc_Trade_Order_By = {
   primary_currency?: Maybe<Order_By>;
   secondary_currency?: Maybe<Order_By>;
   timestamp?: Maybe<Order_By>;
+  total_value?: Maybe<Order_By>;
   trade_id?: Maybe<Order_By>;
   type?: Maybe<Order_By>;
   uid?: Maybe<Order_By>;
@@ -2038,6 +2047,8 @@ export enum Kc_Trade_Select_Column {
   /** column name */
   Timestamp = 'timestamp',
   /** column name */
+  TotalValue = 'total_value',
+  /** column name */
   TradeId = 'trade_id',
   /** column name */
   Type = 'type',
@@ -2058,6 +2069,7 @@ export type Kc_Trade_Stddev_Fields = {
   __typename?: 'kc_trade_stddev_fields';
   fee?: Maybe<Scalars['Float']>;
   price?: Maybe<Scalars['Float']>;
+  total_value?: Maybe<Scalars['Float']>;
   value?: Maybe<Scalars['Float']>;
   volume?: Maybe<Scalars['Float']>;
 };
@@ -2066,6 +2078,7 @@ export type Kc_Trade_Stddev_Fields = {
 export type Kc_Trade_Stddev_Order_By = {
   fee?: Maybe<Order_By>;
   price?: Maybe<Order_By>;
+  total_value?: Maybe<Order_By>;
   value?: Maybe<Order_By>;
   volume?: Maybe<Order_By>;
 };
@@ -2075,6 +2088,7 @@ export type Kc_Trade_Stddev_Pop_Fields = {
   __typename?: 'kc_trade_stddev_pop_fields';
   fee?: Maybe<Scalars['Float']>;
   price?: Maybe<Scalars['Float']>;
+  total_value?: Maybe<Scalars['Float']>;
   value?: Maybe<Scalars['Float']>;
   volume?: Maybe<Scalars['Float']>;
 };
@@ -2083,6 +2097,7 @@ export type Kc_Trade_Stddev_Pop_Fields = {
 export type Kc_Trade_Stddev_Pop_Order_By = {
   fee?: Maybe<Order_By>;
   price?: Maybe<Order_By>;
+  total_value?: Maybe<Order_By>;
   value?: Maybe<Order_By>;
   volume?: Maybe<Order_By>;
 };
@@ -2092,6 +2107,7 @@ export type Kc_Trade_Stddev_Samp_Fields = {
   __typename?: 'kc_trade_stddev_samp_fields';
   fee?: Maybe<Scalars['Float']>;
   price?: Maybe<Scalars['Float']>;
+  total_value?: Maybe<Scalars['Float']>;
   value?: Maybe<Scalars['Float']>;
   volume?: Maybe<Scalars['Float']>;
 };
@@ -2100,6 +2116,7 @@ export type Kc_Trade_Stddev_Samp_Fields = {
 export type Kc_Trade_Stddev_Samp_Order_By = {
   fee?: Maybe<Order_By>;
   price?: Maybe<Order_By>;
+  total_value?: Maybe<Order_By>;
   value?: Maybe<Order_By>;
   volume?: Maybe<Order_By>;
 };
@@ -2109,6 +2126,7 @@ export type Kc_Trade_Sum_Fields = {
   __typename?: 'kc_trade_sum_fields';
   fee?: Maybe<Scalars['numeric']>;
   price?: Maybe<Scalars['numeric']>;
+  total_value?: Maybe<Scalars['numeric']>;
   value?: Maybe<Scalars['numeric']>;
   volume?: Maybe<Scalars['numeric']>;
 };
@@ -2117,6 +2135,7 @@ export type Kc_Trade_Sum_Fields = {
 export type Kc_Trade_Sum_Order_By = {
   fee?: Maybe<Order_By>;
   price?: Maybe<Order_By>;
+  total_value?: Maybe<Order_By>;
   value?: Maybe<Order_By>;
   volume?: Maybe<Order_By>;
 };
@@ -2126,6 +2145,7 @@ export type Kc_Trade_Var_Pop_Fields = {
   __typename?: 'kc_trade_var_pop_fields';
   fee?: Maybe<Scalars['Float']>;
   price?: Maybe<Scalars['Float']>;
+  total_value?: Maybe<Scalars['Float']>;
   value?: Maybe<Scalars['Float']>;
   volume?: Maybe<Scalars['Float']>;
 };
@@ -2134,6 +2154,7 @@ export type Kc_Trade_Var_Pop_Fields = {
 export type Kc_Trade_Var_Pop_Order_By = {
   fee?: Maybe<Order_By>;
   price?: Maybe<Order_By>;
+  total_value?: Maybe<Order_By>;
   value?: Maybe<Order_By>;
   volume?: Maybe<Order_By>;
 };
@@ -2143,6 +2164,7 @@ export type Kc_Trade_Var_Samp_Fields = {
   __typename?: 'kc_trade_var_samp_fields';
   fee?: Maybe<Scalars['Float']>;
   price?: Maybe<Scalars['Float']>;
+  total_value?: Maybe<Scalars['Float']>;
   value?: Maybe<Scalars['Float']>;
   volume?: Maybe<Scalars['Float']>;
 };
@@ -2151,6 +2173,7 @@ export type Kc_Trade_Var_Samp_Fields = {
 export type Kc_Trade_Var_Samp_Order_By = {
   fee?: Maybe<Order_By>;
   price?: Maybe<Order_By>;
+  total_value?: Maybe<Order_By>;
   value?: Maybe<Order_By>;
   volume?: Maybe<Order_By>;
 };
@@ -2160,6 +2183,7 @@ export type Kc_Trade_Variance_Fields = {
   __typename?: 'kc_trade_variance_fields';
   fee?: Maybe<Scalars['Float']>;
   price?: Maybe<Scalars['Float']>;
+  total_value?: Maybe<Scalars['Float']>;
   value?: Maybe<Scalars['Float']>;
   volume?: Maybe<Scalars['Float']>;
 };
@@ -2168,6 +2192,7 @@ export type Kc_Trade_Variance_Fields = {
 export type Kc_Trade_Variance_Order_By = {
   fee?: Maybe<Order_By>;
   price?: Maybe<Order_By>;
+  total_value?: Maybe<Order_By>;
   value?: Maybe<Order_By>;
   volume?: Maybe<Order_By>;
 };
