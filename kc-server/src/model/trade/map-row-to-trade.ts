@@ -18,6 +18,7 @@ const mapRowToTrade = (row: s.trade.JSONSelectable): Trade => ({
   price: row.price,
   value: row.value,
   fee: row.fee,
+  totalValue: row.total_value,
 })
 
 export { mapRowToTrade }

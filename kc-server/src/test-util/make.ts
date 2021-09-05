@@ -172,6 +172,12 @@ const makeTrade: MakeFn = (make) => async () => {
     orderUID = await make.order(),
   } = make
 
+  const volume = round(6, Math.random())
+  const price = round(2, Math.random() * 100_000)
+  const value = volume * price
+  const fee = round(2, Math.random() * 10)
+  const totalValue = value + fee
+
   const trade = await throwIfError<Trade>(
     insertTrade(pool, {
       userUID,
@@ -180,12 +186,13 @@ const makeTrade: MakeFn = (make) => async () => {
       tradeID: randomUUID(),
       primaryCurrency: 'BTC',
       secondaryCurrency: 'NZD',
-      volume: round(6, Math.random()),
       type: Math.random() > 0.5 ? 'BUY' : 'SELL',
-      price: round(2, Math.random() * 100_000),
-      value: round(2, Math.random() * 100_000),
-      fee: round(2, Math.random() * 10),
       timestamp: DateTime.local(),
+      volume,
+      price,
+      value,
+      fee,
+      totalValue,
     }),
   )
 

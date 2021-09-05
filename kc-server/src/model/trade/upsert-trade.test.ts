@@ -26,6 +26,7 @@ test('upsertTrade', async (t) => {
     price: 12_345.67,
     value: 10_821.51,
     fee: 0.2345,
+    totalValue: 88_281,
   }
 
   const output = await throwIfError<Trade>(upsertTrade(pool, input))
@@ -47,6 +48,7 @@ test('upsertTrade', async (t) => {
     price: input.price,
     value: input.value,
     fee: input.fee,
+    total_value: input.totalValue,
   })
   t.is('string', typeof row.created_at)
   t.is('string', typeof row.updated_at)

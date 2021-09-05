@@ -23,6 +23,7 @@ select_permissions:
     - primary_currency
     - secondary_currency
     - timestamp
+    - total_value
     - trade_id
     - type
     - uid

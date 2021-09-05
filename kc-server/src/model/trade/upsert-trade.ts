@@ -32,6 +32,7 @@ const upsertTrade = async (
           price: trade.price,
           value: trade.value,
           fee: trade.fee,
+          total_value: trade.totalValue,
         },
         db.constraint('unique_trade_exchange_trade_id'),
         {
@@ -45,6 +46,7 @@ const upsertTrade = async (
             'price',
             'value',
             'fee',
+            'total_value',
           ],
           returning: ['uid'],
         },

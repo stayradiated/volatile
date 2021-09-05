@@ -92,6 +92,7 @@ test('should calculate with multiple trade', async (t) => {
       price: 1000,
       fee: 10,
       value: tradedValue / 2,
+      totalValue: tradedValue / 2 + 10,
     }),
   )
 
@@ -109,6 +110,7 @@ test('should calculate with multiple trade', async (t) => {
       price: 1000,
       fee: 10,
       value: tradedValue / 2,
+      totalValue: tradedValue / 2 + 10,
     }),
   )
 

@@ -193,7 +193,8 @@ CREATE TABLE kc.trade (
     price numeric(12,2) NOT NULL,
     value numeric(12,2) NOT NULL,
     fee numeric(12,4) NOT NULL,
-    secondary_currency text NOT NULL
+    secondary_currency text NOT NULL,
+    total_value numeric(12,2) NOT NULL
 );
 
 
@@ -706,4 +707,5 @@ INSERT INTO kc.schema_migrations (version) VALUES
     ('20210812091127'),
     ('20210814232237'),
     ('20210830210200'),
-    ('20210904183924');
+    ('20210904183924'),
+    ('20210905023303');

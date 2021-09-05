@@ -16,6 +16,7 @@ type Trade = {
   price: number
   value: number
   fee: number
+  totalValue: number
 }
 
 export { Trade }

@@ -61,6 +61,7 @@ const syncPageLoop = async (
           volume: trade.volume,
           value: trade.price * trade.volume,
           fee: trade.fee,
+          totalValue: trade.price * trade.volume + trade.fee,
         })
         if (upsertTradeError instanceof Error) {
           return upsertTradeError

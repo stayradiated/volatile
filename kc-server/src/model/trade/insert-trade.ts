@@ -32,6 +32,7 @@ const insertTrade = async (
           price: trade.price,
           value: trade.value,
           fee: trade.fee,
+          total_value: trade.totalValue,
         },
         {
           returning: ['uid'],
