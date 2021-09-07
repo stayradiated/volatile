@@ -5,4 +5,12 @@ const USD_NZD = createMarketSourceForCurrency({
   symbol: 'NZD',
 })
 
-export default USD_NZD
+const USD_AUD = createMarketSourceForCurrency({
+  base: 'USD',
+  symbol: 'AUD',
+})
+
+export {
+  USD_NZD,
+  USD_AUD
+}

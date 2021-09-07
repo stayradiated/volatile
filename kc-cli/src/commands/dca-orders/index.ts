@@ -29,6 +29,7 @@ const QUERY_GET_DCA_ORDERS = /* GraphQL */ `
       dca_order_histories(limit: 1, order_by: { created_at: desc }) {
         created_at
         market_price
+        market_offset
         available_balance
         target_value
         created_order

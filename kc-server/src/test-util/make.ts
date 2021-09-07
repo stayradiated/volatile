@@ -4,7 +4,7 @@ import { throwIfError } from '@stayradiated/error-boundary'
 
 import { getExchangeUID, EXCHANGE_KIWI_COIN } from '../model/exchange/index.js'
 import { getMarketUID, MARKET_KIWI_COIN } from '../model/market/index.js'
-import { insertMarketPrice } from '../model/market-price/index.js'
+import { insertMarketPrice, MarketPrice } from '../model/market-price/index.js'
 import { insertDCAOrder, DCAOrder } from '../model/dca-order/index.js'
 import {
   insertDCAOrderHistory,
@@ -35,7 +35,7 @@ type MakeInstance = {
   market: MakeInstanceFn
   marketUID?: string
 
-  marketPrice: MakeInstanceFn
+  marketPrice: MakeInstanceFn<MarketPrice>
   marketPriceUID?: string
 
   dcaOrder: MakeInstanceFn<DCAOrder>
@@ -107,12 +107,12 @@ const makeMarket: MakeFn = (make) => async () => {
   return marketUID
 }
 
-const makeMarketPrice: MakeFn = (make) => async () => {
+const makeMarketPrice: MakeFn<MarketPrice> = (make) => async (options) => {
   const { marketUID = await make.market() } = make
 
-  const price = round(2, Math.random() * 1_000_000)
+  const sourcePrice = round(2, Math.random() * 1_000_000)
   const fxRate = round(6, Math.random() * 3)
-  const priceNZD = price * fxRate
+  const price = sourcePrice * fxRate
   const timestamp = DateTime.local()
 
   await throwIfError(
@@ -120,10 +120,12 @@ const makeMarketPrice: MakeFn = (make) => async () => {
       timestamp,
       marketUID,
       assetSymbol: 'BTC',
-      currency: 'USD',
+      sourceCurrency: 'USD',
+      sourcePrice,
       fxRate,
       price,
-      priceNZD,
+      currency: 'NZD',
+      ...options,
     }),
   )
 

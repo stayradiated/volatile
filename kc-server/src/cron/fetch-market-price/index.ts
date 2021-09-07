@@ -1,13 +1,9 @@
-import { DateTime } from 'luxon'
 import { errorListBoundary } from '@stayradiated/error-boundary'
 
-import { getMarketUID } from '../../model/market/index.js'
-import { insertMarketPrice } from '../../model/market-price/index.js'
-
 import type { CronHandlerFn } from '../../util/cron-handler.js'
-import { fetchCurrencyRate, marketPriceInstanceList } from './instance.js'
 
-import type { MarketPriceInstance } from './market-price-config.js'
+import { marketPriceInstanceList } from './instance.js'
+import { fetchMarketPrice } from './fetch-market-price.js'
 
 type Input = Record<string, unknown>
 type Output = {
@@ -19,53 +15,10 @@ const fetchMarketPriceHandler: CronHandlerFn<Input, Output> = async (
 ) => {
   const { pool } = context
 
-  const fetchMarketPrice = async (
-    marketPriceInstance: MarketPriceInstance,
-  ): Promise<void | Error> => {
-    const { market, fetchPrice, currency, assetSymbol } = marketPriceInstance
-
-    const marketUID = await getMarketUID(pool, market)
-    if (marketUID instanceof Error) {
-      return marketUID
-    }
-
-    const timestamp = DateTime.local()
-
-    const [price, fxRate] = await Promise.all([
-      fetchPrice(),
-      fetchCurrencyRate(currency),
-    ])
-
-    if (price instanceof Error) {
-      return price
-    }
-
-    if (fxRate instanceof Error) {
-      return fxRate
-    }
-
-    const priceNZD = price * fxRate
-
-    const error = await insertMarketPrice(pool, {
-      timestamp,
-      marketUID,
-      price,
-      currency,
-      assetSymbol,
-      fxRate,
-      priceNZD,
-    })
-    if (error instanceof Error) {
-      return error
-    }
-
-    return undefined
-  }
-
   const error = await errorListBoundary(async () =>
     Promise.all(
       marketPriceInstanceList.map(async (instance) =>
-        fetchMarketPrice(instance),
+        fetchMarketPrice(pool, instance),
       ),
     ),
   )

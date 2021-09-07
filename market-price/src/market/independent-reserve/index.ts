@@ -4,17 +4,17 @@ import { DateTime, Duration } from 'luxon'
 import { MarketPriceSource } from '../../util/market-price-source.js'
 
 type Options = {
-  symbol: string
+  assetSymbol: string
   currency: string
 }
 
 const marketSource: MarketPriceSource<Options> = {
   minCacheDuration: Duration.fromISOTime('00:00:30', {}),
   fetch: async (options) => {
-    const { symbol, currency } = options
+    const { assetSymbol, currency } = options
 
     const result = await ir.getMarketSummary({
-      primaryCurrencyCode: symbol,
+      primaryCurrencyCode: assetSymbol,
       secondaryCurrencyCode: currency,
     })
     if (result instanceof Error) {

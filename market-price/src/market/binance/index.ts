@@ -15,7 +15,7 @@ const binance = ky.create({
 })
 
 type Options = {
-  symbol: string
+  assetSymbol: string
   currency: string
 }
 
@@ -27,17 +27,17 @@ type APIResponse = {
 const marketSource: MarketPriceSource<Options> = {
   minCacheDuration: Duration.fromISOTime('00:00:05', {}),
   fetch: async (options) => {
-    const { symbol, currency } = options
+    const { assetSymbol, currency } = options
 
-    if (symbol.toUpperCase() !== symbol) {
-      return new Error(`Symbol must be uppercase, received "${symbol}".`)
+    if (assetSymbol.toUpperCase() !== assetSymbol) {
+      return new Error(`Asset symbol must be uppercase, received "${assetSymbol}".`)
     }
 
     if (currency.toUpperCase() !== currency) {
       return new Error(`Currency must be uppercase, received "${currency}".`)
     }
 
-    const tradingPair = symbol + currency
+    const tradingPair = assetSymbol + currency
 
     const lastUpdated = DateTime.local()
 
@@ -56,7 +56,7 @@ const marketSource: MarketPriceSource<Options> = {
         message: 'Could not fetch average price from binance.us.',
         cause: await withErrorResponse(result),
         context: {
-          symbol,
+          assetSymbol,
           currency,
         },
       })

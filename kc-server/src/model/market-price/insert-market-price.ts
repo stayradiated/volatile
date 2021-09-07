@@ -12,11 +12,12 @@ const insertMarketPrice = async (
   const marketPrice: s.market_price.Insertable = {
     timestamp: options.timestamp.toJSDate(),
     market_uid: options.marketUID,
+    asset_symbol: options.assetSymbol,
+    source_price: options.sourcePrice,
+    source_currency: options.sourceCurrency,
+    fx_rate: options.fxRate,
     price: options.price,
     currency: options.currency,
-    asset_symbol: options.assetSymbol,
-    fx_rate: options.fxRate,
-    price_nzd: options.priceNZD,
   }
 
   const error = await errorBoundary(async () =>

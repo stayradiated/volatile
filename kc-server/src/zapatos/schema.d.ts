@@ -1762,17 +1762,17 @@ declare module 'zapatos/schema' {
       */
       market_uid: string;
       /**
-      * **market_price.price**
+      * **market_price.source_price**
       * - `numeric` in database
       * - `NOT NULL`, no default
       */
-      price: number;
+      source_price: number;
       /**
-      * **market_price.currency**
+      * **market_price.source_currency**
       * - `bpchar` in database
       * - `NOT NULL`, no default
       */
-      currency: string;
+      source_currency: string;
       /**
       * **market_price.fx_rate**
       * - `numeric` in database
@@ -1780,17 +1780,23 @@ declare module 'zapatos/schema' {
       */
       fx_rate: number;
       /**
-      * **market_price.price_nzd**
+      * **market_price.price**
       * - `numeric` in database
       * - `NOT NULL`, no default
       */
-      price_nzd: number;
+      price: number;
       /**
       * **market_price.asset_symbol**
       * - `varchar` in database
       * - `NOT NULL`, no default
       */
       asset_symbol: string;
+      /**
+      * **market_price.currency**
+      * - `text` in database
+      * - `NOT NULL`, no default
+      */
+      currency: string;
     }
     export interface JSONSelectable {
       /**
@@ -1806,17 +1812,17 @@ declare module 'zapatos/schema' {
       */
       market_uid: string;
       /**
-      * **market_price.price**
+      * **market_price.source_price**
       * - `numeric` in database
       * - `NOT NULL`, no default
       */
-      price: number;
+      source_price: number;
       /**
-      * **market_price.currency**
+      * **market_price.source_currency**
       * - `bpchar` in database
       * - `NOT NULL`, no default
       */
-      currency: string;
+      source_currency: string;
       /**
       * **market_price.fx_rate**
       * - `numeric` in database
@@ -1824,17 +1830,23 @@ declare module 'zapatos/schema' {
       */
       fx_rate: number;
       /**
-      * **market_price.price_nzd**
+      * **market_price.price**
       * - `numeric` in database
       * - `NOT NULL`, no default
       */
-      price_nzd: number;
+      price: number;
       /**
       * **market_price.asset_symbol**
       * - `varchar` in database
       * - `NOT NULL`, no default
       */
       asset_symbol: string;
+      /**
+      * **market_price.currency**
+      * - `text` in database
+      * - `NOT NULL`, no default
+      */
+      currency: string;
     }
     export interface Whereable {
       /**
@@ -1850,17 +1862,17 @@ declare module 'zapatos/schema' {
       */
       market_uid?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
       /**
-      * **market_price.price**
+      * **market_price.source_price**
       * - `numeric` in database
       * - `NOT NULL`, no default
       */
-      price?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+      source_price?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
       /**
-      * **market_price.currency**
+      * **market_price.source_currency**
       * - `bpchar` in database
       * - `NOT NULL`, no default
       */
-      currency?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      source_currency?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
       /**
       * **market_price.fx_rate**
       * - `numeric` in database
@@ -1868,17 +1880,23 @@ declare module 'zapatos/schema' {
       */
       fx_rate?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
       /**
-      * **market_price.price_nzd**
+      * **market_price.price**
       * - `numeric` in database
       * - `NOT NULL`, no default
       */
-      price_nzd?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+      price?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
       /**
       * **market_price.asset_symbol**
       * - `varchar` in database
       * - `NOT NULL`, no default
       */
       asset_symbol?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **market_price.currency**
+      * - `text` in database
+      * - `NOT NULL`, no default
+      */
+      currency?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
     }
     export interface Insertable {
       /**
@@ -1894,17 +1912,17 @@ declare module 'zapatos/schema' {
       */
       market_uid: string | db.Parameter<string> | db.SQLFragment;
       /**
-      * **market_price.price**
+      * **market_price.source_price**
       * - `numeric` in database
       * - `NOT NULL`, no default
       */
-      price: number | db.Parameter<number> | db.SQLFragment;
+      source_price: number | db.Parameter<number> | db.SQLFragment;
       /**
-      * **market_price.currency**
+      * **market_price.source_currency**
       * - `bpchar` in database
       * - `NOT NULL`, no default
       */
-      currency: string | db.Parameter<string> | db.SQLFragment;
+      source_currency: string | db.Parameter<string> | db.SQLFragment;
       /**
       * **market_price.fx_rate**
       * - `numeric` in database
@@ -1912,17 +1930,23 @@ declare module 'zapatos/schema' {
       */
       fx_rate: number | db.Parameter<number> | db.SQLFragment;
       /**
-      * **market_price.price_nzd**
+      * **market_price.price**
       * - `numeric` in database
       * - `NOT NULL`, no default
       */
-      price_nzd: number | db.Parameter<number> | db.SQLFragment;
+      price: number | db.Parameter<number> | db.SQLFragment;
       /**
       * **market_price.asset_symbol**
       * - `varchar` in database
       * - `NOT NULL`, no default
       */
       asset_symbol: string | db.Parameter<string> | db.SQLFragment;
+      /**
+      * **market_price.currency**
+      * - `text` in database
+      * - `NOT NULL`, no default
+      */
+      currency: string | db.Parameter<string> | db.SQLFragment;
     }
     export interface Updatable {
       /**
@@ -1938,17 +1962,17 @@ declare module 'zapatos/schema' {
       */
       market_uid?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
       /**
-      * **market_price.price**
+      * **market_price.source_price**
       * - `numeric` in database
       * - `NOT NULL`, no default
       */
-      price?: number | db.Parameter<number> | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
+      source_price?: number | db.Parameter<number> | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
       /**
-      * **market_price.currency**
+      * **market_price.source_currency**
       * - `bpchar` in database
       * - `NOT NULL`, no default
       */
-      currency?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+      source_currency?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
       /**
       * **market_price.fx_rate**
       * - `numeric` in database
@@ -1956,17 +1980,23 @@ declare module 'zapatos/schema' {
       */
       fx_rate?: number | db.Parameter<number> | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
       /**
-      * **market_price.price_nzd**
+      * **market_price.price**
       * - `numeric` in database
       * - `NOT NULL`, no default
       */
-      price_nzd?: number | db.Parameter<number> | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
+      price?: number | db.Parameter<number> | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
       /**
       * **market_price.asset_symbol**
       * - `varchar` in database
       * - `NOT NULL`, no default
       */
       asset_symbol?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+      /**
+      * **market_price.currency**
+      * - `text` in database
+      * - `NOT NULL`, no default
+      */
+      currency?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
     }
     export type UniqueIndex = 'market_price_pkey';
     export type Column = keyof Selectable;

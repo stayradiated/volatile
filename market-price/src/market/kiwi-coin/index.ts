@@ -4,16 +4,16 @@ import { DateTime, Duration } from 'luxon'
 import { MarketPriceSource } from '../../util/market-price-source.js'
 
 type Options = {
-  symbol: string
+  assetSymbol: string
   currency: string
 }
 
 const marketSource: MarketPriceSource<Options> = {
   minCacheDuration: Duration.fromISOTime('00:00:30', {}),
   fetch: async (options) => {
-    const { symbol, currency } = options
-    if (symbol !== 'BTC') {
-      return new Error(`Symbol must be "BTC", received ${symbol}`)
+    const { assetSymbol, currency } = options
+    if (assetSymbol !== 'BTC') {
+      return new Error(`Asset symbol must be "BTC", received ${assetSymbol}`)
     }
 
     if (currency !== 'NZD') {

@@ -10,10 +10,11 @@ select_permissions:
     columns:
     - timestamp
     - market_uid
+    - source_price
+    - source_currency
+    - fx_rate
     - price
     - currency
-    - fx_rate
-    - price_nzd
     - asset_symbol
     filter: {}
     limit: 100
@@ -22,10 +23,11 @@ select_permissions:
     columns:
     - timestamp
     - market_uid
+    - source_price
+    - source_currency
+    - fx_rate
     - price
     - currency
-    - fx_rate
-    - price_nzd
     - asset_symbol
     filter: {}
     limit: 100

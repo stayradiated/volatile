@@ -71,6 +71,7 @@ const executeDCAOrder = async (
   const marketPrice = await selectAvgMarketPrice(pool, {
     marketUID: dcaOrder.marketUID,
     assetSymbol: dcaOrder.primaryCurrency,
+    currency: dcaOrder.secondaryCurrency,
   })
   if (marketPrice instanceof Error) {
     return marketPrice

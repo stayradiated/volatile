@@ -1,53 +1,104 @@
-import { inspect } from 'util'
+import { Market } from '../../model/market/index.js'
 
 import { IllegalArgumentError } from '../../util/error.js'
-import { currencyConfigList, Currency } from './currency-config.js'
+
 import {
   marketPriceConfigList,
-  MarketPriceInstance,
-} from './market-price-config.js'
+  MarketPriceConfig,
+  Currency,
+  CurrencyPair,
+  AssetSymbol,
+} from './config.js'
 
-const currencyFnList = currencyConfigList.map((currencyConfig) => {
-  const { createFetchRateFn } = currencyConfig
-  return {
-    ...currencyConfig,
-    fetchRate: createFetchRateFn(),
-  }
-})
+import { resolveMarketPriceMap } from './resolve-market-price.js'
+import { resolveCurrencyMap } from './resolve-currency.js'
 
-const fetchCurrencyRate = async (
-  currency: Currency,
-): Promise<number | Error> => {
-  if (currency === 'NZD') {
-    return 1
-  }
-
-  const currencyConfig = currencyFnList.find(
-    (currencyConfig) => currencyConfig.currency === currency,
-  )
-  if (!currencyConfig) {
-    return new IllegalArgumentError({
-      message: `Could not find currency config for ${inspect(currency)}.`,
-      context: { currency },
-    })
-  }
-
-  return currencyConfig.fetchRate()
+type CreateFetchSourcePriceOptions = {
+  market: Market
+  assetSymbol: AssetSymbol
+  currency: Currency
 }
 
-const marketPriceInstanceList: MarketPriceInstance[] =
-  marketPriceConfigList.flatMap((marketPriceConfig) => {
-    const { market, createFetchPriceFn, currency, assetSymbols } =
-      marketPriceConfig
-    return assetSymbols.map((assetSymbol) => ({
-      market,
-      currency,
-      assetSymbol,
-      fetchPrice: createFetchPriceFn({
-        assetSymbol,
-        currency,
-      }),
-    }))
+const createFetchSourcePrice = (
+  options: CreateFetchSourcePriceOptions,
+): (() => Promise<number | Error>) => {
+  const { market, assetSymbol, currency } = options
+
+  if (!resolveMarketPriceMap.has(market)) {
+    return async () =>
+      new IllegalArgumentError({
+        message: `Could not resolve market price for "${market.ID}"`,
+        context: { market, assetSymbol, currency },
+      })
+  }
+
+  return resolveMarketPriceMap.get(market)!({
+    assetSymbol,
+    currency,
+  })
+}
+
+type CreateFetchFxRateOptions = {
+  currencyPair: CurrencyPair
+}
+
+const createFetchFxRate = (
+  options: CreateFetchFxRateOptions,
+): (() => Promise<number | Error>) => {
+  const { currencyPair } = options
+  if (!resolveCurrencyMap.has(currencyPair)) {
+    return async () =>
+      new IllegalArgumentError({
+        message: `Could not resolve market price for "${currencyPair.join(
+          '/',
+        )}"`,
+        context: { currencyPair },
+      })
+  }
+
+  return resolveCurrencyMap.get(currencyPair)!
+}
+
+type MarketPriceInstance = {
+  market: Market
+  assetSymbol: AssetSymbol
+  sourceCurrency: Currency
+  currency: Currency
+  fetchSourcePrice: () => Promise<number | Error>
+  fetchFxRate: () => Promise<number | Error>
+}
+
+const toInstance = (
+  marketPriceConfig: MarketPriceConfig,
+): MarketPriceInstance => {
+  const { market, pair, convert } = marketPriceConfig
+
+  const [assetSymbol, sourceCurrency] = pair
+  const currency = convert ? convert[1] : sourceCurrency
+
+  const fetchSourcePrice = createFetchSourcePrice({
+    market,
+    assetSymbol,
+    currency: sourceCurrency,
   })
 
-export { currencyFnList, fetchCurrencyRate, marketPriceInstanceList }
+  const fetchFxRate = convert
+    ? createFetchFxRate({ currencyPair: convert })
+    : async () => 1
+
+  return {
+    market,
+    assetSymbol,
+    sourceCurrency,
+    currency,
+    fetchSourcePrice,
+    fetchFxRate,
+  }
+}
+
+const marketPriceInstanceList = marketPriceConfigList.map((config) =>
+  toInstance(config),
+)
+
+export { marketPriceInstanceList }
+export type { MarketPriceInstance }

@@ -45,7 +45,7 @@ test('should calculate without trades', async (t) => {
   t.is(dailyAverage, sum)
 })
 
-test('should calculate with multiple trade', async (t) => {
+test('should calculate with multiple trades', async (t) => {
   const { pool, make } = t.context
 
   const userUID = await make.user()
@@ -91,8 +91,8 @@ test('should calculate with multiple trade', async (t) => {
       volume: 0.4,
       price: 1000,
       fee: 10,
-      value: tradedValue / 2,
-      totalValue: tradedValue / 2 + 10,
+      value: tradedValue / 2 - 10 ,
+      totalValue: tradedValue / 2,
     }),
   )
 
@@ -109,8 +109,8 @@ test('should calculate with multiple trade', async (t) => {
       volume: 0.4,
       price: 1000,
       fee: 10,
-      value: tradedValue / 2,
-      totalValue: tradedValue / 2 + 10,
+      value: tradedValue / 2 - 10,
+      totalValue: tradedValue / 2,
     }),
   )
 

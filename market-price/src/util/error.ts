@@ -34,4 +34,10 @@ class APIError extends BetterError {
   }
 }
 
-export { NetError, APIError, withErrorResponse }
+class IllegalStateError extends BetterError {
+  constructor(arg: BetterErrorConstructorArg) {
+    super(arg)
+  }
+}
+
+export { NetError, APIError, IllegalStateError, withErrorResponse }

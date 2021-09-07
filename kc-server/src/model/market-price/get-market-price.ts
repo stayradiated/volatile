@@ -5,16 +5,27 @@ import { errorBoundary } from '@stayradiated/error-boundary'
 import { DBError } from '../../util/error.js'
 import type { Pool } from '../../types.js'
 
+type GetMarketPriceOptions = {
+  marketUID: string
+  assetSymbol: string
+  currency: string
+}
+
 const getMarketPrice = async (
   pool: Pool,
-  marketUID: string,
-  assetSymbol: string,
+  options: GetMarketPriceOptions,
 ): Promise<number | Error> => {
+  const { marketUID, assetSymbol, currency } = options
+
   const rows = await errorBoundary(async () =>
     db.sql<s.market_price.SQL, s.market_price.Selectable[]>`
-    SELECT ${'price_nzd'}
+    SELECT ${'price'}
     FROM ${'market_price'} 
-    WHERE ${{ market_uid: marketUID, asset_symbol: assetSymbol }}
+    WHERE ${{
+      market_uid: marketUID,
+      asset_symbol: assetSymbol,
+      currency,
+    }}
     ORDER BY ${'timestamp'} DESC
     FETCH FIRST ROW ONLY
   `.run(pool),
@@ -24,19 +35,19 @@ const getMarketPrice = async (
     return new DBError({
       message: `Could not get market price.`,
       cause: rows,
-      context: { marketUID, assetSymbol },
+      context: options,
     })
   }
 
   const row = rows[0]
   if (!row) {
     return new DBError({
-      message: 'No market price available.',
-      context: { marketUID, assetSymbol },
+      message: `No market price available for ${assetSymbol}/${currency}.`,
+      context: options,
     })
   }
 
-  return row.price_nzd
+  return row.price
 }
 
 export { getMarketPrice }

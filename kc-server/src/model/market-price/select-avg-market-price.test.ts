@@ -4,23 +4,21 @@ import { throwIfError } from '@stayradiated/error-boundary'
 import { test } from '../../test-util/ava.js'
 
 import { selectAvgMarketPrice } from './select-avg-market-price.js'
-import { insertMarketPrice } from './insert-market-price.js'
 
 test('selectOpenOrdersForDCA: should return open orders', async (t) => {
   const { pool, make } = t.context
   const marketUID = await make.market()
   const assetSymbol = 'BTC'
+  const currency = 'NZD'
 
-  const makeMarketPrice = async (minutesAgo: number, priceNZD: number) => {
+  const makeMarketPrice = async (minutesAgo: number, price: number) => {
     const timestamp = DateTime.local().minus({ minutes: minutesAgo })
-    return insertMarketPrice(pool, {
+    await make.marketPrice({
       timestamp,
       assetSymbol,
+      currency,
       marketUID,
-      currency: 'NZD',
-      fxRate: 1,
-      price: 0,
-      priceNZD,
+      price,
     })
   }
 
@@ -38,7 +36,7 @@ test('selectOpenOrdersForDCA: should return open orders', async (t) => {
   await makeMarketPrice(13, 300)
 
   const avgPrice = await throwIfError<number>(
-    selectAvgMarketPrice(pool, { marketUID, assetSymbol }),
+    selectAvgMarketPrice(pool, { marketUID, assetSymbol, currency }),
   )
 
   t.is(avgPrice, 15)

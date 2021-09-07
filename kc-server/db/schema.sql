@@ -135,11 +135,12 @@ CREATE TABLE kc.market (
 CREATE TABLE kc.market_price (
     "timestamp" timestamp with time zone NOT NULL,
     market_uid uuid NOT NULL,
-    price numeric(12,2) NOT NULL,
-    currency character(3) NOT NULL,
+    source_price numeric(12,2) NOT NULL,
+    source_currency character(3) NOT NULL,
     fx_rate numeric(12,6) NOT NULL,
-    price_nzd numeric(12,2) NOT NULL,
-    asset_symbol character varying(5) NOT NULL
+    price numeric(12,2) NOT NULL,
+    asset_symbol character varying(5) NOT NULL,
+    currency text NOT NULL
 );
 
 
@@ -351,7 +352,7 @@ ALTER TABLE ONLY kc.market
 --
 
 ALTER TABLE ONLY kc.market_price
-    ADD CONSTRAINT market_price_pkey PRIMARY KEY ("timestamp", market_uid, asset_symbol);
+    ADD CONSTRAINT market_price_pkey PRIMARY KEY ("timestamp", market_uid, asset_symbol, source_currency, currency);
 
 
 --
@@ -708,4 +709,5 @@ INSERT INTO kc.schema_migrations (version) VALUES
     ('20210814232237'),
     ('20210830210200'),
     ('20210904183924'),
-    ('20210905023303');
+    ('20210905023303'),
+    ('20210905043231');
