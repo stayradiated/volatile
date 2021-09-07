@@ -17,9 +17,10 @@ const QUERY = gql`
         id
       }
       opened_at
-      amount
-      price_nzd
-      symbol
+      value
+      price
+      primary_currency
+      secondary_currency
       type
     }
   }
@@ -36,21 +37,25 @@ const columns: TableColumnsType<Order> = [
     render: (timestamp) => DateTime.fromISO(timestamp).toFormat('ff'),
   },
   {
-    title: 'Symbol',
-    dataIndex: 'symbol',
+    title: 'PriCur',
+    dataIndex: 'primary_currency',
   },
   {
-    title: 'Amount',
-    dataIndex: 'amount',
+    title: 'SecCur',
+    dataIndex: 'secondary_currency',
+  },
+  {
+    title: 'Value',
+    dataIndex: 'value',
   },
   {
     title: 'Type',
     dataIndex: 'type',
   },
   {
-    title: 'Price NZD',
-    dataIndex: 'price_nzd',
-    render: (priceNZD) => '$' + priceNZD.toLocaleString(),
+    title: 'Price',
+    dataIndex: 'price',
+    render: (price) => '$' + price.toLocaleString(),
   },
 ]
 

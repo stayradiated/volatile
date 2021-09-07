@@ -25,10 +25,10 @@ const QUERY_DCA_ORDER_LIST = gql`
       start_at
       market_offset
 
-      min_price_nzd
-      max_price_nzd
-      min_amount_nzd
-      max_amount_nzd
+      min_price
+      max_price
+      min_value
+      max_value
 
       user_exchange_keys {
         description
@@ -50,10 +50,10 @@ const DCAOrderListItem = (props: DCAOrderListItemProps) => {
     uid,
     daily_average,
     market_offset,
-    min_price_nzd,
-    max_price_nzd,
-    min_amount_nzd,
-    max_amount_nzd,
+    min_price,
+    max_price,
+    min_value,
+    max_value,
   } = dcaOrder
   return (
     <tr>
@@ -69,16 +69,16 @@ const DCAOrderListItem = (props: DCAOrderListItemProps) => {
         <code>{market_offset}</code>
       </td>
       <td>
-        <code>{min_price_nzd}</code>
+        <code>{min_price}</code>
       </td>
       <td>
-        <code>{max_price_nzd}</code>
+        <code>{max_price}</code>
       </td>
       <td>
-        <code>{min_amount_nzd}</code>
+        <code>{min_value}</code>
       </td>
       <td>
-        <code>{max_amount_nzd}</code>
+        <code>{max_value}</code>
       </td>
     </tr>
   )

@@ -128,6 +128,13 @@ export type String_Comparison_Exp = {
   _similar?: Maybe<Scalars['String']>
 }
 
+export type SyncExchangeOpenOrderListOutput = {
+  __typename?: 'SyncExchangeOpenOrderListOutput'
+  /** An object relationship */
+  user: Kc_User
+  user_uid: Scalars['uuid']
+}
+
 export type SyncExchangeTradeListOutput = {
   __typename?: 'SyncExchangeTradeListOutput'
   /** An object relationship */
@@ -213,12 +220,13 @@ export type Kc_Dca_Order = {
   market: Kc_Market
   market_offset: Scalars['numeric']
   market_uid: Scalars['uuid']
-  max_amount_nzd?: Maybe<Scalars['numeric']>
-  max_price_nzd?: Maybe<Scalars['numeric']>
-  min_amount_nzd?: Maybe<Scalars['numeric']>
-  min_price_nzd?: Maybe<Scalars['numeric']>
+  max_price?: Maybe<Scalars['numeric']>
+  max_value?: Maybe<Scalars['numeric']>
+  min_price?: Maybe<Scalars['numeric']>
+  min_value?: Maybe<Scalars['numeric']>
+  primary_currency: Scalars['String']
+  secondary_currency: Scalars['String']
   start_at: Scalars['timestamptz']
-  symbol: Scalars['String']
   uid: Scalars['uuid']
   updated_at: Scalars['timestamptz']
   /** An object relationship */
@@ -296,20 +304,20 @@ export type Kc_Dca_Order_Avg_Fields = {
   __typename?: 'kc_dca_order_avg_fields'
   daily_average?: Maybe<Scalars['Float']>
   market_offset?: Maybe<Scalars['Float']>
-  max_amount_nzd?: Maybe<Scalars['Float']>
-  max_price_nzd?: Maybe<Scalars['Float']>
-  min_amount_nzd?: Maybe<Scalars['Float']>
-  min_price_nzd?: Maybe<Scalars['Float']>
+  max_price?: Maybe<Scalars['Float']>
+  max_value?: Maybe<Scalars['Float']>
+  min_price?: Maybe<Scalars['Float']>
+  min_value?: Maybe<Scalars['Float']>
 }
 
 /** Order by avg() on columns of table "kc.dca_order" */
 export type Kc_Dca_Order_Avg_Order_By = {
   daily_average?: Maybe<Order_By>
   market_offset?: Maybe<Order_By>
-  max_amount_nzd?: Maybe<Order_By>
-  max_price_nzd?: Maybe<Order_By>
-  min_amount_nzd?: Maybe<Order_By>
-  min_price_nzd?: Maybe<Order_By>
+  max_price?: Maybe<Order_By>
+  max_value?: Maybe<Order_By>
+  min_price?: Maybe<Order_By>
+  min_value?: Maybe<Order_By>
 }
 
 /** Boolean expression to filter rows from the table "kc.dca_order". All fields are combined with a logical 'AND'. */
@@ -326,12 +334,13 @@ export type Kc_Dca_Order_Bool_Exp = {
   market?: Maybe<Kc_Market_Bool_Exp>
   market_offset?: Maybe<Numeric_Comparison_Exp>
   market_uid?: Maybe<Uuid_Comparison_Exp>
-  max_amount_nzd?: Maybe<Numeric_Comparison_Exp>
-  max_price_nzd?: Maybe<Numeric_Comparison_Exp>
-  min_amount_nzd?: Maybe<Numeric_Comparison_Exp>
-  min_price_nzd?: Maybe<Numeric_Comparison_Exp>
+  max_price?: Maybe<Numeric_Comparison_Exp>
+  max_value?: Maybe<Numeric_Comparison_Exp>
+  min_price?: Maybe<Numeric_Comparison_Exp>
+  min_value?: Maybe<Numeric_Comparison_Exp>
+  primary_currency?: Maybe<String_Comparison_Exp>
+  secondary_currency?: Maybe<String_Comparison_Exp>
   start_at?: Maybe<Timestamptz_Comparison_Exp>
-  symbol?: Maybe<String_Comparison_Exp>
   uid?: Maybe<Uuid_Comparison_Exp>
   updated_at?: Maybe<Timestamptz_Comparison_Exp>
   user?: Maybe<Kc_User_Bool_Exp>
@@ -343,8 +352,7 @@ export type Kc_Dca_Order_Bool_Exp = {
 /** Columns and relationships of "kc.dca_order_history" */
 export type Kc_Dca_Order_History = {
   __typename?: 'kc_dca_order_history'
-  available_balance_nzd: Scalars['numeric']
-  calculated_amount_nzd: Scalars['numeric']
+  available_balance: Scalars['numeric']
   created_at: Scalars['timestamptz']
   created_order: Scalars['Boolean']
   /** An object relationship */
@@ -352,16 +360,19 @@ export type Kc_Dca_Order_History = {
   dca_order_uid: Scalars['uuid']
   description: Scalars['String']
   market_offset: Scalars['numeric']
-  market_price_nzd: Scalars['numeric']
+  market_price: Scalars['numeric']
   /** An object relationship */
   order?: Maybe<Kc_Order>
   order_uid?: Maybe<Scalars['uuid']>
-  symbol: Scalars['String']
+  primary_currency: Scalars['String']
+  secondary_currency: Scalars['String']
+  target_value: Scalars['numeric']
   uid: Scalars['uuid']
   updated_at: Scalars['timestamptz']
   /** An object relationship */
   user: Kc_User
   user_uid: Scalars['uuid']
+  value: Scalars['numeric']
 }
 
 /** Aggregated selection of "kc.dca_order_history" */
@@ -411,18 +422,20 @@ export type Kc_Dca_Order_History_Aggregate_Order_By = {
 /** Aggregate avg on columns */
 export type Kc_Dca_Order_History_Avg_Fields = {
   __typename?: 'kc_dca_order_history_avg_fields'
-  available_balance_nzd?: Maybe<Scalars['Float']>
-  calculated_amount_nzd?: Maybe<Scalars['Float']>
+  available_balance?: Maybe<Scalars['Float']>
   market_offset?: Maybe<Scalars['Float']>
-  market_price_nzd?: Maybe<Scalars['Float']>
+  market_price?: Maybe<Scalars['Float']>
+  target_value?: Maybe<Scalars['Float']>
+  value?: Maybe<Scalars['Float']>
 }
 
 /** Order by avg() on columns of table "kc.dca_order_history" */
 export type Kc_Dca_Order_History_Avg_Order_By = {
-  available_balance_nzd?: Maybe<Order_By>
-  calculated_amount_nzd?: Maybe<Order_By>
+  available_balance?: Maybe<Order_By>
   market_offset?: Maybe<Order_By>
-  market_price_nzd?: Maybe<Order_By>
+  market_price?: Maybe<Order_By>
+  target_value?: Maybe<Order_By>
+  value?: Maybe<Order_By>
 }
 
 /** Boolean expression to filter rows from the table "kc.dca_order_history". All fields are combined with a logical 'AND'. */
@@ -430,116 +443,126 @@ export type Kc_Dca_Order_History_Bool_Exp = {
   _and?: Maybe<Kc_Dca_Order_History_Bool_Exp[]>
   _not?: Maybe<Kc_Dca_Order_History_Bool_Exp>
   _or?: Maybe<Kc_Dca_Order_History_Bool_Exp[]>
-  available_balance_nzd?: Maybe<Numeric_Comparison_Exp>
-  calculated_amount_nzd?: Maybe<Numeric_Comparison_Exp>
+  available_balance?: Maybe<Numeric_Comparison_Exp>
   created_at?: Maybe<Timestamptz_Comparison_Exp>
   created_order?: Maybe<Boolean_Comparison_Exp>
   dca_order?: Maybe<Kc_Dca_Order_Bool_Exp>
   dca_order_uid?: Maybe<Uuid_Comparison_Exp>
   description?: Maybe<String_Comparison_Exp>
   market_offset?: Maybe<Numeric_Comparison_Exp>
-  market_price_nzd?: Maybe<Numeric_Comparison_Exp>
+  market_price?: Maybe<Numeric_Comparison_Exp>
   order?: Maybe<Kc_Order_Bool_Exp>
   order_uid?: Maybe<Uuid_Comparison_Exp>
-  symbol?: Maybe<String_Comparison_Exp>
+  primary_currency?: Maybe<String_Comparison_Exp>
+  secondary_currency?: Maybe<String_Comparison_Exp>
+  target_value?: Maybe<Numeric_Comparison_Exp>
   uid?: Maybe<Uuid_Comparison_Exp>
   updated_at?: Maybe<Timestamptz_Comparison_Exp>
   user?: Maybe<Kc_User_Bool_Exp>
   user_uid?: Maybe<Uuid_Comparison_Exp>
+  value?: Maybe<Numeric_Comparison_Exp>
 }
 
 /** Aggregate max on columns */
 export type Kc_Dca_Order_History_Max_Fields = {
   __typename?: 'kc_dca_order_history_max_fields'
-  available_balance_nzd?: Maybe<Scalars['numeric']>
-  calculated_amount_nzd?: Maybe<Scalars['numeric']>
+  available_balance?: Maybe<Scalars['numeric']>
   created_at?: Maybe<Scalars['timestamptz']>
   dca_order_uid?: Maybe<Scalars['uuid']>
   description?: Maybe<Scalars['String']>
   market_offset?: Maybe<Scalars['numeric']>
-  market_price_nzd?: Maybe<Scalars['numeric']>
+  market_price?: Maybe<Scalars['numeric']>
   order_uid?: Maybe<Scalars['uuid']>
-  symbol?: Maybe<Scalars['String']>
+  primary_currency?: Maybe<Scalars['String']>
+  secondary_currency?: Maybe<Scalars['String']>
+  target_value?: Maybe<Scalars['numeric']>
   uid?: Maybe<Scalars['uuid']>
   updated_at?: Maybe<Scalars['timestamptz']>
   user_uid?: Maybe<Scalars['uuid']>
+  value?: Maybe<Scalars['numeric']>
 }
 
 /** Order by max() on columns of table "kc.dca_order_history" */
 export type Kc_Dca_Order_History_Max_Order_By = {
-  available_balance_nzd?: Maybe<Order_By>
-  calculated_amount_nzd?: Maybe<Order_By>
+  available_balance?: Maybe<Order_By>
   created_at?: Maybe<Order_By>
   dca_order_uid?: Maybe<Order_By>
   description?: Maybe<Order_By>
   market_offset?: Maybe<Order_By>
-  market_price_nzd?: Maybe<Order_By>
+  market_price?: Maybe<Order_By>
   order_uid?: Maybe<Order_By>
-  symbol?: Maybe<Order_By>
+  primary_currency?: Maybe<Order_By>
+  secondary_currency?: Maybe<Order_By>
+  target_value?: Maybe<Order_By>
   uid?: Maybe<Order_By>
   updated_at?: Maybe<Order_By>
   user_uid?: Maybe<Order_By>
+  value?: Maybe<Order_By>
 }
 
 /** Aggregate min on columns */
 export type Kc_Dca_Order_History_Min_Fields = {
   __typename?: 'kc_dca_order_history_min_fields'
-  available_balance_nzd?: Maybe<Scalars['numeric']>
-  calculated_amount_nzd?: Maybe<Scalars['numeric']>
+  available_balance?: Maybe<Scalars['numeric']>
   created_at?: Maybe<Scalars['timestamptz']>
   dca_order_uid?: Maybe<Scalars['uuid']>
   description?: Maybe<Scalars['String']>
   market_offset?: Maybe<Scalars['numeric']>
-  market_price_nzd?: Maybe<Scalars['numeric']>
+  market_price?: Maybe<Scalars['numeric']>
   order_uid?: Maybe<Scalars['uuid']>
-  symbol?: Maybe<Scalars['String']>
+  primary_currency?: Maybe<Scalars['String']>
+  secondary_currency?: Maybe<Scalars['String']>
+  target_value?: Maybe<Scalars['numeric']>
   uid?: Maybe<Scalars['uuid']>
   updated_at?: Maybe<Scalars['timestamptz']>
   user_uid?: Maybe<Scalars['uuid']>
+  value?: Maybe<Scalars['numeric']>
 }
 
 /** Order by min() on columns of table "kc.dca_order_history" */
 export type Kc_Dca_Order_History_Min_Order_By = {
-  available_balance_nzd?: Maybe<Order_By>
-  calculated_amount_nzd?: Maybe<Order_By>
+  available_balance?: Maybe<Order_By>
   created_at?: Maybe<Order_By>
   dca_order_uid?: Maybe<Order_By>
   description?: Maybe<Order_By>
   market_offset?: Maybe<Order_By>
-  market_price_nzd?: Maybe<Order_By>
+  market_price?: Maybe<Order_By>
   order_uid?: Maybe<Order_By>
-  symbol?: Maybe<Order_By>
+  primary_currency?: Maybe<Order_By>
+  secondary_currency?: Maybe<Order_By>
+  target_value?: Maybe<Order_By>
   uid?: Maybe<Order_By>
   updated_at?: Maybe<Order_By>
   user_uid?: Maybe<Order_By>
+  value?: Maybe<Order_By>
 }
 
 /** Ordering options when selecting data from "kc.dca_order_history". */
 export type Kc_Dca_Order_History_Order_By = {
-  available_balance_nzd?: Maybe<Order_By>
-  calculated_amount_nzd?: Maybe<Order_By>
+  available_balance?: Maybe<Order_By>
   created_at?: Maybe<Order_By>
   created_order?: Maybe<Order_By>
   dca_order?: Maybe<Kc_Dca_Order_Order_By>
   dca_order_uid?: Maybe<Order_By>
   description?: Maybe<Order_By>
   market_offset?: Maybe<Order_By>
-  market_price_nzd?: Maybe<Order_By>
+  market_price?: Maybe<Order_By>
   order?: Maybe<Kc_Order_Order_By>
   order_uid?: Maybe<Order_By>
-  symbol?: Maybe<Order_By>
+  primary_currency?: Maybe<Order_By>
+  secondary_currency?: Maybe<Order_By>
+  target_value?: Maybe<Order_By>
   uid?: Maybe<Order_By>
   updated_at?: Maybe<Order_By>
   user?: Maybe<Kc_User_Order_By>
   user_uid?: Maybe<Order_By>
+  value?: Maybe<Order_By>
 }
 
 /** Select columns of table "kc.dca_order_history" */
 export enum Kc_Dca_Order_History_Select_Column {
   /** Column name */
-  AvailableBalanceNzd = 'available_balance_nzd',
-  /** Column name */
-  CalculatedAmountNzd = 'calculated_amount_nzd',
+  AvailableBalance = 'available_balance',
   /** Column name */
   CreatedAt = 'created_at',
   /** Column name */
@@ -551,146 +574,166 @@ export enum Kc_Dca_Order_History_Select_Column {
   /** Column name */
   MarketOffset = 'market_offset',
   /** Column name */
-  MarketPriceNzd = 'market_price_nzd',
+  MarketPrice = 'market_price',
   /** Column name */
   OrderUid = 'order_uid',
   /** Column name */
-  Symbol = 'symbol',
+  PrimaryCurrency = 'primary_currency',
+  /** Column name */
+  SecondaryCurrency = 'secondary_currency',
+  /** Column name */
+  TargetValue = 'target_value',
   /** Column name */
   Uid = 'uid',
   /** Column name */
   UpdatedAt = 'updated_at',
   /** Column name */
   UserUid = 'user_uid',
+  /** Column name */
+  Value = 'value',
 }
 
 /** Aggregate stddev on columns */
 export type Kc_Dca_Order_History_Stddev_Fields = {
   __typename?: 'kc_dca_order_history_stddev_fields'
-  available_balance_nzd?: Maybe<Scalars['Float']>
-  calculated_amount_nzd?: Maybe<Scalars['Float']>
+  available_balance?: Maybe<Scalars['Float']>
   market_offset?: Maybe<Scalars['Float']>
-  market_price_nzd?: Maybe<Scalars['Float']>
+  market_price?: Maybe<Scalars['Float']>
+  target_value?: Maybe<Scalars['Float']>
+  value?: Maybe<Scalars['Float']>
 }
 
 /** Order by stddev() on columns of table "kc.dca_order_history" */
 export type Kc_Dca_Order_History_Stddev_Order_By = {
-  available_balance_nzd?: Maybe<Order_By>
-  calculated_amount_nzd?: Maybe<Order_By>
+  available_balance?: Maybe<Order_By>
   market_offset?: Maybe<Order_By>
-  market_price_nzd?: Maybe<Order_By>
+  market_price?: Maybe<Order_By>
+  target_value?: Maybe<Order_By>
+  value?: Maybe<Order_By>
 }
 
 /** Aggregate stddev_pop on columns */
 export type Kc_Dca_Order_History_Stddev_Pop_Fields = {
   __typename?: 'kc_dca_order_history_stddev_pop_fields'
-  available_balance_nzd?: Maybe<Scalars['Float']>
-  calculated_amount_nzd?: Maybe<Scalars['Float']>
+  available_balance?: Maybe<Scalars['Float']>
   market_offset?: Maybe<Scalars['Float']>
-  market_price_nzd?: Maybe<Scalars['Float']>
+  market_price?: Maybe<Scalars['Float']>
+  target_value?: Maybe<Scalars['Float']>
+  value?: Maybe<Scalars['Float']>
 }
 
 /** Order by stddev_pop() on columns of table "kc.dca_order_history" */
 export type Kc_Dca_Order_History_Stddev_Pop_Order_By = {
-  available_balance_nzd?: Maybe<Order_By>
-  calculated_amount_nzd?: Maybe<Order_By>
+  available_balance?: Maybe<Order_By>
   market_offset?: Maybe<Order_By>
-  market_price_nzd?: Maybe<Order_By>
+  market_price?: Maybe<Order_By>
+  target_value?: Maybe<Order_By>
+  value?: Maybe<Order_By>
 }
 
 /** Aggregate stddev_samp on columns */
 export type Kc_Dca_Order_History_Stddev_Samp_Fields = {
   __typename?: 'kc_dca_order_history_stddev_samp_fields'
-  available_balance_nzd?: Maybe<Scalars['Float']>
-  calculated_amount_nzd?: Maybe<Scalars['Float']>
+  available_balance?: Maybe<Scalars['Float']>
   market_offset?: Maybe<Scalars['Float']>
-  market_price_nzd?: Maybe<Scalars['Float']>
+  market_price?: Maybe<Scalars['Float']>
+  target_value?: Maybe<Scalars['Float']>
+  value?: Maybe<Scalars['Float']>
 }
 
 /** Order by stddev_samp() on columns of table "kc.dca_order_history" */
 export type Kc_Dca_Order_History_Stddev_Samp_Order_By = {
-  available_balance_nzd?: Maybe<Order_By>
-  calculated_amount_nzd?: Maybe<Order_By>
+  available_balance?: Maybe<Order_By>
   market_offset?: Maybe<Order_By>
-  market_price_nzd?: Maybe<Order_By>
+  market_price?: Maybe<Order_By>
+  target_value?: Maybe<Order_By>
+  value?: Maybe<Order_By>
 }
 
 /** Aggregate sum on columns */
 export type Kc_Dca_Order_History_Sum_Fields = {
   __typename?: 'kc_dca_order_history_sum_fields'
-  available_balance_nzd?: Maybe<Scalars['numeric']>
-  calculated_amount_nzd?: Maybe<Scalars['numeric']>
+  available_balance?: Maybe<Scalars['numeric']>
   market_offset?: Maybe<Scalars['numeric']>
-  market_price_nzd?: Maybe<Scalars['numeric']>
+  market_price?: Maybe<Scalars['numeric']>
+  target_value?: Maybe<Scalars['numeric']>
+  value?: Maybe<Scalars['numeric']>
 }
 
 /** Order by sum() on columns of table "kc.dca_order_history" */
 export type Kc_Dca_Order_History_Sum_Order_By = {
-  available_balance_nzd?: Maybe<Order_By>
-  calculated_amount_nzd?: Maybe<Order_By>
+  available_balance?: Maybe<Order_By>
   market_offset?: Maybe<Order_By>
-  market_price_nzd?: Maybe<Order_By>
+  market_price?: Maybe<Order_By>
+  target_value?: Maybe<Order_By>
+  value?: Maybe<Order_By>
 }
 
 /** Aggregate var_pop on columns */
 export type Kc_Dca_Order_History_Var_Pop_Fields = {
   __typename?: 'kc_dca_order_history_var_pop_fields'
-  available_balance_nzd?: Maybe<Scalars['Float']>
-  calculated_amount_nzd?: Maybe<Scalars['Float']>
+  available_balance?: Maybe<Scalars['Float']>
   market_offset?: Maybe<Scalars['Float']>
-  market_price_nzd?: Maybe<Scalars['Float']>
+  market_price?: Maybe<Scalars['Float']>
+  target_value?: Maybe<Scalars['Float']>
+  value?: Maybe<Scalars['Float']>
 }
 
 /** Order by var_pop() on columns of table "kc.dca_order_history" */
 export type Kc_Dca_Order_History_Var_Pop_Order_By = {
-  available_balance_nzd?: Maybe<Order_By>
-  calculated_amount_nzd?: Maybe<Order_By>
+  available_balance?: Maybe<Order_By>
   market_offset?: Maybe<Order_By>
-  market_price_nzd?: Maybe<Order_By>
+  market_price?: Maybe<Order_By>
+  target_value?: Maybe<Order_By>
+  value?: Maybe<Order_By>
 }
 
 /** Aggregate var_samp on columns */
 export type Kc_Dca_Order_History_Var_Samp_Fields = {
   __typename?: 'kc_dca_order_history_var_samp_fields'
-  available_balance_nzd?: Maybe<Scalars['Float']>
-  calculated_amount_nzd?: Maybe<Scalars['Float']>
+  available_balance?: Maybe<Scalars['Float']>
   market_offset?: Maybe<Scalars['Float']>
-  market_price_nzd?: Maybe<Scalars['Float']>
+  market_price?: Maybe<Scalars['Float']>
+  target_value?: Maybe<Scalars['Float']>
+  value?: Maybe<Scalars['Float']>
 }
 
 /** Order by var_samp() on columns of table "kc.dca_order_history" */
 export type Kc_Dca_Order_History_Var_Samp_Order_By = {
-  available_balance_nzd?: Maybe<Order_By>
-  calculated_amount_nzd?: Maybe<Order_By>
+  available_balance?: Maybe<Order_By>
   market_offset?: Maybe<Order_By>
-  market_price_nzd?: Maybe<Order_By>
+  market_price?: Maybe<Order_By>
+  target_value?: Maybe<Order_By>
+  value?: Maybe<Order_By>
 }
 
 /** Aggregate variance on columns */
 export type Kc_Dca_Order_History_Variance_Fields = {
   __typename?: 'kc_dca_order_history_variance_fields'
-  available_balance_nzd?: Maybe<Scalars['Float']>
-  calculated_amount_nzd?: Maybe<Scalars['Float']>
+  available_balance?: Maybe<Scalars['Float']>
   market_offset?: Maybe<Scalars['Float']>
-  market_price_nzd?: Maybe<Scalars['Float']>
+  market_price?: Maybe<Scalars['Float']>
+  target_value?: Maybe<Scalars['Float']>
+  value?: Maybe<Scalars['Float']>
 }
 
 /** Order by variance() on columns of table "kc.dca_order_history" */
 export type Kc_Dca_Order_History_Variance_Order_By = {
-  available_balance_nzd?: Maybe<Order_By>
-  calculated_amount_nzd?: Maybe<Order_By>
+  available_balance?: Maybe<Order_By>
   market_offset?: Maybe<Order_By>
-  market_price_nzd?: Maybe<Order_By>
+  market_price?: Maybe<Order_By>
+  target_value?: Maybe<Order_By>
+  value?: Maybe<Order_By>
 }
 
 /** Input type for incrementing numeric columns in table "kc.dca_order" */
 export type Kc_Dca_Order_Inc_Input = {
   daily_average?: Maybe<Scalars['numeric']>
   market_offset?: Maybe<Scalars['numeric']>
-  max_amount_nzd?: Maybe<Scalars['numeric']>
-  max_price_nzd?: Maybe<Scalars['numeric']>
-  min_amount_nzd?: Maybe<Scalars['numeric']>
-  min_price_nzd?: Maybe<Scalars['numeric']>
+  max_price?: Maybe<Scalars['numeric']>
+  max_value?: Maybe<Scalars['numeric']>
+  min_price?: Maybe<Scalars['numeric']>
+  min_value?: Maybe<Scalars['numeric']>
 }
 
 /** Aggregate max on columns */
@@ -702,12 +745,13 @@ export type Kc_Dca_Order_Max_Fields = {
   exchange_uid?: Maybe<Scalars['uuid']>
   market_offset?: Maybe<Scalars['numeric']>
   market_uid?: Maybe<Scalars['uuid']>
-  max_amount_nzd?: Maybe<Scalars['numeric']>
-  max_price_nzd?: Maybe<Scalars['numeric']>
-  min_amount_nzd?: Maybe<Scalars['numeric']>
-  min_price_nzd?: Maybe<Scalars['numeric']>
+  max_price?: Maybe<Scalars['numeric']>
+  max_value?: Maybe<Scalars['numeric']>
+  min_price?: Maybe<Scalars['numeric']>
+  min_value?: Maybe<Scalars['numeric']>
+  primary_currency?: Maybe<Scalars['String']>
+  secondary_currency?: Maybe<Scalars['String']>
   start_at?: Maybe<Scalars['timestamptz']>
-  symbol?: Maybe<Scalars['String']>
   uid?: Maybe<Scalars['uuid']>
   updated_at?: Maybe<Scalars['timestamptz']>
   user_exchange_keys_uid?: Maybe<Scalars['uuid']>
@@ -722,12 +766,13 @@ export type Kc_Dca_Order_Max_Order_By = {
   exchange_uid?: Maybe<Order_By>
   market_offset?: Maybe<Order_By>
   market_uid?: Maybe<Order_By>
-  max_amount_nzd?: Maybe<Order_By>
-  max_price_nzd?: Maybe<Order_By>
-  min_amount_nzd?: Maybe<Order_By>
-  min_price_nzd?: Maybe<Order_By>
+  max_price?: Maybe<Order_By>
+  max_value?: Maybe<Order_By>
+  min_price?: Maybe<Order_By>
+  min_value?: Maybe<Order_By>
+  primary_currency?: Maybe<Order_By>
+  secondary_currency?: Maybe<Order_By>
   start_at?: Maybe<Order_By>
-  symbol?: Maybe<Order_By>
   uid?: Maybe<Order_By>
   updated_at?: Maybe<Order_By>
   user_exchange_keys_uid?: Maybe<Order_By>
@@ -743,12 +788,13 @@ export type Kc_Dca_Order_Min_Fields = {
   exchange_uid?: Maybe<Scalars['uuid']>
   market_offset?: Maybe<Scalars['numeric']>
   market_uid?: Maybe<Scalars['uuid']>
-  max_amount_nzd?: Maybe<Scalars['numeric']>
-  max_price_nzd?: Maybe<Scalars['numeric']>
-  min_amount_nzd?: Maybe<Scalars['numeric']>
-  min_price_nzd?: Maybe<Scalars['numeric']>
+  max_price?: Maybe<Scalars['numeric']>
+  max_value?: Maybe<Scalars['numeric']>
+  min_price?: Maybe<Scalars['numeric']>
+  min_value?: Maybe<Scalars['numeric']>
+  primary_currency?: Maybe<Scalars['String']>
+  secondary_currency?: Maybe<Scalars['String']>
   start_at?: Maybe<Scalars['timestamptz']>
-  symbol?: Maybe<Scalars['String']>
   uid?: Maybe<Scalars['uuid']>
   updated_at?: Maybe<Scalars['timestamptz']>
   user_exchange_keys_uid?: Maybe<Scalars['uuid']>
@@ -763,12 +809,13 @@ export type Kc_Dca_Order_Min_Order_By = {
   exchange_uid?: Maybe<Order_By>
   market_offset?: Maybe<Order_By>
   market_uid?: Maybe<Order_By>
-  max_amount_nzd?: Maybe<Order_By>
-  max_price_nzd?: Maybe<Order_By>
-  min_amount_nzd?: Maybe<Order_By>
-  min_price_nzd?: Maybe<Order_By>
+  max_price?: Maybe<Order_By>
+  max_value?: Maybe<Order_By>
+  min_price?: Maybe<Order_By>
+  min_value?: Maybe<Order_By>
+  primary_currency?: Maybe<Order_By>
+  secondary_currency?: Maybe<Order_By>
   start_at?: Maybe<Order_By>
-  symbol?: Maybe<Order_By>
   uid?: Maybe<Order_By>
   updated_at?: Maybe<Order_By>
   user_exchange_keys_uid?: Maybe<Order_By>
@@ -795,12 +842,13 @@ export type Kc_Dca_Order_Order_By = {
   market?: Maybe<Kc_Market_Order_By>
   market_offset?: Maybe<Order_By>
   market_uid?: Maybe<Order_By>
-  max_amount_nzd?: Maybe<Order_By>
-  max_price_nzd?: Maybe<Order_By>
-  min_amount_nzd?: Maybe<Order_By>
-  min_price_nzd?: Maybe<Order_By>
+  max_price?: Maybe<Order_By>
+  max_value?: Maybe<Order_By>
+  min_price?: Maybe<Order_By>
+  min_value?: Maybe<Order_By>
+  primary_currency?: Maybe<Order_By>
+  secondary_currency?: Maybe<Order_By>
   start_at?: Maybe<Order_By>
-  symbol?: Maybe<Order_By>
   uid?: Maybe<Order_By>
   updated_at?: Maybe<Order_By>
   user?: Maybe<Kc_User_Order_By>
@@ -829,17 +877,19 @@ export enum Kc_Dca_Order_Select_Column {
   /** Column name */
   MarketUid = 'market_uid',
   /** Column name */
-  MaxAmountNzd = 'max_amount_nzd',
+  MaxPrice = 'max_price',
   /** Column name */
-  MaxPriceNzd = 'max_price_nzd',
+  MaxValue = 'max_value',
   /** Column name */
-  MinAmountNzd = 'min_amount_nzd',
+  MinPrice = 'min_price',
   /** Column name */
-  MinPriceNzd = 'min_price_nzd',
+  MinValue = 'min_value',
+  /** Column name */
+  PrimaryCurrency = 'primary_currency',
+  /** Column name */
+  SecondaryCurrency = 'secondary_currency',
   /** Column name */
   StartAt = 'start_at',
-  /** Column name */
-  Symbol = 'symbol',
   /** Column name */
   Uid = 'uid',
   /** Column name */
@@ -855,10 +905,10 @@ export type Kc_Dca_Order_Set_Input = {
   daily_average?: Maybe<Scalars['numeric']>
   market_offset?: Maybe<Scalars['numeric']>
   market_uid?: Maybe<Scalars['uuid']>
-  max_amount_nzd?: Maybe<Scalars['numeric']>
-  max_price_nzd?: Maybe<Scalars['numeric']>
-  min_amount_nzd?: Maybe<Scalars['numeric']>
-  min_price_nzd?: Maybe<Scalars['numeric']>
+  max_price?: Maybe<Scalars['numeric']>
+  max_value?: Maybe<Scalars['numeric']>
+  min_price?: Maybe<Scalars['numeric']>
+  min_value?: Maybe<Scalars['numeric']>
   start_at?: Maybe<Scalars['timestamptz']>
   updated_at?: Maybe<Scalars['timestamptz']>
 }
@@ -868,20 +918,20 @@ export type Kc_Dca_Order_Stddev_Fields = {
   __typename?: 'kc_dca_order_stddev_fields'
   daily_average?: Maybe<Scalars['Float']>
   market_offset?: Maybe<Scalars['Float']>
-  max_amount_nzd?: Maybe<Scalars['Float']>
-  max_price_nzd?: Maybe<Scalars['Float']>
-  min_amount_nzd?: Maybe<Scalars['Float']>
-  min_price_nzd?: Maybe<Scalars['Float']>
+  max_price?: Maybe<Scalars['Float']>
+  max_value?: Maybe<Scalars['Float']>
+  min_price?: Maybe<Scalars['Float']>
+  min_value?: Maybe<Scalars['Float']>
 }
 
 /** Order by stddev() on columns of table "kc.dca_order" */
 export type Kc_Dca_Order_Stddev_Order_By = {
   daily_average?: Maybe<Order_By>
   market_offset?: Maybe<Order_By>
-  max_amount_nzd?: Maybe<Order_By>
-  max_price_nzd?: Maybe<Order_By>
-  min_amount_nzd?: Maybe<Order_By>
-  min_price_nzd?: Maybe<Order_By>
+  max_price?: Maybe<Order_By>
+  max_value?: Maybe<Order_By>
+  min_price?: Maybe<Order_By>
+  min_value?: Maybe<Order_By>
 }
 
 /** Aggregate stddev_pop on columns */
@@ -889,20 +939,20 @@ export type Kc_Dca_Order_Stddev_Pop_Fields = {
   __typename?: 'kc_dca_order_stddev_pop_fields'
   daily_average?: Maybe<Scalars['Float']>
   market_offset?: Maybe<Scalars['Float']>
-  max_amount_nzd?: Maybe<Scalars['Float']>
-  max_price_nzd?: Maybe<Scalars['Float']>
-  min_amount_nzd?: Maybe<Scalars['Float']>
-  min_price_nzd?: Maybe<Scalars['Float']>
+  max_price?: Maybe<Scalars['Float']>
+  max_value?: Maybe<Scalars['Float']>
+  min_price?: Maybe<Scalars['Float']>
+  min_value?: Maybe<Scalars['Float']>
 }
 
 /** Order by stddev_pop() on columns of table "kc.dca_order" */
 export type Kc_Dca_Order_Stddev_Pop_Order_By = {
   daily_average?: Maybe<Order_By>
   market_offset?: Maybe<Order_By>
-  max_amount_nzd?: Maybe<Order_By>
-  max_price_nzd?: Maybe<Order_By>
-  min_amount_nzd?: Maybe<Order_By>
-  min_price_nzd?: Maybe<Order_By>
+  max_price?: Maybe<Order_By>
+  max_value?: Maybe<Order_By>
+  min_price?: Maybe<Order_By>
+  min_value?: Maybe<Order_By>
 }
 
 /** Aggregate stddev_samp on columns */
@@ -910,20 +960,20 @@ export type Kc_Dca_Order_Stddev_Samp_Fields = {
   __typename?: 'kc_dca_order_stddev_samp_fields'
   daily_average?: Maybe<Scalars['Float']>
   market_offset?: Maybe<Scalars['Float']>
-  max_amount_nzd?: Maybe<Scalars['Float']>
-  max_price_nzd?: Maybe<Scalars['Float']>
-  min_amount_nzd?: Maybe<Scalars['Float']>
-  min_price_nzd?: Maybe<Scalars['Float']>
+  max_price?: Maybe<Scalars['Float']>
+  max_value?: Maybe<Scalars['Float']>
+  min_price?: Maybe<Scalars['Float']>
+  min_value?: Maybe<Scalars['Float']>
 }
 
 /** Order by stddev_samp() on columns of table "kc.dca_order" */
 export type Kc_Dca_Order_Stddev_Samp_Order_By = {
   daily_average?: Maybe<Order_By>
   market_offset?: Maybe<Order_By>
-  max_amount_nzd?: Maybe<Order_By>
-  max_price_nzd?: Maybe<Order_By>
-  min_amount_nzd?: Maybe<Order_By>
-  min_price_nzd?: Maybe<Order_By>
+  max_price?: Maybe<Order_By>
+  max_value?: Maybe<Order_By>
+  min_price?: Maybe<Order_By>
+  min_value?: Maybe<Order_By>
 }
 
 /** Aggregate sum on columns */
@@ -931,20 +981,20 @@ export type Kc_Dca_Order_Sum_Fields = {
   __typename?: 'kc_dca_order_sum_fields'
   daily_average?: Maybe<Scalars['numeric']>
   market_offset?: Maybe<Scalars['numeric']>
-  max_amount_nzd?: Maybe<Scalars['numeric']>
-  max_price_nzd?: Maybe<Scalars['numeric']>
-  min_amount_nzd?: Maybe<Scalars['numeric']>
-  min_price_nzd?: Maybe<Scalars['numeric']>
+  max_price?: Maybe<Scalars['numeric']>
+  max_value?: Maybe<Scalars['numeric']>
+  min_price?: Maybe<Scalars['numeric']>
+  min_value?: Maybe<Scalars['numeric']>
 }
 
 /** Order by sum() on columns of table "kc.dca_order" */
 export type Kc_Dca_Order_Sum_Order_By = {
   daily_average?: Maybe<Order_By>
   market_offset?: Maybe<Order_By>
-  max_amount_nzd?: Maybe<Order_By>
-  max_price_nzd?: Maybe<Order_By>
-  min_amount_nzd?: Maybe<Order_By>
-  min_price_nzd?: Maybe<Order_By>
+  max_price?: Maybe<Order_By>
+  max_value?: Maybe<Order_By>
+  min_price?: Maybe<Order_By>
+  min_value?: Maybe<Order_By>
 }
 
 /** Aggregate var_pop on columns */
@@ -952,20 +1002,20 @@ export type Kc_Dca_Order_Var_Pop_Fields = {
   __typename?: 'kc_dca_order_var_pop_fields'
   daily_average?: Maybe<Scalars['Float']>
   market_offset?: Maybe<Scalars['Float']>
-  max_amount_nzd?: Maybe<Scalars['Float']>
-  max_price_nzd?: Maybe<Scalars['Float']>
-  min_amount_nzd?: Maybe<Scalars['Float']>
-  min_price_nzd?: Maybe<Scalars['Float']>
+  max_price?: Maybe<Scalars['Float']>
+  max_value?: Maybe<Scalars['Float']>
+  min_price?: Maybe<Scalars['Float']>
+  min_value?: Maybe<Scalars['Float']>
 }
 
 /** Order by var_pop() on columns of table "kc.dca_order" */
 export type Kc_Dca_Order_Var_Pop_Order_By = {
   daily_average?: Maybe<Order_By>
   market_offset?: Maybe<Order_By>
-  max_amount_nzd?: Maybe<Order_By>
-  max_price_nzd?: Maybe<Order_By>
-  min_amount_nzd?: Maybe<Order_By>
-  min_price_nzd?: Maybe<Order_By>
+  max_price?: Maybe<Order_By>
+  max_value?: Maybe<Order_By>
+  min_price?: Maybe<Order_By>
+  min_value?: Maybe<Order_By>
 }
 
 /** Aggregate var_samp on columns */
@@ -973,20 +1023,20 @@ export type Kc_Dca_Order_Var_Samp_Fields = {
   __typename?: 'kc_dca_order_var_samp_fields'
   daily_average?: Maybe<Scalars['Float']>
   market_offset?: Maybe<Scalars['Float']>
-  max_amount_nzd?: Maybe<Scalars['Float']>
-  max_price_nzd?: Maybe<Scalars['Float']>
-  min_amount_nzd?: Maybe<Scalars['Float']>
-  min_price_nzd?: Maybe<Scalars['Float']>
+  max_price?: Maybe<Scalars['Float']>
+  max_value?: Maybe<Scalars['Float']>
+  min_price?: Maybe<Scalars['Float']>
+  min_value?: Maybe<Scalars['Float']>
 }
 
 /** Order by var_samp() on columns of table "kc.dca_order" */
 export type Kc_Dca_Order_Var_Samp_Order_By = {
   daily_average?: Maybe<Order_By>
   market_offset?: Maybe<Order_By>
-  max_amount_nzd?: Maybe<Order_By>
-  max_price_nzd?: Maybe<Order_By>
-  min_amount_nzd?: Maybe<Order_By>
-  min_price_nzd?: Maybe<Order_By>
+  max_price?: Maybe<Order_By>
+  max_value?: Maybe<Order_By>
+  min_price?: Maybe<Order_By>
+  min_value?: Maybe<Order_By>
 }
 
 /** Aggregate variance on columns */
@@ -994,20 +1044,20 @@ export type Kc_Dca_Order_Variance_Fields = {
   __typename?: 'kc_dca_order_variance_fields'
   daily_average?: Maybe<Scalars['Float']>
   market_offset?: Maybe<Scalars['Float']>
-  max_amount_nzd?: Maybe<Scalars['Float']>
-  max_price_nzd?: Maybe<Scalars['Float']>
-  min_amount_nzd?: Maybe<Scalars['Float']>
-  min_price_nzd?: Maybe<Scalars['Float']>
+  max_price?: Maybe<Scalars['Float']>
+  max_value?: Maybe<Scalars['Float']>
+  min_price?: Maybe<Scalars['Float']>
+  min_value?: Maybe<Scalars['Float']>
 }
 
 /** Order by variance() on columns of table "kc.dca_order" */
 export type Kc_Dca_Order_Variance_Order_By = {
   daily_average?: Maybe<Order_By>
   market_offset?: Maybe<Order_By>
-  max_amount_nzd?: Maybe<Order_By>
-  max_price_nzd?: Maybe<Order_By>
-  min_amount_nzd?: Maybe<Order_By>
-  min_price_nzd?: Maybe<Order_By>
+  max_price?: Maybe<Order_By>
+  max_value?: Maybe<Order_By>
+  min_price?: Maybe<Order_By>
+  min_value?: Maybe<Order_By>
 }
 
 /** Columns and relationships of "kc.exchange" */
@@ -1222,14 +1272,15 @@ export type Kc_Market_Order_By = {
 /** Columns and relationships of "kc.market_price" */
 export type Kc_Market_Price = {
   __typename?: 'kc_market_price'
-  currency: Scalars['bpchar']
+  asset_symbol: Scalars['String']
+  currency: Scalars['String']
   fx_rate: Scalars['numeric']
   /** An object relationship */
   market: Kc_Market
   market_uid: Scalars['uuid']
   price: Scalars['numeric']
-  price_nzd: Scalars['numeric']
-  symbol: Scalars['String']
+  source_currency: Scalars['bpchar']
+  source_price: Scalars['numeric']
   timestamp: Scalars['timestamptz']
 }
 
@@ -1252,7 +1303,7 @@ export type Kc_Market_Price_Aggregate_Order_By = {
 export type Kc_Market_Price_Avg_Order_By = {
   fx_rate?: Maybe<Order_By>
   price?: Maybe<Order_By>
-  price_nzd?: Maybe<Order_By>
+  source_price?: Maybe<Order_By>
 }
 
 /** Boolean expression to filter rows from the table "kc.market_price". All fields are combined with a logical 'AND'. */
@@ -1260,52 +1311,58 @@ export type Kc_Market_Price_Bool_Exp = {
   _and?: Maybe<Kc_Market_Price_Bool_Exp[]>
   _not?: Maybe<Kc_Market_Price_Bool_Exp>
   _or?: Maybe<Kc_Market_Price_Bool_Exp[]>
-  currency?: Maybe<Bpchar_Comparison_Exp>
+  asset_symbol?: Maybe<String_Comparison_Exp>
+  currency?: Maybe<String_Comparison_Exp>
   fx_rate?: Maybe<Numeric_Comparison_Exp>
   market?: Maybe<Kc_Market_Bool_Exp>
   market_uid?: Maybe<Uuid_Comparison_Exp>
   price?: Maybe<Numeric_Comparison_Exp>
-  price_nzd?: Maybe<Numeric_Comparison_Exp>
-  symbol?: Maybe<String_Comparison_Exp>
+  source_currency?: Maybe<Bpchar_Comparison_Exp>
+  source_price?: Maybe<Numeric_Comparison_Exp>
   timestamp?: Maybe<Timestamptz_Comparison_Exp>
 }
 
 /** Order by max() on columns of table "kc.market_price" */
 export type Kc_Market_Price_Max_Order_By = {
+  asset_symbol?: Maybe<Order_By>
   currency?: Maybe<Order_By>
   fx_rate?: Maybe<Order_By>
   market_uid?: Maybe<Order_By>
   price?: Maybe<Order_By>
-  price_nzd?: Maybe<Order_By>
-  symbol?: Maybe<Order_By>
+  source_currency?: Maybe<Order_By>
+  source_price?: Maybe<Order_By>
   timestamp?: Maybe<Order_By>
 }
 
 /** Order by min() on columns of table "kc.market_price" */
 export type Kc_Market_Price_Min_Order_By = {
+  asset_symbol?: Maybe<Order_By>
   currency?: Maybe<Order_By>
   fx_rate?: Maybe<Order_By>
   market_uid?: Maybe<Order_By>
   price?: Maybe<Order_By>
-  price_nzd?: Maybe<Order_By>
-  symbol?: Maybe<Order_By>
+  source_currency?: Maybe<Order_By>
+  source_price?: Maybe<Order_By>
   timestamp?: Maybe<Order_By>
 }
 
 /** Ordering options when selecting data from "kc.market_price". */
 export type Kc_Market_Price_Order_By = {
+  asset_symbol?: Maybe<Order_By>
   currency?: Maybe<Order_By>
   fx_rate?: Maybe<Order_By>
   market?: Maybe<Kc_Market_Order_By>
   market_uid?: Maybe<Order_By>
   price?: Maybe<Order_By>
-  price_nzd?: Maybe<Order_By>
-  symbol?: Maybe<Order_By>
+  source_currency?: Maybe<Order_By>
+  source_price?: Maybe<Order_By>
   timestamp?: Maybe<Order_By>
 }
 
 /** Select columns of table "kc.market_price" */
 export enum Kc_Market_Price_Select_Column {
+  /** Column name */
+  AssetSymbol = 'asset_symbol',
   /** Column name */
   Currency = 'currency',
   /** Column name */
@@ -1315,9 +1372,9 @@ export enum Kc_Market_Price_Select_Column {
   /** Column name */
   Price = 'price',
   /** Column name */
-  PriceNzd = 'price_nzd',
+  SourceCurrency = 'source_currency',
   /** Column name */
-  Symbol = 'symbol',
+  SourcePrice = 'source_price',
   /** Column name */
   Timestamp = 'timestamp',
 }
@@ -1326,49 +1383,49 @@ export enum Kc_Market_Price_Select_Column {
 export type Kc_Market_Price_Stddev_Order_By = {
   fx_rate?: Maybe<Order_By>
   price?: Maybe<Order_By>
-  price_nzd?: Maybe<Order_By>
+  source_price?: Maybe<Order_By>
 }
 
 /** Order by stddev_pop() on columns of table "kc.market_price" */
 export type Kc_Market_Price_Stddev_Pop_Order_By = {
   fx_rate?: Maybe<Order_By>
   price?: Maybe<Order_By>
-  price_nzd?: Maybe<Order_By>
+  source_price?: Maybe<Order_By>
 }
 
 /** Order by stddev_samp() on columns of table "kc.market_price" */
 export type Kc_Market_Price_Stddev_Samp_Order_By = {
   fx_rate?: Maybe<Order_By>
   price?: Maybe<Order_By>
-  price_nzd?: Maybe<Order_By>
+  source_price?: Maybe<Order_By>
 }
 
 /** Order by sum() on columns of table "kc.market_price" */
 export type Kc_Market_Price_Sum_Order_By = {
   fx_rate?: Maybe<Order_By>
   price?: Maybe<Order_By>
-  price_nzd?: Maybe<Order_By>
+  source_price?: Maybe<Order_By>
 }
 
 /** Order by var_pop() on columns of table "kc.market_price" */
 export type Kc_Market_Price_Var_Pop_Order_By = {
   fx_rate?: Maybe<Order_By>
   price?: Maybe<Order_By>
-  price_nzd?: Maybe<Order_By>
+  source_price?: Maybe<Order_By>
 }
 
 /** Order by var_samp() on columns of table "kc.market_price" */
 export type Kc_Market_Price_Var_Samp_Order_By = {
   fx_rate?: Maybe<Order_By>
   price?: Maybe<Order_By>
-  price_nzd?: Maybe<Order_By>
+  source_price?: Maybe<Order_By>
 }
 
 /** Order by variance() on columns of table "kc.market_price" */
 export type Kc_Market_Price_Variance_Order_By = {
   fx_rate?: Maybe<Order_By>
   price?: Maybe<Order_By>
-  price_nzd?: Maybe<Order_By>
+  source_price?: Maybe<Order_By>
 }
 
 /** Select columns of table "kc.market" */
@@ -1388,7 +1445,6 @@ export enum Kc_Market_Select_Column {
 /** Columns and relationships of "kc.order" */
 export type Kc_Order = {
   __typename?: 'kc_order'
-  amount: Scalars['numeric']
   closed_at?: Maybe<Scalars['timestamptz']>
   created_at: Scalars['timestamptz']
   /** An array relationship */
@@ -1400,14 +1456,17 @@ export type Kc_Order = {
   exchange_uid: Scalars['uuid']
   opened_at: Scalars['timestamptz']
   order_id: Scalars['String']
-  price_nzd: Scalars['numeric']
-  symbol: Scalars['String']
+  price: Scalars['numeric']
+  primary_currency: Scalars['String']
+  secondary_currency: Scalars['String']
   type: Scalars['String']
   uid: Scalars['uuid']
   updated_at: Scalars['timestamptz']
   /** An object relationship */
   user: Kc_User
   user_uid: Scalars['uuid']
+  value: Scalars['numeric']
+  volume: Scalars['numeric']
 }
 
 /** Columns and relationships of "kc.order" */
@@ -1475,14 +1534,16 @@ export type Kc_Order_Aggregate_Order_By = {
 /** Aggregate avg on columns */
 export type Kc_Order_Avg_Fields = {
   __typename?: 'kc_order_avg_fields'
-  amount?: Maybe<Scalars['Float']>
-  price_nzd?: Maybe<Scalars['Float']>
+  price?: Maybe<Scalars['Float']>
+  value?: Maybe<Scalars['Float']>
+  volume?: Maybe<Scalars['Float']>
 }
 
 /** Order by avg() on columns of table "kc.order" */
 export type Kc_Order_Avg_Order_By = {
-  amount?: Maybe<Order_By>
-  price_nzd?: Maybe<Order_By>
+  price?: Maybe<Order_By>
+  value?: Maybe<Order_By>
+  volume?: Maybe<Order_By>
 }
 
 /** Boolean expression to filter rows from the table "kc.order". All fields are combined with a logical 'AND'. */
@@ -1490,7 +1551,6 @@ export type Kc_Order_Bool_Exp = {
   _and?: Maybe<Kc_Order_Bool_Exp[]>
   _not?: Maybe<Kc_Order_Bool_Exp>
   _or?: Maybe<Kc_Order_Bool_Exp[]>
-  amount?: Maybe<Numeric_Comparison_Exp>
   closed_at?: Maybe<Timestamptz_Comparison_Exp>
   created_at?: Maybe<Timestamptz_Comparison_Exp>
   dca_order_histories?: Maybe<Kc_Dca_Order_History_Bool_Exp>
@@ -1498,84 +1558,94 @@ export type Kc_Order_Bool_Exp = {
   exchange_uid?: Maybe<Uuid_Comparison_Exp>
   opened_at?: Maybe<Timestamptz_Comparison_Exp>
   order_id?: Maybe<String_Comparison_Exp>
-  price_nzd?: Maybe<Numeric_Comparison_Exp>
-  symbol?: Maybe<String_Comparison_Exp>
+  price?: Maybe<Numeric_Comparison_Exp>
+  primary_currency?: Maybe<String_Comparison_Exp>
+  secondary_currency?: Maybe<String_Comparison_Exp>
   type?: Maybe<String_Comparison_Exp>
   uid?: Maybe<Uuid_Comparison_Exp>
   updated_at?: Maybe<Timestamptz_Comparison_Exp>
   user?: Maybe<Kc_User_Bool_Exp>
   user_uid?: Maybe<Uuid_Comparison_Exp>
+  value?: Maybe<Numeric_Comparison_Exp>
+  volume?: Maybe<Numeric_Comparison_Exp>
 }
 
 /** Aggregate max on columns */
 export type Kc_Order_Max_Fields = {
   __typename?: 'kc_order_max_fields'
-  amount?: Maybe<Scalars['numeric']>
   closed_at?: Maybe<Scalars['timestamptz']>
   created_at?: Maybe<Scalars['timestamptz']>
   exchange_uid?: Maybe<Scalars['uuid']>
   opened_at?: Maybe<Scalars['timestamptz']>
   order_id?: Maybe<Scalars['String']>
-  price_nzd?: Maybe<Scalars['numeric']>
-  symbol?: Maybe<Scalars['String']>
+  price?: Maybe<Scalars['numeric']>
+  primary_currency?: Maybe<Scalars['String']>
+  secondary_currency?: Maybe<Scalars['String']>
   type?: Maybe<Scalars['String']>
   uid?: Maybe<Scalars['uuid']>
   updated_at?: Maybe<Scalars['timestamptz']>
   user_uid?: Maybe<Scalars['uuid']>
+  value?: Maybe<Scalars['numeric']>
+  volume?: Maybe<Scalars['numeric']>
 }
 
 /** Order by max() on columns of table "kc.order" */
 export type Kc_Order_Max_Order_By = {
-  amount?: Maybe<Order_By>
   closed_at?: Maybe<Order_By>
   created_at?: Maybe<Order_By>
   exchange_uid?: Maybe<Order_By>
   opened_at?: Maybe<Order_By>
   order_id?: Maybe<Order_By>
-  price_nzd?: Maybe<Order_By>
-  symbol?: Maybe<Order_By>
+  price?: Maybe<Order_By>
+  primary_currency?: Maybe<Order_By>
+  secondary_currency?: Maybe<Order_By>
   type?: Maybe<Order_By>
   uid?: Maybe<Order_By>
   updated_at?: Maybe<Order_By>
   user_uid?: Maybe<Order_By>
+  value?: Maybe<Order_By>
+  volume?: Maybe<Order_By>
 }
 
 /** Aggregate min on columns */
 export type Kc_Order_Min_Fields = {
   __typename?: 'kc_order_min_fields'
-  amount?: Maybe<Scalars['numeric']>
   closed_at?: Maybe<Scalars['timestamptz']>
   created_at?: Maybe<Scalars['timestamptz']>
   exchange_uid?: Maybe<Scalars['uuid']>
   opened_at?: Maybe<Scalars['timestamptz']>
   order_id?: Maybe<Scalars['String']>
-  price_nzd?: Maybe<Scalars['numeric']>
-  symbol?: Maybe<Scalars['String']>
+  price?: Maybe<Scalars['numeric']>
+  primary_currency?: Maybe<Scalars['String']>
+  secondary_currency?: Maybe<Scalars['String']>
   type?: Maybe<Scalars['String']>
   uid?: Maybe<Scalars['uuid']>
   updated_at?: Maybe<Scalars['timestamptz']>
   user_uid?: Maybe<Scalars['uuid']>
+  value?: Maybe<Scalars['numeric']>
+  volume?: Maybe<Scalars['numeric']>
 }
 
 /** Order by min() on columns of table "kc.order" */
 export type Kc_Order_Min_Order_By = {
-  amount?: Maybe<Order_By>
   closed_at?: Maybe<Order_By>
   created_at?: Maybe<Order_By>
   exchange_uid?: Maybe<Order_By>
   opened_at?: Maybe<Order_By>
   order_id?: Maybe<Order_By>
-  price_nzd?: Maybe<Order_By>
-  symbol?: Maybe<Order_By>
+  price?: Maybe<Order_By>
+  primary_currency?: Maybe<Order_By>
+  secondary_currency?: Maybe<Order_By>
   type?: Maybe<Order_By>
   uid?: Maybe<Order_By>
   updated_at?: Maybe<Order_By>
   user_uid?: Maybe<Order_By>
+  value?: Maybe<Order_By>
+  volume?: Maybe<Order_By>
 }
 
 /** Ordering options when selecting data from "kc.order". */
 export type Kc_Order_Order_By = {
-  amount?: Maybe<Order_By>
   closed_at?: Maybe<Order_By>
   created_at?: Maybe<Order_By>
   dca_order_histories_aggregate?: Maybe<Kc_Dca_Order_History_Aggregate_Order_By>
@@ -1583,19 +1653,20 @@ export type Kc_Order_Order_By = {
   exchange_uid?: Maybe<Order_By>
   opened_at?: Maybe<Order_By>
   order_id?: Maybe<Order_By>
-  price_nzd?: Maybe<Order_By>
-  symbol?: Maybe<Order_By>
+  price?: Maybe<Order_By>
+  primary_currency?: Maybe<Order_By>
+  secondary_currency?: Maybe<Order_By>
   type?: Maybe<Order_By>
   uid?: Maybe<Order_By>
   updated_at?: Maybe<Order_By>
   user?: Maybe<Kc_User_Order_By>
   user_uid?: Maybe<Order_By>
+  value?: Maybe<Order_By>
+  volume?: Maybe<Order_By>
 }
 
 /** Select columns of table "kc.order" */
 export enum Kc_Order_Select_Column {
-  /** Column name */
-  Amount = 'amount',
   /** Column name */
   ClosedAt = 'closed_at',
   /** Column name */
@@ -1607,9 +1678,11 @@ export enum Kc_Order_Select_Column {
   /** Column name */
   OrderId = 'order_id',
   /** Column name */
-  PriceNzd = 'price_nzd',
+  Price = 'price',
   /** Column name */
-  Symbol = 'symbol',
+  PrimaryCurrency = 'primary_currency',
+  /** Column name */
+  SecondaryCurrency = 'secondary_currency',
   /** Column name */
   Type = 'type',
   /** Column name */
@@ -1618,115 +1691,133 @@ export enum Kc_Order_Select_Column {
   UpdatedAt = 'updated_at',
   /** Column name */
   UserUid = 'user_uid',
+  /** Column name */
+  Value = 'value',
+  /** Column name */
+  Volume = 'volume',
 }
 
 /** Aggregate stddev on columns */
 export type Kc_Order_Stddev_Fields = {
   __typename?: 'kc_order_stddev_fields'
-  amount?: Maybe<Scalars['Float']>
-  price_nzd?: Maybe<Scalars['Float']>
+  price?: Maybe<Scalars['Float']>
+  value?: Maybe<Scalars['Float']>
+  volume?: Maybe<Scalars['Float']>
 }
 
 /** Order by stddev() on columns of table "kc.order" */
 export type Kc_Order_Stddev_Order_By = {
-  amount?: Maybe<Order_By>
-  price_nzd?: Maybe<Order_By>
+  price?: Maybe<Order_By>
+  value?: Maybe<Order_By>
+  volume?: Maybe<Order_By>
 }
 
 /** Aggregate stddev_pop on columns */
 export type Kc_Order_Stddev_Pop_Fields = {
   __typename?: 'kc_order_stddev_pop_fields'
-  amount?: Maybe<Scalars['Float']>
-  price_nzd?: Maybe<Scalars['Float']>
+  price?: Maybe<Scalars['Float']>
+  value?: Maybe<Scalars['Float']>
+  volume?: Maybe<Scalars['Float']>
 }
 
 /** Order by stddev_pop() on columns of table "kc.order" */
 export type Kc_Order_Stddev_Pop_Order_By = {
-  amount?: Maybe<Order_By>
-  price_nzd?: Maybe<Order_By>
+  price?: Maybe<Order_By>
+  value?: Maybe<Order_By>
+  volume?: Maybe<Order_By>
 }
 
 /** Aggregate stddev_samp on columns */
 export type Kc_Order_Stddev_Samp_Fields = {
   __typename?: 'kc_order_stddev_samp_fields'
-  amount?: Maybe<Scalars['Float']>
-  price_nzd?: Maybe<Scalars['Float']>
+  price?: Maybe<Scalars['Float']>
+  value?: Maybe<Scalars['Float']>
+  volume?: Maybe<Scalars['Float']>
 }
 
 /** Order by stddev_samp() on columns of table "kc.order" */
 export type Kc_Order_Stddev_Samp_Order_By = {
-  amount?: Maybe<Order_By>
-  price_nzd?: Maybe<Order_By>
+  price?: Maybe<Order_By>
+  value?: Maybe<Order_By>
+  volume?: Maybe<Order_By>
 }
 
 /** Aggregate sum on columns */
 export type Kc_Order_Sum_Fields = {
   __typename?: 'kc_order_sum_fields'
-  amount?: Maybe<Scalars['numeric']>
-  price_nzd?: Maybe<Scalars['numeric']>
+  price?: Maybe<Scalars['numeric']>
+  value?: Maybe<Scalars['numeric']>
+  volume?: Maybe<Scalars['numeric']>
 }
 
 /** Order by sum() on columns of table "kc.order" */
 export type Kc_Order_Sum_Order_By = {
-  amount?: Maybe<Order_By>
-  price_nzd?: Maybe<Order_By>
+  price?: Maybe<Order_By>
+  value?: Maybe<Order_By>
+  volume?: Maybe<Order_By>
 }
 
 /** Aggregate var_pop on columns */
 export type Kc_Order_Var_Pop_Fields = {
   __typename?: 'kc_order_var_pop_fields'
-  amount?: Maybe<Scalars['Float']>
-  price_nzd?: Maybe<Scalars['Float']>
+  price?: Maybe<Scalars['Float']>
+  value?: Maybe<Scalars['Float']>
+  volume?: Maybe<Scalars['Float']>
 }
 
 /** Order by var_pop() on columns of table "kc.order" */
 export type Kc_Order_Var_Pop_Order_By = {
-  amount?: Maybe<Order_By>
-  price_nzd?: Maybe<Order_By>
+  price?: Maybe<Order_By>
+  value?: Maybe<Order_By>
+  volume?: Maybe<Order_By>
 }
 
 /** Aggregate var_samp on columns */
 export type Kc_Order_Var_Samp_Fields = {
   __typename?: 'kc_order_var_samp_fields'
-  amount?: Maybe<Scalars['Float']>
-  price_nzd?: Maybe<Scalars['Float']>
+  price?: Maybe<Scalars['Float']>
+  value?: Maybe<Scalars['Float']>
+  volume?: Maybe<Scalars['Float']>
 }
 
 /** Order by var_samp() on columns of table "kc.order" */
 export type Kc_Order_Var_Samp_Order_By = {
-  amount?: Maybe<Order_By>
-  price_nzd?: Maybe<Order_By>
+  price?: Maybe<Order_By>
+  value?: Maybe<Order_By>
+  volume?: Maybe<Order_By>
 }
 
 /** Aggregate variance on columns */
 export type Kc_Order_Variance_Fields = {
   __typename?: 'kc_order_variance_fields'
-  amount?: Maybe<Scalars['Float']>
-  price_nzd?: Maybe<Scalars['Float']>
+  price?: Maybe<Scalars['Float']>
+  value?: Maybe<Scalars['Float']>
+  volume?: Maybe<Scalars['Float']>
 }
 
 /** Order by variance() on columns of table "kc.order" */
 export type Kc_Order_Variance_Order_By = {
-  amount?: Maybe<Order_By>
-  price_nzd?: Maybe<Order_By>
+  price?: Maybe<Order_By>
+  value?: Maybe<Order_By>
+  volume?: Maybe<Order_By>
 }
 
 /** Columns and relationships of "kc.trade" */
 export type Kc_Trade = {
   __typename?: 'kc_trade'
-  amount: Scalars['numeric']
   created_at: Scalars['timestamptz']
   /** An object relationship */
   exchange: Kc_Exchange
   exchange_uid: Scalars['uuid']
-  fee_nzd: Scalars['numeric']
+  fee: Scalars['numeric']
   /** An object relationship */
   order?: Maybe<Kc_Order>
   order_uid?: Maybe<Scalars['uuid']>
-  price_nzd: Scalars['numeric']
-  symbol: Scalars['String']
+  price: Scalars['numeric']
+  primary_currency: Scalars['String']
+  secondary_currency: Scalars['String']
   timestamp: Scalars['timestamptz']
-  total_nzd: Scalars['numeric']
+  total_value: Scalars['numeric']
   trade_id: Scalars['String']
   type: Scalars['String']
   uid: Scalars['uuid']
@@ -1734,6 +1825,8 @@ export type Kc_Trade = {
   /** An object relationship */
   user: Kc_User
   user_uid: Scalars['uuid']
+  value: Scalars['numeric']
+  volume: Scalars['numeric']
 }
 
 /** Aggregated selection of "kc.trade" */
@@ -1783,18 +1876,20 @@ export type Kc_Trade_Aggregate_Order_By = {
 /** Aggregate avg on columns */
 export type Kc_Trade_Avg_Fields = {
   __typename?: 'kc_trade_avg_fields'
-  amount?: Maybe<Scalars['Float']>
-  fee_nzd?: Maybe<Scalars['Float']>
-  price_nzd?: Maybe<Scalars['Float']>
-  total_nzd?: Maybe<Scalars['Float']>
+  fee?: Maybe<Scalars['Float']>
+  price?: Maybe<Scalars['Float']>
+  total_value?: Maybe<Scalars['Float']>
+  value?: Maybe<Scalars['Float']>
+  volume?: Maybe<Scalars['Float']>
 }
 
 /** Order by avg() on columns of table "kc.trade" */
 export type Kc_Trade_Avg_Order_By = {
-  amount?: Maybe<Order_By>
-  fee_nzd?: Maybe<Order_By>
-  price_nzd?: Maybe<Order_By>
-  total_nzd?: Maybe<Order_By>
+  fee?: Maybe<Order_By>
+  price?: Maybe<Order_By>
+  total_value?: Maybe<Order_By>
+  value?: Maybe<Order_By>
+  volume?: Maybe<Order_By>
 }
 
 /** Boolean expression to filter rows from the table "kc.trade". All fields are combined with a logical 'AND'. */
@@ -1802,140 +1897,152 @@ export type Kc_Trade_Bool_Exp = {
   _and?: Maybe<Kc_Trade_Bool_Exp[]>
   _not?: Maybe<Kc_Trade_Bool_Exp>
   _or?: Maybe<Kc_Trade_Bool_Exp[]>
-  amount?: Maybe<Numeric_Comparison_Exp>
   created_at?: Maybe<Timestamptz_Comparison_Exp>
   exchange?: Maybe<Kc_Exchange_Bool_Exp>
   exchange_uid?: Maybe<Uuid_Comparison_Exp>
-  fee_nzd?: Maybe<Numeric_Comparison_Exp>
+  fee?: Maybe<Numeric_Comparison_Exp>
   order?: Maybe<Kc_Order_Bool_Exp>
   order_uid?: Maybe<Uuid_Comparison_Exp>
-  price_nzd?: Maybe<Numeric_Comparison_Exp>
-  symbol?: Maybe<String_Comparison_Exp>
+  price?: Maybe<Numeric_Comparison_Exp>
+  primary_currency?: Maybe<String_Comparison_Exp>
+  secondary_currency?: Maybe<String_Comparison_Exp>
   timestamp?: Maybe<Timestamptz_Comparison_Exp>
-  total_nzd?: Maybe<Numeric_Comparison_Exp>
+  total_value?: Maybe<Numeric_Comparison_Exp>
   trade_id?: Maybe<String_Comparison_Exp>
   type?: Maybe<String_Comparison_Exp>
   uid?: Maybe<Uuid_Comparison_Exp>
   updated_at?: Maybe<Timestamptz_Comparison_Exp>
   user?: Maybe<Kc_User_Bool_Exp>
   user_uid?: Maybe<Uuid_Comparison_Exp>
+  value?: Maybe<Numeric_Comparison_Exp>
+  volume?: Maybe<Numeric_Comparison_Exp>
 }
 
 /** Aggregate max on columns */
 export type Kc_Trade_Max_Fields = {
   __typename?: 'kc_trade_max_fields'
-  amount?: Maybe<Scalars['numeric']>
   created_at?: Maybe<Scalars['timestamptz']>
   exchange_uid?: Maybe<Scalars['uuid']>
-  fee_nzd?: Maybe<Scalars['numeric']>
+  fee?: Maybe<Scalars['numeric']>
   order_uid?: Maybe<Scalars['uuid']>
-  price_nzd?: Maybe<Scalars['numeric']>
-  symbol?: Maybe<Scalars['String']>
+  price?: Maybe<Scalars['numeric']>
+  primary_currency?: Maybe<Scalars['String']>
+  secondary_currency?: Maybe<Scalars['String']>
   timestamp?: Maybe<Scalars['timestamptz']>
-  total_nzd?: Maybe<Scalars['numeric']>
+  total_value?: Maybe<Scalars['numeric']>
   trade_id?: Maybe<Scalars['String']>
   type?: Maybe<Scalars['String']>
   uid?: Maybe<Scalars['uuid']>
   updated_at?: Maybe<Scalars['timestamptz']>
   user_uid?: Maybe<Scalars['uuid']>
+  value?: Maybe<Scalars['numeric']>
+  volume?: Maybe<Scalars['numeric']>
 }
 
 /** Order by max() on columns of table "kc.trade" */
 export type Kc_Trade_Max_Order_By = {
-  amount?: Maybe<Order_By>
   created_at?: Maybe<Order_By>
   exchange_uid?: Maybe<Order_By>
-  fee_nzd?: Maybe<Order_By>
+  fee?: Maybe<Order_By>
   order_uid?: Maybe<Order_By>
-  price_nzd?: Maybe<Order_By>
-  symbol?: Maybe<Order_By>
+  price?: Maybe<Order_By>
+  primary_currency?: Maybe<Order_By>
+  secondary_currency?: Maybe<Order_By>
   timestamp?: Maybe<Order_By>
-  total_nzd?: Maybe<Order_By>
+  total_value?: Maybe<Order_By>
   trade_id?: Maybe<Order_By>
   type?: Maybe<Order_By>
   uid?: Maybe<Order_By>
   updated_at?: Maybe<Order_By>
   user_uid?: Maybe<Order_By>
+  value?: Maybe<Order_By>
+  volume?: Maybe<Order_By>
 }
 
 /** Aggregate min on columns */
 export type Kc_Trade_Min_Fields = {
   __typename?: 'kc_trade_min_fields'
-  amount?: Maybe<Scalars['numeric']>
   created_at?: Maybe<Scalars['timestamptz']>
   exchange_uid?: Maybe<Scalars['uuid']>
-  fee_nzd?: Maybe<Scalars['numeric']>
+  fee?: Maybe<Scalars['numeric']>
   order_uid?: Maybe<Scalars['uuid']>
-  price_nzd?: Maybe<Scalars['numeric']>
-  symbol?: Maybe<Scalars['String']>
+  price?: Maybe<Scalars['numeric']>
+  primary_currency?: Maybe<Scalars['String']>
+  secondary_currency?: Maybe<Scalars['String']>
   timestamp?: Maybe<Scalars['timestamptz']>
-  total_nzd?: Maybe<Scalars['numeric']>
+  total_value?: Maybe<Scalars['numeric']>
   trade_id?: Maybe<Scalars['String']>
   type?: Maybe<Scalars['String']>
   uid?: Maybe<Scalars['uuid']>
   updated_at?: Maybe<Scalars['timestamptz']>
   user_uid?: Maybe<Scalars['uuid']>
+  value?: Maybe<Scalars['numeric']>
+  volume?: Maybe<Scalars['numeric']>
 }
 
 /** Order by min() on columns of table "kc.trade" */
 export type Kc_Trade_Min_Order_By = {
-  amount?: Maybe<Order_By>
   created_at?: Maybe<Order_By>
   exchange_uid?: Maybe<Order_By>
-  fee_nzd?: Maybe<Order_By>
+  fee?: Maybe<Order_By>
   order_uid?: Maybe<Order_By>
-  price_nzd?: Maybe<Order_By>
-  symbol?: Maybe<Order_By>
+  price?: Maybe<Order_By>
+  primary_currency?: Maybe<Order_By>
+  secondary_currency?: Maybe<Order_By>
   timestamp?: Maybe<Order_By>
-  total_nzd?: Maybe<Order_By>
+  total_value?: Maybe<Order_By>
   trade_id?: Maybe<Order_By>
   type?: Maybe<Order_By>
   uid?: Maybe<Order_By>
   updated_at?: Maybe<Order_By>
   user_uid?: Maybe<Order_By>
+  value?: Maybe<Order_By>
+  volume?: Maybe<Order_By>
 }
 
 /** Ordering options when selecting data from "kc.trade". */
 export type Kc_Trade_Order_By = {
-  amount?: Maybe<Order_By>
   created_at?: Maybe<Order_By>
   exchange?: Maybe<Kc_Exchange_Order_By>
   exchange_uid?: Maybe<Order_By>
-  fee_nzd?: Maybe<Order_By>
+  fee?: Maybe<Order_By>
   order?: Maybe<Kc_Order_Order_By>
   order_uid?: Maybe<Order_By>
-  price_nzd?: Maybe<Order_By>
-  symbol?: Maybe<Order_By>
+  price?: Maybe<Order_By>
+  primary_currency?: Maybe<Order_By>
+  secondary_currency?: Maybe<Order_By>
   timestamp?: Maybe<Order_By>
-  total_nzd?: Maybe<Order_By>
+  total_value?: Maybe<Order_By>
   trade_id?: Maybe<Order_By>
   type?: Maybe<Order_By>
   uid?: Maybe<Order_By>
   updated_at?: Maybe<Order_By>
   user?: Maybe<Kc_User_Order_By>
   user_uid?: Maybe<Order_By>
+  value?: Maybe<Order_By>
+  volume?: Maybe<Order_By>
 }
 
 /** Select columns of table "kc.trade" */
 export enum Kc_Trade_Select_Column {
   /** Column name */
-  Amount = 'amount',
-  /** Column name */
   CreatedAt = 'created_at',
   /** Column name */
   ExchangeUid = 'exchange_uid',
   /** Column name */
-  FeeNzd = 'fee_nzd',
+  Fee = 'fee',
   /** Column name */
   OrderUid = 'order_uid',
   /** Column name */
-  PriceNzd = 'price_nzd',
+  Price = 'price',
   /** Column name */
-  Symbol = 'symbol',
+  PrimaryCurrency = 'primary_currency',
+  /** Column name */
+  SecondaryCurrency = 'secondary_currency',
   /** Column name */
   Timestamp = 'timestamp',
   /** Column name */
-  TotalNzd = 'total_nzd',
+  TotalValue = 'total_value',
   /** Column name */
   TradeId = 'trade_id',
   /** Column name */
@@ -1946,125 +2053,143 @@ export enum Kc_Trade_Select_Column {
   UpdatedAt = 'updated_at',
   /** Column name */
   UserUid = 'user_uid',
+  /** Column name */
+  Value = 'value',
+  /** Column name */
+  Volume = 'volume',
 }
 
 /** Aggregate stddev on columns */
 export type Kc_Trade_Stddev_Fields = {
   __typename?: 'kc_trade_stddev_fields'
-  amount?: Maybe<Scalars['Float']>
-  fee_nzd?: Maybe<Scalars['Float']>
-  price_nzd?: Maybe<Scalars['Float']>
-  total_nzd?: Maybe<Scalars['Float']>
+  fee?: Maybe<Scalars['Float']>
+  price?: Maybe<Scalars['Float']>
+  total_value?: Maybe<Scalars['Float']>
+  value?: Maybe<Scalars['Float']>
+  volume?: Maybe<Scalars['Float']>
 }
 
 /** Order by stddev() on columns of table "kc.trade" */
 export type Kc_Trade_Stddev_Order_By = {
-  amount?: Maybe<Order_By>
-  fee_nzd?: Maybe<Order_By>
-  price_nzd?: Maybe<Order_By>
-  total_nzd?: Maybe<Order_By>
+  fee?: Maybe<Order_By>
+  price?: Maybe<Order_By>
+  total_value?: Maybe<Order_By>
+  value?: Maybe<Order_By>
+  volume?: Maybe<Order_By>
 }
 
 /** Aggregate stddev_pop on columns */
 export type Kc_Trade_Stddev_Pop_Fields = {
   __typename?: 'kc_trade_stddev_pop_fields'
-  amount?: Maybe<Scalars['Float']>
-  fee_nzd?: Maybe<Scalars['Float']>
-  price_nzd?: Maybe<Scalars['Float']>
-  total_nzd?: Maybe<Scalars['Float']>
+  fee?: Maybe<Scalars['Float']>
+  price?: Maybe<Scalars['Float']>
+  total_value?: Maybe<Scalars['Float']>
+  value?: Maybe<Scalars['Float']>
+  volume?: Maybe<Scalars['Float']>
 }
 
 /** Order by stddev_pop() on columns of table "kc.trade" */
 export type Kc_Trade_Stddev_Pop_Order_By = {
-  amount?: Maybe<Order_By>
-  fee_nzd?: Maybe<Order_By>
-  price_nzd?: Maybe<Order_By>
-  total_nzd?: Maybe<Order_By>
+  fee?: Maybe<Order_By>
+  price?: Maybe<Order_By>
+  total_value?: Maybe<Order_By>
+  value?: Maybe<Order_By>
+  volume?: Maybe<Order_By>
 }
 
 /** Aggregate stddev_samp on columns */
 export type Kc_Trade_Stddev_Samp_Fields = {
   __typename?: 'kc_trade_stddev_samp_fields'
-  amount?: Maybe<Scalars['Float']>
-  fee_nzd?: Maybe<Scalars['Float']>
-  price_nzd?: Maybe<Scalars['Float']>
-  total_nzd?: Maybe<Scalars['Float']>
+  fee?: Maybe<Scalars['Float']>
+  price?: Maybe<Scalars['Float']>
+  total_value?: Maybe<Scalars['Float']>
+  value?: Maybe<Scalars['Float']>
+  volume?: Maybe<Scalars['Float']>
 }
 
 /** Order by stddev_samp() on columns of table "kc.trade" */
 export type Kc_Trade_Stddev_Samp_Order_By = {
-  amount?: Maybe<Order_By>
-  fee_nzd?: Maybe<Order_By>
-  price_nzd?: Maybe<Order_By>
-  total_nzd?: Maybe<Order_By>
+  fee?: Maybe<Order_By>
+  price?: Maybe<Order_By>
+  total_value?: Maybe<Order_By>
+  value?: Maybe<Order_By>
+  volume?: Maybe<Order_By>
 }
 
 /** Aggregate sum on columns */
 export type Kc_Trade_Sum_Fields = {
   __typename?: 'kc_trade_sum_fields'
-  amount?: Maybe<Scalars['numeric']>
-  fee_nzd?: Maybe<Scalars['numeric']>
-  price_nzd?: Maybe<Scalars['numeric']>
-  total_nzd?: Maybe<Scalars['numeric']>
+  fee?: Maybe<Scalars['numeric']>
+  price?: Maybe<Scalars['numeric']>
+  total_value?: Maybe<Scalars['numeric']>
+  value?: Maybe<Scalars['numeric']>
+  volume?: Maybe<Scalars['numeric']>
 }
 
 /** Order by sum() on columns of table "kc.trade" */
 export type Kc_Trade_Sum_Order_By = {
-  amount?: Maybe<Order_By>
-  fee_nzd?: Maybe<Order_By>
-  price_nzd?: Maybe<Order_By>
-  total_nzd?: Maybe<Order_By>
+  fee?: Maybe<Order_By>
+  price?: Maybe<Order_By>
+  total_value?: Maybe<Order_By>
+  value?: Maybe<Order_By>
+  volume?: Maybe<Order_By>
 }
 
 /** Aggregate var_pop on columns */
 export type Kc_Trade_Var_Pop_Fields = {
   __typename?: 'kc_trade_var_pop_fields'
-  amount?: Maybe<Scalars['Float']>
-  fee_nzd?: Maybe<Scalars['Float']>
-  price_nzd?: Maybe<Scalars['Float']>
-  total_nzd?: Maybe<Scalars['Float']>
+  fee?: Maybe<Scalars['Float']>
+  price?: Maybe<Scalars['Float']>
+  total_value?: Maybe<Scalars['Float']>
+  value?: Maybe<Scalars['Float']>
+  volume?: Maybe<Scalars['Float']>
 }
 
 /** Order by var_pop() on columns of table "kc.trade" */
 export type Kc_Trade_Var_Pop_Order_By = {
-  amount?: Maybe<Order_By>
-  fee_nzd?: Maybe<Order_By>
-  price_nzd?: Maybe<Order_By>
-  total_nzd?: Maybe<Order_By>
+  fee?: Maybe<Order_By>
+  price?: Maybe<Order_By>
+  total_value?: Maybe<Order_By>
+  value?: Maybe<Order_By>
+  volume?: Maybe<Order_By>
 }
 
 /** Aggregate var_samp on columns */
 export type Kc_Trade_Var_Samp_Fields = {
   __typename?: 'kc_trade_var_samp_fields'
-  amount?: Maybe<Scalars['Float']>
-  fee_nzd?: Maybe<Scalars['Float']>
-  price_nzd?: Maybe<Scalars['Float']>
-  total_nzd?: Maybe<Scalars['Float']>
+  fee?: Maybe<Scalars['Float']>
+  price?: Maybe<Scalars['Float']>
+  total_value?: Maybe<Scalars['Float']>
+  value?: Maybe<Scalars['Float']>
+  volume?: Maybe<Scalars['Float']>
 }
 
 /** Order by var_samp() on columns of table "kc.trade" */
 export type Kc_Trade_Var_Samp_Order_By = {
-  amount?: Maybe<Order_By>
-  fee_nzd?: Maybe<Order_By>
-  price_nzd?: Maybe<Order_By>
-  total_nzd?: Maybe<Order_By>
+  fee?: Maybe<Order_By>
+  price?: Maybe<Order_By>
+  total_value?: Maybe<Order_By>
+  value?: Maybe<Order_By>
+  volume?: Maybe<Order_By>
 }
 
 /** Aggregate variance on columns */
 export type Kc_Trade_Variance_Fields = {
   __typename?: 'kc_trade_variance_fields'
-  amount?: Maybe<Scalars['Float']>
-  fee_nzd?: Maybe<Scalars['Float']>
-  price_nzd?: Maybe<Scalars['Float']>
-  total_nzd?: Maybe<Scalars['Float']>
+  fee?: Maybe<Scalars['Float']>
+  price?: Maybe<Scalars['Float']>
+  total_value?: Maybe<Scalars['Float']>
+  value?: Maybe<Scalars['Float']>
+  volume?: Maybe<Scalars['Float']>
 }
 
 /** Order by variance() on columns of table "kc.trade" */
 export type Kc_Trade_Variance_Order_By = {
-  amount?: Maybe<Order_By>
-  fee_nzd?: Maybe<Order_By>
-  price_nzd?: Maybe<Order_By>
-  total_nzd?: Maybe<Order_By>
+  fee?: Maybe<Order_By>
+  price?: Maybe<Order_By>
+  total_value?: Maybe<Order_By>
+  value?: Maybe<Order_By>
+  volume?: Maybe<Order_By>
 }
 
 /** Columns and relationships of "kc.user" */
@@ -2655,6 +2780,7 @@ export type Mutation_Root = {
   reset_user_password: ResetUserPasswordOutput
   send_user_email_verify: SendUserEmailVerifyOutput
   send_user_password_reset: SendUserPasswordResetOutput
+  sync_exchange_open_order_list?: Maybe<SyncExchangeOpenOrderListOutput>
   sync_exchange_trade_list?: Maybe<SyncExchangeTradeListOutput>
   /** Update data of the table: "kc.dca_order" */
   update_kc_dca_order?: Maybe<Kc_Dca_Order_Mutation_Response>
@@ -2685,12 +2811,13 @@ export type Mutation_RootCreate_Dca_OrderArgs = {
   daily_average: Scalars['Float']
   market_offset: Scalars['Float']
   market_uid: Scalars['uuid']
-  max_amount_nzd?: Maybe<Scalars['Float']>
-  max_price_nzd?: Maybe<Scalars['Float']>
-  min_amount_nzd?: Maybe<Scalars['Float']>
-  min_price_nzd?: Maybe<Scalars['Float']>
+  max_price?: Maybe<Scalars['Float']>
+  max_value?: Maybe<Scalars['Float']>
+  min_price?: Maybe<Scalars['Float']>
+  min_value?: Maybe<Scalars['Float']>
+  primary_currency: Scalars['String']
+  secondary_currency: Scalars['String']
   start_at: Scalars['timestamp']
-  symbol: Scalars['String']
   user_exchange_keys_uid: Scalars['uuid']
 }
 
@@ -2770,8 +2897,13 @@ export type Mutation_RootSend_User_Password_ResetArgs = {
 }
 
 /** Mutation root */
+export type Mutation_RootSync_Exchange_Open_Order_ListArgs = {
+  user_exchange_keys_uid: Scalars['uuid']
+}
+
+/** Mutation root */
 export type Mutation_RootSync_Exchange_Trade_ListArgs = {
-  exchange_uid: Scalars['uuid']
+  force_sync?: Maybe<Scalars['Boolean']>
   user_exchange_keys_uid: Scalars['uuid']
 }
 
@@ -2988,8 +3120,10 @@ export type Query_RootKc_Market_PriceArgs = {
 }
 
 export type Query_RootKc_Market_Price_By_PkArgs = {
+  asset_symbol: Scalars['String']
+  currency: Scalars['String']
   market_uid: Scalars['uuid']
-  symbol: Scalars['String']
+  source_currency: Scalars['bpchar']
   timestamp: Scalars['timestamptz']
 }
 
@@ -3230,8 +3364,10 @@ export type Subscription_RootKc_Market_PriceArgs = {
 }
 
 export type Subscription_RootKc_Market_Price_By_PkArgs = {
+  asset_symbol: Scalars['String']
+  currency: Scalars['String']
   market_uid: Scalars['uuid']
-  symbol: Scalars['String']
+  source_currency: Scalars['bpchar']
   timestamp: Scalars['timestamptz']
 }
 
@@ -3383,7 +3519,8 @@ export type CreateDcaOrderMutationVariables = Exact<{
   startAt: Scalars['timestamp']
   marketOffset: Scalars['Float']
   dailyAverage: Scalars['Float']
-  symbol: Scalars['String']
+  primaryCurrency: Scalars['String']
+  secondaryCurrency: Scalars['String']
 }>
 
 export type CreateDcaOrderMutation = {
@@ -3404,10 +3541,10 @@ export type GetDcaOrderListQuery = {
     daily_average: number
     start_at: string
     market_offset: number
-    min_price_nzd?: Maybe<number>
-    max_price_nzd?: Maybe<number>
-    min_amount_nzd?: Maybe<number>
-    max_amount_nzd?: Maybe<number>
+    min_price?: Maybe<number>
+    max_price?: Maybe<number>
+    min_value?: Maybe<number>
+    max_value?: Maybe<number>
     exchange: {
       __typename?: 'kc_exchange'
       uid: string
@@ -3435,11 +3572,11 @@ export type Exchange_ListQuery = {
   }>
 }
 
-export type Market_ListQueryVariables = Exact<{
+export type GetMarketPriceListQueryVariables = Exact<{
   timestamp: Scalars['timestamptz']
 }>
 
-export type Market_ListQuery = {
+export type GetMarketPriceListQuery = {
   __typename?: 'query_root'
   kc_market: Array<{
     __typename?: 'kc_market'
@@ -3449,8 +3586,9 @@ export type Market_ListQuery = {
     market_prices: Array<{
       __typename?: 'kc_market_price'
       timestamp: string
-      price_nzd: number
-      symbol: string
+      price: number
+      asset_symbol: string
+      currency: string
     }>
   }>
 }
@@ -3462,11 +3600,12 @@ export type GetOpenOrderListQuery = {
   kc_order: Array<{
     __typename?: 'kc_order'
     opened_at: string
-    amount: number
-    price_nzd: number
-    symbol: string
+    value: number
+    price: number
+    primary_currency: string
+    secondary_currency: string
     type: string
-    exchange: { __typename?: 'kc_exchange'; id: string }
+    exchange: { __typename?: 'kc_exchange'; uid: string; id: string }
   }>
 }
 
@@ -3481,7 +3620,7 @@ export type Create_UserMutation = {
 }
 
 export type GetTradeListQueryVariables = Exact<{
-  symbol: Scalars['String']
+  primaryCurrency: Scalars['String']
 }>
 
 export type GetTradeListQuery = {
@@ -3497,12 +3636,14 @@ export type GetTradeListQuery = {
     __typename?: 'kc_trade'
     uid: string
     timestamp: string
-    amount: number
-    symbol: string
+    value: number
+    volume: number
+    primary_currency: string
+    secondary_currency: string
     type: string
-    price_nzd: number
-    total_nzd: number
-    fee_nzd: number
+    price: number
+    total_value: number
+    fee: number
     exchange: { __typename?: 'kc_exchange'; uid: string; id: string }
   }>
 }
@@ -3660,7 +3801,8 @@ export const CreateDcaOrderDocument = gql`
     $startAt: timestamp!
     $marketOffset: Float!
     $dailyAverage: Float!
-    $symbol: String!
+    $primaryCurrency: String!
+    $secondaryCurrency: String!
   ) {
     create_dca_order(
       user_exchange_keys_uid: $userExchangeKeysUID
@@ -3668,7 +3810,8 @@ export const CreateDcaOrderDocument = gql`
       start_at: $startAt
       market_offset: $marketOffset
       daily_average: $dailyAverage
-      symbol: $symbol
+      primary_currency: $primaryCurrency
+      secondary_currency: $secondaryCurrency
     ) {
       dca_order_uid
     }
@@ -3701,10 +3844,10 @@ export const GetDcaOrderListDocument = gql`
       daily_average
       start_at
       market_offset
-      min_price_nzd
-      max_price_nzd
-      min_amount_nzd
-      max_amount_nzd
+      min_price
+      max_price
+      min_value
+      max_value
       user_exchange_keys {
         description
         uid
@@ -3729,37 +3872,40 @@ export type Exchange_ListQueryResult = Apollo.QueryResult<
   Exchange_ListQuery,
   Exchange_ListQueryVariables
 >
-export const Market_ListDocument = gql`
-  query market_list($timestamp: timestamptz!) {
+export const GetMarketPriceListDocument = gql`
+  query getMarketPriceList($timestamp: timestamptz!) {
     kc_market {
       uid
       id
       name
       market_prices(
-        distinct_on: symbol
+        distinct_on: [asset_symbol, currency]
         where: { timestamp: { _gte: $timestamp } }
       ) {
         timestamp
-        price_nzd
-        symbol
+        price
+        asset_symbol
+        currency
       }
     }
   }
 `
-export type Market_ListQueryResult = Apollo.QueryResult<
-  Market_ListQuery,
-  Market_ListQueryVariables
+export type GetMarketPriceListQueryResult = Apollo.QueryResult<
+  GetMarketPriceListQuery,
+  GetMarketPriceListQueryVariables
 >
 export const GetOpenOrderListDocument = gql`
   query getOpenOrderList {
     kc_order(where: { closed_at: { _is_null: true } }) {
       exchange {
+        uid
         id
       }
       opened_at
-      amount
-      price_nzd
-      symbol
+      value
+      price
+      primary_currency
+      secondary_currency
       type
     }
   }
@@ -3786,14 +3932,14 @@ export type Create_UserMutationOptions = Apollo.BaseMutationOptions<
   Create_UserMutationVariables
 >
 export const GetTradeListDocument = gql`
-  query getTradeList($symbol: String!) {
+  query getTradeList($primaryCurrency: String!) {
     kc_trade_aggregate {
       aggregate {
         count
       }
     }
     kc_trade(
-      where: { symbol: { _eq: $symbol } }
+      where: { primary_currency: { _eq: $primaryCurrency } }
       order_by: { timestamp: desc }
     ) {
       uid
@@ -3802,12 +3948,14 @@ export const GetTradeListDocument = gql`
         id
       }
       timestamp
-      amount
-      symbol
+      value
+      volume
+      primary_currency
+      secondary_currency
       type
-      price_nzd
-      total_nzd
-      fee_nzd
+      price
+      total_value
+      fee
     }
   }
 `

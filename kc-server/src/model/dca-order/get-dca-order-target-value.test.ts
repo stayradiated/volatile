@@ -91,7 +91,7 @@ test('should calculate with multiple trades', async (t) => {
       volume: 0.4,
       price: 1000,
       fee: 10,
-      value: tradedValue / 2 - 10 ,
+      value: tradedValue / 2 - 10,
       totalValue: tradedValue / 2,
     }),
   )

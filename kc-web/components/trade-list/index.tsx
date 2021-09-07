@@ -10,14 +10,14 @@ import {
 type Trade = GetTradeListQuery['kc_trade'][0]
 
 const QUERY = gql`
-  query getTradeList($symbol: String!) {
+  query getTradeList($primaryCurrency: String!) {
     kc_trade_aggregate {
       aggregate {
         count
       }
     }
     kc_trade(
-      where: { symbol: { _eq: $symbol } }
+      where: { primary_currency: { _eq: $primaryCurrency } }
       order_by: { timestamp: desc }
     ) {
       uid
@@ -26,12 +26,14 @@ const QUERY = gql`
         id
       }
       timestamp
-      amount
-      symbol
+      value
+      volume
+      primary_currency
+      secondary_currency
       type
-      price_nzd
-      total_nzd
-      fee_nzd
+      price
+      total_value
+      fee
     }
   }
 `
@@ -51,42 +53,42 @@ const columns: TableColumnsType<Trade> = [
     dataIndex: 'symbol',
   },
   {
-    title: 'Amount',
-    dataIndex: 'amount',
-    render: (amount) => amount.toFixed(8),
+    title: 'Volume',
+    dataIndex: 'volume',
+    render: (volume) => volume.toFixed(8),
   },
   {
     title: 'Type',
     dataIndex: 'type',
   },
   {
-    title: 'Price NZD',
-    dataIndex: 'price_nzd',
-    render: (priceNZD) => '$' + Math.round(priceNZD).toLocaleString(),
+    title: 'Price',
+    dataIndex: 'price',
+    render: (price) => '$' + Math.round(price).toLocaleString(),
   },
   {
-    title: 'Total NZD',
-    dataIndex: 'total_nzd',
-    render: (totalNZD) => '$' + totalNZD.toFixed(2),
+    title: 'Total Value',
+    dataIndex: 'total_value',
+    render: (total) => '$' + total.toFixed(2),
   },
   {
-    title: 'Fee NZD',
-    dataIndex: 'fee_nzd',
-    render: (feeNZD) => '$' + feeNZD.toFixed(2),
+    title: 'Fee',
+    dataIndex: 'fee',
+    render: (fee) => '$' + fee.toFixed(2),
   },
 ]
 
 type TradeListProps = {
-  symbol: string
+  primaryCurrency: string
 }
 
 const TradeList = (props: TradeListProps) => {
-  const { symbol } = props
+  const { primaryCurrency } = props
 
   const { data, error, loading } = useQuery<
     GetTradeListQuery,
     GetTradeListQueryVariables
-  >(QUERY, { variables: { symbol } })
+  >(QUERY, { variables: { primaryCurrency } })
 
   if (error) {
     return <p>{error.message}</p>

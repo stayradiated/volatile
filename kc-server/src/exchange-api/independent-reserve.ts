@@ -25,12 +25,16 @@ const independentReserve: ExchangeAPI<ir.Config> = {
       return accounts
     }
 
+    // IR currencies are formatted as `Nzd` so we need to shift cases.
+    const currencyLC = currency.toLowerCase()
+
     const account = accounts.find(
-      (account) => account.CurrencyCode === currency,
+      (account) => account.CurrencyCode.toLowerCase() === currencyLC,
     )
     if (!account) {
       return new ExchangeError({
         message: 'Failed to get balance from independentreserve.com',
+        context: { currency },
       })
     }
 
@@ -117,7 +121,7 @@ const getIndependentReserveExchangeAPI = (
 ): UserExchangeAPI | Error => {
   if (!ir.isValidConfig(config)) {
     return new ExchangeError({
-      message: 'Config is not valid for kiwi-coin.com.',
+      message: 'Config is not valid for independentreserve.com.',
     })
   }
 

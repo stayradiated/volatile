@@ -788,6 +788,49 @@
       },
       {
         "kind": "OBJECT",
+        "name": "SyncExchangeOpenOrderListOutput",
+        "description": null,
+        "fields": [
+          {
+            "name": "user",
+            "description": "An object relationship",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "kc_user",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "user_uid",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "uuid",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
         "name": "SyncExchangeTradeListOutput",
         "description": null,
         "fields": [
@@ -1612,7 +1655,7 @@
             "deprecationReason": null
           },
           {
-            "name": "max_amount_nzd",
+            "name": "max_price",
             "description": null,
             "args": [],
             "type": {
@@ -1624,7 +1667,7 @@
             "deprecationReason": null
           },
           {
-            "name": "max_price_nzd",
+            "name": "max_value",
             "description": null,
             "args": [],
             "type": {
@@ -1636,7 +1679,7 @@
             "deprecationReason": null
           },
           {
-            "name": "min_amount_nzd",
+            "name": "min_price",
             "description": null,
             "args": [],
             "type": {
@@ -1648,13 +1691,45 @@
             "deprecationReason": null
           },
           {
-            "name": "min_price_nzd",
+            "name": "min_value",
             "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
               "name": "numeric",
               "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "primary_currency",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "secondary_currency",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -1669,22 +1744,6 @@
               "ofType": {
                 "kind": "SCALAR",
                 "name": "timestamptz",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "symbol",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
                 "ofType": null
               }
             },
@@ -2203,7 +2262,7 @@
             "deprecationReason": null
           },
           {
-            "name": "max_amount_nzd",
+            "name": "max_price",
             "description": null,
             "args": [],
             "type": {
@@ -2215,7 +2274,7 @@
             "deprecationReason": null
           },
           {
-            "name": "max_price_nzd",
+            "name": "max_value",
             "description": null,
             "args": [],
             "type": {
@@ -2227,7 +2286,7 @@
             "deprecationReason": null
           },
           {
-            "name": "min_amount_nzd",
+            "name": "min_price",
             "description": null,
             "args": [],
             "type": {
@@ -2239,7 +2298,7 @@
             "deprecationReason": null
           },
           {
-            "name": "min_price_nzd",
+            "name": "min_value",
             "description": null,
             "args": [],
             "type": {
@@ -2297,7 +2356,7 @@
             "deprecationReason": null
           },
           {
-            "name": "max_amount_nzd",
+            "name": "max_price",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -2309,7 +2368,7 @@
             "deprecationReason": null
           },
           {
-            "name": "max_price_nzd",
+            "name": "max_value",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -2321,7 +2380,7 @@
             "deprecationReason": null
           },
           {
-            "name": "min_amount_nzd",
+            "name": "min_price",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -2333,7 +2392,7 @@
             "deprecationReason": null
           },
           {
-            "name": "min_price_nzd",
+            "name": "min_value",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -2516,7 +2575,7 @@
             "deprecationReason": null
           },
           {
-            "name": "max_amount_nzd",
+            "name": "max_price",
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
@@ -2528,7 +2587,7 @@
             "deprecationReason": null
           },
           {
-            "name": "max_price_nzd",
+            "name": "max_value",
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
@@ -2540,7 +2599,7 @@
             "deprecationReason": null
           },
           {
-            "name": "min_amount_nzd",
+            "name": "min_price",
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
@@ -2552,11 +2611,35 @@
             "deprecationReason": null
           },
           {
-            "name": "min_price_nzd",
+            "name": "min_value",
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
               "name": "numeric_comparison_exp",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "primary_currency",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "String_comparison_exp",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "secondary_currency",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "String_comparison_exp",
               "ofType": null
             },
             "defaultValue": null,
@@ -2569,18 +2652,6 @@
             "type": {
               "kind": "INPUT_OBJECT",
               "name": "timestamptz_comparison_exp",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "symbol",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "String_comparison_exp",
               "ofType": null
             },
             "defaultValue": null,
@@ -2670,23 +2741,7 @@
         "description": "columns and relationships of \"kc.dca_order_history\"",
         "fields": [
           {
-            "name": "available_balance_nzd",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "numeric",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "calculated_amount_nzd",
+            "name": "available_balance",
             "description": null,
             "args": [],
             "type": {
@@ -2798,7 +2853,7 @@
             "deprecationReason": null
           },
           {
-            "name": "market_price_nzd",
+            "name": "market_price",
             "description": null,
             "args": [],
             "type": {
@@ -2838,7 +2893,7 @@
             "deprecationReason": null
           },
           {
-            "name": "symbol",
+            "name": "primary_currency",
             "description": null,
             "args": [],
             "type": {
@@ -2847,6 +2902,38 @@
               "ofType": {
                 "kind": "SCALAR",
                 "name": "String",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "secondary_currency",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "target_value",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "numeric",
                 "ofType": null
               }
             },
@@ -2911,6 +2998,22 @@
               "ofType": {
                 "kind": "SCALAR",
                 "name": "uuid",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "value",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "numeric",
                 "ofType": null
               }
             },
@@ -3299,19 +3402,7 @@
         "description": "aggregate avg on columns",
         "fields": [
           {
-            "name": "available_balance_nzd",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Float",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "calculated_amount_nzd",
+            "name": "available_balance",
             "description": null,
             "args": [],
             "type": {
@@ -3335,7 +3426,31 @@
             "deprecationReason": null
           },
           {
-            "name": "market_price_nzd",
+            "name": "market_price",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "target_value",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "value",
             "description": null,
             "args": [],
             "type": {
@@ -3359,19 +3474,7 @@
         "fields": null,
         "inputFields": [
           {
-            "name": "available_balance_nzd",
-            "description": null,
-            "type": {
-              "kind": "ENUM",
-              "name": "order_by",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "calculated_amount_nzd",
+            "name": "available_balance",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -3395,7 +3498,31 @@
             "deprecationReason": null
           },
           {
-            "name": "market_price_nzd",
+            "name": "market_price",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "target_value",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "value",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -3470,19 +3597,7 @@
             "deprecationReason": null
           },
           {
-            "name": "available_balance_nzd",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "numeric_comparison_exp",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "calculated_amount_nzd",
+            "name": "available_balance",
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
@@ -3566,7 +3681,7 @@
             "deprecationReason": null
           },
           {
-            "name": "market_price_nzd",
+            "name": "market_price",
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
@@ -3602,11 +3717,35 @@
             "deprecationReason": null
           },
           {
-            "name": "symbol",
+            "name": "primary_currency",
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
               "name": "String_comparison_exp",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "secondary_currency",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "String_comparison_exp",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "target_value",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "numeric_comparison_exp",
               "ofType": null
             },
             "defaultValue": null,
@@ -3660,6 +3799,18 @@
             "defaultValue": null,
             "isDeprecated": false,
             "deprecationReason": null
+          },
+          {
+            "name": "value",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "numeric_comparison_exp",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "interfaces": null,
@@ -3672,19 +3823,7 @@
         "description": "aggregate max on columns",
         "fields": [
           {
-            "name": "available_balance_nzd",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "numeric",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "calculated_amount_nzd",
+            "name": "available_balance",
             "description": null,
             "args": [],
             "type": {
@@ -3744,7 +3883,7 @@
             "deprecationReason": null
           },
           {
-            "name": "market_price_nzd",
+            "name": "market_price",
             "description": null,
             "args": [],
             "type": {
@@ -3768,12 +3907,36 @@
             "deprecationReason": null
           },
           {
-            "name": "symbol",
+            "name": "primary_currency",
             "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
               "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "secondary_currency",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "target_value",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "numeric",
               "ofType": null
             },
             "isDeprecated": false,
@@ -3810,6 +3973,18 @@
             "type": {
               "kind": "SCALAR",
               "name": "uuid",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "value",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "numeric",
               "ofType": null
             },
             "isDeprecated": false,
@@ -3828,19 +4003,7 @@
         "fields": null,
         "inputFields": [
           {
-            "name": "available_balance_nzd",
-            "description": null,
-            "type": {
-              "kind": "ENUM",
-              "name": "order_by",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "calculated_amount_nzd",
+            "name": "available_balance",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -3900,7 +4063,7 @@
             "deprecationReason": null
           },
           {
-            "name": "market_price_nzd",
+            "name": "market_price",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -3924,7 +4087,31 @@
             "deprecationReason": null
           },
           {
-            "name": "symbol",
+            "name": "primary_currency",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "secondary_currency",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "target_value",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -3961,6 +4148,18 @@
           },
           {
             "name": "user_uid",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "value",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -3982,19 +4181,7 @@
         "description": "aggregate min on columns",
         "fields": [
           {
-            "name": "available_balance_nzd",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "numeric",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "calculated_amount_nzd",
+            "name": "available_balance",
             "description": null,
             "args": [],
             "type": {
@@ -4054,7 +4241,7 @@
             "deprecationReason": null
           },
           {
-            "name": "market_price_nzd",
+            "name": "market_price",
             "description": null,
             "args": [],
             "type": {
@@ -4078,12 +4265,36 @@
             "deprecationReason": null
           },
           {
-            "name": "symbol",
+            "name": "primary_currency",
             "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
               "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "secondary_currency",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "target_value",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "numeric",
               "ofType": null
             },
             "isDeprecated": false,
@@ -4120,6 +4331,18 @@
             "type": {
               "kind": "SCALAR",
               "name": "uuid",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "value",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "numeric",
               "ofType": null
             },
             "isDeprecated": false,
@@ -4138,19 +4361,7 @@
         "fields": null,
         "inputFields": [
           {
-            "name": "available_balance_nzd",
-            "description": null,
-            "type": {
-              "kind": "ENUM",
-              "name": "order_by",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "calculated_amount_nzd",
+            "name": "available_balance",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -4210,7 +4421,7 @@
             "deprecationReason": null
           },
           {
-            "name": "market_price_nzd",
+            "name": "market_price",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -4234,7 +4445,31 @@
             "deprecationReason": null
           },
           {
-            "name": "symbol",
+            "name": "primary_currency",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "secondary_currency",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "target_value",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -4271,6 +4506,18 @@
           },
           {
             "name": "user_uid",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "value",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -4293,19 +4540,7 @@
         "fields": null,
         "inputFields": [
           {
-            "name": "available_balance_nzd",
-            "description": null,
-            "type": {
-              "kind": "ENUM",
-              "name": "order_by",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "calculated_amount_nzd",
+            "name": "available_balance",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -4389,7 +4624,7 @@
             "deprecationReason": null
           },
           {
-            "name": "market_price_nzd",
+            "name": "market_price",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -4425,7 +4660,31 @@
             "deprecationReason": null
           },
           {
-            "name": "symbol",
+            "name": "primary_currency",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "secondary_currency",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "target_value",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -4483,6 +4742,18 @@
             "defaultValue": null,
             "isDeprecated": false,
             "deprecationReason": null
+          },
+          {
+            "name": "value",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "interfaces": null,
@@ -4498,13 +4769,7 @@
         "interfaces": null,
         "enumValues": [
           {
-            "name": "available_balance_nzd",
-            "description": "column name",
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "calculated_amount_nzd",
+            "name": "available_balance",
             "description": "column name",
             "isDeprecated": false,
             "deprecationReason": null
@@ -4540,7 +4805,7 @@
             "deprecationReason": null
           },
           {
-            "name": "market_price_nzd",
+            "name": "market_price",
             "description": "column name",
             "isDeprecated": false,
             "deprecationReason": null
@@ -4552,7 +4817,19 @@
             "deprecationReason": null
           },
           {
-            "name": "symbol",
+            "name": "primary_currency",
+            "description": "column name",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "secondary_currency",
+            "description": "column name",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "target_value",
             "description": "column name",
             "isDeprecated": false,
             "deprecationReason": null
@@ -4574,6 +4851,12 @@
             "description": "column name",
             "isDeprecated": false,
             "deprecationReason": null
+          },
+          {
+            "name": "value",
+            "description": "column name",
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "possibleTypes": null
@@ -4584,19 +4867,7 @@
         "description": "aggregate stddev on columns",
         "fields": [
           {
-            "name": "available_balance_nzd",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Float",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "calculated_amount_nzd",
+            "name": "available_balance",
             "description": null,
             "args": [],
             "type": {
@@ -4620,7 +4891,31 @@
             "deprecationReason": null
           },
           {
-            "name": "market_price_nzd",
+            "name": "market_price",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "target_value",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "value",
             "description": null,
             "args": [],
             "type": {
@@ -4644,19 +4939,7 @@
         "fields": null,
         "inputFields": [
           {
-            "name": "available_balance_nzd",
-            "description": null,
-            "type": {
-              "kind": "ENUM",
-              "name": "order_by",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "calculated_amount_nzd",
+            "name": "available_balance",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -4680,7 +4963,31 @@
             "deprecationReason": null
           },
           {
-            "name": "market_price_nzd",
+            "name": "market_price",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "target_value",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "value",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -4702,19 +5009,7 @@
         "description": "aggregate stddev_pop on columns",
         "fields": [
           {
-            "name": "available_balance_nzd",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Float",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "calculated_amount_nzd",
+            "name": "available_balance",
             "description": null,
             "args": [],
             "type": {
@@ -4738,7 +5033,31 @@
             "deprecationReason": null
           },
           {
-            "name": "market_price_nzd",
+            "name": "market_price",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "target_value",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "value",
             "description": null,
             "args": [],
             "type": {
@@ -4762,19 +5081,7 @@
         "fields": null,
         "inputFields": [
           {
-            "name": "available_balance_nzd",
-            "description": null,
-            "type": {
-              "kind": "ENUM",
-              "name": "order_by",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "calculated_amount_nzd",
+            "name": "available_balance",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -4798,7 +5105,31 @@
             "deprecationReason": null
           },
           {
-            "name": "market_price_nzd",
+            "name": "market_price",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "target_value",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "value",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -4820,19 +5151,7 @@
         "description": "aggregate stddev_samp on columns",
         "fields": [
           {
-            "name": "available_balance_nzd",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Float",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "calculated_amount_nzd",
+            "name": "available_balance",
             "description": null,
             "args": [],
             "type": {
@@ -4856,7 +5175,31 @@
             "deprecationReason": null
           },
           {
-            "name": "market_price_nzd",
+            "name": "market_price",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "target_value",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "value",
             "description": null,
             "args": [],
             "type": {
@@ -4880,19 +5223,7 @@
         "fields": null,
         "inputFields": [
           {
-            "name": "available_balance_nzd",
-            "description": null,
-            "type": {
-              "kind": "ENUM",
-              "name": "order_by",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "calculated_amount_nzd",
+            "name": "available_balance",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -4916,7 +5247,31 @@
             "deprecationReason": null
           },
           {
-            "name": "market_price_nzd",
+            "name": "market_price",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "target_value",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "value",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -4938,19 +5293,7 @@
         "description": "aggregate sum on columns",
         "fields": [
           {
-            "name": "available_balance_nzd",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "numeric",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "calculated_amount_nzd",
+            "name": "available_balance",
             "description": null,
             "args": [],
             "type": {
@@ -4974,7 +5317,31 @@
             "deprecationReason": null
           },
           {
-            "name": "market_price_nzd",
+            "name": "market_price",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "numeric",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "target_value",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "numeric",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "value",
             "description": null,
             "args": [],
             "type": {
@@ -4998,19 +5365,7 @@
         "fields": null,
         "inputFields": [
           {
-            "name": "available_balance_nzd",
-            "description": null,
-            "type": {
-              "kind": "ENUM",
-              "name": "order_by",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "calculated_amount_nzd",
+            "name": "available_balance",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -5034,7 +5389,31 @@
             "deprecationReason": null
           },
           {
-            "name": "market_price_nzd",
+            "name": "market_price",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "target_value",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "value",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -5056,19 +5435,7 @@
         "description": "aggregate var_pop on columns",
         "fields": [
           {
-            "name": "available_balance_nzd",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Float",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "calculated_amount_nzd",
+            "name": "available_balance",
             "description": null,
             "args": [],
             "type": {
@@ -5092,7 +5459,31 @@
             "deprecationReason": null
           },
           {
-            "name": "market_price_nzd",
+            "name": "market_price",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "target_value",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "value",
             "description": null,
             "args": [],
             "type": {
@@ -5116,19 +5507,7 @@
         "fields": null,
         "inputFields": [
           {
-            "name": "available_balance_nzd",
-            "description": null,
-            "type": {
-              "kind": "ENUM",
-              "name": "order_by",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "calculated_amount_nzd",
+            "name": "available_balance",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -5152,7 +5531,31 @@
             "deprecationReason": null
           },
           {
-            "name": "market_price_nzd",
+            "name": "market_price",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "target_value",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "value",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -5174,19 +5577,7 @@
         "description": "aggregate var_samp on columns",
         "fields": [
           {
-            "name": "available_balance_nzd",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Float",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "calculated_amount_nzd",
+            "name": "available_balance",
             "description": null,
             "args": [],
             "type": {
@@ -5210,7 +5601,31 @@
             "deprecationReason": null
           },
           {
-            "name": "market_price_nzd",
+            "name": "market_price",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "target_value",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "value",
             "description": null,
             "args": [],
             "type": {
@@ -5234,19 +5649,7 @@
         "fields": null,
         "inputFields": [
           {
-            "name": "available_balance_nzd",
-            "description": null,
-            "type": {
-              "kind": "ENUM",
-              "name": "order_by",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "calculated_amount_nzd",
+            "name": "available_balance",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -5270,7 +5673,31 @@
             "deprecationReason": null
           },
           {
-            "name": "market_price_nzd",
+            "name": "market_price",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "target_value",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "value",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -5292,19 +5719,7 @@
         "description": "aggregate variance on columns",
         "fields": [
           {
-            "name": "available_balance_nzd",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Float",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "calculated_amount_nzd",
+            "name": "available_balance",
             "description": null,
             "args": [],
             "type": {
@@ -5328,7 +5743,31 @@
             "deprecationReason": null
           },
           {
-            "name": "market_price_nzd",
+            "name": "market_price",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "target_value",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "value",
             "description": null,
             "args": [],
             "type": {
@@ -5352,19 +5791,7 @@
         "fields": null,
         "inputFields": [
           {
-            "name": "available_balance_nzd",
-            "description": null,
-            "type": {
-              "kind": "ENUM",
-              "name": "order_by",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "calculated_amount_nzd",
+            "name": "available_balance",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -5388,7 +5815,31 @@
             "deprecationReason": null
           },
           {
-            "name": "market_price_nzd",
+            "name": "market_price",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "target_value",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "value",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -5435,7 +5886,7 @@
             "deprecationReason": null
           },
           {
-            "name": "max_amount_nzd",
+            "name": "max_price",
             "description": null,
             "type": {
               "kind": "SCALAR",
@@ -5447,7 +5898,7 @@
             "deprecationReason": null
           },
           {
-            "name": "max_price_nzd",
+            "name": "max_value",
             "description": null,
             "type": {
               "kind": "SCALAR",
@@ -5459,7 +5910,7 @@
             "deprecationReason": null
           },
           {
-            "name": "min_amount_nzd",
+            "name": "min_price",
             "description": null,
             "type": {
               "kind": "SCALAR",
@@ -5471,7 +5922,7 @@
             "deprecationReason": null
           },
           {
-            "name": "min_price_nzd",
+            "name": "min_value",
             "description": null,
             "type": {
               "kind": "SCALAR",
@@ -5565,7 +6016,7 @@
             "deprecationReason": null
           },
           {
-            "name": "max_amount_nzd",
+            "name": "max_price",
             "description": null,
             "args": [],
             "type": {
@@ -5577,7 +6028,7 @@
             "deprecationReason": null
           },
           {
-            "name": "max_price_nzd",
+            "name": "max_value",
             "description": null,
             "args": [],
             "type": {
@@ -5589,7 +6040,7 @@
             "deprecationReason": null
           },
           {
-            "name": "min_amount_nzd",
+            "name": "min_price",
             "description": null,
             "args": [],
             "type": {
@@ -5601,12 +6052,36 @@
             "deprecationReason": null
           },
           {
-            "name": "min_price_nzd",
+            "name": "min_value",
             "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
               "name": "numeric",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "primary_currency",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "secondary_currency",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
               "ofType": null
             },
             "isDeprecated": false,
@@ -5619,18 +6094,6 @@
             "type": {
               "kind": "SCALAR",
               "name": "timestamptz",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "symbol",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
               "ofType": null
             },
             "isDeprecated": false,
@@ -5769,7 +6232,7 @@
             "deprecationReason": null
           },
           {
-            "name": "max_amount_nzd",
+            "name": "max_price",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -5781,7 +6244,7 @@
             "deprecationReason": null
           },
           {
-            "name": "max_price_nzd",
+            "name": "max_value",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -5793,7 +6256,7 @@
             "deprecationReason": null
           },
           {
-            "name": "min_amount_nzd",
+            "name": "min_price",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -5805,7 +6268,31 @@
             "deprecationReason": null
           },
           {
-            "name": "min_price_nzd",
+            "name": "min_value",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "primary_currency",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "secondary_currency",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -5818,18 +6305,6 @@
           },
           {
             "name": "start_at",
-            "description": null,
-            "type": {
-              "kind": "ENUM",
-              "name": "order_by",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "symbol",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -5971,7 +6446,7 @@
             "deprecationReason": null
           },
           {
-            "name": "max_amount_nzd",
+            "name": "max_price",
             "description": null,
             "args": [],
             "type": {
@@ -5983,7 +6458,7 @@
             "deprecationReason": null
           },
           {
-            "name": "max_price_nzd",
+            "name": "max_value",
             "description": null,
             "args": [],
             "type": {
@@ -5995,7 +6470,7 @@
             "deprecationReason": null
           },
           {
-            "name": "min_amount_nzd",
+            "name": "min_price",
             "description": null,
             "args": [],
             "type": {
@@ -6007,12 +6482,36 @@
             "deprecationReason": null
           },
           {
-            "name": "min_price_nzd",
+            "name": "min_value",
             "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
               "name": "numeric",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "primary_currency",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "secondary_currency",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
               "ofType": null
             },
             "isDeprecated": false,
@@ -6025,18 +6524,6 @@
             "type": {
               "kind": "SCALAR",
               "name": "timestamptz",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "symbol",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
               "ofType": null
             },
             "isDeprecated": false,
@@ -6175,7 +6662,7 @@
             "deprecationReason": null
           },
           {
-            "name": "max_amount_nzd",
+            "name": "max_price",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -6187,7 +6674,7 @@
             "deprecationReason": null
           },
           {
-            "name": "max_price_nzd",
+            "name": "max_value",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -6199,7 +6686,7 @@
             "deprecationReason": null
           },
           {
-            "name": "min_amount_nzd",
+            "name": "min_price",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -6211,7 +6698,31 @@
             "deprecationReason": null
           },
           {
-            "name": "min_price_nzd",
+            "name": "min_value",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "primary_currency",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "secondary_currency",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -6224,18 +6735,6 @@
           },
           {
             "name": "start_at",
-            "description": null,
-            "type": {
-              "kind": "ENUM",
-              "name": "order_by",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "symbol",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -6465,7 +6964,7 @@
             "deprecationReason": null
           },
           {
-            "name": "max_amount_nzd",
+            "name": "max_price",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -6477,7 +6976,7 @@
             "deprecationReason": null
           },
           {
-            "name": "max_price_nzd",
+            "name": "max_value",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -6489,7 +6988,7 @@
             "deprecationReason": null
           },
           {
-            "name": "min_amount_nzd",
+            "name": "min_price",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -6501,7 +7000,31 @@
             "deprecationReason": null
           },
           {
-            "name": "min_price_nzd",
+            "name": "min_value",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "primary_currency",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "secondary_currency",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -6514,18 +7037,6 @@
           },
           {
             "name": "start_at",
-            "description": null,
-            "type": {
-              "kind": "ENUM",
-              "name": "order_by",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "symbol",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -6685,37 +7196,43 @@
             "deprecationReason": null
           },
           {
-            "name": "max_amount_nzd",
+            "name": "max_price",
             "description": "column name",
             "isDeprecated": false,
             "deprecationReason": null
           },
           {
-            "name": "max_price_nzd",
+            "name": "max_value",
             "description": "column name",
             "isDeprecated": false,
             "deprecationReason": null
           },
           {
-            "name": "min_amount_nzd",
+            "name": "min_price",
             "description": "column name",
             "isDeprecated": false,
             "deprecationReason": null
           },
           {
-            "name": "min_price_nzd",
+            "name": "min_value",
+            "description": "column name",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "primary_currency",
+            "description": "column name",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "secondary_currency",
             "description": "column name",
             "isDeprecated": false,
             "deprecationReason": null
           },
           {
             "name": "start_at",
-            "description": "column name",
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "symbol",
             "description": "column name",
             "isDeprecated": false,
             "deprecationReason": null
@@ -6790,7 +7307,7 @@
             "deprecationReason": null
           },
           {
-            "name": "max_amount_nzd",
+            "name": "max_price",
             "description": null,
             "type": {
               "kind": "SCALAR",
@@ -6802,7 +7319,7 @@
             "deprecationReason": null
           },
           {
-            "name": "max_price_nzd",
+            "name": "max_value",
             "description": null,
             "type": {
               "kind": "SCALAR",
@@ -6814,7 +7331,7 @@
             "deprecationReason": null
           },
           {
-            "name": "min_amount_nzd",
+            "name": "min_price",
             "description": null,
             "type": {
               "kind": "SCALAR",
@@ -6826,7 +7343,7 @@
             "deprecationReason": null
           },
           {
-            "name": "min_price_nzd",
+            "name": "min_value",
             "description": null,
             "type": {
               "kind": "SCALAR",
@@ -6896,7 +7413,7 @@
             "deprecationReason": null
           },
           {
-            "name": "max_amount_nzd",
+            "name": "max_price",
             "description": null,
             "args": [],
             "type": {
@@ -6908,7 +7425,7 @@
             "deprecationReason": null
           },
           {
-            "name": "max_price_nzd",
+            "name": "max_value",
             "description": null,
             "args": [],
             "type": {
@@ -6920,7 +7437,7 @@
             "deprecationReason": null
           },
           {
-            "name": "min_amount_nzd",
+            "name": "min_price",
             "description": null,
             "args": [],
             "type": {
@@ -6932,7 +7449,7 @@
             "deprecationReason": null
           },
           {
-            "name": "min_price_nzd",
+            "name": "min_value",
             "description": null,
             "args": [],
             "type": {
@@ -6980,7 +7497,7 @@
             "deprecationReason": null
           },
           {
-            "name": "max_amount_nzd",
+            "name": "max_price",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -6992,7 +7509,7 @@
             "deprecationReason": null
           },
           {
-            "name": "max_price_nzd",
+            "name": "max_value",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -7004,7 +7521,7 @@
             "deprecationReason": null
           },
           {
-            "name": "min_amount_nzd",
+            "name": "min_price",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -7016,7 +7533,7 @@
             "deprecationReason": null
           },
           {
-            "name": "min_price_nzd",
+            "name": "min_value",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -7062,7 +7579,7 @@
             "deprecationReason": null
           },
           {
-            "name": "max_amount_nzd",
+            "name": "max_price",
             "description": null,
             "args": [],
             "type": {
@@ -7074,7 +7591,7 @@
             "deprecationReason": null
           },
           {
-            "name": "max_price_nzd",
+            "name": "max_value",
             "description": null,
             "args": [],
             "type": {
@@ -7086,7 +7603,7 @@
             "deprecationReason": null
           },
           {
-            "name": "min_amount_nzd",
+            "name": "min_price",
             "description": null,
             "args": [],
             "type": {
@@ -7098,7 +7615,7 @@
             "deprecationReason": null
           },
           {
-            "name": "min_price_nzd",
+            "name": "min_value",
             "description": null,
             "args": [],
             "type": {
@@ -7146,7 +7663,7 @@
             "deprecationReason": null
           },
           {
-            "name": "max_amount_nzd",
+            "name": "max_price",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -7158,7 +7675,7 @@
             "deprecationReason": null
           },
           {
-            "name": "max_price_nzd",
+            "name": "max_value",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -7170,7 +7687,7 @@
             "deprecationReason": null
           },
           {
-            "name": "min_amount_nzd",
+            "name": "min_price",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -7182,7 +7699,7 @@
             "deprecationReason": null
           },
           {
-            "name": "min_price_nzd",
+            "name": "min_value",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -7228,7 +7745,7 @@
             "deprecationReason": null
           },
           {
-            "name": "max_amount_nzd",
+            "name": "max_price",
             "description": null,
             "args": [],
             "type": {
@@ -7240,7 +7757,7 @@
             "deprecationReason": null
           },
           {
-            "name": "max_price_nzd",
+            "name": "max_value",
             "description": null,
             "args": [],
             "type": {
@@ -7252,7 +7769,7 @@
             "deprecationReason": null
           },
           {
-            "name": "min_amount_nzd",
+            "name": "min_price",
             "description": null,
             "args": [],
             "type": {
@@ -7264,7 +7781,7 @@
             "deprecationReason": null
           },
           {
-            "name": "min_price_nzd",
+            "name": "min_value",
             "description": null,
             "args": [],
             "type": {
@@ -7312,7 +7829,7 @@
             "deprecationReason": null
           },
           {
-            "name": "max_amount_nzd",
+            "name": "max_price",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -7324,7 +7841,7 @@
             "deprecationReason": null
           },
           {
-            "name": "max_price_nzd",
+            "name": "max_value",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -7336,7 +7853,7 @@
             "deprecationReason": null
           },
           {
-            "name": "min_amount_nzd",
+            "name": "min_price",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -7348,7 +7865,7 @@
             "deprecationReason": null
           },
           {
-            "name": "min_price_nzd",
+            "name": "min_value",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -7394,7 +7911,7 @@
             "deprecationReason": null
           },
           {
-            "name": "max_amount_nzd",
+            "name": "max_price",
             "description": null,
             "args": [],
             "type": {
@@ -7406,7 +7923,7 @@
             "deprecationReason": null
           },
           {
-            "name": "max_price_nzd",
+            "name": "max_value",
             "description": null,
             "args": [],
             "type": {
@@ -7418,7 +7935,7 @@
             "deprecationReason": null
           },
           {
-            "name": "min_amount_nzd",
+            "name": "min_price",
             "description": null,
             "args": [],
             "type": {
@@ -7430,7 +7947,7 @@
             "deprecationReason": null
           },
           {
-            "name": "min_price_nzd",
+            "name": "min_value",
             "description": null,
             "args": [],
             "type": {
@@ -7478,7 +7995,7 @@
             "deprecationReason": null
           },
           {
-            "name": "max_amount_nzd",
+            "name": "max_price",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -7490,7 +8007,7 @@
             "deprecationReason": null
           },
           {
-            "name": "max_price_nzd",
+            "name": "max_value",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -7502,7 +8019,7 @@
             "deprecationReason": null
           },
           {
-            "name": "min_amount_nzd",
+            "name": "min_price",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -7514,7 +8031,7 @@
             "deprecationReason": null
           },
           {
-            "name": "min_price_nzd",
+            "name": "min_value",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -7560,7 +8077,7 @@
             "deprecationReason": null
           },
           {
-            "name": "max_amount_nzd",
+            "name": "max_price",
             "description": null,
             "args": [],
             "type": {
@@ -7572,7 +8089,7 @@
             "deprecationReason": null
           },
           {
-            "name": "max_price_nzd",
+            "name": "max_value",
             "description": null,
             "args": [],
             "type": {
@@ -7584,7 +8101,7 @@
             "deprecationReason": null
           },
           {
-            "name": "min_amount_nzd",
+            "name": "min_price",
             "description": null,
             "args": [],
             "type": {
@@ -7596,7 +8113,7 @@
             "deprecationReason": null
           },
           {
-            "name": "min_price_nzd",
+            "name": "min_value",
             "description": null,
             "args": [],
             "type": {
@@ -7644,7 +8161,7 @@
             "deprecationReason": null
           },
           {
-            "name": "max_amount_nzd",
+            "name": "max_price",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -7656,7 +8173,7 @@
             "deprecationReason": null
           },
           {
-            "name": "max_price_nzd",
+            "name": "max_value",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -7668,7 +8185,7 @@
             "deprecationReason": null
           },
           {
-            "name": "min_amount_nzd",
+            "name": "min_price",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -7680,7 +8197,7 @@
             "deprecationReason": null
           },
           {
-            "name": "min_price_nzd",
+            "name": "min_value",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -7726,7 +8243,7 @@
             "deprecationReason": null
           },
           {
-            "name": "max_amount_nzd",
+            "name": "max_price",
             "description": null,
             "args": [],
             "type": {
@@ -7738,7 +8255,7 @@
             "deprecationReason": null
           },
           {
-            "name": "max_price_nzd",
+            "name": "max_value",
             "description": null,
             "args": [],
             "type": {
@@ -7750,7 +8267,7 @@
             "deprecationReason": null
           },
           {
-            "name": "min_amount_nzd",
+            "name": "min_price",
             "description": null,
             "args": [],
             "type": {
@@ -7762,7 +8279,7 @@
             "deprecationReason": null
           },
           {
-            "name": "min_price_nzd",
+            "name": "min_value",
             "description": null,
             "args": [],
             "type": {
@@ -7810,7 +8327,7 @@
             "deprecationReason": null
           },
           {
-            "name": "max_amount_nzd",
+            "name": "max_price",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -7822,7 +8339,7 @@
             "deprecationReason": null
           },
           {
-            "name": "max_price_nzd",
+            "name": "max_value",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -7834,7 +8351,7 @@
             "deprecationReason": null
           },
           {
-            "name": "min_amount_nzd",
+            "name": "min_price",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -7846,7 +8363,7 @@
             "deprecationReason": null
           },
           {
-            "name": "min_price_nzd",
+            "name": "min_value",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -7892,7 +8409,7 @@
             "deprecationReason": null
           },
           {
-            "name": "max_amount_nzd",
+            "name": "max_price",
             "description": null,
             "args": [],
             "type": {
@@ -7904,7 +8421,7 @@
             "deprecationReason": null
           },
           {
-            "name": "max_price_nzd",
+            "name": "max_value",
             "description": null,
             "args": [],
             "type": {
@@ -7916,7 +8433,7 @@
             "deprecationReason": null
           },
           {
-            "name": "min_amount_nzd",
+            "name": "min_price",
             "description": null,
             "args": [],
             "type": {
@@ -7928,7 +8445,7 @@
             "deprecationReason": null
           },
           {
-            "name": "min_price_nzd",
+            "name": "min_value",
             "description": null,
             "args": [],
             "type": {
@@ -7976,7 +8493,7 @@
             "deprecationReason": null
           },
           {
-            "name": "max_amount_nzd",
+            "name": "max_price",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -7988,7 +8505,7 @@
             "deprecationReason": null
           },
           {
-            "name": "max_price_nzd",
+            "name": "max_value",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -8000,7 +8517,7 @@
             "deprecationReason": null
           },
           {
-            "name": "min_amount_nzd",
+            "name": "min_price",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -8012,7 +8529,7 @@
             "deprecationReason": null
           },
           {
-            "name": "min_price_nzd",
+            "name": "min_value",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -9860,6 +10377,22 @@
         "description": "columns and relationships of \"kc.market_price\"",
         "fields": [
           {
+            "name": "asset_symbol",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "currency",
             "description": null,
             "args": [],
@@ -9868,7 +10401,7 @@
               "name": null,
               "ofType": {
                 "kind": "SCALAR",
-                "name": "bpchar",
+                "name": "String",
                 "ofType": null
               }
             },
@@ -9940,7 +10473,23 @@
             "deprecationReason": null
           },
           {
-            "name": "price_nzd",
+            "name": "source_currency",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "bpchar",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "source_price",
             "description": null,
             "args": [],
             "type": {
@@ -9949,22 +10498,6 @@
               "ofType": {
                 "kind": "SCALAR",
                 "name": "numeric",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "symbol",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
                 "ofType": null
               }
             },
@@ -10167,7 +10700,7 @@
             "deprecationReason": null
           },
           {
-            "name": "price_nzd",
+            "name": "source_price",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -10242,11 +10775,23 @@
             "deprecationReason": null
           },
           {
+            "name": "asset_symbol",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "String_comparison_exp",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "currency",
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "bpchar_comparison_exp",
+              "name": "String_comparison_exp",
               "ofType": null
             },
             "defaultValue": null,
@@ -10302,11 +10847,11 @@
             "deprecationReason": null
           },
           {
-            "name": "price_nzd",
+            "name": "source_currency",
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "numeric_comparison_exp",
+              "name": "bpchar_comparison_exp",
               "ofType": null
             },
             "defaultValue": null,
@@ -10314,11 +10859,11 @@
             "deprecationReason": null
           },
           {
-            "name": "symbol",
+            "name": "source_price",
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "String_comparison_exp",
+              "name": "numeric_comparison_exp",
               "ofType": null
             },
             "defaultValue": null,
@@ -10348,6 +10893,18 @@
         "description": "order by max() on columns of table \"kc.market_price\"",
         "fields": null,
         "inputFields": [
+          {
+            "name": "asset_symbol",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
           {
             "name": "currency",
             "description": null,
@@ -10397,7 +10954,7 @@
             "deprecationReason": null
           },
           {
-            "name": "price_nzd",
+            "name": "source_currency",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -10409,7 +10966,7 @@
             "deprecationReason": null
           },
           {
-            "name": "symbol",
+            "name": "source_price",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -10444,6 +11001,18 @@
         "fields": null,
         "inputFields": [
           {
+            "name": "asset_symbol",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "currency",
             "description": null,
             "type": {
@@ -10492,7 +11061,7 @@
             "deprecationReason": null
           },
           {
-            "name": "price_nzd",
+            "name": "source_currency",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -10504,7 +11073,7 @@
             "deprecationReason": null
           },
           {
-            "name": "symbol",
+            "name": "source_price",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -10538,6 +11107,18 @@
         "description": "Ordering options when selecting data from \"kc.market_price\".",
         "fields": null,
         "inputFields": [
+          {
+            "name": "asset_symbol",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
           {
             "name": "currency",
             "description": null,
@@ -10599,7 +11180,7 @@
             "deprecationReason": null
           },
           {
-            "name": "price_nzd",
+            "name": "source_currency",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -10611,7 +11192,7 @@
             "deprecationReason": null
           },
           {
-            "name": "symbol",
+            "name": "source_price",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -10648,6 +11229,12 @@
         "interfaces": null,
         "enumValues": [
           {
+            "name": "asset_symbol",
+            "description": "column name",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "currency",
             "description": "column name",
             "isDeprecated": false,
@@ -10672,13 +11259,13 @@
             "deprecationReason": null
           },
           {
-            "name": "price_nzd",
+            "name": "source_currency",
             "description": "column name",
             "isDeprecated": false,
             "deprecationReason": null
           },
           {
-            "name": "symbol",
+            "name": "source_price",
             "description": "column name",
             "isDeprecated": false,
             "deprecationReason": null
@@ -10723,7 +11310,7 @@
             "deprecationReason": null
           },
           {
-            "name": "price_nzd",
+            "name": "source_price",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -10770,7 +11357,7 @@
             "deprecationReason": null
           },
           {
-            "name": "price_nzd",
+            "name": "source_price",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -10817,7 +11404,7 @@
             "deprecationReason": null
           },
           {
-            "name": "price_nzd",
+            "name": "source_price",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -10864,7 +11451,7 @@
             "deprecationReason": null
           },
           {
-            "name": "price_nzd",
+            "name": "source_price",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -10911,7 +11498,7 @@
             "deprecationReason": null
           },
           {
-            "name": "price_nzd",
+            "name": "source_price",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -10958,7 +11545,7 @@
             "deprecationReason": null
           },
           {
-            "name": "price_nzd",
+            "name": "source_price",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -11005,7 +11592,7 @@
             "deprecationReason": null
           },
           {
-            "name": "price_nzd",
+            "name": "source_price",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -11067,22 +11654,6 @@
         "name": "kc_order",
         "description": "columns and relationships of \"kc.order\"",
         "fields": [
-          {
-            "name": "amount",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "numeric",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
           {
             "name": "closed_at",
             "description": null,
@@ -11370,7 +11941,7 @@
             "deprecationReason": null
           },
           {
-            "name": "price_nzd",
+            "name": "price",
             "description": null,
             "args": [],
             "type": {
@@ -11386,7 +11957,23 @@
             "deprecationReason": null
           },
           {
-            "name": "symbol",
+            "name": "primary_currency",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "secondary_currency",
             "description": null,
             "args": [],
             "type": {
@@ -11475,6 +12062,38 @@
               "ofType": {
                 "kind": "SCALAR",
                 "name": "uuid",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "value",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "numeric",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "volume",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "numeric",
                 "ofType": null
               }
             },
@@ -11863,7 +12482,7 @@
         "description": "aggregate avg on columns",
         "fields": [
           {
-            "name": "amount",
+            "name": "price",
             "description": null,
             "args": [],
             "type": {
@@ -11875,7 +12494,19 @@
             "deprecationReason": null
           },
           {
-            "name": "price_nzd",
+            "name": "value",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "volume",
             "description": null,
             "args": [],
             "type": {
@@ -11899,7 +12530,7 @@
         "fields": null,
         "inputFields": [
           {
-            "name": "amount",
+            "name": "price",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -11911,7 +12542,19 @@
             "deprecationReason": null
           },
           {
-            "name": "price_nzd",
+            "name": "value",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "volume",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -11980,18 +12623,6 @@
                   "ofType": null
                 }
               }
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "amount",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "numeric_comparison_exp",
-              "ofType": null
             },
             "defaultValue": null,
             "isDeprecated": false,
@@ -12082,7 +12713,7 @@
             "deprecationReason": null
           },
           {
-            "name": "price_nzd",
+            "name": "price",
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
@@ -12094,7 +12725,19 @@
             "deprecationReason": null
           },
           {
-            "name": "symbol",
+            "name": "primary_currency",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "String_comparison_exp",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "secondary_currency",
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
@@ -12164,6 +12807,30 @@
             "defaultValue": null,
             "isDeprecated": false,
             "deprecationReason": null
+          },
+          {
+            "name": "value",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "numeric_comparison_exp",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "volume",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "numeric_comparison_exp",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "interfaces": null,
@@ -12175,18 +12842,6 @@
         "name": "kc_order_max_fields",
         "description": "aggregate max on columns",
         "fields": [
-          {
-            "name": "amount",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "numeric",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
           {
             "name": "closed_at",
             "description": null,
@@ -12248,7 +12903,7 @@
             "deprecationReason": null
           },
           {
-            "name": "price_nzd",
+            "name": "price",
             "description": null,
             "args": [],
             "type": {
@@ -12260,7 +12915,19 @@
             "deprecationReason": null
           },
           {
-            "name": "symbol",
+            "name": "primary_currency",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "secondary_currency",
             "description": null,
             "args": [],
             "type": {
@@ -12314,6 +12981,30 @@
             "type": {
               "kind": "SCALAR",
               "name": "uuid",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "value",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "numeric",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "volume",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "numeric",
               "ofType": null
             },
             "isDeprecated": false,
@@ -12332,18 +13023,6 @@
         "fields": null,
         "inputFields": [
           {
-            "name": "amount",
-            "description": null,
-            "type": {
-              "kind": "ENUM",
-              "name": "order_by",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "closed_at",
             "description": null,
             "type": {
@@ -12404,7 +13083,7 @@
             "deprecationReason": null
           },
           {
-            "name": "price_nzd",
+            "name": "price",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -12416,7 +13095,19 @@
             "deprecationReason": null
           },
           {
-            "name": "symbol",
+            "name": "primary_currency",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "secondary_currency",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -12465,6 +13156,30 @@
           },
           {
             "name": "user_uid",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "value",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "volume",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -12486,18 +13201,6 @@
         "description": "aggregate min on columns",
         "fields": [
           {
-            "name": "amount",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "numeric",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "closed_at",
             "description": null,
             "args": [],
@@ -12558,7 +13261,7 @@
             "deprecationReason": null
           },
           {
-            "name": "price_nzd",
+            "name": "price",
             "description": null,
             "args": [],
             "type": {
@@ -12570,7 +13273,19 @@
             "deprecationReason": null
           },
           {
-            "name": "symbol",
+            "name": "primary_currency",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "secondary_currency",
             "description": null,
             "args": [],
             "type": {
@@ -12624,6 +13339,30 @@
             "type": {
               "kind": "SCALAR",
               "name": "uuid",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "value",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "numeric",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "volume",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "numeric",
               "ofType": null
             },
             "isDeprecated": false,
@@ -12642,18 +13381,6 @@
         "fields": null,
         "inputFields": [
           {
-            "name": "amount",
-            "description": null,
-            "type": {
-              "kind": "ENUM",
-              "name": "order_by",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "closed_at",
             "description": null,
             "type": {
@@ -12714,7 +13441,7 @@
             "deprecationReason": null
           },
           {
-            "name": "price_nzd",
+            "name": "price",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -12726,7 +13453,19 @@
             "deprecationReason": null
           },
           {
-            "name": "symbol",
+            "name": "primary_currency",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "secondary_currency",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -12775,6 +13514,30 @@
           },
           {
             "name": "user_uid",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "value",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "volume",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -12796,18 +13559,6 @@
         "description": "Ordering options when selecting data from \"kc.order\".",
         "fields": null,
         "inputFields": [
-          {
-            "name": "amount",
-            "description": null,
-            "type": {
-              "kind": "ENUM",
-              "name": "order_by",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
           {
             "name": "closed_at",
             "description": null,
@@ -12893,7 +13644,7 @@
             "deprecationReason": null
           },
           {
-            "name": "price_nzd",
+            "name": "price",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -12905,7 +13656,19 @@
             "deprecationReason": null
           },
           {
-            "name": "symbol",
+            "name": "primary_currency",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "secondary_currency",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -12975,6 +13738,30 @@
             "defaultValue": null,
             "isDeprecated": false,
             "deprecationReason": null
+          },
+          {
+            "name": "value",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "volume",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "interfaces": null,
@@ -12989,12 +13776,6 @@
         "inputFields": null,
         "interfaces": null,
         "enumValues": [
-          {
-            "name": "amount",
-            "description": "column name",
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
           {
             "name": "closed_at",
             "description": "column name",
@@ -13026,13 +13807,19 @@
             "deprecationReason": null
           },
           {
-            "name": "price_nzd",
+            "name": "price",
             "description": "column name",
             "isDeprecated": false,
             "deprecationReason": null
           },
           {
-            "name": "symbol",
+            "name": "primary_currency",
+            "description": "column name",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "secondary_currency",
             "description": "column name",
             "isDeprecated": false,
             "deprecationReason": null
@@ -13060,6 +13847,18 @@
             "description": "column name",
             "isDeprecated": false,
             "deprecationReason": null
+          },
+          {
+            "name": "value",
+            "description": "column name",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "volume",
+            "description": "column name",
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "possibleTypes": null
@@ -13070,7 +13869,7 @@
         "description": "aggregate stddev on columns",
         "fields": [
           {
-            "name": "amount",
+            "name": "price",
             "description": null,
             "args": [],
             "type": {
@@ -13082,7 +13881,19 @@
             "deprecationReason": null
           },
           {
-            "name": "price_nzd",
+            "name": "value",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "volume",
             "description": null,
             "args": [],
             "type": {
@@ -13106,7 +13917,7 @@
         "fields": null,
         "inputFields": [
           {
-            "name": "amount",
+            "name": "price",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -13118,7 +13929,19 @@
             "deprecationReason": null
           },
           {
-            "name": "price_nzd",
+            "name": "value",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "volume",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -13140,7 +13963,7 @@
         "description": "aggregate stddev_pop on columns",
         "fields": [
           {
-            "name": "amount",
+            "name": "price",
             "description": null,
             "args": [],
             "type": {
@@ -13152,7 +13975,19 @@
             "deprecationReason": null
           },
           {
-            "name": "price_nzd",
+            "name": "value",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "volume",
             "description": null,
             "args": [],
             "type": {
@@ -13176,7 +14011,7 @@
         "fields": null,
         "inputFields": [
           {
-            "name": "amount",
+            "name": "price",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -13188,7 +14023,19 @@
             "deprecationReason": null
           },
           {
-            "name": "price_nzd",
+            "name": "value",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "volume",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -13210,7 +14057,7 @@
         "description": "aggregate stddev_samp on columns",
         "fields": [
           {
-            "name": "amount",
+            "name": "price",
             "description": null,
             "args": [],
             "type": {
@@ -13222,7 +14069,19 @@
             "deprecationReason": null
           },
           {
-            "name": "price_nzd",
+            "name": "value",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "volume",
             "description": null,
             "args": [],
             "type": {
@@ -13246,7 +14105,7 @@
         "fields": null,
         "inputFields": [
           {
-            "name": "amount",
+            "name": "price",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -13258,7 +14117,19 @@
             "deprecationReason": null
           },
           {
-            "name": "price_nzd",
+            "name": "value",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "volume",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -13280,7 +14151,7 @@
         "description": "aggregate sum on columns",
         "fields": [
           {
-            "name": "amount",
+            "name": "price",
             "description": null,
             "args": [],
             "type": {
@@ -13292,7 +14163,19 @@
             "deprecationReason": null
           },
           {
-            "name": "price_nzd",
+            "name": "value",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "numeric",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "volume",
             "description": null,
             "args": [],
             "type": {
@@ -13316,7 +14199,7 @@
         "fields": null,
         "inputFields": [
           {
-            "name": "amount",
+            "name": "price",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -13328,7 +14211,19 @@
             "deprecationReason": null
           },
           {
-            "name": "price_nzd",
+            "name": "value",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "volume",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -13350,7 +14245,7 @@
         "description": "aggregate var_pop on columns",
         "fields": [
           {
-            "name": "amount",
+            "name": "price",
             "description": null,
             "args": [],
             "type": {
@@ -13362,7 +14257,19 @@
             "deprecationReason": null
           },
           {
-            "name": "price_nzd",
+            "name": "value",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "volume",
             "description": null,
             "args": [],
             "type": {
@@ -13386,7 +14293,7 @@
         "fields": null,
         "inputFields": [
           {
-            "name": "amount",
+            "name": "price",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -13398,7 +14305,19 @@
             "deprecationReason": null
           },
           {
-            "name": "price_nzd",
+            "name": "value",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "volume",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -13420,7 +14339,7 @@
         "description": "aggregate var_samp on columns",
         "fields": [
           {
-            "name": "amount",
+            "name": "price",
             "description": null,
             "args": [],
             "type": {
@@ -13432,7 +14351,19 @@
             "deprecationReason": null
           },
           {
-            "name": "price_nzd",
+            "name": "value",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "volume",
             "description": null,
             "args": [],
             "type": {
@@ -13456,7 +14387,7 @@
         "fields": null,
         "inputFields": [
           {
-            "name": "amount",
+            "name": "price",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -13468,7 +14399,19 @@
             "deprecationReason": null
           },
           {
-            "name": "price_nzd",
+            "name": "value",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "volume",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -13490,7 +14433,7 @@
         "description": "aggregate variance on columns",
         "fields": [
           {
-            "name": "amount",
+            "name": "price",
             "description": null,
             "args": [],
             "type": {
@@ -13502,7 +14445,19 @@
             "deprecationReason": null
           },
           {
-            "name": "price_nzd",
+            "name": "value",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "volume",
             "description": null,
             "args": [],
             "type": {
@@ -13526,7 +14481,7 @@
         "fields": null,
         "inputFields": [
           {
-            "name": "amount",
+            "name": "price",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -13538,7 +14493,19 @@
             "deprecationReason": null
           },
           {
-            "name": "price_nzd",
+            "name": "value",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "volume",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -13559,22 +14526,6 @@
         "name": "kc_trade",
         "description": "columns and relationships of \"kc.trade\"",
         "fields": [
-          {
-            "name": "amount",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "numeric",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
           {
             "name": "created_at",
             "description": null,
@@ -13624,7 +14575,7 @@
             "deprecationReason": null
           },
           {
-            "name": "fee_nzd",
+            "name": "fee",
             "description": null,
             "args": [],
             "type": {
@@ -13664,7 +14615,7 @@
             "deprecationReason": null
           },
           {
-            "name": "price_nzd",
+            "name": "price",
             "description": null,
             "args": [],
             "type": {
@@ -13680,7 +14631,23 @@
             "deprecationReason": null
           },
           {
-            "name": "symbol",
+            "name": "primary_currency",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "secondary_currency",
             "description": null,
             "args": [],
             "type": {
@@ -13712,7 +14679,7 @@
             "deprecationReason": null
           },
           {
-            "name": "total_nzd",
+            "name": "total_value",
             "description": null,
             "args": [],
             "type": {
@@ -13817,6 +14784,38 @@
               "ofType": {
                 "kind": "SCALAR",
                 "name": "uuid",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "value",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "numeric",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "volume",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "numeric",
                 "ofType": null
               }
             },
@@ -14205,7 +15204,7 @@
         "description": "aggregate avg on columns",
         "fields": [
           {
-            "name": "amount",
+            "name": "fee",
             "description": null,
             "args": [],
             "type": {
@@ -14217,7 +15216,7 @@
             "deprecationReason": null
           },
           {
-            "name": "fee_nzd",
+            "name": "price",
             "description": null,
             "args": [],
             "type": {
@@ -14229,7 +15228,7 @@
             "deprecationReason": null
           },
           {
-            "name": "price_nzd",
+            "name": "total_value",
             "description": null,
             "args": [],
             "type": {
@@ -14241,7 +15240,19 @@
             "deprecationReason": null
           },
           {
-            "name": "total_nzd",
+            "name": "value",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "volume",
             "description": null,
             "args": [],
             "type": {
@@ -14265,7 +15276,7 @@
         "fields": null,
         "inputFields": [
           {
-            "name": "amount",
+            "name": "fee",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -14277,7 +15288,7 @@
             "deprecationReason": null
           },
           {
-            "name": "fee_nzd",
+            "name": "price",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -14289,7 +15300,7 @@
             "deprecationReason": null
           },
           {
-            "name": "price_nzd",
+            "name": "total_value",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -14301,7 +15312,19 @@
             "deprecationReason": null
           },
           {
-            "name": "total_nzd",
+            "name": "value",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "volume",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -14376,18 +15399,6 @@
             "deprecationReason": null
           },
           {
-            "name": "amount",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "numeric_comparison_exp",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "created_at",
             "description": null,
             "type": {
@@ -14424,7 +15435,7 @@
             "deprecationReason": null
           },
           {
-            "name": "fee_nzd",
+            "name": "fee",
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
@@ -14460,7 +15471,7 @@
             "deprecationReason": null
           },
           {
-            "name": "price_nzd",
+            "name": "price",
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
@@ -14472,7 +15483,19 @@
             "deprecationReason": null
           },
           {
-            "name": "symbol",
+            "name": "primary_currency",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "String_comparison_exp",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "secondary_currency",
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
@@ -14496,7 +15519,7 @@
             "deprecationReason": null
           },
           {
-            "name": "total_nzd",
+            "name": "total_value",
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
@@ -14578,6 +15601,30 @@
             "defaultValue": null,
             "isDeprecated": false,
             "deprecationReason": null
+          },
+          {
+            "name": "value",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "numeric_comparison_exp",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "volume",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "numeric_comparison_exp",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "interfaces": null,
@@ -14589,18 +15636,6 @@
         "name": "kc_trade_max_fields",
         "description": "aggregate max on columns",
         "fields": [
-          {
-            "name": "amount",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "numeric",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
           {
             "name": "created_at",
             "description": null,
@@ -14626,7 +15661,7 @@
             "deprecationReason": null
           },
           {
-            "name": "fee_nzd",
+            "name": "fee",
             "description": null,
             "args": [],
             "type": {
@@ -14650,7 +15685,7 @@
             "deprecationReason": null
           },
           {
-            "name": "price_nzd",
+            "name": "price",
             "description": null,
             "args": [],
             "type": {
@@ -14662,7 +15697,19 @@
             "deprecationReason": null
           },
           {
-            "name": "symbol",
+            "name": "primary_currency",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "secondary_currency",
             "description": null,
             "args": [],
             "type": {
@@ -14686,7 +15733,7 @@
             "deprecationReason": null
           },
           {
-            "name": "total_nzd",
+            "name": "total_value",
             "description": null,
             "args": [],
             "type": {
@@ -14752,6 +15799,30 @@
             "type": {
               "kind": "SCALAR",
               "name": "uuid",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "value",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "numeric",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "volume",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "numeric",
               "ofType": null
             },
             "isDeprecated": false,
@@ -14770,18 +15841,6 @@
         "fields": null,
         "inputFields": [
           {
-            "name": "amount",
-            "description": null,
-            "type": {
-              "kind": "ENUM",
-              "name": "order_by",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "created_at",
             "description": null,
             "type": {
@@ -14806,7 +15865,7 @@
             "deprecationReason": null
           },
           {
-            "name": "fee_nzd",
+            "name": "fee",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -14830,7 +15889,7 @@
             "deprecationReason": null
           },
           {
-            "name": "price_nzd",
+            "name": "price",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -14842,7 +15901,19 @@
             "deprecationReason": null
           },
           {
-            "name": "symbol",
+            "name": "primary_currency",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "secondary_currency",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -14866,7 +15937,7 @@
             "deprecationReason": null
           },
           {
-            "name": "total_nzd",
+            "name": "total_value",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -14927,6 +15998,30 @@
           },
           {
             "name": "user_uid",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "value",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "volume",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -14948,18 +16043,6 @@
         "description": "aggregate min on columns",
         "fields": [
           {
-            "name": "amount",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "numeric",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "created_at",
             "description": null,
             "args": [],
@@ -14984,7 +16067,7 @@
             "deprecationReason": null
           },
           {
-            "name": "fee_nzd",
+            "name": "fee",
             "description": null,
             "args": [],
             "type": {
@@ -15008,7 +16091,7 @@
             "deprecationReason": null
           },
           {
-            "name": "price_nzd",
+            "name": "price",
             "description": null,
             "args": [],
             "type": {
@@ -15020,7 +16103,19 @@
             "deprecationReason": null
           },
           {
-            "name": "symbol",
+            "name": "primary_currency",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "secondary_currency",
             "description": null,
             "args": [],
             "type": {
@@ -15044,7 +16139,7 @@
             "deprecationReason": null
           },
           {
-            "name": "total_nzd",
+            "name": "total_value",
             "description": null,
             "args": [],
             "type": {
@@ -15110,6 +16205,30 @@
             "type": {
               "kind": "SCALAR",
               "name": "uuid",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "value",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "numeric",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "volume",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "numeric",
               "ofType": null
             },
             "isDeprecated": false,
@@ -15128,18 +16247,6 @@
         "fields": null,
         "inputFields": [
           {
-            "name": "amount",
-            "description": null,
-            "type": {
-              "kind": "ENUM",
-              "name": "order_by",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "created_at",
             "description": null,
             "type": {
@@ -15164,7 +16271,7 @@
             "deprecationReason": null
           },
           {
-            "name": "fee_nzd",
+            "name": "fee",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -15188,7 +16295,7 @@
             "deprecationReason": null
           },
           {
-            "name": "price_nzd",
+            "name": "price",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -15200,7 +16307,19 @@
             "deprecationReason": null
           },
           {
-            "name": "symbol",
+            "name": "primary_currency",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "secondary_currency",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -15224,7 +16343,7 @@
             "deprecationReason": null
           },
           {
-            "name": "total_nzd",
+            "name": "total_value",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -15285,6 +16404,30 @@
           },
           {
             "name": "user_uid",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "value",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "volume",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -15306,18 +16449,6 @@
         "description": "Ordering options when selecting data from \"kc.trade\".",
         "fields": null,
         "inputFields": [
-          {
-            "name": "amount",
-            "description": null,
-            "type": {
-              "kind": "ENUM",
-              "name": "order_by",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
           {
             "name": "created_at",
             "description": null,
@@ -15355,7 +16486,7 @@
             "deprecationReason": null
           },
           {
-            "name": "fee_nzd",
+            "name": "fee",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -15391,7 +16522,7 @@
             "deprecationReason": null
           },
           {
-            "name": "price_nzd",
+            "name": "price",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -15403,7 +16534,19 @@
             "deprecationReason": null
           },
           {
-            "name": "symbol",
+            "name": "primary_currency",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "secondary_currency",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -15427,7 +16570,7 @@
             "deprecationReason": null
           },
           {
-            "name": "total_nzd",
+            "name": "total_value",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -15509,6 +16652,30 @@
             "defaultValue": null,
             "isDeprecated": false,
             "deprecationReason": null
+          },
+          {
+            "name": "value",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "volume",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "interfaces": null,
@@ -15524,12 +16691,6 @@
         "interfaces": null,
         "enumValues": [
           {
-            "name": "amount",
-            "description": "column name",
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "created_at",
             "description": "column name",
             "isDeprecated": false,
@@ -15542,7 +16703,7 @@
             "deprecationReason": null
           },
           {
-            "name": "fee_nzd",
+            "name": "fee",
             "description": "column name",
             "isDeprecated": false,
             "deprecationReason": null
@@ -15554,13 +16715,19 @@
             "deprecationReason": null
           },
           {
-            "name": "price_nzd",
+            "name": "price",
             "description": "column name",
             "isDeprecated": false,
             "deprecationReason": null
           },
           {
-            "name": "symbol",
+            "name": "primary_currency",
+            "description": "column name",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "secondary_currency",
             "description": "column name",
             "isDeprecated": false,
             "deprecationReason": null
@@ -15572,7 +16739,7 @@
             "deprecationReason": null
           },
           {
-            "name": "total_nzd",
+            "name": "total_value",
             "description": "column name",
             "isDeprecated": false,
             "deprecationReason": null
@@ -15606,6 +16773,18 @@
             "description": "column name",
             "isDeprecated": false,
             "deprecationReason": null
+          },
+          {
+            "name": "value",
+            "description": "column name",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "volume",
+            "description": "column name",
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "possibleTypes": null
@@ -15616,7 +16795,7 @@
         "description": "aggregate stddev on columns",
         "fields": [
           {
-            "name": "amount",
+            "name": "fee",
             "description": null,
             "args": [],
             "type": {
@@ -15628,7 +16807,7 @@
             "deprecationReason": null
           },
           {
-            "name": "fee_nzd",
+            "name": "price",
             "description": null,
             "args": [],
             "type": {
@@ -15640,7 +16819,7 @@
             "deprecationReason": null
           },
           {
-            "name": "price_nzd",
+            "name": "total_value",
             "description": null,
             "args": [],
             "type": {
@@ -15652,7 +16831,19 @@
             "deprecationReason": null
           },
           {
-            "name": "total_nzd",
+            "name": "value",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "volume",
             "description": null,
             "args": [],
             "type": {
@@ -15676,7 +16867,7 @@
         "fields": null,
         "inputFields": [
           {
-            "name": "amount",
+            "name": "fee",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -15688,7 +16879,7 @@
             "deprecationReason": null
           },
           {
-            "name": "fee_nzd",
+            "name": "price",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -15700,7 +16891,7 @@
             "deprecationReason": null
           },
           {
-            "name": "price_nzd",
+            "name": "total_value",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -15712,7 +16903,19 @@
             "deprecationReason": null
           },
           {
-            "name": "total_nzd",
+            "name": "value",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "volume",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -15734,7 +16937,7 @@
         "description": "aggregate stddev_pop on columns",
         "fields": [
           {
-            "name": "amount",
+            "name": "fee",
             "description": null,
             "args": [],
             "type": {
@@ -15746,7 +16949,7 @@
             "deprecationReason": null
           },
           {
-            "name": "fee_nzd",
+            "name": "price",
             "description": null,
             "args": [],
             "type": {
@@ -15758,7 +16961,7 @@
             "deprecationReason": null
           },
           {
-            "name": "price_nzd",
+            "name": "total_value",
             "description": null,
             "args": [],
             "type": {
@@ -15770,7 +16973,19 @@
             "deprecationReason": null
           },
           {
-            "name": "total_nzd",
+            "name": "value",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "volume",
             "description": null,
             "args": [],
             "type": {
@@ -15794,7 +17009,7 @@
         "fields": null,
         "inputFields": [
           {
-            "name": "amount",
+            "name": "fee",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -15806,7 +17021,7 @@
             "deprecationReason": null
           },
           {
-            "name": "fee_nzd",
+            "name": "price",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -15818,7 +17033,7 @@
             "deprecationReason": null
           },
           {
-            "name": "price_nzd",
+            "name": "total_value",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -15830,7 +17045,19 @@
             "deprecationReason": null
           },
           {
-            "name": "total_nzd",
+            "name": "value",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "volume",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -15852,7 +17079,7 @@
         "description": "aggregate stddev_samp on columns",
         "fields": [
           {
-            "name": "amount",
+            "name": "fee",
             "description": null,
             "args": [],
             "type": {
@@ -15864,7 +17091,7 @@
             "deprecationReason": null
           },
           {
-            "name": "fee_nzd",
+            "name": "price",
             "description": null,
             "args": [],
             "type": {
@@ -15876,7 +17103,7 @@
             "deprecationReason": null
           },
           {
-            "name": "price_nzd",
+            "name": "total_value",
             "description": null,
             "args": [],
             "type": {
@@ -15888,7 +17115,19 @@
             "deprecationReason": null
           },
           {
-            "name": "total_nzd",
+            "name": "value",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "volume",
             "description": null,
             "args": [],
             "type": {
@@ -15912,7 +17151,7 @@
         "fields": null,
         "inputFields": [
           {
-            "name": "amount",
+            "name": "fee",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -15924,7 +17163,7 @@
             "deprecationReason": null
           },
           {
-            "name": "fee_nzd",
+            "name": "price",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -15936,7 +17175,7 @@
             "deprecationReason": null
           },
           {
-            "name": "price_nzd",
+            "name": "total_value",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -15948,7 +17187,19 @@
             "deprecationReason": null
           },
           {
-            "name": "total_nzd",
+            "name": "value",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "volume",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -15970,7 +17221,7 @@
         "description": "aggregate sum on columns",
         "fields": [
           {
-            "name": "amount",
+            "name": "fee",
             "description": null,
             "args": [],
             "type": {
@@ -15982,7 +17233,7 @@
             "deprecationReason": null
           },
           {
-            "name": "fee_nzd",
+            "name": "price",
             "description": null,
             "args": [],
             "type": {
@@ -15994,7 +17245,7 @@
             "deprecationReason": null
           },
           {
-            "name": "price_nzd",
+            "name": "total_value",
             "description": null,
             "args": [],
             "type": {
@@ -16006,7 +17257,19 @@
             "deprecationReason": null
           },
           {
-            "name": "total_nzd",
+            "name": "value",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "numeric",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "volume",
             "description": null,
             "args": [],
             "type": {
@@ -16030,7 +17293,7 @@
         "fields": null,
         "inputFields": [
           {
-            "name": "amount",
+            "name": "fee",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -16042,7 +17305,7 @@
             "deprecationReason": null
           },
           {
-            "name": "fee_nzd",
+            "name": "price",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -16054,7 +17317,7 @@
             "deprecationReason": null
           },
           {
-            "name": "price_nzd",
+            "name": "total_value",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -16066,7 +17329,19 @@
             "deprecationReason": null
           },
           {
-            "name": "total_nzd",
+            "name": "value",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "volume",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -16088,7 +17363,7 @@
         "description": "aggregate var_pop on columns",
         "fields": [
           {
-            "name": "amount",
+            "name": "fee",
             "description": null,
             "args": [],
             "type": {
@@ -16100,7 +17375,7 @@
             "deprecationReason": null
           },
           {
-            "name": "fee_nzd",
+            "name": "price",
             "description": null,
             "args": [],
             "type": {
@@ -16112,7 +17387,7 @@
             "deprecationReason": null
           },
           {
-            "name": "price_nzd",
+            "name": "total_value",
             "description": null,
             "args": [],
             "type": {
@@ -16124,7 +17399,19 @@
             "deprecationReason": null
           },
           {
-            "name": "total_nzd",
+            "name": "value",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "volume",
             "description": null,
             "args": [],
             "type": {
@@ -16148,7 +17435,7 @@
         "fields": null,
         "inputFields": [
           {
-            "name": "amount",
+            "name": "fee",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -16160,7 +17447,7 @@
             "deprecationReason": null
           },
           {
-            "name": "fee_nzd",
+            "name": "price",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -16172,7 +17459,7 @@
             "deprecationReason": null
           },
           {
-            "name": "price_nzd",
+            "name": "total_value",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -16184,7 +17471,19 @@
             "deprecationReason": null
           },
           {
-            "name": "total_nzd",
+            "name": "value",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "volume",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -16206,7 +17505,7 @@
         "description": "aggregate var_samp on columns",
         "fields": [
           {
-            "name": "amount",
+            "name": "fee",
             "description": null,
             "args": [],
             "type": {
@@ -16218,7 +17517,7 @@
             "deprecationReason": null
           },
           {
-            "name": "fee_nzd",
+            "name": "price",
             "description": null,
             "args": [],
             "type": {
@@ -16230,7 +17529,7 @@
             "deprecationReason": null
           },
           {
-            "name": "price_nzd",
+            "name": "total_value",
             "description": null,
             "args": [],
             "type": {
@@ -16242,7 +17541,19 @@
             "deprecationReason": null
           },
           {
-            "name": "total_nzd",
+            "name": "value",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "volume",
             "description": null,
             "args": [],
             "type": {
@@ -16266,7 +17577,7 @@
         "fields": null,
         "inputFields": [
           {
-            "name": "amount",
+            "name": "fee",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -16278,7 +17589,7 @@
             "deprecationReason": null
           },
           {
-            "name": "fee_nzd",
+            "name": "price",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -16290,7 +17601,7 @@
             "deprecationReason": null
           },
           {
-            "name": "price_nzd",
+            "name": "total_value",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -16302,7 +17613,19 @@
             "deprecationReason": null
           },
           {
-            "name": "total_nzd",
+            "name": "value",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "volume",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -16324,7 +17647,7 @@
         "description": "aggregate variance on columns",
         "fields": [
           {
-            "name": "amount",
+            "name": "fee",
             "description": null,
             "args": [],
             "type": {
@@ -16336,7 +17659,7 @@
             "deprecationReason": null
           },
           {
-            "name": "fee_nzd",
+            "name": "price",
             "description": null,
             "args": [],
             "type": {
@@ -16348,7 +17671,7 @@
             "deprecationReason": null
           },
           {
-            "name": "price_nzd",
+            "name": "total_value",
             "description": null,
             "args": [],
             "type": {
@@ -16360,7 +17683,19 @@
             "deprecationReason": null
           },
           {
-            "name": "total_nzd",
+            "name": "value",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "volume",
             "description": null,
             "args": [],
             "type": {
@@ -16384,7 +17719,7 @@
         "fields": null,
         "inputFields": [
           {
-            "name": "amount",
+            "name": "fee",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -16396,7 +17731,7 @@
             "deprecationReason": null
           },
           {
-            "name": "fee_nzd",
+            "name": "price",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -16408,7 +17743,7 @@
             "deprecationReason": null
           },
           {
-            "name": "price_nzd",
+            "name": "total_value",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -16420,7 +17755,19 @@
             "deprecationReason": null
           },
           {
-            "name": "total_nzd",
+            "name": "value",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "volume",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -21006,7 +22353,7 @@
                 "deprecationReason": null
               },
               {
-                "name": "max_amount_nzd",
+                "name": "max_price",
                 "description": null,
                 "type": {
                   "kind": "SCALAR",
@@ -21018,7 +22365,7 @@
                 "deprecationReason": null
               },
               {
-                "name": "max_price_nzd",
+                "name": "max_value",
                 "description": null,
                 "type": {
                   "kind": "SCALAR",
@@ -21030,7 +22377,7 @@
                 "deprecationReason": null
               },
               {
-                "name": "min_amount_nzd",
+                "name": "min_price",
                 "description": null,
                 "type": {
                   "kind": "SCALAR",
@@ -21042,12 +22389,44 @@
                 "deprecationReason": null
               },
               {
-                "name": "min_price_nzd",
+                "name": "min_value",
                 "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "Float",
                   "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "primary_currency",
+                "description": null,
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "secondary_currency",
+                "description": null,
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  }
                 },
                 "defaultValue": null,
                 "isDeprecated": false,
@@ -21062,22 +22441,6 @@
                   "ofType": {
                     "kind": "SCALAR",
                     "name": "timestamp",
-                    "ofType": null
-                  }
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              },
-              {
-                "name": "symbol",
-                "description": null,
-                "type": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "String",
                     "ofType": null
                   }
                 },
@@ -21668,11 +23031,11 @@
             "deprecationReason": null
           },
           {
-            "name": "sync_exchange_trade_list",
+            "name": "sync_exchange_open_order_list",
             "description": null,
             "args": [
               {
-                "name": "exchange_uid",
+                "name": "user_exchange_keys_uid",
                 "description": null,
                 "type": {
                   "kind": "NON_NULL",
@@ -21682,6 +23045,31 @@
                     "name": "uuid",
                     "ofType": null
                   }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              }
+            ],
+            "type": {
+              "kind": "OBJECT",
+              "name": "SyncExchangeOpenOrderListOutput",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "sync_exchange_trade_list",
+            "description": null,
+            "args": [
+              {
+                "name": "force_sync",
+                "description": null,
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Boolean",
+                  "ofType": null
                 },
                 "defaultValue": null,
                 "isDeprecated": false,
@@ -23107,6 +24495,38 @@
             "description": "fetch data from the table: \"kc.market_price\" using primary key columns",
             "args": [
               {
+                "name": "asset_symbol",
+                "description": null,
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "currency",
+                "description": null,
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
                 "name": "market_uid",
                 "description": null,
                 "type": {
@@ -23123,14 +24543,14 @@
                 "deprecationReason": null
               },
               {
-                "name": "symbol",
+                "name": "source_currency",
                 "description": null,
                 "type": {
                   "kind": "NON_NULL",
                   "name": null,
                   "ofType": {
                     "kind": "SCALAR",
-                    "name": "String",
+                    "name": "bpchar",
                     "ofType": null
                   }
                 },
@@ -25138,6 +26558,38 @@
             "description": "fetch data from the table: \"kc.market_price\" using primary key columns",
             "args": [
               {
+                "name": "asset_symbol",
+                "description": null,
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "currency",
+                "description": null,
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
                 "name": "market_uid",
                 "description": null,
                 "type": {
@@ -25154,14 +26606,14 @@
                 "deprecationReason": null
               },
               {
-                "name": "symbol",
+                "name": "source_currency",
                 "description": null,
                 "type": {
                   "kind": "NON_NULL",
                   "name": null,
                   "ofType": {
                     "kind": "SCALAR",
-                    "name": "String",
+                    "name": "bpchar",
                     "ofType": null
                   }
                 },

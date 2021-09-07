@@ -30,7 +30,8 @@ const MUTATION_CREATE_DCA_ORDER = gql`
     $startAt: timestamp!
     $marketOffset: Float!
     $dailyAverage: Float!
-    $symbol: String!
+    $primaryCurrency: String!
+    $secondaryCurrency: String!
   ) {
     create_dca_order(
       user_exchange_keys_uid: $userExchangeKeysUID
@@ -38,7 +39,8 @@ const MUTATION_CREATE_DCA_ORDER = gql`
       start_at: $startAt
       market_offset: $marketOffset
       daily_average: $dailyAverage
-      asset_symbol: $symbol
+      primary_currency: $primaryCurrency
+      secondary_currency: $secondaryCurrency
     ) {
       dca_order_uid
     }
@@ -141,7 +143,8 @@ const DCAOrderForm = () => {
       variables: {
         userExchangeKeysUID,
         marketUID,
-        symbol,
+        primaryCurrency: symbol,
+        secondaryCurrency: 'NZD',
         startAt,
         marketOffset,
         dailyAverage,

@@ -5,13 +5,15 @@ import { TradeList } from '../components/trade-list/index'
 import { SelectAsset } from '../components/select/asset/index'
 
 const Trades = () => {
-  const [assetSymbol, setAssetSymbol] = useState<string | undefined>('BTC')
+  const [primaryCurrency, setPrimaryCurrency] = useState<string | undefined>(
+    'BTC',
+  )
 
   const handleChange = useCallback(
     (option: null | { symbol: string }) => {
-      setAssetSymbol(option?.symbol)
+      setPrimaryCurrency(option?.symbol)
     },
-    [setAssetSymbol],
+    [setPrimaryCurrency],
   )
 
   return (
@@ -24,13 +26,15 @@ const Trades = () => {
           <Col span={6}>
             <SelectAsset
               onChange={handleChange}
-              defaultValue={assetSymbol ? { symbol: assetSymbol } : undefined}
+              defaultValue={
+                primaryCurrency ? { symbol: primaryCurrency } : undefined
+              }
             />
           </Col>
         </Row>
         <Row>
           <Col span={12} offset={6}>
-            {assetSymbol && <TradeList symbol={assetSymbol} />}
+            {primaryCurrency && <TradeList primaryCurrency={primaryCurrency} />}
           </Col>
         </Row>
       </Layout.Content>
