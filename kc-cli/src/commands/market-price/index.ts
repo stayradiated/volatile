@@ -25,20 +25,23 @@ export const builder = (yargs: Argv) =>
   })
 
 const QUERY_GET_MARKET_PRICE = /* GraphQL */ `
-  query getMarketPrice($assetSymbol: String!) {
-    kc_market {
-      name
-      market_prices(
-        where: { asset_symbol: { _eq: $assetSymbol } }
-        order_by: { timestamp: desc }
-        limit: 1
-      ) {
-        timestamp
-        asset_symbol
-        currency
-        fx_rate
-        price
-        price_nzd
+  query getMarketPrice($assetSymbol: String!, $timestamp: timestamptz!) {
+    kc_market_price(
+      distinct_on: [market_uid, asset_symbol, currency]
+      where: {
+        asset_symbol: { _eq: $assetSymbol }
+        timestamp: { _gte: $timestamp }
+      }
+    ) {
+      timestamp
+      asset_symbol
+      source_price
+      source_currency
+      fx_rate
+      price
+      currency
+      market {
+        name
       }
     }
   }
@@ -56,29 +59,29 @@ export const handler = createHandler<Options>(async (config, argv) => {
     endpoint: config.endpoint,
     headers: authHeaders,
     query: QUERY_GET_MARKET_PRICE,
-    variables: { assetSymbol: asset },
+    variables: {
+      assetSymbol: asset,
+      timestamp: DateTime.local()
+        .minus({ minutes: 1 })
+        .set({ second: 0, millisecond: 0 })
+        .toISO(),
+    },
   })
   if (result instanceof Error) {
     return result
   }
 
-  const rowData = result.data.kc_market
-    .map<RowData | undefined>((market) => {
-      const marketPrice = market.market_prices[0]
-      if (!marketPrice) {
-        return undefined
-      }
-
-      return {
-        marketName: market.name,
-        timestamp: DateTime.fromISO(marketPrice.timestamp),
-        assetSymbol: marketPrice.asset_symbol,
-        currency: marketPrice.currency,
-        fxRate: marketPrice.fx_rate,
-        price: marketPrice.price,
-        priceNZD: marketPrice.price_nzd,
-      }
-    })
+  const rowData = result.data.kc_market_price
+    .map<RowData | undefined>((marketPrice) => ({
+      marketName: marketPrice.market.name,
+      timestamp: DateTime.fromISO(marketPrice.timestamp),
+      assetSymbol: marketPrice.asset_symbol,
+      sourcePrice: marketPrice.source_price,
+      sourceCurrency: marketPrice.source_currency,
+      fxRate: marketPrice.fx_rate,
+      price: marketPrice.price,
+      currency: marketPrice.currency,
+    }))
     .filter(Boolean) as RowData[]
 
   console.log(drawTable(rowData))

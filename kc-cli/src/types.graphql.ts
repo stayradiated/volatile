@@ -1281,13 +1281,14 @@ export type Kc_Market_Order_By = {
 export type Kc_Market_Price = {
   __typename?: 'kc_market_price';
   asset_symbol: Scalars['String'];
-  currency: Scalars['bpchar'];
+  currency: Scalars['String'];
   fx_rate: Scalars['numeric'];
   /** An object relationship */
   market: Kc_Market;
   market_uid: Scalars['uuid'];
   price: Scalars['numeric'];
-  price_nzd: Scalars['numeric'];
+  source_currency: Scalars['bpchar'];
+  source_price: Scalars['numeric'];
   timestamp: Scalars['timestamptz'];
 };
 
@@ -1310,7 +1311,7 @@ export type Kc_Market_Price_Aggregate_Order_By = {
 export type Kc_Market_Price_Avg_Order_By = {
   fx_rate?: Maybe<Order_By>;
   price?: Maybe<Order_By>;
-  price_nzd?: Maybe<Order_By>;
+  source_price?: Maybe<Order_By>;
 };
 
 /** Boolean expression to filter rows from the table "kc.market_price". All fields are combined with a logical 'AND'. */
@@ -1319,12 +1320,13 @@ export type Kc_Market_Price_Bool_Exp = {
   _not?: Maybe<Kc_Market_Price_Bool_Exp>;
   _or?: Maybe<Array<Kc_Market_Price_Bool_Exp>>;
   asset_symbol?: Maybe<String_Comparison_Exp>;
-  currency?: Maybe<Bpchar_Comparison_Exp>;
+  currency?: Maybe<String_Comparison_Exp>;
   fx_rate?: Maybe<Numeric_Comparison_Exp>;
   market?: Maybe<Kc_Market_Bool_Exp>;
   market_uid?: Maybe<Uuid_Comparison_Exp>;
   price?: Maybe<Numeric_Comparison_Exp>;
-  price_nzd?: Maybe<Numeric_Comparison_Exp>;
+  source_currency?: Maybe<Bpchar_Comparison_Exp>;
+  source_price?: Maybe<Numeric_Comparison_Exp>;
   timestamp?: Maybe<Timestamptz_Comparison_Exp>;
 };
 
@@ -1335,7 +1337,8 @@ export type Kc_Market_Price_Max_Order_By = {
   fx_rate?: Maybe<Order_By>;
   market_uid?: Maybe<Order_By>;
   price?: Maybe<Order_By>;
-  price_nzd?: Maybe<Order_By>;
+  source_currency?: Maybe<Order_By>;
+  source_price?: Maybe<Order_By>;
   timestamp?: Maybe<Order_By>;
 };
 
@@ -1346,7 +1349,8 @@ export type Kc_Market_Price_Min_Order_By = {
   fx_rate?: Maybe<Order_By>;
   market_uid?: Maybe<Order_By>;
   price?: Maybe<Order_By>;
-  price_nzd?: Maybe<Order_By>;
+  source_currency?: Maybe<Order_By>;
+  source_price?: Maybe<Order_By>;
   timestamp?: Maybe<Order_By>;
 };
 
@@ -1358,7 +1362,8 @@ export type Kc_Market_Price_Order_By = {
   market?: Maybe<Kc_Market_Order_By>;
   market_uid?: Maybe<Order_By>;
   price?: Maybe<Order_By>;
-  price_nzd?: Maybe<Order_By>;
+  source_currency?: Maybe<Order_By>;
+  source_price?: Maybe<Order_By>;
   timestamp?: Maybe<Order_By>;
 };
 
@@ -1375,7 +1380,9 @@ export enum Kc_Market_Price_Select_Column {
   /** column name */
   Price = 'price',
   /** column name */
-  PriceNzd = 'price_nzd',
+  SourceCurrency = 'source_currency',
+  /** column name */
+  SourcePrice = 'source_price',
   /** column name */
   Timestamp = 'timestamp'
 }
@@ -1384,49 +1391,49 @@ export enum Kc_Market_Price_Select_Column {
 export type Kc_Market_Price_Stddev_Order_By = {
   fx_rate?: Maybe<Order_By>;
   price?: Maybe<Order_By>;
-  price_nzd?: Maybe<Order_By>;
+  source_price?: Maybe<Order_By>;
 };
 
 /** order by stddev_pop() on columns of table "kc.market_price" */
 export type Kc_Market_Price_Stddev_Pop_Order_By = {
   fx_rate?: Maybe<Order_By>;
   price?: Maybe<Order_By>;
-  price_nzd?: Maybe<Order_By>;
+  source_price?: Maybe<Order_By>;
 };
 
 /** order by stddev_samp() on columns of table "kc.market_price" */
 export type Kc_Market_Price_Stddev_Samp_Order_By = {
   fx_rate?: Maybe<Order_By>;
   price?: Maybe<Order_By>;
-  price_nzd?: Maybe<Order_By>;
+  source_price?: Maybe<Order_By>;
 };
 
 /** order by sum() on columns of table "kc.market_price" */
 export type Kc_Market_Price_Sum_Order_By = {
   fx_rate?: Maybe<Order_By>;
   price?: Maybe<Order_By>;
-  price_nzd?: Maybe<Order_By>;
+  source_price?: Maybe<Order_By>;
 };
 
 /** order by var_pop() on columns of table "kc.market_price" */
 export type Kc_Market_Price_Var_Pop_Order_By = {
   fx_rate?: Maybe<Order_By>;
   price?: Maybe<Order_By>;
-  price_nzd?: Maybe<Order_By>;
+  source_price?: Maybe<Order_By>;
 };
 
 /** order by var_samp() on columns of table "kc.market_price" */
 export type Kc_Market_Price_Var_Samp_Order_By = {
   fx_rate?: Maybe<Order_By>;
   price?: Maybe<Order_By>;
-  price_nzd?: Maybe<Order_By>;
+  source_price?: Maybe<Order_By>;
 };
 
 /** order by variance() on columns of table "kc.market_price" */
 export type Kc_Market_Price_Variance_Order_By = {
   fx_rate?: Maybe<Order_By>;
   price?: Maybe<Order_By>;
-  price_nzd?: Maybe<Order_By>;
+  source_price?: Maybe<Order_By>;
 };
 
 /** select columns of table "kc.market" */
@@ -3179,7 +3186,9 @@ export type Query_RootKc_Market_PriceArgs = {
 
 export type Query_RootKc_Market_Price_By_PkArgs = {
   asset_symbol: Scalars['String'];
+  currency: Scalars['String'];
   market_uid: Scalars['uuid'];
+  source_currency: Scalars['bpchar'];
   timestamp: Scalars['timestamptz'];
 };
 
@@ -3449,7 +3458,9 @@ export type Subscription_RootKc_Market_PriceArgs = {
 
 export type Subscription_RootKc_Market_Price_By_PkArgs = {
   asset_symbol: Scalars['String'];
+  currency: Scalars['String'];
   market_uid: Scalars['uuid'];
+  source_currency: Scalars['bpchar'];
   timestamp: Scalars['timestamptz'];
 };
 

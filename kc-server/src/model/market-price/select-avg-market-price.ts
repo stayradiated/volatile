@@ -24,6 +24,7 @@ const selectAvgMarketPrice = async (
       FROM ${'market_price'} t2
       WHERE t2.${'market_uid'} = t1.${'market_uid'}
         AND t2.${'asset_symbol'} = t1.${'asset_symbol'}
+        AND t2.${'currency'} = t1.${'currency'}
         AND t2.${'timestamp'} <= t1.${'timestamp'}
         AND t2.${'timestamp'} > t1.${'timestamp'} - '10 minute 15 second'::interval)
     FROM ${'market_price'} t1
@@ -42,14 +43,21 @@ const selectAvgMarketPrice = async (
   }
 
   const row = rows[0]
-  if (!row) {
+  const averagePrice = row ? Number.parseFloat(row.avg_price) : Number.NaN
+
+  if (typeof averagePrice !== 'number' || Number.isNaN(averagePrice)) {
     return new DBError({
       message: `Could not get average market price for ${assetSymbol}/${currency}.`,
-      context: options,
+      context: {
+        marketUID,
+        assetSymbol,
+        currency,
+        row,
+      },
     })
   }
 
-  return Number.parseFloat(row.avg_price)
+  return averagePrice
 }
 
 export { selectAvgMarketPrice }

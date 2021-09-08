@@ -4,10 +4,11 @@ type RowData = {
   marketName: string
   timestamp: DateTime
   assetSymbol: string
-  currency: string
+  sourcePrice: number
+  sourceCurrency: string
   fxRate: number
   price: number
-  priceNZD: number
+  currency: string
 }
 
 export { RowData }

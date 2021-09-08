@@ -11,6 +11,24 @@ test('selectOpenOrdersForDCA: should return open orders', async (t) => {
   const assetSymbol = 'BTC'
   const currency = 'NZD'
 
+  // Same asset symbol, different currency
+  await make.marketPrice({
+    timestamp: DateTime.local().minus({ minutes: 2 }),
+    assetSymbol: 'BTC',
+    currency: 'AUD',
+    marketUID,
+    price: 1_000_000,
+  })
+
+  // Same currency, different asset symbol
+  await make.marketPrice({
+    timestamp: DateTime.local().minus({ minutes: 2 }),
+    assetSymbol: 'ETH',
+    currency: 'NZD',
+    marketUID,
+    price: 1,
+  })
+
   const makeMarketPrice = async (minutesAgo: number, price: number) => {
     const timestamp = DateTime.local().minus({ minutes: minutesAgo })
     await make.marketPrice({

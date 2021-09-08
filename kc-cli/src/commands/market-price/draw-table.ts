@@ -1,30 +1,32 @@
 import { sort } from 'rambda'
-import { table, Row7 } from '../../utils/table.js'
+import { table, Row8 } from '../../utils/table.js'
 import { RowData } from './types.js'
 
-const sortByPriceNZD = sort<RowData>((a, b): number => a.priceNZD - b.priceNZD)
+const sortByPrice = sort<RowData>((a, b): number => a.price - b.price)
 
-const formatRow = (row: RowData): Row7 => [
+const formatRow = (row: RowData): Row8 => [
   row.marketName,
   row.timestamp.toFormat('yyyy-LL-dd HH:mm:ss'),
   row.assetSymbol,
+  row.sourcePrice.toFixed(2),
+  row.sourceCurrency,
+  row.fxRate.toFixed(2),
   row.price.toFixed(2),
   row.currency,
-  row.fxRate.toFixed(2),
-  row.priceNZD.toFixed(2),
 ]
 
 const drawTable = (input: RowData[]): string => {
-  const rowData = sortByPriceNZD(input)
+  const rowData = sortByPrice(input)
 
-  const header: Row7 = [
+  const header: Row8 = [
     'market',
     'date',
     'asset',
+    'source price',
+    'source currency',
+    'fx rate',
     'price',
     'currency',
-    'fx rate',
-    'price NZD',
   ]
   const rows = rowData.map((row) => formatRow(row))
 

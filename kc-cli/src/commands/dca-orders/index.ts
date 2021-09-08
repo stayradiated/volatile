@@ -20,6 +20,7 @@ const QUERY_GET_DCA_ORDERS = /* GraphQL */ `
         id
       }
       primary_currency
+      secondary_currency
       start_at
       daily_average
       market_offset
@@ -34,6 +35,8 @@ const QUERY_GET_DCA_ORDERS = /* GraphQL */ `
         target_value
         created_order
         description
+        primary_currency
+        secondary_currency
 
         order {
           price
