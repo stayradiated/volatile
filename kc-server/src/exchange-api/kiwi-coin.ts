@@ -2,7 +2,7 @@ import * as kc from '@stayradiated/kiwi-coin-api'
 import { DateTime } from 'luxon'
 
 import { ExchangeError } from '../util/error.js'
-import type { ExchangeAPI, UserExchangeAPI } from './index.js'
+import type { ExchangeAPI, UserExchangeAPI } from './types.js'
 
 const kiwiCoin: ExchangeAPI<kc.Config> = {
   getLowestAskPrice: () => async () => {

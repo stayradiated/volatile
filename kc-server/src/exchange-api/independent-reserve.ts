@@ -2,7 +2,7 @@ import * as ir from '@stayradiated/independent-reserve-api'
 import { DateTime } from 'luxon'
 
 import { ExchangeError } from '../util/error.js'
-import type { ExchangeAPI, UserExchangeAPI } from './index.js'
+import type { ExchangeAPI, UserExchangeAPI } from './types.js'
 
 // IR currencies are formatted as `Nzd` so we need to shift cases.
 const formatCurrency = (currency: string): string => {
