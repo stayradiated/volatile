@@ -31,6 +31,7 @@ const BTC_NZD: TradingPair = [BTC, NZD]
 const BTC_USD: TradingPair = [BTC, USD]
 const ETH_AUD: TradingPair = [ETH, AUD]
 const ETH_NZD: TradingPair = [ETH, NZD]
+const ETH_USD: TradingPair = [ETH, USD]
 
 const USD_NZD: CurrencyPair = [USD, NZD]
 const USD_AUD: CurrencyPair = [USD, AUD]
@@ -38,6 +39,8 @@ const USD_AUD: CurrencyPair = [USD, AUD]
 const marketPriceConfigList: MarketPriceConfig[] = [
   { market: MARKET_BINANCE_US, pair: BTC_USD, convert: USD_AUD },
   { market: MARKET_BINANCE_US, pair: BTC_USD, convert: USD_NZD },
+  { market: MARKET_BINANCE_US, pair: ETH_USD, convert: USD_AUD },
+  { market: MARKET_BINANCE_US, pair: ETH_USD, convert: USD_NZD },
   { market: MARKET_DASSET, pair: BTC_NZD },
   { market: MARKET_DASSET, pair: ETH_NZD },
   { market: MARKET_EASY_CRYPTO, pair: BTC_NZD },
