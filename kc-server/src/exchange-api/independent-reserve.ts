@@ -4,6 +4,16 @@ import { DateTime } from 'luxon'
 import { ExchangeError } from '../util/error.js'
 import type { ExchangeAPI, UserExchangeAPI } from './index.js'
 
+// IR currencies are formatted as `Nzd` so we need to shift cases.
+const formatCurrency = (currency: string): string => {
+  currency = currency.toUpperCase()
+  if (currency === 'XBT') {
+    return 'BTC'
+  }
+
+  return currency
+}
+
 const independentReserve: ExchangeAPI<ir.Config> = {
   getLowestAskPrice: () => async (options) => {
     const { primaryCurrency, secondaryCurrency } = options
@@ -25,11 +35,8 @@ const independentReserve: ExchangeAPI<ir.Config> = {
       return accounts
     }
 
-    // IR currencies are formatted as `Nzd` so we need to shift cases.
-    const currencyLC = currency.toLowerCase()
-
     const account = accounts.find(
-      (account) => account.CurrencyCode.toLowerCase() === currencyLC,
+      (account) => formatCurrency(account.CurrencyCode) === currency,
     )
     if (!account) {
       return new ExchangeError({
@@ -52,8 +59,8 @@ const independentReserve: ExchangeAPI<ir.Config> = {
 
     return openOrders.Data.map((order) => ({
       orderID: order.OrderGuid,
-      primaryCurrency: order.PrimaryCurrencyCode,
-      secondaryCurrency: order.SecondaryCurrencyCode,
+      primaryCurrency: formatCurrency(order.PrimaryCurrencyCode),
+      secondaryCurrency: formatCurrency(order.SecondaryCurrencyCode),
       price: order.Price,
       volume: order.Volume,
       type: order.OrderType === 'LimitOffer' ? 'BUY' : 'SELL',
@@ -79,8 +86,8 @@ const independentReserve: ExchangeAPI<ir.Config> = {
         tradeID: trade.TradeGuid,
         orderID: trade.OrderGuid,
         timestamp: DateTime.fromISO(trade.TradeTimestampUtc),
-        primaryCurrency: trade.PrimaryCurrencyCode,
-        secondaryCurrency: trade.SecondaryCurrencyCode,
+        primaryCurrency: formatCurrency(trade.PrimaryCurrencyCode),
+        secondaryCurrency: formatCurrency(trade.SecondaryCurrencyCode),
         price: trade.Price,
         volume: trade.VolumeTraded,
         fee: 0.005 * trade.VolumeTraded * trade.Price,
