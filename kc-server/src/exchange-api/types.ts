@@ -1,6 +1,7 @@
 import type { DateTime } from 'luxon'
 
 import type { BuySell } from '../types.js'
+import type { Exchange } from '../model/exchange/index.js'
 
 type CreateOrderOptions = {
   volume: number
@@ -82,6 +83,7 @@ type GetTrades = (options: GetTradesOptions) => Promise<GetTradesResult | Error>
 type WithConfig<Config, Fn> = (config: Config) => Fn
 
 type ExchangeAPI<Config> = {
+  exchange: Exchange
   getLowestAskPrice: WithConfig<Config, GetLowestAskPriceFn>
   getBalance: WithConfig<Config, GetBalanceFn>
   getOpenOrders: WithConfig<Config, GetOpenOrders>
@@ -91,6 +93,7 @@ type ExchangeAPI<Config> = {
 }
 
 type UserExchangeAPI = {
+  exchange: Exchange
   getLowestAskPrice: GetLowestAskPriceFn
   getBalance: GetBalanceFn
   getOpenOrders: GetOpenOrders

@@ -2,7 +2,6 @@ import { DateTime } from 'luxon'
 
 import { IllegalStateError } from '../../util/error.js'
 import { log } from '../../util/debug.js'
-import type { Pool } from '../../types.js'
 import {
   DCAOrder,
   getDCAOrderTargetValue,
@@ -12,6 +11,8 @@ import { insertOrder } from '../../model/order/index.js'
 import { insertDCAOrderHistory } from '../../model/dca-order-history/index.js'
 import { round } from '../../util/round.js'
 import { syncExchangeTradeList } from '../../model/trade/index.js'
+
+import type { Pool } from '../../types.js'
 import type { UserExchangeAPI } from '../../exchange-api/index.js'
 
 import { cancelPreviousOrders } from './cancel-previous-orders.js'

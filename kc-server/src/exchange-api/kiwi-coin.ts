@@ -2,9 +2,12 @@ import * as kc from '@stayradiated/kiwi-coin-api'
 import { DateTime } from 'luxon'
 
 import { ExchangeError } from '../util/error.js'
+import { EXCHANGE_KIWI_COIN } from '../model/exchange/index.js'
+
 import type { ExchangeAPI, UserExchangeAPI } from './types.js'
 
 const kiwiCoin: ExchangeAPI<kc.Config> = {
+  exchange: EXCHANGE_KIWI_COIN,
   getLowestAskPrice: () => async () => {
     const orderBook = await kc.getOrderBook()
     if (orderBook instanceof Error) {
@@ -127,6 +130,7 @@ const getKiwiCoinExchangeAPI = (
   }
 
   return {
+    exchange: kiwiCoin.exchange,
     getLowestAskPrice: kiwiCoin.getLowestAskPrice(config),
     getBalance: kiwiCoin.getBalance(config),
     getOpenOrders: kiwiCoin.getOpenOrders(config),

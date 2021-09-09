@@ -2,9 +2,11 @@ import * as d from '@stayradiated/dasset-api'
 import { DateTime } from 'luxon'
 
 import { ExchangeError } from '../util/error.js'
+import { EXCHANGE_DASSET } from '../model/exchange/index.js'
 import type { ExchangeAPI, UserExchangeAPI } from './types.js'
 
 const dasset: ExchangeAPI<d.Config> = {
+  exchange: EXCHANGE_DASSET,
   getLowestAskPrice: (config) => async (options) => {
     const { primaryCurrency, secondaryCurrency } = options
     const orderBook = await d.getMarketOrderBook({
@@ -151,6 +153,7 @@ const getDassetExchangeAPI = (
   }
 
   return {
+    exchange: dasset.exchange,
     getLowestAskPrice: dasset.getLowestAskPrice(config),
     getBalance: dasset.getBalance(config),
     getOpenOrders: dasset.getOpenOrders(config),

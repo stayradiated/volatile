@@ -74,24 +74,26 @@ test('getBalance', async (t) => {
     .post('/Private/GetAccounts', () => true)
     .reply(200, [
       {
-        "AccountGuid": "66dcac65-bf07-4e68-ad46-838f51100424",
-        "AccountStatus": "Active",
-        "AvailableBalance": 45.334,
-        "CurrencyCode": "Xbt",
-        "TotalBalance": 46.81
+        AccountGuid: '66dcac65-bf07-4e68-ad46-838f51100424',
+        AccountStatus: 'Active',
+        AvailableBalance: 45.334,
+        CurrencyCode: 'Xbt',
+        TotalBalance: 46.81,
       },
       {
-        "AccountGuid": "49994921-60ec-411e-8a78-d0eba078d5e9",
-        "AccountStatus": "Active",
-        "AvailableBalance": 14345.53,
-        "CurrencyCode": "Usd",
-        "TotalBalance": 15784.07
-      }
+        AccountGuid: '49994921-60ec-411e-8a78-d0eba078d5e9',
+        AccountStatus: 'Active',
+        AvailableBalance: 14_345.53,
+        CurrencyCode: 'Usd',
+        TotalBalance: 15_784.07,
+      },
     ])
 
-  const balance = await throwIfError(api.getBalance({
-    currency: 'BTC'
-  }))
+  const balance = await throwIfError(
+    api.getBalance({
+      currency: 'BTC',
+    }),
+  )
 
   t.deepEqual(balance, 45.334)
 })
@@ -271,16 +273,16 @@ test('cancelOrder', async (t) => {
   nock('https://api.independentreserve.com')
     .post('/Private/CancelOrder', () => true)
     .reply(200, {
-      "CreatedTimestampUtc": "2014-08-05T06:42:11.3032208Z",
-      "OrderGuid": "719c495c-a39e-4884-93ac-280b37245037",
-      "Price": 485.76,
-      "PrimaryCurrencyCode": "Xbt",
-      "ReservedAmount": 0.358,
-      "SecondaryCurrencyCode": "Usd",
-      "Status": "Cancelled",
-      "Type": "LimitOffer",
-      "VolumeFilled": 0,
-      "VolumeOrdered": 0.358
+      CreatedTimestampUtc: '2014-08-05T06:42:11.3032208Z',
+      OrderGuid: '719c495c-a39e-4884-93ac-280b37245037',
+      Price: 485.76,
+      PrimaryCurrencyCode: 'Xbt',
+      ReservedAmount: 0.358,
+      SecondaryCurrencyCode: 'Usd',
+      Status: 'Cancelled',
+      Type: 'LimitOffer',
+      VolumeFilled: 0,
+      VolumeOrdered: 0.358,
     })
 
   const order = await throwIfError(

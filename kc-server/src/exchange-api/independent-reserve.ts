@@ -2,6 +2,7 @@ import * as ir from '@stayradiated/independent-reserve-api'
 import { DateTime } from 'luxon'
 
 import { ExchangeError } from '../util/error.js'
+import { EXCHANGE_INDEPENDENT_RESERVE } from '../model/exchange/index.js'
 import type { ExchangeAPI, UserExchangeAPI } from './types.js'
 
 // IR currencies are formatted as `Nzd` so we need to shift cases.
@@ -15,6 +16,7 @@ const formatCurrency = (currency: string): string => {
 }
 
 const independentReserve: ExchangeAPI<ir.Config> = {
+  exchange: EXCHANGE_INDEPENDENT_RESERVE,
   getLowestAskPrice: () => async (options) => {
     const { primaryCurrency, secondaryCurrency } = options
     const orderBook = await ir.getOrderBook({
@@ -133,6 +135,7 @@ const getIndependentReserveExchangeAPI = (
   }
 
   return {
+    exchange: independentReserve.exchange,
     getLowestAskPrice: independentReserve.getLowestAskPrice(config),
     getBalance: independentReserve.getBalance(config),
     getOpenOrders: independentReserve.getOpenOrders(config),
