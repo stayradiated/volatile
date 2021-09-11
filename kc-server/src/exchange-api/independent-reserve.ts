@@ -93,7 +93,10 @@ const independentReserve: ExchangeAPI<ir.Config> = {
         price: trade.Price,
         volume: trade.VolumeTraded,
         fee: 0.005 * trade.VolumeTraded * trade.Price,
-        type: trade.OrderType === 'LimitBid' ? 'BUY' : 'SELL',
+        type:
+          trade.OrderType === 'LimitBid' || trade.OrderType === 'MarketBid'
+            ? 'BUY'
+            : 'SELL',
       })),
     }
   },

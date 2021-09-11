@@ -18,7 +18,7 @@ type GetTradesResult = {
     TradeGuid: string
     TradeTimestampUtc: string
     OrderGuid: string
-    OrderType: 'LimitBid' | 'LimitOffer'
+    OrderType: 'LimitBid' | 'LimitOffer' | 'MarketBid' | 'MarketOffer'
     OrderTimestampUtc: string
     VolumeTraded: number
     Price: number

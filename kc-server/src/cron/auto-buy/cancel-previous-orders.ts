@@ -9,7 +9,7 @@ import type { UserExchangeAPI } from '../../exchange-api/index.js'
 import { updateOrder, selectOpenOrdersForDCA } from '../../model/order/index.js'
 // Import { waitForBalanceToChange } from './wait-for-balance-to-change.js'
 
-import { pMapSeries } from '../../util/p-map-series.js'
+import { mapSeries } from '../../util/map.js'
 
 type CancelPreviousOrdersOptions = {
   dcaOrderUID: string
@@ -35,7 +35,7 @@ const cancelPreviousOrders = async (
   }
 
   const cancelOrderError = await errorListBoundary(async () =>
-    pMapSeries(previousOrders, async (order): Promise<void | Error> => {
+    mapSeries(previousOrders, async (order): Promise<void | Error> => {
       const cancelOrderError = await userExchangeAPI.cancelOrder({
         orderID: order.orderID,
       })
@@ -55,24 +55,25 @@ const cancelPreviousOrders = async (
     }),
   )
 
-  if (cancelOrderError instanceof MultiError) {
+  if (cancelOrderError instanceof Error) {
     if (
       userExchangeAPI.exchange === EXCHANGE_DASSET &&
+      cancelOrderError instanceof MultiError &&
       cancelOrderError.cause.length <= 2
     ) {
       // Let the error go
       console.error(cancelOrderError)
+
+      // Const result = await waitForBalanceToChange({
+      //   initialBalance,
+      //   userExchangeAPI,
+      // })
+      // if (result instanceof Error) {
+      //   return result
+      // }
     } else {
       return cancelOrderError
     }
-
-    // Const result = await waitForBalanceToChange({
-    //   initialBalance,
-    //   userExchangeAPI,
-    // })
-    // if (result instanceof Error) {
-    //   return result
-    // }
   }
 
   return undefined

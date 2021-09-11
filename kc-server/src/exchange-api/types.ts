@@ -53,7 +53,7 @@ type GetOpenOrdersResult = Array<{
 
 type GetOpenOrders = () => Promise<GetOpenOrdersResult | Error>
 
-/* GET CLOSED ORDERS */
+/* GET TRADES */
 
 type GetTradesResult = {
   total: number
