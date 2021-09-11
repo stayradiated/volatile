@@ -108,7 +108,7 @@ const independentReserve: ExchangeAPI<ir.Config> = {
       secondaryCurrencyCode: secondaryCurrency,
       orderType: 'LimitBid',
       price,
-      volume,
+      volume: volume * (1 - 0.0051), // Account for 0.50% trading fee,
     })
     if (order instanceof Error) {
       return order
