@@ -1,8 +1,5 @@
-import { errorBoundary } from '@stayradiated/error-boundary'
-
-import type { Config } from '../types.js'
-import { createSignedBody } from '../signature.js'
-import { client } from '../client.js'
+import type { Config } from '../util/types.js'
+import { post } from '../util/client.js'
 
 type GetClosedOrdersOptions = {
   config: Config
@@ -27,22 +24,12 @@ const getClosedOrders = async (
     pageIndex,
     pageSize,
   } = options
-  return errorBoundary(async () =>
-    client
-      .post('Private/GetClosedOrders', {
-        json: createSignedBody({
-          config,
-          endpoint: 'Private/GetClosedOrders',
-          parameters: {
-            primaryCurrencyCode,
-            secondaryCurrencyCode,
-            pageIndex,
-            pageSize,
-          },
-        }),
-      })
-      .json(),
-  )
+  return post(config, 'Private/GetClosedOrders', {
+    primaryCurrencyCode,
+    secondaryCurrencyCode,
+    pageIndex,
+    pageSize,
+  })
 }
 
 export { getClosedOrders }

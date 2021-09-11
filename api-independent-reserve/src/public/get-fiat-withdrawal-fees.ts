@@ -1,6 +1,4 @@
-import { errorBoundary } from '@stayradiated/error-boundary'
-
-import { client } from '../client.js'
+import { get } from '../util/client.js'
 
 // Withdrawal fee for the currency. Denominated in the withdrawal currency.
 type GetFiatWithdrawalFeesResult = Array<{
@@ -21,8 +19,7 @@ type GetFiatWithdrawalFeesResult = Array<{
 
 const getFiatWithdrawalFees = async (): Promise<
   GetFiatWithdrawalFeesResult | Error
-> =>
-  errorBoundary(async () => client.get('Public/GetFiatWithdrawalFees').json())
+> => get('Public/GetFiatWithdrawalFees')
 
 export { getFiatWithdrawalFees }
 export type { GetFiatWithdrawalFeesResult }

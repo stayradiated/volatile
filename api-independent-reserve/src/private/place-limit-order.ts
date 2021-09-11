@@ -1,8 +1,5 @@
-import { errorBoundary } from '@stayradiated/error-boundary'
-
-import type { Config } from '../types.js'
-import { createSignedBody } from '../signature.js'
-import { client } from '../client.js'
+import type { Config } from '../util/types.js'
+import { post } from '../util/client.js'
 
 type PlaceLimitOrderOptions = {
   config: Config
@@ -45,25 +42,13 @@ const placeLimitOrder = async (
     price,
     volume,
   } = options
-  const endpoint = 'Private/PlaceLimitOrder'
-
-  return errorBoundary(async () =>
-    client
-      .post(endpoint, {
-        json: createSignedBody({
-          config,
-          endpoint,
-          parameters: {
-            primaryCurrencyCode,
-            secondaryCurrencyCode,
-            orderType,
-            price,
-            volume,
-          },
-        }),
-      })
-      .json(),
-  )
+  return post(config, 'Private/PlaceLimitOrder', {
+    primaryCurrencyCode,
+    secondaryCurrencyCode,
+    orderType,
+    price,
+    volume,
+  })
 }
 
 export { placeLimitOrder }

@@ -1,6 +1,4 @@
-import { errorBoundary } from '@stayradiated/error-boundary'
-
-import { client } from '../client.js'
+import { get } from '../util/client.js'
 
 type GetTradeHistorySummaryOptions = {
   // The cryptocurrency for which to retrieve order book. Must be a valid
@@ -59,17 +57,11 @@ const getTradeHistorySummary = async (
     secondaryCurrencyCode,
     numberOfHoursInThePastToRetrieve,
   } = options
-  return errorBoundary(async () =>
-    client
-      .get('Public/GetTradeHistorySummary', {
-        searchParams: {
-          primaryCurrencyCode,
-          secondaryCurrencyCode,
-          numberOfHoursInThePastToRetrieve,
-        },
-      })
-      .json(),
-  )
+  return get('Public/GetTradeHistorySummary', {
+    primaryCurrencyCode,
+    secondaryCurrencyCode,
+    numberOfHoursInThePastToRetrieve,
+  })
 }
 
 export { getTradeHistorySummary }

@@ -1,4 +1,4 @@
-export * from './types.js'
-export * from './public/index.js'
 export * from './private/index.js'
-export * from './is-valid-config.js'
+export * from './public/index.js'
+export * from './util/is-valid-config.js'
+export * from './util/types.js'

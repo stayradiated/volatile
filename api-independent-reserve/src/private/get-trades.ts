@@ -1,8 +1,5 @@
-import { errorBoundary } from '@stayradiated/error-boundary'
-
-import type { Config } from '../types.js'
-import { createSignedBody } from '../signature.js'
-import { client } from '../client.js'
+import type { Config } from '../util/types.js'
+import { post } from '../util/client.js'
 
 type GetTradesOptions = {
   config: Config
@@ -31,20 +28,10 @@ const getTrades = async (
   options: GetTradesOptions,
 ): Promise<GetTradesResult | Error> => {
   const { config, pageIndex, pageSize } = options
-  return errorBoundary(async () =>
-    client
-      .post('Private/GetTrades', {
-        json: createSignedBody({
-          config,
-          endpoint: 'Private/GetTrades',
-          parameters: {
-            pageIndex,
-            pageSize,
-          },
-        }),
-      })
-      .json(),
-  )
+  return post(config, 'Private/GetTrades', {
+    pageIndex,
+    pageSize,
+  })
 }
 
 export { getTrades }

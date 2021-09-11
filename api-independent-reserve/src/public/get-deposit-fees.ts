@@ -1,6 +1,4 @@
-import { errorBoundary } from '@stayradiated/error-boundary'
-
-import { client } from '../client.js'
+import { get } from '../util/client.js'
 
 // Deposit fee for the currency. Denominated in the deposit currency.
 type GetDepositFeesResult = Array<{
@@ -18,7 +16,7 @@ type GetDepositFeesResult = Array<{
 }>
 
 const getDepositFees = async (): Promise<GetDepositFeesResult | Error> =>
-  errorBoundary(async () => client.get('Public/GetDepositFees').json())
+  get('Public/GetDepositFees')
 
 export { getDepositFees }
 export type { GetDepositFeesResult }

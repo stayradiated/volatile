@@ -1,13 +1,10 @@
-import { errorBoundary } from '@stayradiated/error-boundary'
-
-import { client } from '../client.js'
+import { get } from '../util/client.js'
 
 type GetValidLimitOrderTypesResult = string[]
 
 const getValidLimitOrderTypes = async (): Promise<
   GetValidLimitOrderTypesResult | Error
-> =>
-  errorBoundary(async () => client.get('Public/GetValidLimitOrderTypes').json())
+> => get('Public/GetValidLimitOrderTypes')
 
 export { getValidLimitOrderTypes }
 export type { GetValidLimitOrderTypesResult }

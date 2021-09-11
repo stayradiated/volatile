@@ -1,6 +1,4 @@
-import { errorBoundary } from '@stayradiated/error-boundary'
-
-import { client } from '../client.js'
+import { get } from '../util/client.js'
 
 type GetAllOrdersOptions = {
   // The cryptocurrency for which to retrieve order book. Must be a valid
@@ -39,16 +37,10 @@ const getAllOrders = async (
   options: GetAllOrdersOptions,
 ): Promise<GetAllOrdersResult | Error> => {
   const { primaryCurrencyCode, secondaryCurrencyCode } = options
-  return errorBoundary(async () =>
-    client
-      .get('Public/GetAllOrders', {
-        searchParams: {
-          primaryCurrencyCode,
-          secondaryCurrencyCode,
-        },
-      })
-      .json(),
-  )
+  return get('Public/GetAllOrders', {
+    primaryCurrencyCode,
+    secondaryCurrencyCode,
+  })
 }
 
 export { getAllOrders }

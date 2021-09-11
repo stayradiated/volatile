@@ -1,6 +1,4 @@
-import { errorBoundary } from '@stayradiated/error-boundary'
-
-import { client } from '../client.js'
+import { get } from '../util/client.js'
 
 // Returns a list of exchange rates used by Independing Reserve when depositing
 // funds or withdrawing funds from accounts.
@@ -11,7 +9,7 @@ type GetFxRatesResult = Array<{
 }>
 
 const getFxRates = async (): Promise<GetFxRatesResult | Error> =>
-  errorBoundary(async () => client.get('Public/GetFxRates').json())
+  get('Public/GetFxRates')
 
 export { getFxRates }
 export type { GetFxRatesResult }
