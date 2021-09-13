@@ -9,13 +9,14 @@ type SelectAvgMarketPriceOptions = {
   marketUID: string
   assetSymbol: string
   currency: string
+  minutes: number
 }
 
 const selectAvgMarketPrice = async (
   pool: Pool,
   options: SelectAvgMarketPriceOptions,
 ): Promise<number | Error> => {
-  const { marketUID, assetSymbol, currency } = options
+  const { marketUID, assetSymbol, currency, minutes } = options
 
   const rows = await errorBoundary(async () =>
     db.sql<s.market_price.SQL, Array<{ avg_price: string }>>`
@@ -26,7 +27,9 @@ const selectAvgMarketPrice = async (
         AND t2.${'asset_symbol'} = t1.${'asset_symbol'}
         AND t2.${'currency'} = t1.${'currency'}
         AND t2.${'timestamp'} <= t1.${'timestamp'}
-        AND t2.${'timestamp'} > t1.${'timestamp'} - '10 minute 15 second'::interval)
+        AND t2.${'timestamp'} > t1.${'timestamp'} - '${db.raw(
+      Math.round(minutes).toFixed(0),
+    )} minute 15 second'::interval)
     FROM ${'market_price'} t1
     WHERE ${{ market_uid: marketUID, asset_symbol: assetSymbol, currency }}
     ORDER BY ${'timestamp'} DESC
