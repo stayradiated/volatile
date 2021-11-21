@@ -16,12 +16,12 @@ const client: typeof KyClient = ky.create({
   hooks: {
     beforeRequest: [
       (request) => {
-        log(request.method.slice(0, 3), request.url)
+        log(`∙ ${request.method.slice(0, 3)} ${request.url}`)
       },
     ],
     afterResponse: [
       (request) => {
-        log(request.method.slice(0, 3), request.url)
+        log(`✓ ${request.method.slice(0, 3)} ${request.url}`)
       },
     ],
   },

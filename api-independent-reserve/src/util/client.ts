@@ -14,12 +14,12 @@ const client: typeof KyInstance = ky.create({
   hooks: {
     beforeRequest: [
       (request) => {
-        log(request.url)
+        log(`∙ ${request.method.slice(0, 3)} ${request.url}`)
       },
     ],
     afterResponse: [
       (request) => {
-        log(request.url)
+        log(`✓ ${request.method.slice(0, 3)} ${request.url}`)
       },
     ],
   },
