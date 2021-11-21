@@ -1,8 +1,4 @@
-import { errorBoundary } from '@stayradiated/error-boundary'
-
-import { NetError } from '../util/error.js'
-import { client } from '../util/client.js'
-import { createSignedBody } from '../util/signature.js'
+import { post } from '../util/client.js'
 import type { Config } from '../util/types.js'
 
 type CancelOrderOptions = {
@@ -17,29 +13,9 @@ const cancelOrder = async (
 ): Promise<CancelOrderResult | Error> => {
   const { config, orderID } = options
 
-  const endpoint = 'cancel_order'
-
-  const body = createSignedBody(config, endpoint, {
+  return post(config, 'cancel_order', {
     id: String(orderID),
   })
-  if (body instanceof Error) {
-    return body
-  }
-
-  const result = await errorBoundary(async () =>
-    client.post(endpoint, { body }).json(),
-  )
-  if (result instanceof Error) {
-    return new NetError({
-      message: `Could not cancel order "${orderID}" on kiwi-coin.com`,
-      cause: result,
-      context: {
-        orderID,
-      },
-    })
-  }
-
-  return result
 }
 
 export { cancelOrder }

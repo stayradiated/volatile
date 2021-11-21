@@ -8,7 +8,7 @@ const serializeStats = (stats: Stats): string => {
   const prices = stats.prices
     .map((price) =>
       [
-        price.datetime.toFormat('yyyy.LL.dd'),
+        price.datetime.toUTC().toFormat('yyyy.LL.dd'),
         price.open.toFixed(2),
         price.close.toFixed(2),
         price.low.toFixed(2),
@@ -21,7 +21,7 @@ const serializeStats = (stats: Stats): string => {
   const deals = stats.deals
     .map((deal) =>
       [
-        deal.datetime.toFormat('yyyy.LL.dd HH:mm:ss'),
+        deal.datetime.toUTC().toFormat('yyyy.LL.dd HH:mm:ss'),
         deal.price.toFixed(2),
         deal.volume.toFixed(8),
         deal.direction,
@@ -46,11 +46,11 @@ var Period = 86400;`
   }
 
   const expected = `
-2021.06.12 12345.67 98765.43 10000.00 99999.99 0.12345668
-2021.06.13 59832.01 48522.91 53421.44 98934.24 0.12345679
+2021.06.11 12345.67 98765.43 10000.00 99999.99 0.12345668
+2021.06.12 59832.01 48522.91 53421.44 98934.24 0.12345679
 
-2021.07.11 19:14:14 45678.90 0.01234567 0
-2021.07.10 12:22:23 56789.01 0.98765432 1`
+2021.07.11 07:14:14 45678.90 0.01234567 0
+2021.07.10 00:22:23 56789.01 0.98765432 1`
 
   const output = serializeStats(stats)
   t.is(output, expected)

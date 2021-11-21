@@ -1,53 +1,30 @@
-import { errorBoundary } from '@stayradiated/error-boundary'
-
-import { NetError, APIError } from '../util/error.js'
-import { client } from '../util/client.js'
-import { createSignedBody } from '../util/signature.js'
-import { isAPIErrorBody, APIErrorBody } from '../util/is-api-error-body.js'
-import type { Config, Order } from '../util/types.js'
+import { post } from '../util/client.js'
+import { parseOrder, Order } from '../util/order.js'
+import type { Config } from '../util/types.js'
 
 type CreateSellOrderOptions = { config: Config; price: number; amount: number }
-type CreateSellOrderResult = Order
+type CreateBuyOrderResponse = {
+  price: string
+  amount: string
+  type: 0 | 1
+  id: number
+  datetime: string
+}
 
 const createSellOrder = async (
   options: CreateSellOrderOptions,
-): Promise<CreateSellOrderResult | Error> => {
+): Promise<Order | Error> => {
   const { config, price, amount } = options
-
-  const endpoint = 'sell'
-
-  const body = createSignedBody(config, endpoint, {
+  const data = await post<CreateBuyOrderResponse>(config, 'sell', {
     price: String(price),
     amount: String(amount),
   })
-  if (body instanceof Error) {
-    return body
+  if (data instanceof Error) {
+    return data
   }
 
-  const result = await errorBoundary<Order | APIErrorBody>(async () =>
-    client.post(endpoint, { body }).json(),
-  )
-  if (result instanceof Error) {
-    return new NetError({
-      message: 'Could not create sell order on kiwi-coin.com',
-      cause: result,
-      context: {
-        options,
-      },
-    })
-  }
-
-  if (isAPIErrorBody(result)) {
-    return new APIError({
-      message: 'Received error when creating sell order on kiwi-coin.com',
-      context: {
-        result,
-      },
-    })
-  }
-
-  return result
+  return parseOrder(data)
 }
 
 export { createSellOrder }
-export type { CreateSellOrderOptions, CreateSellOrderResult }
+export type { CreateSellOrderOptions }

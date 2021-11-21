@@ -1,5 +1,4 @@
 import * as kc from '@stayradiated/kiwi-coin-api'
-import { DateTime } from 'luxon'
 
 import { ExchangeError } from '../util/error.js'
 import { EXCHANGE_KIWI_COIN } from '../model/exchange/index.js'
@@ -33,7 +32,7 @@ const kiwiCoin: ExchangeAPI<kc.Config> = {
       })
     }
 
-    const availableNZD = Number.parseFloat(balance.nzd_available)
+    const availableNZD = balance.nzd.available
     if (typeof availableNZD !== 'number' || Number.isNaN(availableNZD)) {
       return new ExchangeError({
         message: 'Could not fetch available NZD from kiwi-coin.com',
@@ -56,10 +55,10 @@ const kiwiCoin: ExchangeAPI<kc.Config> = {
       orderID: String(order.id),
       primaryCurrency: 'BTC',
       secondaryCurrency: 'NZD',
-      price: Number.parseFloat(order.price),
-      volume: Number.parseFloat(order.amount),
-      type: order.type === 0 ? 'BUY' : 'SELL',
-      openedAt: DateTime.fromISO(order.datetime),
+      price: order.price,
+      volume: order.amount,
+      type: order.type,
+      openedAt: order.datetime,
     }))
   },
   getTrades: (config) => async () => {
@@ -75,14 +74,14 @@ const kiwiCoin: ExchangeAPI<kc.Config> = {
       total: allTrades.length,
       hasNextPage: false,
       items: allTrades.map((trade) => ({
-        tradeID: String(trade.transaction_id),
-        orderID: String(trade.order_id),
-        timestamp: DateTime.fromSeconds(trade.datetime),
+        tradeID: String(trade.transactionId),
+        orderID: String(trade.orderId),
+        timestamp: trade.datetime,
         primaryCurrency: 'BTC',
         secondaryCurrency: 'NZD',
         price: trade.price,
         volume: trade.income,
-        type: trade.trade_type === 0 ? 'BUY' : 'SELL',
+        type: trade.tradeType,
         fee: trade.fee * trade.price,
       })),
     }

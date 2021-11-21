@@ -1,11 +1,15 @@
-import { errorBoundary } from '@stayradiated/error-boundary'
+import { Prism, formatWarnings } from '@zwolf/prism'
+import { DateTime } from 'luxon'
 
-import { NetError } from '../util/error.js'
-import { client } from '../util/client.js'
-import { createSignedBody } from '../util/signature.js'
+import { toBuySell, toDateTimeFromSeconds } from '../util/transforms.js'
+import { post } from '../util/client.js'
 import type { Config } from '../util/types.js'
 
-type Trade = {
+type GetTradeListOptions = {
+  config: Config
+  timeframe: 'minute' | 'hour' | 'day' | 'all'
+}
+type GetTradeListResponse = Array<{
   transaction_id: number
   order_id: number
   datetime: number
@@ -14,40 +18,56 @@ type Trade = {
   price: number
   income: number
   fee: number
-}
+}>
+type GetTradeListResult = Array<{
+  transactionId: number
+  orderId: number
+  datetime: DateTime
+  tradeType: 'BUY' | 'SELL'
+  tradeSize: number
+  price: number
+  income: number
+  fee: number
+}>
 
-type GetTradeListOptions = {
-  config: Config
-  timeframe: 'minute' | 'hour' | 'day' | 'all'
-}
+const parseResponse = (
+  data: GetTradeListResponse,
+): GetTradeListResult | Error => {
+  const $ = new Prism(data)
 
-type GetTradeListResult = Trade[]
+  const result: GetTradeListResult = $.toArray().map(
+    ($item): GetTradeListResult[0] => ({
+      transactionId: $item.get<number>('transaction_id').value ?? -1,
+      orderId: $item.get<number>('order_id').value ?? -1,
+      datetime:
+        $item.get<number>('datetime').transform(toDateTimeFromSeconds).value ??
+        DateTime.fromMillis(0),
+      tradeType:
+        $item.get<number>('trade_type').transform(toBuySell).value ?? 'BUY',
+      tradeSize: $item.get<number>('trade_size').value ?? -1,
+      price: $item.get<number>('price').value ?? -1,
+      income: $item.get<number>('income').value ?? -1,
+      fee: $item.get<number>('fee').value ?? -1,
+    }),
+  )
+
+  if ($.warnings.length > 0) {
+    return new Error(formatWarnings($.warnings, 'root', false))
+  }
+
+  return result
+}
 
 const getTradeList = async (
   options: GetTradeListOptions,
 ): Promise<GetTradeListResult | Error> => {
   const { config, timeframe } = options
-  const endpoint = 'trades'
-
-  const body = createSignedBody(config, endpoint, { timeframe })
-  if (body instanceof Error) {
-    return body
+  const data = await post<GetTradeListResponse>(config, 'trades', { timeframe })
+  if (data instanceof Error) {
+    return data
   }
 
-  const result = await errorBoundary(async () =>
-    client.post(endpoint, { body }).json(),
-  )
-  if (result instanceof Error) {
-    return new NetError({
-      message: 'Could not fetch trades from kiwi-coin.com',
-      cause: result,
-      context: {
-        timeframe,
-      },
-    })
-  }
-
-  return result
+  return parseResponse(data)
 }
 
 export { getTradeList }

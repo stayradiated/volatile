@@ -54,7 +54,12 @@ test('selectOpenOrdersForDCA: should return open orders', async (t) => {
   await makeMarketPrice(13, 300)
 
   const avgPrice = await throwIfError<number>(
-    selectAvgMarketPrice(pool, { marketUID, assetSymbol, currency, minutes: 10 }),
+    selectAvgMarketPrice(pool, {
+      marketUID,
+      assetSymbol,
+      currency,
+      minutes: 10,
+    }),
   )
 
   t.is(avgPrice, 15)

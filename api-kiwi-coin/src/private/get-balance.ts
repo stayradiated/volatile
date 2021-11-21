@@ -1,15 +1,14 @@
-import { errorBoundary } from '@stayradiated/error-boundary'
+import { Prism, formatWarnings } from '@zwolf/prism'
 
-import { NetError } from '../util/error.js'
-import { client } from '../util/client.js'
-import { createSignedBody } from '../util/signature.js'
+import { toFloat } from '../util/transforms.js'
+import { post } from '../util/client.js'
 import type { Config } from '../util/types.js'
 
 type GetBalanceOptions = {
   config: Config
 }
 
-type GetBalanceResult = {
+type GetBalanceResponse = {
   nzd_available: string
   nzd_reserved: string
   nzd_balance: string
@@ -20,29 +19,60 @@ type GetBalanceResult = {
   mmfee: string
 }
 
+type GetBalanceResult = {
+  nzd: {
+    available: number
+    reserved: number
+    balance: number
+  }
+  btc: {
+    available: number
+    reserved: number
+    balance: number
+  }
+  fee: {
+    marketTaker: number
+    marketMaker: number
+  }
+}
+
+const parseResponse = (data: GetBalanceResponse): GetBalanceResult | Error => {
+  const $ = new Prism(data)
+
+  const result: GetBalanceResult = {
+    nzd: {
+      available: $.get<string>('nzd_available').transform(toFloat).value ?? -1,
+      reserved: $.get<string>('nzd_reserved').transform(toFloat).value ?? -1,
+      balance: $.get<string>('nzd_balance').transform(toFloat).value ?? -1,
+    },
+    btc: {
+      available: $.get<string>('btc_available').transform(toFloat).value ?? -1,
+      reserved: $.get<string>('btc_reserved').transform(toFloat).value ?? -1,
+      balance: $.get<string>('btc_balance').transform(toFloat).value ?? -1,
+    },
+    fee: {
+      marketTaker: $.get<string>('fee').transform(toFloat).value ?? -1,
+      marketMaker: $.get<string>('mmfee').transform(toFloat).value ?? -1,
+    },
+  }
+
+  if ($.warnings.length > 0) {
+    return new Error(formatWarnings($.warnings, 'root', false))
+  }
+
+  return result
+}
+
 const getBalance = async (
   options: GetBalanceOptions,
 ): Promise<GetBalanceResult | Error> => {
   const { config } = options
-
-  const endpoint = 'balance'
-
-  const body = createSignedBody(config, endpoint)
-  if (body instanceof Error) {
-    return body
+  const data = await post<GetBalanceResponse>(config, 'balance')
+  if (data instanceof Error) {
+    return data
   }
 
-  const result = await errorBoundary(async () =>
-    client.post(endpoint, { body }).json(),
-  )
-  if (result instanceof Error) {
-    return new NetError({
-      message: 'Could not fetch balance from kiwi-coin.com',
-      cause: result,
-    })
-  }
-
-  return result
+  return parseResponse(data)
 }
 
 export { getBalance }

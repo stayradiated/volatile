@@ -1,7 +1,4 @@
-import { errorBoundary } from '@stayradiated/error-boundary'
-
-import { NetError } from '../util/error.js'
-import { client } from '../util/client.js'
+import { get } from '../util/client.js'
 
 type GetTickerResult = {
   last: number
@@ -14,17 +11,7 @@ type GetTickerResult = {
   ask: number
 }
 
-const getTicker = async (): Promise<GetTickerResult | Error> => {
-  const result = await errorBoundary(async () => client.get('ticker').json())
-  if (result instanceof Error) {
-    return new NetError({
-      message: 'Could not fetch ticker from kiwi-coin.com',
-      cause: result,
-    })
-  }
-
-  return result
-}
+const getTicker = async (): Promise<GetTickerResult | Error> => get('ticker')
 
 export { getTicker }
 export type { GetTickerResult }

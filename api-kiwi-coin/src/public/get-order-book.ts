@@ -1,7 +1,4 @@
-import { errorBoundary } from '@stayradiated/error-boundary'
-
-import { NetError } from '../util/error.js'
-import { client } from '../util/client.js'
+import { get } from '../util/client.js'
 
 type GetOrderBookResult = {
   timestamp: string
@@ -9,19 +6,8 @@ type GetOrderBookResult = {
   asks: Array<[string, string]>
 }
 
-const getOrderBook = async (): Promise<GetOrderBookResult | Error> => {
-  const result = await errorBoundary(async () =>
-    client.get('order_book').json(),
-  )
-  if (result instanceof Error) {
-    return new NetError({
-      message: 'Could not fetch order book from kiwi-coin.com',
-      cause: result,
-    })
-  }
-
-  return result
-}
+const getOrderBook = async (): Promise<GetOrderBookResult | Error> =>
+  get('order_book')
 
 export { getOrderBook }
 export type { GetOrderBookResult }

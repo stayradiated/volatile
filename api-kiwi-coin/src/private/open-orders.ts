@@ -1,37 +1,29 @@
-import { errorBoundary } from '@stayradiated/error-boundary'
-
-import { NetError } from '../util/error.js'
-import { client } from '../util/client.js'
-import { createSignedBody } from '../util/signature.js'
-import type { Config, Order } from '../util/types.js'
+import { post } from '../util/client.js'
+import { parseOrderList, Order } from '../util/order.js'
+import type { Config } from '../util/types.js'
 
 type GetOpenOrderListOptions = { config: Config }
-type GetOpenOrderListResult = Order[]
+
+type GetOpenOrderListResponse = Array<{
+  price: string
+  amount: string
+  type: 0 | 1
+  id: number
+  datetime: string
+}>
 
 const getOpenOrderList = async (
   options: GetOpenOrderListOptions,
-): Promise<GetOpenOrderListResult | Error> => {
+): Promise<Order[] | Error> => {
   const { config } = options
 
-  const endpoint = 'open_orders'
-
-  const body = createSignedBody(config, endpoint)
-  if (body instanceof Error) {
-    return body
+  const data = await post<GetOpenOrderListResponse>(config, 'open_orders')
+  if (data instanceof Error) {
+    return data
   }
 
-  const result = await errorBoundary(async () =>
-    client.post(endpoint, { body }).json(),
-  )
-  if (result instanceof Error) {
-    return new NetError({
-      message: 'Could not fetch open orders from kiwi-coin.com',
-      cause: result,
-    })
-  }
-
-  return result
+  return parseOrderList(data)
 }
 
 export { getOpenOrderList }
-export type { GetOpenOrderListOptions, GetOpenOrderListResult }
+export type { GetOpenOrderListOptions, GetOpenOrderListResponse }
