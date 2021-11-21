@@ -43,7 +43,6 @@ const cancelPreviousOrders = async (
         return cancelOrderError
       }
 
-      console.log('update order closed at', order.UID)
       const updateOrderError = await updateOrder(pool, {
         UID: order.UID,
         closedAt: DateTime.local(),
@@ -57,7 +56,6 @@ const cancelPreviousOrders = async (
   )
 
   if (cancelOrderError instanceof Error) {
-    console.log(cancelOrderError)
     if (
       userExchangeAPI.exchange === EXCHANGE_DASSET &&
       cancelOrderError instanceof MultiError &&

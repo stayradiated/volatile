@@ -119,14 +119,11 @@ const independentReserve: ExchangeAPI<ir.Config> = {
     }
   },
   cancelOrder: (config) => async (options) => {
-    console.log('Cancel order', options.orderID, 'REQUEST')
     const error = await ir.cancelOrder({ config, orderGuid: options.orderID })
     if (error instanceof Error) {
-      console.log('Cancel order', options.orderID, 'ERROR')
       return error
     }
 
-    console.log('Cancel order', options.orderID, 'SUCCESS')
     return undefined
   },
 }
