@@ -38,10 +38,13 @@ const executeDCAOrder = async (
   }
 
   // We cancel after sync in case to make sure we have kept track of failed errors
-  await cancelPreviousOrders(pool, {
+  const cancelPreviousOrdersError = await cancelPreviousOrders(pool, {
     dcaOrderUID: dcaOrder.UID,
     userExchangeAPI,
   })
+  if (cancelPreviousOrdersError instanceof Error) {
+    return cancelPreviousOrdersError
+  }
 
   const targetValue = await getDCAOrderTargetValue(
     pool,
