@@ -20,8 +20,6 @@ const createSignature = (options: CreateSignatureOptions): string => {
     ...args,
   ].join(',')
 
-  console.log(message)
-
   const hmac = createHmac('sha256', apiSecret, { encoding: 'utf8' })
   hmac.update(message, 'utf8')
   const signature = hmac.digest('hex').toUpperCase()

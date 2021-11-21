@@ -7,15 +7,22 @@ type CancelOrderOptions = {
   orderGuid: string
 }
 
-type CancelOrderResult = Record<string, unknown>
+type CancelOrderResult = boolean
 
 const cancelOrder = async (
   options: CancelOrderOptions,
 ): Promise<CancelOrderResult | Error> => {
   const { config, orderGuid } = options
-  return post(config, 'Private/CancelOrder', {
+  const result = await post(config, 'Private/CancelOrder', {
     orderGuid,
   })
+  if (result instanceof Error) {
+    if (result.message === 'Order is in an invalid state to be cancelled (Filled') {
+      return false
+    }
+    return result
+  }
+  return true
 }
 
 export { cancelOrder }
