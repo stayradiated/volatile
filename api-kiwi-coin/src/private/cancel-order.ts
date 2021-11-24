@@ -1,4 +1,5 @@
 import { post } from '../util/client.js'
+import { APIError } from '../util/error.js'
 import type { Config } from '../util/types.js'
 
 type CancelOrderOptions = {
@@ -13,9 +14,19 @@ const cancelOrder = async (
 ): Promise<CancelOrderResult | Error> => {
   const { config, orderID } = options
 
-  return post(config, 'cancel_order', {
+  const result = await post(config, 'cancel_order', {
     id: String(orderID),
   })
+
+  if (result instanceof APIError) {
+    if (result.info.result?.error === 'Order not found') {
+      return false
+    }
+
+    return result
+  }
+
+  return true
 }
 
 export { cancelOrder }
