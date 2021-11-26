@@ -10,18 +10,12 @@ module.exports = {
     },
   ],
   documents: [
-    './pages/**/*.tsx',
-    './pages/**/*.ts',
-    './components/**/*.tsx',
-    './components/**/*.ts',
-    './hooks/**/*.tsx',
-    './hooks/**/*.ts',
-    './utils/**/*.tsx',
-    './utils/**/*.ts',
+    './src/**/*.tsx',
+    './src/**/*.ts',
   ],
   overwrite: true,
   generates: {
-    './utils/graphql.ts': {
+    './src/utils/graphql.ts': {
       plugins: [
         'typescript',
         'typescript-operations',
