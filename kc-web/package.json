@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "_build": "tsc && vite build",
     "serve": "vite preview",
     "tidy": "xo --fix",
     "graphql": "graphql-codegen --config ./graphql.codegen.js"
