@@ -1,7 +1,10 @@
 import { gql, useQuery } from '@apollo/client'
 import { Table, TableColumnsType, Typography } from 'antd'
 
-import type { GetExchangeListQuery, GetExchangeListQueryVariables  } from '../../utils/graphql'
+import type {
+  GetExchangeListQuery,
+  GetExchangeListQueryVariables,
+} from '../../utils/graphql'
 
 type Exchange = GetExchangeListQuery['kc_exchange'][0]
 

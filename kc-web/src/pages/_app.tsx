@@ -9,11 +9,7 @@ type Props = {
 
 const App = (props: Props) => {
   const { children } = props
-  return (
-    <ApolloProvider client={client}>
-      {children}
-    </ApolloProvider>
-  )
+  return <ApolloProvider client={client}>{children}</ApolloProvider>
 }
 
 export default App

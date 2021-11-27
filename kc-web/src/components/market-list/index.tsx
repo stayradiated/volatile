@@ -46,7 +46,7 @@ const columns: TableColumnsType<MarketPrice> = [
   {
     title: 'Price',
     dataIndex: ['marketPrice', 'price'],
-    render: (price) => '$' + formatCurrency(price)
+    render: (price) => '$' + formatCurrency(price),
   },
   {
     title: 'Currency',
@@ -79,21 +79,17 @@ const MarketList = () => {
     return <p>{error.message}</p>
   }
 
-  const dataSource = data.kc_market.map((market: Market) => (
+  const dataSource = data.kc_market.flatMap((market: Market) =>
     market.market_prices.map((marketPrice: MarketPrice) => ({
-    market,
-    marketPrice
-  }))
-  )).flat()
+      market,
+      marketPrice,
+    })),
+  )
 
   return (
     <div>
       <Title level={2}>Market Price List</Title>
-      <Table
-        columns={columns}
-        dataSource={dataSource}
-        loading={loading}
-      />
+      <Table columns={columns} dataSource={dataSource} loading={loading} />
     </div>
   )
 }

@@ -29,6 +29,24 @@ const cache = new InMemoryCache({
     kc_exchange: { keyFields: ['uid'] },
     kc_market: { keyFields: ['uid'] },
     kc_dca_order: { keyFields: ['uid'] },
+    kc_trade: { keyFields: ['uid'] },
+    Query: {
+      fields: {
+        kc_trade: {
+          keyArgs: false,
+          merge(existing, incoming, { args: { offset = 0 } }) {
+            // Slicing is necessary because the existing data is
+            // immutable, and frozen in development.
+            const merged = existing ? existing.slice(0) : []
+            for (const [i, element] of incoming.entries()) {
+              merged[offset + i] = element
+            }
+
+            return merged
+          },
+        },
+      },
+    },
   },
 })
 

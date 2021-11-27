@@ -16,5 +16,5 @@ ReactDOM.render(
   <React.StrictMode>
     <Devices />
   </React.StrictMode>,
-  document.getElementById('root')
+  document.querySelector('#root'),
 )

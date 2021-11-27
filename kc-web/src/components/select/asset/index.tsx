@@ -6,7 +6,11 @@ import Select, {
 } from 'react-select'
 
 // TODO: we should track which symbols are available on which exchanges
-const SYMBOL_OPTIONS = [{symbol: undefined}, { symbol: 'BTC' }, { symbol: 'ETH' }]
+const SYMBOL_OPTIONS = [
+  { symbol: undefined },
+  { symbol: 'BTC' },
+  { symbol: 'ETH' },
+]
 
 type AssetOptions = OptionBase & { symbol: string }
 type SelectAssetInstance = SelectInstance<AssetOptions>

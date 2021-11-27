@@ -17,11 +17,17 @@ const cancelOrder = async (
     orderGuid,
   })
   if (result instanceof Error) {
-    if (result.message.includes('Order is in an invalid state to be cancelled (Filled)')) {
+    if (
+      result.message.includes(
+        'Order is in an invalid state to be cancelled (Filled)',
+      )
+    ) {
       return false
     }
+
     return result
   }
+
   return true
 }
 

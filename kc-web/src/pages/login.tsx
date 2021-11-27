@@ -31,5 +31,5 @@ ReactDOM.render(
   <React.StrictMode>
     <Login />
   </React.StrictMode>,
-  document.getElementById('root')
+  document.querySelector('#root'),
 )

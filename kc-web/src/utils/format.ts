@@ -1,7 +1,5 @@
-const formatCurrency = (value: number, mantissa: number = 2): string => {
-  return value.toFixed(mantissa).replace(/[0-9](?=(?:[0-9]{3})+(?![0-9]))/, '$&,')
+const formatCurrency = (value: number, mantissa = 2): string => {
+  return value.toFixed(mantissa).replace(/\d(?=(?:\d{3})+(?!\d))/, '$&,')
 }
 
-export {
-  formatCurrency
-}
+export { formatCurrency }

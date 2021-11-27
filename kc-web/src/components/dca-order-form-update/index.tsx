@@ -2,7 +2,7 @@ import { useState, useCallback, useEffect } from 'react'
 import { gql, useQuery, useMutation } from '@apollo/client'
 import Select, { SelectInstance, OptionBase } from 'react-select'
 import { parseISO, format } from 'date-fns'
-import { Form, InputNumber, DatePicker } from 'antd';
+import { Form, InputNumber, DatePicker } from 'antd'
 import moment, { Moment } from 'moment'
 
 import { SelectAsset, SelectAssetInstance } from '../select/asset/index'
@@ -15,7 +15,7 @@ import {
 } from '../../utils/graphql'
 
 const QUERY_DCA_ORDER_FORM = gql`
-query getUpdateDCAOrderForm($dcaOrderUID: uuid!) {
+  query getUpdateDCAOrderForm($dcaOrderUID: uuid!) {
     kc_market {
       uid
       name
@@ -68,7 +68,7 @@ type UserExchangeKeysOption = OptionBase &
 type MarketOptions = OptionBase & GetUpdateDcaOrderFormQuery['kc_market'][0]
 
 type Props = {
-  dcaOrderUID: string,
+  dcaOrderUID: string
 }
 
 const UpdateDCAOrderForm = (props: Props) => {
@@ -80,10 +80,10 @@ const UpdateDCAOrderForm = (props: Props) => {
   >(QUERY_DCA_ORDER_FORM, {
     variables: {
       dcaOrderUID,
-    }
+    },
   })
 
-  // const userExchangeKeysRef =
+  // Const userExchangeKeysRef =
   //   useRef<SelectInstance<UserExchangeKeysOption>>(null)
   // const marketRef = useRef<SelectInstance<MarketOptions>>(null)
   // const symbolRef = useRef<SelectAssetInstance>(null)
@@ -180,7 +180,8 @@ const UpdateDCAOrderForm = (props: Props) => {
   const userExchangeKeysOptions = (data?.kc_user_exchange_keys ??
     []) as UserExchangeKeysOption[]
 
-  const [userExchangeKeyOption, setUserExchangeKeyOption] = useState<UserExchangeKeysOption>(null)
+  const [userExchangeKeyOption, setUserExchangeKeyOption] =
+    useState<UserExchangeKeysOption>(null)
   const [marketOption, setMarketOption] = useState<MarketOptions>(null)
   const [startAt, setStartAt] = useState<Moment>(moment())
   const [minValue, setMinValue] = useState<number>(0)
@@ -194,12 +195,12 @@ const UpdateDCAOrderForm = (props: Props) => {
     setUserExchangeKeyOption(
       userExchangeKeysOptions.find((item) => {
         return item.uid === order?.user_exchange_keys_uid
-      })
+      }),
     )
     setMarketOption(
       marketOptions.find((item) => {
         return item.uid === order?.market_uid
-      })
+      }),
     )
     setStartAt(order ? moment(parseISO(order.start_at)) : moment())
     setMinValue(order?.min_value ?? 0)
@@ -208,7 +209,14 @@ const UpdateDCAOrderForm = (props: Props) => {
     setMarketOffset(order?.market_offset ?? 0)
   }, [order])
 
-  console.log({marketOption, startAt, minValue, maxValue, marketOffset, dailyAverage})
+  console.log({
+    marketOption,
+    startAt,
+    minValue,
+    maxValue,
+    marketOffset,
+    dailyAverage,
+  })
 
   if (loading) {
     return <p>loading...</p>
@@ -219,8 +227,12 @@ const UpdateDCAOrderForm = (props: Props) => {
   }
 
   return (
-    <Form onFinish={handleSubmit} labelCol={{span: 8 }} wrapperCol={{span:16}}>
-      <Form.Item label='Exchange'>
+    <Form
+      onFinish={handleSubmit}
+      labelCol={{ span: 8 }}
+      wrapperCol={{ span: 16 }}
+    >
+      <Form.Item label="Exchange">
         <Select<UserExchangeKeysOption>
           value={userExchangeKeyOption}
           placeholder="Exchange Keys"
@@ -230,7 +242,7 @@ const UpdateDCAOrderForm = (props: Props) => {
           onChange={setUserExchangeKeyOption}
         />
       </Form.Item>
-      <Form.Item label='Market'>
+      <Form.Item label="Market">
         <Select<MarketOptions>
           value={marketOption}
           placeholder="Market"
@@ -240,46 +252,46 @@ const UpdateDCAOrderForm = (props: Props) => {
           onChange={setMarketOption}
         />
       </Form.Item>
-      <Form.Item label='Asset'>
-        <SelectAsset value={{symbol: order.primary_currency}} />
+      <Form.Item label="Asset">
+        <SelectAsset value={{ symbol: order.primary_currency }} />
       </Form.Item>
-      <Form.Item label='Start Date'>
+      <Form.Item label="Start Date">
         <DatePicker value={startAt} onChange={setStartAt} />
       </Form.Item>
-      <Form.Item label='Market Offset'>
+      <Form.Item label="Market Offset">
         <InputNumber
           step="0.01"
           value={marketOffset}
           onChange={setMarketOffset}
-          addonAfter='%'
+          addonAfter="%"
         />
       </Form.Item>
-      <Form.Item label='Daily Average'>
+      <Form.Item label="Daily Average">
         <InputNumber
           step="0.01"
           value={dailyAverage}
           onChange={setDailyAverage}
-          addonBefore='$'
+          addonBefore="$"
           addonAfter={order?.secondary_currency}
         />
       </Form.Item>
-      <Form.Item label='Min Value'>
+      <Form.Item label="Min Value">
         <InputNumber
-          step='0.01'
+          step="0.01"
           min={0}
           value={minValue}
           onChange={setMinValue}
-          addonBefore='$'
+          addonBefore="$"
           addonAfter={order?.secondary_currency}
         />
       </Form.Item>
-      <Form.Item label='Max Value'>
+      <Form.Item label="Max Value">
         <InputNumber
-          step='0.01'
+          step="0.01"
           min={0}
           value={maxValue}
           onChange={setMaxValue}
-          addonBefore='$'
+          addonBefore="$"
           addonAfter={order?.secondary_currency}
         />
       </Form.Item>

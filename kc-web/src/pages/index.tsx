@@ -1,6 +1,5 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import ReactDOM from 'react-dom'
-import { useState, useEffect } from 'react'
 import { Layout, Row, Col } from 'antd'
 
 import { getSession, Session, GUEST_SESSION } from '../utils/session-store'
@@ -54,7 +53,7 @@ const Index = () => {
                     </li>
                   </ul>
                   <LogoutButton />
-                  </div>
+                </div>
               )}
               <ExchangeList />
               <MarketList />
@@ -70,5 +69,5 @@ ReactDOM.render(
   <React.StrictMode>
     <Index />
   </React.StrictMode>,
-  document.getElementById('root')
+  document.querySelector('#root'),
 )
