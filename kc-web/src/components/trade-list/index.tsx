@@ -1,6 +1,7 @@
-import { Table, TableColumnsType, Pagination } from 'antd'
+import { Table, TableColumnsType, TablePaginationConfig } from 'antd'
 import { gql, useQuery } from '@apollo/client'
 import { DateTime } from 'luxon'
+import { parseISO, formatISO } from 'date-fns'
 
 import {
   GetTradeListQuery,
@@ -8,21 +9,37 @@ import {
 } from '../../utils/graphql'
 
 import { formatCurrency } from '../../utils/format'
-import TradeChart from './chart'
+import { TradeChart } from './chart'
+import { TradeStats } from './stats'
 
 type Trade = GetTradeListQuery['kc_trade'][0]
 
 const QUERY = gql`
-  query getTradeList($filters: kc_trade_bool_exp!, $offset: Int!) {
+  query getTradeList(
+    $filters: kc_trade_bool_exp!,
+    $offset: Int!,
+    $limit: Int!
+  ) {
     kc_trade_aggregate(where: $filters) {
       aggregate {
         count
+        sum {
+          value
+          volume
+          fee
+        }
+        min {
+          timestamp
+        }
+        max {
+          timestamp
+        }
       }
     }
     kc_trade(
       where: $filters
       order_by: { timestamp: desc }
-      limit: 100
+      limit: $limit
       offset: $offset
     ) {
       uid
@@ -104,6 +121,7 @@ const TradeList = (props: TradeListProps) => {
   >(QUERY, {
     variables: {
       offset: 0,
+      limit: 100,
       filters: {
         primary_currency: {
           _eq: primaryCurrency,
@@ -115,9 +133,9 @@ const TradeList = (props: TradeListProps) => {
     },
   })
 
-  const handleChange = (event) => {
-    const offset = (event.current - 1) * event.pageSize
-    console.log(offset)
+  const handleChange = (event: TablePaginationConfig) => {
+    const { current = 1, pageSize = 100} = event
+    const offset = (current - 1) * pageSize
     fetchMore({ variables: { offset } }).then(console.log)
   }
 
@@ -126,9 +144,17 @@ const TradeList = (props: TradeListProps) => {
   }
 
   const total = data?.kc_trade_aggregate?.aggregate?.count ?? 0
+  const agg = data?.kc_trade_aggregate?.aggregate
 
   return (
     <>
+      <TradeStats
+        sumValue={agg?.sum?.value ?? 0}
+        sumVolume={agg?.sum?.volume ?? 0}
+        sumFee={agg?.sum?.fee ?? 0}
+        minTimestamp={parseISO(agg?.min?.timestamp ?? formatISO(new Date()))}
+        maxTimestamp={parseISO(agg?.max?.timestamp ?? formatISO(new Date()))}
+      />
       <TradeChart data={data?.kc_trade ?? []} />
       <Table
         columns={columns}

@@ -12,7 +12,7 @@ services:
       - pgdata:/var/lib/postgresql/data
 
   hasura:
-    image: hasura/graphql-engine:v2.0.7.cli-migrations-v3
+    image: hasura/graphql-engine:v2.0.10.cli-migrations-v3
     ports:
       - "127.0.0.1:9999:8080"
     extra_hosts:

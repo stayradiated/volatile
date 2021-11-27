@@ -213,9 +213,9 @@ importers:
 
   kc-hasura:
     specifiers:
-      hasura-cli: 2.0.8
+      hasura-cli: 2.0.9
     dependencies:
-      hasura-cli: 2.0.8
+      hasura-cli: 2.0.9
 
   kc-keyring:
     specifiers:
@@ -354,71 +354,6 @@ importers:
       react-dom: 17.0.2_react@17.0.2
       react-select: 5.2.1_5539cae010396b202b015f3568914e95
       recharts: 2.1.6_react-dom@17.0.2+react@17.0.2
-      ua-parser-js: 1.0.2
-    devDependencies:
-      '@graphql-codegen/cli': 2.3.0_00e4c964741955f02ed8406d98bf346b
-      '@graphql-codegen/introspection': 2.1.0_graphql@16.0.1
-      '@graphql-codegen/typescript': 2.4.1_graphql@16.0.1
-      '@graphql-codegen/typescript-operations': 2.2.1_graphql@16.0.1
-      '@graphql-codegen/typescript-react-apollo': 3.2.2_graphql@16.0.1
-      '@types/express': 4.17.13
-      '@types/node': 16.11.10
-      '@types/react': 17.0.37
-      '@types/react-dom': 17.0.11
-      '@types/ua-parser-js': 0.7.36
-      '@vitejs/plugin-react': 1.1.0
-      eslint-plugin-fp: 2.3.0
-      ts-node: 10.4.0_36929cccfdb926da0bb85cc291f27124
-      typescript: 4.5.2
-      vite: 2.6.14
-      vite-plugin-ssr: 0.3.31_vite@2.6.14
-      xo: 0.46.4
-
-  kc-web-vite:
-    specifiers:
-      '@ant-design/icons': 4.7.0
-      '@apollo/client': 3.5.5
-      '@graphql-codegen/cli': 2.3.0
-      '@graphql-codegen/introspection': 2.1.0
-      '@graphql-codegen/typescript': 2.4.1
-      '@graphql-codegen/typescript-operations': 2.2.1
-      '@graphql-codegen/typescript-react-apollo': 3.2.2
-      '@types/express': 4.17.13
-      '@types/node': 16.11.10
-      '@types/react': 17.0.37
-      '@types/react-dom': 17.0.11
-      '@types/ua-parser-js': 0.7.36
-      '@vitejs/plugin-react': 1.1.0
-      antd: 4.17.1
-      cross-env: 7.0.3
-      date-fns: 2.26.0
-      eslint-plugin-fp: 2.3.0
-      express: 4.17.1
-      graphql: 16.0.1
-      luxon: 2.1.1
-      moment: 2.29.1
-      react: 17.0.2
-      react-dom: 17.0.2
-      react-select: 5.2.1
-      ts-node: 10.4.0
-      typescript: 4.5.2
-      ua-parser-js: 1.0.2
-      vite: 2.6.14
-      vite-plugin-ssr: 0.3.31
-      xo: 0.46.4
-    dependencies:
-      '@ant-design/icons': 4.7.0_react-dom@17.0.2+react@17.0.2
-      '@apollo/client': 3.5.5_graphql@16.0.1+react@17.0.2
-      antd: 4.17.1_react-dom@17.0.2+react@17.0.2
-      cross-env: 7.0.3
-      date-fns: 2.26.0
-      express: 4.17.1
-      graphql: 16.0.1
-      luxon: 2.1.1
-      moment: 2.29.1
-      react: 17.0.2
-      react-dom: 17.0.2_react@17.0.2
-      react-select: 5.2.1_5539cae010396b202b015f3568914e95
       ua-parser-js: 1.0.2
     devDependencies:
       '@graphql-codegen/cli': 2.3.0_00e4c964741955f02ed8406d98bf346b
@@ -6694,8 +6629,8 @@ packages:
     dependencies:
       function-bind: 1.1.1
 
-  /hasura-cli/2.0.8:
-    resolution: {integrity: sha512-tuRDsh8pkcQ82G30KRm7r1hUG3JW+0t9L6plCqSYiO1fM63OBc4JcEa8ORMWZu4Tnc8feG3sUKrgCRJH4PWcFQ==}
+  /hasura-cli/2.0.9:
+    resolution: {integrity: sha512-95xAxNFfF1nntncULGKGQ9UEbhEWsgcMHdqOLsreq9E1emh2CVu1xuY/WezGMaCe1D4ZII7HxSQZBIhdnF9vKg==}
     engines: {node: '>=8'}
     hasBin: true
     requiresBuild: true
