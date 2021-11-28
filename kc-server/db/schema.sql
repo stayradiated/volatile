@@ -21,10 +21,71 @@ SET default_tablespace = '';
 SET default_table_access_method = heap;
 
 --
--- Name: asset; Type: TABLE; Schema: kc; Owner: -
+-- Name: market_price; Type: TABLE; Schema: kc; Owner: -
 --
 
-CREATE TABLE kc.asset (
+CREATE TABLE kc.market_price (
+    "timestamp" timestamp with time zone NOT NULL,
+    market_uid uuid NOT NULL,
+    source_price numeric(12,2) NOT NULL,
+    source_currency character(3) NOT NULL,
+    fx_rate numeric(12,6) NOT NULL,
+    price numeric(12,2) NOT NULL,
+    asset_symbol character varying(5) NOT NULL,
+    currency text NOT NULL
+);
+
+
+--
+-- Name: market_price_latest(text, text, uuid); Type: FUNCTION; Schema: kc; Owner: -
+--
+
+CREATE FUNCTION kc.market_price_latest(asset_symbol text, currency text, market_uid uuid) RETURNS SETOF kc.market_price
+    LANGUAGE plpgsql STABLE
+    AS $$
+DECLARE
+  _asset_symbol ALIAS FOR asset_symbol;
+  _currency ALIAS FOR currency;
+  _market_uid ALIAS FOR market_uid;
+BEGIN
+  RETURN QUERY
+    SELECT market_price.*
+    FROM market_price
+    WHERE market_price.asset_symbol = _asset_symbol
+      AND market_price.currency = _currency
+      AND market_price.market_uid = _market_uid
+      AND market_price.timestamp = (
+        SELECT max(timestamp)
+        FROM market_price
+        WHERE market_price.currency = _currency
+        AND market_price.asset_symbol = _asset_symbol
+        AND market_price.market_uid = _market_uid
+      )
+    LIMIT 1;
+END;
+$$;
+
+
+--
+-- Name: sales_tax(real); Type: FUNCTION; Schema: kc; Owner: -
+--
+
+CREATE FUNCTION kc.sales_tax(real) RETURNS real
+    LANGUAGE plpgsql
+    AS $_$
+DECLARE
+    subtotal ALIAS FOR $1;
+BEGIN
+    RETURN subtotal * 0.06;
+END;
+$_$;
+
+
+--
+-- Name: currency; Type: TABLE; Schema: kc; Owner: -
+--
+
+CREATE TABLE kc.currency (
     symbol text NOT NULL,
     created_at timestamp with time zone NOT NULL,
     updated_at timestamp with time zone NOT NULL,
@@ -99,17 +160,30 @@ CREATE TABLE kc.exchange (
     created_at timestamp with time zone NOT NULL,
     updated_at timestamp with time zone NOT NULL,
     id character varying(32) NOT NULL,
-    name character varying(64) NOT NULL
+    name character varying(64) NOT NULL,
+    url text NOT NULL
 );
 
 
 --
--- Name: exchange_asset; Type: TABLE; Schema: kc; Owner: -
+-- Name: exchange_primary_currency; Type: TABLE; Schema: kc; Owner: -
 --
 
-CREATE TABLE kc.exchange_asset (
+CREATE TABLE kc.exchange_primary_currency (
     exchange_uid uuid NOT NULL,
-    asset_symbol text NOT NULL,
+    symbol text NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL
+);
+
+
+--
+-- Name: exchange_secondary_currency; Type: TABLE; Schema: kc; Owner: -
+--
+
+CREATE TABLE kc.exchange_secondary_currency (
+    exchange_uid uuid NOT NULL,
+    symbol text NOT NULL,
     created_at timestamp with time zone NOT NULL,
     updated_at timestamp with time zone NOT NULL
 );
@@ -125,22 +199,6 @@ CREATE TABLE kc.market (
     updated_at timestamp with time zone NOT NULL,
     id character varying(30) NOT NULL,
     name character varying(50) NOT NULL
-);
-
-
---
--- Name: market_price; Type: TABLE; Schema: kc; Owner: -
---
-
-CREATE TABLE kc.market_price (
-    "timestamp" timestamp with time zone NOT NULL,
-    market_uid uuid NOT NULL,
-    source_price numeric(12,2) NOT NULL,
-    source_currency character(3) NOT NULL,
-    fx_rate numeric(12,6) NOT NULL,
-    price numeric(12,2) NOT NULL,
-    asset_symbol character varying(5) NOT NULL,
-    currency text NOT NULL
 );
 
 
@@ -292,10 +350,10 @@ CREATE TABLE kc.user_password_reset (
 
 
 --
--- Name: asset asset_pkey; Type: CONSTRAINT; Schema: kc; Owner: -
+-- Name: currency asset_pkey; Type: CONSTRAINT; Schema: kc; Owner: -
 --
 
-ALTER TABLE ONLY kc.asset
+ALTER TABLE ONLY kc.currency
     ADD CONSTRAINT asset_pkey PRIMARY KEY (symbol);
 
 
@@ -324,11 +382,11 @@ ALTER TABLE ONLY kc.dca_order
 
 
 --
--- Name: exchange_asset exchange_asset_pkey; Type: CONSTRAINT; Schema: kc; Owner: -
+-- Name: exchange_primary_currency exchange_asset_pkey; Type: CONSTRAINT; Schema: kc; Owner: -
 --
 
-ALTER TABLE ONLY kc.exchange_asset
-    ADD CONSTRAINT exchange_asset_pkey PRIMARY KEY (exchange_uid, asset_symbol);
+ALTER TABLE ONLY kc.exchange_primary_currency
+    ADD CONSTRAINT exchange_asset_pkey PRIMARY KEY (exchange_uid, symbol);
 
 
 --
@@ -337,6 +395,14 @@ ALTER TABLE ONLY kc.exchange_asset
 
 ALTER TABLE ONLY kc.exchange
     ADD CONSTRAINT exchange_pkey PRIMARY KEY (uid);
+
+
+--
+-- Name: exchange_secondary_currency exchange_secondary_currency_pkey; Type: CONSTRAINT; Schema: kc; Owner: -
+--
+
+ALTER TABLE ONLY kc.exchange_secondary_currency
+    ADD CONSTRAINT exchange_secondary_currency_pkey PRIMARY KEY (exchange_uid, symbol);
 
 
 --
@@ -596,19 +662,35 @@ ALTER TABLE ONLY kc.dca_order
 
 
 --
--- Name: exchange_asset fk_exchange_asset_asset_symbol; Type: FK CONSTRAINT; Schema: kc; Owner: -
+-- Name: exchange_primary_currency fk_exchange_asset_asset_symbol; Type: FK CONSTRAINT; Schema: kc; Owner: -
 --
 
-ALTER TABLE ONLY kc.exchange_asset
-    ADD CONSTRAINT fk_exchange_asset_asset_symbol FOREIGN KEY (asset_symbol) REFERENCES kc.asset(symbol) ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE ONLY kc.exchange_primary_currency
+    ADD CONSTRAINT fk_exchange_asset_asset_symbol FOREIGN KEY (symbol) REFERENCES kc.currency(symbol) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
--- Name: exchange_asset fk_exchange_asset_exchange_uid; Type: FK CONSTRAINT; Schema: kc; Owner: -
+-- Name: exchange_primary_currency fk_exchange_asset_exchange_uid; Type: FK CONSTRAINT; Schema: kc; Owner: -
 --
 
-ALTER TABLE ONLY kc.exchange_asset
+ALTER TABLE ONLY kc.exchange_primary_currency
     ADD CONSTRAINT fk_exchange_asset_exchange_uid FOREIGN KEY (exchange_uid) REFERENCES kc.exchange(uid) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: exchange_secondary_currency fk_exchange_secondary_currency_exchange_uid; Type: FK CONSTRAINT; Schema: kc; Owner: -
+--
+
+ALTER TABLE ONLY kc.exchange_secondary_currency
+    ADD CONSTRAINT fk_exchange_secondary_currency_exchange_uid FOREIGN KEY (exchange_uid) REFERENCES kc.exchange(uid) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: exchange_secondary_currency fk_exchange_secondary_currency_symbol; Type: FK CONSTRAINT; Schema: kc; Owner: -
+--
+
+ALTER TABLE ONLY kc.exchange_secondary_currency
+    ADD CONSTRAINT fk_exchange_secondary_currency_symbol FOREIGN KEY (symbol) REFERENCES kc.currency(symbol) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
@@ -710,4 +792,7 @@ INSERT INTO kc.schema_migrations (version) VALUES
     ('20210830210200'),
     ('20210904183924'),
     ('20210905023303'),
-    ('20210905043231');
+    ('20210905043231'),
+    ('20211127183330'),
+    ('20211128100212'),
+    ('20211128103149');

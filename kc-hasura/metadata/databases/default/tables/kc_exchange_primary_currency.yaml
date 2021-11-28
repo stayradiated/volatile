@@ -1,0 +1,19 @@
+table:
+  name: exchange_primary_currency
+  schema: kc
+object_relationships:
+- name: currency
+  using:
+    foreign_key_constraint_on: symbol
+- name: exchange
+  using:
+    foreign_key_constraint_on: exchange_uid
+select_permissions:
+- permission:
+    columns:
+    - exchange_uid
+    - symbol
+    - created_at
+    - updated_at
+    filter: {}
+  role: user

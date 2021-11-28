@@ -16,8 +16,8 @@ type Trade = GetTradeListQuery['kc_trade'][0]
 
 const QUERY = gql`
   query getTradeList(
-    $filters: kc_trade_bool_exp!,
-    $offset: Int!,
+    $filters: kc_trade_bool_exp!
+    $offset: Int!
     $limit: Int!
   ) {
     kc_trade_aggregate(where: $filters) {
@@ -134,7 +134,7 @@ const TradeList = (props: TradeListProps) => {
   })
 
   const handleChange = (event: TablePaginationConfig) => {
-    const { current = 1, pageSize = 100} = event
+    const { current = 1, pageSize = 100 } = event
     const offset = (current - 1) * pageSize
     fetchMore({ variables: { offset } }).then(console.log)
   }

@@ -1,5 +1,5 @@
 import { gql, useQuery } from '@apollo/client'
-import { Table, TableColumnsType, Typography } from 'antd'
+import { Table, TableColumnsType, Typography, Button } from 'antd'
 
 import type {
   GetExchangeListQuery,
@@ -7,13 +7,21 @@ import type {
 } from '../../utils/graphql'
 
 type Exchange = GetExchangeListQuery['kc_exchange'][0]
+type PrimaryCurrency = Exchange['primary_currencies'][0]
+type SecondaryCurrency = Exchange['secondary_currencies'][0]
 
 const QUERY_EXCHANGE_LIST = gql`
   query getExchangeList {
     kc_exchange {
       uid
-      id
       name
+      url
+      primary_currencies(order_by: { symbol: asc }) {
+        symbol
+      }
+      secondary_currencies(order_by: { symbol: asc }) {
+        symbol
+      }
     }
   }
 `
@@ -22,19 +30,31 @@ const columns: TableColumnsType<Exchange> = [
   {
     title: 'Name',
     dataIndex: 'name',
+    render: (name: string, row: Exchange) => (
+      <Button type="link" href={row.url} target="_blank">
+        {name}
+      </Button>
+    ),
   },
   {
-    title: 'ID',
-    dataIndex: 'id',
+    title: 'Primary Currencies',
+    dataIndex: 'primary_currencies',
+    render: (list: PrimaryCurrency[]) =>
+      list.map((item) => item.symbol).join(', '),
   },
   {
-    title: 'UID',
-    dataIndex: 'uid',
+    title: 'Secondary Currencies',
+    dataIndex: 'secondary_currencies',
+    render: (list: SecondaryCurrency[]) =>
+      list.map((item) => item.symbol).join(', '),
   },
 ]
 
 const ExchangeList = () => {
-  const { data, loading, error } = useQuery(QUERY_EXCHANGE_LIST)
+  const { data, loading, error } = useQuery<
+    GetExchangeListQuery,
+    GetExchangeListQueryVariables
+  >(QUERY_EXCHANGE_LIST)
 
   if (loading) {
     return <p>loading exchange list...</p>
@@ -46,11 +66,12 @@ const ExchangeList = () => {
 
   return (
     <div>
-      <h4>Exchange List</h4>
+      <Typography.Title level={2}>Exchange List</Typography.Title>
       <Table
         columns={columns}
-        dataSource={data.kc_exchange}
+        dataSource={data?.kc_exchange ?? []}
         loading={loading}
+        pagination={false}
       />
     </div>
   )

@@ -1,0 +1,12 @@
+table:
+  name: currency
+  schema: kc
+select_permissions:
+- permission:
+    columns:
+    - symbol
+    - created_at
+    - updated_at
+    - name
+    filter: {}
+  role: user

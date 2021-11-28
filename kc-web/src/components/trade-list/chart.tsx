@@ -29,8 +29,8 @@ const TradeChart = (props: Props) => {
     .reduce((acc, trade, index) => {
       acc.push({
         index: getTime(parseISO(trade.timestamp)),
-        value: trade.value + (acc[index-1]?.value ?? 0)
-        // value: trade.price,
+        value: trade.value + (acc[index - 1]?.value ?? 0),
+        // Value: trade.price,
       })
       return acc
     }, [])

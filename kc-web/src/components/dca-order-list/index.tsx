@@ -43,7 +43,7 @@ const QUERY_DCA_ORDER_LIST = gql`
         uid
       }
 
-      dca_order_histories(limit: 5, order_by: { created_at: desc }) {
+      dca_order_histories(limit: 1, order_by: { created_at: desc }) {
         uid
 
         created_at

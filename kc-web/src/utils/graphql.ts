@@ -199,6 +199,46 @@ export type Bpchar_Comparison_Exp = {
   _similar?: InputMaybe<Scalars['bpchar']>;
 };
 
+/** columns and relationships of "kc.currency" */
+export type Kc_Currency = {
+  __typename?: 'kc_currency';
+  created_at: Scalars['timestamptz'];
+  name: Scalars['String'];
+  symbol: Scalars['String'];
+  updated_at: Scalars['timestamptz'];
+};
+
+/** Boolean expression to filter rows from the table "kc.currency". All fields are combined with a logical 'AND'. */
+export type Kc_Currency_Bool_Exp = {
+  _and?: InputMaybe<Array<Kc_Currency_Bool_Exp>>;
+  _not?: InputMaybe<Kc_Currency_Bool_Exp>;
+  _or?: InputMaybe<Array<Kc_Currency_Bool_Exp>>;
+  created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+  name?: InputMaybe<String_Comparison_Exp>;
+  symbol?: InputMaybe<String_Comparison_Exp>;
+  updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+};
+
+/** Ordering options when selecting data from "kc.currency". */
+export type Kc_Currency_Order_By = {
+  created_at?: InputMaybe<Order_By>;
+  name?: InputMaybe<Order_By>;
+  symbol?: InputMaybe<Order_By>;
+  updated_at?: InputMaybe<Order_By>;
+};
+
+/** select columns of table "kc.currency" */
+export enum Kc_Currency_Select_Column {
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  Name = 'name',
+  /** column name */
+  Symbol = 'symbol',
+  /** column name */
+  UpdatedAt = 'updated_at'
+}
+
 /** columns and relationships of "kc.dca_order" */
 export type Kc_Dca_Order = {
   __typename?: 'kc_dca_order';
@@ -1075,11 +1115,16 @@ export type Kc_Exchange = {
   /** An aggregate relationship */
   orders_aggregate: Kc_Order_Aggregate;
   /** An array relationship */
+  primary_currencies: Array<Kc_Exchange_Primary_Currency>;
+  /** An array relationship */
+  secondary_currencies: Array<Kc_Exchange_Secondary_Currency>;
+  /** An array relationship */
   trades: Array<Kc_Trade>;
   /** An aggregate relationship */
   trades_aggregate: Kc_Trade_Aggregate;
   uid: Scalars['uuid'];
   updated_at: Scalars['timestamptz'];
+  url: Scalars['String'];
   /** An array relationship */
   user_exchange_keys: Array<Kc_User_Exchange_Keys>;
   /** An aggregate relationship */
@@ -1124,6 +1169,26 @@ export type Kc_ExchangeOrders_AggregateArgs = {
   offset?: InputMaybe<Scalars['Int']>;
   order_by?: InputMaybe<Array<Kc_Order_Order_By>>;
   where?: InputMaybe<Kc_Order_Bool_Exp>;
+};
+
+
+/** columns and relationships of "kc.exchange" */
+export type Kc_ExchangePrimary_CurrenciesArgs = {
+  distinct_on?: InputMaybe<Array<Kc_Exchange_Primary_Currency_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Kc_Exchange_Primary_Currency_Order_By>>;
+  where?: InputMaybe<Kc_Exchange_Primary_Currency_Bool_Exp>;
+};
+
+
+/** columns and relationships of "kc.exchange" */
+export type Kc_ExchangeSecondary_CurrenciesArgs = {
+  distinct_on?: InputMaybe<Array<Kc_Exchange_Secondary_Currency_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Kc_Exchange_Secondary_Currency_Order_By>>;
+  where?: InputMaybe<Kc_Exchange_Secondary_Currency_Bool_Exp>;
 };
 
 
@@ -1176,9 +1241,12 @@ export type Kc_Exchange_Bool_Exp = {
   id?: InputMaybe<String_Comparison_Exp>;
   name?: InputMaybe<String_Comparison_Exp>;
   orders?: InputMaybe<Kc_Order_Bool_Exp>;
+  primary_currencies?: InputMaybe<Kc_Exchange_Primary_Currency_Bool_Exp>;
+  secondary_currencies?: InputMaybe<Kc_Exchange_Secondary_Currency_Bool_Exp>;
   trades?: InputMaybe<Kc_Trade_Bool_Exp>;
   uid?: InputMaybe<Uuid_Comparison_Exp>;
   updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+  url?: InputMaybe<String_Comparison_Exp>;
   user_exchange_keys?: InputMaybe<Kc_User_Exchange_Keys_Bool_Exp>;
 };
 
@@ -1189,11 +1257,156 @@ export type Kc_Exchange_Order_By = {
   id?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
   orders_aggregate?: InputMaybe<Kc_Order_Aggregate_Order_By>;
+  primary_currencies_aggregate?: InputMaybe<Kc_Exchange_Primary_Currency_Aggregate_Order_By>;
+  secondary_currencies_aggregate?: InputMaybe<Kc_Exchange_Secondary_Currency_Aggregate_Order_By>;
   trades_aggregate?: InputMaybe<Kc_Trade_Aggregate_Order_By>;
   uid?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
+  url?: InputMaybe<Order_By>;
   user_exchange_keys_aggregate?: InputMaybe<Kc_User_Exchange_Keys_Aggregate_Order_By>;
 };
+
+/** columns and relationships of "kc.exchange_primary_currency" */
+export type Kc_Exchange_Primary_Currency = {
+  __typename?: 'kc_exchange_primary_currency';
+  created_at: Scalars['timestamptz'];
+  /** An object relationship */
+  currency: Kc_Currency;
+  /** An object relationship */
+  exchange: Kc_Exchange;
+  exchange_uid: Scalars['uuid'];
+  symbol: Scalars['String'];
+  updated_at: Scalars['timestamptz'];
+};
+
+/** order by aggregate values of table "kc.exchange_primary_currency" */
+export type Kc_Exchange_Primary_Currency_Aggregate_Order_By = {
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Kc_Exchange_Primary_Currency_Max_Order_By>;
+  min?: InputMaybe<Kc_Exchange_Primary_Currency_Min_Order_By>;
+};
+
+/** Boolean expression to filter rows from the table "kc.exchange_primary_currency". All fields are combined with a logical 'AND'. */
+export type Kc_Exchange_Primary_Currency_Bool_Exp = {
+  _and?: InputMaybe<Array<Kc_Exchange_Primary_Currency_Bool_Exp>>;
+  _not?: InputMaybe<Kc_Exchange_Primary_Currency_Bool_Exp>;
+  _or?: InputMaybe<Array<Kc_Exchange_Primary_Currency_Bool_Exp>>;
+  created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+  currency?: InputMaybe<Kc_Currency_Bool_Exp>;
+  exchange?: InputMaybe<Kc_Exchange_Bool_Exp>;
+  exchange_uid?: InputMaybe<Uuid_Comparison_Exp>;
+  symbol?: InputMaybe<String_Comparison_Exp>;
+  updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+};
+
+/** order by max() on columns of table "kc.exchange_primary_currency" */
+export type Kc_Exchange_Primary_Currency_Max_Order_By = {
+  created_at?: InputMaybe<Order_By>;
+  exchange_uid?: InputMaybe<Order_By>;
+  symbol?: InputMaybe<Order_By>;
+  updated_at?: InputMaybe<Order_By>;
+};
+
+/** order by min() on columns of table "kc.exchange_primary_currency" */
+export type Kc_Exchange_Primary_Currency_Min_Order_By = {
+  created_at?: InputMaybe<Order_By>;
+  exchange_uid?: InputMaybe<Order_By>;
+  symbol?: InputMaybe<Order_By>;
+  updated_at?: InputMaybe<Order_By>;
+};
+
+/** Ordering options when selecting data from "kc.exchange_primary_currency". */
+export type Kc_Exchange_Primary_Currency_Order_By = {
+  created_at?: InputMaybe<Order_By>;
+  currency?: InputMaybe<Kc_Currency_Order_By>;
+  exchange?: InputMaybe<Kc_Exchange_Order_By>;
+  exchange_uid?: InputMaybe<Order_By>;
+  symbol?: InputMaybe<Order_By>;
+  updated_at?: InputMaybe<Order_By>;
+};
+
+/** select columns of table "kc.exchange_primary_currency" */
+export enum Kc_Exchange_Primary_Currency_Select_Column {
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  ExchangeUid = 'exchange_uid',
+  /** column name */
+  Symbol = 'symbol',
+  /** column name */
+  UpdatedAt = 'updated_at'
+}
+
+/** columns and relationships of "kc.exchange_secondary_currency" */
+export type Kc_Exchange_Secondary_Currency = {
+  __typename?: 'kc_exchange_secondary_currency';
+  created_at: Scalars['timestamptz'];
+  /** An object relationship */
+  currency: Kc_Currency;
+  /** An object relationship */
+  exchange: Kc_Exchange;
+  exchange_uid: Scalars['uuid'];
+  symbol: Scalars['String'];
+  updated_at: Scalars['timestamptz'];
+};
+
+/** order by aggregate values of table "kc.exchange_secondary_currency" */
+export type Kc_Exchange_Secondary_Currency_Aggregate_Order_By = {
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Kc_Exchange_Secondary_Currency_Max_Order_By>;
+  min?: InputMaybe<Kc_Exchange_Secondary_Currency_Min_Order_By>;
+};
+
+/** Boolean expression to filter rows from the table "kc.exchange_secondary_currency". All fields are combined with a logical 'AND'. */
+export type Kc_Exchange_Secondary_Currency_Bool_Exp = {
+  _and?: InputMaybe<Array<Kc_Exchange_Secondary_Currency_Bool_Exp>>;
+  _not?: InputMaybe<Kc_Exchange_Secondary_Currency_Bool_Exp>;
+  _or?: InputMaybe<Array<Kc_Exchange_Secondary_Currency_Bool_Exp>>;
+  created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+  currency?: InputMaybe<Kc_Currency_Bool_Exp>;
+  exchange?: InputMaybe<Kc_Exchange_Bool_Exp>;
+  exchange_uid?: InputMaybe<Uuid_Comparison_Exp>;
+  symbol?: InputMaybe<String_Comparison_Exp>;
+  updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+};
+
+/** order by max() on columns of table "kc.exchange_secondary_currency" */
+export type Kc_Exchange_Secondary_Currency_Max_Order_By = {
+  created_at?: InputMaybe<Order_By>;
+  exchange_uid?: InputMaybe<Order_By>;
+  symbol?: InputMaybe<Order_By>;
+  updated_at?: InputMaybe<Order_By>;
+};
+
+/** order by min() on columns of table "kc.exchange_secondary_currency" */
+export type Kc_Exchange_Secondary_Currency_Min_Order_By = {
+  created_at?: InputMaybe<Order_By>;
+  exchange_uid?: InputMaybe<Order_By>;
+  symbol?: InputMaybe<Order_By>;
+  updated_at?: InputMaybe<Order_By>;
+};
+
+/** Ordering options when selecting data from "kc.exchange_secondary_currency". */
+export type Kc_Exchange_Secondary_Currency_Order_By = {
+  created_at?: InputMaybe<Order_By>;
+  currency?: InputMaybe<Kc_Currency_Order_By>;
+  exchange?: InputMaybe<Kc_Exchange_Order_By>;
+  exchange_uid?: InputMaybe<Order_By>;
+  symbol?: InputMaybe<Order_By>;
+  updated_at?: InputMaybe<Order_By>;
+};
+
+/** select columns of table "kc.exchange_secondary_currency" */
+export enum Kc_Exchange_Secondary_Currency_Select_Column {
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  ExchangeUid = 'exchange_uid',
+  /** column name */
+  Symbol = 'symbol',
+  /** column name */
+  UpdatedAt = 'updated_at'
+}
 
 /** select columns of table "kc.exchange" */
 export enum Kc_Exchange_Select_Column {
@@ -1206,7 +1419,9 @@ export enum Kc_Exchange_Select_Column {
   /** column name */
   Uid = 'uid',
   /** column name */
-  UpdatedAt = 'updated_at'
+  UpdatedAt = 'updated_at',
+  /** column name */
+  Url = 'url'
 }
 
 /** columns and relationships of "kc.market" */
@@ -1331,6 +1546,12 @@ export type Kc_Market_Price_Bool_Exp = {
   source_currency?: InputMaybe<Bpchar_Comparison_Exp>;
   source_price?: InputMaybe<Numeric_Comparison_Exp>;
   timestamp?: InputMaybe<Timestamptz_Comparison_Exp>;
+};
+
+export type Kc_Market_Price_Latest_Args = {
+  asset_symbol?: InputMaybe<Scalars['String']>;
+  currency?: InputMaybe<Scalars['String']>;
+  market_uid?: InputMaybe<Scalars['uuid']>;
 };
 
 /** order by max() on columns of table "kc.market_price" */
@@ -2231,7 +2452,7 @@ export type Kc_User = {
   uid: Scalars['uuid'];
   updated_at: Scalars['timestamptz'];
   /** An object relationship */
-  user2FA: Kc_User_2fa;
+  user2FA?: Maybe<Kc_User_2fa>;
   /** An array relationship */
   user_devices: Array<Kc_User_Device>;
   /** An aggregate relationship */
@@ -3045,6 +3266,10 @@ export type Query_Root = {
   __typename?: 'query_root';
   customer_checkout_session: CustomerCheckoutSessionOutput;
   customer_portal_session?: Maybe<CreateCustomerPortalSession>;
+  /** fetch data from the table: "kc.currency" */
+  kc_currency: Array<Kc_Currency>;
+  /** fetch data from the table: "kc.currency" using primary key columns */
+  kc_currency_by_pk?: Maybe<Kc_Currency>;
   /** fetch data from the table: "kc.dca_order" */
   kc_dca_order: Array<Kc_Dca_Order>;
   /** fetch aggregated fields from the table: "kc.dca_order" */
@@ -3061,6 +3286,14 @@ export type Query_Root = {
   kc_exchange: Array<Kc_Exchange>;
   /** fetch data from the table: "kc.exchange" using primary key columns */
   kc_exchange_by_pk?: Maybe<Kc_Exchange>;
+  /** fetch data from the table: "kc.exchange_primary_currency" */
+  kc_exchange_primary_currency: Array<Kc_Exchange_Primary_Currency>;
+  /** fetch data from the table: "kc.exchange_primary_currency" using primary key columns */
+  kc_exchange_primary_currency_by_pk?: Maybe<Kc_Exchange_Primary_Currency>;
+  /** fetch data from the table: "kc.exchange_secondary_currency" */
+  kc_exchange_secondary_currency: Array<Kc_Exchange_Secondary_Currency>;
+  /** fetch data from the table: "kc.exchange_secondary_currency" using primary key columns */
+  kc_exchange_secondary_currency_by_pk?: Maybe<Kc_Exchange_Secondary_Currency>;
   /** fetch data from the table: "kc.market" */
   kc_market: Array<Kc_Market>;
   /** fetch data from the table: "kc.market" using primary key columns */
@@ -3069,6 +3302,8 @@ export type Query_Root = {
   kc_market_price: Array<Kc_Market_Price>;
   /** fetch data from the table: "kc.market_price" using primary key columns */
   kc_market_price_by_pk?: Maybe<Kc_Market_Price>;
+  /** execute function "kc.market_price_latest" which returns "kc.market_price" */
+  kc_market_price_latest: Array<Kc_Market_Price>;
   /** fetch data from the table: "kc.order" */
   kc_order: Array<Kc_Order>;
   /** fetch aggregated fields from the table: "kc.order" */
@@ -3101,6 +3336,20 @@ export type Query_Root = {
   kc_user_exchange_keys_aggregate: Kc_User_Exchange_Keys_Aggregate;
   /** fetch data from the table: "kc.user_exchange_keys" using primary key columns */
   kc_user_exchange_keys_by_pk?: Maybe<Kc_User_Exchange_Keys>;
+};
+
+
+export type Query_RootKc_CurrencyArgs = {
+  distinct_on?: InputMaybe<Array<Kc_Currency_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Kc_Currency_Order_By>>;
+  where?: InputMaybe<Kc_Currency_Bool_Exp>;
+};
+
+
+export type Query_RootKc_Currency_By_PkArgs = {
+  symbol: Scalars['String'];
 };
 
 
@@ -3164,6 +3413,36 @@ export type Query_RootKc_Exchange_By_PkArgs = {
 };
 
 
+export type Query_RootKc_Exchange_Primary_CurrencyArgs = {
+  distinct_on?: InputMaybe<Array<Kc_Exchange_Primary_Currency_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Kc_Exchange_Primary_Currency_Order_By>>;
+  where?: InputMaybe<Kc_Exchange_Primary_Currency_Bool_Exp>;
+};
+
+
+export type Query_RootKc_Exchange_Primary_Currency_By_PkArgs = {
+  exchange_uid: Scalars['uuid'];
+  symbol: Scalars['String'];
+};
+
+
+export type Query_RootKc_Exchange_Secondary_CurrencyArgs = {
+  distinct_on?: InputMaybe<Array<Kc_Exchange_Secondary_Currency_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Kc_Exchange_Secondary_Currency_Order_By>>;
+  where?: InputMaybe<Kc_Exchange_Secondary_Currency_Bool_Exp>;
+};
+
+
+export type Query_RootKc_Exchange_Secondary_Currency_By_PkArgs = {
+  exchange_uid: Scalars['uuid'];
+  symbol: Scalars['String'];
+};
+
+
 export type Query_RootKc_MarketArgs = {
   distinct_on?: InputMaybe<Array<Kc_Market_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -3193,6 +3472,16 @@ export type Query_RootKc_Market_Price_By_PkArgs = {
   market_uid: Scalars['uuid'];
   source_currency: Scalars['bpchar'];
   timestamp: Scalars['timestamptz'];
+};
+
+
+export type Query_RootKc_Market_Price_LatestArgs = {
+  args: Kc_Market_Price_Latest_Args;
+  distinct_on?: InputMaybe<Array<Kc_Market_Price_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Kc_Market_Price_Order_By>>;
+  where?: InputMaybe<Kc_Market_Price_Bool_Exp>;
 };
 
 
@@ -3317,6 +3606,10 @@ export type Query_RootKc_User_Exchange_Keys_By_PkArgs = {
 
 export type Subscription_Root = {
   __typename?: 'subscription_root';
+  /** fetch data from the table: "kc.currency" */
+  kc_currency: Array<Kc_Currency>;
+  /** fetch data from the table: "kc.currency" using primary key columns */
+  kc_currency_by_pk?: Maybe<Kc_Currency>;
   /** fetch data from the table: "kc.dca_order" */
   kc_dca_order: Array<Kc_Dca_Order>;
   /** fetch aggregated fields from the table: "kc.dca_order" */
@@ -3333,6 +3626,14 @@ export type Subscription_Root = {
   kc_exchange: Array<Kc_Exchange>;
   /** fetch data from the table: "kc.exchange" using primary key columns */
   kc_exchange_by_pk?: Maybe<Kc_Exchange>;
+  /** fetch data from the table: "kc.exchange_primary_currency" */
+  kc_exchange_primary_currency: Array<Kc_Exchange_Primary_Currency>;
+  /** fetch data from the table: "kc.exchange_primary_currency" using primary key columns */
+  kc_exchange_primary_currency_by_pk?: Maybe<Kc_Exchange_Primary_Currency>;
+  /** fetch data from the table: "kc.exchange_secondary_currency" */
+  kc_exchange_secondary_currency: Array<Kc_Exchange_Secondary_Currency>;
+  /** fetch data from the table: "kc.exchange_secondary_currency" using primary key columns */
+  kc_exchange_secondary_currency_by_pk?: Maybe<Kc_Exchange_Secondary_Currency>;
   /** fetch data from the table: "kc.market" */
   kc_market: Array<Kc_Market>;
   /** fetch data from the table: "kc.market" using primary key columns */
@@ -3341,6 +3642,8 @@ export type Subscription_Root = {
   kc_market_price: Array<Kc_Market_Price>;
   /** fetch data from the table: "kc.market_price" using primary key columns */
   kc_market_price_by_pk?: Maybe<Kc_Market_Price>;
+  /** execute function "kc.market_price_latest" which returns "kc.market_price" */
+  kc_market_price_latest: Array<Kc_Market_Price>;
   /** fetch data from the table: "kc.order" */
   kc_order: Array<Kc_Order>;
   /** fetch aggregated fields from the table: "kc.order" */
@@ -3373,6 +3676,20 @@ export type Subscription_Root = {
   kc_user_exchange_keys_aggregate: Kc_User_Exchange_Keys_Aggregate;
   /** fetch data from the table: "kc.user_exchange_keys" using primary key columns */
   kc_user_exchange_keys_by_pk?: Maybe<Kc_User_Exchange_Keys>;
+};
+
+
+export type Subscription_RootKc_CurrencyArgs = {
+  distinct_on?: InputMaybe<Array<Kc_Currency_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Kc_Currency_Order_By>>;
+  where?: InputMaybe<Kc_Currency_Bool_Exp>;
+};
+
+
+export type Subscription_RootKc_Currency_By_PkArgs = {
+  symbol: Scalars['String'];
 };
 
 
@@ -3436,6 +3753,36 @@ export type Subscription_RootKc_Exchange_By_PkArgs = {
 };
 
 
+export type Subscription_RootKc_Exchange_Primary_CurrencyArgs = {
+  distinct_on?: InputMaybe<Array<Kc_Exchange_Primary_Currency_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Kc_Exchange_Primary_Currency_Order_By>>;
+  where?: InputMaybe<Kc_Exchange_Primary_Currency_Bool_Exp>;
+};
+
+
+export type Subscription_RootKc_Exchange_Primary_Currency_By_PkArgs = {
+  exchange_uid: Scalars['uuid'];
+  symbol: Scalars['String'];
+};
+
+
+export type Subscription_RootKc_Exchange_Secondary_CurrencyArgs = {
+  distinct_on?: InputMaybe<Array<Kc_Exchange_Secondary_Currency_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Kc_Exchange_Secondary_Currency_Order_By>>;
+  where?: InputMaybe<Kc_Exchange_Secondary_Currency_Bool_Exp>;
+};
+
+
+export type Subscription_RootKc_Exchange_Secondary_Currency_By_PkArgs = {
+  exchange_uid: Scalars['uuid'];
+  symbol: Scalars['String'];
+};
+
+
 export type Subscription_RootKc_MarketArgs = {
   distinct_on?: InputMaybe<Array<Kc_Market_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -3465,6 +3812,16 @@ export type Subscription_RootKc_Market_Price_By_PkArgs = {
   market_uid: Scalars['uuid'];
   source_currency: Scalars['bpchar'];
   timestamp: Scalars['timestamptz'];
+};
+
+
+export type Subscription_RootKc_Market_Price_LatestArgs = {
+  args: Kc_Market_Price_Latest_Args;
+  distinct_on?: InputMaybe<Array<Kc_Market_Price_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Kc_Market_Price_Order_By>>;
+  where?: InputMaybe<Kc_Market_Price_Bool_Exp>;
 };
 
 
@@ -3646,7 +4003,7 @@ export type GetDcaOrderListQuery = { __typename?: 'query_root', kc_dca_order: Ar
 export type GetExchangeListQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetExchangeListQuery = { __typename?: 'query_root', kc_exchange: Array<{ __typename?: 'kc_exchange', uid: string, id: string, name: string }> };
+export type GetExchangeListQuery = { __typename?: 'query_root', kc_exchange: Array<{ __typename?: 'kc_exchange', uid: string, name: string, url: string, primary_currencies: Array<{ __typename?: 'kc_exchange_primary_currency', symbol: string }>, secondary_currencies: Array<{ __typename?: 'kc_exchange_secondary_currency', symbol: string }> }> };
 
 export type GetMarketPriceListQueryVariables = Exact<{
   timestamp: Scalars['timestamptz'];
@@ -3819,7 +4176,7 @@ export const GetDcaOrderListDocument = gql`
       description
       uid
     }
-    dca_order_histories(limit: 5, order_by: {created_at: desc}) {
+    dca_order_histories(limit: 1, order_by: {created_at: desc}) {
       uid
       created_at
       market_price
@@ -3844,8 +4201,14 @@ export const GetExchangeListDocument = gql`
     query getExchangeList {
   kc_exchange {
     uid
-    id
     name
+    url
+    primary_currencies(order_by: {symbol: asc}) {
+      symbol
+    }
+    secondary_currencies(order_by: {symbol: asc}) {
+      symbol
+    }
   }
 }
     `;
