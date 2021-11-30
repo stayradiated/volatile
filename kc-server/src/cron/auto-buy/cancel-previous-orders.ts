@@ -1,7 +1,5 @@
-import { errorListBoundary, MultiError } from '@stayradiated/error-boundary'
+import { errorListBoundary } from '@stayradiated/error-boundary'
 import { DateTime } from 'luxon'
-
-import { EXCHANGE_DASSET } from '../../model/exchange/index.js'
 
 import type { Pool } from '../../types.js'
 import type { UserExchangeAPI } from '../../exchange-api/index.js'
@@ -56,24 +54,7 @@ const cancelPreviousOrders = async (
   )
 
   if (cancelOrderError instanceof Error) {
-    if (
-      userExchangeAPI.exchange === EXCHANGE_DASSET &&
-      cancelOrderError instanceof MultiError &&
-      cancelOrderError.cause.length <= 2
-    ) {
-      // Let the error go
-      console.error(cancelOrderError)
-
-      // Const result = await waitForBalanceToChange({
-      //   initialBalance,
-      //   userExchangeAPI,
-      // })
-      // if (result instanceof Error) {
-      //   return result
-      // }
-    } else {
-      return cancelOrderError
-    }
+    return cancelOrderError
   }
 
   return undefined
