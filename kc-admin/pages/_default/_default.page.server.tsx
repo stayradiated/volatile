@@ -1,6 +1,6 @@
 import ReactDOMServer from "react-dom/server";
 import React from "react";
-import { html } from "vite-plugin-ssr";
+import { escapeInject, dangerouslySkipEscape } from 'vite-plugin-ssr'
 import { getPageTitle } from "./getPageTitle";
 import type { PageContext } from "./types";
 import type { PageContextBuiltIn } from "vite-plugin-ssr/types";
@@ -23,13 +23,13 @@ function render(pageContext: PageContextBuiltIn & PageContext) {
 
   const title = getPageTitle(pageContext);
 
-  return html`<!DOCTYPE html>
+  return escapeInject`<!DOCTYPE html>
     <html>
       <head>
         <title>${title}</title>
       </head>
       <body>
-        <div id="root">${html.dangerouslySkipEscape(pageContent)}</div>
+        <div id="root">${dangerouslySkipEscape(pageContent)}</div>
       </body>
     </html>`;
 }

@@ -26,7 +26,7 @@ const TradeChart = (props: Props) => {
     .sort((a, b) => {
       return a.timestamp.localeCompare(b.timestamp)
     })
-    .reduce((acc, trade, index) => {
+    .reduce<{index: number, value: number}[]>((acc, trade, index) => {
       acc.push({
         index: getTime(parseISO(trade.timestamp)),
         value: trade.value + (acc[index - 1]?.value ?? 0),

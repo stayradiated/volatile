@@ -26,7 +26,7 @@
     "@northscaler/better-error": "0.1.0-dev.10",
     "@stayradiated/error-boundary": "1.10.0",
     "@zwolf/prism": "2.13.0",
-    "debug": "4.3.2",
+    "debug": "4.3.3",
     "ky": "0.28.7",
     "ky-universal": "0.9.1",
     "luxon": "2.1.1"
@@ -34,12 +34,12 @@
   "devDependencies": {
     "@stayradiated/jsconfig": "1.15.0",
     "@types/debug": "4.1.7",
-    "@types/node": "16.11.9",
+    "@types/node": "16.11.11",
     "ava": "3.15.0",
     "del-cli": "4.0.1",
     "nock": "13.2.1",
     "typescript": "4.5.2",
-    "xo": "0.46.4"
+    "xo": "0.47.0"
   },
   "scripts": {
     "tidy": "xo --fix",

@@ -1,6 +1,6 @@
 import { useRef, useCallback } from 'react'
 import { gql, useQuery, useMutation } from '@apollo/client'
-import Select, { SelectInstance, OptionBase } from 'react-select'
+import Select, { SelectInstance } from 'react-select'
 
 const QUERY_EXCHANGE_KEYS_FORM = gql`
   query query_exchange_keys_form {
@@ -46,7 +46,7 @@ const MUTATION_CREATE_USER_EXCHANGE_KEYS = gql`
   }
 `
 
-type Exchange = OptionBase & {
+type Exchange = {
   uid: string
   name: string
 }

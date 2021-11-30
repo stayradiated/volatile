@@ -4007,6 +4007,7 @@ export type GetExchangeListQuery = { __typename?: 'query_root', kc_exchange: Arr
 
 export type GetMarketPriceListQueryVariables = Exact<{
   timestamp: Scalars['timestamptz'];
+  filters: Kc_Market_Price_Bool_Exp;
 }>;
 
 
@@ -4214,7 +4215,7 @@ export const GetExchangeListDocument = gql`
     `;
 export type GetExchangeListQueryResult = Apollo.QueryResult<GetExchangeListQuery, GetExchangeListQueryVariables>;
 export const GetMarketPriceListDocument = gql`
-    query getMarketPriceList($timestamp: timestamptz!) {
+    query getMarketPriceList($timestamp: timestamptz!, $filters: kc_market_price_bool_exp!) {
   kc_market {
     uid
     id

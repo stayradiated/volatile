@@ -2,7 +2,6 @@ import { forwardRef } from 'react'
 import Select, {
   Props as SelectProps,
   SelectInstance,
-  OptionBase,
 } from 'react-select'
 
 const SYMBOL_OPTIONS = [
@@ -12,7 +11,7 @@ const SYMBOL_OPTIONS = [
   { symbol: 'USD' },
 ]
 
-type CurrencyOptions = OptionBase & { symbol: string }
+type CurrencyOptions = { symbol: string | undefined }
 type SelectCurrencyInstance = SelectInstance<CurrencyOptions>
 
 type Props = SelectProps<CurrencyOptions, false, any>
@@ -25,7 +24,7 @@ const SelectCurrency = forwardRef<SelectCurrencyInstance, Props>(
       placeholder="Symbol"
       options={SYMBOL_OPTIONS}
       getOptionLabel={(option) => option.symbol ?? '--'}
-      getOptionValue={(option) => option.symbol}
+      getOptionValue={(option) => option.symbol ?? '--'}
     />
   ),
 )

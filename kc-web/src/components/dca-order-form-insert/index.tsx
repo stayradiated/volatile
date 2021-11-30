@@ -1,6 +1,6 @@
 import { useRef, useCallback, RefObject } from 'react'
 import { gql, useQuery, useMutation } from '@apollo/client'
-import Select, { SelectInstance, OptionBase } from 'react-select'
+import Select, { SelectInstance } from 'react-select'
 
 import { SelectAsset, SelectAssetInstance } from '../select/asset/index'
 
@@ -47,10 +47,9 @@ const MUTATION_CREATE_DCA_ORDER = gql`
   }
 `
 
-type UserExchangeKeysOptions = OptionBase &
-  GetInsertDcaOrderFormQuery['kc_user_exchange_keys'][0]
+type UserExchangeKeysOptions = GetInsertDcaOrderFormQuery['kc_user_exchange_keys'][0]
 
-type MarketOptions = OptionBase & GetInsertDcaOrderFormQuery['kc_market'][0]
+type MarketOptions = GetInsertDcaOrderFormQuery['kc_market'][0]
 
 const InsertDCAOrderForm = () => {
   const [createDCAOrder] = useMutation<

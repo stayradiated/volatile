@@ -47,19 +47,21 @@ array_relationships:
 select_permissions:
 - permission:
     columns:
-    - uid
     - created_at
-    - updated_at
     - id
     - name
+    - uid
+    - updated_at
+    - url
     filter: {}
   role: guest
 - permission:
     columns:
-    - uid
     - created_at
-    - updated_at
     - id
     - name
+    - uid
+    - updated_at
+    - url
     filter: {}
   role: user

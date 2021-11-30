@@ -25,22 +25,22 @@
   "dependencies": {
     "@northscaler/better-error": "0.1.0-dev.10",
     "@stayradiated/error-boundary": "1.10.0",
-    "debug": "4.3.2",
-    "ky": "0.28.5",
+    "debug": "4.3.3",
+    "ky": "0.28.7",
     "ky-universal": "0.9.1",
-    "luxon": "2.0.2",
+    "luxon": "2.1.1",
     "rambda": "6.9.0"
   },
   "devDependencies": {
     "@stayradiated/jsconfig": "1.15.0",
     "@types/debug": "4.1.7",
-    "@types/node": "16.9.1",
+    "@types/node": "16.11.11",
     "ava": "3.15.0",
     "del-cli": "4.0.1",
     "eslint-plugin-fp": "2.3.0",
-    "nock": "13.1.3",
-    "typescript": "4.4.3",
-    "xo": "0.44.0"
+    "nock": "13.2.1",
+    "typescript": "4.5.2",
+    "xo": "0.47.0"
   },
   "scripts": {
     "tidy": "xo --fix ./src",

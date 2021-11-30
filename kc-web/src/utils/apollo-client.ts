@@ -4,8 +4,8 @@ import { setContext } from '@apollo/client/link/context'
 import { getSession } from './session-store'
 
 const httpLink = createHttpLink({
-  uri: 'http://localhost:9999/v1/graphql',
-  // Uri: 'http://localhost:7947/v1/graphql',
+  // uri: 'http://localhost:9999/v1/graphql',
+  uri: 'http://localhost:7947/v1/graphql',
 })
 
 const authLink = setContext((_request, { headers }) => {
@@ -34,7 +34,10 @@ const cache = new InMemoryCache({
       fields: {
         kc_trade: {
           keyArgs: false,
-          merge(existing, incoming, { args: { offset = 0 } }) {
+          merge(existing, incoming, body) {
+            const { args } = body as ({ args: { offset?: number }})
+            const { offset = 0 } = args
+
             // Slicing is necessary because the existing data is
             // immutable, and frozen in development.
             const merged = existing ? existing.slice(0) : []

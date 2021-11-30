@@ -1,8 +1,12 @@
+import { useState } from 'react'
 import { DateTime } from 'luxon'
 import { gql, useQuery } from '@apollo/client'
-import { Table, TableColumnsType, Typography } from 'antd'
+import { Table, TableColumnsType, Typography, Layout, Row, Col } from 'antd'
 
 import { formatCurrency } from '../../utils/format'
+
+import { SelectAsset } from '../../components/select/asset'
+import { SelectCurrency } from '../../components/select/currency'
 
 import {
   GetMarketPriceListQuery,
@@ -14,8 +18,16 @@ const { Title } = Typography
 type Market = GetMarketPriceListQuery['kc_market'][0]
 type MarketPrice = Market['market_prices'][0]
 
+type TableData = {
+  market: Market
+  marketPrice: MarketPrice
+}
+
 const QUERY_MARKET_LIST = gql`
-  query getMarketPriceList($timestamp: timestamptz!) {
+  query getMarketPriceList(
+    $timestamp: timestamptz!,
+    $filters: kc_market_price_bool_exp!
+  ) {
     kc_market {
       uid
       id
@@ -33,7 +45,7 @@ const QUERY_MARKET_LIST = gql`
   }
 `
 
-const columns: TableColumnsType<MarketPrice> = [
+const columns: TableColumnsType<TableData> = [
   {
     title: 'Name',
     dataIndex: ['market', 'name'],
@@ -59,15 +71,37 @@ const columns: TableColumnsType<MarketPrice> = [
 ]
 
 const MarketList = () => {
+  const [primaryCurrency, setPrimaryCurrency] = useState<string | undefined>(
+    undefined,
+  )
+  const [secondaryCurrency, setSecoundaryCurrency] = useState<
+    string | undefined
+  >(undefined)
+
+  const handleChangePrimaryCurrency = (option: null | { symbol: string | undefined }) => {
+    setPrimaryCurrency(option?.symbol)
+  }
+
+  const handleChangeSecondaryCurrency = (option: null | { symbol: string | undefined}) => {
+    setSecoundaryCurrency(option?.symbol)
+  }
+
+  const timestamp = DateTime.local().minus({ minutes: 1 }).set({ second: 0, millisecond: 0 }).toISO()
+
   const { data, loading, error } = useQuery<
     GetMarketPriceListQuery,
     GetMarketPriceListQueryVariables
   >(QUERY_MARKET_LIST, {
     variables: {
-      timestamp: DateTime.local()
-        .minus({ minutes: 1 })
-        .set({ second: 0, millisecond: 0 })
-        .toISO(),
+      timestamp,
+      filters: {
+        asset_symbol: {
+          _eq: primaryCurrency,
+        },
+        currency: {
+          _eq: secondaryCurrency,
+        },
+      }
     },
   })
 
@@ -87,10 +121,30 @@ const MarketList = () => {
   )
 
   return (
-    <div>
-      <Title level={2}>Market Price List</Title>
-      <Table columns={columns} dataSource={dataSource} loading={loading} />
-    </div>
+    <Layout.Content>
+      <Row>
+        <Col span={6} offset={6}>
+          <Title level={2}>Market Price List</Title>
+        </Col>
+        <Col span={3}>
+          <SelectAsset
+            onChange={handleChangePrimaryCurrency}
+            defaultValue={
+              primaryCurrency ? { symbol: primaryCurrency } : undefined
+            }
+          />
+        </Col>
+        <Col span={3}>
+          <SelectCurrency
+            onChange={handleChangeSecondaryCurrency}
+            defaultValue={
+              secondaryCurrency ? { symbol: secondaryCurrency } : undefined
+            }
+          />
+        </Col>
+    </Row>
+      <Table columns={columns} dataSource={dataSource} loading={loading} pagination={false} />
+    </Layout.Content>
   )
 }
 

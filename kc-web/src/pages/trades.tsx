@@ -17,14 +17,14 @@ const Trades = () => {
   >(undefined)
 
   const handleChangePrimaryCurrency = useCallback(
-    (option: null | { symbol: string }) => {
+    (option: null | { symbol: string | undefined}) => {
       setPrimaryCurrency(option?.symbol)
     },
     [setPrimaryCurrency],
   )
 
   const handleChangeSecondaryCurrency = useCallback(
-    (option: null | { symbol: string }) => {
+    (option: null | { symbol: string | undefined}) => {
       setSecoundaryCurrency(option?.symbol)
     },
     [setSecoundaryCurrency],

@@ -2,7 +2,6 @@ import { forwardRef } from 'react'
 import Select, {
   Props as SelectProps,
   SelectInstance,
-  OptionBase,
 } from 'react-select'
 
 // TODO: we should track which symbols are available on which exchanges
@@ -12,7 +11,7 @@ const SYMBOL_OPTIONS = [
   { symbol: 'ETH' },
 ]
 
-type AssetOptions = OptionBase & { symbol: string }
+type AssetOptions = { symbol: string | undefined }
 type SelectAssetInstance = SelectInstance<AssetOptions>
 
 type Props = SelectProps<AssetOptions, false, any>
@@ -24,7 +23,7 @@ const SelectAsset = forwardRef<SelectAssetInstance, Props>((props, ref) => (
     placeholder="Symbol"
     options={SYMBOL_OPTIONS}
     getOptionLabel={(option) => option.symbol ?? '--'}
-    getOptionValue={(option) => option.symbol}
+    getOptionValue={(option) => option.symbol ?? '--'}
   />
 ))
 
