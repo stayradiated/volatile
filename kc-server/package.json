@@ -11,7 +11,7 @@
     "tidy": "xo --fix --ignore ./src/zapatos",
     "build": "del-cli dist && tsc",
     "build:zapatos": "zapatos",
-    "build:ncc": "del-cli dist/ncc && ncc build --no-source-map-register --transpile-only ./src/index.ts --out ./dist/ncc && mv ./dist/ncc/index.js ./dist/ncc/kc-server.js && rm ./dist/ncc/package.json",
+    "build:ncc": "del-cli dist/ncc && ncc build --no-source-map-register --transpile-only ./src/index.ts --out ./dist/ncc && mv ./dist/ncc/index.js ./dist/ncc/kc-server.js",
     "start": "NODE_ENV=production node --require 'dotenv/config' ./dist/index.js"
   },
   "repository": {
