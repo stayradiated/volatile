@@ -12,8 +12,18 @@ import {
 } from 'recharts'
 
 import { GetTradeListQuery } from '../../utils/graphql'
+import { formatCurrency } from '../../utils/format'
 
 type Trade = GetTradeListQuery['kc_trade'][0]
+
+const formatUnixTime = (formatString: string) => (unixTime: number): string => {
+  if (!Number.isFinite(unixTime)) {
+    return ''
+  }
+  return format(new Date(unixTime), formatString)
+}
+const formatUnixTimeAsDate = formatUnixTime('PP')
+const formatUnixTimeAsDateTime = formatUnixTime('PPpp')
 
 type Props = {
   data: Trade[]
@@ -44,17 +54,14 @@ const TradeChart = (props: Props) => {
           dataKey="index"
           name="Time"
           domain={['auto', 'auto']}
-          tickFormatter={(unixTime) => {
-            if (!Number.isFinite(unixTime)) {
-              return ''
-            }
-
-            return format(new Date(unixTime), 'PP')
-          }}
+          tickFormatter={formatUnixTimeAsDate}
           type="number"
         />
         <YAxis domain={['auto', 'auto']} />
-        <Tooltip />
+        <Tooltip
+          formatter={(value: number) => '$' + formatCurrency(value)}
+          labelFormatter={formatUnixTimeAsDateTime}
+        />
         <Legend />
 
         <Line dataKey="value" type="monotone" name="Values" />

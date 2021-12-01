@@ -1,5 +1,6 @@
 import { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client'
 import { setContext } from '@apollo/client/link/context'
+import { offsetLimitPagination } from "@apollo/client/utilities";
 
 import { getSession } from './session-store'
 
@@ -32,22 +33,7 @@ const cache = new InMemoryCache({
     kc_trade: { keyFields: ['uid'] },
     Query: {
       fields: {
-        kc_trade: {
-          keyArgs: false,
-          merge(existing, incoming, body) {
-            const { args } = body as ({ args: { offset?: number }})
-            const { offset = 0 } = args
-
-            // Slicing is necessary because the existing data is
-            // immutable, and frozen in development.
-            const merged = existing ? existing.slice(0) : []
-            for (const [i, element] of incoming.entries()) {
-              merged[offset + i] = element
-            }
-
-            return merged
-          },
-        },
+        kc_trade: offsetLimitPagination(['where'])
       },
     },
   },

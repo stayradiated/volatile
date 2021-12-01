@@ -8,6 +8,7 @@ dbmate \
   --url="${DATABASE_URL}?sslmode=disable&search_path=kc" \
   migrate
 
+# start kc-server.js
 env --ignore-environment \
   HOME="$HOME" \
   NODE_ENV="production" \
@@ -27,7 +28,7 @@ env --ignore-environment \
   /usr/local/bin/node /kc-server/kc-server.js &
 
 # start hasura
-exec env --ignore-environment \
+env --ignore-environment \
   HOME="$HOME" \
   HASURA_ACTIONS_ENDPOINT="http://localhost:7946" \
   HASURA_GRAPHQL_DATABASE_URL="$DATABASE_URL" \
@@ -39,4 +40,6 @@ exec env --ignore-environment \
   HASURA_GRAPHQL_DEV_MODE="false" \
   HASURA_GRAPHQL_ENABLED_LOG_TYPES="startup, http-log, webhook-log, websocket-log, query-log" \
   HASURA_GRAPHQL_UNAUTHORIZED_ROLE="guest" \
-  /bin/docker-entrypoint.sh graphql-engine serve --server-port 7947
+  /bin/docker-entrypoint.sh graphql-engine serve --server-port 7947 &
+
+exec nginx 

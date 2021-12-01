@@ -4,6 +4,16 @@ FROM hasura/graphql-engine:v2.0.10.cli-migrations-v3
 
 WORKDIR /
 
+RUN \
+  apt-get -q update && \
+  apt-get install -y --no-install-recommends --auto-remove nginx && \
+  apt-get -q clean
+
+# add nginx config
+COPY ./kc-docker/nginx.conf /etc/nginx/nginx.conf
+COPY ./kc-web/dist/ /usr/share/nginx/html/
+RUN chmod o+rw -R /var/log/nginx/ /etc/nginx/ /usr/share/nginx/ /var/lib/nginx/ /run/
+
 # add hasusra config
 COPY ./kc-hasura/metadata /hasura-metadata
 

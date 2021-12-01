@@ -14,7 +14,7 @@ type Order = {
   timestamp: string
   type: 'BUY' | 'SELL'
   description: string
-  status: 'Cancelled' | 'Completed'
+  status: 'Cancelled' | 'Completed' | 'Partially filled'
   baseAmount: number
   quoteAmount: number | null
   details: {

@@ -11,6 +11,7 @@ import {
 import { formatCurrency } from '../../utils/format'
 import { TradeChart } from './chart'
 import { TradeStats } from './stats'
+import { ChartWeek } from './chart-week'
 
 type Trade = GetTradeListQuery['kc_trade'][0]
 
@@ -108,12 +109,14 @@ const columns: TableColumnsType<Trade> = [
 ]
 
 type TradeListProps = {
+  startDate?: string,
+  endDate?: string,
   primaryCurrency?: string
   secondaryCurrency?: string
 }
 
 const TradeList = (props: TradeListProps) => {
-  const { primaryCurrency, secondaryCurrency } = props
+  const { startDate, endDate, primaryCurrency, secondaryCurrency } = props
 
   const { data, error, loading, fetchMore } = useQuery<
     GetTradeListQuery,
@@ -123,6 +126,7 @@ const TradeList = (props: TradeListProps) => {
       offset: 0,
       limit: 100,
       filters: {
+        timestamp: { _gte: startDate, _lte: endDate },
         primary_currency: {
           _eq: primaryCurrency,
         },
@@ -148,6 +152,7 @@ const TradeList = (props: TradeListProps) => {
 
   return (
     <>
+      <ChartWeek />
       <TradeStats
         sumValue={agg?.sum?.value ?? 0}
         sumVolume={agg?.sum?.volume ?? 0}
