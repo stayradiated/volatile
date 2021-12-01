@@ -15,7 +15,7 @@ services:
     image: stayradiated/kc:latest
     ports:
       - "127.0.0.1:7947:7947"
-      - "127.0.0.1:7949:80"
+      - "127.0.0.1:7949:7949"
     restart: always
     env_file: 
       - env_kc
