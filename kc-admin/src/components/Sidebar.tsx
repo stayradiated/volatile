@@ -1,11 +1,9 @@
-import React from 'react'
 import useSWR from 'swr'
 
-import { useSessionContext } from '../_utils/session-context'
+import { useSessionContext } from '../utils/session-context'
 
-import { fetchMetadata } from '../_utils/fetch-metadata'
-import { Link } from "../_default/Link";
-import type { Metadata } from '../_utils/types.metadata'
+import { fetchMetadata } from '../utils/fetch-metadata'
+import type { Metadata } from '../utils/types.metadata'
 
 const Sidebar = () => {
   const session = useSessionContext()
@@ -32,8 +30,10 @@ const Sidebar = () => {
       }}
     >
       {cronTriggers.map((cronTrigger) => (
-        <Link key={cronTrigger.name} href={`/event/${cronTrigger.name}`}>{cronTrigger.name}</Link>
+        <a key={cronTrigger.name} href={`/event/?trigger=${cronTrigger.name}`}>{cronTrigger.name}</a>
       ))}
+
+      <a href='/exchange/'>Manage Exchanges</a>
     </div>
   );
 }

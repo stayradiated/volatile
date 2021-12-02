@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import { useCallback } from 'react'
 import useSWRInfinite from 'swr/infinite'
 import { FixedSizeList, FixedSizeListProps } from 'react-window'
 import AutoSizer from 'react-virtualized-auto-sizer'
@@ -6,9 +6,9 @@ import InfiniteLoader from 'react-window-infinite-loader'
 
 import styles from './EventList.module.css'
 
-import { useSessionContext } from '../_utils/session-context'
-import type { InvocationResponse, Invocation } from '../_utils/types.invocation'
-import { fetchMetadata } from '../_utils/fetch-metadata'
+import { useSessionContext } from '../utils/session-context'
+import type { InvocationResponse, Invocation } from '../utils/types.invocation'
+import { fetchMetadata } from '../utils/fetch-metadata'
 
 import { EventListItem } from './EventListItem'
 
@@ -54,7 +54,7 @@ const EventList = (props: EventListProps) => {
     )
   }
 
-  const itemCount = data?.length > 0 ? data[0].count : 0
+  const itemCount = data?.length! > 0 ? data![0].count : 0
 
   const isItemLoaded = (index: number): boolean => {
     const bucket = Math.floor(index/100)

@@ -20,7 +20,6 @@ export default defineConfig({
   },
   server: {
     proxy: {
-      // with options
       '/hasura': {
         target: 'http://localhost:7947',
         changeOrigin: true,

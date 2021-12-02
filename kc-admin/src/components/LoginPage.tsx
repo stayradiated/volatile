@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react'
 
-import { fetchConfig, isAPIError } from '../_utils/fetch-config'
-import { setSession } from '../_utils/session-store'
+import { fetchConfig, isAPIError } from '../utils/fetch-config'
+import { setSession } from '../utils/session-store'
 
 const LoginPage = () => {
   const [error, setError] = useState<string|null>(null)

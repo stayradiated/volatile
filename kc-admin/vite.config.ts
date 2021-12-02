@@ -1,9 +1,25 @@
-import reactRefresh from "@vitejs/plugin-react-refresh";
-import ssr from "vite-plugin-ssr/plugin";
-import { UserConfig } from "vite";
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import { resolve } from 'path'
 
-const config: UserConfig = {
-  plugins: [reactRefresh(), ssr()],
-};
-
-export default config;
+export default defineConfig({
+  plugins: [react()],
+  base: '/admin/',
+  build: {
+    rollupOptions: {
+      input: {
+        'main': resolve(__dirname, 'index.html'),
+      }
+    }
+  },
+  server: {
+    proxy: {
+      '/hasura': {
+        target: 'http://localhost:7947',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/hasura/, ''),
+        secure: false
+      }
+    }
+  }
+})

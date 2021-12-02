@@ -5,3 +5,4 @@
 !/kc-server/dist/ncc
 !/kc-server/db/migrations
 !/kc-web/dist/
+!/kc-admin/dist/

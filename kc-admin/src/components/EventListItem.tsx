@@ -1,9 +1,8 @@
-import React from 'react'
 import { DateTime } from 'luxon'
 
 import styles from './EventListItem.module.css'
 
-import type {Invocation } from '../_utils/types.invocation'
+import type {Invocation } from '../utils/types.invocation'
 
 type EventListItemProps = {
   invocation: Invocation

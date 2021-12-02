@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 
 import { EventList } from './EventList'
 import { EventDetails } from './EventDetails'
 
 import styles from './EventPage.module.css'
 
-import type { Invocation } from '../_utils/types.invocation'
+import type { Invocation } from '../utils/types.invocation'
 
 type EventPageProps = {
   triggerName: string

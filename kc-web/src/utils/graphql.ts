@@ -2371,6 +2371,186 @@ export type Kc_Trade_Sum_Order_By = {
   volume?: InputMaybe<Order_By>;
 };
 
+/** columns and relationships of "kc.trade_sum_value_by_month" */
+export type Kc_Trade_Sum_Value_By_Month = {
+  __typename?: 'kc_trade_sum_value_by_month';
+  month?: Maybe<Scalars['timestamptz']>;
+  primary_currency?: Maybe<Scalars['String']>;
+  secondary_currency?: Maybe<Scalars['String']>;
+  sum?: Maybe<Scalars['numeric']>;
+  user_uid?: Maybe<Scalars['uuid']>;
+};
+
+/** Boolean expression to filter rows from the table "kc.trade_sum_value_by_month". All fields are combined with a logical 'AND'. */
+export type Kc_Trade_Sum_Value_By_Month_Bool_Exp = {
+  _and?: InputMaybe<Array<Kc_Trade_Sum_Value_By_Month_Bool_Exp>>;
+  _not?: InputMaybe<Kc_Trade_Sum_Value_By_Month_Bool_Exp>;
+  _or?: InputMaybe<Array<Kc_Trade_Sum_Value_By_Month_Bool_Exp>>;
+  month?: InputMaybe<Timestamptz_Comparison_Exp>;
+  primary_currency?: InputMaybe<String_Comparison_Exp>;
+  secondary_currency?: InputMaybe<String_Comparison_Exp>;
+  sum?: InputMaybe<Numeric_Comparison_Exp>;
+  user_uid?: InputMaybe<Uuid_Comparison_Exp>;
+};
+
+/** Ordering options when selecting data from "kc.trade_sum_value_by_month". */
+export type Kc_Trade_Sum_Value_By_Month_Order_By = {
+  month?: InputMaybe<Order_By>;
+  primary_currency?: InputMaybe<Order_By>;
+  secondary_currency?: InputMaybe<Order_By>;
+  sum?: InputMaybe<Order_By>;
+  user_uid?: InputMaybe<Order_By>;
+};
+
+/** select columns of table "kc.trade_sum_value_by_month" */
+export enum Kc_Trade_Sum_Value_By_Month_Select_Column {
+  /** column name */
+  Month = 'month',
+  /** column name */
+  PrimaryCurrency = 'primary_currency',
+  /** column name */
+  SecondaryCurrency = 'secondary_currency',
+  /** column name */
+  Sum = 'sum',
+  /** column name */
+  UserUid = 'user_uid'
+}
+
+/** columns and relationships of "kc.trade_sum_value_by_week" */
+export type Kc_Trade_Sum_Value_By_Week = {
+  __typename?: 'kc_trade_sum_value_by_week';
+  primary_currency?: Maybe<Scalars['String']>;
+  secondary_currency?: Maybe<Scalars['String']>;
+  sum?: Maybe<Scalars['numeric']>;
+  user_uid?: Maybe<Scalars['uuid']>;
+  week?: Maybe<Scalars['timestamptz']>;
+};
+
+/** Boolean expression to filter rows from the table "kc.trade_sum_value_by_week". All fields are combined with a logical 'AND'. */
+export type Kc_Trade_Sum_Value_By_Week_Bool_Exp = {
+  _and?: InputMaybe<Array<Kc_Trade_Sum_Value_By_Week_Bool_Exp>>;
+  _not?: InputMaybe<Kc_Trade_Sum_Value_By_Week_Bool_Exp>;
+  _or?: InputMaybe<Array<Kc_Trade_Sum_Value_By_Week_Bool_Exp>>;
+  primary_currency?: InputMaybe<String_Comparison_Exp>;
+  secondary_currency?: InputMaybe<String_Comparison_Exp>;
+  sum?: InputMaybe<Numeric_Comparison_Exp>;
+  user_uid?: InputMaybe<Uuid_Comparison_Exp>;
+  week?: InputMaybe<Timestamptz_Comparison_Exp>;
+};
+
+/** Ordering options when selecting data from "kc.trade_sum_value_by_week". */
+export type Kc_Trade_Sum_Value_By_Week_Order_By = {
+  primary_currency?: InputMaybe<Order_By>;
+  secondary_currency?: InputMaybe<Order_By>;
+  sum?: InputMaybe<Order_By>;
+  user_uid?: InputMaybe<Order_By>;
+  week?: InputMaybe<Order_By>;
+};
+
+/** select columns of table "kc.trade_sum_value_by_week" */
+export enum Kc_Trade_Sum_Value_By_Week_Select_Column {
+  /** column name */
+  PrimaryCurrency = 'primary_currency',
+  /** column name */
+  SecondaryCurrency = 'secondary_currency',
+  /** column name */
+  Sum = 'sum',
+  /** column name */
+  UserUid = 'user_uid',
+  /** column name */
+  Week = 'week'
+}
+
+/** columns and relationships of "kc.trade_sum_volume_by_month" */
+export type Kc_Trade_Sum_Volume_By_Month = {
+  __typename?: 'kc_trade_sum_volume_by_month';
+  month?: Maybe<Scalars['timestamptz']>;
+  primary_currency?: Maybe<Scalars['String']>;
+  secondary_currency?: Maybe<Scalars['String']>;
+  sum?: Maybe<Scalars['numeric']>;
+  user_uid?: Maybe<Scalars['uuid']>;
+};
+
+/** Boolean expression to filter rows from the table "kc.trade_sum_volume_by_month". All fields are combined with a logical 'AND'. */
+export type Kc_Trade_Sum_Volume_By_Month_Bool_Exp = {
+  _and?: InputMaybe<Array<Kc_Trade_Sum_Volume_By_Month_Bool_Exp>>;
+  _not?: InputMaybe<Kc_Trade_Sum_Volume_By_Month_Bool_Exp>;
+  _or?: InputMaybe<Array<Kc_Trade_Sum_Volume_By_Month_Bool_Exp>>;
+  month?: InputMaybe<Timestamptz_Comparison_Exp>;
+  primary_currency?: InputMaybe<String_Comparison_Exp>;
+  secondary_currency?: InputMaybe<String_Comparison_Exp>;
+  sum?: InputMaybe<Numeric_Comparison_Exp>;
+  user_uid?: InputMaybe<Uuid_Comparison_Exp>;
+};
+
+/** Ordering options when selecting data from "kc.trade_sum_volume_by_month". */
+export type Kc_Trade_Sum_Volume_By_Month_Order_By = {
+  month?: InputMaybe<Order_By>;
+  primary_currency?: InputMaybe<Order_By>;
+  secondary_currency?: InputMaybe<Order_By>;
+  sum?: InputMaybe<Order_By>;
+  user_uid?: InputMaybe<Order_By>;
+};
+
+/** select columns of table "kc.trade_sum_volume_by_month" */
+export enum Kc_Trade_Sum_Volume_By_Month_Select_Column {
+  /** column name */
+  Month = 'month',
+  /** column name */
+  PrimaryCurrency = 'primary_currency',
+  /** column name */
+  SecondaryCurrency = 'secondary_currency',
+  /** column name */
+  Sum = 'sum',
+  /** column name */
+  UserUid = 'user_uid'
+}
+
+/** columns and relationships of "kc.trade_sum_volume_by_week" */
+export type Kc_Trade_Sum_Volume_By_Week = {
+  __typename?: 'kc_trade_sum_volume_by_week';
+  primary_currency?: Maybe<Scalars['String']>;
+  secondary_currency?: Maybe<Scalars['String']>;
+  sum?: Maybe<Scalars['numeric']>;
+  user_uid?: Maybe<Scalars['uuid']>;
+  week?: Maybe<Scalars['timestamptz']>;
+};
+
+/** Boolean expression to filter rows from the table "kc.trade_sum_volume_by_week". All fields are combined with a logical 'AND'. */
+export type Kc_Trade_Sum_Volume_By_Week_Bool_Exp = {
+  _and?: InputMaybe<Array<Kc_Trade_Sum_Volume_By_Week_Bool_Exp>>;
+  _not?: InputMaybe<Kc_Trade_Sum_Volume_By_Week_Bool_Exp>;
+  _or?: InputMaybe<Array<Kc_Trade_Sum_Volume_By_Week_Bool_Exp>>;
+  primary_currency?: InputMaybe<String_Comparison_Exp>;
+  secondary_currency?: InputMaybe<String_Comparison_Exp>;
+  sum?: InputMaybe<Numeric_Comparison_Exp>;
+  user_uid?: InputMaybe<Uuid_Comparison_Exp>;
+  week?: InputMaybe<Timestamptz_Comparison_Exp>;
+};
+
+/** Ordering options when selecting data from "kc.trade_sum_volume_by_week". */
+export type Kc_Trade_Sum_Volume_By_Week_Order_By = {
+  primary_currency?: InputMaybe<Order_By>;
+  secondary_currency?: InputMaybe<Order_By>;
+  sum?: InputMaybe<Order_By>;
+  user_uid?: InputMaybe<Order_By>;
+  week?: InputMaybe<Order_By>;
+};
+
+/** select columns of table "kc.trade_sum_volume_by_week" */
+export enum Kc_Trade_Sum_Volume_By_Week_Select_Column {
+  /** column name */
+  PrimaryCurrency = 'primary_currency',
+  /** column name */
+  SecondaryCurrency = 'secondary_currency',
+  /** column name */
+  Sum = 'sum',
+  /** column name */
+  UserUid = 'user_uid',
+  /** column name */
+  Week = 'week'
+}
+
 /** aggregate var_pop on columns */
 export type Kc_Trade_Var_Pop_Fields = {
   __typename?: 'kc_trade_var_pop_fields';
@@ -3316,6 +3496,14 @@ export type Query_Root = {
   kc_trade_aggregate: Kc_Trade_Aggregate;
   /** fetch data from the table: "kc.trade" using primary key columns */
   kc_trade_by_pk?: Maybe<Kc_Trade>;
+  /** fetch data from the table: "kc.trade_sum_value_by_month" */
+  kc_trade_sum_value_by_month: Array<Kc_Trade_Sum_Value_By_Month>;
+  /** fetch data from the table: "kc.trade_sum_value_by_week" */
+  kc_trade_sum_value_by_week: Array<Kc_Trade_Sum_Value_By_Week>;
+  /** fetch data from the table: "kc.trade_sum_volume_by_month" */
+  kc_trade_sum_volume_by_month: Array<Kc_Trade_Sum_Volume_By_Month>;
+  /** fetch data from the table: "kc.trade_sum_volume_by_week" */
+  kc_trade_sum_volume_by_week: Array<Kc_Trade_Sum_Volume_By_Week>;
   /** fetch data from the table: "kc.user" */
   kc_user: Array<Kc_User>;
   /** fetch data from the table: "kc.user_2fa" */
@@ -3531,6 +3719,42 @@ export type Query_RootKc_Trade_By_PkArgs = {
 };
 
 
+export type Query_RootKc_Trade_Sum_Value_By_MonthArgs = {
+  distinct_on?: InputMaybe<Array<Kc_Trade_Sum_Value_By_Month_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Kc_Trade_Sum_Value_By_Month_Order_By>>;
+  where?: InputMaybe<Kc_Trade_Sum_Value_By_Month_Bool_Exp>;
+};
+
+
+export type Query_RootKc_Trade_Sum_Value_By_WeekArgs = {
+  distinct_on?: InputMaybe<Array<Kc_Trade_Sum_Value_By_Week_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Kc_Trade_Sum_Value_By_Week_Order_By>>;
+  where?: InputMaybe<Kc_Trade_Sum_Value_By_Week_Bool_Exp>;
+};
+
+
+export type Query_RootKc_Trade_Sum_Volume_By_MonthArgs = {
+  distinct_on?: InputMaybe<Array<Kc_Trade_Sum_Volume_By_Month_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Kc_Trade_Sum_Volume_By_Month_Order_By>>;
+  where?: InputMaybe<Kc_Trade_Sum_Volume_By_Month_Bool_Exp>;
+};
+
+
+export type Query_RootKc_Trade_Sum_Volume_By_WeekArgs = {
+  distinct_on?: InputMaybe<Array<Kc_Trade_Sum_Volume_By_Week_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Kc_Trade_Sum_Volume_By_Week_Order_By>>;
+  where?: InputMaybe<Kc_Trade_Sum_Volume_By_Week_Bool_Exp>;
+};
+
+
 export type Query_RootKc_UserArgs = {
   distinct_on?: InputMaybe<Array<Kc_User_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -3656,6 +3880,14 @@ export type Subscription_Root = {
   kc_trade_aggregate: Kc_Trade_Aggregate;
   /** fetch data from the table: "kc.trade" using primary key columns */
   kc_trade_by_pk?: Maybe<Kc_Trade>;
+  /** fetch data from the table: "kc.trade_sum_value_by_month" */
+  kc_trade_sum_value_by_month: Array<Kc_Trade_Sum_Value_By_Month>;
+  /** fetch data from the table: "kc.trade_sum_value_by_week" */
+  kc_trade_sum_value_by_week: Array<Kc_Trade_Sum_Value_By_Week>;
+  /** fetch data from the table: "kc.trade_sum_volume_by_month" */
+  kc_trade_sum_volume_by_month: Array<Kc_Trade_Sum_Volume_By_Month>;
+  /** fetch data from the table: "kc.trade_sum_volume_by_week" */
+  kc_trade_sum_volume_by_week: Array<Kc_Trade_Sum_Volume_By_Week>;
   /** fetch data from the table: "kc.user" */
   kc_user: Array<Kc_User>;
   /** fetch data from the table: "kc.user_2fa" */
@@ -3871,6 +4103,42 @@ export type Subscription_RootKc_Trade_By_PkArgs = {
 };
 
 
+export type Subscription_RootKc_Trade_Sum_Value_By_MonthArgs = {
+  distinct_on?: InputMaybe<Array<Kc_Trade_Sum_Value_By_Month_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Kc_Trade_Sum_Value_By_Month_Order_By>>;
+  where?: InputMaybe<Kc_Trade_Sum_Value_By_Month_Bool_Exp>;
+};
+
+
+export type Subscription_RootKc_Trade_Sum_Value_By_WeekArgs = {
+  distinct_on?: InputMaybe<Array<Kc_Trade_Sum_Value_By_Week_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Kc_Trade_Sum_Value_By_Week_Order_By>>;
+  where?: InputMaybe<Kc_Trade_Sum_Value_By_Week_Bool_Exp>;
+};
+
+
+export type Subscription_RootKc_Trade_Sum_Volume_By_MonthArgs = {
+  distinct_on?: InputMaybe<Array<Kc_Trade_Sum_Volume_By_Month_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Kc_Trade_Sum_Volume_By_Month_Order_By>>;
+  where?: InputMaybe<Kc_Trade_Sum_Volume_By_Month_Bool_Exp>;
+};
+
+
+export type Subscription_RootKc_Trade_Sum_Volume_By_WeekArgs = {
+  distinct_on?: InputMaybe<Array<Kc_Trade_Sum_Volume_By_Week_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Kc_Trade_Sum_Volume_By_Week_Order_By>>;
+  where?: InputMaybe<Kc_Trade_Sum_Volume_By_Week_Bool_Exp>;
+};
+
+
 export type Subscription_RootKc_UserArgs = {
   distinct_on?: InputMaybe<Array<Kc_User_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -4025,6 +4293,11 @@ export type Create_UserMutationVariables = Exact<{
 
 
 export type Create_UserMutation = { __typename?: 'mutation_root', create_user?: { __typename?: 'CreateUserOutput', user_uid: string } | null | undefined };
+
+export type GetTradeSumValueByWeekQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetTradeSumValueByWeekQuery = { __typename?: 'query_root', kc_trade_sum_value_by_week: Array<{ __typename?: 'kc_trade_sum_value_by_week', week?: string | null | undefined, sum?: number | null | undefined, primary_currency?: string | null | undefined, secondary_currency?: string | null | undefined }> };
 
 export type GetTradeListQueryVariables = Exact<{
   filters: Kc_Trade_Bool_Exp;
@@ -4261,6 +4534,17 @@ export const Create_UserDocument = gql`
 export type Create_UserMutationFn = Apollo.MutationFunction<Create_UserMutation, Create_UserMutationVariables>;
 export type Create_UserMutationResult = Apollo.MutationResult<Create_UserMutation>;
 export type Create_UserMutationOptions = Apollo.BaseMutationOptions<Create_UserMutation, Create_UserMutationVariables>;
+export const GetTradeSumValueByWeekDocument = gql`
+    query getTradeSumValueByWeek {
+  kc_trade_sum_value_by_week {
+    week
+    sum
+    primary_currency
+    secondary_currency
+  }
+}
+    `;
+export type GetTradeSumValueByWeekQueryResult = Apollo.QueryResult<GetTradeSumValueByWeekQuery, GetTradeSumValueByWeekQueryVariables>;
 export const GetTradeListDocument = gql`
     query getTradeList($filters: kc_trade_bool_exp!, $offset: Int!, $limit: Int!) {
   kc_trade_aggregate(where: $filters) {

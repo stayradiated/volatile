@@ -1,10 +1,8 @@
-import React from 'react'
-
 import { EventResponse } from './EventResponse'
 
 import styles from './EventDetails.module.css'
 
-import type {Invocation } from '../_utils/types.invocation'
+import type {Invocation } from '../utils/types.invocation'
 
 type EventDetailsProps = {
   event: Invocation | undefined,
