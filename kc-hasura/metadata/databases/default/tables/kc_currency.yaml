@@ -4,6 +4,12 @@ table:
 select_permissions:
 - permission:
     columns:
+    - name
+    - symbol
+    filter: {}
+  role: guest
+- permission:
+    columns:
     - symbol
     - created_at
     - updated_at

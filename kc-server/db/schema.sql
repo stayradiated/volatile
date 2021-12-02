@@ -258,6 +258,66 @@ CREATE TABLE kc.trade (
 
 
 --
+-- Name: trade_sum_value_by_month; Type: VIEW; Schema: kc; Owner: -
+--
+
+CREATE VIEW kc.trade_sum_value_by_month AS
+ SELECT trade.user_uid,
+    date_trunc('month'::text, trade."timestamp") AS month,
+    trade.primary_currency,
+    trade.secondary_currency,
+    sum(trade.value) AS sum
+   FROM kc.trade
+  GROUP BY trade.user_uid, (date_trunc('month'::text, trade."timestamp")), trade.primary_currency, trade.secondary_currency
+  ORDER BY (date_trunc('month'::text, trade."timestamp")) DESC;
+
+
+--
+-- Name: trade_sum_value_by_week; Type: VIEW; Schema: kc; Owner: -
+--
+
+CREATE VIEW kc.trade_sum_value_by_week AS
+ SELECT trade.user_uid,
+    date_trunc('week'::text, trade."timestamp") AS week,
+    trade.primary_currency,
+    trade.secondary_currency,
+    sum(trade.value) AS sum
+   FROM kc.trade
+  GROUP BY trade.user_uid, (date_trunc('week'::text, trade."timestamp")), trade.primary_currency, trade.secondary_currency
+  ORDER BY (date_trunc('week'::text, trade."timestamp")) DESC;
+
+
+--
+-- Name: trade_sum_volume_by_month; Type: VIEW; Schema: kc; Owner: -
+--
+
+CREATE VIEW kc.trade_sum_volume_by_month AS
+ SELECT trade.user_uid,
+    date_trunc('month'::text, trade."timestamp") AS month,
+    trade.primary_currency,
+    trade.secondary_currency,
+    sum(trade.volume) AS sum
+   FROM kc.trade
+  GROUP BY trade.user_uid, (date_trunc('month'::text, trade."timestamp")), trade.primary_currency, trade.secondary_currency
+  ORDER BY (date_trunc('month'::text, trade."timestamp")) DESC;
+
+
+--
+-- Name: trade_sum_volume_by_week; Type: VIEW; Schema: kc; Owner: -
+--
+
+CREATE VIEW kc.trade_sum_volume_by_week AS
+ SELECT trade.user_uid,
+    date_trunc('week'::text, trade."timestamp") AS week,
+    trade.primary_currency,
+    trade.secondary_currency,
+    sum(trade.volume) AS sum
+   FROM kc.trade
+  GROUP BY trade.user_uid, (date_trunc('week'::text, trade."timestamp")), trade.primary_currency, trade.secondary_currency
+  ORDER BY (date_trunc('week'::text, trade."timestamp")) DESC;
+
+
+--
 -- Name: user; Type: TABLE; Schema: kc; Owner: -
 --
 
@@ -795,4 +855,5 @@ INSERT INTO kc.schema_migrations (version) VALUES
     ('20210905043231'),
     ('20211127183330'),
     ('20211128100212'),
-    ('20211128103149');
+    ('20211128103149'),
+    ('20211201065401');
