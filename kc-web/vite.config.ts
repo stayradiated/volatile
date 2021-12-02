@@ -17,5 +17,16 @@ export default defineConfig({
         'trades': resolve(__dirname, 'trades/index.html'),
       }
     }
+  },
+  server: {
+    proxy: {
+      // with options
+      '/hasura': {
+        target: 'http://localhost:7947',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/hasura/, ''),
+        secure: false
+      }
+    }
   }
 })

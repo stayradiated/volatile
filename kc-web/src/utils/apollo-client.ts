@@ -5,8 +5,7 @@ import { offsetLimitPagination } from "@apollo/client/utilities";
 import { getSession } from './session-store'
 
 const httpLink = createHttpLink({
-  // uri: 'http://localhost:9999/v1/graphql',
-  uri: 'http://localhost:7947/v1/graphql',
+  uri: '/hasura/v1/graphql',
 })
 
 const authLink = setContext((_request, { headers }) => {
