@@ -11,8 +11,8 @@ RUN \
 
 # add nginx config
 COPY ./kc-docker/nginx.conf /etc/nginx/nginx.conf
-COPY ./kc-web/dist/ /usr/share/nginx/kc-web/
-COPY ./kc-admin/dist/ /usr/share/nginx/kc-admin/
+COPY ./kc-web/dist/ /usr/share/nginx/web/
+COPY ./kc-admin/dist/ /usr/share/nginx/admin/
 RUN chmod o+rw -R /var/log/nginx/ /etc/nginx/ /usr/share/nginx/ /var/lib/nginx/ /run/
 
 # add hasusra config

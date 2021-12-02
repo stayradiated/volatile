@@ -1,4 +1,4 @@
-import { DateTime } from 'luxon'
+import { parseISO, format } from 'date-fns'
 
 import styles from './EventListItem.module.css'
 
@@ -12,7 +12,7 @@ type EventListItemProps = {
 const EventListItem = (props: EventListItemProps) => {
   const { invocation, onClick } = props
   const { status } = invocation
-  const createdAt = DateTime.fromISO(invocation.created_at)
+  const createdAt = format(parseISO(invocation.created_at), 'PPp')
   
   const statusClassName = status >= 200 && status <= 200
     ? styles.statusSuccess
@@ -30,7 +30,7 @@ const EventListItem = (props: EventListItemProps) => {
   return (
     <div className={styles.container} onClick={handleClick}>
       <div className={statusClassName}>{status}</div>
-      <div className={styles.createdAt}>{createdAt.toFormat('ff')}</div>
+      <div className={styles.createdAt}>{createdAt}</div>
       <div className={styles.message}>{message}</div>
     </div>
   )

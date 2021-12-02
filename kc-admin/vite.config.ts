@@ -9,6 +9,8 @@ export default defineConfig({
     rollupOptions: {
       input: {
         'main': resolve(__dirname, 'index.html'),
+        'event': resolve(__dirname, 'event/index.html'),
+        'exchange': resolve(__dirname, 'exchange/index.html'),
       }
     }
   },

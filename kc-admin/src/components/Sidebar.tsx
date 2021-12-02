@@ -30,7 +30,7 @@ const Sidebar = () => {
       }}
     >
       {cronTriggers.map((cronTrigger) => (
-        <a key={cronTrigger.name} href={`/event/?trigger=${cronTrigger.name}`}>{cronTrigger.name}</a>
+        <a key={cronTrigger.name} href={`/admin/event/?trigger=${cronTrigger.name}`}>{cronTrigger.name}</a>
       ))}
 
       <a href='/exchange/'>Manage Exchanges</a>
