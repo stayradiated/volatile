@@ -1,6 +1,6 @@
 import { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client'
 import { setContext } from '@apollo/client/link/context'
-import { offsetLimitPagination } from "@apollo/client/utilities";
+import { offsetLimitPagination } from '@apollo/client/utilities'
 
 import { getSession } from './session-store'
 
@@ -32,7 +32,7 @@ const cache = new InMemoryCache({
     kc_trade: { keyFields: ['uid'] },
     Query: {
       fields: {
-        kc_trade: offsetLimitPagination(['where'])
+        kc_trade: offsetLimitPagination(['where']),
       },
     },
   },

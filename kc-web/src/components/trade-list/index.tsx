@@ -109,8 +109,8 @@ const columns: TableColumnsType<Trade> = [
 ]
 
 type TradeListProps = {
-  startDate?: string,
-  endDate?: string,
+  startDate?: string
+  endDate?: string
   primaryCurrency?: string
   secondaryCurrency?: string
 }
@@ -162,6 +162,7 @@ const TradeList = (props: TradeListProps) => {
       />
       <TradeChart data={data?.kc_trade ?? []} />
       <Table
+        rowKey='uid'
         columns={columns}
         dataSource={data?.kc_trade ?? []}
         loading={loading}

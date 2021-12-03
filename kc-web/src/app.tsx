@@ -1,5 +1,7 @@
+import React from 'react'
 import { ApolloProvider } from '@apollo/client'
-import { client } from '../utils/apollo-client'
+
+import { client } from './utils/apollo-client'
 
 import 'antd/dist/antd.css'
 
@@ -9,7 +11,11 @@ type Props = {
 
 const App = (props: Props) => {
   const { children } = props
-  return <ApolloProvider client={client}>{children}</ApolloProvider>
+  return (
+    <React.StrictMode>
+      <ApolloProvider client={client}>{children}</ApolloProvider>
+    </React.StrictMode>
+  )
 }
 
 export default App

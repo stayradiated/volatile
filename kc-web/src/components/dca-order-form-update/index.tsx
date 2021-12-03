@@ -72,9 +72,9 @@ const UpdateDCAOrderForm = (props: Props) => {
     []) as UserExchangeKeysOption[]
 
   const [userExchangeKeyOption, setUserExchangeKeyOption] =
-    useState<UserExchangeKeysOption|null>(null)
-  const [marketOption, setMarketOption] = useState<MarketOptions|null>(null)
-  const [startAt, setStartAt] = useState<Moment|null>(moment())
+    useState<UserExchangeKeysOption | null>(null)
+  const [marketOption, setMarketOption] = useState<MarketOptions | null>(null)
+  const [startAt, setStartAt] = useState<Moment | null>(moment())
   const [minValue, setMinValue] = useState<number>(0)
   const [maxValue, setMaxValue] = useState<number>(0)
   const [marketOffset, setMarketOffset] = useState<number>(0)
@@ -86,12 +86,12 @@ const UpdateDCAOrderForm = (props: Props) => {
     setUserExchangeKeyOption(
       userExchangeKeysOptions.find((item) => {
         return item.uid === order?.user_exchange_keys_uid
-      }) ?? null
+      }) ?? null,
     )
     setMarketOption(
       marketOptions.find((item) => {
         return item.uid === order?.market_uid
-      }) ?? null
+      }) ?? null,
     )
     setStartAt(order ? moment(parseISO(order.start_at)) : moment())
     setMinValue(order?.min_value ?? 0)

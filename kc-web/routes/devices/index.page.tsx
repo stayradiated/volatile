@@ -1,20 +1,20 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import { UserDeviceList } from '../components/user-device-list/index'
+import { UserDeviceList } from '../../src/components/user-device-list/index'
 
-import App from './_app'
+import App from '../../src/app'
 
 const Devices = () => (
-  <App>
+  <>
     <h1>Devices</h1>
     <UserDeviceList />
-  </App>
+  </>
 )
 
 ReactDOM.render(
-  <React.StrictMode>
+  <App>
     <Devices />
-  </React.StrictMode>,
+  </App>,
   document.querySelector('#root'),
 )

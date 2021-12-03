@@ -3,18 +3,19 @@ import react from "@vitejs/plugin-react";
 import { resolve } from 'path'
 
 export default defineConfig({
+  root: 'routes',
   plugins: [react()],
   build: {
     rollupOptions: {
       input: {
-        'dca-orders': resolve(__dirname, 'dca-orders/index.html'),
-        'devices': resolve(__dirname, 'devices/index.html'),
-        'login': resolve(__dirname, 'login/index.html'),
-        'main': resolve(__dirname, 'index.html'),
-        'open-orders': resolve(__dirname, 'open-orders/index.html'),
-        'register': resolve(__dirname, 'register/index.html'),
-        'settings': resolve(__dirname, 'settings/index.html'),
-        'trades': resolve(__dirname, 'trades/index.html'),
+        'dca-orders': resolve(__dirname, 'routes/dca-orders/index.html'),
+        'devices': resolve(__dirname, 'routes/devices/index.html'),
+        'login': resolve(__dirname, 'routes/login/index.html'),
+        'main': resolve(__dirname, 'routes/index.html'),
+        'open-orders': resolve(__dirname, 'routes/open-orders/index.html'),
+        'register': resolve(__dirname, 'routes/register/index.html'),
+        'settings': resolve(__dirname, 'routes/settings/index.html'),
+        'trades': resolve(__dirname, 'routes/trades/index.html'),
       }
     }
   },

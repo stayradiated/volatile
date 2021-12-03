@@ -47,7 +47,8 @@ const MUTATION_CREATE_DCA_ORDER = gql`
   }
 `
 
-type UserExchangeKeysOptions = GetInsertDcaOrderFormQuery['kc_user_exchange_keys'][0]
+type UserExchangeKeysOptions =
+  GetInsertDcaOrderFormQuery['kc_user_exchange_keys'][0]
 
 type MarketOptions = GetInsertDcaOrderFormQuery['kc_market'][0]
 
@@ -159,9 +160,8 @@ const InsertDCAOrderForm = () => {
     return <p>{error.message}</p>
   }
 
-  const marketOptions = (data?.kc_market ?? []) as MarketOptions[]
-  const userExchangeKeysOptions = (data?.kc_user_exchange_keys ??
-    []) as UserExchangeKeysOptions[]
+  const marketOptions = data?.kc_market ?? []
+  const userExchangeKeysOptions = data?.kc_user_exchange_keys ?? []
 
   return (
     <div>

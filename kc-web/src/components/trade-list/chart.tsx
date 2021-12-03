@@ -16,12 +16,16 @@ import { formatCurrency } from '../../utils/format'
 
 type Trade = GetTradeListQuery['kc_trade'][0]
 
-const formatUnixTime = (formatString: string) => (unixTime: number): string => {
-  if (!Number.isFinite(unixTime)) {
-    return ''
+const formatUnixTime =
+  (formatString: string) =>
+  (unixTime: number): string => {
+    if (!Number.isFinite(unixTime)) {
+      return ''
+    }
+
+    return format(new Date(unixTime), formatString)
   }
-  return format(new Date(unixTime), formatString)
-}
+
 const formatUnixTimeAsDate = formatUnixTime('PP')
 const formatUnixTimeAsDateTime = formatUnixTime('PPpp')
 
@@ -36,7 +40,7 @@ const TradeChart = (props: Props) => {
     .sort((a, b) => {
       return a.timestamp.localeCompare(b.timestamp)
     })
-    .reduce<{index: number, value: number}[]>((acc, trade, index) => {
+    .reduce<Array<{ index: number; value: number }>>((acc, trade, index) => {
       acc.push({
         index: getTime(parseISO(trade.timestamp)),
         value: trade.value + (acc[index - 1]?.value ?? 0),

@@ -68,6 +68,7 @@ const ExchangeList = () => {
     <div>
       <Typography.Title level={2}>Exchange List</Typography.Title>
       <Table
+        rowKey="uid"
         columns={columns}
         dataSource={data?.kc_exchange ?? []}
         loading={loading}

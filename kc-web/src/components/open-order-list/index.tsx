@@ -12,6 +12,7 @@ type Order = GetOpenOrderListQuery['kc_order'][0]
 const QUERY = gql`
   query getOpenOrderList {
     kc_order(where: { closed_at: { _is_null: true } }) {
+      uid
       exchange {
         uid
         id
@@ -77,9 +78,11 @@ const OpenOrderList = () => {
   return (
     <>
       <Table
+        rowKey='uid'
         columns={columns}
         dataSource={data?.kc_order ?? []}
         loading={loading}
+        pagination={false}
       />
     </>
   )

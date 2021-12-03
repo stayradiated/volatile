@@ -13,12 +13,16 @@ import { parseISO, getTime, format } from 'date-fns'
 
 import { formatCurrency } from '../../utils/format'
 
-const formatUnixTime = (formatString: string) => (unixTime: number): string => {
-  if (!Number.isFinite(unixTime)) {
-    return ''
+const formatUnixTime =
+  (formatString: string) =>
+  (unixTime: number): string => {
+    if (!Number.isFinite(unixTime)) {
+      return ''
+    }
+
+    return format(new Date(unixTime), formatString)
   }
-  return format(new Date(unixTime), formatString)
-}
+
 const formatUnixTimeAsDate = formatUnixTime('PP')
 const formatUnixTimeAsDateTime = formatUnixTime('PPpp')
 
@@ -39,38 +43,42 @@ const ChartWeek = () => {
   if (loading) {
     return <>'Loading...'</>
   }
+
   if (error) {
     throw error
   }
 
-  const chartData = [...[...data.kc_trade_sum_value_by_week]
-    .map((row) => {
-      const key = `${row.primary_currency}-${row.secondary_currency}`
-      return {
-        index: getTime(parseISO(row.week)),
-        key,
-        value: row.sum
-      }
-    })
-    .reduce<Map<number,Record<string, number>>>((acc, row) => {
-      const { index, key, value } = row
-      if (acc.has(index) === false) {
-        acc.set(index, { index, sum :0 })
-      }
-      acc.get(index)![key] = value
-      acc.get(index)!.sum += value
-      return acc
-    }, new Map())
-    .values()]
-    .sort((a, b) => a.index - b.index)
+  const chartData = [
+    ...[...data.kc_trade_sum_value_by_week]
+      .map((row) => {
+        const key = `${row.primary_currency}-${row.secondary_currency}`
+        return {
+          index: getTime(parseISO(row.week)),
+          key,
+          value: row.sum,
+        }
+      })
+      .reduce<Map<number, Record<string, number>>>((acc, row) => {
+        const { index, key, value } = row
+        if (!acc.has(index)) {
+          acc.set(index, { index, sum: 0 })
+        }
 
-    console.log(chartData)
+        acc.get(index)![key] = value
+        acc.get(index)!.sum += value
+        return acc
+      }, new Map())
+      .values(),
+  ].sort((a, b) => a.index - b.index)
+
+  console.log(chartData)
 
   return (
     <ResponsiveContainer height={250}>
       <BarChart data={chartData}>
         <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="index"
+        <XAxis
+          dataKey="index"
           name="Time"
           domain={['auto', 'auto']}
           tickFormatter={formatUnixTimeAsDate}

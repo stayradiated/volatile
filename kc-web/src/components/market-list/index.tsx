@@ -5,8 +5,8 @@ import { Table, TableColumnsType, Typography, Layout, Row, Col } from 'antd'
 
 import { formatCurrency } from '../../utils/format'
 
-import { SelectAsset } from '../../components/select/asset'
-import { SelectCurrency } from '../../components/select/currency'
+import { SelectAsset } from '../select/asset'
+import { SelectCurrency } from '../select/currency'
 
 import {
   GetMarketPriceListQuery,
@@ -25,7 +25,7 @@ type TableData = {
 
 const QUERY_MARKET_LIST = gql`
   query getMarketPriceList(
-    $timestamp: timestamptz!,
+    $timestamp: timestamptz!
     $filters: kc_market_price_bool_exp!
   ) {
     kc_market {
@@ -78,15 +78,22 @@ const MarketList = () => {
     string | undefined
   >(undefined)
 
-  const handleChangePrimaryCurrency = (option: null | { symbol: string | undefined }) => {
+  const handleChangePrimaryCurrency = (
+    option: null | { symbol: string | undefined },
+  ) => {
     setPrimaryCurrency(option?.symbol)
   }
 
-  const handleChangeSecondaryCurrency = (option: null | { symbol: string | undefined}) => {
+  const handleChangeSecondaryCurrency = (
+    option: null | { symbol: string | undefined },
+  ) => {
     setSecoundaryCurrency(option?.symbol)
   }
 
-  const timestamp = DateTime.local().minus({ minutes: 1 }).set({ second: 0, millisecond: 0 }).toISO()
+  const timestamp = DateTime.local()
+    .minus({ minutes: 1 })
+    .set({ second: 0, millisecond: 0 })
+    .toISO()
 
   const { data, loading, error } = useQuery<
     GetMarketPriceListQuery,
@@ -101,7 +108,7 @@ const MarketList = () => {
         currency: {
           _eq: secondaryCurrency,
         },
-      }
+      },
     },
   })
 
@@ -142,8 +149,13 @@ const MarketList = () => {
             }
           />
         </Col>
-    </Row>
-      <Table columns={columns} dataSource={dataSource} loading={loading} pagination={false} />
+      </Row>
+      <Table
+        columns={columns}
+        dataSource={dataSource}
+        loading={loading}
+        pagination={false}
+      />
     </Layout.Content>
   )
 }
