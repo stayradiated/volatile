@@ -6,6 +6,7 @@ export default defineConfig({
   root: 'routes',
   plugins: [react()],
   build: {
+    outDir: '../dist',
     rollupOptions: {
       input: {
         'dca-orders': resolve(__dirname, 'routes/dca-orders/index.html'),

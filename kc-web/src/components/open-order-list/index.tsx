@@ -78,7 +78,7 @@ const OpenOrderList = () => {
   return (
     <>
       <Table
-        rowKey='uid'
+        rowKey="uid"
         columns={columns}
         dataSource={data?.kc_order ?? []}
         loading={loading}

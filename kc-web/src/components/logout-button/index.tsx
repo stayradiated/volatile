@@ -7,7 +7,11 @@ const LogoutButton = () => {
     window.location.reload()
   }
 
-  return <Button type='primary' onClick={handleClick}>Logout</Button>
+  return (
+    <Button type="primary" onClick={handleClick}>
+      Logout
+    </Button>
+  )
 }
 
 export { LogoutButton }

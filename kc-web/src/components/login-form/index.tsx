@@ -45,32 +45,41 @@ const LoginForm = (props: LoginFormProps) => {
   return (
     <Card>
       <Logo />
-      <Form initialValues={{
-        email: '',
-        password: '',
-      }} name="login" onFinish={handleFormFinish}>
+      <Form
+        initialValues={{
+          email: '',
+          password: '',
+        }}
+        name="login"
+        onFinish={handleFormFinish}
+      >
         <Form.Item>
           <p>Log in to your account</p>
         </Form.Item>
         {error && <Alert message={error.message} type="error" />}
         <Form.Item label="Email" name="email">
-          <Input type="email" tabIndex={ 1 } />
+          <Input type="email" tabIndex={1} />
         </Form.Item>
-        <Form.Item label="Password" name="password" >
-          <Input type="password" disabled={loading} tabIndex={ 2 }/>
+        <Form.Item label="Password" name="password">
+          <Input type="password" disabled={loading} tabIndex={2} />
         </Form.Item>
         <Form.Item className={styles.actions}>
           <div>
             <Button type="link" href="/register/">
               sign up
-            </Button>
-            {' '}or{' '}
+            </Button>{' '}
+            or{' '}
             <Button type="link" href="/reset-password/">
               reset password
             </Button>
           </div>
 
-          <Button type="primary" htmlType="submit" loading={loading} tabIndex={3}>
+          <Button
+            type="primary"
+            htmlType="submit"
+            loading={loading}
+            tabIndex={3}
+          >
             Log In
           </Button>
         </Form.Item>

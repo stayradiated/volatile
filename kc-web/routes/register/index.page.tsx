@@ -12,9 +12,7 @@ const Register = () => {
     window.location.replace('/')
   }
 
-  return (
-    <RegisterForm onSession={handleSession} />
-  )
+  return <RegisterForm onSession={handleSession} />
 }
 
 ReactDOM.render(

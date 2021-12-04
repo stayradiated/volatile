@@ -9,13 +9,9 @@ type Props = {
 }
 
 const Card = (props: Props) => {
-  const { children} = props
+  const { children } = props
 
-  return (
-    <div className={styles.container}>
-      {children}
-    </div>
-  )
+  return <div className={styles.container}>{children}</div>
 }
 
 Card.Divider = CardDivider

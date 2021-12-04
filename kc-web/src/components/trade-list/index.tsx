@@ -162,7 +162,7 @@ const TradeList = (props: TradeListProps) => {
       />
       <TradeChart data={data?.kc_trade ?? []} />
       <Table
-        rowKey='uid'
+        rowKey="uid"
         columns={columns}
         dataSource={data?.kc_trade ?? []}
         loading={loading}

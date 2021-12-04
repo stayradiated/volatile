@@ -11,9 +11,7 @@ const Login = () => {
     window.location.replace('/')
   }
 
-  return (
-    <LoginForm onSession={handleSession} />
-  )
+  return <LoginForm onSession={handleSession} />
 }
 
 ReactDOM.render(

@@ -79,7 +79,11 @@ const UserExchangeKeysList = () => {
   return (
     <div>
       <h4>User Exchange Key List</h4>
-      <Table rowKey='uid' dataSource={data?.kc_user_exchange_keys} loading={loading}>
+      <Table
+        rowKey="uid"
+        dataSource={data?.kc_user_exchange_keys}
+        loading={loading}
+      >
         <Table.Column title="Description" dataIndex="description" />
         <Table.Column title="Exchange" dataIndex={['exchange', 'name']} />
         <Table.Column title="Invalidated At" dataIndex="invalidated_at" />

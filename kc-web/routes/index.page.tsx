@@ -21,26 +21,52 @@ const Index = () => {
       <Logo />
       {session.role === 'guest' && (
         <>
-          <Button type="primary" href="/register/">Sign Up</Button>
-          <Button type="primary" href="/login/">Login</Button>
+          <Button type="primary" href="/register/">
+            Sign Up
+          </Button>
+          <Button type="primary" href="/login/">
+            Login
+          </Button>
         </>
       )}
       {session.role === 'user' && (
         <>
-          <p>Logged in as <strong>{session.email}</strong>.</p>
+          <p>
+            Logged in as <strong>{session.email}</strong>.
+          </p>
 
           <ul>
-            <li><Button type="link" href="/dca-orders/">DCA Orders</Button></li>
-            <li><Button type="link" href="/trades/">Trades</Button></li>
-            <li><Button type="link" href="/open-orders/">Open Orders</Button></li>
-            <li><Button type="link" href="/settings/">Settings</Button></li>
-            <li><Button type="link" href="/dca-orders/">Devices</Button></li>
+            <li>
+              <Button type="link" href="/dca-orders/">
+                DCA Orders
+              </Button>
+            </li>
+            <li>
+              <Button type="link" href="/trades/">
+                Trades
+              </Button>
+            </li>
+            <li>
+              <Button type="link" href="/open-orders/">
+                Open Orders
+              </Button>
+            </li>
+            <li>
+              <Button type="link" href="/settings/">
+                Settings
+              </Button>
+            </li>
+            <li>
+              <Button type="link" href="/dca-orders/">
+                Devices
+              </Button>
+            </li>
           </ul>
 
           <LogoutButton />
         </>
       )}
-      </Card>
+    </Card>
   )
 }
 

@@ -11,7 +11,7 @@ const OpenOrders = () => (
       <Row>
         <Col span={12} offset={6}>
           <h1>Open Orders</h1>
-            <OpenOrderList />
+          <OpenOrderList />
         </Col>
       </Row>
     </Layout.Content>

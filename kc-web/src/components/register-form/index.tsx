@@ -64,7 +64,7 @@ const RegisterForm = (props: RegisterFormProps) => {
         name="register"
         initialValues={{
           email: '',
-          password: ''
+          password: '',
         }}
         onFinish={handleFinish}
       >
@@ -72,10 +72,10 @@ const RegisterForm = (props: RegisterFormProps) => {
           <p>Create a new account.</p>
         </Form.Item>
         {error && <Alert message={error.message} type="error" />}
-        <Form.Item label="Email" name="email" >
+        <Form.Item label="Email" name="email">
           <Input type="email" />
         </Form.Item>
-        <Form.Item label="Password" name="password" >
+        <Form.Item label="Password" name="password">
           <Input type="password" disabled={loading} />
         </Form.Item>
         <Form.Item className={styles.actions}>

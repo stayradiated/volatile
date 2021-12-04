@@ -4,9 +4,9 @@ import { FormItem } from './form-item'
 
 type Props<State> = {
   children?: React.ReactNode
-  name: string,
+  name: string
   initialValues: State
-  onFinish: (state: State) => void,
+  onFinish: (state: State) => void
 }
 
 const Form = <State extends Record<string, unknown>>(props: Props<State>) => {
@@ -26,15 +26,17 @@ const Form = <State extends Record<string, unknown>>(props: Props<State>) => {
   return (
     <form id={formName} onSubmit={handleSubmit}>
       {React.Children.map(children, (child) => {
-        if (React.isValidElement(child) && child.type === FormItem ) {
+        if (React.isValidElement(child) && child.type === FormItem) {
           const { name } = child.props
           if (typeof name === 'string') {
             const value = state?.[name]
             const onChange = handleChange(name)
             return React.cloneElement(child, { formName, value, onChange })
           }
+
           return child
         }
+
         return child
       })}
     </form>

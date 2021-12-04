@@ -8,11 +8,7 @@ type Props = {
 
 const Background = (props: Props) => {
   const { children } = props
-  return (
-    <div className={styles.container}>
-      {children}
-    </div>
-  )
+  return <div className={styles.container}>{children}</div>
 }
 
 export { Background }

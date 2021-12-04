@@ -16,9 +16,7 @@ const App = (props: Props) => {
   return (
     <React.StrictMode>
       <Background>
-        <ApolloProvider client={client}>
-          {children}
-        </ApolloProvider>
+        <ApolloProvider client={client}>{children}</ApolloProvider>
       </Background>
     </React.StrictMode>
   )
