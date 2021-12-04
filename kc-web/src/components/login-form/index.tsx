@@ -25,7 +25,12 @@ const LoginForm = (props: LoginFormProps) => {
   const [error, setError] = useState<Error | undefined>(undefined)
   const [loading, setLoading] = useState(false)
 
-  const handleFormFinish = (state: LoginFormState) => {
+  const [state, setState] = useState<LoginFormState>({
+    email: '',
+    password: '',
+  })
+
+  const handleFormFinish = () => {
     const { email, password } = state
 
     setError(undefined)
@@ -46,11 +51,9 @@ const LoginForm = (props: LoginFormProps) => {
     <Card>
       <Logo />
       <Form
-        initialValues={{
-          email: '',
-          password: '',
-        }}
         name="login"
+        state={state}
+        onChange={setState}
         onFinish={handleFormFinish}
       >
         <Form.Item>

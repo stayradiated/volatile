@@ -1,23 +1,45 @@
+import { useState } from 'react'
 import ReactDOM from 'react-dom'
-import { Layout, Row, Col } from 'antd'
 
-import { UserExchangeKeysForm } from '../../src/components/user-exchange-keys-form/index'
+import { UserExchangeKeysFormCreate } from '../../src/components/user-exchange-keys-form-create/index'
+import { UserExchangeKeysFormEdit } from '../../src/components/user-exchange-keys-form-edit/index'
 import { UserExchangeKeysList } from '../../src/components/user-exchange-keys-list/index'
+import { Card } from '../../src/components/retro-ui'
 
 import App from '../../src/app'
 
 const Settings = () => {
+  const [createState, setCreateState] = useState<boolean>(false)
+  const [editState, setEditState] = useState<string | undefined>(undefined)
+
+  const handleOpenCreate = () => { setCreateState(true) }
+  const handleCloseCreate = () => { setCreateState(false) }
+
+  const handleCloseEdit = () => {
+    setEditState(undefined)
+  }
+
   return (
-    <Layout>
-      <Layout.Content>
-        <Row>
-          <Col span={12} offset={6}>
-            <UserExchangeKeysList />
-            <UserExchangeKeysForm />
-          </Col>
-        </Row>
-      </Layout.Content>
-    </Layout>
+    <>
+      <Card width={800}>
+        <UserExchangeKeysList onCreate={handleOpenCreate} onEdit={setEditState} />
+      </Card>
+      {createState && <Card width={400}>
+        <UserExchangeKeysFormCreate 
+          onFinish={handleCloseCreate}
+          onCancel={handleCloseCreate}
+        />
+      </Card>}
+      {typeof editState === 'string' && (
+        <Card width={400}>
+          <UserExchangeKeysFormEdit
+            userExchangeKeysUID={editState}
+            onFinish={handleCloseEdit}
+            onCancel={handleCloseEdit}
+          />
+        </Card>
+      )}
+    </>
   )
 }
 

@@ -25,7 +25,7 @@ const Index = () => {
             Sign Up
           </Button>
           <Button type="primary" href="/login/">
-            Login
+            Log In
           </Button>
         </>
       )}

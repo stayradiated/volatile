@@ -9,6 +9,10 @@
   --button-primary-color: #000;
   --button-primary-background: #fff;
   --button-primary-border: #000;
+
+  --button-disabled-color: #888;
+  --button-disabled-background: #fff;
+  --button-disabled-border: #888;
 }
 
 body {

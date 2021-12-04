@@ -41,6 +41,10 @@ addAction(
   'validate_user_exchange_keys',
   actions.validateUserExchangeKeysHandler,
 )
+addAction(
+  'validate_user_exchange_keys_live',
+  actions.validateUserExchangeKeysLiveHandler,
+)
 addAction('verify_user_email', actions.verifyUserEmailHandler)
 
 const addCron = bindCronHandler(fastify)

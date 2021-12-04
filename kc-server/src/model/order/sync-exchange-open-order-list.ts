@@ -4,7 +4,7 @@ import { ModelError } from '../../util/error.js'
 
 import {
   getUserExchangeKeys,
-  getUserExchangeAPI,
+  getUserExchangeAPIByKeysUID,
 } from '../user-exchange-keys/index.js'
 
 import type { Pool } from '../../types.js'
@@ -28,7 +28,10 @@ const syncExchangeOpenOrderList = async (
 
   const { exchangeUID } = userExchangeKeys
 
-  const userExchangeAPI = await getUserExchangeAPI(pool, userExchangeKeysUID)
+  const userExchangeAPI = await getUserExchangeAPIByKeysUID(
+    pool,
+    userExchangeKeysUID,
+  )
   if (userExchangeAPI instanceof Error) {
     return userExchangeAPI
   }

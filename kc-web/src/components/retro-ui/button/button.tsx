@@ -3,15 +3,26 @@ import cx from 'classnames'
 
 import styles from './button.module.css'
 
-type Props = {
+type BaseProps = {
   type?: 'primary' | 'link'
   htmlType?: 'submit'
   loading?: boolean
   children?: React.ReactNode
-  href?: string
   tabIndex?: number
-  onClick?: () => void
+  disabled?: boolean
 }
+
+type AnchorProps = BaseProps & {
+  href?: string
+  onClick?: (event: React.MouseEvent<HTMLAnchorElement>) => void
+}
+
+type ButtonProps = BaseProps & {
+  href?: never
+  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void
+}
+
+type Props = AnchorProps | ButtonProps
 
 const Button = (props: Props) => {
   const {
@@ -22,9 +33,13 @@ const Button = (props: Props) => {
     children,
     tabIndex,
     onClick,
+    disabled,
   } = props
 
-  const className = cx(styles.base, styles[type])
+  const className = cx(styles.base, styles[type], {
+    [styles.disabled]: disabled,
+    [styles.loading]: loading,
+  })
 
   const component = typeof href === 'string' ? 'a' : 'button'
 
@@ -32,7 +47,7 @@ const Button = (props: Props) => {
     component,
     {
       type: htmlType,
-      disabled: loading,
+      disabled: disabled || loading,
       className,
       tabIndex,
       href,

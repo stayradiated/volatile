@@ -26,10 +26,12 @@ const FormItem = (props: Props) => {
     onChange,
   } = props
 
+  const labelKey = `${formName}_${name}`
+
   return (
     <div className={styles.container}>
       {typeof label === 'string' && (
-        <label htmlFor={`${formName}_${name}`} className={styles.label}>
+        <label htmlFor={labelKey} className={styles.label}>
           {label}
         </label>
       )}
@@ -37,6 +39,7 @@ const FormItem = (props: Props) => {
         {React.Children.map(children, (child) => {
           if (React.isValidElement(child)) {
             return React.cloneElement(child, {
+              id: labelKey,
               value,
               onChange,
             })

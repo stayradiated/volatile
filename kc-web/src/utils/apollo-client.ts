@@ -33,6 +33,9 @@ const cache = new InMemoryCache({
     Query: {
       fields: {
         kc_trade: offsetLimitPagination(['where']),
+        kc_user_exchange_keys: {
+          merge: (existing, incoming) => incoming,
+        },
       },
     },
   },

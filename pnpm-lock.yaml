@@ -331,6 +331,7 @@ importers:
       '@types/node': 16.11.11
       '@types/react': 17.0.37
       '@types/react-dom': 17.0.11
+      '@types/react-table': 7.7.8
       '@types/ua-parser-js': 0.7.36
       '@vitejs/plugin-react': 1.1.0
       antd: 4.17.2
@@ -344,6 +345,7 @@ importers:
       react: 17.0.2
       react-dom: 17.0.2
       react-select: 5.2.1
+      react-table: 7.7.0
       recharts: 2.1.6
       typescript: 4.5.2
       ua-parser-js: 1.0.2
@@ -362,6 +364,7 @@ importers:
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-select: 5.2.1_5539cae010396b202b015f3568914e95
+      react-table: 7.7.0_react@17.0.2
       recharts: 2.1.6_react-dom@17.0.2+react@17.0.2
       ua-parser-js: 1.0.2
     devDependencies:
@@ -373,6 +376,7 @@ importers:
       '@types/node': 16.11.11
       '@types/react': 17.0.37
       '@types/react-dom': 17.0.11
+      '@types/react-table': 7.7.8
       '@types/ua-parser-js': 0.7.36
       '@vitejs/plugin-react': 1.1.0
       eslint-plugin-fp: 2.3.0
@@ -2427,6 +2431,12 @@ packages:
 
   /@types/react-dom/17.0.11:
     resolution: {integrity: sha512-f96K3k+24RaLGVu/Y2Ng3e1EbZ8/cVJvypZWd7cy0ofCBaf2lcM46xNhycMZ2xGwbBjRql7hOlZ+e2WlJ5MH3Q==}
+    dependencies:
+      '@types/react': 17.0.37
+    dev: true
+
+  /@types/react-table/7.7.8:
+    resolution: {integrity: sha512-OMhbPlf+uUGte3M1WdArEKeBkyQ1XJxKvFYs+o1dGGGyaSVIqxPPQmBZ6Skkw0V9y0F/kOY7rnTD8r9GbfpBOg==}
     dependencies:
       '@types/react': 17.0.37
     dev: true
@@ -7899,6 +7909,14 @@ packages:
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-transition-group: 2.9.0_react-dom@17.0.2+react@17.0.2
+    dev: false
+
+  /react-table/7.7.0_react@17.0.2:
+    resolution: {integrity: sha512-jBlj70iBwOTvvImsU9t01LjFjy4sXEtclBovl3mTiqjz23Reu0DKnRza4zlLtOPACx6j2/7MrQIthIK1Wi+LIA==}
+    peerDependencies:
+      react: ^16.8.3 || ^17.0.0-0
+    dependencies:
+      react: 17.0.2
     dev: false
 
   /react-transition-group/2.9.0_react-dom@17.0.2+react@17.0.2:

@@ -1,5 +1,5 @@
 import type { Pool } from '../../types.js'
-import { getUserExchangeAPI } from '../../model/user-exchange-keys/index.js'
+import { getUserExchangeAPIByKeysUID } from '../../model/user-exchange-keys/index.js'
 
 type ValidateUserExchangekeysResultValid = {
   isValid: true
@@ -21,7 +21,10 @@ const validateUserExchangeKeys = async (
   pool: Pool,
   userExchangeKeysUID: string,
 ): Promise<ValidateUserExchangekeysResult | Error> => {
-  const userExchangeAPI = await getUserExchangeAPI(pool, userExchangeKeysUID)
+  const userExchangeAPI = await getUserExchangeAPIByKeysUID(
+    pool,
+    userExchangeKeysUID,
+  )
   if (userExchangeAPI instanceof Error) {
     return {
       isValid: false,

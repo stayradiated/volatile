@@ -100,15 +100,22 @@ type Mutation {
 type Mutation {
   update_user_exchange_keys(
     user_exchange_keys_uid: uuid!
-    keys: jsonb!
-    description: String!
+    keys: jsonb
+    description: String
   ): UpdateUserExchangeKeysOutput
 }
 
 type Mutation {
   validate_user_exchange_keys(
-    user_exchange_keys_uid: String!
+    user_exchange_keys_uid: uuid!
   ): ValidateUserExchangeKeysOutput
+}
+
+type Mutation {
+  validate_user_exchange_keys_live(
+    exchange_uid: uuid!
+    keys: jsonb!
+  ): ValidateUserExchangeKeysLiveOutput
 }
 
 type Mutation {
@@ -145,7 +152,7 @@ type SetUserExchangeKeysOutput {
 }
 
 type ValidateUserExchangeKeysOutput {
-  user_exchange_keys_uid: String!
+  user_exchange_keys_uid: uuid!
   is_valid: Boolean!
   validation_message: String
 }
@@ -218,5 +225,10 @@ type UpdateUserExchangeKeysOutput {
 
 type SyncExchangeOpenOrderListOutput {
   user_uid: uuid!
+}
+
+type ValidateUserExchangeKeysLiveOutput {
+  is_valid: Boolean!
+  validation_message: String
 }
 

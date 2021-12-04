@@ -1,17 +1,21 @@
-import { Table } from 'antd'
+import { useCallback, useMemo } from 'react'
 import { gql, useQuery, useMutation } from '@apollo/client'
-import { useCallback } from 'react'
+import { useTable, Column } from 'react-table'
 
-import {
+import { Table, Button } from '../retro-ui'
+
+import { useValidateUserExchangeKeys } from '../../hooks/mutations/use-validate-user-exchange-keys'
+
+import type {
   GetUserExchangeKeysListQuery,
   GetUserExchangeKeysListQueryVariables,
-  DeleteUserExchangeKeysMutation,
-  DeleteUserExchangeKeysMutationVariables,
 } from '../../utils/graphql'
+
+import { useDeleteUserExchangeKeys } from './mutation-delete'
 
 type UserExchangeKeys = GetUserExchangeKeysListQuery['kc_user_exchange_keys'][0]
 
-const QUERY_USER_EXCHANGE_KEYS_LIST = gql`
+const QUERY = gql`
   query getUserExchangeKeysList {
     kc_user_exchange_keys {
       uid
@@ -30,82 +34,81 @@ const QUERY_USER_EXCHANGE_KEYS_LIST = gql`
   }
 `
 
-const MUTATION_DELETE_USER_EXCHANGE_KEYS = gql`
-  mutation deleteUserExchangeKeys($userExchangeKeysUID: uuid!) {
-    delete_kc_user_exchange_keys_by_pk(uid: $userExchangeKeysUID) {
-      uid
-    }
-  }
-`
+type Props = {
+  onCreate?: () => void
+  onEdit?: (userExchangeKeysUID: string) => void
+}
 
-const UserExchangeKeysList = () => {
-  const [deleteUserExchangeKeys] = useMutation<
-    DeleteUserExchangeKeysMutation,
-    DeleteUserExchangeKeysMutationVariables
-  >(MUTATION_DELETE_USER_EXCHANGE_KEYS)
+const UserExchangeKeysList = (props: Props) => {
+  const { onCreate, onEdit } = props
+
+  const deleteUserExchangeKeys = useDeleteUserExchangeKeys()
+  const { validateUserExchangeKeys } = useValidateUserExchangeKeys()
+
   const { data, loading, error } = useQuery<
     GetUserExchangeKeysListQuery,
     GetUserExchangeKeysListQueryVariables
-  >(QUERY_USER_EXCHANGE_KEYS_LIST)
+  >(QUERY)
 
-  const handleDelete = useCallback(
-    (userExchangeKeysUID: string) => {
-      deleteUserExchangeKeys({
-        variables: {
-          userExchangeKeysUID,
-        },
-        update: (cache) => {
-          const list = cache.readQuery<GetUserExchangeKeysListQuery>({
-            query: QUERY_USER_EXCHANGE_KEYS_LIST,
-          })
-          const listNext = list?.kc_user_exchange_keys?.filter(
-            (item) => item.uid !== userExchangeKeysUID,
+  const columns = useMemo(() => {
+    const columns: Array<Column<UserExchangeKeys>> = [
+      { Header: 'Description', accessor: 'description' },
+      { Header: 'Exchange', accessor: (row) => row.exchange.name },
+      { Header: 'Invalidated At', accessor: 'invalidated_at' },
+      {
+        Header: '# DCA Orders',
+        accessor: (row) => row.dca_orders_aggregate.aggregate?.count,
+      },
+      {
+        Header: 'Actions',
+        accessor: 'uid',
+        Cell: (props) => {
+          const userExchangeKeysUID = props.value
+
+          const handleEdit = () => {
+            if (typeof onEdit === 'function') {
+              onEdit(userExchangeKeysUID)
+            }
+          }
+
+          const handleDelete = () => {
+            deleteUserExchangeKeys(userExchangeKeysUID)
+          }
+
+          const handleValidate = async() => {
+            await validateUserExchangeKeys({ userExchangeKeysUID })
+          }
+
+          return (
+            <>
+              <Button onClick={handleEdit}>Edit</Button>
+              <Button onClick={handleValidate}>Validate</Button>
+              <Button onClick={handleDelete}>Delete</Button>
+            </>
           )
-
-          cache.writeQuery({
-            query: QUERY_USER_EXCHANGE_KEYS_LIST,
-            data: { kc_user_exchange_keys: listNext },
-          })
         },
-      })
-    },
-    [deleteUserExchangeKeys],
-  )
+      },
+    ]
+    return columns
+  }, [deleteUserExchangeKeys])
 
   if (error) {
     return <p>{error.message}</p>
   }
 
+  const table = useTable({
+    columns,
+    data: data?.kc_user_exchange_keys ?? [],
+  })
+
   return (
-    <div>
-      <h4>User Exchange Key List</h4>
-      <Table
-        rowKey="uid"
-        dataSource={data?.kc_user_exchange_keys}
-        loading={loading}
-      >
-        <Table.Column title="Description" dataIndex="description" />
-        <Table.Column title="Exchange" dataIndex={['exchange', 'name']} />
-        <Table.Column title="Invalidated At" dataIndex="invalidated_at" />
-        <Table.Column
-          title="DCA Order Count"
-          dataIndex={['dca_orders_aggregate', 'aggregate', 'count']}
-        />
-        <Table.Column
-          title="Delete"
-          dataIndex="uid"
-          render={(uid: string) => (
-            <button
-              onClick={() => {
-                handleDelete(uid)
-              }}
-            >
-              Delete
-            </button>
-          )}
-        />
-      </Table>
-    </div>
+    <>
+      <h2>☰ Exchange API List</h2>
+      <Table table={table} />
+      <Button type='primary' onClick={onCreate}>
+        Add API Keys
+      </Button>
+    </>
   )
 }
 

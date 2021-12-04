@@ -6,12 +6,17 @@ import styles from './card.module.css'
 
 type Props = {
   children?: React.ReactNode
+  width?: number
 }
 
 const Card = (props: Props) => {
-  const { children } = props
+  const { children, width } = props
 
-  return <div className={styles.container}>{children}</div>
+  return (
+    <div className={styles.container} style={{ width }}>
+      {children}
+    </div>
+  )
 }
 
 Card.Divider = CardDivider

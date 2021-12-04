@@ -9,7 +9,12 @@ a.base {
   display: inline-block;
 }
 
+.base + .base {
+  margin-left: 10px;
+}
+
 .primary {
+  position: relative;
   line-height: 40px;
   height: 40px;
   padding: 0 20px;
@@ -19,17 +24,15 @@ a.base {
   box-shadow: -2px 2px 0 0 var(--button-primary-border);
   text-transform: uppercase;
 }
-.primary:hover,
-.primary:focus {
-  margin-top: -1px;
-  margin-left: 1px;
-  margin-bottom: 1px;
+.primary:not(:disabled):hover,
+.primary:not(:disabled):focus {
+  top: -1px;
+  left: 1px;
   box-shadow: -3px 3px 0 0 var(--button-primary-border);
 }
-.primary:active {
-  margin-top: 1px;
-  margin-left: -1px;
-  margin-bottom: -1px;
+.primary:not(:disabled):active {
+  top: 1px;
+  left: -1px;
   box-shadow: none;
 }
 
@@ -37,4 +40,15 @@ a.base {
   background: none;
   border: none;
   text-decoration: underline;
+}
+
+.loading {
+}
+
+.disabled {
+  cursor: default;
+  color: var(--button-disabled-color);
+  background: var(--button-disabled-background);
+  border: 1px solid var(--button-disabled-border);
+  box-shadow: -2px 2px 0 0 var(--button-disabled-border);
 }

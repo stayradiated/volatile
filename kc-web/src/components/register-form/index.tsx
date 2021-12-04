@@ -34,38 +34,38 @@ const RegisterForm = (props: RegisterFormProps) => {
   const [loading, setLoading] = useState<boolean>(false)
   const [error, setError] = useState<Error | undefined>(undefined)
 
-  const handleFinish = useCallback(
-    (state: RegisterFormState) => {
-      const { email, password } = state
+  const [state, setState] = useState<RegisterFormState>({
+    email: '',
+    password: '',
+  })
 
-      setLoading(true)
-      setError(undefined)
+  const handleFinish = () => {
+    const { email, password } = state
 
-      createUser({ variables: { email, password } })
-        .then(async () => createAuthToken({ email, password }))
-        .then(
-          (session) => {
-            setLoading(false)
-            onSession(session)
-          },
-          (error) => {
-            setError(error)
-            setLoading(false)
-          },
-        )
-    },
-    [createUser, createAuthToken],
-  )
+    setLoading(true)
+    setError(undefined)
+
+    createUser({ variables: { email, password } })
+      .then(async () => createAuthToken({ email, password }))
+      .then(
+        (session) => {
+          setLoading(false)
+          onSession(session)
+        },
+        (error) => {
+          setError(error)
+          setLoading(false)
+        },
+      )
+  }
 
   return (
     <Card>
       <Logo />
       <Form
         name="register"
-        initialValues={{
-          email: '',
-          password: '',
-        }}
+        state={state}
+        onChange={setState}
         onFinish={handleFinish}
       >
         <Form.Item>

@@ -3,7 +3,7 @@ import { errorListBoundary } from '@stayradiated/error-boundary'
 import { selectAllDCAOrders } from '../../model/dca-order/index.js'
 import type { CronHandlerFn } from '../../util/cron-handler.js'
 
-import { getUserExchangeAPI } from '../../model/user-exchange-keys/index.js'
+import { getUserExchangeAPIByKeysUID } from '../../model/user-exchange-keys/index.js'
 import { executeDCAOrder } from './execute-dca-order.js'
 
 type Input = void
@@ -26,7 +26,7 @@ const autoBuyHandler: CronHandlerFn<Input, Output> = async (context) => {
       dcaOrderList.map(async (dcaOrder) => {
         const { userExchangeKeysUID } = dcaOrder
 
-        const userExchangeAPI = await getUserExchangeAPI(
+        const userExchangeAPI = await getUserExchangeAPIByKeysUID(
           pool,
           userExchangeKeysUID,
         )

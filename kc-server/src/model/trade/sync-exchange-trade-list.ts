@@ -4,7 +4,7 @@ import type { UserExchangeAPI } from '../../exchange-api/index.js'
 
 import {
   getUserExchangeKeys,
-  getUserExchangeAPI,
+  getUserExchangeAPIByKeysUID,
 } from '../user-exchange-keys/index.js'
 import { upsertTrade } from '../trade/upsert-trade.js'
 import { selectOrderByID } from '../order/index.js'
@@ -103,7 +103,10 @@ const syncExchangeTradeList = async (
     return userExchangeKeys
   }
 
-  const userExchangeAPI = await getUserExchangeAPI(pool, userExchangeKeysUID)
+  const userExchangeAPI = await getUserExchangeAPIByKeysUID(
+    pool,
+    userExchangeKeysUID,
+  )
   if (userExchangeAPI instanceof Error) {
     return userExchangeAPI
   }
