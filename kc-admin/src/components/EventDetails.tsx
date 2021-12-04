@@ -1,11 +1,10 @@
+import type { Invocation } from '../utils/types.invocation'
 import { EventResponse } from './EventResponse'
 
 import styles from './EventDetails.module.css'
 
-import type {Invocation } from '../utils/types.invocation'
-
 type EventDetailsProps = {
-  event: Invocation | undefined,
+  event: Invocation | undefined
 }
 
 const EventDetails = (props: EventDetailsProps) => {

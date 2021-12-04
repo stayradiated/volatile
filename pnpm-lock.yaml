@@ -334,9 +334,11 @@ importers:
       '@types/ua-parser-js': 0.7.36
       '@vitejs/plugin-react': 1.1.0
       antd: 4.17.2
+      classnames: 2.3.1
       date-fns: 2.27.0
       eslint-plugin-fp: 2.3.0
       graphql: 16.0.1
+      lightweight-charts: 3.7.0
       luxon: 2.1.1
       moment: 2.29.1
       react: 17.0.2
@@ -351,8 +353,10 @@ importers:
       '@ant-design/icons': 4.7.0_react-dom@17.0.2+react@17.0.2
       '@apollo/client': 3.5.5_graphql@16.0.1+react@17.0.2
       antd: 4.17.2_react-dom@17.0.2+react@17.0.2
+      classnames: 2.3.1
       date-fns: 2.27.0
       graphql: 16.0.1
+      lightweight-charts: 3.7.0
       luxon: 2.1.1
       moment: 2.29.1
       react: 17.0.2
@@ -4689,6 +4693,10 @@ packages:
     engines: {node: ^10.17.0 || ^12.0.0 || >= 13.7.0}
     dev: true
 
+  /fancy-canvas/0.2.2:
+    resolution: {integrity: sha512-50qi8xA0QkHbjmb8h7XQ6k2fvD7y/yMfiUw9YTarJ7rWrq6o5/3CCXPouYk+XSLASvvxtjyiQLRBFt3qkE3oyA==}
+    dev: false
+
   /fast-decode-uri-component/1.0.1:
     resolution: {integrity: sha512-WKgKWg5eUxvRZGwW8FvfbaH7AXSh2cL+3j5fMGzUMCxWBJ3dV3a7Wz8y2f/uQ0e3B6WmodD3oS54jTQ9HVTIIg==}
     dev: false
@@ -6062,6 +6070,12 @@ packages:
       fastify-warning: 0.2.0
       readable-stream: 3.6.0
       set-cookie-parser: 2.4.8
+    dev: false
+
+  /lightweight-charts/3.7.0:
+    resolution: {integrity: sha512-OFPdU4kRtgqHrzi+O86MxBPwbbMsdKRiAQm5nM14/iwN7BJRqWmrdT7uCGnP6+pU8rm3sxjZwMyL8dX0eaQnvQ==}
+    dependencies:
+      fancy-canvas: 0.2.2
     dev: false
 
   /line-column-path/3.0.0:

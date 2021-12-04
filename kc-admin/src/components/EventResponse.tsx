@@ -1,4 +1,4 @@
-import type {Invocation } from '../utils/types.invocation'
+import type { Invocation } from '../utils/types.invocation'
 
 import styles from './EventResponse.module.css'
 
@@ -16,15 +16,43 @@ const ErrorDetails = (props: ErrorDetailsProps) => {
 
   return (
     <ul className={styles.container}>
-      {message && <li>message: <code>{message}</code></li>}
-      {name && <li>name: <code>{name}</code></li>}
-      {code && <li>code: <code>{code}</code></li>}
-      {info && <li>info: <pre className={styles.stack}><code>{JSON.stringify(info, null, 2)}</code></pre></li>}
-      {stack && <li>stack: <pre className={styles.stack}><code>{stack}</code></pre></li>}
-      {cause && (Array.isArray(cause)
-        ? cause.map((c, index) => (<ErrorDetails key={index} error={c} />))
-        : <ErrorDetails error={cause} />
+      {message && (
+        <li>
+          message: <code>{message}</code>
+        </li>
       )}
+      {name && (
+        <li>
+          name: <code>{name}</code>
+        </li>
+      )}
+      {code && (
+        <li>
+          code: <code>{code}</code>
+        </li>
+      )}
+      {info && (
+        <li>
+          info:{' '}
+          <pre className={styles.stack}>
+            <code>{JSON.stringify(info, null, 2)}</code>
+          </pre>
+        </li>
+      )}
+      {stack && (
+        <li>
+          stack:{' '}
+          <pre className={styles.stack}>
+            <code>{stack}</code>
+          </pre>
+        </li>
+      )}
+      {cause &&
+        (Array.isArray(cause) ? (
+          cause.map((c, index) => <ErrorDetails key={index} error={c} />)
+        ) : (
+          <ErrorDetails error={cause} />
+        ))}
     </ul>
   )
 }
@@ -41,4 +69,3 @@ const EventResponse = (props: EventResponseProps) => {
 }
 
 export { EventResponse }
-

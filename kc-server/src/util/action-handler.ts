@@ -133,13 +133,17 @@ const wrapActionHandler =
       }
       const output = await fn(context)
       if (output instanceof Error) {
-        await reply.code(400).send({ message: inspect(output) })
+        console.error(output)
+        await reply.code(400).send({ message: output.message })
         return
       }
 
       await reply.send(output)
     } catch (error: unknown) {
-      await reply.code(500).send({ message: inspect(error) })
+      console.error(error)
+      const message =
+        error instanceof Error ? error.message : 'Unknown error occured'
+      await reply.code(500).send({ message })
     }
   }
 

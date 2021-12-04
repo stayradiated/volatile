@@ -1,4 +1,3 @@
-const ExchangeEditForm = () => {
-}
+const ExchangeEditForm = () => {}
 
 export { ExchangeEditForm }

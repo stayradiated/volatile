@@ -1,0 +1,13 @@
+.input {
+  appearance: none;
+  text-transform: uppercase;
+  height: 40px;
+  width: 100%;
+  border: 1px solid var(--input-border);
+  padding: 0 10px;
+}
+.input:focus {
+  outline: none; 
+  padding: 0 9px;
+  border-width: 2px;
+}

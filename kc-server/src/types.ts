@@ -1,5 +1,5 @@
-import type { Pool } from 'pg'
-
 type BuySell = 'BUY' | 'SELL'
 
-export { Pool, BuySell }
+export { BuySell }
+
+export { Pool } from 'pg'

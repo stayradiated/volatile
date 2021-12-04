@@ -17,7 +17,7 @@ const authLink = setContext((_request, { headers }) => {
   return {
     headers: {
       ...headers,
-      'x-hasura-admin-secret': session.adminSecret
+      'x-hasura-admin-secret': session.adminSecret,
     },
   }
 })

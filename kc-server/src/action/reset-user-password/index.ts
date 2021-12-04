@@ -68,7 +68,7 @@ const resetUserPasswordHandler: ActionHandlerFn<Input, Output> = async (
     if (has2FAToken) {
       const isValidToken = await verifyUser2FAToken(pool, {
         userUID,
-        token: token2FA!,
+        token: token2FA,
       })
       if (isValidToken instanceof Error) {
         return isValidToken

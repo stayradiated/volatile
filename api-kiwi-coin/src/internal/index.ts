@@ -1,3 +1,1 @@
-import * as stats from './stats.js'
-
-export { stats }
+export * as stats from './stats.js'

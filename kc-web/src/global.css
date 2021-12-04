@@ -1,0 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,600;1,400;1,600&display=swap');
+
+:root {
+  --card-background: #fff;
+  --card-border: #000;
+
+  --input-border: #000;
+
+  --button-primary-color: #000;
+  --button-primary-background: #fff;
+  --button-primary-border: #000;
+}
+
+body {
+  font-family: 'Source Code Pro', monospace;
+}

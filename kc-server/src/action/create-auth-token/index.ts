@@ -34,13 +34,15 @@ const createAuthTokenHandler: ActionHandlerFn<
 > = async (context) => {
   const { pool, input } = context
   const {
-    email,
+    email: rawEmail,
     password,
     device_id: deviceID,
     device_name: deviceName,
     device_trusted: deviceTrusted,
     token_2fa: token2FA,
   } = input
+
+  const email = rawEmail.trim().toLowerCase()
 
   const result = await createAuthToken(pool, { email, password })
   if (result instanceof Error) {
@@ -65,7 +67,7 @@ const createAuthTokenHandler: ActionHandlerFn<
     if (has2FAToken) {
       const isValidToken = await verifyUser2FAToken(pool, {
         userUID,
-        token: token2FA!,
+        token: token2FA,
       })
       if (isValidToken instanceof Error) {
         return isValidToken

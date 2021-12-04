@@ -1,9 +1,13 @@
-import { Form, Input, Button, Alert } from 'antd'
-import { UserOutlined, LockOutlined } from '@ant-design/icons'
-import { useCallback, useState } from 'react'
+import { Alert } from 'antd'
+import { useState } from 'react'
 
 import { useCreateAuthToken } from '../../hooks/mutations/use-create-auth-token'
 import { Session } from '../../utils/session-store'
+
+import { Logo } from '../logo'
+import { Card, Form, Input, Button } from '../retro-ui'
+
+import styles from './index.module.css'
 
 type LoginFormProps = {
   onSession: (session: Session) => void
@@ -21,62 +25,57 @@ const LoginForm = (props: LoginFormProps) => {
   const [error, setError] = useState<Error | undefined>(undefined)
   const [loading, setLoading] = useState(false)
 
-  const onFinish = useCallback(
-    (state: LoginFormState) => {
-      const { email, password } = state
+  const handleFormFinish = (state: LoginFormState) => {
+    const { email, password } = state
 
-      setError(undefined)
+    setError(undefined)
 
-      createAuthToken({ email, password }).then(
-        (session) => {
-          setLoading(false)
-          onSession(session)
-        },
-        (error) => {
-          setError(error)
-          setLoading(false)
-        },
-      )
-    },
-    [createAuthToken],
-  )
+    createAuthToken({ email, password }).then(
+      (session) => {
+        setLoading(false)
+        onSession(session)
+      },
+      (error) => {
+        setError(error)
+        setLoading(false)
+      },
+    )
+  }
 
   return (
-    <Form
-      name="basic"
-      labelCol={{ span: 8 }}
-      wrapperCol={{ span: 16 }}
-      initialValues={{}}
-      onFinish={onFinish}
-    >
-      {error && <Alert message={error.message} type="error" />}
-      <Form.Item
-        label="Email"
-        name="email"
-        rules={[{ required: true, message: 'Please input your email' }]}
-      >
-        <Input
-          placeholder="Email"
-          prefix={<UserOutlined disabled={loading} />}
-        />
-      </Form.Item>
-      <Form.Item
-        label="Password"
-        name="password"
-        rules={[{ required: true, message: 'Please input your password' }]}
-      >
-        <Input.Password
-          placeholder="Password"
-          prefix={<LockOutlined />}
-          disabled={loading}
-        />
-      </Form.Item>
-      <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-        <Button type="primary" htmlType="submit" loading={loading}>
-          Submit
-        </Button>
-      </Form.Item>
-    </Form>
+    <Card>
+      <Logo />
+      <Form initialValues={{
+        email: '',
+        password: '',
+      }} name="login" onFinish={handleFormFinish}>
+        <Form.Item>
+          <p>Log in to your account</p>
+        </Form.Item>
+        {error && <Alert message={error.message} type="error" />}
+        <Form.Item label="Email" name="email">
+          <Input type="email" tabIndex={ 1 } />
+        </Form.Item>
+        <Form.Item label="Password" name="password" >
+          <Input type="password" disabled={loading} tabIndex={ 2 }/>
+        </Form.Item>
+        <Form.Item className={styles.actions}>
+          <div>
+            <Button type="link" href="/register/">
+              sign up
+            </Button>
+            {' '}or{' '}
+            <Button type="link" href="/reset-password/">
+              reset password
+            </Button>
+          </div>
+
+          <Button type="primary" htmlType="submit" loading={loading} tabIndex={3}>
+            Log In
+          </Button>
+        </Form.Item>
+      </Form>
+    </Card>
   )
 }
 

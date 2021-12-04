@@ -11,7 +11,10 @@ type Output = {
 
 const createUserHandler: ActionHandlerFn<Input, Output> = async (context) => {
   const { pool, input } = context
-  const { email, password } = input
+  const { email: rawEmail, password } = input
+
+  const email = rawEmail.trim().toLowerCase()
+
   const result = await insertUser(pool, { email, password })
   if (result instanceof Error) {
     return result

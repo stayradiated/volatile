@@ -1,4 +1,5 @@
 import { clearSession } from '../../utils/session-store'
+import { Button } from '../retro-ui'
 
 const LogoutButton = () => {
   const handleClick = () => {
@@ -6,7 +7,7 @@ const LogoutButton = () => {
     window.location.reload()
   }
 
-  return <button onClick={handleClick}>Logout</button>
+  return <Button type='primary' onClick={handleClick}>Logout</Button>
 }
 
 export { LogoutButton }

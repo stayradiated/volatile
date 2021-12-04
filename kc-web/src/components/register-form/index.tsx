@@ -1,10 +1,13 @@
-import { useCallback, useRef, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { gql, useMutation } from '@apollo/client'
-import { Form, Input, Button, Alert } from 'antd'
-import { UserOutlined, LockOutlined } from '@ant-design/icons'
+import { Alert } from 'antd'
 
 import type { Session } from '../../utils/session-store'
 import { useCreateAuthToken } from '../../hooks/mutations/use-create-auth-token'
+import { Card, Form, Input, Button } from '../retro-ui'
+import { Logo } from '../logo'
+
+import styles from './index.module.css'
 
 const MUTATION_CREATE_USER = gql`
   mutation create_user($email: String!, $password: String!) {
@@ -31,7 +34,7 @@ const RegisterForm = (props: RegisterFormProps) => {
   const [loading, setLoading] = useState<boolean>(false)
   const [error, setError] = useState<Error | undefined>(undefined)
 
-  const onFinish = useCallback(
+  const handleFinish = useCallback(
     (state: RegisterFormState) => {
       const { email, password } = state
 
@@ -55,41 +58,37 @@ const RegisterForm = (props: RegisterFormProps) => {
   )
 
   return (
-    <Form
-      name="basic"
-      labelCol={{ span: 8 }}
-      wrapperCol={{ span: 16 }}
-      initialValues={{}}
-      onFinish={onFinish}
-    >
-      {error && <Alert message={error.message} type="error" />}
-      <Form.Item
-        label="Email"
-        name="email"
-        rules={[{ required: true, message: 'Please input your email' }]}
+    <Card>
+      <Logo />
+      <Form
+        name="register"
+        initialValues={{
+          email: '',
+          password: ''
+        }}
+        onFinish={handleFinish}
       >
-        <Input
-          placeholder="Email"
-          prefix={<UserOutlined disabled={loading} />}
-        />
-      </Form.Item>
-      <Form.Item
-        label="Password"
-        name="password"
-        rules={[{ required: true, message: 'Please input your password' }]}
-      >
-        <Input.Password
-          placeholder="Password"
-          prefix={<LockOutlined />}
-          disabled={loading}
-        />
-      </Form.Item>
-      <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-        <Button type="primary" htmlType="submit" loading={loading}>
-          Submit
-        </Button>
-      </Form.Item>
-    </Form>
+        <Form.Item>
+          <p>Create a new account.</p>
+        </Form.Item>
+        {error && <Alert message={error.message} type="error" />}
+        <Form.Item label="Email" name="email" >
+          <Input type="email" />
+        </Form.Item>
+        <Form.Item label="Password" name="password" >
+          <Input type="password" disabled={loading} />
+        </Form.Item>
+        <Form.Item className={styles.actions}>
+          <Button type="link" href="/login/">
+            log in
+          </Button>
+
+          <Button type="primary" htmlType="submit" loading={loading}>
+            SIGN UP
+          </Button>
+        </Form.Item>
+      </Form>
+    </Card>
   )
 }
 

@@ -1,18 +1,18 @@
 const STORAGE_KEY = 'kc-admin-session'
 
 type GuestSession = {
-  isAuthenticated: false,
+  isAuthenticated: false
 }
 
 type UserSession = {
-  isAuthenticated: true,
+  isAuthenticated: true
   adminSecret: string
 }
 
 type Session = GuestSession | UserSession
 
 const GUEST_SESSION: GuestSession = {
-  isAuthenticated: false
+  isAuthenticated: false,
 }
 
 const getSession = (): Session => {
@@ -21,8 +21,9 @@ const getSession = (): Session => {
     if (value == null) {
       return GUEST_SESSION
     }
+
     return JSON.parse(value)
-  } catch (error) { 
+  } catch (error) {
     console.warn(error)
     return GUEST_SESSION
   }
@@ -32,10 +33,6 @@ const setSession = (session: Session): void => {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(session))
 }
 
-
-export {
-  getSession,
-  setSession,
-}
+export { getSession, setSession }
 
 export type { Session, GuestSession, UserSession }

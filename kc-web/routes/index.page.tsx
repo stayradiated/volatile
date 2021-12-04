@@ -1,12 +1,11 @@
 import { useState, useEffect } from 'react'
 import ReactDOM from 'react-dom'
-import { Layout, Row, Col } from 'antd'
 
 import { getSession, Session, GUEST_SESSION } from '../src/utils/session-store'
 
-import { ExchangeList } from '../src/components/exchange-list'
-import { MarketList } from '../src/components/market-list'
+import { Logo } from '../src/components/logo'
 import { LogoutButton } from '../src/components/logout-button'
+import { Card, Button } from '../src/components/retro-ui'
 
 import App from '../src/app'
 
@@ -18,46 +17,30 @@ const Index = () => {
   }, [])
 
   return (
-    <Layout>
-      <Layout.Content>
-        <Row>
-          <Col span={12} offset={6}>
-            {session.role === 'guest' && (
-              <ul>
-                <li>
-                  <a href="/login/">Login</a>
-                </li>
-                <li>
-                  <a href="/register/">Sign Up</a>
-                </li>
-              </ul>
-            )}
-            {session.role === 'user' && (
-              <div>
-                <p>Logged in as {session.email}</p>
-                <ul>
-                  <li>
-                    <a href="/dca-orders/">DCA Orders</a>
-                  </li>
-                  <li>
-                    <a href="/trades/">Trades</a>
-                  </li>
-                  <li>
-                    <a href="/open-orders/">Open Orders</a>
-                  </li>
-                  <li>
-                    <a href="/settings/">Settings</a>
-                  </li>
-                </ul>
-                <LogoutButton />
-              </div>
-            )}
-            <ExchangeList />
-            <MarketList />
-          </Col>
-        </Row>
-      </Layout.Content>
-    </Layout>
+    <Card>
+      <Logo />
+      {session.role === 'guest' && (
+        <>
+          <Button type="primary" href="/register/">Sign Up</Button>
+          <Button type="primary" href="/login/">Login</Button>
+        </>
+      )}
+      {session.role === 'user' && (
+        <>
+          <p>Logged in as <strong>{session.email}</strong>.</p>
+
+          <ul>
+            <li><Button type="link" href="/dca-orders/">DCA Orders</Button></li>
+            <li><Button type="link" href="/trades/">Trades</Button></li>
+            <li><Button type="link" href="/open-orders/">Open Orders</Button></li>
+            <li><Button type="link" href="/settings/">Settings</Button></li>
+            <li><Button type="link" href="/dca-orders/">Devices</Button></li>
+          </ul>
+
+          <LogoutButton />
+        </>
+      )}
+      </Card>
   )
 }
 

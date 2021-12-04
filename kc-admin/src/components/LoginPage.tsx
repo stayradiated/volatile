@@ -4,7 +4,7 @@ import { fetchConfig, isAPIError } from '../utils/fetch-config'
 import { setSession } from '../utils/session-store'
 
 const LoginPage = () => {
-  const [error, setError] = useState<string|null>(null)
+  const [error, setError] = useState<string | null>(null)
 
   const passwordRef = useRef<HTMLInputElement>(null)
 
@@ -16,6 +16,7 @@ const LoginPage = () => {
       setError('Please enter a password.')
       return
     }
+
     const result = await fetchConfig(password)
     if (isAPIError(result)) {
       setError(result.error)
@@ -30,11 +31,10 @@ const LoginPage = () => {
   return (
     <form onSubmit={handleSubmit}>
       <label>Password</label>
-      <input type='password' placeholder='password' ref={passwordRef} />
+      <input type="password" placeholder="password" ref={passwordRef} />
       {error}
     </form>
   )
-
 }
 
 export { LoginPage }

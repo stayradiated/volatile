@@ -1,11 +1,10 @@
 import { useState } from 'react'
 
+import type { Invocation } from '../utils/types.invocation'
 import { EventList } from './EventList'
 import { EventDetails } from './EventDetails'
 
 import styles from './EventPage.module.css'
-
-import type { Invocation } from '../utils/types.invocation'
 
 type EventPageProps = {
   triggerName: string
@@ -14,7 +13,9 @@ type EventPageProps = {
 const EventPage = (props: EventPageProps) => {
   const { triggerName } = props
 
-  const [selectedEvent, setSelectedEvent] = useState<Invocation|undefined>(undefined)
+  const [selectedEvent, setSelectedEvent] = useState<Invocation | undefined>(
+    undefined,
+  )
 
   return (
     <div className={styles.container}>

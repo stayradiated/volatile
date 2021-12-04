@@ -19,9 +19,7 @@ const App = (props: Props) => {
   return (
     <React.StrictMode>
       <ApolloProvider client={client}>
-        <SessionProvider session={session}>
-          {children}
-        </SessionProvider>
+        <SessionProvider session={session}>{children}</SessionProvider>
       </ApolloProvider>
     </React.StrictMode>
   )

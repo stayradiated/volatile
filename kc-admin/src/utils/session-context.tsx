@@ -8,11 +8,11 @@ const SessionContext = React.createContext<Session>({
 SessionContext.displayName = 'SessionContext'
 
 type SessionProviderProps = {
-  children: React.ReactNode,
-  session: Session,
+  children: React.ReactNode
+  session: Session
 }
 
-const SessionProvider: React.FC<SessionProviderProps> = (props) => { 
+const SessionProvider: React.FC<SessionProviderProps> = (props) => {
   const { children, session } = props
   return (
     <SessionContext.Provider value={session}>

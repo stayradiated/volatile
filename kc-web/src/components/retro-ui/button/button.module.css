@@ -1,0 +1,40 @@
+.base {
+  appearance: none;
+  cursor: pointer;
+}
+.base:focus {
+  outline: none;
+}
+a.base {
+  display: inline-block;
+}
+
+.primary {
+  line-height: 40px;
+  height: 40px;
+  padding: 0 20px;
+  color: var(--button-primary-color);
+  background: var(--button-primary-background);
+  border: 1px solid var(--button-primary-border);
+  box-shadow: -2px 2px 0 0 var(--button-primary-border);
+  text-transform: uppercase;
+}
+.primary:hover,
+.primary:focus {
+  margin-top: -1px;
+  margin-left: 1px;
+  margin-bottom: 1px;
+  box-shadow: -3px 3px 0 0 var(--button-primary-border);
+}
+.primary:active {
+  margin-top: 1px;
+  margin-left: -1px;
+  margin-bottom: -1px;
+  box-shadow: none;
+}
+
+.link {
+  background: none;
+  border: none;
+  text-decoration: underline;
+}

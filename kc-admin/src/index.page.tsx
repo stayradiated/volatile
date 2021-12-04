@@ -14,9 +14,12 @@ const Page = () => {
     return <LoginPage />
   }
 
-  return (
-    <Sidebar />
-  )
+  return <Sidebar />
 }
 
-ReactDOM.render(<App><Page /></App>, document.querySelector('#root'))
+ReactDOM.render(
+  <App>
+    <Page />
+  </App>,
+  document.querySelector('#root'),
+)

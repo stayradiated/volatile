@@ -8,9 +8,8 @@ import type { Metadata } from '../utils/types.metadata'
 const Sidebar = () => {
   const session = useSessionContext()
 
-  const { data, error } = useSWR<Metadata>(
-    [session],
-    (session) => fetchMetadata(session, 'export_metadata', {})
+  const { data, error } = useSWR<Metadata>([session], async (session) =>
+    fetchMetadata(session, 'export_metadata', {}),
   )
 
   if (error) return <div>failed to load</div>
@@ -23,19 +22,24 @@ const Sidebar = () => {
       style={{
         padding: 20,
         flexShrink: 0,
-        display: "flex",
-        flexDirection: "column",
-        lineHeight: "1.8em",
-        borderRight: "2px solid #eee",
+        display: 'flex',
+        flexDirection: 'column',
+        lineHeight: '1.8em',
+        borderRight: '2px solid #eee',
       }}
     >
       {cronTriggers.map((cronTrigger) => (
-        <a key={cronTrigger.name} href={`/admin/event/?trigger=${cronTrigger.name}`}>{cronTrigger.name}</a>
+        <a
+          key={cronTrigger.name}
+          href={`/admin/event/?trigger=${cronTrigger.name}`}
+        >
+          {cronTrigger.name}
+        </a>
       ))}
 
-      <a href='/exchange/'>Manage Exchanges</a>
+      <a href="/exchange/">Manage Exchanges</a>
     </div>
-  );
+  )
 }
 
 export { Sidebar }
