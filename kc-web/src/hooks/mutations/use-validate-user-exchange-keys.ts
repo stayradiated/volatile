@@ -47,11 +47,12 @@ const useValidateUserExchangeKeys = () => {
           validation_message: 'Could not validate keys.',
         }
       setResult({ isValid, validationMessage })
+      return { isValid, validationMessage }
     } catch (error) {
       console.error(error)
+    } finally {
+      setLoading(false)
     }
-
-    setLoading(false)
   }
 
   return {

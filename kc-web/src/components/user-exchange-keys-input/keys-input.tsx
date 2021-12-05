@@ -54,7 +54,7 @@ const KeysIndependentReserve = (props: KeysProps) => {
   )
 }
 
-const KeyInput = (props: KeysProps) => {
+const KeysInput = (props: KeysProps) => {
   const { exchangeID } = props
   switch (exchangeID) {
     case 'dassetx.com':
@@ -68,4 +68,4 @@ const KeyInput = (props: KeysProps) => {
   }
 }
 
-export { KeyInput }
+export { KeysInput }

@@ -2,16 +2,17 @@ import { useState, useEffect } from 'react'
 import { gql, useQuery } from '@apollo/client'
 import { Alert } from 'antd'
 
-import { Form, Input, Button } from '../retro-ui'
-
 import { useValidateUserExchangeKeysLive } from '../../hooks/mutations/use-validate-user-exchange-keys-live'
+
+import { Form, Input, Button } from '../retro-ui'
+import { KeysInput } from '../user-exchange-keys-input'
+
+import { useUpdateUserExchangeKeys } from './mutation'
 
 import type {
   GetUserExchangeKeysFormEditQuery,
   GetUserExchangeKeysFormEditQueryVariables,
 } from '../../utils/graphql'
-import { useUpdateUserExchangeKeys } from './mutation'
-import { KeyInput } from './keys'
 
 type UserExchangeKeys =
   GetUserExchangeKeysFormEditQuery['kc_user_exchange_keys_by_pk']
@@ -65,7 +66,11 @@ const UserExchangeKeysFormEdit = (props: Props) => {
     result: validationResult,
   } = useValidateUserExchangeKeysLive()
 
+  const [replaceKeys, setReplaceKeys] = useState(false)
   const [state, setState] = useState<State>(INITIAL_STATE)
+  const [lastValidatedKeys, setLastValidatedKeys] = useState<Record<string, string>|undefined>(undefined)
+
+  const keysAreValid = validationResult?.isValid && JSON.stringify(state.keys) === JSON.stringify(lastValidatedKeys)
 
   const userExchangeKeys = data?.kc_user_exchange_keys_by_pk
 
@@ -78,6 +83,7 @@ const UserExchangeKeysFormEdit = (props: Props) => {
     }
   }, [userExchangeKeys])
 
+
   if (loading) {
     return <p>Fetching info...</p>
   }
@@ -85,6 +91,8 @@ const UserExchangeKeysFormEdit = (props: Props) => {
   if (error) {
     return <p>{error.message}</p>
   }
+
+  const handleReplaceKeys = () => setReplaceKeys(true)
 
   const handleFinish = async () => {
     await updateUserExchangeKeys({
@@ -98,12 +106,12 @@ const UserExchangeKeysFormEdit = (props: Props) => {
     }
   }
 
-  const handleValidate = async (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault()
-
+  const handleValidate = async () => {
     if (!userExchangeKeys) {
       throw new Error('Invalid state')
     }
+
+    setLastValidatedKeys(state.keys)
 
     await validateUserExchangeKeysLive({
       exchangeUID: userExchangeKeys.exchange.uid,
@@ -129,7 +137,10 @@ const UserExchangeKeysFormEdit = (props: Props) => {
         </Form.Item>
 
         <Form.Item name="keys">
-          <KeyInput exchangeID={userExchangeKeys?.exchange.id} />
+          {
+            replaceKeys
+              ? <KeysInput exchangeID={userExchangeKeys?.exchange.id} />
+              : <Button htmlType='button' onClick={handleReplaceKeys}>Replace API Keys</Button>}
         </Form.Item>
 
         {validationResult?.isValid === false && (
@@ -137,17 +148,19 @@ const UserExchangeKeysFormEdit = (props: Props) => {
         )}
 
         <Form.Item>
-          <Button type="link" onClick={onCancel}>
+          <Button htmlType='button' type="link" onClick={onCancel}>
             Cancel
           </Button>
-          <Button
+
+          {replaceKeys && <Button
             type="primary"
+            htmlType='button'
             onClick={handleValidate}
             loading={isValidating}
-            disabled={validationResult?.isValid === true}
+            disabled={keysAreValid}
           >
-            {validationResult?.isValid === true ? '✓ Valid' : 'Validate Keys'}
-          </Button>
+            {keysAreValid ? '✓ Valid' : 'Validate Keys'}
+          </Button>}
 
           <Button htmlType="submit">Save</Button>
         </Form.Item>

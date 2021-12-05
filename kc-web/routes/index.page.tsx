@@ -58,11 +58,11 @@ const Index = () => {
             </li>
             <li>
               <Button type="link" href="/settings/">
-                Settings
+                Exchange API Keys
               </Button>
             </li>
             <li>
-              <Button type="link" href="/dca-orders/">
+              <Button type="link" href="/devices/">
                 Devices
               </Button>
             </li>

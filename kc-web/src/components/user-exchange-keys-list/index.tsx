@@ -1,6 +1,7 @@
-import { useCallback, useMemo } from 'react'
-import { gql, useQuery, useMutation } from '@apollo/client'
+import { useMemo } from 'react'
+import { gql, useQuery } from '@apollo/client'
 import { useTable, Column } from 'react-table'
+import { parseISO, format } from 'date-fns'
 
 import { Table, Button } from '../retro-ui'
 
@@ -20,11 +21,11 @@ const QUERY = gql`
     kc_user_exchange_keys {
       uid
       description
+      updated_at
       exchange {
         uid
         name
       }
-      invalidated_at
       dca_orders_aggregate {
         aggregate {
           count
@@ -52,9 +53,12 @@ const UserExchangeKeysList = (props: Props) => {
 
   const columns = useMemo(() => {
     const columns: Array<Column<UserExchangeKeys>> = [
-      { Header: 'Description', accessor: 'description' },
       { Header: 'Exchange', accessor: (row) => row.exchange.name },
-      { Header: 'Invalidated At', accessor: 'invalidated_at' },
+      { Header: 'Keys', accessor: 'description' },
+      { Header: 'Last Modified', accessor: 'updated_at', Cell: (props) => {
+        const { value } = props
+        return format(parseISO(value), 'PPpp')
+      }},
       {
         Header: '# DCA Orders',
         accessor: (row) => row.dca_orders_aggregate.aggregate?.count,
@@ -76,7 +80,8 @@ const UserExchangeKeysList = (props: Props) => {
           }
 
           const handleValidate = async () => {
-            await validateUserExchangeKeys({ userExchangeKeysUID })
+            const result = await validateUserExchangeKeys({ userExchangeKeysUID })
+            alert(JSON.stringify(result))
           }
 
           return (
@@ -92,14 +97,14 @@ const UserExchangeKeysList = (props: Props) => {
     return columns
   }, [deleteUserExchangeKeys])
 
-  if (error) {
-    return <p>{error.message}</p>
-  }
-
   const table = useTable({
     columns,
     data: data?.kc_user_exchange_keys ?? [],
   })
+
+  if (error) {
+    return <p>{error.message}</p>
+  }
 
   return (
     <>

@@ -1,8 +1,12 @@
-import { Table, TableColumnsType } from 'antd'
 import { gql, useQuery } from '@apollo/client'
 import { DateTime } from 'luxon'
+import { useTable, Column } from 'react-table'
 
-import {
+import { Table } from '../retro-ui'
+
+import { formatCurrency } from '../../utils/format'
+
+import type {
   GetOpenOrderListQuery,
   GetOpenOrderListQueryVariables,
 } from '../../utils/graphql'
@@ -28,48 +32,61 @@ const QUERY = gql`
   }
 `
 
-const columns: TableColumnsType<Order> = [
+const columns: Column<Order>[] = [
   {
-    title: 'Exchange',
-    dataIndex: ['exchange', 'id'],
+    Header: 'Exchange',
+    accessor: (row) => row.exchange.id,
   },
   {
-    title: 'Opened At',
-    dataIndex: 'opened_at',
-    render: (timestamp) => DateTime.fromISO(timestamp).toFormat('ff'),
+    Header: 'Opened At',
+    accessor: 'opened_at',
+    Cell: (props) => {
+      const { value } = props
+      return DateTime.fromISO(value).toFormat('ff')
+    },
   },
   {
-    title: 'Volume',
-    dataIndex: 'volume',
+    Header: 'Asset',
+    accessor: 'primary_currency',
   },
   {
-    title: 'PriCur',
-    dataIndex: 'primary_currency',
+    Header: 'Volume',
+    accessor: 'volume',
   },
   {
-    title: 'Value',
-    dataIndex: 'value',
+    Header: 'Value',
+    accessor: 'value',
+    Cell: (props) => {
+      const { value, row } = props
+      const { secondary_currency } = row.original
+      return `${secondary_currency} $${formatCurrency(value)}`
+    }
   },
   {
-    title: 'SecCur',
-    dataIndex: 'secondary_currency',
+    Header: 'Type',
+    accessor: 'type',
   },
   {
-    title: 'Type',
-    dataIndex: 'type',
-  },
-  {
-    title: 'Price',
-    dataIndex: 'price',
-    render: (price) => '$' + price.toLocaleString(),
+    Header: 'Price',
+    accessor: 'price',
+    Cell: (props) => {
+      const { value, row } = props
+      const { secondary_currency } = row.original
+      return `${secondary_currency} $${formatCurrency(value)}`
+    }
   },
 ]
 
 const OpenOrderList = () => {
-  const { data, error, loading } = useQuery<
+  const { data, error } = useQuery<
     GetOpenOrderListQuery,
     GetOpenOrderListQueryVariables
   >(QUERY)
+
+  const table = useTable({
+    columns,
+    data: data?.kc_order ?? []
+  })
 
   if (error) {
     return <p>{error.message}</p>
@@ -77,13 +94,7 @@ const OpenOrderList = () => {
 
   return (
     <>
-      <Table
-        rowKey="uid"
-        columns={columns}
-        dataSource={data?.kc_order ?? []}
-        loading={loading}
-        pagination={false}
-      />
+      <Table table={table} />
     </>
   )
 }

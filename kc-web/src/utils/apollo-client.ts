@@ -30,11 +30,12 @@ const cache = new InMemoryCache({
     kc_market: { keyFields: ['uid'] },
     kc_dca_order: { keyFields: ['uid'] },
     kc_trade: { keyFields: ['uid'] },
+    kc_user_device: { keyFields: ['uid'] },
     Query: {
       fields: {
         kc_trade: offsetLimitPagination(['where']),
         kc_user_exchange_keys: {
-          merge: (existing, incoming) => incoming,
+          merge: (_existing, incoming) => incoming,
         },
       },
     },

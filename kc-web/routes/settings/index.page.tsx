@@ -26,7 +26,7 @@ const Settings = () => {
 
   return (
     <>
-      <Card width={800}>
+      <Card width={1400}>
         <UserExchangeKeysList
           onCreate={handleOpenCreate}
           onEdit={setEditState}

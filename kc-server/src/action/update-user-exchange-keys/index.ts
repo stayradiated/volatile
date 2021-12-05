@@ -5,8 +5,8 @@ import { updateUserExchangeKeys } from '../../model/user-exchange-keys/index.js'
 
 type Input = {
   user_exchange_keys_uid: string
-  keys: Record<string, string>
-  description: string
+  keys?: Record<string, string>
+  description?: string
 }
 type Output = {
   user_exchange_keys_uid: string

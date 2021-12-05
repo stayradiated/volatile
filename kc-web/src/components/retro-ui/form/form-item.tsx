@@ -22,7 +22,7 @@ const FormItem = (props: Props) => {
     label,
     name,
     formName = '',
-    value = '',
+    value,
     onChange,
   } = props
 

@@ -1,76 +1,98 @@
-import { DateTime } from 'luxon'
+import { parseISO, format } from 'date-fns'
 import { gql, useQuery } from '@apollo/client'
-import { Tooltip } from 'antd'
+import { useTable, Column } from 'react-table'
+import { useMemo } from 'react'
 
-import { GetUserDeviceListQuery } from '../../utils/graphql'
+import { Table, Button } from '../retro-ui'
+
+import { useDeleteUserDevice } from './mutation-delete'
+
+import type { GetUserDeviceListQuery } from '../../utils/graphql'
+
+type Device = GetUserDeviceListQuery['kc_user_device'][0]
 
 const QUERY = gql`
   query getUserDeviceList {
-    kc_user_device {
+    kc_user_device(order_by: { accessed_at: desc}) {
       uid
       name
       created_at
       accessed_at
-      trusted
     }
   }
 `
-type UserDeviceListItemProps = {
-  device: GetUserDeviceListQuery['kc_user_device'][0]
+
+type Props = {
+  onEdit?: (userDeviceUID: string) => void,
 }
 
-const UserDeviceListItem = (props: UserDeviceListItemProps) => {
-  const { device } = props
+const UserDeviceList = (props: Props) => {
+  const { onEdit } = props
 
-  const createdAt = DateTime.fromISO(device.created_at)
-  const accessedAt = DateTime.fromISO(device.accessed_at)
-
-  return (
-    <tr>
-      <td>{device.name}</td>
-      <td>
-        <Tooltip title={createdAt.toLocaleString(DateTime.DATETIME_MED)}>
-          {createdAt.toRelative()}
-        </Tooltip>
-      </td>
-      <td>
-        <Tooltip title={accessedAt.toLocaleString(DateTime.DATETIME_MED)}>
-          {accessedAt.toRelative()}
-        </Tooltip>
-      </td>
-      <td>{device.trusted ? 'Trusted' : ''}</td>
-    </tr>
-  )
-}
-
-const UserDeviceList = () => {
   const { data, error } = useQuery<GetUserDeviceListQuery>(QUERY)
+
+  const deleteUserDevice = useDeleteUserDevice()
+
+  const columns = useMemo(() => {
+    const columns: Column<Device>[] = [
+      {
+        Header: 'Name',
+        accessor: 'name',
+      },
+      {
+        Header: 'First Login',
+        accessor: 'created_at',
+        Cell: (props) => {
+          const { value } = props
+          const date = parseISO(value)
+          return format(date, 'PPpp')
+        }
+      },
+      {
+        Header: 'Last Login',
+        accessor: 'accessed_at',
+        Cell: (props) => {
+          const { value } = props
+          const date = parseISO(value)
+          return format(date, 'PPpp')
+        }
+      },
+      {
+        Header: 'Actions',
+        accessor: 'uid',
+        Cell: (props) => {
+          const { value } = props
+          const handleEdit = () => {
+            if (typeof onEdit === 'function') {
+              onEdit(value)
+            }
+          }
+          const handleDelete = () => {
+            deleteUserDevice(value)
+          }
+          return (
+            <>
+              <Button onClick={handleEdit}>Edit</Button>
+              <Button onClick={handleDelete}>Delete</Button>
+            </>
+          )
+        }
+      }
+    ]
+    return columns
+  }, [])
+
+  const table = useTable({
+    columns,
+    data: data?.kc_user_device ?? []
+  })
+
   if (error) {
     return <p>{error.message}</p>
   }
 
-  if (!data) {
-    return <p>Loading…</p>
-  }
-
-  const devices = data.kc_user_device
-
   return (
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>First Login</th>
-          <th>Last Login</th>
-          <th>Trusted</th>
-        </tr>
-      </thead>
-      <tbody>
-        {devices.map((device) => (
-          <UserDeviceListItem key={device.uid} device={device} />
-        ))}
-      </tbody>
-    </table>
+    <Table table={table} />
   )
 }
 

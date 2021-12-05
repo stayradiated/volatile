@@ -3,16 +3,17 @@ import { gql, useQuery } from '@apollo/client'
 import Select from 'react-select'
 import { Alert } from 'antd'
 
-import { Form, Input, Button } from '../retro-ui'
-
 import { useValidateUserExchangeKeysLive } from '../../hooks/mutations/use-validate-user-exchange-keys-live'
+
+import { Form, Input, Button } from '../retro-ui'
+import { KeysInput } from '../user-exchange-keys-input'
+
+import { useCreateUserExchangeKeys } from './mutation'
 
 import type {
   GetExchangeKeysFormCreateQuery,
   GetExchangeKeysFormCreateQueryVariables,
 } from '../../utils/graphql'
-import { useCreateUserExchangeKeys } from './mutation'
-import { KeyInput } from './keys'
 
 type Exchange = GetExchangeKeysFormCreateQuery['kc_exchange'][0]
 
@@ -60,6 +61,9 @@ const UserExchangeKeysFormCreate = (props: Props) => {
   } = useValidateUserExchangeKeysLive()
 
   const [state, setState] = useState<State>(INITIAL_STATE)
+  const [lastValidatedKeys, setLastValidatedKeys] = useState<Record<string, string>|undefined>(undefined)
+
+  const keysAreValid = validationResult?.isValid && JSON.stringify(state.keys) === JSON.stringify(lastValidatedKeys)
 
   if (loading) {
     return <p>loading exchange list...</p>
@@ -88,12 +92,12 @@ const UserExchangeKeysFormCreate = (props: Props) => {
     }
   }
 
-  const handleValidate = async (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault()
-
+  const handleValidate = async () => {
     if (!state.exchange) {
       throw new Error('Exchange is a required field!')
     }
+
+    setLastValidatedKeys(state.keys)
 
     await validateUserExchangeKeysLive({
       exchangeUID: state.exchange.uid,
@@ -126,7 +130,7 @@ const UserExchangeKeysFormCreate = (props: Props) => {
         </Form.Item>
 
         <Form.Item name="keys">
-          <KeyInput exchangeID={state.exchange?.id} />
+          <KeysInput exchangeID={state.exchange?.id} />
         </Form.Item>
 
         {validationResult?.isValid === false && (
@@ -134,16 +138,17 @@ const UserExchangeKeysFormCreate = (props: Props) => {
         )}
 
         <Form.Item>
-          <Button type="link" onClick={onCancel}>
+          <Button htmlType='button' type="link" onClick={onCancel}>
             Cancel
           </Button>
           <Button
+            htmlType='button'
             type="primary"
             onClick={handleValidate}
             loading={isValidating}
-            disabled={validationResult?.isValid === true}
+            disabled={keysAreValid}
           >
-            {validationResult?.isValid === true ? '✓ Valid' : 'Validate Keys'}
+            {keysAreValid ? '✓ Valid' : 'Validate Keys'}
           </Button>
 
           <Button htmlType="submit" disabled={!validationResult?.isValid}>

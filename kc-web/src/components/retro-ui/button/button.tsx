@@ -5,7 +5,7 @@ import styles from './button.module.css'
 
 type BaseProps = {
   type?: 'primary' | 'link'
-  htmlType?: 'submit'
+  htmlType?: 'submit' | 'button'
   loading?: boolean
   children?: React.ReactNode
   tabIndex?: number
