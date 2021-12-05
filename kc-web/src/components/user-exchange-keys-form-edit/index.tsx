@@ -137,7 +137,9 @@ const UserExchangeKeysFormEdit = (props: Props) => {
         )}
 
         <Form.Item>
-          <Button type="link" onClick={onCancel}>Cancel</Button>
+          <Button type="link" onClick={onCancel}>
+            Cancel
+          </Button>
           <Button
             type="primary"
             onClick={handleValidate}

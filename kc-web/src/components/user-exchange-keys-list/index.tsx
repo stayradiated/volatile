@@ -75,7 +75,7 @@ const UserExchangeKeysList = (props: Props) => {
             deleteUserExchangeKeys(userExchangeKeysUID)
           }
 
-          const handleValidate = async() => {
+          const handleValidate = async () => {
             await validateUserExchangeKeys({ userExchangeKeysUID })
           }
 
@@ -105,7 +105,7 @@ const UserExchangeKeysList = (props: Props) => {
     <>
       <h2>☰ Exchange API List</h2>
       <Table table={table} />
-      <Button type='primary' onClick={onCreate}>
+      <Button type="primary" onClick={onCreate}>
         Add API Keys
       </Button>
     </>

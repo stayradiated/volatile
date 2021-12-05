@@ -12,8 +12,13 @@ const Settings = () => {
   const [createState, setCreateState] = useState<boolean>(false)
   const [editState, setEditState] = useState<string | undefined>(undefined)
 
-  const handleOpenCreate = () => { setCreateState(true) }
-  const handleCloseCreate = () => { setCreateState(false) }
+  const handleOpenCreate = () => {
+    setCreateState(true)
+  }
+
+  const handleCloseCreate = () => {
+    setCreateState(false)
+  }
 
   const handleCloseEdit = () => {
     setEditState(undefined)
@@ -22,14 +27,19 @@ const Settings = () => {
   return (
     <>
       <Card width={800}>
-        <UserExchangeKeysList onCreate={handleOpenCreate} onEdit={setEditState} />
-      </Card>
-      {createState && <Card width={400}>
-        <UserExchangeKeysFormCreate 
-          onFinish={handleCloseCreate}
-          onCancel={handleCloseCreate}
+        <UserExchangeKeysList
+          onCreate={handleOpenCreate}
+          onEdit={setEditState}
         />
-      </Card>}
+      </Card>
+      {createState && (
+        <Card width={400}>
+          <UserExchangeKeysFormCreate
+            onFinish={handleCloseCreate}
+            onCancel={handleCloseCreate}
+          />
+        </Card>
+      )}
       {typeof editState === 'string' && (
         <Card width={400}>
           <UserExchangeKeysFormEdit

@@ -39,8 +39,8 @@ const INITIAL_STATE: State = {
 }
 
 type Props = {
-  onCancel?: () => void,
-  onFinish?: () => void,
+  onCancel?: () => void
+  onFinish?: () => void
 }
 
 const UserExchangeKeysFormCreate = (props: Props) => {
@@ -82,7 +82,7 @@ const UserExchangeKeysFormCreate = (props: Props) => {
 
     setState(INITIAL_STATE)
     resetValidateState()
-    
+
     if (typeof onFinish === 'function') {
       onFinish()
     }
@@ -134,10 +134,7 @@ const UserExchangeKeysFormCreate = (props: Props) => {
         )}
 
         <Form.Item>
-          <Button
-            type="link"
-            onClick={onCancel}
-          >
+          <Button type="link" onClick={onCancel}>
             Cancel
           </Button>
           <Button

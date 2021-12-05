@@ -37,6 +37,11 @@ const Index = () => {
 
           <ul>
             <li>
+              <Button type="link" href="/market-price/">
+                Market Price
+              </Button>
+            </li>
+            <li>
               <Button type="link" href="/dca-orders/">
                 DCA Orders
               </Button>

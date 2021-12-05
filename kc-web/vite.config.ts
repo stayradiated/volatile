@@ -13,6 +13,7 @@ export default defineConfig({
         'devices': resolve(__dirname, 'routes/devices/index.html'),
         'login': resolve(__dirname, 'routes/login/index.html'),
         'main': resolve(__dirname, 'routes/index.html'),
+        'market-price': resolve(__dirname, 'routes/market-price/index.html'),
         'open-orders': resolve(__dirname, 'routes/open-orders/index.html'),
         'register': resolve(__dirname, 'routes/register/index.html'),
         'settings': resolve(__dirname, 'routes/settings/index.html'),
@@ -23,8 +24,8 @@ export default defineConfig({
   server: {
     proxy: {
       '/hasura': {
-        // target: 'http://localhost:7947',
-        target: 'http://localhost:9999',
+        target: 'http://localhost:7947',
+        // target: 'http://localhost:9999',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/hasura/, ''),
         secure: false
