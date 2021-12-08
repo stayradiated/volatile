@@ -10,6 +10,7 @@ import {
   YAxis,
 } from 'recharts'
 import { parseISO, getTime, format } from 'date-fns'
+import { Alert } from 'antd'
 
 import { formatCurrency } from '../../utils/format'
 
@@ -45,7 +46,7 @@ const ChartWeek = () => {
   }
 
   if (error) {
-    throw error
+    return <Alert message={error.message} type="error" />
   }
 
   const chartData = [

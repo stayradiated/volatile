@@ -16,6 +16,8 @@ test('should calculate without trades', async (t) => {
   const exchangeUID = await make.exchange()
   const userExchangeKeysUID = await make.userExchangeKeys()
   const marketUID = await make.market()
+  const primaryCurrencySymbol = await make.primaryCurrency()
+  const secondaryCurrencySymbol = await make.secondaryCurrency()
 
   const dailyAverage = 100
 
@@ -28,8 +30,8 @@ test('should calculate without trades', async (t) => {
       exchangeUID,
       userExchangeKeysUID,
       marketUID,
-      primaryCurrency: 'BTC',
-      secondaryCurrency: 'NZD',
+      primaryCurrency: primaryCurrencySymbol,
+      secondaryCurrency: secondaryCurrencySymbol,
       startAt,
       marketOffset: 0,
       dailyAverage,

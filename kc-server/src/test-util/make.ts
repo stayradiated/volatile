@@ -4,6 +4,7 @@ import { throwIfError } from '@stayradiated/error-boundary'
 
 import { getExchangeUID, EXCHANGE_KIWI_COIN } from '../model/exchange/index.js'
 import { getMarketUID, MARKET_KIWI_COIN } from '../model/market/index.js'
+import { upsertCurrency, Currency } from '../model/currency/index.js'
 import { insertMarketPrice, MarketPrice } from '../model/market-price/index.js'
 import { insertDCAOrder, DCAOrder } from '../model/dca-order/index.js'
 import {
@@ -25,6 +26,12 @@ type MakeInstanceFn<T = void> = (options?: Partial<T>) => Promise<string>
 type MakeInstance = {
   user: MakeInstanceFn
   userUID?: string
+
+  primaryCurrency: MakeInstanceFn<Currency>
+  primaryCurrencySymbol?: string
+
+  secondaryCurrency: MakeInstanceFn<Currency>
+  secondaryCurrencySymbol?: string
 
   exchange: MakeInstanceFn
   exchangeUID?: string
@@ -66,6 +73,22 @@ const makeUser: MakeFn = (make) => async () => {
   make.userUID = user.UID
 
   return user.UID
+}
+
+const makePrimaryCurrency: MakeFn<Currency> = (make) => async (options) => {
+  const name = options?.name ?? 'Bitcoin'
+  const symbol = options?.symbol ?? 'BTC'
+  await throwIfError<void>(upsertCurrency(pool, { name, symbol }))
+  make.primaryCurrencySymbol = symbol
+  return symbol
+}
+
+const makeSecondaryCurrency: MakeFn<Currency> = (make) => async (options) => {
+  const name = options?.name ?? 'New Zealand Dollar'
+  const symbol = options?.symbol ?? 'NZD'
+  await throwIfError<void>(upsertCurrency(pool, { name, symbol }))
+  make.secondaryCurrencySymbol = symbol
+  return symbol
 }
 
 const makeExchange: MakeFn = (make) => async () => {
@@ -140,6 +163,8 @@ const makeDCAOrder: MakeFn<DCAOrder> = (make) => async (options) => {
     exchangeUID = await make.exchange(),
     userExchangeKeysUID = await make.userExchangeKeys(),
     marketUID = await make.market(),
+    primaryCurrencySymbol = await make.primaryCurrency(),
+    secondaryCurrencySymbol = await make.secondaryCurrency(),
   } = make
 
   const dcaOrder = await throwIfError<DCAOrder>(
@@ -148,8 +173,8 @@ const makeDCAOrder: MakeFn<DCAOrder> = (make) => async (options) => {
       exchangeUID,
       userExchangeKeysUID,
       marketUID,
-      primaryCurrency: 'BTC',
-      secondaryCurrency: 'NZD',
+      primaryCurrency: primaryCurrencySymbol,
+      secondaryCurrency: secondaryCurrencySymbol,
       startAt: DateTime.local(),
       marketOffset: round(2, Math.random() * -100),
       dailyAverage: round(0, Math.random() * 1000),
@@ -267,6 +292,8 @@ const createMakeInstance = () => {
   const instance: MakeInstance = {} as unknown as MakeInstance
 
   instance.user = makeUser(instance)
+  instance.primaryCurrency = makePrimaryCurrency(instance)
+  instance.secondaryCurrency = makeSecondaryCurrency(instance)
   instance.exchange = makeExchange(instance)
   instance.userExchangeKeys = makeUserExchangeKeys(instance)
   instance.market = makeMarket(instance)

@@ -3,17 +3,15 @@ import { useState, useEffect } from 'react'
 
 import { Form, Input, Button } from '../retro-ui'
 
+import type {
+  GetUserDeviceByUidQuery,
+  GetUserDeviceByUidQueryVariables,
+} from '../../utils/graphql'
 import { useUpdateUserDevice } from './mutation'
 
-import type { GetUserDeviceByUidQuery, GetUserDeviceByUidQueryVariables } from '../../utils/graphql'
-
 const QUERY = gql`
-  query getUserDeviceByUID(
-    $userDeviceUID: uuid!
-  ) {
-    kc_user_device_by_pk(
-      uid: $userDeviceUID
-    ) {
+  query getUserDeviceByUID($userDeviceUID: uuid!) {
+    kc_user_device_by_pk(uid: $userDeviceUID) {
       uid
       name
     }
@@ -21,7 +19,7 @@ const QUERY = gql`
 `
 
 type Props = {
-  userDeviceUID: string,
+  userDeviceUID: string
 }
 
 const UserDeviceFormEdit = (props: Props) => {
@@ -29,10 +27,13 @@ const UserDeviceFormEdit = (props: Props) => {
 
   const updateUserDevice = useUpdateUserDevice()
 
-  const { data, loading } = useQuery<GetUserDeviceByUidQuery, GetUserDeviceByUidQueryVariables>(QUERY, {
+  const { data, loading } = useQuery<
+    GetUserDeviceByUidQuery,
+    GetUserDeviceByUidQueryVariables
+  >(QUERY, {
     variables: {
       userDeviceUID,
-    }
+    },
   })
 
   const [state, setState] = useState({
@@ -42,7 +43,7 @@ const UserDeviceFormEdit = (props: Props) => {
   useEffect(() => {
     if (data?.kc_user_device_by_pk) {
       setState({
-        name: data?.kc_user_device_by_pk.name
+        name: data?.kc_user_device_by_pk.name,
       })
     }
   }, [data])
@@ -67,16 +68,14 @@ const UserDeviceFormEdit = (props: Props) => {
         onChange={setState}
         onFinish={handleFinish}
       >
-        <Form.Item label='Name' name='name'>
+        <Form.Item label="Name" name="name">
           <Input />
         </Form.Item>
         <Form.Item>
-          <Button type='link' htmlType='button'>
+          <Button type="link" htmlType="button">
             Cancel
           </Button>
-          <Button htmlType='submit'>
-            Save
-          </Button>
+          <Button htmlType="submit">Save</Button>
         </Form.Item>
       </Form>
     </>

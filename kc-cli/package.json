@@ -6,7 +6,7 @@
   "exports": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "test": "ava",
+    "test": "echo 'no files to test...'",
     "tidy": "xo --fix --ignore *.graphql.ts",
     "build": "del-cli dist && tsc",
     "build:ncc": "ncc build ./src/index.ts -o ./dist/ncc && mv ./dist/ncc/index.js ./dist/ncc/kc-cli.js",

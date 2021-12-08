@@ -18,4 +18,6 @@
 
 body {
   font-family: 'Source Code Pro', monospace;
+  background: url('./assets/bg.png');
+  image-rendering: pixelated;
 }

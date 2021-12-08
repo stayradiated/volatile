@@ -148,6 +148,8 @@ export type SyncExchangeTradeListOutput = {
 
 export type UpdateUserExchangeKeysOutput = {
   __typename?: 'UpdateUserExchangeKeysOutput'
+  /** An object relationship */
+  user_exchange_keys: Kc_User_Exchange_Keys
   user_exchange_keys_uid: Scalars['uuid']
 }
 
@@ -158,12 +160,18 @@ export type UpdateUserOutput = {
   user_uid: Scalars['uuid']
 }
 
+export type ValidateUserExchangeKeysLiveOutput = {
+  __typename?: 'ValidateUserExchangeKeysLiveOutput'
+  is_valid: Scalars['Boolean']
+  validation_message?: Maybe<Scalars['String']>
+}
+
 export type ValidateUserExchangeKeysOutput = {
   __typename?: 'ValidateUserExchangeKeysOutput'
   is_valid: Scalars['Boolean']
   /** An object relationship */
   user_exchange_keys: Kc_User_Exchange_Keys
-  user_exchange_keys_uid: Scalars['String']
+  user_exchange_keys_uid: Scalars['uuid']
   validation_message?: Maybe<Scalars['String']>
 }
 
@@ -369,8 +377,12 @@ export type Kc_Dca_Order = {
   max_value?: Maybe<Scalars['numeric']>
   min_price?: Maybe<Scalars['numeric']>
   min_value?: Maybe<Scalars['numeric']>
-  primary_currency: Scalars['String']
-  secondary_currency: Scalars['String']
+  /** An object relationship */
+  primary_currency: Kc_Currency
+  primary_currency_symbol: Scalars['String']
+  /** An object relationship */
+  secondary_currency: Kc_Currency
+  secondary_currency_symbol: Scalars['String']
   start_at: Scalars['timestamptz']
   uid: Scalars['uuid']
   updated_at: Scalars['timestamptz']
@@ -490,8 +502,10 @@ export type Kc_Dca_Order_Bool_Exp = {
   max_value?: InputMaybe<Numeric_Comparison_Exp>
   min_price?: InputMaybe<Numeric_Comparison_Exp>
   min_value?: InputMaybe<Numeric_Comparison_Exp>
-  primary_currency?: InputMaybe<String_Comparison_Exp>
-  secondary_currency?: InputMaybe<String_Comparison_Exp>
+  primary_currency?: InputMaybe<Kc_Currency_Bool_Exp>
+  primary_currency_symbol?: InputMaybe<String_Comparison_Exp>
+  secondary_currency?: InputMaybe<Kc_Currency_Bool_Exp>
+  secondary_currency_symbol?: InputMaybe<String_Comparison_Exp>
   start_at?: InputMaybe<Timestamptz_Comparison_Exp>
   uid?: InputMaybe<Uuid_Comparison_Exp>
   updated_at?: InputMaybe<Timestamptz_Comparison_Exp>
@@ -1029,8 +1043,10 @@ export type Kc_Dca_Order_Insert_Input = {
   max_value?: InputMaybe<Scalars['numeric']>
   min_price?: InputMaybe<Scalars['numeric']>
   min_value?: InputMaybe<Scalars['numeric']>
-  primary_currency?: InputMaybe<Scalars['String']>
-  secondary_currency?: InputMaybe<Scalars['String']>
+  primary_currency?: InputMaybe<Kc_Currency_Obj_Rel_Insert_Input>
+  primary_currency_symbol?: InputMaybe<Scalars['String']>
+  secondary_currency?: InputMaybe<Kc_Currency_Obj_Rel_Insert_Input>
+  secondary_currency_symbol?: InputMaybe<Scalars['String']>
   start_at?: InputMaybe<Scalars['timestamptz']>
   uid?: InputMaybe<Scalars['uuid']>
   updated_at?: InputMaybe<Scalars['timestamptz']>
@@ -1053,8 +1069,8 @@ export type Kc_Dca_Order_Max_Fields = {
   max_value?: Maybe<Scalars['numeric']>
   min_price?: Maybe<Scalars['numeric']>
   min_value?: Maybe<Scalars['numeric']>
-  primary_currency?: Maybe<Scalars['String']>
-  secondary_currency?: Maybe<Scalars['String']>
+  primary_currency_symbol?: Maybe<Scalars['String']>
+  secondary_currency_symbol?: Maybe<Scalars['String']>
   start_at?: Maybe<Scalars['timestamptz']>
   uid?: Maybe<Scalars['uuid']>
   updated_at?: Maybe<Scalars['timestamptz']>
@@ -1074,8 +1090,8 @@ export type Kc_Dca_Order_Max_Order_By = {
   max_value?: InputMaybe<Order_By>
   min_price?: InputMaybe<Order_By>
   min_value?: InputMaybe<Order_By>
-  primary_currency?: InputMaybe<Order_By>
-  secondary_currency?: InputMaybe<Order_By>
+  primary_currency_symbol?: InputMaybe<Order_By>
+  secondary_currency_symbol?: InputMaybe<Order_By>
   start_at?: InputMaybe<Order_By>
   uid?: InputMaybe<Order_By>
   updated_at?: InputMaybe<Order_By>
@@ -1096,8 +1112,8 @@ export type Kc_Dca_Order_Min_Fields = {
   max_value?: Maybe<Scalars['numeric']>
   min_price?: Maybe<Scalars['numeric']>
   min_value?: Maybe<Scalars['numeric']>
-  primary_currency?: Maybe<Scalars['String']>
-  secondary_currency?: Maybe<Scalars['String']>
+  primary_currency_symbol?: Maybe<Scalars['String']>
+  secondary_currency_symbol?: Maybe<Scalars['String']>
   start_at?: Maybe<Scalars['timestamptz']>
   uid?: Maybe<Scalars['uuid']>
   updated_at?: Maybe<Scalars['timestamptz']>
@@ -1117,8 +1133,8 @@ export type Kc_Dca_Order_Min_Order_By = {
   max_value?: InputMaybe<Order_By>
   min_price?: InputMaybe<Order_By>
   min_value?: InputMaybe<Order_By>
-  primary_currency?: InputMaybe<Order_By>
-  secondary_currency?: InputMaybe<Order_By>
+  primary_currency_symbol?: InputMaybe<Order_By>
+  secondary_currency_symbol?: InputMaybe<Order_By>
   start_at?: InputMaybe<Order_By>
   uid?: InputMaybe<Order_By>
   updated_at?: InputMaybe<Order_By>
@@ -1164,8 +1180,10 @@ export type Kc_Dca_Order_Order_By = {
   max_value?: InputMaybe<Order_By>
   min_price?: InputMaybe<Order_By>
   min_value?: InputMaybe<Order_By>
-  primary_currency?: InputMaybe<Order_By>
-  secondary_currency?: InputMaybe<Order_By>
+  primary_currency?: InputMaybe<Kc_Currency_Order_By>
+  primary_currency_symbol?: InputMaybe<Order_By>
+  secondary_currency?: InputMaybe<Kc_Currency_Order_By>
+  secondary_currency_symbol?: InputMaybe<Order_By>
   start_at?: InputMaybe<Order_By>
   uid?: InputMaybe<Order_By>
   updated_at?: InputMaybe<Order_By>
@@ -1203,9 +1221,9 @@ export enum Kc_Dca_Order_Select_Column {
   /** Column name */
   MinValue = 'min_value',
   /** Column name */
-  PrimaryCurrency = 'primary_currency',
+  PrimaryCurrencySymbol = 'primary_currency_symbol',
   /** Column name */
-  SecondaryCurrency = 'secondary_currency',
+  SecondaryCurrencySymbol = 'secondary_currency_symbol',
   /** Column name */
   StartAt = 'start_at',
   /** Column name */
@@ -1230,8 +1248,8 @@ export type Kc_Dca_Order_Set_Input = {
   max_value?: InputMaybe<Scalars['numeric']>
   min_price?: InputMaybe<Scalars['numeric']>
   min_value?: InputMaybe<Scalars['numeric']>
-  primary_currency?: InputMaybe<Scalars['String']>
-  secondary_currency?: InputMaybe<Scalars['String']>
+  primary_currency_symbol?: InputMaybe<Scalars['String']>
+  secondary_currency_symbol?: InputMaybe<Scalars['String']>
   start_at?: InputMaybe<Scalars['timestamptz']>
   uid?: InputMaybe<Scalars['uuid']>
   updated_at?: InputMaybe<Scalars['timestamptz']>
@@ -1346,9 +1364,9 @@ export enum Kc_Dca_Order_Update_Column {
   /** Column name */
   MinValue = 'min_value',
   /** Column name */
-  PrimaryCurrency = 'primary_currency',
+  PrimaryCurrencySymbol = 'primary_currency_symbol',
   /** Column name */
-  SecondaryCurrency = 'secondary_currency',
+  SecondaryCurrencySymbol = 'secondary_currency_symbol',
   /** Column name */
   StartAt = 'start_at',
   /** Column name */
@@ -5995,6 +6013,7 @@ export type Mutation_Root = {
   update_user: UpdateUserOutput
   update_user_exchange_keys?: Maybe<UpdateUserExchangeKeysOutput>
   validate_user_exchange_keys?: Maybe<ValidateUserExchangeKeysOutput>
+  validate_user_exchange_keys_live?: Maybe<ValidateUserExchangeKeysLiveOutput>
   verify_user_email: VerifyUserEmailOutput
 }
 
@@ -6643,14 +6662,20 @@ export type Mutation_RootUpdate_UserArgs = {
 
 /** Mutation root */
 export type Mutation_RootUpdate_User_Exchange_KeysArgs = {
-  description: Scalars['String']
-  keys: Scalars['jsonb']
+  description?: InputMaybe<Scalars['String']>
+  keys?: InputMaybe<Scalars['jsonb']>
   user_exchange_keys_uid: Scalars['uuid']
 }
 
 /** Mutation root */
 export type Mutation_RootValidate_User_Exchange_KeysArgs = {
-  user_exchange_keys_uid: Scalars['String']
+  user_exchange_keys_uid: Scalars['uuid']
+}
+
+/** Mutation root */
+export type Mutation_RootValidate_User_Exchange_Keys_LiveArgs = {
+  exchange_uid: Scalars['uuid']
+  keys: Scalars['jsonb']
 }
 
 /** Mutation root */
@@ -7784,6 +7809,34 @@ export type Uuid_Comparison_Exp = {
   _nin?: InputMaybe<Array<Scalars['uuid']>>
 }
 
+export type CreateCurrencyMutationVariables = Exact<{
+  name: Scalars['String']
+  symbol: Scalars['String']
+  createdAt: Scalars['timestamptz']
+  updatedAt: Scalars['timestamptz']
+}>
+
+export type CreateCurrencyMutation = {
+  __typename?: 'mutation_root'
+  insert_kc_currency_one?:
+    | { __typename?: 'kc_currency'; symbol: string; name: string }
+    | null
+    | undefined
+}
+
+export type GetCurrencyListQueryVariables = Exact<Record<string, never>>
+
+export type GetCurrencyListQuery = {
+  __typename?: 'query_root'
+  kc_currency: Array<{
+    __typename?: 'kc_currency'
+    created_at: string
+    updated_at: string
+    symbol: string
+    name: string
+  }>
+}
+
 export type GetExchangeListQueryVariables = Exact<Record<string, never>>
 
 export type GetExchangeListQuery = {
@@ -7807,6 +7860,88 @@ export type GetExchangeListQuery = {
   }>
 }
 
+export type CreateExchangePrimaryCurrencyMutationVariables = Exact<{
+  exchangeUID: Scalars['uuid']
+  symbol: Scalars['String']
+  createdAt: Scalars['timestamptz']
+  updatedAt: Scalars['timestamptz']
+}>
+
+export type CreateExchangePrimaryCurrencyMutation = {
+  __typename?: 'mutation_root'
+  insert_kc_exchange_primary_currency_one?:
+    | {
+        __typename?: 'kc_exchange_primary_currency'
+        exchange_uid: string
+        symbol: string
+      }
+    | null
+    | undefined
+}
+
+export type CreateExchangeSecondaryCurrencyMutationVariables = Exact<{
+  exchangeUID: Scalars['uuid']
+  symbol: Scalars['String']
+  createdAt: Scalars['timestamptz']
+  updatedAt: Scalars['timestamptz']
+}>
+
+export type CreateExchangeSecondaryCurrencyMutation = {
+  __typename?: 'mutation_root'
+  insert_kc_exchange_secondary_currency_one?:
+    | {
+        __typename?: 'kc_exchange_secondary_currency'
+        exchange_uid: string
+        symbol: string
+      }
+    | null
+    | undefined
+}
+
+export const CreateCurrencyDocument = gql`
+  mutation createCurrency(
+    $name: String!
+    $symbol: String!
+    $createdAt: timestamptz!
+    $updatedAt: timestamptz!
+  ) {
+    insert_kc_currency_one(
+      object: {
+        name: $name
+        symbol: $symbol
+        created_at: $createdAt
+        updated_at: $updatedAt
+      }
+    ) {
+      symbol
+      name
+    }
+  }
+`
+export type CreateCurrencyMutationFn = Apollo.MutationFunction<
+  CreateCurrencyMutation,
+  CreateCurrencyMutationVariables
+>
+export type CreateCurrencyMutationResult =
+  Apollo.MutationResult<CreateCurrencyMutation>
+export type CreateCurrencyMutationOptions = Apollo.BaseMutationOptions<
+  CreateCurrencyMutation,
+  CreateCurrencyMutationVariables
+>
+export const GetCurrencyListDocument = gql`
+  query getCurrencyList {
+    kc_currency {
+      created_at
+      updated_at
+      symbol
+      name
+    }
+  }
+`
+export type GetCurrencyListQueryResult = Apollo.QueryResult<
+  GetCurrencyListQuery,
+  GetCurrencyListQueryVariables
+>
 export const GetExchangeListDocument = gql`
   query getExchangeList {
     kc_exchange {
@@ -7829,3 +7964,65 @@ export type GetExchangeListQueryResult = Apollo.QueryResult<
   GetExchangeListQuery,
   GetExchangeListQueryVariables
 >
+export const CreateExchangePrimaryCurrencyDocument = gql`
+  mutation createExchangePrimaryCurrency(
+    $exchangeUID: uuid!
+    $symbol: String!
+    $createdAt: timestamptz!
+    $updatedAt: timestamptz!
+  ) {
+    insert_kc_exchange_primary_currency_one(
+      object: {
+        exchange_uid: $exchangeUID
+        symbol: $symbol
+        created_at: $createdAt
+        updated_at: $updatedAt
+      }
+    ) {
+      exchange_uid
+      symbol
+    }
+  }
+`
+export type CreateExchangePrimaryCurrencyMutationFn = Apollo.MutationFunction<
+  CreateExchangePrimaryCurrencyMutation,
+  CreateExchangePrimaryCurrencyMutationVariables
+>
+export type CreateExchangePrimaryCurrencyMutationResult =
+  Apollo.MutationResult<CreateExchangePrimaryCurrencyMutation>
+export type CreateExchangePrimaryCurrencyMutationOptions =
+  Apollo.BaseMutationOptions<
+    CreateExchangePrimaryCurrencyMutation,
+    CreateExchangePrimaryCurrencyMutationVariables
+  >
+export const CreateExchangeSecondaryCurrencyDocument = gql`
+  mutation createExchangeSecondaryCurrency(
+    $exchangeUID: uuid!
+    $symbol: String!
+    $createdAt: timestamptz!
+    $updatedAt: timestamptz!
+  ) {
+    insert_kc_exchange_secondary_currency_one(
+      object: {
+        exchange_uid: $exchangeUID
+        symbol: $symbol
+        created_at: $createdAt
+        updated_at: $updatedAt
+      }
+    ) {
+      exchange_uid
+      symbol
+    }
+  }
+`
+export type CreateExchangeSecondaryCurrencyMutationFn = Apollo.MutationFunction<
+  CreateExchangeSecondaryCurrencyMutation,
+  CreateExchangeSecondaryCurrencyMutationVariables
+>
+export type CreateExchangeSecondaryCurrencyMutationResult =
+  Apollo.MutationResult<CreateExchangeSecondaryCurrencyMutation>
+export type CreateExchangeSecondaryCurrencyMutationOptions =
+  Apollo.BaseMutationOptions<
+    CreateExchangeSecondaryCurrencyMutation,
+    CreateExchangeSecondaryCurrencyMutationVariables
+  >

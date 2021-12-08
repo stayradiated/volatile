@@ -32,7 +32,7 @@ const QUERY = gql`
   }
 `
 
-const columns: Column<Order>[] = [
+const columns: Array<Column<Order>> = [
   {
     Header: 'Exchange',
     accessor: (row) => row.exchange.id,
@@ -60,7 +60,7 @@ const columns: Column<Order>[] = [
       const { value, row } = props
       const { secondary_currency } = row.original
       return `${secondary_currency} $${formatCurrency(value)}`
-    }
+    },
   },
   {
     Header: 'Type',
@@ -73,7 +73,7 @@ const columns: Column<Order>[] = [
       const { value, row } = props
       const { secondary_currency } = row.original
       return `${secondary_currency} $${formatCurrency(value)}`
-    }
+    },
   },
 ]
 
@@ -85,7 +85,7 @@ const OpenOrderList = () => {
 
   const table = useTable({
     columns,
-    data: data?.kc_order ?? []
+    data: data?.kc_order ?? [],
   })
 
   if (error) {

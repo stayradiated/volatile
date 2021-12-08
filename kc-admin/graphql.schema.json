@@ -898,6 +898,22 @@
         "description": null,
         "fields": [
           {
+            "name": "user_exchange_keys",
+            "description": "An object relationship",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "kc_user_exchange_keys",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "user_exchange_keys_uid",
             "description": null,
             "args": [],
@@ -964,6 +980,45 @@
       },
       {
         "kind": "OBJECT",
+        "name": "ValidateUserExchangeKeysLiveOutput",
+        "description": null,
+        "fields": [
+          {
+            "name": "is_valid",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "validation_message",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
         "name": "ValidateUserExchangeKeysOutput",
         "description": null,
         "fields": [
@@ -1008,7 +1063,7 @@
               "name": null,
               "ofType": {
                 "kind": "SCALAR",
-                "name": "String",
+                "name": "uuid",
                 "ofType": null
               }
             },
@@ -3510,6 +3565,22 @@
           },
           {
             "name": "primary_currency",
+            "description": "An object relationship",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "kc_currency",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "primary_currency_symbol",
             "description": null,
             "args": [],
             "type": {
@@ -3526,6 +3597,22 @@
           },
           {
             "name": "secondary_currency",
+            "description": "An object relationship",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "kc_currency",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "secondary_currency_symbol",
             "description": null,
             "args": [],
             "type": {
@@ -4460,6 +4547,18 @@
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
+              "name": "kc_currency_bool_exp",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "primary_currency_symbol",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
               "name": "String_comparison_exp",
               "ofType": null
             },
@@ -4469,6 +4568,18 @@
           },
           {
             "name": "secondary_currency",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "kc_currency_bool_exp",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "secondary_currency_symbol",
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
@@ -8755,6 +8866,18 @@
             "name": "primary_currency",
             "description": null,
             "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "kc_currency_obj_rel_insert_input",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "primary_currency_symbol",
+            "description": null,
+            "type": {
               "kind": "SCALAR",
               "name": "String",
               "ofType": null
@@ -8765,6 +8888,18 @@
           },
           {
             "name": "secondary_currency",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "kc_currency_obj_rel_insert_input",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "secondary_currency_symbol",
             "description": null,
             "type": {
               "kind": "SCALAR",
@@ -8990,7 +9125,7 @@
             "deprecationReason": null
           },
           {
-            "name": "primary_currency",
+            "name": "primary_currency_symbol",
             "description": null,
             "args": [],
             "type": {
@@ -9002,7 +9137,7 @@
             "deprecationReason": null
           },
           {
-            "name": "secondary_currency",
+            "name": "secondary_currency_symbol",
             "description": null,
             "args": [],
             "type": {
@@ -9206,7 +9341,7 @@
             "deprecationReason": null
           },
           {
-            "name": "primary_currency",
+            "name": "primary_currency_symbol",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -9218,7 +9353,7 @@
             "deprecationReason": null
           },
           {
-            "name": "secondary_currency",
+            "name": "secondary_currency_symbol",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -9420,7 +9555,7 @@
             "deprecationReason": null
           },
           {
-            "name": "primary_currency",
+            "name": "primary_currency_symbol",
             "description": null,
             "args": [],
             "type": {
@@ -9432,7 +9567,7 @@
             "deprecationReason": null
           },
           {
-            "name": "secondary_currency",
+            "name": "secondary_currency_symbol",
             "description": null,
             "args": [],
             "type": {
@@ -9636,7 +9771,7 @@
             "deprecationReason": null
           },
           {
-            "name": "primary_currency",
+            "name": "primary_currency_symbol",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -9648,7 +9783,7 @@
             "deprecationReason": null
           },
           {
-            "name": "secondary_currency",
+            "name": "secondary_currency_symbol",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -10043,6 +10178,18 @@
             "name": "primary_currency",
             "description": null,
             "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "kc_currency_order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "primary_currency_symbol",
+            "description": null,
+            "type": {
               "kind": "ENUM",
               "name": "order_by",
               "ofType": null
@@ -10053,6 +10200,18 @@
           },
           {
             "name": "secondary_currency",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "kc_currency_order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "secondary_currency_symbol",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -10248,13 +10407,13 @@
             "deprecationReason": null
           },
           {
-            "name": "primary_currency",
+            "name": "primary_currency_symbol",
             "description": "column name",
             "isDeprecated": false,
             "deprecationReason": null
           },
           {
-            "name": "secondary_currency",
+            "name": "secondary_currency_symbol",
             "description": "column name",
             "isDeprecated": false,
             "deprecationReason": null
@@ -10419,7 +10578,7 @@
             "deprecationReason": null
           },
           {
-            "name": "primary_currency",
+            "name": "primary_currency_symbol",
             "description": null,
             "type": {
               "kind": "SCALAR",
@@ -10431,7 +10590,7 @@
             "deprecationReason": null
           },
           {
-            "name": "secondary_currency",
+            "name": "secondary_currency_symbol",
             "description": null,
             "type": {
               "kind": "SCALAR",
@@ -11240,13 +11399,13 @@
             "deprecationReason": null
           },
           {
-            "name": "primary_currency",
+            "name": "primary_currency_symbol",
             "description": "column name",
             "isDeprecated": false,
             "deprecationReason": null
           },
           {
-            "name": "secondary_currency",
+            "name": "secondary_currency_symbol",
             "description": "column name",
             "isDeprecated": false,
             "deprecationReason": null
@@ -47404,13 +47563,9 @@
                 "name": "description",
                 "description": null,
                 "type": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "String",
-                    "ofType": null
-                  }
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
                 },
                 "defaultValue": null,
                 "isDeprecated": false,
@@ -47420,13 +47575,9 @@
                 "name": "keys",
                 "description": null,
                 "type": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "jsonb",
-                    "ofType": null
-                  }
+                  "kind": "SCALAR",
+                  "name": "jsonb",
+                  "ofType": null
                 },
                 "defaultValue": null,
                 "isDeprecated": false,
@@ -47469,7 +47620,7 @@
                   "name": null,
                   "ofType": {
                     "kind": "SCALAR",
-                    "name": "String",
+                    "name": "uuid",
                     "ofType": null
                   }
                 },
@@ -47481,6 +47632,51 @@
             "type": {
               "kind": "OBJECT",
               "name": "ValidateUserExchangeKeysOutput",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "validate_user_exchange_keys_live",
+            "description": null,
+            "args": [
+              {
+                "name": "exchange_uid",
+                "description": null,
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "uuid",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "keys",
+                "description": null,
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "jsonb",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              }
+            ],
+            "type": {
+              "kind": "OBJECT",
+              "name": "ValidateUserExchangeKeysLiveOutput",
               "ofType": null
             },
             "isDeprecated": false,

@@ -8,6 +8,12 @@ object_relationships:
 - name: market
   using:
     foreign_key_constraint_on: market_uid
+- name: primary_currency
+  using:
+    foreign_key_constraint_on: primary_currency_symbol
+- name: secondary_currency
+  using:
+    foreign_key_constraint_on: secondary_currency_symbol
 - name: user
   using:
     foreign_key_constraint_on: user_uid
@@ -26,23 +32,23 @@ select_permissions:
 - permission:
     allow_aggregations: true
     columns:
-    - created_at
-    - daily_average
-    - enabled_at
-    - exchange_uid
-    - market_offset
-    - market_uid
-    - max_price
-    - max_value
-    - min_price
-    - min_value
-    - primary_currency
-    - secondary_currency
-    - start_at
     - uid
+    - created_at
     - updated_at
-    - user_exchange_keys_uid
     - user_uid
+    - exchange_uid
+    - market_uid
+    - start_at
+    - market_offset
+    - daily_average
+    - min_price
+    - max_price
+    - min_value
+    - max_value
+    - user_exchange_keys_uid
+    - primary_currency_symbol
+    - enabled_at
+    - secondary_currency_symbol
     filter:
       user_uid:
         _eq: X-Hasura-User-Id
@@ -55,14 +61,16 @@ update_permissions:
         _eq: X-Hasura-User-Id
     columns:
     - daily_average
+    - enabled_at
     - market_offset
     - market_uid
-    - max_value
     - max_price
-    - min_value
+    - max_value
     - min_price
+    - min_value
     - start_at
     - updated_at
+    - user_exchange_keys_uid
     filter:
       user_uid:
         _eq: X-Hasura-User-Id

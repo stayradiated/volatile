@@ -12,14 +12,16 @@ test('insertDCAOrder', async (t) => {
   const exchangeUID = await make.exchange()
   const marketUID = await make.market()
   const userExchangeKeysUID = await make.userExchangeKeys()
+  const primaryCurrencySymbol = await make.primaryCurrency()
+  const secondaryCurrencySymbol = await make.secondaryCurrency()
 
   const input: InsertDCAOrderOptions = {
     userUID,
     exchangeUID,
     userExchangeKeysUID,
     marketUID,
-    primaryCurrency: 'BTC',
-    secondaryCurrency: '',
+    primaryCurrency: primaryCurrencySymbol,
+    secondaryCurrency: secondaryCurrencySymbol,
     startAt: DateTime.local(),
     marketOffset: -2,
     dailyAverage: 50,
@@ -42,14 +44,16 @@ test('insertDCAOrder (no min/max)', async (t) => {
   const exchangeUID = await make.exchange()
   const marketUID = await make.market()
   const userExchangeKeysUID = await make.userExchangeKeys()
+  const primaryCurrencySymbol = await make.primaryCurrency()
+  const secondaryCurrencySymbol = await make.secondaryCurrency()
 
   const input: InsertDCAOrderOptions = {
     userUID,
     exchangeUID,
     userExchangeKeysUID,
     marketUID,
-    primaryCurrency: 'BTC',
-    secondaryCurrency: '',
+    primaryCurrency: primaryCurrencySymbol,
+    secondaryCurrency: secondaryCurrencySymbol,
     startAt: DateTime.local(),
     marketOffset: -2,
     dailyAverage: 50,

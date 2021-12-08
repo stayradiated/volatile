@@ -10,21 +10,25 @@ import type { Pool } from '../../types.js'
 type Exchange = {
   ID: string
   name: string
+  url: string
 }
 
 const EXCHANGE_KIWI_COIN: Exchange = {
   ID: 'kiwi-coin.com',
   name: 'Kiwi-Coin',
+  url: 'https://kiwi-coin.com',
 }
 
 const EXCHANGE_DASSET: Exchange = {
   ID: 'dassetx.com',
   name: 'Dasset',
+  url: 'https://dassetx.com',
 }
 
 const EXCHANGE_INDEPENDENT_RESERVE: Exchange = {
   ID: 'independentreserve.com',
   name: 'Independent Reserve',
+  url: 'https://independentreserve.com',
 }
 
 const forceGetExchangeUID = async (
@@ -37,6 +41,7 @@ const forceGetExchangeUID = async (
     updated_at: new Date(),
     id: exchange.ID,
     name: exchange.name,
+    url: exchange.url,
   }
 
   const rows = await errorBoundary(async () =>

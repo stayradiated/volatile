@@ -8,12 +8,11 @@ import { useValidateUserExchangeKeysLive } from '../../hooks/mutations/use-valid
 import { Form, Input, Button } from '../retro-ui'
 import { KeysInput } from '../user-exchange-keys-input'
 
-import { useCreateUserExchangeKeys } from './mutation'
-
 import type {
   GetExchangeKeysFormCreateQuery,
   GetExchangeKeysFormCreateQueryVariables,
 } from '../../utils/graphql'
+import { useCreateUserExchangeKeys } from './mutation'
 
 type Exchange = GetExchangeKeysFormCreateQuery['kc_exchange'][0]
 
@@ -61,9 +60,13 @@ const UserExchangeKeysFormCreate = (props: Props) => {
   } = useValidateUserExchangeKeysLive()
 
   const [state, setState] = useState<State>(INITIAL_STATE)
-  const [lastValidatedKeys, setLastValidatedKeys] = useState<Record<string, string>|undefined>(undefined)
+  const [lastValidatedKeys, setLastValidatedKeys] = useState<
+    Record<string, string> | undefined
+  >(undefined)
 
-  const keysAreValid = validationResult?.isValid && JSON.stringify(state.keys) === JSON.stringify(lastValidatedKeys)
+  const keysAreValid =
+    validationResult?.isValid &&
+    JSON.stringify(state.keys) === JSON.stringify(lastValidatedKeys)
 
   if (loading) {
     return <p>loading exchange list...</p>
@@ -138,11 +141,11 @@ const UserExchangeKeysFormCreate = (props: Props) => {
         )}
 
         <Form.Item>
-          <Button htmlType='button' type="link" onClick={onCancel}>
+          <Button htmlType="button" type="link" onClick={onCancel}>
             Cancel
           </Button>
           <Button
-            htmlType='button'
+            htmlType="button"
             type="primary"
             onClick={handleValidate}
             loading={isValidating}

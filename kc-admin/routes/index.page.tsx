@@ -1,21 +1,25 @@
 import ReactDOM from 'react-dom'
 
 import { useSessionContext } from '../src/utils/session-context'
-import { LoginPage } from '../src/components/LoginPage'
-import { ExchangeList } from '../src/components/ExchangeList'
 
+import { Sidebar } from '../src/components/Sidebar'
+import { LoginPage } from '../src/components/LoginPage'
 import { App } from '../src/app'
 
 const Page = () => {
   const session = useSessionContext()
+  console.log(session)
 
   if (!session.isAuthenticated) {
     return <LoginPage />
   }
 
-  return (
-    <ExchangeList />
-  )
+  return <Sidebar />
 }
 
-ReactDOM.render(<App><Page /></App>, document.querySelector('#root'))
+ReactDOM.render(
+  <App>
+    <Page />
+  </App>,
+  document.querySelector('#root'),
+)

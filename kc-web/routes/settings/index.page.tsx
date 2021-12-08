@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import ReactDOM from 'react-dom'
 
+import { Navigation } from '../../src/components/navigation'
 import { UserExchangeKeysFormCreate } from '../../src/components/user-exchange-keys-form-create/index'
 import { UserExchangeKeysFormEdit } from '../../src/components/user-exchange-keys-form-edit/index'
 import { UserExchangeKeysList } from '../../src/components/user-exchange-keys-list/index'
@@ -26,6 +27,7 @@ const Settings = () => {
 
   return (
     <>
+      <Navigation />
       <Card width={1400}>
         <UserExchangeKeysList
           onCreate={handleOpenCreate}

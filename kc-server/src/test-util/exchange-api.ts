@@ -7,6 +7,7 @@ import type { UserExchangeAPI } from '../exchange-api/index.js'
 const EXCHANGE_MOCK: Exchange = {
   ID: 'mock',
   name: 'Mock Exchange',
+  url: 'https://mock-exchange',
 }
 
 type CancelOrderArgs = Parameters<UserExchangeAPI['cancelOrder']>

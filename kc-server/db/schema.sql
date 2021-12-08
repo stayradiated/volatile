@@ -122,9 +122,9 @@ CREATE TABLE kc.dca_order (
     min_value numeric(12,2),
     max_value numeric(12,2),
     user_exchange_keys_uid uuid NOT NULL,
-    primary_currency text NOT NULL,
+    primary_currency_symbol text NOT NULL,
     enabled_at timestamp with time zone,
-    secondary_currency text NOT NULL
+    secondary_currency_symbol text NOT NULL
 );
 
 
@@ -698,6 +698,22 @@ ALTER TABLE ONLY kc.dca_order
 
 
 --
+-- Name: dca_order fk_dca_order_primary_currency_symbol; Type: FK CONSTRAINT; Schema: kc; Owner: -
+--
+
+ALTER TABLE ONLY kc.dca_order
+    ADD CONSTRAINT fk_dca_order_primary_currency_symbol FOREIGN KEY (primary_currency_symbol) REFERENCES kc.currency(symbol) ON UPDATE CASCADE ON DELETE RESTRICT;
+
+
+--
+-- Name: dca_order fk_dca_order_secondary_currency_symbol; Type: FK CONSTRAINT; Schema: kc; Owner: -
+--
+
+ALTER TABLE ONLY kc.dca_order
+    ADD CONSTRAINT fk_dca_order_secondary_currency_symbol FOREIGN KEY (secondary_currency_symbol) REFERENCES kc.currency(symbol) ON UPDATE CASCADE ON DELETE RESTRICT;
+
+
+--
 -- Name: dca_order fk_dca_order_user; Type: FK CONSTRAINT; Schema: kc; Owner: -
 --
 
@@ -856,4 +872,5 @@ INSERT INTO kc.schema_migrations (version) VALUES
     ('20211127183330'),
     ('20211128100212'),
     ('20211128103149'),
-    ('20211201065401');
+    ('20211201065401'),
+    ('20211208061245');

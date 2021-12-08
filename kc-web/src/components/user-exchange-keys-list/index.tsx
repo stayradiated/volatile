@@ -55,10 +55,14 @@ const UserExchangeKeysList = (props: Props) => {
     const columns: Array<Column<UserExchangeKeys>> = [
       { Header: 'Exchange', accessor: (row) => row.exchange.name },
       { Header: 'Keys', accessor: 'description' },
-      { Header: 'Last Modified', accessor: 'updated_at', Cell: (props) => {
-        const { value } = props
-        return format(parseISO(value), 'PPpp')
-      }},
+      {
+        Header: 'Last Modified',
+        accessor: 'updated_at',
+        Cell: (props) => {
+          const { value } = props
+          return format(parseISO(value), 'PPpp')
+        },
+      },
       {
         Header: '# DCA Orders',
         accessor: (row) => row.dca_orders_aggregate.aggregate?.count,
@@ -80,7 +84,9 @@ const UserExchangeKeysList = (props: Props) => {
           }
 
           const handleValidate = async () => {
-            const result = await validateUserExchangeKeys({ userExchangeKeysUID })
+            const result = await validateUserExchangeKeys({
+              userExchangeKeysUID,
+            })
             alert(JSON.stringify(result))
           }
 

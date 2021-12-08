@@ -19,7 +19,7 @@ const MUTATION = gql`
 
 const QUERY_FRAGMENT = gql`
   query getUserDeviceListByUID {
-    kc_user_device(order_by: { accessed_at: desc}) {
+    kc_user_device(order_by: { accessed_at: desc }) {
       uid
     }
   }

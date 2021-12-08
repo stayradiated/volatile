@@ -5,7 +5,7 @@
     "serve": "vite preview",
     "tidy": "xo --fix",
     "graphql": "graphql-codegen --config ./graphql.codegen.js",
-    "test": "ava"
+    "test": "echo 'no files to test...'"
   },
   "dependencies": {
     "@apollo/client": "3.5.5",

@@ -6,6 +6,9 @@ import type {
   GetExchangeListQueryVariables,
 } from '../../utils/graphql'
 
+import { ExchangePrimaryCurrencyFormCreate } from './ExchangePrimaryCurrencyFormCreate'
+import { ExchangeSecondaryCurrencyFormCreate } from './ExchangeSecondaryCurrencyFormCreate'
+
 const { Column } = Table
 const { Text, Link } = Typography
 
@@ -51,7 +54,11 @@ const ExchangeList = () => {
 
   return (
     <>
-      <Table dataSource={data?.kc_exchange ?? []} pagination={false}>
+      <Table
+        rowKey="uid"
+        dataSource={data?.kc_exchange ?? []}
+        pagination={false}
+      >
         <Column
           title="UID"
           dataIndex="uid"
@@ -96,6 +103,10 @@ const ExchangeList = () => {
         />
         <Column title="Actions" render={() => <Button>Edit</Button>} />
       </Table>
+      <hr />
+      <ExchangePrimaryCurrencyFormCreate />
+      <hr />
+      <ExchangeSecondaryCurrencyFormCreate />
     </>
   )
 }

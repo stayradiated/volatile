@@ -37,7 +37,7 @@ const FormItem = (props: Props) => {
       )}
       <div className={cx(className, styles.input)}>
         {React.Children.map(children, (child) => {
-          if (React.isValidElement(child)) {
+          if (typeof name === 'string' && React.isValidElement(child)) {
             return React.cloneElement(child, {
               id: labelKey,
               value,

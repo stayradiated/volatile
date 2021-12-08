@@ -37,7 +37,7 @@ const Sidebar = () => {
         </a>
       ))}
 
-      <a href="/exchange/">Manage Exchanges</a>
+      <a href="/admin/exchange/">Manage Exchanges</a>
     </div>
   )
 }

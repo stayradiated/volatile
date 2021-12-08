@@ -46,7 +46,7 @@
   },
   "scripts": {
     "tidy": "xo --fix",
-    "test": "ava",
+    "test": "echo 'no files to test...'",
     "build": "del-cli dist && tsc"
   },
   "__comment": "The following configs are managed by `npx @stayradiated/jsconfig`",

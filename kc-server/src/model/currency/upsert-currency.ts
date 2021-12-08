@@ -3,20 +3,23 @@ import { errorBoundary } from '@stayradiated/error-boundary'
 import { DateTime } from 'luxon'
 
 import type { Pool } from '../../types.js'
-import type { Asset } from './types.js'
+import type { Currency } from './types.js'
 
-const upsertAsset = async (pool: Pool, asset: Asset): Promise<void | Error> => {
+const upsertCurrency = async (
+  pool: Pool,
+  currency: Currency,
+): Promise<void | Error> => {
   const now = DateTime.local().toJSDate()
 
   const error = await errorBoundary(async () =>
     db
       .upsert(
-        'asset',
+        'currency',
         {
-          symbol: asset.symbol,
+          symbol: currency.symbol,
           created_at: now,
           updated_at: now,
-          name: asset.name,
+          name: currency.name,
         },
         ['symbol'],
         {
@@ -32,4 +35,4 @@ const upsertAsset = async (pool: Pool, asset: Asset): Promise<void | Error> => {
   return undefined
 }
 
-export { upsertAsset }
+export { upsertCurrency }

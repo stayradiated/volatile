@@ -7,12 +7,11 @@ import { useValidateUserExchangeKeysLive } from '../../hooks/mutations/use-valid
 import { Form, Input, Button } from '../retro-ui'
 import { KeysInput } from '../user-exchange-keys-input'
 
-import { useUpdateUserExchangeKeys } from './mutation'
-
 import type {
   GetUserExchangeKeysFormEditQuery,
   GetUserExchangeKeysFormEditQueryVariables,
 } from '../../utils/graphql'
+import { useUpdateUserExchangeKeys } from './mutation'
 
 type UserExchangeKeys =
   GetUserExchangeKeysFormEditQuery['kc_user_exchange_keys_by_pk']
@@ -68,9 +67,13 @@ const UserExchangeKeysFormEdit = (props: Props) => {
 
   const [replaceKeys, setReplaceKeys] = useState(false)
   const [state, setState] = useState<State>(INITIAL_STATE)
-  const [lastValidatedKeys, setLastValidatedKeys] = useState<Record<string, string>|undefined>(undefined)
+  const [lastValidatedKeys, setLastValidatedKeys] = useState<
+    Record<string, string> | undefined
+  >(undefined)
 
-  const keysAreValid = validationResult?.isValid && JSON.stringify(state.keys) === JSON.stringify(lastValidatedKeys)
+  const keysAreValid =
+    validationResult?.isValid &&
+    JSON.stringify(state.keys) === JSON.stringify(lastValidatedKeys)
 
   const userExchangeKeys = data?.kc_user_exchange_keys_by_pk
 
@@ -83,7 +86,6 @@ const UserExchangeKeysFormEdit = (props: Props) => {
     }
   }, [userExchangeKeys])
 
-
   if (loading) {
     return <p>Fetching info...</p>
   }
@@ -92,7 +94,9 @@ const UserExchangeKeysFormEdit = (props: Props) => {
     return <p>{error.message}</p>
   }
 
-  const handleReplaceKeys = () => setReplaceKeys(true)
+  const handleReplaceKeys = () => {
+    setReplaceKeys(true)
+  }
 
   const handleFinish = async () => {
     await updateUserExchangeKeys({
@@ -137,10 +141,13 @@ const UserExchangeKeysFormEdit = (props: Props) => {
         </Form.Item>
 
         <Form.Item name="keys">
-          {
-            replaceKeys
-              ? <KeysInput exchangeID={userExchangeKeys?.exchange.id} />
-              : <Button htmlType='button' onClick={handleReplaceKeys}>Replace API Keys</Button>}
+          {replaceKeys ? (
+            <KeysInput exchangeID={userExchangeKeys?.exchange.id} />
+          ) : (
+            <Button htmlType="button" onClick={handleReplaceKeys}>
+              Replace API Keys
+            </Button>
+          )}
         </Form.Item>
 
         {validationResult?.isValid === false && (
@@ -148,19 +155,21 @@ const UserExchangeKeysFormEdit = (props: Props) => {
         )}
 
         <Form.Item>
-          <Button htmlType='button' type="link" onClick={onCancel}>
+          <Button htmlType="button" type="link" onClick={onCancel}>
             Cancel
           </Button>
 
-          {replaceKeys && <Button
-            type="primary"
-            htmlType='button'
-            onClick={handleValidate}
-            loading={isValidating}
-            disabled={keysAreValid}
-          >
-            {keysAreValid ? '✓ Valid' : 'Validate Keys'}
-          </Button>}
+          {replaceKeys && (
+            <Button
+              type="primary"
+              htmlType="button"
+              onClick={handleValidate}
+              loading={isValidating}
+              disabled={keysAreValid}
+            >
+              {keysAreValid ? '✓ Valid' : 'Validate Keys'}
+            </Button>
+          )}
 
           <Button htmlType="submit">Save</Button>
         </Form.Item>

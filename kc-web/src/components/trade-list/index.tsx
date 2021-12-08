@@ -1,4 +1,4 @@
-import { Table, TableColumnsType, TablePaginationConfig } from 'antd'
+import { Alert, Table, TableColumnsType, TablePaginationConfig } from 'antd'
 import { gql, useQuery } from '@apollo/client'
 import { DateTime } from 'luxon'
 import { parseISO, formatISO } from 'date-fns'
@@ -144,7 +144,7 @@ const TradeList = (props: TradeListProps) => {
   }
 
   if (error) {
-    return <p>{error.message}</p>
+    return <Alert message={error.message} type="error" />
   }
 
   const total = data?.kc_trade_aggregate?.aggregate?.count ?? 0

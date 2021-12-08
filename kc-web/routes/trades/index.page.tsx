@@ -1,7 +1,9 @@
 import { useState, useCallback } from 'react'
 import ReactDOM from 'react-dom'
-import { Layout, Row, Col, DatePicker } from 'antd'
+import { DatePicker } from 'antd'
 import type { Moment } from 'moment'
+
+import { Card } from '../../src/components/retro-ui'
 
 import { TradeList } from '../../src/components/trade-list/index'
 import { SelectAsset } from '../../src/components/select/asset/index'
@@ -35,49 +37,35 @@ const Trades = () => {
   )
 
   return (
-    <Layout>
-      <Layout.Content>
-        <Row>
-          <Col span={4} offset={6}>
-            <h1>Trades</h1>
-          </Col>
-          <Col span={2}>
-            <SelectAsset
-              onChange={handleChangePrimaryCurrency}
-              defaultValue={
-                primaryCurrency ? { symbol: primaryCurrency } : undefined
-              }
-            />
-          </Col>
-          <Col span={2}>
-            <SelectCurrency
-              onChange={handleChangeSecondaryCurrency}
-              defaultValue={
-                secondaryCurrency ? { symbol: secondaryCurrency } : undefined
-              }
-            />
-          </Col>
-          <Col span={2}>
-            <DatePicker value={startDate} onChange={setStartDate} />
-          </Col>
-          <Col span={2}>
-            <DatePicker value={endDate} onChange={setEndDate} />
-          </Col>
-        </Row>
-        <Row>
-          <Col span={24} offset={0}>
-            {
-              <TradeList
-                startDate={startDate?.toISOString()}
-                endDate={endDate?.toISOString()}
-                primaryCurrency={primaryCurrency}
-                secondaryCurrency={secondaryCurrency}
-              />
-            }
-          </Col>
-        </Row>
-      </Layout.Content>
-    </Layout>
+    <>
+      <Card>
+        <h1>Trades</h1>
+
+        <SelectAsset
+          onChange={handleChangePrimaryCurrency}
+          defaultValue={
+            primaryCurrency ? { symbol: primaryCurrency } : undefined
+          }
+        />
+        <SelectCurrency
+          onChange={handleChangeSecondaryCurrency}
+          defaultValue={
+            secondaryCurrency ? { symbol: secondaryCurrency } : undefined
+          }
+        />
+
+        <DatePicker value={startDate} onChange={setStartDate} />
+        <DatePicker value={endDate} onChange={setEndDate} />
+      </Card>
+      <Card width={1000}>
+        <TradeList
+          startDate={startDate?.toISOString()}
+          endDate={endDate?.toISOString()}
+          primaryCurrency={primaryCurrency}
+          secondaryCurrency={secondaryCurrency}
+        />
+      </Card>
+    </>
   )
 }
 
