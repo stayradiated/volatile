@@ -72,8 +72,6 @@ const ChartWeek = () => {
       .values(),
   ].sort((a, b) => a.index - b.index)
 
-  console.log(chartData)
-
   return (
     <ResponsiveContainer height={250}>
       <BarChart data={chartData}>

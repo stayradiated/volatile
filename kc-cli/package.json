@@ -41,7 +41,7 @@
     "ky-universal": "0.9.1",
     "luxon": "2.1.1",
     "rambda": "6.9.0",
-    "table": "6.7.3",
+    "table": "6.7.5",
     "yargs": "17.3.0"
   },
   "devDependencies": {
@@ -53,7 +53,7 @@
     "@stayradiated/jsconfig": "1.15.0",
     "@types/luxon": "2.0.7",
     "@types/yargs": "17.0.7",
-    "@vercel/ncc": "^0.32",
+    "@vercel/ncc": "^0.33",
     "ava": "3.15.0",
     "del-cli": "4.0.1",
     "eslint-plugin-fp": "2.3.0",

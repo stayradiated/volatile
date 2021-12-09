@@ -8,10 +8,14 @@ import { Card } from '../../src/components/retro-ui'
 import { TradeList } from '../../src/components/trade-list/index'
 import { SelectAsset } from '../../src/components/select/asset/index'
 import { SelectCurrency } from '../../src/components/select/currency/index'
+import { SelectExchange } from '../../src/components/select/exchange/index'
 
 import App from '../../src/app'
 
 const Trades = () => {
+  const [exchange, setExchange] = useState<
+    string | undefined
+  >(undefined)
   const [primaryCurrency, setPrimaryCurrency] = useState<string | undefined>(
     undefined,
   )
@@ -21,6 +25,13 @@ const Trades = () => {
 
   const [startDate, setStartDate] = useState<Moment | null>(null)
   const [endDate, setEndDate] = useState<Moment | null>(null)
+
+  const handleChangeExchange = useCallback(
+    (option: null | { uid: string | undefined }) => {
+      setExchange(option?.uid)
+    },
+    [setExchange],
+  )
 
   const handleChangePrimaryCurrency = useCallback(
     (option: null | { symbol: string | undefined }) => {
@@ -41,24 +52,16 @@ const Trades = () => {
       <Card>
         <h1>Trades</h1>
 
-        <SelectAsset
-          onChange={handleChangePrimaryCurrency}
-          defaultValue={
-            primaryCurrency ? { symbol: primaryCurrency } : undefined
-          }
-        />
-        <SelectCurrency
-          onChange={handleChangeSecondaryCurrency}
-          defaultValue={
-            secondaryCurrency ? { symbol: secondaryCurrency } : undefined
-          }
-        />
+        <SelectExchange onChange={handleChangeExchange} />
+        <SelectAsset onChange={handleChangePrimaryCurrency} />
+        <SelectCurrency onChange={handleChangeSecondaryCurrency} />
 
         <DatePicker value={startDate} onChange={setStartDate} />
         <DatePicker value={endDate} onChange={setEndDate} />
       </Card>
       <Card width={1000}>
         <TradeList
+          exchangeUID={exchange}
           startDate={startDate?.toISOString()}
           endDate={endDate?.toISOString()}
           primaryCurrency={primaryCurrency}

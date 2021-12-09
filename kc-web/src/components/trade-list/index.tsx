@@ -109,6 +109,7 @@ const columns: TableColumnsType<Trade> = [
 ]
 
 type TradeListProps = {
+  exchangeUID?: string
   startDate?: string
   endDate?: string
   primaryCurrency?: string
@@ -116,7 +117,7 @@ type TradeListProps = {
 }
 
 const TradeList = (props: TradeListProps) => {
-  const { startDate, endDate, primaryCurrency, secondaryCurrency } = props
+  const { exchangeUID, startDate, endDate, primaryCurrency, secondaryCurrency } = props
 
   const { data, error, loading, fetchMore } = useQuery<
     GetTradeListQuery,
@@ -127,6 +128,9 @@ const TradeList = (props: TradeListProps) => {
       limit: 100,
       filters: {
         timestamp: { _gte: startDate, _lte: endDate },
+        exchange_uid: {
+          _eq: exchangeUID,
+        },
         primary_currency: {
           _eq: primaryCurrency,
         },

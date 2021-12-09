@@ -89,7 +89,10 @@ const dasset: ExchangeAPI<d.Config> = {
       total: orders.total,
       hasNextPage: orders.hasNext,
       items: orders.results
-        .filter((order) => order.status === 'Completed')
+        .filter(
+          (order) =>
+            order.status === 'Completed' || order.status === 'Partially filled',
+        )
         .map((trade) => ({
           tradeID: trade.id,
           orderID: trade.id,
