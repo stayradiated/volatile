@@ -1,10 +1,9 @@
 import Select from 'react-select'
 import moment, { Moment } from 'moment'
-import { DatePicker } from 'antd'
+import { DatePicker, Alert, Spin } from 'antd'
 import { gql, useQuery } from '@apollo/client'
 import { parseISO } from 'date-fns'
 import { useState, useEffect } from 'react'
-import { Alert, Spin } from 'antd'
 
 import { Form, Input, Button } from '../retro-ui/index'
 
@@ -20,6 +19,13 @@ const QUERY_DCA_ORDER_FORM = gql`
     kc_market {
       uid
       name
+      market_prices(
+        distinct_on: [asset_symbol, currency]
+        where: { timestamp: { _gt: "2021-12-09T12:00:00" } }
+      ) {
+        asset_symbol
+        currency
+      }
     }
     kc_user_exchange_keys {
       uid
@@ -67,10 +73,12 @@ type FormState = {
 
 type Props = {
   dcaOrderUID: string
+  onCancel?: () => void
+  onFinish?: () => void
 }
 
 const DCAOrderFormEdit = (props: Props) => {
-  const { dcaOrderUID } = props
+  const { dcaOrderUID, onCancel, onFinish } = props
 
   const { data, loading, error } = useQuery<Query, QueryVariables>(
     QUERY_DCA_ORDER_FORM,
@@ -93,7 +101,7 @@ const DCAOrderFormEdit = (props: Props) => {
     marketOffset: '',
   })
 
-  const handleFinish = () => {
+  const handleFinish = async () => {
     if (!order?.uid) {
       throw new Error('No DCA Order UID')
     }
@@ -118,7 +126,7 @@ const DCAOrderFormEdit = (props: Props) => {
       throw new TypeError('No Daily Average')
     }
 
-    updateDCAOrder(order.uid, {
+    await updateDCAOrder(order.uid, {
       userExchangeKeysUID: state.userExchangeKeys.uid,
       marketUID: state.market.uid,
       startAt: state.startAt.toISOString(),
@@ -127,11 +135,22 @@ const DCAOrderFormEdit = (props: Props) => {
       minValue: Number.parseFloat(state.minValue),
       maxValue: Number.parseFloat(state.maxValue),
     })
+
+    if (typeof onFinish === 'function') {
+      onFinish()
+    }
   }
 
   const order = data?.kc_dca_order_by_pk
 
-  const marketOptions = data?.kc_market.slice(0) ?? []
+  const marketOptions = (data?.kc_market ?? []).filter((item) => {
+    return item.market_prices.some((price) => {
+      return (
+        price.asset_symbol === order?.primary_currency.symbol &&
+        price.currency === order?.secondary_currency.symbol
+      )
+    })
+  })
 
   const userExchangeKeysOptions = (data?.kc_user_exchange_keys ?? []).filter(
     (item) => item.exchange_uid === order?.exchange.uid,
@@ -160,10 +179,8 @@ const DCAOrderFormEdit = (props: Props) => {
   }
 
   if (error) {
-    return <Alert message={error.message} type='error' />
+    return <Alert message={error.message} type="error" />
   }
-
-  console.log(JSON.stringify(state, null, 2))
 
   return (
     <>
@@ -219,7 +236,7 @@ const DCAOrderFormEdit = (props: Props) => {
           <Input type="number" step="0.01" min={0} />
         </Form.Item>
         <Form.Item>
-          <Button type="link" htmlType="button">
+          <Button type="link" htmlType="button" onClick={onCancel}>
             Cancel
           </Button>
           <Button htmlType="submit">Save</Button>

@@ -56,6 +56,8 @@ export type CreateCustomerPortalSession = {
 
 export type CreateDcaOrderResult = {
   __typename?: 'CreateDCAOrderResult'
+  /** An object relationship */
+  dca_order: Kc_Dca_Order
   dca_order_uid: Scalars['uuid']
 }
 
@@ -4134,11 +4136,21 @@ export type GetDcaOrderFormCreateQueryVariables = Exact<Record<string, never>>
 
 export type GetDcaOrderFormCreateQuery = {
   __typename?: 'query_root'
-  kc_market: Array<{ __typename?: 'kc_market'; uid: string; name: string }>
+  kc_market: Array<{
+    __typename?: 'kc_market'
+    uid: string
+    name: string
+    market_prices: Array<{
+      __typename?: 'kc_market_price'
+      asset_symbol: string
+      currency: string
+    }>
+  }>
   kc_user_exchange_keys: Array<{
     __typename?: 'kc_user_exchange_keys'
     uid: string
     description: string
+    exchange_uid: string
   }>
   kc_exchange: Array<{
     __typename?: 'kc_exchange'
@@ -4165,14 +4177,57 @@ export type CreateDcaOrderMutationVariables = Exact<{
   dailyAverage: Scalars['Float']
   primaryCurrency: Scalars['String']
   secondaryCurrency: Scalars['String']
+  minValue?: InputMaybe<Scalars['Float']>
+  maxValue?: InputMaybe<Scalars['Float']>
 }>
 
 export type CreateDcaOrderMutation = {
   __typename?: 'mutation_root'
   create_dca_order?:
-    | { __typename?: 'CreateDCAOrderResult'; dca_order_uid: string }
+    | {
+        __typename?: 'CreateDCAOrderResult'
+        dca_order: {
+          __typename?: 'kc_dca_order'
+          uid: string
+          user_exchange_keys_uid: string
+          enabled_at?: string | null | undefined
+          market_uid: string
+          start_at: string
+          market_offset: number
+          daily_average: number
+          min_value?: number | null | undefined
+          max_value?: number | null | undefined
+          exchange: {
+            __typename?: 'kc_exchange'
+            uid: string
+            id: string
+            name: string
+          }
+          primary_currency: { __typename?: 'kc_currency'; symbol: string }
+          secondary_currency: { __typename?: 'kc_currency'; symbol: string }
+        }
+      }
     | null
     | undefined
+}
+
+export type NewDcaOrderFragment = {
+  __typename?: 'kc_dca_order'
+  uid: string
+  enabled_at?: string | null | undefined
+  daily_average: number
+  start_at: string
+  market_offset: number
+  min_value?: number | null | undefined
+  max_value?: number | null | undefined
+  exchange: {
+    __typename?: 'kc_exchange'
+    uid: string
+    id: string
+    name: string
+  }
+  primary_currency: { __typename?: 'kc_currency'; symbol: string }
+  secondary_currency: { __typename?: 'kc_currency'; symbol: string }
 }
 
 export type GetDcaOrderFormEditQueryVariables = Exact<{
@@ -4181,7 +4236,16 @@ export type GetDcaOrderFormEditQueryVariables = Exact<{
 
 export type GetDcaOrderFormEditQuery = {
   __typename?: 'query_root'
-  kc_market: Array<{ __typename?: 'kc_market'; uid: string; name: string }>
+  kc_market: Array<{
+    __typename?: 'kc_market'
+    uid: string
+    name: string
+    market_prices: Array<{
+      __typename?: 'kc_market_price'
+      asset_symbol: string
+      currency: string
+    }>
+  }>
   kc_user_exchange_keys: Array<{
     __typename?: 'kc_user_exchange_keys'
     uid: string
@@ -4226,6 +4290,7 @@ export type UpdateDcaOrderMutation = {
   update_kc_dca_order_by_pk?:
     | {
         __typename?: 'kc_dca_order'
+        uid: string
         daily_average: number
         enabled_at?: string | null | undefined
         market_offset: number
@@ -4251,8 +4316,6 @@ export type GetDcaOrderListQuery = {
     daily_average: number
     start_at: string
     market_offset: number
-    min_price?: number | null | undefined
-    max_price?: number | null | undefined
     min_value?: number | null | undefined
     max_value?: number | null | undefined
     exchange: {
@@ -4261,37 +4324,45 @@ export type GetDcaOrderListQuery = {
       id: string
       name: string
     }
-    market: { __typename?: 'kc_market'; uid: string; id: string; name: string }
     primary_currency: { __typename?: 'kc_currency'; symbol: string }
     secondary_currency: { __typename?: 'kc_currency'; symbol: string }
-    user_exchange_keys: {
-      __typename?: 'kc_user_exchange_keys'
-      description: string
-      uid: string
-    }
-    dca_order_histories: Array<{
-      __typename?: 'kc_dca_order_history'
-      uid: string
-      created_at: string
-      market_price: number
-      market_offset: number
-      available_balance: number
-      target_value: number
-      created_order: boolean
-      description: string
-      primary_currency: string
-      secondary_currency: string
-      order?:
-        | {
-            __typename?: 'kc_order'
-            price: number
-            volume: number
-            value: number
-          }
-        | null
-        | undefined
-    }>
   }>
+}
+
+export type DeleteDcaOrderMutationVariables = Exact<{
+  dcaOrderUID: Scalars['uuid']
+}>
+
+export type DeleteDcaOrderMutation = {
+  __typename?: 'mutation_root'
+  delete_kc_dca_order_by_pk?:
+    | { __typename?: 'kc_dca_order'; uid: string }
+    | null
+    | undefined
+}
+
+export type GetDcaOrderListByUidQueryVariables = Exact<Record<string, never>>
+
+export type GetDcaOrderListByUidQuery = {
+  __typename?: 'query_root'
+  kc_dca_order: Array<{ __typename?: 'kc_dca_order'; uid: string }>
+}
+
+export type UpdateDcaOrderEnabledAtMutationVariables = Exact<{
+  dcaOrderUID: Scalars['uuid']
+  enabledAt?: InputMaybe<Scalars['timestamptz']>
+}>
+
+export type UpdateDcaOrderEnabledAtMutation = {
+  __typename?: 'mutation_root'
+  update_kc_dca_order_by_pk?:
+    | {
+        __typename?: 'kc_dca_order'
+        uid: string
+        enabled_at?: string | null | undefined
+      }
+    | null
+    | undefined
 }
 
 export type GetExchangeListQueryVariables = Exact<Record<string, never>>
@@ -4717,6 +4788,28 @@ export type ValidateUserExchangeKeysMutation = {
     | undefined
 }
 
+export const NewDcaOrderFragmentDoc = gql`
+  fragment NewDCAOrder on kc_dca_order {
+    uid
+    exchange {
+      uid
+      id
+      name
+    }
+    enabled_at
+    daily_average
+    start_at
+    market_offset
+    primary_currency {
+      symbol
+    }
+    secondary_currency {
+      symbol
+    }
+    min_value
+    max_value
+  }
+`
 export const NewKeysFragmentDoc = gql`
   fragment NewKeys on kc_user_exchange_keys {
     uid
@@ -4737,10 +4830,18 @@ export const GetDcaOrderFormCreateDocument = gql`
     kc_market {
       uid
       name
+      market_prices(
+        distinct_on: [asset_symbol, currency]
+        where: { timestamp: { _gt: "2021-12-09T12:00:00" } }
+      ) {
+        asset_symbol
+        currency
+      }
     }
     kc_user_exchange_keys {
       uid
       description
+      exchange_uid
     }
     kc_exchange {
       uid
@@ -4773,6 +4874,8 @@ export const CreateDcaOrderDocument = gql`
     $dailyAverage: Float!
     $primaryCurrency: String!
     $secondaryCurrency: String!
+    $minValue: Float
+    $maxValue: Float
   ) {
     create_dca_order(
       user_exchange_keys_uid: $userExchangeKeysUID
@@ -4782,8 +4885,31 @@ export const CreateDcaOrderDocument = gql`
       daily_average: $dailyAverage
       primary_currency: $primaryCurrency
       secondary_currency: $secondaryCurrency
+      min_value: $minValue
+      max_value: $maxValue
     ) {
-      dca_order_uid
+      dca_order {
+        uid
+        exchange {
+          uid
+          id
+          name
+        }
+        user_exchange_keys_uid
+        enabled_at
+        market_uid
+        start_at
+        market_offset
+        daily_average
+        primary_currency {
+          symbol
+        }
+        secondary_currency {
+          symbol
+        }
+        min_value
+        max_value
+      }
     }
   }
 `
@@ -4802,6 +4928,13 @@ export const GetDcaOrderFormEditDocument = gql`
     kc_market {
       uid
       name
+      market_prices(
+        distinct_on: [asset_symbol, currency]
+        where: { timestamp: { _gt: "2021-12-09T12:00:00" } }
+      ) {
+        asset_symbol
+        currency
+      }
     }
     kc_user_exchange_keys {
       uid
@@ -4846,6 +4979,7 @@ export const UpdateDcaOrderDocument = gql`
       pk_columns: { uid: $dcaOrderUID }
       _set: $values
     ) {
+      uid
       daily_average
       enabled_at
       market_offset
@@ -4877,11 +5011,6 @@ export const GetDcaOrderListDocument = gql`
         id
         name
       }
-      market {
-        uid
-        id
-        name
-      }
       enabled_at
       daily_average
       start_at
@@ -4892,37 +5021,66 @@ export const GetDcaOrderListDocument = gql`
       secondary_currency {
         symbol
       }
-      min_price
-      max_price
       min_value
       max_value
-      user_exchange_keys {
-        description
-        uid
-      }
-      dca_order_histories(limit: 1, order_by: { created_at: desc }) {
-        uid
-        created_at
-        market_price
-        market_offset
-        available_balance
-        target_value
-        created_order
-        description
-        primary_currency
-        secondary_currency
-        order {
-          price
-          volume
-          value
-        }
-      }
     }
   }
 `
 export type GetDcaOrderListQueryResult = Apollo.QueryResult<
   GetDcaOrderListQuery,
   GetDcaOrderListQueryVariables
+>
+export const DeleteDcaOrderDocument = gql`
+  mutation deleteDCAOrder($dcaOrderUID: uuid!) {
+    delete_kc_dca_order_by_pk(uid: $dcaOrderUID) {
+      uid
+    }
+  }
+`
+export type DeleteDcaOrderMutationFn = Apollo.MutationFunction<
+  DeleteDcaOrderMutation,
+  DeleteDcaOrderMutationVariables
+>
+export type DeleteDcaOrderMutationResult =
+  Apollo.MutationResult<DeleteDcaOrderMutation>
+export type DeleteDcaOrderMutationOptions = Apollo.BaseMutationOptions<
+  DeleteDcaOrderMutation,
+  DeleteDcaOrderMutationVariables
+>
+export const GetDcaOrderListByUidDocument = gql`
+  query getDCAOrderListByUID {
+    kc_dca_order {
+      uid
+    }
+  }
+`
+export type GetDcaOrderListByUidQueryResult = Apollo.QueryResult<
+  GetDcaOrderListByUidQuery,
+  GetDcaOrderListByUidQueryVariables
+>
+export const UpdateDcaOrderEnabledAtDocument = gql`
+  mutation updateDCAOrderEnabledAt(
+    $dcaOrderUID: uuid!
+    $enabledAt: timestamptz
+  ) {
+    update_kc_dca_order_by_pk(
+      pk_columns: { uid: $dcaOrderUID }
+      _set: { enabled_at: $enabledAt }
+    ) {
+      uid
+      enabled_at
+    }
+  }
+`
+export type UpdateDcaOrderEnabledAtMutationFn = Apollo.MutationFunction<
+  UpdateDcaOrderEnabledAtMutation,
+  UpdateDcaOrderEnabledAtMutationVariables
+>
+export type UpdateDcaOrderEnabledAtMutationResult =
+  Apollo.MutationResult<UpdateDcaOrderEnabledAtMutation>
+export type UpdateDcaOrderEnabledAtMutationOptions = Apollo.BaseMutationOptions<
+  UpdateDcaOrderEnabledAtMutation,
+  UpdateDcaOrderEnabledAtMutationVariables
 >
 export const GetExchangeListDocument = gql`
   query getExchangeList {

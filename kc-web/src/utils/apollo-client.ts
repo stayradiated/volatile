@@ -37,6 +37,9 @@ const cache = new InMemoryCache({
         kc_user_exchange_keys: {
           merge: (_existing, incoming) => incoming,
         },
+        kc_dca_order: {
+          merge: (_existing, incoming) => incoming,
+        },
       },
     },
   },

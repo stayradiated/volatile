@@ -193,6 +193,15 @@ custom_types:
       field_mapping:
         user_exchange_keys_uid: uid
   - name: CreateDCAOrderResult
+    relationships:
+    - remote_table:
+        schema: kc
+        name: dca_order
+      name: dca_order
+      source: default
+      type: object
+      field_mapping:
+        dca_order_uid: uid
   - name: SyncTradeListOutput
     relationships:
     - remote_table:

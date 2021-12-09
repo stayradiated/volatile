@@ -117,7 +117,13 @@ type TradeListProps = {
 }
 
 const TradeList = (props: TradeListProps) => {
-  const { exchangeUID, startDate, endDate, primaryCurrency, secondaryCurrency } = props
+  const {
+    exchangeUID,
+    startDate,
+    endDate,
+    primaryCurrency,
+    secondaryCurrency,
+  } = props
 
   const { data, error, loading, fetchMore } = useQuery<
     GetTradeListQuery,

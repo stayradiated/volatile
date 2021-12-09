@@ -13,9 +13,7 @@ import { SelectExchange } from '../../src/components/select/exchange/index'
 import App from '../../src/app'
 
 const Trades = () => {
-  const [exchange, setExchange] = useState<
-    string | undefined
-  >(undefined)
+  const [exchange, setExchange] = useState<string | undefined>(undefined)
   const [primaryCurrency, setPrimaryCurrency] = useState<string | undefined>(
     undefined,
   )
