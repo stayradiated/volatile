@@ -1,0 +1,21 @@
+table:
+  name: trade_avg_price_by_day
+  schema: kc
+select_permissions:
+- permission:
+    columns:
+    - user_uid
+    - day
+    - primary_currency
+    - secondary_currency
+    - total_value
+    - volume
+    - price
+    - sum_volume
+    - sum_total_value
+    - avg_price
+    filter:
+      user_uid:
+        _eq: X-Hasura-User-Id
+    limit: 100
+  role: user

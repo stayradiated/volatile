@@ -29,7 +29,7 @@ const formatUnixTimeAsDateTime = formatUnixTime('PPpp')
 
 const QUERY = gql`
   query getTradeSumValueByWeek {
-    kc_trade_sum_value_by_week {
+    kc_trade_sum_total_value_by_week {
       week
       sum
       primary_currency
@@ -50,7 +50,7 @@ const ChartWeek = () => {
   }
 
   const chartData = [
-    ...[...data.kc_trade_sum_value_by_week]
+    ...[...data.kc_trade_sum_total_value_by_week]
       .map((row) => {
         const key = `${row.primary_currency}-${row.secondary_currency}`
         return {

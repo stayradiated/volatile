@@ -258,30 +258,67 @@ CREATE TABLE kc.trade (
 
 
 --
--- Name: trade_sum_value_by_month; Type: VIEW; Schema: kc; Owner: -
+-- Name: trade_avg_price_by_day; Type: VIEW; Schema: kc; Owner: -
 --
 
-CREATE VIEW kc.trade_sum_value_by_month AS
+CREATE VIEW kc.trade_avg_price_by_day AS
+ SELECT source2.user_uid,
+    source2.day,
+    source2.primary_currency,
+    source2.secondary_currency,
+    source2.total_value,
+    source2.volume,
+    source2.price,
+    source2.sum_volume,
+    source2.sum_total_value,
+    round((source2.sum_total_value / source2.sum_volume), 2) AS avg_price
+   FROM ( SELECT source1.user_uid,
+            source1.day,
+            source1.primary_currency,
+            source1.secondary_currency,
+            source1.total_value,
+            source1.volume,
+            source1.price,
+            sum(source1.volume) OVER (PARTITION BY source1.user_uid, source1.primary_currency, source1.secondary_currency ORDER BY source1.day) AS sum_volume,
+            sum(source1.total_value) OVER (PARTITION BY source1.user_uid, source1.primary_currency, source1.secondary_currency ORDER BY source1.day) AS sum_total_value
+           FROM ( SELECT trade.user_uid,
+                    date_trunc('day'::text, trade."timestamp") AS day,
+                    trade.primary_currency,
+                    trade.secondary_currency,
+                    sum(trade.total_value) AS total_value,
+                    sum(trade.volume) AS volume,
+                    round(avg(trade.price), 2) AS price
+                   FROM kc.trade
+                  WHERE ((trade.type)::text = 'BUY'::text)
+                  GROUP BY trade.user_uid, (date_trunc('day'::text, trade."timestamp")), trade.primary_currency, trade.secondary_currency) source1) source2
+  ORDER BY source2.day DESC;
+
+
+--
+-- Name: trade_sum_total_value_by_month; Type: VIEW; Schema: kc; Owner: -
+--
+
+CREATE VIEW kc.trade_sum_total_value_by_month AS
  SELECT trade.user_uid,
     date_trunc('month'::text, trade."timestamp") AS month,
     trade.primary_currency,
     trade.secondary_currency,
-    sum(trade.value) AS sum
+    sum(trade.total_value) AS sum
    FROM kc.trade
   GROUP BY trade.user_uid, (date_trunc('month'::text, trade."timestamp")), trade.primary_currency, trade.secondary_currency
   ORDER BY (date_trunc('month'::text, trade."timestamp")) DESC;
 
 
 --
--- Name: trade_sum_value_by_week; Type: VIEW; Schema: kc; Owner: -
+-- Name: trade_sum_total_value_by_week; Type: VIEW; Schema: kc; Owner: -
 --
 
-CREATE VIEW kc.trade_sum_value_by_week AS
+CREATE VIEW kc.trade_sum_total_value_by_week AS
  SELECT trade.user_uid,
     date_trunc('week'::text, trade."timestamp") AS week,
     trade.primary_currency,
     trade.secondary_currency,
-    sum(trade.value) AS sum
+    sum(trade.total_value) AS sum
    FROM kc.trade
   GROUP BY trade.user_uid, (date_trunc('week'::text, trade."timestamp")), trade.primary_currency, trade.secondary_currency
   ORDER BY (date_trunc('week'::text, trade."timestamp")) DESC;
@@ -873,4 +910,6 @@ INSERT INTO kc.schema_migrations (version) VALUES
     ('20211128100212'),
     ('20211128103149'),
     ('20211201065401'),
-    ('20211208061245');
+    ('20211208061245'),
+    ('20211210060725'),
+    ('20211210070506');

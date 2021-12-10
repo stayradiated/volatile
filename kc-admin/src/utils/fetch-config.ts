@@ -36,7 +36,7 @@ const isAPIError = (body: ConfigResponse | APIError): body is APIError => {
 const fetchConfig = async (
   adminSecret: string,
 ): Promise<ConfigResponse | APIError> => {
-  const response = await fetch('http://localhost:7947/v1alpha1/config', {
+  const response = await fetch('/hasura/v1alpha1/config', {
     method: 'GET',
     headers: {
       'x-hasura-admin-secret': adminSecret,

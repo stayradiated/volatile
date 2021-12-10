@@ -9,7 +9,7 @@ const fetchMetadata = async (
     throw new Error('Cannot fetch metadata without an authenticated session!')
   }
 
-  const response = await fetch(`http://localhost:7947/v1/metadata`, {
+  const response = await fetch(`/hasura/v1/metadata`, {
     method: 'POST',
     headers: {
       'x-hasura-admin-secret': session.adminSecret,

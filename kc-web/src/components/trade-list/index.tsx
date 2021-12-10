@@ -12,6 +12,7 @@ import { formatCurrency } from '../../utils/format'
 import { TradeChart } from './chart'
 import { TradeStats } from './stats'
 import { ChartWeek } from './chart-week'
+import { TradeAvgPrice } from './trade-avg-price'
 
 type Trade = GetTradeListQuery['kc_trade'][0]
 
@@ -162,6 +163,11 @@ const TradeList = (props: TradeListProps) => {
 
   return (
     <>
+      <TradeAvgPrice
+        primaryCurrency={primaryCurrency}
+        secondaryCurrency={secondaryCurrency}
+      />
+
       <ChartWeek />
       <TradeStats
         sumValue={agg?.sum?.value ?? 0}

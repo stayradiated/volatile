@@ -18096,6 +18096,522 @@
         "possibleTypes": null
       },
       {
+        "kind": "OBJECT",
+        "name": "kc_trade_avg_price_by_day",
+        "description": "columns and relationships of \"kc.trade_avg_price_by_day\"",
+        "fields": [
+          {
+            "name": "avg_price",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "numeric",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "day",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "timestamptz",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "price",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "numeric",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "primary_currency",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "secondary_currency",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "sum_total_value",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "numeric",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "sum_volume",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "numeric",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "total_value",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "numeric",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "user_uid",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "uuid",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "volume",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "numeric",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "kc_trade_avg_price_by_day_bool_exp",
+        "description": "Boolean expression to filter rows from the table \"kc.trade_avg_price_by_day\". All fields are combined with a logical 'AND'.",
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "_and",
+            "description": null,
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "kc_trade_avg_price_by_day_bool_exp",
+                  "ofType": null
+                }
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "_not",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "kc_trade_avg_price_by_day_bool_exp",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "_or",
+            "description": null,
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "kc_trade_avg_price_by_day_bool_exp",
+                  "ofType": null
+                }
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "avg_price",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "numeric_comparison_exp",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "day",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "timestamptz_comparison_exp",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "price",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "numeric_comparison_exp",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "primary_currency",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "String_comparison_exp",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "secondary_currency",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "String_comparison_exp",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "sum_total_value",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "numeric_comparison_exp",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "sum_volume",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "numeric_comparison_exp",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "total_value",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "numeric_comparison_exp",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "user_uid",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "uuid_comparison_exp",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "volume",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "numeric_comparison_exp",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "kc_trade_avg_price_by_day_order_by",
+        "description": "Ordering options when selecting data from \"kc.trade_avg_price_by_day\".",
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "avg_price",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "day",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "price",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "primary_currency",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "secondary_currency",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "sum_total_value",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "sum_volume",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "total_value",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "user_uid",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "volume",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "ENUM",
+        "name": "kc_trade_avg_price_by_day_select_column",
+        "description": "select columns of table \"kc.trade_avg_price_by_day\"",
+        "fields": null,
+        "inputFields": null,
+        "interfaces": null,
+        "enumValues": [
+          {
+            "name": "avg_price",
+            "description": "column name",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "day",
+            "description": "column name",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "price",
+            "description": "column name",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "primary_currency",
+            "description": "column name",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "secondary_currency",
+            "description": "column name",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "sum_total_value",
+            "description": "column name",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "sum_volume",
+            "description": "column name",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "total_value",
+            "description": "column name",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "user_uid",
+            "description": "column name",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "volume",
+            "description": "column name",
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "possibleTypes": null
+      },
+      {
         "kind": "INPUT_OBJECT",
         "name": "kc_trade_bool_exp",
         "description": "Boolean expression to filter rows from the table \"kc.trade\". All fields are combined with a logical 'AND'.",
@@ -20114,8 +20630,8 @@
       },
       {
         "kind": "OBJECT",
-        "name": "kc_trade_sum_value_by_month",
-        "description": "columns and relationships of \"kc.trade_sum_value_by_month\"",
+        "name": "kc_trade_sum_total_value_by_month",
+        "description": "columns and relationships of \"kc.trade_sum_total_value_by_month\"",
         "fields": [
           {
             "name": "month",
@@ -20185,8 +20701,8 @@
       },
       {
         "kind": "INPUT_OBJECT",
-        "name": "kc_trade_sum_value_by_month_bool_exp",
-        "description": "Boolean expression to filter rows from the table \"kc.trade_sum_value_by_month\". All fields are combined with a logical 'AND'.",
+        "name": "kc_trade_sum_total_value_by_month_bool_exp",
+        "description": "Boolean expression to filter rows from the table \"kc.trade_sum_total_value_by_month\". All fields are combined with a logical 'AND'.",
         "fields": null,
         "inputFields": [
           {
@@ -20200,7 +20716,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "INPUT_OBJECT",
-                  "name": "kc_trade_sum_value_by_month_bool_exp",
+                  "name": "kc_trade_sum_total_value_by_month_bool_exp",
                   "ofType": null
                 }
               }
@@ -20214,7 +20730,7 @@
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "kc_trade_sum_value_by_month_bool_exp",
+              "name": "kc_trade_sum_total_value_by_month_bool_exp",
               "ofType": null
             },
             "defaultValue": null,
@@ -20232,7 +20748,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "INPUT_OBJECT",
-                  "name": "kc_trade_sum_value_by_month_bool_exp",
+                  "name": "kc_trade_sum_total_value_by_month_bool_exp",
                   "ofType": null
                 }
               }
@@ -20308,8 +20824,8 @@
       },
       {
         "kind": "INPUT_OBJECT",
-        "name": "kc_trade_sum_value_by_month_order_by",
-        "description": "Ordering options when selecting data from \"kc.trade_sum_value_by_month\".",
+        "name": "kc_trade_sum_total_value_by_month_order_by",
+        "description": "Ordering options when selecting data from \"kc.trade_sum_total_value_by_month\".",
         "fields": null,
         "inputFields": [
           {
@@ -20379,8 +20895,8 @@
       },
       {
         "kind": "ENUM",
-        "name": "kc_trade_sum_value_by_month_select_column",
-        "description": "select columns of table \"kc.trade_sum_value_by_month\"",
+        "name": "kc_trade_sum_total_value_by_month_select_column",
+        "description": "select columns of table \"kc.trade_sum_total_value_by_month\"",
         "fields": null,
         "inputFields": null,
         "interfaces": null,
@@ -20420,8 +20936,8 @@
       },
       {
         "kind": "OBJECT",
-        "name": "kc_trade_sum_value_by_week",
-        "description": "columns and relationships of \"kc.trade_sum_value_by_week\"",
+        "name": "kc_trade_sum_total_value_by_week",
+        "description": "columns and relationships of \"kc.trade_sum_total_value_by_week\"",
         "fields": [
           {
             "name": "primary_currency",
@@ -20491,8 +21007,8 @@
       },
       {
         "kind": "INPUT_OBJECT",
-        "name": "kc_trade_sum_value_by_week_bool_exp",
-        "description": "Boolean expression to filter rows from the table \"kc.trade_sum_value_by_week\". All fields are combined with a logical 'AND'.",
+        "name": "kc_trade_sum_total_value_by_week_bool_exp",
+        "description": "Boolean expression to filter rows from the table \"kc.trade_sum_total_value_by_week\". All fields are combined with a logical 'AND'.",
         "fields": null,
         "inputFields": [
           {
@@ -20506,7 +21022,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "INPUT_OBJECT",
-                  "name": "kc_trade_sum_value_by_week_bool_exp",
+                  "name": "kc_trade_sum_total_value_by_week_bool_exp",
                   "ofType": null
                 }
               }
@@ -20520,7 +21036,7 @@
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "kc_trade_sum_value_by_week_bool_exp",
+              "name": "kc_trade_sum_total_value_by_week_bool_exp",
               "ofType": null
             },
             "defaultValue": null,
@@ -20538,7 +21054,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "INPUT_OBJECT",
-                  "name": "kc_trade_sum_value_by_week_bool_exp",
+                  "name": "kc_trade_sum_total_value_by_week_bool_exp",
                   "ofType": null
                 }
               }
@@ -20614,8 +21130,8 @@
       },
       {
         "kind": "INPUT_OBJECT",
-        "name": "kc_trade_sum_value_by_week_order_by",
-        "description": "Ordering options when selecting data from \"kc.trade_sum_value_by_week\".",
+        "name": "kc_trade_sum_total_value_by_week_order_by",
+        "description": "Ordering options when selecting data from \"kc.trade_sum_total_value_by_week\".",
         "fields": null,
         "inputFields": [
           {
@@ -20685,8 +21201,8 @@
       },
       {
         "kind": "ENUM",
-        "name": "kc_trade_sum_value_by_week_select_column",
-        "description": "select columns of table \"kc.trade_sum_value_by_week\"",
+        "name": "kc_trade_sum_total_value_by_week_select_column",
+        "description": "select columns of table \"kc.trade_sum_total_value_by_week\"",
         "fields": null,
         "inputFields": null,
         "interfaces": null,
@@ -29552,6 +30068,107 @@
             "deprecationReason": null
           },
           {
+            "name": "kc_trade_avg_price_by_day",
+            "description": "fetch data from the table: \"kc.trade_avg_price_by_day\"",
+            "args": [
+              {
+                "name": "distinct_on",
+                "description": "distinct select on columns",
+                "type": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "ENUM",
+                      "name": "kc_trade_avg_price_by_day_select_column",
+                      "ofType": null
+                    }
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "limit",
+                "description": "limit the number of rows returned",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "offset",
+                "description": "skip the first n rows. Use only with order_by",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "order_by",
+                "description": "sort the rows by one or more columns",
+                "type": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "INPUT_OBJECT",
+                      "name": "kc_trade_avg_price_by_day_order_by",
+                      "ofType": null
+                    }
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "where",
+                "description": "filter the rows returned",
+                "type": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "kc_trade_avg_price_by_day_bool_exp",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              }
+            ],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "kc_trade_avg_price_by_day",
+                    "ofType": null
+                  }
+                }
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "kc_trade_by_pk",
             "description": "fetch data from the table: \"kc.trade\" using primary key columns",
             "args": [
@@ -29581,8 +30198,8 @@
             "deprecationReason": null
           },
           {
-            "name": "kc_trade_sum_value_by_month",
-            "description": "fetch data from the table: \"kc.trade_sum_value_by_month\"",
+            "name": "kc_trade_sum_total_value_by_month",
+            "description": "fetch data from the table: \"kc.trade_sum_total_value_by_month\"",
             "args": [
               {
                 "name": "distinct_on",
@@ -29595,7 +30212,7 @@
                     "name": null,
                     "ofType": {
                       "kind": "ENUM",
-                      "name": "kc_trade_sum_value_by_month_select_column",
+                      "name": "kc_trade_sum_total_value_by_month_select_column",
                       "ofType": null
                     }
                   }
@@ -29639,7 +30256,7 @@
                     "name": null,
                     "ofType": {
                       "kind": "INPUT_OBJECT",
-                      "name": "kc_trade_sum_value_by_month_order_by",
+                      "name": "kc_trade_sum_total_value_by_month_order_by",
                       "ofType": null
                     }
                   }
@@ -29653,7 +30270,7 @@
                 "description": "filter the rows returned",
                 "type": {
                   "kind": "INPUT_OBJECT",
-                  "name": "kc_trade_sum_value_by_month_bool_exp",
+                  "name": "kc_trade_sum_total_value_by_month_bool_exp",
                   "ofType": null
                 },
                 "defaultValue": null,
@@ -29672,7 +30289,7 @@
                   "name": null,
                   "ofType": {
                     "kind": "OBJECT",
-                    "name": "kc_trade_sum_value_by_month",
+                    "name": "kc_trade_sum_total_value_by_month",
                     "ofType": null
                   }
                 }
@@ -29682,8 +30299,8 @@
             "deprecationReason": null
           },
           {
-            "name": "kc_trade_sum_value_by_week",
-            "description": "fetch data from the table: \"kc.trade_sum_value_by_week\"",
+            "name": "kc_trade_sum_total_value_by_week",
+            "description": "fetch data from the table: \"kc.trade_sum_total_value_by_week\"",
             "args": [
               {
                 "name": "distinct_on",
@@ -29696,7 +30313,7 @@
                     "name": null,
                     "ofType": {
                       "kind": "ENUM",
-                      "name": "kc_trade_sum_value_by_week_select_column",
+                      "name": "kc_trade_sum_total_value_by_week_select_column",
                       "ofType": null
                     }
                   }
@@ -29740,7 +30357,7 @@
                     "name": null,
                     "ofType": {
                       "kind": "INPUT_OBJECT",
-                      "name": "kc_trade_sum_value_by_week_order_by",
+                      "name": "kc_trade_sum_total_value_by_week_order_by",
                       "ofType": null
                     }
                   }
@@ -29754,7 +30371,7 @@
                 "description": "filter the rows returned",
                 "type": {
                   "kind": "INPUT_OBJECT",
-                  "name": "kc_trade_sum_value_by_week_bool_exp",
+                  "name": "kc_trade_sum_total_value_by_week_bool_exp",
                   "ofType": null
                 },
                 "defaultValue": null,
@@ -29773,7 +30390,7 @@
                   "name": null,
                   "ofType": {
                     "kind": "OBJECT",
-                    "name": "kc_trade_sum_value_by_week",
+                    "name": "kc_trade_sum_total_value_by_week",
                     "ofType": null
                   }
                 }
@@ -32558,6 +33175,107 @@
             "deprecationReason": null
           },
           {
+            "name": "kc_trade_avg_price_by_day",
+            "description": "fetch data from the table: \"kc.trade_avg_price_by_day\"",
+            "args": [
+              {
+                "name": "distinct_on",
+                "description": "distinct select on columns",
+                "type": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "ENUM",
+                      "name": "kc_trade_avg_price_by_day_select_column",
+                      "ofType": null
+                    }
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "limit",
+                "description": "limit the number of rows returned",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "offset",
+                "description": "skip the first n rows. Use only with order_by",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "order_by",
+                "description": "sort the rows by one or more columns",
+                "type": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "INPUT_OBJECT",
+                      "name": "kc_trade_avg_price_by_day_order_by",
+                      "ofType": null
+                    }
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "where",
+                "description": "filter the rows returned",
+                "type": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "kc_trade_avg_price_by_day_bool_exp",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              }
+            ],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "kc_trade_avg_price_by_day",
+                    "ofType": null
+                  }
+                }
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "kc_trade_by_pk",
             "description": "fetch data from the table: \"kc.trade\" using primary key columns",
             "args": [
@@ -32587,8 +33305,8 @@
             "deprecationReason": null
           },
           {
-            "name": "kc_trade_sum_value_by_month",
-            "description": "fetch data from the table: \"kc.trade_sum_value_by_month\"",
+            "name": "kc_trade_sum_total_value_by_month",
+            "description": "fetch data from the table: \"kc.trade_sum_total_value_by_month\"",
             "args": [
               {
                 "name": "distinct_on",
@@ -32601,7 +33319,7 @@
                     "name": null,
                     "ofType": {
                       "kind": "ENUM",
-                      "name": "kc_trade_sum_value_by_month_select_column",
+                      "name": "kc_trade_sum_total_value_by_month_select_column",
                       "ofType": null
                     }
                   }
@@ -32645,7 +33363,7 @@
                     "name": null,
                     "ofType": {
                       "kind": "INPUT_OBJECT",
-                      "name": "kc_trade_sum_value_by_month_order_by",
+                      "name": "kc_trade_sum_total_value_by_month_order_by",
                       "ofType": null
                     }
                   }
@@ -32659,7 +33377,7 @@
                 "description": "filter the rows returned",
                 "type": {
                   "kind": "INPUT_OBJECT",
-                  "name": "kc_trade_sum_value_by_month_bool_exp",
+                  "name": "kc_trade_sum_total_value_by_month_bool_exp",
                   "ofType": null
                 },
                 "defaultValue": null,
@@ -32678,7 +33396,7 @@
                   "name": null,
                   "ofType": {
                     "kind": "OBJECT",
-                    "name": "kc_trade_sum_value_by_month",
+                    "name": "kc_trade_sum_total_value_by_month",
                     "ofType": null
                   }
                 }
@@ -32688,8 +33406,8 @@
             "deprecationReason": null
           },
           {
-            "name": "kc_trade_sum_value_by_week",
-            "description": "fetch data from the table: \"kc.trade_sum_value_by_week\"",
+            "name": "kc_trade_sum_total_value_by_week",
+            "description": "fetch data from the table: \"kc.trade_sum_total_value_by_week\"",
             "args": [
               {
                 "name": "distinct_on",
@@ -32702,7 +33420,7 @@
                     "name": null,
                     "ofType": {
                       "kind": "ENUM",
-                      "name": "kc_trade_sum_value_by_week_select_column",
+                      "name": "kc_trade_sum_total_value_by_week_select_column",
                       "ofType": null
                     }
                   }
@@ -32746,7 +33464,7 @@
                     "name": null,
                     "ofType": {
                       "kind": "INPUT_OBJECT",
-                      "name": "kc_trade_sum_value_by_week_order_by",
+                      "name": "kc_trade_sum_total_value_by_week_order_by",
                       "ofType": null
                     }
                   }
@@ -32760,7 +33478,7 @@
                 "description": "filter the rows returned",
                 "type": {
                   "kind": "INPUT_OBJECT",
-                  "name": "kc_trade_sum_value_by_week_bool_exp",
+                  "name": "kc_trade_sum_total_value_by_week_bool_exp",
                   "ofType": null
                 },
                 "defaultValue": null,
@@ -32779,7 +33497,7 @@
                   "name": null,
                   "ofType": {
                     "kind": "OBJECT",
-                    "name": "kc_trade_sum_value_by_week",
+                    "name": "kc_trade_sum_total_value_by_week",
                     "ofType": null
                   }
                 }

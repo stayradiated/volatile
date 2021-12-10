@@ -2134,6 +2134,76 @@ export type Kc_Trade_Avg_Order_By = {
   volume?: InputMaybe<Order_By>
 }
 
+/** Columns and relationships of "kc.trade_avg_price_by_day" */
+export type Kc_Trade_Avg_Price_By_Day = {
+  __typename?: 'kc_trade_avg_price_by_day'
+  avg_price?: Maybe<Scalars['numeric']>
+  day?: Maybe<Scalars['timestamptz']>
+  price?: Maybe<Scalars['numeric']>
+  primary_currency?: Maybe<Scalars['String']>
+  secondary_currency?: Maybe<Scalars['String']>
+  sum_total_value?: Maybe<Scalars['numeric']>
+  sum_volume?: Maybe<Scalars['numeric']>
+  total_value?: Maybe<Scalars['numeric']>
+  user_uid?: Maybe<Scalars['uuid']>
+  volume?: Maybe<Scalars['numeric']>
+}
+
+/** Boolean expression to filter rows from the table "kc.trade_avg_price_by_day". All fields are combined with a logical 'AND'. */
+export type Kc_Trade_Avg_Price_By_Day_Bool_Exp = {
+  _and?: InputMaybe<Kc_Trade_Avg_Price_By_Day_Bool_Exp[]>
+  _not?: InputMaybe<Kc_Trade_Avg_Price_By_Day_Bool_Exp>
+  _or?: InputMaybe<Kc_Trade_Avg_Price_By_Day_Bool_Exp[]>
+  avg_price?: InputMaybe<Numeric_Comparison_Exp>
+  day?: InputMaybe<Timestamptz_Comparison_Exp>
+  price?: InputMaybe<Numeric_Comparison_Exp>
+  primary_currency?: InputMaybe<String_Comparison_Exp>
+  secondary_currency?: InputMaybe<String_Comparison_Exp>
+  sum_total_value?: InputMaybe<Numeric_Comparison_Exp>
+  sum_volume?: InputMaybe<Numeric_Comparison_Exp>
+  total_value?: InputMaybe<Numeric_Comparison_Exp>
+  user_uid?: InputMaybe<Uuid_Comparison_Exp>
+  volume?: InputMaybe<Numeric_Comparison_Exp>
+}
+
+/** Ordering options when selecting data from "kc.trade_avg_price_by_day". */
+export type Kc_Trade_Avg_Price_By_Day_Order_By = {
+  avg_price?: InputMaybe<Order_By>
+  day?: InputMaybe<Order_By>
+  price?: InputMaybe<Order_By>
+  primary_currency?: InputMaybe<Order_By>
+  secondary_currency?: InputMaybe<Order_By>
+  sum_total_value?: InputMaybe<Order_By>
+  sum_volume?: InputMaybe<Order_By>
+  total_value?: InputMaybe<Order_By>
+  user_uid?: InputMaybe<Order_By>
+  volume?: InputMaybe<Order_By>
+}
+
+/** Select columns of table "kc.trade_avg_price_by_day" */
+export enum Kc_Trade_Avg_Price_By_Day_Select_Column {
+  /** Column name */
+  AvgPrice = 'avg_price',
+  /** Column name */
+  Day = 'day',
+  /** Column name */
+  Price = 'price',
+  /** Column name */
+  PrimaryCurrency = 'primary_currency',
+  /** Column name */
+  SecondaryCurrency = 'secondary_currency',
+  /** Column name */
+  SumTotalValue = 'sum_total_value',
+  /** Column name */
+  SumVolume = 'sum_volume',
+  /** Column name */
+  TotalValue = 'total_value',
+  /** Column name */
+  UserUid = 'user_uid',
+  /** Column name */
+  Volume = 'volume',
+}
+
 /** Boolean expression to filter rows from the table "kc.trade". All fields are combined with a logical 'AND'. */
 export type Kc_Trade_Bool_Exp = {
   _and?: InputMaybe<Kc_Trade_Bool_Exp[]>
@@ -2377,9 +2447,9 @@ export type Kc_Trade_Sum_Order_By = {
   volume?: InputMaybe<Order_By>
 }
 
-/** Columns and relationships of "kc.trade_sum_value_by_month" */
-export type Kc_Trade_Sum_Value_By_Month = {
-  __typename?: 'kc_trade_sum_value_by_month'
+/** Columns and relationships of "kc.trade_sum_total_value_by_month" */
+export type Kc_Trade_Sum_Total_Value_By_Month = {
+  __typename?: 'kc_trade_sum_total_value_by_month'
   month?: Maybe<Scalars['timestamptz']>
   primary_currency?: Maybe<Scalars['String']>
   secondary_currency?: Maybe<Scalars['String']>
@@ -2387,11 +2457,11 @@ export type Kc_Trade_Sum_Value_By_Month = {
   user_uid?: Maybe<Scalars['uuid']>
 }
 
-/** Boolean expression to filter rows from the table "kc.trade_sum_value_by_month". All fields are combined with a logical 'AND'. */
-export type Kc_Trade_Sum_Value_By_Month_Bool_Exp = {
-  _and?: InputMaybe<Kc_Trade_Sum_Value_By_Month_Bool_Exp[]>
-  _not?: InputMaybe<Kc_Trade_Sum_Value_By_Month_Bool_Exp>
-  _or?: InputMaybe<Kc_Trade_Sum_Value_By_Month_Bool_Exp[]>
+/** Boolean expression to filter rows from the table "kc.trade_sum_total_value_by_month". All fields are combined with a logical 'AND'. */
+export type Kc_Trade_Sum_Total_Value_By_Month_Bool_Exp = {
+  _and?: InputMaybe<Kc_Trade_Sum_Total_Value_By_Month_Bool_Exp[]>
+  _not?: InputMaybe<Kc_Trade_Sum_Total_Value_By_Month_Bool_Exp>
+  _or?: InputMaybe<Kc_Trade_Sum_Total_Value_By_Month_Bool_Exp[]>
   month?: InputMaybe<Timestamptz_Comparison_Exp>
   primary_currency?: InputMaybe<String_Comparison_Exp>
   secondary_currency?: InputMaybe<String_Comparison_Exp>
@@ -2399,8 +2469,8 @@ export type Kc_Trade_Sum_Value_By_Month_Bool_Exp = {
   user_uid?: InputMaybe<Uuid_Comparison_Exp>
 }
 
-/** Ordering options when selecting data from "kc.trade_sum_value_by_month". */
-export type Kc_Trade_Sum_Value_By_Month_Order_By = {
+/** Ordering options when selecting data from "kc.trade_sum_total_value_by_month". */
+export type Kc_Trade_Sum_Total_Value_By_Month_Order_By = {
   month?: InputMaybe<Order_By>
   primary_currency?: InputMaybe<Order_By>
   secondary_currency?: InputMaybe<Order_By>
@@ -2408,8 +2478,8 @@ export type Kc_Trade_Sum_Value_By_Month_Order_By = {
   user_uid?: InputMaybe<Order_By>
 }
 
-/** Select columns of table "kc.trade_sum_value_by_month" */
-export enum Kc_Trade_Sum_Value_By_Month_Select_Column {
+/** Select columns of table "kc.trade_sum_total_value_by_month" */
+export enum Kc_Trade_Sum_Total_Value_By_Month_Select_Column {
   /** Column name */
   Month = 'month',
   /** Column name */
@@ -2422,9 +2492,9 @@ export enum Kc_Trade_Sum_Value_By_Month_Select_Column {
   UserUid = 'user_uid',
 }
 
-/** Columns and relationships of "kc.trade_sum_value_by_week" */
-export type Kc_Trade_Sum_Value_By_Week = {
-  __typename?: 'kc_trade_sum_value_by_week'
+/** Columns and relationships of "kc.trade_sum_total_value_by_week" */
+export type Kc_Trade_Sum_Total_Value_By_Week = {
+  __typename?: 'kc_trade_sum_total_value_by_week'
   primary_currency?: Maybe<Scalars['String']>
   secondary_currency?: Maybe<Scalars['String']>
   sum?: Maybe<Scalars['numeric']>
@@ -2432,11 +2502,11 @@ export type Kc_Trade_Sum_Value_By_Week = {
   week?: Maybe<Scalars['timestamptz']>
 }
 
-/** Boolean expression to filter rows from the table "kc.trade_sum_value_by_week". All fields are combined with a logical 'AND'. */
-export type Kc_Trade_Sum_Value_By_Week_Bool_Exp = {
-  _and?: InputMaybe<Kc_Trade_Sum_Value_By_Week_Bool_Exp[]>
-  _not?: InputMaybe<Kc_Trade_Sum_Value_By_Week_Bool_Exp>
-  _or?: InputMaybe<Kc_Trade_Sum_Value_By_Week_Bool_Exp[]>
+/** Boolean expression to filter rows from the table "kc.trade_sum_total_value_by_week". All fields are combined with a logical 'AND'. */
+export type Kc_Trade_Sum_Total_Value_By_Week_Bool_Exp = {
+  _and?: InputMaybe<Kc_Trade_Sum_Total_Value_By_Week_Bool_Exp[]>
+  _not?: InputMaybe<Kc_Trade_Sum_Total_Value_By_Week_Bool_Exp>
+  _or?: InputMaybe<Kc_Trade_Sum_Total_Value_By_Week_Bool_Exp[]>
   primary_currency?: InputMaybe<String_Comparison_Exp>
   secondary_currency?: InputMaybe<String_Comparison_Exp>
   sum?: InputMaybe<Numeric_Comparison_Exp>
@@ -2444,8 +2514,8 @@ export type Kc_Trade_Sum_Value_By_Week_Bool_Exp = {
   week?: InputMaybe<Timestamptz_Comparison_Exp>
 }
 
-/** Ordering options when selecting data from "kc.trade_sum_value_by_week". */
-export type Kc_Trade_Sum_Value_By_Week_Order_By = {
+/** Ordering options when selecting data from "kc.trade_sum_total_value_by_week". */
+export type Kc_Trade_Sum_Total_Value_By_Week_Order_By = {
   primary_currency?: InputMaybe<Order_By>
   secondary_currency?: InputMaybe<Order_By>
   sum?: InputMaybe<Order_By>
@@ -2453,8 +2523,8 @@ export type Kc_Trade_Sum_Value_By_Week_Order_By = {
   week?: InputMaybe<Order_By>
 }
 
-/** Select columns of table "kc.trade_sum_value_by_week" */
-export enum Kc_Trade_Sum_Value_By_Week_Select_Column {
+/** Select columns of table "kc.trade_sum_total_value_by_week" */
+export enum Kc_Trade_Sum_Total_Value_By_Week_Select_Column {
   /** Column name */
   PrimaryCurrency = 'primary_currency',
   /** Column name */
@@ -3466,12 +3536,14 @@ export type Query_Root = {
   kc_trade: Kc_Trade[]
   /** Fetch aggregated fields from the table: "kc.trade" */
   kc_trade_aggregate: Kc_Trade_Aggregate
+  /** Fetch data from the table: "kc.trade_avg_price_by_day" */
+  kc_trade_avg_price_by_day: Kc_Trade_Avg_Price_By_Day[]
   /** Fetch data from the table: "kc.trade" using primary key columns */
   kc_trade_by_pk?: Maybe<Kc_Trade>
-  /** Fetch data from the table: "kc.trade_sum_value_by_month" */
-  kc_trade_sum_value_by_month: Kc_Trade_Sum_Value_By_Month[]
-  /** Fetch data from the table: "kc.trade_sum_value_by_week" */
-  kc_trade_sum_value_by_week: Kc_Trade_Sum_Value_By_Week[]
+  /** Fetch data from the table: "kc.trade_sum_total_value_by_month" */
+  kc_trade_sum_total_value_by_month: Kc_Trade_Sum_Total_Value_By_Month[]
+  /** Fetch data from the table: "kc.trade_sum_total_value_by_week" */
+  kc_trade_sum_total_value_by_week: Kc_Trade_Sum_Total_Value_By_Week[]
   /** Fetch data from the table: "kc.trade_sum_volume_by_month" */
   kc_trade_sum_volume_by_month: Kc_Trade_Sum_Volume_By_Month[]
   /** Fetch data from the table: "kc.trade_sum_volume_by_week" */
@@ -3661,24 +3733,32 @@ export type Query_RootKc_Trade_AggregateArgs = {
   where?: InputMaybe<Kc_Trade_Bool_Exp>
 }
 
+export type Query_RootKc_Trade_Avg_Price_By_DayArgs = {
+  distinct_on?: InputMaybe<Kc_Trade_Avg_Price_By_Day_Select_Column[]>
+  limit?: InputMaybe<Scalars['Int']>
+  offset?: InputMaybe<Scalars['Int']>
+  order_by?: InputMaybe<Kc_Trade_Avg_Price_By_Day_Order_By[]>
+  where?: InputMaybe<Kc_Trade_Avg_Price_By_Day_Bool_Exp>
+}
+
 export type Query_RootKc_Trade_By_PkArgs = {
   uid: Scalars['uuid']
 }
 
-export type Query_RootKc_Trade_Sum_Value_By_MonthArgs = {
-  distinct_on?: InputMaybe<Kc_Trade_Sum_Value_By_Month_Select_Column[]>
+export type Query_RootKc_Trade_Sum_Total_Value_By_MonthArgs = {
+  distinct_on?: InputMaybe<Kc_Trade_Sum_Total_Value_By_Month_Select_Column[]>
   limit?: InputMaybe<Scalars['Int']>
   offset?: InputMaybe<Scalars['Int']>
-  order_by?: InputMaybe<Kc_Trade_Sum_Value_By_Month_Order_By[]>
-  where?: InputMaybe<Kc_Trade_Sum_Value_By_Month_Bool_Exp>
+  order_by?: InputMaybe<Kc_Trade_Sum_Total_Value_By_Month_Order_By[]>
+  where?: InputMaybe<Kc_Trade_Sum_Total_Value_By_Month_Bool_Exp>
 }
 
-export type Query_RootKc_Trade_Sum_Value_By_WeekArgs = {
-  distinct_on?: InputMaybe<Kc_Trade_Sum_Value_By_Week_Select_Column[]>
+export type Query_RootKc_Trade_Sum_Total_Value_By_WeekArgs = {
+  distinct_on?: InputMaybe<Kc_Trade_Sum_Total_Value_By_Week_Select_Column[]>
   limit?: InputMaybe<Scalars['Int']>
   offset?: InputMaybe<Scalars['Int']>
-  order_by?: InputMaybe<Kc_Trade_Sum_Value_By_Week_Order_By[]>
-  where?: InputMaybe<Kc_Trade_Sum_Value_By_Week_Bool_Exp>
+  order_by?: InputMaybe<Kc_Trade_Sum_Total_Value_By_Week_Order_By[]>
+  where?: InputMaybe<Kc_Trade_Sum_Total_Value_By_Week_Bool_Exp>
 }
 
 export type Query_RootKc_Trade_Sum_Volume_By_MonthArgs = {
@@ -3811,12 +3891,14 @@ export type Subscription_Root = {
   kc_trade: Kc_Trade[]
   /** Fetch aggregated fields from the table: "kc.trade" */
   kc_trade_aggregate: Kc_Trade_Aggregate
+  /** Fetch data from the table: "kc.trade_avg_price_by_day" */
+  kc_trade_avg_price_by_day: Kc_Trade_Avg_Price_By_Day[]
   /** Fetch data from the table: "kc.trade" using primary key columns */
   kc_trade_by_pk?: Maybe<Kc_Trade>
-  /** Fetch data from the table: "kc.trade_sum_value_by_month" */
-  kc_trade_sum_value_by_month: Kc_Trade_Sum_Value_By_Month[]
-  /** Fetch data from the table: "kc.trade_sum_value_by_week" */
-  kc_trade_sum_value_by_week: Kc_Trade_Sum_Value_By_Week[]
+  /** Fetch data from the table: "kc.trade_sum_total_value_by_month" */
+  kc_trade_sum_total_value_by_month: Kc_Trade_Sum_Total_Value_By_Month[]
+  /** Fetch data from the table: "kc.trade_sum_total_value_by_week" */
+  kc_trade_sum_total_value_by_week: Kc_Trade_Sum_Total_Value_By_Week[]
   /** Fetch data from the table: "kc.trade_sum_volume_by_month" */
   kc_trade_sum_volume_by_month: Kc_Trade_Sum_Volume_By_Month[]
   /** Fetch data from the table: "kc.trade_sum_volume_by_week" */
@@ -4006,24 +4088,32 @@ export type Subscription_RootKc_Trade_AggregateArgs = {
   where?: InputMaybe<Kc_Trade_Bool_Exp>
 }
 
+export type Subscription_RootKc_Trade_Avg_Price_By_DayArgs = {
+  distinct_on?: InputMaybe<Kc_Trade_Avg_Price_By_Day_Select_Column[]>
+  limit?: InputMaybe<Scalars['Int']>
+  offset?: InputMaybe<Scalars['Int']>
+  order_by?: InputMaybe<Kc_Trade_Avg_Price_By_Day_Order_By[]>
+  where?: InputMaybe<Kc_Trade_Avg_Price_By_Day_Bool_Exp>
+}
+
 export type Subscription_RootKc_Trade_By_PkArgs = {
   uid: Scalars['uuid']
 }
 
-export type Subscription_RootKc_Trade_Sum_Value_By_MonthArgs = {
-  distinct_on?: InputMaybe<Kc_Trade_Sum_Value_By_Month_Select_Column[]>
+export type Subscription_RootKc_Trade_Sum_Total_Value_By_MonthArgs = {
+  distinct_on?: InputMaybe<Kc_Trade_Sum_Total_Value_By_Month_Select_Column[]>
   limit?: InputMaybe<Scalars['Int']>
   offset?: InputMaybe<Scalars['Int']>
-  order_by?: InputMaybe<Kc_Trade_Sum_Value_By_Month_Order_By[]>
-  where?: InputMaybe<Kc_Trade_Sum_Value_By_Month_Bool_Exp>
+  order_by?: InputMaybe<Kc_Trade_Sum_Total_Value_By_Month_Order_By[]>
+  where?: InputMaybe<Kc_Trade_Sum_Total_Value_By_Month_Bool_Exp>
 }
 
-export type Subscription_RootKc_Trade_Sum_Value_By_WeekArgs = {
-  distinct_on?: InputMaybe<Kc_Trade_Sum_Value_By_Week_Select_Column[]>
+export type Subscription_RootKc_Trade_Sum_Total_Value_By_WeekArgs = {
+  distinct_on?: InputMaybe<Kc_Trade_Sum_Total_Value_By_Week_Select_Column[]>
   limit?: InputMaybe<Scalars['Int']>
   offset?: InputMaybe<Scalars['Int']>
-  order_by?: InputMaybe<Kc_Trade_Sum_Value_By_Week_Order_By[]>
-  where?: InputMaybe<Kc_Trade_Sum_Value_By_Week_Bool_Exp>
+  order_by?: InputMaybe<Kc_Trade_Sum_Total_Value_By_Week_Order_By[]>
+  where?: InputMaybe<Kc_Trade_Sum_Total_Value_By_Week_Bool_Exp>
 }
 
 export type Subscription_RootKc_Trade_Sum_Volume_By_MonthArgs = {
@@ -4456,8 +4546,8 @@ export type GetTradeSumValueByWeekQueryVariables = Exact<Record<string, never>>
 
 export type GetTradeSumValueByWeekQuery = {
   __typename?: 'query_root'
-  kc_trade_sum_value_by_week: Array<{
-    __typename?: 'kc_trade_sum_value_by_week'
+  kc_trade_sum_total_value_by_week: Array<{
+    __typename?: 'kc_trade_sum_total_value_by_week'
     week?: string | null | undefined
     sum?: number | null | undefined
     primary_currency?: string | null | undefined
@@ -4519,6 +4609,21 @@ export type GetTradeListQuery = {
     total_value: number
     fee: number
     exchange: { __typename?: 'kc_exchange'; uid: string; id: string }
+  }>
+}
+
+export type GetTradeAvgPriceByDayQueryVariables = Exact<{
+  primaryCurrency: Scalars['String']
+  secondaryCurrency: Scalars['String']
+}>
+
+export type GetTradeAvgPriceByDayQuery = {
+  __typename?: 'query_root'
+  kc_trade_avg_price_by_day: Array<{
+    __typename?: 'kc_trade_avg_price_by_day'
+    day?: string | null | undefined
+    price?: number | null | undefined
+    avg_price?: number | null | undefined
   }>
 }
 
@@ -5186,7 +5291,7 @@ export type Create_UserMutationOptions = Apollo.BaseMutationOptions<
 >
 export const GetTradeSumValueByWeekDocument = gql`
   query getTradeSumValueByWeek {
-    kc_trade_sum_value_by_week {
+    kc_trade_sum_total_value_by_week {
       week
       sum
       primary_currency
@@ -5246,6 +5351,28 @@ export const GetTradeListDocument = gql`
 export type GetTradeListQueryResult = Apollo.QueryResult<
   GetTradeListQuery,
   GetTradeListQueryVariables
+>
+export const GetTradeAvgPriceByDayDocument = gql`
+  query getTradeAvgPriceByDay(
+    $primaryCurrency: String!
+    $secondaryCurrency: String!
+  ) {
+    kc_trade_avg_price_by_day(
+      where: {
+        primary_currency: { _eq: $primaryCurrency }
+        secondary_currency: { _eq: $secondaryCurrency }
+      }
+      order_by: { day: desc }
+    ) {
+      day
+      price
+      avg_price
+    }
+  }
+`
+export type GetTradeAvgPriceByDayQueryResult = Apollo.QueryResult<
+  GetTradeAvgPriceByDayQuery,
+  GetTradeAvgPriceByDayQueryVariables
 >
 export const GetUserDeviceByUidDocument = gql`
   query getUserDeviceByUID($userDeviceUID: uuid!) {
