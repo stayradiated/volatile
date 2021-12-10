@@ -1,11 +1,10 @@
 import { useState } from 'react'
 import { gql, useQuery } from '@apollo/client'
 import Select from 'react-select'
-import { Alert } from 'antd'
 
 import { useValidateUserExchangeKeysLive } from '../../hooks/mutations/use-validate-user-exchange-keys-live'
 
-import { Form, Input, Button } from '../retro-ui'
+import { Alert, Spin, Form, Input, Button } from '../retro-ui'
 import { KeysInput } from '../user-exchange-keys-input'
 
 import type {
@@ -69,11 +68,11 @@ const UserExchangeKeysFormCreate = (props: Props) => {
     JSON.stringify(state.keys) === JSON.stringify(lastValidatedKeys)
 
   if (loading) {
-    return <p>loading exchange list...</p>
+    return <Spin />
   }
 
   if (error) {
-    return <p>{error.message}</p>
+    return <Alert message={error.message} type="error" />
   }
 
   const handleFinish = async () => {

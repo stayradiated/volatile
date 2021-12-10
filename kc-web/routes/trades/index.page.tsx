@@ -5,6 +5,7 @@ import type { Moment } from 'moment'
 
 import { Card } from '../../src/components/retro-ui'
 
+import { Navigation } from '../../src/components/navigation'
 import { TradeList } from '../../src/components/trade-list/index'
 import { SelectAsset } from '../../src/components/select/asset/index'
 import { SelectCurrency } from '../../src/components/select/currency/index'
@@ -47,6 +48,7 @@ const Trades = () => {
 
   return (
     <>
+      <Navigation />
       <Card>
         <h1>Trades</h1>
 

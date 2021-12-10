@@ -1,7 +1,7 @@
 import { gql, useQuery } from '@apollo/client'
 import { useState, useEffect } from 'react'
 
-import { Form, Input, Button } from '../retro-ui'
+import { Alert, Spin, Form, Input, Button } from '../retro-ui'
 
 import type {
   GetUserDeviceByUidQuery,
@@ -27,7 +27,7 @@ const UserDeviceFormEdit = (props: Props) => {
 
   const updateUserDevice = useUpdateUserDevice()
 
-  const { data, loading } = useQuery<
+  const { data, loading, error } = useQuery<
     GetUserDeviceByUidQuery,
     GetUserDeviceByUidQueryVariables
   >(QUERY, {
@@ -49,7 +49,11 @@ const UserDeviceFormEdit = (props: Props) => {
   }, [data])
 
   if (loading) {
-    return <p>Loading...</p>
+    return <Spin />
+  }
+
+  if (error) {
+    return <Alert message={error.message} type="error" />
   }
 
   const handleFinish = async () => {

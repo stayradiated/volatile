@@ -10,9 +10,10 @@ import {
   YAxis,
 } from 'recharts'
 import { parseISO, getTime, format } from 'date-fns'
-import { Alert } from 'antd'
 
 import { formatCurrency } from '../../utils/format'
+
+import { Spin, Alert } from '../retro-ui'
 
 const formatUnixTime =
   (formatString: string) =>
@@ -42,7 +43,7 @@ const ChartWeek = () => {
   const { data, error, loading } = useQuery(QUERY)
 
   if (loading) {
-    return <>'Loading...'</>
+    return <Spin />
   }
 
   if (error) {

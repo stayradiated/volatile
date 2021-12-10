@@ -1,8 +1,8 @@
 import { gql, useQuery } from '@apollo/client'
-import { DateTime } from 'luxon'
+import { parseISO, format } from 'date-fns'
 import { useTable, Column } from 'react-table'
 
-import { Table } from '../retro-ui'
+import { Alert, Spin, Table } from '../retro-ui'
 
 import { formatCurrency } from '../../utils/format'
 
@@ -42,7 +42,7 @@ const columns: Array<Column<Order>> = [
     accessor: 'opened_at',
     Cell: (props) => {
       const { value } = props
-      return DateTime.fromISO(value).toFormat('ff')
+      return format(parseISO(value), 'PPpp')
     },
   },
   {
@@ -78,7 +78,7 @@ const columns: Array<Column<Order>> = [
 ]
 
 const OpenOrderList = () => {
-  const { data, error } = useQuery<
+  const { data, loading, error } = useQuery<
     GetOpenOrderListQuery,
     GetOpenOrderListQueryVariables
   >(QUERY)
@@ -88,8 +88,12 @@ const OpenOrderList = () => {
     data: data?.kc_order ?? [],
   })
 
+  if (loading) {
+    return <Spin />
+  }
+
   if (error) {
-    return <p>{error.message}</p>
+    return <Alert message={error.message} type="error" />
   }
 
   return (

@@ -1,12 +1,13 @@
 import { useMemo } from 'react'
 import { gql, useQuery } from '@apollo/client'
-import { parseISO } from 'date-fns'
-import { Spin, Alert } from 'antd'
+import { parseISO, eachDayOfInterval } from 'date-fns'
 
 import type {
   GetTradeAvgPriceByDayQuery as Query,
   GetTradeAvgPriceByDayQueryVariables as QueryVariables,
 } from '../../utils/graphql'
+
+import { Spin, Alert } from '../retro-ui'
 
 import { LineChart } from './line-chart'
 
@@ -32,12 +33,42 @@ const QUERY = gql`
 `
 
 const formatDataForChart = (data: ChartData, key: 'price' | 'avg_price') => {
-  return data
-    .map((row) => ({
-      time: parseISO(row.day!).getTime() / 1000,
-      value: row[key]!,
-    }))
-    .reverse()
+  if (data.length === 0) {
+    return []
+  }
+
+  const endDate = parseISO(data[0].day!)
+  const startDate = parseISO(data[data.length - 1].day!)
+
+  const map = new Map<number, any>(
+    eachDayOfInterval({ start: startDate, end: endDate }).map((date) => {
+      return [date.getTime() / 1000, undefined]
+    }),
+  )
+
+  for (const row of data) {
+    const time = parseISO(row.day!).getTime() / 1000
+    map.set(time, row[key])
+  }
+
+  const results = [...map.entries()]
+    .map((row) => {
+      return { time: row[0], value: row[1] }
+    })
+    .sort((a, b) => a.time - b.time)
+
+  let lastValue
+  for (const row of results) {
+    if (typeof row.value === 'undefined') {
+      row.value = lastValue
+    } else {
+      lastValue = row.value
+    }
+  }
+
+  return results.filter((row) => {
+    return typeof row.value !== 'undefined'
+  })
 }
 
 type Props = {

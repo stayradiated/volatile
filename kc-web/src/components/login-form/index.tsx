@@ -1,11 +1,10 @@
-import { Alert } from 'antd'
 import { useState } from 'react'
 
 import { useCreateAuthToken } from '../../hooks/mutations/use-create-auth-token'
 import { Session } from '../../utils/session-store'
 
 import { Logo } from '../logo'
-import { Card, Form, Input, Button } from '../retro-ui'
+import { Alert, Card, Form, Input, Button } from '../retro-ui'
 
 import styles from './index.module.css'
 

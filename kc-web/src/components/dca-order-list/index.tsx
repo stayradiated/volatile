@@ -1,18 +1,18 @@
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { gql, useQuery } from '@apollo/client'
 import { useTable, Column } from 'react-table'
 import { parseISO, differenceInHours } from 'date-fns'
-import { Spin, Alert } from 'antd'
 
-import { Table, Button } from '../retro-ui'
+import { Spin, Alert, Card, Table, Button, Dropdown } from '../retro-ui'
 import { formatCurrency } from '../../utils/format'
+
+import { DCAOrderModalDelete } from '../dca-order-modal-delete'
 
 import {
   GetDcaOrderListQuery,
   GetDcaOrderListQueryVariables,
 } from '../../utils/graphql'
 
-import { useDeleteDCAOrder } from './mutation-delete'
 import { useUpdateDCAOrderEnabledAt } from './mutation-pause'
 
 type DCAOrder = GetDcaOrderListQuery['kc_dca_order'][0]
@@ -55,27 +55,46 @@ const DCAOrderList = (props: Props) => {
     GetDcaOrderListQueryVariables
   >(QUERY_DCA_ORDER_LIST)
 
-  const deleteDCAOrder = useDeleteDCAOrder()
   const updateEnabledAt = useUpdateDCAOrderEnabledAt()
+
+  const [deleteState, setDeleteState] = useState<string | undefined>(undefined)
+  const handleCloseDeleteModal = () => {
+    setDeleteState(undefined)
+  }
 
   const columns = useMemo(() => {
     const columns: Array<Column<DCAOrder>> = [
       {
-        Header: 'Enabled',
+        Header: 'Status',
         accessor: 'enabled_at',
-        Cell: ({ value }) => (value ? 'Yes' : 'No'),
+        Cell: ({ value: enabledAt, row }) => {
+          const handleTogglePause = async () => {
+            await (enabledAt
+              ? updateEnabledAt(row.original.uid, null)
+              : updateEnabledAt(row.original.uid, new Date().toISOString()))
+          }
+
+          return (
+            <Button htmlType="button" onClick={handleTogglePause}>
+              {enabledAt ? 'ACTIVE' : 'PAUSED'}
+            </Button>
+          )
+        },
       },
       {
         Header: 'Exchange',
         accessor: (row) => row.exchange.name,
       },
       {
-        Header: 'Asset',
-        accessor: (row) => row.primary_currency.symbol,
+        Header: 'Trading Pair',
+        accessor: (row) => {
+          return `${row.primary_currency.symbol}-${row.secondary_currency.symbol}`
+        },
       },
       {
-        Header: 'Currency',
-        accessor: (row) => row.secondary_currency.symbol,
+        Header: 'Market Offset',
+        accessor: 'market_offset',
+        Cell: ({ value }) => `${value}%`,
       },
       {
         Header: 'Daily Average',
@@ -106,34 +125,21 @@ const DCAOrderList = (props: Props) => {
         Header: 'Actions',
         accessor: 'uid',
         Cell: (props) => {
-          const { value, row } = props
+          const { value } = props
 
           const handleEdit = () => {
             onEdit(value)
           }
 
-          const handleTogglePause = async () => {
-            await (row.original.enabled_at
-              ? updateEnabledAt(value, null)
-              : updateEnabledAt(value, new Date().toISOString()))
-          }
-
           const handleDelete = async () => {
-            await deleteDCAOrder(value)
+            setDeleteState(value)
           }
 
           return (
-            <>
-              <Button htmlType="button" onClick={handleEdit}>
-                Edit
-              </Button>
-              <Button htmlType="button" onClick={handleTogglePause}>
-                {row.original.enabled_at ? 'Pause' : 'Resume'}
-              </Button>
-              <Button htmlType="button" onClick={handleDelete}>
-                Delete
-              </Button>
-            </>
+            <Dropdown>
+              <Dropdown.Item onClick={handleEdit}>Edit</Dropdown.Item>
+              <Dropdown.Item onClick={handleDelete}>Delete</Dropdown.Item>
+            </Dropdown>
           )
         },
       },
@@ -144,7 +150,11 @@ const DCAOrderList = (props: Props) => {
   const table = useTable({ columns, data: data?.kc_dca_order ?? [] })
 
   if (loading) {
-    return <Spin />
+    return (
+      <Card>
+        <Spin />
+      </Card>
+    )
   }
 
   if (error) {
@@ -152,11 +162,19 @@ const DCAOrderList = (props: Props) => {
   }
 
   return (
-    <div>
-      <h2>☰ DCA Order List</h2>
-      <Table table={table} />
-      <Button onClick={onCreate}>Create DCA Order</Button>
-    </div>
+    <>
+      <Card width={1000}>
+        <h2>☰ DCA Order List</h2>
+        <Table table={table} />
+        <Button onClick={onCreate}>Create DCA Order</Button>
+      </Card>
+      <DCAOrderModalDelete
+        isOpen={Boolean(deleteState)}
+        dcaOrderUID={deleteState ?? ''}
+        onCancel={handleCloseDeleteModal}
+        onFinish={handleCloseDeleteModal}
+      />
+    </>
   )
 }
 

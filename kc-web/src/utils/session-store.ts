@@ -1,4 +1,4 @@
-import { DateTime } from 'luxon'
+import { parseISO } from 'date-fns'
 
 import * as store from './store'
 
@@ -7,7 +7,7 @@ export type UserSession = {
   userUID: string
   email: string
   authToken: string
-  expiresAt: DateTime
+  expiresAt: Date
 }
 
 export type GuestSession = {
@@ -54,7 +54,7 @@ const getSession = (): Session => {
       email: local.email,
       userUID: local.userUID,
       authToken: local.authToken,
-      expiresAt: DateTime.fromISO(local.expiresAt),
+      expiresAt: parseISO(local.expiresAt),
     }
   }
 

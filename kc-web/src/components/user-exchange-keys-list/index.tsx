@@ -1,9 +1,9 @@
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { gql, useQuery } from '@apollo/client'
 import { useTable, Column } from 'react-table'
 import { parseISO, format } from 'date-fns'
 
-import { Table, Button } from '../retro-ui'
+import { Alert, Card, Table, Button, Dropdown, Spin } from '../retro-ui'
 
 import { useValidateUserExchangeKeys } from '../../hooks/mutations/use-validate-user-exchange-keys'
 
@@ -12,7 +12,7 @@ import type {
   GetUserExchangeKeysListQueryVariables,
 } from '../../utils/graphql'
 
-import { useDeleteUserExchangeKeys } from './mutation-delete'
+import { UserExchangeKeysModalDelete } from '../user-exchange-keys-modal-delete'
 
 type UserExchangeKeys = GetUserExchangeKeysListQuery['kc_user_exchange_keys'][0]
 
@@ -43,7 +43,11 @@ type Props = {
 const UserExchangeKeysList = (props: Props) => {
   const { onCreate, onEdit } = props
 
-  const deleteUserExchangeKeys = useDeleteUserExchangeKeys()
+  const [deleteState, setDeleteState] = useState<string | undefined>(undefined)
+  const handleCloseDeleteModal = () => {
+    setDeleteState(undefined)
+  }
+
   const { validateUserExchangeKeys } = useValidateUserExchangeKeys()
 
   const { data, loading, error } = useQuery<
@@ -80,7 +84,7 @@ const UserExchangeKeysList = (props: Props) => {
           }
 
           const handleDelete = () => {
-            deleteUserExchangeKeys(userExchangeKeysUID)
+            setDeleteState(userExchangeKeysUID)
           }
 
           const handleValidate = async () => {
@@ -91,34 +95,54 @@ const UserExchangeKeysList = (props: Props) => {
           }
 
           return (
-            <>
-              <Button onClick={handleEdit}>Edit</Button>
-              <Button onClick={handleValidate}>Validate</Button>
-              <Button onClick={handleDelete}>Delete</Button>
-            </>
+            <Dropdown>
+              <Dropdown.Item onClick={handleEdit}>Edit</Dropdown.Item>
+              <Dropdown.Item onClick={handleValidate}>Validate</Dropdown.Item>
+              <Dropdown.Item onClick={handleDelete}>Delete</Dropdown.Item>
+            </Dropdown>
           )
         },
       },
     ]
     return columns
-  }, [deleteUserExchangeKeys])
+  }, [])
 
   const table = useTable({
     columns,
     data: data?.kc_user_exchange_keys ?? [],
   })
 
+  if (loading) {
+    return (
+      <Card>
+        <Spin />
+      </Card>
+    )
+  }
+
   if (error) {
-    return <p>{error.message}</p>
+    return (
+      <Card>
+        <Alert message={error.message} type="error" />
+      </Card>
+    )
   }
 
   return (
     <>
-      <h2>☰ Exchange API List</h2>
-      <Table table={table} />
-      <Button type="primary" onClick={onCreate}>
-        Add API Keys
-      </Button>
+      <Card width={1000}>
+        <h2>☰ Exchange API List</h2>
+        <Table table={table} />
+        <Button type="primary" onClick={onCreate}>
+          Add API Keys
+        </Button>
+      </Card>
+      <UserExchangeKeysModalDelete
+        isOpen={Boolean(deleteState)}
+        userExchangeKeysUID={deleteState ?? ''}
+        onCancel={handleCloseDeleteModal}
+        onFinish={handleCloseDeleteModal}
+      />
     </>
   )
 }

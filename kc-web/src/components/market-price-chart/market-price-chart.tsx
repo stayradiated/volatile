@@ -5,6 +5,9 @@ import type {
   GetMarketPriceQuery,
   GetMarketPriceQueryVariables,
 } from '../../utils/graphql'
+
+import { Spin, Alert } from '../retro-ui'
+
 import { LineChart } from './line-chart'
 
 const BINANCE = 'e2860358-91a5-44ca-8a61-a4cd077138f2'
@@ -46,7 +49,7 @@ type Props = {
 const MarketPriceChart = (props: Props) => {
   const { primaryCurrency, secondaryCurrency } = props
 
-  const { data, loading } = useQuery<
+  const { data, loading, error } = useQuery<
     GetMarketPriceQuery,
     GetMarketPriceQueryVariables
   >(QUERY, {
@@ -56,8 +59,12 @@ const MarketPriceChart = (props: Props) => {
     },
   })
 
-  if (!data || loading) {
-    return <p>Loading...</p>
+  if (loading) {
+    return <Spin />
+  }
+
+  if (error) {
+    return <Alert message={error.message} type="error" />
   }
 
   return (
@@ -65,7 +72,7 @@ const MarketPriceChart = (props: Props) => {
       <h2>
         {primaryCurrency}-{secondaryCurrency}
       </h2>
-      <LineChart data={formatDataForChart(data.kc_market_price)} />
+      <LineChart data={formatDataForChart(data?.kc_market_price ?? [])} />
     </>
   )
 }

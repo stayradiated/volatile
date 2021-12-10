@@ -1,4 +1,4 @@
-import { DateTime } from 'luxon'
+import { parseISO } from 'date-fns'
 import { gql, useMutation } from '@apollo/client'
 
 import type {
@@ -64,7 +64,7 @@ const useCreateAuthToken = (): CreateAuthTokenFn => {
     const { user_uid: userUID, auth_token: authToken } =
       result.data.create_auth_token
 
-    const expiresAt = DateTime.fromISO(result.data.create_auth_token.expires_at)
+    const expiresAt = parseISO(result.data.create_auth_token.expires_at)
 
     const session: Session = {
       role: 'user',

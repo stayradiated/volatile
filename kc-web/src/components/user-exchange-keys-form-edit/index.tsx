@@ -1,10 +1,9 @@
 import { useState, useEffect } from 'react'
 import { gql, useQuery } from '@apollo/client'
-import { Alert } from 'antd'
 
 import { useValidateUserExchangeKeysLive } from '../../hooks/mutations/use-validate-user-exchange-keys-live'
 
-import { Form, Input, Button } from '../retro-ui'
+import { Spin, Alert, Form, Input, Button } from '../retro-ui'
 import { KeysInput } from '../user-exchange-keys-input'
 
 import type {
@@ -12,9 +11,6 @@ import type {
   GetUserExchangeKeysFormEditQueryVariables,
 } from '../../utils/graphql'
 import { useUpdateUserExchangeKeys } from './mutation'
-
-type UserExchangeKeys =
-  GetUserExchangeKeysFormEditQuery['kc_user_exchange_keys_by_pk']
 
 const QUERY = gql`
   query getUserExchangeKeysFormEdit($userExchangeKeysUID: uuid!) {
@@ -87,11 +83,11 @@ const UserExchangeKeysFormEdit = (props: Props) => {
   }, [userExchangeKeys])
 
   if (loading) {
-    return <p>Fetching info...</p>
+    return <Spin />
   }
 
   if (error) {
-    return <p>{error.message}</p>
+    return <Alert message={error.message} type="error" />
   }
 
   const handleReplaceKeys = () => {

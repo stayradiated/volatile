@@ -1,0 +1,14 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 150px;
+
+  margin: 0;
+  padding: 0;
+
+  background: var(--card-background);
+  box-shadow: -2px 2px 0 0 var(--card-border);
+  border: 1px solid var(--card-border);
+
+  z-index: 1;
+}

@@ -1,0 +1,8 @@
+.container {
+  padding: 10px;
+}
+
+.container.error {
+  border: 3px solid red;
+  background: #fff;
+}

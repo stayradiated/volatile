@@ -3,7 +3,7 @@ import { gql, useQuery } from '@apollo/client'
 import { useTable, Column } from 'react-table'
 import { useMemo } from 'react'
 
-import { Table, Button } from '../retro-ui'
+import { Spin, Alert, Table, Button } from '../retro-ui'
 
 import type { GetUserDeviceListQuery } from '../../utils/graphql'
 import { useDeleteUserDevice } from './mutation-delete'
@@ -28,7 +28,7 @@ type Props = {
 const UserDeviceList = (props: Props) => {
   const { onEdit } = props
 
-  const { data, error } = useQuery<GetUserDeviceListQuery>(QUERY)
+  const { data, loading, error } = useQuery<GetUserDeviceListQuery>(QUERY)
 
   const deleteUserDevice = useDeleteUserDevice()
 
@@ -88,8 +88,12 @@ const UserDeviceList = (props: Props) => {
     data: data?.kc_user_device ?? [],
   })
 
+  if (loading) {
+    return <Spin />
+  }
+
   if (error) {
-    return <p>{error.message}</p>
+    return <Alert message={error.message} type="error" />
   }
 
   return <Table table={table} />

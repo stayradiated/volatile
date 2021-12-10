@@ -4419,6 +4419,47 @@ export type GetDcaOrderListQuery = {
   }>
 }
 
+export type UpdateDcaOrderEnabledAtMutationVariables = Exact<{
+  dcaOrderUID: Scalars['uuid']
+  enabledAt?: InputMaybe<Scalars['timestamptz']>
+}>
+
+export type UpdateDcaOrderEnabledAtMutation = {
+  __typename?: 'mutation_root'
+  update_kc_dca_order_by_pk?:
+    | {
+        __typename?: 'kc_dca_order'
+        uid: string
+        enabled_at?: string | null | undefined
+      }
+    | null
+    | undefined
+}
+
+export type GetDcaOrderModalDeleteQueryVariables = Exact<{
+  dcaOrderUID: Scalars['uuid']
+}>
+
+export type GetDcaOrderModalDeleteQuery = {
+  __typename?: 'query_root'
+  kc_dca_order_by_pk?:
+    | {
+        __typename?: 'kc_dca_order'
+        uid: string
+        enabled_at?: string | null | undefined
+        daily_average: number
+        start_at: string
+        market_offset: number
+        min_value?: number | null | undefined
+        max_value?: number | null | undefined
+        exchange: { __typename?: 'kc_exchange'; uid: string; name: string }
+        primary_currency: { __typename?: 'kc_currency'; symbol: string }
+        secondary_currency: { __typename?: 'kc_currency'; symbol: string }
+      }
+    | null
+    | undefined
+}
+
 export type DeleteDcaOrderMutationVariables = Exact<{
   dcaOrderUID: Scalars['uuid']
 }>
@@ -4436,23 +4477,6 @@ export type GetDcaOrderListByUidQueryVariables = Exact<Record<string, never>>
 export type GetDcaOrderListByUidQuery = {
   __typename?: 'query_root'
   kc_dca_order: Array<{ __typename?: 'kc_dca_order'; uid: string }>
-}
-
-export type UpdateDcaOrderEnabledAtMutationVariables = Exact<{
-  dcaOrderUID: Scalars['uuid']
-  enabledAt?: InputMaybe<Scalars['timestamptz']>
-}>
-
-export type UpdateDcaOrderEnabledAtMutation = {
-  __typename?: 'mutation_root'
-  update_kc_dca_order_by_pk?:
-    | {
-        __typename?: 'kc_dca_order'
-        uid: string
-        enabled_at?: string | null | undefined
-      }
-    | null
-    | undefined
 }
 
 export type GetExchangeListQueryVariables = Exact<Record<string, never>>
@@ -4839,6 +4863,18 @@ export type GetUserExchangeKeysListByUidQuery = {
   }>
 }
 
+export type GetUserExchangeKeysModalDeleteQueryVariables = Exact<{
+  userExchangeKeysUID: Scalars['uuid']
+}>
+
+export type GetUserExchangeKeysModalDeleteQuery = {
+  __typename?: 'query_root'
+  kc_user_exchange_keys_by_pk?:
+    | { __typename?: 'kc_user_exchange_keys'; uid: string; description: string }
+    | null
+    | undefined
+}
+
 export type CreateAuthTokenHookMutationVariables = Exact<{
   email: Scalars['String']
   password: Scalars['String']
@@ -5135,6 +5171,57 @@ export type GetDcaOrderListQueryResult = Apollo.QueryResult<
   GetDcaOrderListQuery,
   GetDcaOrderListQueryVariables
 >
+export const UpdateDcaOrderEnabledAtDocument = gql`
+  mutation updateDCAOrderEnabledAt(
+    $dcaOrderUID: uuid!
+    $enabledAt: timestamptz
+  ) {
+    update_kc_dca_order_by_pk(
+      pk_columns: { uid: $dcaOrderUID }
+      _set: { enabled_at: $enabledAt }
+    ) {
+      uid
+      enabled_at
+    }
+  }
+`
+export type UpdateDcaOrderEnabledAtMutationFn = Apollo.MutationFunction<
+  UpdateDcaOrderEnabledAtMutation,
+  UpdateDcaOrderEnabledAtMutationVariables
+>
+export type UpdateDcaOrderEnabledAtMutationResult =
+  Apollo.MutationResult<UpdateDcaOrderEnabledAtMutation>
+export type UpdateDcaOrderEnabledAtMutationOptions = Apollo.BaseMutationOptions<
+  UpdateDcaOrderEnabledAtMutation,
+  UpdateDcaOrderEnabledAtMutationVariables
+>
+export const GetDcaOrderModalDeleteDocument = gql`
+  query getDCAOrderModalDelete($dcaOrderUID: uuid!) {
+    kc_dca_order_by_pk(uid: $dcaOrderUID) {
+      uid
+      exchange {
+        uid
+        name
+      }
+      enabled_at
+      daily_average
+      start_at
+      market_offset
+      primary_currency {
+        symbol
+      }
+      secondary_currency {
+        symbol
+      }
+      min_value
+      max_value
+    }
+  }
+`
+export type GetDcaOrderModalDeleteQueryResult = Apollo.QueryResult<
+  GetDcaOrderModalDeleteQuery,
+  GetDcaOrderModalDeleteQueryVariables
+>
 export const DeleteDcaOrderDocument = gql`
   mutation deleteDCAOrder($dcaOrderUID: uuid!) {
     delete_kc_dca_order_by_pk(uid: $dcaOrderUID) {
@@ -5162,30 +5249,6 @@ export const GetDcaOrderListByUidDocument = gql`
 export type GetDcaOrderListByUidQueryResult = Apollo.QueryResult<
   GetDcaOrderListByUidQuery,
   GetDcaOrderListByUidQueryVariables
->
-export const UpdateDcaOrderEnabledAtDocument = gql`
-  mutation updateDCAOrderEnabledAt(
-    $dcaOrderUID: uuid!
-    $enabledAt: timestamptz
-  ) {
-    update_kc_dca_order_by_pk(
-      pk_columns: { uid: $dcaOrderUID }
-      _set: { enabled_at: $enabledAt }
-    ) {
-      uid
-      enabled_at
-    }
-  }
-`
-export type UpdateDcaOrderEnabledAtMutationFn = Apollo.MutationFunction<
-  UpdateDcaOrderEnabledAtMutation,
-  UpdateDcaOrderEnabledAtMutationVariables
->
-export type UpdateDcaOrderEnabledAtMutationResult =
-  Apollo.MutationResult<UpdateDcaOrderEnabledAtMutation>
-export type UpdateDcaOrderEnabledAtMutationOptions = Apollo.BaseMutationOptions<
-  UpdateDcaOrderEnabledAtMutation,
-  UpdateDcaOrderEnabledAtMutationVariables
 >
 export const GetExchangeListDocument = gql`
   query getExchangeList {
@@ -5602,6 +5665,18 @@ export const GetUserExchangeKeysListByUidDocument = gql`
 export type GetUserExchangeKeysListByUidQueryResult = Apollo.QueryResult<
   GetUserExchangeKeysListByUidQuery,
   GetUserExchangeKeysListByUidQueryVariables
+>
+export const GetUserExchangeKeysModalDeleteDocument = gql`
+  query getUserExchangeKeysModalDelete($userExchangeKeysUID: uuid!) {
+    kc_user_exchange_keys_by_pk(uid: $userExchangeKeysUID) {
+      uid
+      description
+    }
+  }
+`
+export type GetUserExchangeKeysModalDeleteQueryResult = Apollo.QueryResult<
+  GetUserExchangeKeysModalDeleteQuery,
+  GetUserExchangeKeysModalDeleteQueryVariables
 >
 export const CreateAuthTokenHookDocument = gql`
   mutation createAuthTokenHook(

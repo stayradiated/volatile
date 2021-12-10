@@ -321,8 +321,8 @@ importers:
 
   kc-web:
     specifiers:
-      '@ant-design/icons': 4.7.0
       '@apollo/client': 3.5.6
+      '@floating-ui/react-dom': 0.3.2
       '@graphql-codegen/cli': 2.3.0
       '@graphql-codegen/introspection': 2.1.0
       '@graphql-codegen/typescript': 2.4.1
@@ -340,7 +340,6 @@ importers:
       eslint-plugin-fp: 2.3.0
       graphql: 16.1.0
       lightweight-charts: 3.7.0
-      luxon: 2.1.1
       moment: 2.29.1
       react: 17.0.2
       react-dom: 17.0.2
@@ -352,14 +351,13 @@ importers:
       vite: 2.7.1
       xo: 0.47.0
     dependencies:
-      '@ant-design/icons': 4.7.0_react-dom@17.0.2+react@17.0.2
       '@apollo/client': 3.5.6_graphql@16.1.0+react@17.0.2
+      '@floating-ui/react-dom': 0.3.2_5539cae010396b202b015f3568914e95
       antd: 4.17.3_react-dom@17.0.2+react@17.0.2
       classnames: 2.3.1
       date-fns: 2.27.0
       graphql: 16.1.0
       lightweight-charts: 3.7.0
-      luxon: 2.1.1
       moment: 2.29.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
@@ -1229,6 +1227,30 @@ packages:
     resolution: {integrity: sha512-gvCOUNpXsWrIQ3A4aXCLIdblL0tDq42BG/2Xw7oxbil9h11uow10ztS2GuFazNBfjbrsZ5nl+nPl5jDSjj5TSg==}
     dependencies:
       ajv: 6.12.6
+    dev: false
+
+  /@floating-ui/core/0.2.0:
+    resolution: {integrity: sha512-GVja5m6llsWlD+SrZcX4u7GRrymVyyujnBU7vpNJqD/NzwIbqLP6RRpNASGANtTV2Aj7Zw7MISqk8wmELE6zUQ==}
+    dev: false
+
+  /@floating-ui/dom/0.1.6:
+    resolution: {integrity: sha512-JeZJ2XniuP3m9Y0F9bt3WpJDJPF5vrvtLXwHgfLd+TftBokReTs4e4RqrmWFYKeGbfjwxltB2XAD4YJPLNir1w==}
+    dependencies:
+      '@floating-ui/core': 0.2.0
+    dev: false
+
+  /@floating-ui/react-dom/0.3.2_5539cae010396b202b015f3568914e95:
+    resolution: {integrity: sha512-ggYLaBszX4C7NF6XasPZcSNuUJFUS/qAJevy3l6DZwkLsiNM/qnvTmtbWOk0iWFvEDporxYqQu+TZdJPPLAj/Q==}
+    peerDependencies:
+      react: '>=16.8.0'
+      react-dom: '>=16.8.0'
+    dependencies:
+      '@floating-ui/dom': 0.1.6
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+      use-isomorphic-layout-effect: 1.1.1_cfedea9b3ed0faf0dded75c187406c5e
+    transitivePeerDependencies:
+      - '@types/react'
     dev: false
 
   /@graphql-codegen/add/3.1.0:
@@ -9171,6 +9193,19 @@ packages:
     dependencies:
       prepend-http: 2.0.0
     dev: true
+
+  /use-isomorphic-layout-effect/1.1.1_cfedea9b3ed0faf0dded75c187406c5e:
+    resolution: {integrity: sha512-L7Evj8FGcwo/wpbv/qvSfrkHFtOpCzvM5yl2KVyDJoylVuSvzphiiasmjgQPttIGBAy2WKiBNR98q8w7PiNgKQ==}
+    peerDependencies:
+      '@types/react': '*'
+      react: ^16.8.0 || ^17.0.0
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+    dependencies:
+      '@types/react': 17.0.37
+      react: 17.0.2
+    dev: false
 
   /util-deprecate/1.0.2:
     resolution: {integrity: sha1-RQ1Nyfpw3nMnYvvS1KKJgUGaDM8=}

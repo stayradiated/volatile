@@ -10,14 +10,13 @@
     "graphql": "graphql-codegen --config ./graphql.codegen.js"
   },
   "dependencies": {
-    "@ant-design/icons": "4.7.0",
     "@apollo/client": "3.5.6",
+    "@floating-ui/react-dom": "0.3.2",
     "antd": "4.17.3",
     "classnames": "2.3.1",
     "date-fns": "2.27.0",
     "graphql": "16.1.0",
     "lightweight-charts": "3.7.0",
-    "luxon": "2.1.1",
     "moment": "2.29.1",
     "react": "17.0.2",
     "react-dom": "17.0.2",
@@ -70,7 +69,11 @@
       "fp/no-unused-expression": "off",
       "fp/no-nil": "off",
       "fp/no-loops": "off",
-      "fp/no-mutation": "off"
+      "fp/no-mutation": "off",
+
+      "fp/no-throw": "off",
+      "import/extensions": "off",
+      "@typescript-eslint/naming-convention": "off"
     }
   },
   "prettier": {

@@ -1,7 +1,14 @@
 import { useState } from 'react'
-import { DateTime } from 'luxon'
 import { gql, useQuery } from '@apollo/client'
 import { Table, TableColumnsType, Typography, Layout, Row, Col } from 'antd'
+import {
+  parseISO,
+  format,
+  formatISO,
+  setMilliseconds,
+  setSeconds,
+  subMinutes,
+} from 'date-fns'
 
 import { formatCurrency } from '../../utils/format'
 
@@ -53,7 +60,7 @@ const columns: TableColumnsType<TableData> = [
   {
     title: 'Timestamp',
     dataIndex: ['marketPrice', 'timestamp'],
-    render: (timestamp) => DateTime.fromISO(timestamp).toFormat('ff'),
+    render: (timestamp) => format(parseISO(timestamp), 'PPpp'),
   },
   {
     title: 'Price',
@@ -90,10 +97,9 @@ const MarketList = () => {
     setSecoundaryCurrency(option?.symbol)
   }
 
-  const timestamp = DateTime.local()
-    .minus({ minutes: 1 })
-    .set({ second: 0, millisecond: 0 })
-    .toISO()
+  const timestamp = formatISO(
+    setSeconds(setMilliseconds(subMinutes(new Date(), 1), 0), 0),
+  )
 
   const { data, loading, error } = useQuery<
     GetMarketPriceListQuery,

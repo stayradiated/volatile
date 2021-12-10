@@ -1,7 +1,6 @@
 import { Alert, Table, TableColumnsType, TablePaginationConfig } from 'antd'
 import { gql, useQuery } from '@apollo/client'
-import { DateTime } from 'luxon'
-import { parseISO, formatISO } from 'date-fns'
+import { parseISO, formatISO, format } from 'date-fns'
 
 import {
   GetTradeListQuery,
@@ -66,7 +65,7 @@ const columns: TableColumnsType<Trade> = [
   {
     title: 'Timestamp',
     dataIndex: 'timestamp',
-    render: (timestamp) => DateTime.fromISO(timestamp).toFormat('ff'),
+    render: (timestamp) => format(parseISO(timestamp), 'PPpp'),
   },
   {
     title: 'Exchange',

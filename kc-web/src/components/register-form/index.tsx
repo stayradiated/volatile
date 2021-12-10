@@ -1,10 +1,9 @@
-import { useCallback, useState } from 'react'
+import { useState } from 'react'
 import { gql, useMutation } from '@apollo/client'
-import { Alert } from 'antd'
 
 import type { Session } from '../../utils/session-store'
 import { useCreateAuthToken } from '../../hooks/mutations/use-create-auth-token'
-import { Card, Form, Input, Button } from '../retro-ui'
+import { Alert, Card, Form, Input, Button } from '../retro-ui'
 import { Logo } from '../logo'
 
 import styles from './index.module.css'

@@ -28,12 +28,7 @@ const Settings = () => {
   return (
     <>
       <Navigation />
-      <Card width={1400}>
-        <UserExchangeKeysList
-          onCreate={handleOpenCreate}
-          onEdit={setEditState}
-        />
-      </Card>
+      <UserExchangeKeysList onCreate={handleOpenCreate} onEdit={setEditState} />
       {createState && (
         <Card width={400}>
           <UserExchangeKeysFormCreate

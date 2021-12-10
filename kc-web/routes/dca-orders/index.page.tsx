@@ -29,9 +29,7 @@ const DCAOrders = () => {
   return (
     <>
       <Navigation />
-      <Card width={1000}>
-        <DCAOrderList onEdit={setEditState} onCreate={handleOpenCreate} />
-      </Card>
+      <DCAOrderList onEdit={setEditState} onCreate={handleOpenCreate} />
       {createState && (
         <Card>
           <DCAOrderFormCreate
