@@ -43,10 +43,10 @@ const marketSource: MarketPriceSource<Options> = {
       })
     }
 
-    // Const bidRate = Number.parseFloat(ticker.bidRate)
-    const askRate = Number.parseFloat(ticker.askRate)
+    const bidRate = Number.parseFloat(ticker.bidRate)
+    // const askRate = Number.parseFloat(ticker.askRate)
     // Const value = Math.round(((bidRate + askRate) / 2) * 100) / 100
-    const value = askRate
+    const value = bidRate
 
     return {
       value,

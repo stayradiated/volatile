@@ -21,7 +21,7 @@ const marketSource: MarketPriceSource<Options> = {
       return result
     }
 
-    const value = result.LastPrice
+    const value = result.CurrentHighestBidPrice
     const lastUpdated = DateTime.fromISO(result.CreatedTimestampUtc)
 
     return {
