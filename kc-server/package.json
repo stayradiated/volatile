@@ -45,7 +45,7 @@
     "nock": "13.2.1",
     "sinon": "12.0.1",
     "type-fest": "2.8.0",
-    "typescript": "4.5.2",
+    "typescript": "4.5.3",
     "xo": "0.47.0"
   },
   "dependencies": {
@@ -61,12 +61,12 @@
     "dotenv": "10.0.0",
     "env-var": "7.1.1",
     "fastify": "3.24.1",
-    "luxon": "2.1.1",
+    "luxon": "2.2.0",
     "njwt": "1.2.0",
     "otplib": "12.0.1",
     "pg": "8.7.1",
     "rambda": "6.9.0",
-    "stripe": "8.191.0",
+    "stripe": "8.193.0",
     "zapatos": "5.0.0"
   },
   "__comment": "The following configs are managed by `npx @stayradiated/jsconfig`",

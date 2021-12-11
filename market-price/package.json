@@ -38,7 +38,7 @@
     "debug": "4.3.3",
     "ky": "0.28.7",
     "ky-universal": "0.9.1",
-    "luxon": "2.1.1"
+    "luxon": "2.2.0"
   },
   "devDependencies": {
     "@stayradiated/jsconfig": "1.15.0",
@@ -49,7 +49,7 @@
     "del-cli": "4.0.1",
     "eslint-plugin-fp": "2.3.0",
     "sinon": "12.0.1",
-    "typescript": "4.5.2",
+    "typescript": "4.5.3",
     "xo": "0.47.0"
   },
   "__comment": "The following configs are managed by `npx @stayradiated/jsconfig`",

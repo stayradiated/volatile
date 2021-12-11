@@ -13,6 +13,12 @@ const QUERY = gql`
   query getDCAOrderHistoryPriceChart($dcaOrderUID: uuid!) {
     kc_dca_order_by_pk(uid: $dcaOrderUID) {
       uid
+      exchange_market_trading_pair {
+        market_prices(order_by: { timestamp: desc }, limit: 400) {
+          price
+          timestamp
+        }
+      }
       market_prices(order_by: { timestamp: desc }, limit: 400) {
         price
         timestamp
@@ -59,6 +65,14 @@ const DCAOrderHistoryPriceChart = (props: Props) => {
         color: 'red',
         data: formatDataForChart({
           data: data?.kc_dca_order_by_pk?.market_prices ?? [],
+          getValue: (row) => row.price,
+          getTime: (row) => row.timestamp,
+        }),
+      },
+      {
+        color: 'orange',
+        data: formatDataForChart({
+          data: data?.kc_dca_order_by_pk?.exchange_market_trading_pair?.[0]?.market_prices ?? [],
           getValue: (row) => row.price,
           getTime: (row) => row.timestamp,
         }),

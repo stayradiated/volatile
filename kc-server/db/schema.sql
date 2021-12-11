@@ -21,6 +21,56 @@ SET default_tablespace = '';
 SET default_table_access_method = heap;
 
 --
+-- Name: dca_order; Type: TABLE; Schema: kc; Owner: -
+--
+
+CREATE TABLE kc.dca_order (
+    uid uuid NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL,
+    user_uid uuid NOT NULL,
+    exchange_uid uuid NOT NULL,
+    market_uid uuid NOT NULL,
+    start_at timestamp with time zone NOT NULL,
+    market_offset numeric(12,6) NOT NULL,
+    daily_average numeric(12,2) NOT NULL,
+    min_price numeric(12,2),
+    max_price numeric(12,2),
+    min_value numeric(12,2),
+    max_value numeric(12,2),
+    user_exchange_keys_uid uuid NOT NULL,
+    primary_currency_symbol text NOT NULL,
+    enabled_at timestamp with time zone,
+    secondary_currency_symbol text NOT NULL
+);
+
+
+--
+-- Name: market_trading_pair; Type: TABLE; Schema: kc; Owner: -
+--
+
+CREATE TABLE kc.market_trading_pair (
+    market_uid uuid NOT NULL,
+    primary_currency_symbol text NOT NULL,
+    secondary_currency_symbol text NOT NULL
+);
+
+
+--
+-- Name: dca_order_market_trading_pair(kc.dca_order); Type: FUNCTION; Schema: kc; Owner: -
+--
+
+CREATE FUNCTION kc.dca_order_market_trading_pair(self kc.dca_order) RETURNS kc.market_trading_pair
+    LANGUAGE sql STABLE
+    AS $$
+  SELECT
+    'dabad89d-2aae-407f-b97f-819c9461f4d7'::uuid as market_uid,
+    self.primary_currency_symbol as primary_currency_symbol,
+    self.secondary_currency_symbol as secondary_currency_symbol
+$$;
+
+
+--
 -- Name: market_price; Type: TABLE; Schema: kc; Owner: -
 --
 
@@ -104,31 +154,6 @@ CREATE TABLE kc.customer (
 
 
 --
--- Name: dca_order; Type: TABLE; Schema: kc; Owner: -
---
-
-CREATE TABLE kc.dca_order (
-    uid uuid NOT NULL,
-    created_at timestamp with time zone NOT NULL,
-    updated_at timestamp with time zone NOT NULL,
-    user_uid uuid NOT NULL,
-    exchange_uid uuid NOT NULL,
-    market_uid uuid NOT NULL,
-    start_at timestamp with time zone NOT NULL,
-    market_offset numeric(12,6) NOT NULL,
-    daily_average numeric(12,2) NOT NULL,
-    min_price numeric(12,2),
-    max_price numeric(12,2),
-    min_value numeric(12,2),
-    max_value numeric(12,2),
-    user_exchange_keys_uid uuid NOT NULL,
-    primary_currency_symbol text NOT NULL,
-    enabled_at timestamp with time zone,
-    secondary_currency_symbol text NOT NULL
-);
-
-
---
 -- Name: dca_order_history; Type: TABLE; Schema: kc; Owner: -
 --
 
@@ -161,7 +186,8 @@ CREATE TABLE kc.exchange (
     updated_at timestamp with time zone NOT NULL,
     id character varying(32) NOT NULL,
     name character varying(64) NOT NULL,
-    url text NOT NULL
+    url text NOT NULL,
+    market_uid uuid
 );
 
 
@@ -815,6 +841,30 @@ ALTER TABLE ONLY kc.market_price
 
 
 --
+-- Name: market_trading_pair fk_market_trading_pair_market; Type: FK CONSTRAINT; Schema: kc; Owner: -
+--
+
+ALTER TABLE ONLY kc.market_trading_pair
+    ADD CONSTRAINT fk_market_trading_pair_market FOREIGN KEY (market_uid) REFERENCES kc.market(uid) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: market_trading_pair fk_market_trading_pair_primary_currency_symbol; Type: FK CONSTRAINT; Schema: kc; Owner: -
+--
+
+ALTER TABLE ONLY kc.market_trading_pair
+    ADD CONSTRAINT fk_market_trading_pair_primary_currency_symbol FOREIGN KEY (primary_currency_symbol) REFERENCES kc.currency(symbol) ON UPDATE CASCADE ON DELETE RESTRICT;
+
+
+--
+-- Name: market_trading_pair fk_market_trading_pair_secondary_currency_symbol; Type: FK CONSTRAINT; Schema: kc; Owner: -
+--
+
+ALTER TABLE ONLY kc.market_trading_pair
+    ADD CONSTRAINT fk_market_trading_pair_secondary_currency_symbol FOREIGN KEY (secondary_currency_symbol) REFERENCES kc.currency(symbol) ON UPDATE CASCADE ON DELETE RESTRICT;
+
+
+--
 -- Name: trade fk_trade_exchange; Type: FK CONSTRAINT; Schema: kc; Owner: -
 --
 
@@ -912,4 +962,5 @@ INSERT INTO kc.schema_migrations (version) VALUES
     ('20211201065401'),
     ('20211208061245'),
     ('20211210060725'),
-    ('20211210070506');
+    ('20211210070506'),
+    ('20211211123516');

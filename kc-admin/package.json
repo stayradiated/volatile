@@ -17,7 +17,7 @@
     "react-virtualized-auto-sizer": "1.0.6",
     "react-window": "1.8.6",
     "react-window-infinite-loader": "1.0.7",
-    "swr": "1.1.0"
+    "swr": "1.1.1"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "2.3.0",
@@ -35,7 +35,7 @@
     "ava": "3.15.0",
     "del-cli": "4.0.1",
     "eslint-plugin-fp": "2.3.0",
-    "typescript": "4.5.2",
+    "typescript": "4.5.3",
     "vite": "2.7.1",
     "xo": "0.47.0"
   },

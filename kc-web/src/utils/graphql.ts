@@ -261,6 +261,8 @@ export type Kc_Dca_Order = {
   enabled_at?: Maybe<Scalars['timestamptz']>;
   /** An object relationship */
   exchange: Kc_Exchange;
+  /** A computed field, executes function "kc.dca_order_market_trading_pair" */
+  exchange_market_trading_pair?: Maybe<Array<Kc_Market_Trading_Pair>>;
   exchange_uid: Scalars['uuid'];
   /** An object relationship */
   market: Kc_Market;
@@ -307,6 +309,16 @@ export type Kc_Dca_OrderDca_Order_Histories_AggregateArgs = {
   offset?: InputMaybe<Scalars['Int']>;
   order_by?: InputMaybe<Array<Kc_Dca_Order_History_Order_By>>;
   where?: InputMaybe<Kc_Dca_Order_History_Bool_Exp>;
+};
+
+
+/** columns and relationships of "kc.dca_order" */
+export type Kc_Dca_OrderExchange_Market_Trading_PairArgs = {
+  distinct_on?: InputMaybe<Array<Kc_Market_Trading_Pair_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Kc_Market_Trading_Pair_Order_By>>;
+  where?: InputMaybe<Kc_Market_Trading_Pair_Bool_Exp>;
 };
 
 
@@ -395,6 +407,7 @@ export type Kc_Dca_Order_Bool_Exp = {
   dca_order_histories?: InputMaybe<Kc_Dca_Order_History_Bool_Exp>;
   enabled_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   exchange?: InputMaybe<Kc_Exchange_Bool_Exp>;
+  exchange_market_trading_pair?: InputMaybe<Kc_Market_Trading_Pair_Bool_Exp>;
   exchange_uid?: InputMaybe<Uuid_Comparison_Exp>;
   market?: InputMaybe<Kc_Market_Bool_Exp>;
   market_offset?: InputMaybe<Numeric_Comparison_Exp>;
@@ -907,6 +920,7 @@ export type Kc_Dca_Order_Order_By = {
   dca_order_histories_aggregate?: InputMaybe<Kc_Dca_Order_History_Aggregate_Order_By>;
   enabled_at?: InputMaybe<Order_By>;
   exchange?: InputMaybe<Kc_Exchange_Order_By>;
+  exchange_market_trading_pair_aggregate?: InputMaybe<Kc_Market_Trading_Pair_Aggregate_Order_By>;
   exchange_uid?: InputMaybe<Order_By>;
   market?: InputMaybe<Kc_Market_Order_By>;
   market_offset?: InputMaybe<Order_By>;
@@ -1706,6 +1720,88 @@ export enum Kc_Market_Select_Column {
   Uid = 'uid',
   /** column name */
   UpdatedAt = 'updated_at'
+}
+
+/** columns and relationships of "kc.market_trading_pair" */
+export type Kc_Market_Trading_Pair = {
+  __typename?: 'kc_market_trading_pair';
+  /** An object relationship */
+  currency: Kc_Currency;
+  /** An object relationship */
+  currencyBySecondaryCurrencySymbol: Kc_Currency;
+  /** An object relationship */
+  market: Kc_Market;
+  /** An array relationship */
+  market_prices: Array<Kc_Market_Price>;
+  market_uid: Scalars['uuid'];
+  primary_currency_symbol: Scalars['String'];
+  secondary_currency_symbol: Scalars['String'];
+};
+
+
+/** columns and relationships of "kc.market_trading_pair" */
+export type Kc_Market_Trading_PairMarket_PricesArgs = {
+  distinct_on?: InputMaybe<Array<Kc_Market_Price_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Kc_Market_Price_Order_By>>;
+  where?: InputMaybe<Kc_Market_Price_Bool_Exp>;
+};
+
+/** order by aggregate values of table "kc.market_trading_pair" */
+export type Kc_Market_Trading_Pair_Aggregate_Order_By = {
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Kc_Market_Trading_Pair_Max_Order_By>;
+  min?: InputMaybe<Kc_Market_Trading_Pair_Min_Order_By>;
+};
+
+/** Boolean expression to filter rows from the table "kc.market_trading_pair". All fields are combined with a logical 'AND'. */
+export type Kc_Market_Trading_Pair_Bool_Exp = {
+  _and?: InputMaybe<Array<Kc_Market_Trading_Pair_Bool_Exp>>;
+  _not?: InputMaybe<Kc_Market_Trading_Pair_Bool_Exp>;
+  _or?: InputMaybe<Array<Kc_Market_Trading_Pair_Bool_Exp>>;
+  currency?: InputMaybe<Kc_Currency_Bool_Exp>;
+  currencyBySecondaryCurrencySymbol?: InputMaybe<Kc_Currency_Bool_Exp>;
+  market?: InputMaybe<Kc_Market_Bool_Exp>;
+  market_prices?: InputMaybe<Kc_Market_Price_Bool_Exp>;
+  market_uid?: InputMaybe<Uuid_Comparison_Exp>;
+  primary_currency_symbol?: InputMaybe<String_Comparison_Exp>;
+  secondary_currency_symbol?: InputMaybe<String_Comparison_Exp>;
+};
+
+/** order by max() on columns of table "kc.market_trading_pair" */
+export type Kc_Market_Trading_Pair_Max_Order_By = {
+  market_uid?: InputMaybe<Order_By>;
+  primary_currency_symbol?: InputMaybe<Order_By>;
+  secondary_currency_symbol?: InputMaybe<Order_By>;
+};
+
+/** order by min() on columns of table "kc.market_trading_pair" */
+export type Kc_Market_Trading_Pair_Min_Order_By = {
+  market_uid?: InputMaybe<Order_By>;
+  primary_currency_symbol?: InputMaybe<Order_By>;
+  secondary_currency_symbol?: InputMaybe<Order_By>;
+};
+
+/** Ordering options when selecting data from "kc.market_trading_pair". */
+export type Kc_Market_Trading_Pair_Order_By = {
+  currency?: InputMaybe<Kc_Currency_Order_By>;
+  currencyBySecondaryCurrencySymbol?: InputMaybe<Kc_Currency_Order_By>;
+  market?: InputMaybe<Kc_Market_Order_By>;
+  market_prices_aggregate?: InputMaybe<Kc_Market_Price_Aggregate_Order_By>;
+  market_uid?: InputMaybe<Order_By>;
+  primary_currency_symbol?: InputMaybe<Order_By>;
+  secondary_currency_symbol?: InputMaybe<Order_By>;
+};
+
+/** select columns of table "kc.market_trading_pair" */
+export enum Kc_Market_Trading_Pair_Select_Column {
+  /** column name */
+  MarketUid = 'market_uid',
+  /** column name */
+  PrimaryCurrencySymbol = 'primary_currency_symbol',
+  /** column name */
+  SecondaryCurrencySymbol = 'secondary_currency_symbol'
 }
 
 /** columns and relationships of "kc.order" */
@@ -3596,6 +3692,8 @@ export type Query_Root = {
   kc_market_price_by_pk?: Maybe<Kc_Market_Price>;
   /** execute function "kc.market_price_latest" which returns "kc.market_price" */
   kc_market_price_latest: Array<Kc_Market_Price>;
+  /** fetch data from the table: "kc.market_trading_pair" */
+  kc_market_trading_pair: Array<Kc_Market_Trading_Pair>;
   /** fetch data from the table: "kc.order" */
   kc_order: Array<Kc_Order>;
   /** fetch aggregated fields from the table: "kc.order" */
@@ -3784,6 +3882,15 @@ export type Query_RootKc_Market_Price_LatestArgs = {
   offset?: InputMaybe<Scalars['Int']>;
   order_by?: InputMaybe<Array<Kc_Market_Price_Order_By>>;
   where?: InputMaybe<Kc_Market_Price_Bool_Exp>;
+};
+
+
+export type Query_RootKc_Market_Trading_PairArgs = {
+  distinct_on?: InputMaybe<Array<Kc_Market_Trading_Pair_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Kc_Market_Trading_Pair_Order_By>>;
+  where?: InputMaybe<Kc_Market_Trading_Pair_Bool_Exp>;
 };
 
 
@@ -3991,6 +4098,8 @@ export type Subscription_Root = {
   kc_market_price_by_pk?: Maybe<Kc_Market_Price>;
   /** execute function "kc.market_price_latest" which returns "kc.market_price" */
   kc_market_price_latest: Array<Kc_Market_Price>;
+  /** fetch data from the table: "kc.market_trading_pair" */
+  kc_market_trading_pair: Array<Kc_Market_Trading_Pair>;
   /** fetch data from the table: "kc.order" */
   kc_order: Array<Kc_Order>;
   /** fetch aggregated fields from the table: "kc.order" */
@@ -4179,6 +4288,15 @@ export type Subscription_RootKc_Market_Price_LatestArgs = {
   offset?: InputMaybe<Scalars['Int']>;
   order_by?: InputMaybe<Array<Kc_Market_Price_Order_By>>;
   where?: InputMaybe<Kc_Market_Price_Bool_Exp>;
+};
+
+
+export type Subscription_RootKc_Market_Trading_PairArgs = {
+  distinct_on?: InputMaybe<Array<Kc_Market_Trading_Pair_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Kc_Market_Trading_Pair_Order_By>>;
+  where?: InputMaybe<Kc_Market_Trading_Pair_Bool_Exp>;
 };
 
 
@@ -4421,7 +4539,7 @@ export type GetDcaOrderHistoryPriceChartQueryVariables = Exact<{
 }>;
 
 
-export type GetDcaOrderHistoryPriceChartQuery = { __typename?: 'query_root', kc_dca_order_by_pk?: { __typename?: 'kc_dca_order', uid: string, market_prices: Array<{ __typename?: 'kc_market_price', price: number, timestamp: string }> } | null | undefined, kc_dca_order_history: Array<{ __typename?: 'kc_dca_order_history', uid: string, created_at: string, market_price: number, market_offset: number }> };
+export type GetDcaOrderHistoryPriceChartQuery = { __typename?: 'query_root', kc_dca_order_by_pk?: { __typename?: 'kc_dca_order', uid: string, exchange_market_trading_pair?: Array<{ __typename?: 'kc_market_trading_pair', market_prices: Array<{ __typename?: 'kc_market_price', price: number, timestamp: string }> }> | null | undefined, market_prices: Array<{ __typename?: 'kc_market_price', price: number, timestamp: string }> } | null | undefined, kc_dca_order_history: Array<{ __typename?: 'kc_dca_order_history', uid: string, created_at: string, market_price: number, market_offset: number }> };
 
 export type GetDcaOrderHistoryValueChartQueryVariables = Exact<{
   dcaOrderUID: Scalars['uuid'];
@@ -4481,7 +4599,7 @@ export type GetMarketPriceQueryVariables = Exact<{
 }>;
 
 
-export type GetMarketPriceQuery = { __typename?: 'query_root', kc_market_price: Array<{ __typename?: 'kc_market_price', price: number, timestamp: string }> };
+export type GetMarketPriceQuery = { __typename?: 'query_root', binance: Array<{ __typename?: 'kc_market_price', price: number, timestamp: string }>, kiwi_coin: Array<{ __typename?: 'kc_market_price', price: number, timestamp: string }>, dasset: Array<{ __typename?: 'kc_market_price', price: number, timestamp: string }> };
 
 export type GetOpenOrderListQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -4846,6 +4964,12 @@ export const GetDcaOrderHistoryPriceChartDocument = gql`
     query getDCAOrderHistoryPriceChart($dcaOrderUID: uuid!) {
   kc_dca_order_by_pk(uid: $dcaOrderUID) {
     uid
+    exchange_market_trading_pair {
+      market_prices(order_by: {timestamp: desc}, limit: 400) {
+        price
+        timestamp
+      }
+    }
     market_prices(order_by: {timestamp: desc}, limit: 400) {
       price
       timestamp
@@ -4995,7 +5119,21 @@ export const GetMarketPriceListDocument = gql`
 export type GetMarketPriceListQueryResult = Apollo.QueryResult<GetMarketPriceListQuery, GetMarketPriceListQueryVariables>;
 export const GetMarketPriceDocument = gql`
     query getMarketPrice($primaryCurrency: String!, $secondaryCurrency: String!) {
-  kc_market_price(
+  binance: kc_market_price(
+    where: {market_uid: {_eq: ""}, asset_symbol: {_eq: $primaryCurrency}, currency: {_eq: $secondaryCurrency}}
+    order_by: {timestamp: desc}
+  ) {
+    price
+    timestamp
+  }
+  kiwi_coin: kc_market_price(
+    where: {market_uid: {_eq: ""}, asset_symbol: {_eq: $primaryCurrency}, currency: {_eq: $secondaryCurrency}}
+    order_by: {timestamp: desc}
+  ) {
+    price
+    timestamp
+  }
+  dasset: kc_market_price(
     where: {market_uid: {_eq: ""}, asset_symbol: {_eq: $primaryCurrency}, currency: {_eq: $secondaryCurrency}}
     order_by: {timestamp: desc}
   ) {

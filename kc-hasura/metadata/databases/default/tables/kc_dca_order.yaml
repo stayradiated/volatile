@@ -39,6 +39,13 @@ array_relationships:
       remote_table:
         name: market_price
         schema: kc
+computed_fields:
+- comment: ""
+  definition:
+    function:
+      name: dca_order_market_trading_pair
+      schema: kc
+  name: exchange_market_trading_pair
 select_permissions:
 - permission:
     allow_aggregations: true
