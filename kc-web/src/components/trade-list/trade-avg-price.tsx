@@ -1,6 +1,5 @@
 import { useMemo } from 'react'
 import { gql, useQuery } from '@apollo/client'
-import { parseISO, eachDayOfInterval } from 'date-fns'
 
 import type {
   GetTradeAvgPriceByDayQuery as Query,
@@ -8,10 +7,7 @@ import type {
 } from '../../utils/graphql'
 
 import { Spin, Alert } from '../retro-ui'
-
-import { LineChart } from './line-chart'
-
-type ChartData = Query['kc_trade_avg_price_by_day']
+import { Chart, formatDataForChart } from '../chart'
 
 const QUERY = gql`
   query getTradeAvgPriceByDay(
@@ -32,45 +28,6 @@ const QUERY = gql`
   }
 `
 
-const formatDataForChart = (data: ChartData, key: 'price' | 'avg_price') => {
-  if (data.length === 0) {
-    return []
-  }
-
-  const endDate = parseISO(data[0].day!)
-  const startDate = parseISO(data[data.length - 1].day!)
-
-  const map = new Map<number, any>(
-    eachDayOfInterval({ start: startDate, end: endDate }).map((date) => {
-      return [date.getTime() / 1000, undefined]
-    }),
-  )
-
-  for (const row of data) {
-    const time = parseISO(row.day!).getTime() / 1000
-    map.set(time, row[key])
-  }
-
-  const results = [...map.entries()]
-    .map((row) => {
-      return { time: row[0], value: row[1] }
-    })
-    .sort((a, b) => a.time - b.time)
-
-  let lastValue
-  for (const row of results) {
-    if (typeof row.value === 'undefined') {
-      row.value = lastValue
-    } else {
-      lastValue = row.value
-    }
-  }
-
-  return results.filter((row) => {
-    return typeof row.value !== 'undefined'
-  })
-}
-
 type Props = {
   primaryCurrency?: string
   secondaryCurrency?: string
@@ -88,10 +45,25 @@ const TradeAvgPrice = (props: Props) => {
 
   const charts = useMemo(() => {
     const rows = data?.kc_trade_avg_price_by_day ?? []
-
     return [
-      { color: 'blue', data: formatDataForChart(rows, 'price') },
-      { color: 'red', data: formatDataForChart(rows, 'avg_price') },
+      {
+        color: 'blue',
+        data: formatDataForChart({
+          interval: 'day',
+          data: rows,
+          getValue: (row) => row.price!,
+          getTime: (row) => row.day!,
+        }),
+      },
+      {
+        color: 'red',
+        data: formatDataForChart({
+          interval: 'day',
+          data: rows,
+          getValue: (row) => row.avg_price!,
+          getTime: (row) => row.day!,
+        }),
+      },
     ]
   }, [data])
 
@@ -108,7 +80,7 @@ const TradeAvgPrice = (props: Props) => {
       <h2>
         {primaryCurrency}-{secondaryCurrency}
       </h2>
-      <LineChart charts={charts} />
+      <Chart.Line width={960} charts={charts} />
     </>
   )
 }

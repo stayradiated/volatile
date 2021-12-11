@@ -7,12 +7,14 @@ import { Navigation } from '../../src/components/navigation'
 import { DCAOrderFormCreate } from '../../src/components/dca-order-form-create'
 import { DCAOrderFormEdit } from '../../src/components/dca-order-form-edit'
 import { DCAOrderList } from '../../src/components/dca-order-list/index'
+import { DCAOrderHistoryList } from '../../src/components/dca-order-history-list/index'
 
 import App from '../../src/app'
 
 const DCAOrders = () => {
   const [createState, setCreateState] = useState<boolean>(false)
   const [editState, setEditState] = useState<string | undefined>(undefined)
+  const [viewState, setViewState] = useState<string | undefined>(undefined)
 
   const handleOpenCreate = () => {
     setCreateState(true)
@@ -29,7 +31,12 @@ const DCAOrders = () => {
   return (
     <>
       <Navigation />
-      <DCAOrderList onEdit={setEditState} onCreate={handleOpenCreate} />
+      <DCAOrderList
+        onEdit={setEditState}
+        onCreate={handleOpenCreate}
+        onView={setViewState}
+      />
+      {viewState && <DCAOrderHistoryList dcaOrderUID={viewState} />}
       {createState && (
         <Card>
           <DCAOrderFormCreate

@@ -9,15 +9,15 @@ import { formatCurrency } from '../../utils/format'
 import { DCAOrderModalDelete } from '../dca-order-modal-delete'
 
 import {
-  GetDcaOrderListQuery,
-  GetDcaOrderListQueryVariables,
+  GetDcaOrderListQuery as Query,
+  GetDcaOrderListQueryVariables as QueryVariables,
 } from '../../utils/graphql'
 
 import { useUpdateDCAOrderEnabledAt } from './mutation-pause'
 
-type DCAOrder = GetDcaOrderListQuery['kc_dca_order'][0]
+type DCAOrder = Query['kc_dca_order'][0]
 
-const QUERY_DCA_ORDER_LIST = gql`
+const QUERY = gql`
   query getDCAOrderList {
     kc_dca_order {
       uid
@@ -43,17 +43,15 @@ const QUERY_DCA_ORDER_LIST = gql`
 `
 
 type Props = {
-  onEdit: (dcaOrderUID: string) => void
-  onCreate: () => void
+  onView?: (dcaOrderUID: string) => void
+  onEdit?: (dcaOrderUID: string) => void
+  onCreate?: () => void
 }
 
 const DCAOrderList = (props: Props) => {
-  const { onEdit, onCreate } = props
+  const { onView, onEdit, onCreate } = props
 
-  const { data, loading, error } = useQuery<
-    GetDcaOrderListQuery,
-    GetDcaOrderListQueryVariables
-  >(QUERY_DCA_ORDER_LIST)
+  const { data, loading, error } = useQuery<Query, QueryVariables>(QUERY)
 
   const updateEnabledAt = useUpdateDCAOrderEnabledAt()
 
@@ -127,8 +125,16 @@ const DCAOrderList = (props: Props) => {
         Cell: (props) => {
           const { value } = props
 
+          const handleView = () => {
+            if (typeof onView === 'function') {
+              onView(value)
+            }
+          }
+
           const handleEdit = () => {
-            onEdit(value)
+            if (typeof onEdit === 'function') {
+              onEdit(value)
+            }
           }
 
           const handleDelete = async () => {
@@ -137,6 +143,7 @@ const DCAOrderList = (props: Props) => {
 
           return (
             <Dropdown>
+              <Dropdown.Item onClick={handleView}>View</Dropdown.Item>
               <Dropdown.Item onClick={handleEdit}>Edit</Dropdown.Item>
               <Dropdown.Item onClick={handleDelete}>Delete</Dropdown.Item>
             </Dropdown>

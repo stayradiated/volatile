@@ -24,10 +24,12 @@ export default defineConfig({
   server: {
     proxy: {
       '/hasura': {
-        // target: 'http://103.18.59.78:7949/',
+        // production
+        target: 'http://103.18.59.78:7949/',
         
-        target: 'http://localhost:9999',
-        rewrite: (path) => path.replace(/^\/hasura/, ''),
+        // development
+        // target: 'http://localhost:9999',
+        // rewrite: (path) => path.replace(/^\/hasura/, ''),
 
         changeOrigin: true,
         secure: false

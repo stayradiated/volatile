@@ -8,11 +8,13 @@ type ChartConfig = {
 }
 
 type Props = {
+  width?: number
+  height?: number
   charts: ChartConfig[]
 }
 
 const LineChart = (props: Props) => {
-  const { charts } = props
+  const { width = 1000, height = 300, charts } = props
 
   const containerRef = useRef<HTMLDivElement>(null)
 
@@ -22,8 +24,8 @@ const LineChart = (props: Props) => {
     }
 
     const lwchart = createChart(containerRef.current, {
-      width: 960,
-      height: 300,
+      width,
+      height,
       timeScale: {
         timeVisible: true,
         secondsVisible: false,

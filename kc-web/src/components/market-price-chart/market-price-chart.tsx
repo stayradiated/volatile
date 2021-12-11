@@ -1,5 +1,5 @@
+import { useMemo } from 'react'
 import { gql, useQuery } from '@apollo/client'
-import { parseISO } from 'date-fns'
 
 import type {
   GetMarketPriceQuery,
@@ -7,12 +7,9 @@ import type {
 } from '../../utils/graphql'
 
 import { Spin, Alert } from '../retro-ui'
-
-import { LineChart } from './line-chart'
+import { Chart, formatDataForChart } from '../chart'
 
 const BINANCE = 'e2860358-91a5-44ca-8a61-a4cd077138f2'
-
-type ChartData = GetMarketPriceQuery['kc_market_price']
 
 const QUERY = gql`
   query getMarketPrice (
@@ -32,15 +29,6 @@ const QUERY = gql`
   }
 `
 
-const formatDataForChart = (data: ChartData) => {
-  return data
-    .map((row) => ({
-      time: parseISO(row.timestamp).getTime() / 1000,
-      value: row.price,
-    }))
-    .reverse()
-}
-
 type Props = {
   primaryCurrency: string
   secondaryCurrency: string
@@ -59,6 +47,19 @@ const MarketPriceChart = (props: Props) => {
     },
   })
 
+  const charts = useMemo(() => {
+    return [
+      {
+        color: 'blue',
+        data: formatDataForChart({
+          data: data?.kc_market_price ?? [],
+          getValue: (row) => row.price,
+          getTime: (row) => row.timestamp,
+        }),
+      },
+    ]
+  }, [data])
+
   if (loading) {
     return <Spin />
   }
@@ -72,7 +73,7 @@ const MarketPriceChart = (props: Props) => {
       <h2>
         {primaryCurrency}-{secondaryCurrency}
       </h2>
-      <LineChart data={formatDataForChart(data?.kc_market_price ?? [])} />
+      <Chart.Line width={960} charts={charts} />
     </>
   )
 }
