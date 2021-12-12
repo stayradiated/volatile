@@ -14,15 +14,20 @@ table {
 
 .thead {
   border-bottom: 1px solid #dbdbdb;
-  border-bottom: 1px solid var(--border);
 }
 
 .tfoot {
   border-top: 1px solid #dbdbdb;
-  border-top: 1px solid var(--border);
 }
 
 .tbody .tr:nth-child(even) {
-  background-color: #efefef;
-  background-color: var(--background);
+  background-color: #f5f5f5;
+}
+
+.tr {
+  line-height: 40px;
+}
+
+.tr.disabled {
+  text-decoration: line-through;
 }

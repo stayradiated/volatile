@@ -19,7 +19,7 @@ type DCAOrder = Query['kc_dca_order'][0]
 
 const QUERY = gql`
   query getDCAOrderList {
-    kc_dca_order {
+    kc_dca_order(order_by: { enabled_at: desc_nulls_last }) {
       uid
       exchange {
         uid
@@ -154,7 +154,18 @@ const DCAOrderList = (props: Props) => {
     return columns
   }, [])
 
-  const table = useTable({ columns, data: data?.kc_dca_order ?? [] })
+  const tableData = useMemo(() => {
+    return (data?.kc_dca_order ?? []).map((row) => {
+      return {
+        ...row,
+        [Table.DISABLED]: !row.enabled_at,
+      }
+    })
+  }, [data])
+
+  console.log(tableData)
+
+  const table = useTable({ columns, data: tableData, })
 
   if (loading) {
     return (

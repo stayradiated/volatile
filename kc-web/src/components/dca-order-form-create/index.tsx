@@ -6,9 +6,6 @@ import { Moment } from 'moment'
 
 import { Spin, Alert, Form, Button, Input } from '../retro-ui'
 
-import { SelectAsset } from '../select/asset/index'
-import { SelectCurrency } from '../select/currency/index'
-
 import {
   GetDcaOrderFormCreateQuery as Query,
   GetDcaOrderFormCreateQueryVariables as QueryVariables,
@@ -167,6 +164,8 @@ const DCAOrderFormCreate = (props: Props) => {
       return item.exchange_uid === state.exchange?.uid
     },
   )
+  const primaryCurrencyOptions = state.exchange?.primary_currencies ?? []
+  const secondaryCurrencyOptions = state.exchange?.secondary_currencies ?? []
 
   return (
     <div>
@@ -192,10 +191,18 @@ const DCAOrderFormCreate = (props: Props) => {
           />
         </Form.Item>
         <Form.Item name="primaryCurrency" label="Asset">
-          <SelectAsset />
+          <Select<PrimaryCurrency>
+            options={primaryCurrencyOptions}
+            getOptionLabel={(option) => option.symbol}
+            getOptionValue={(option) => option.symbol}
+          />
         </Form.Item>
         <Form.Item name="secondaryCurrency" label="Currency">
-          <SelectCurrency />
+          <Select<SecondaryCurrency>
+            options={secondaryCurrencyOptions}
+            getOptionLabel={(option) => option.symbol}
+            getOptionValue={(option) => option.symbol}
+          />
         </Form.Item>
         <Form.Item
           name="market"

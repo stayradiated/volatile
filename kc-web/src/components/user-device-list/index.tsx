@@ -3,7 +3,7 @@ import { gql, useQuery } from '@apollo/client'
 import { useTable, Column } from 'react-table'
 import { useMemo } from 'react'
 
-import { Spin, Alert, Table, Button } from '../retro-ui'
+import { Spin, Alert, Table, Dropdown } from '../retro-ui'
 
 import type { GetUserDeviceListQuery } from '../../utils/graphql'
 import { useDeleteUserDevice } from './mutation-delete'
@@ -39,16 +39,7 @@ const UserDeviceList = (props: Props) => {
         accessor: 'name',
       },
       {
-        Header: 'First Login',
-        accessor: 'created_at',
-        Cell: (props) => {
-          const { value } = props
-          const date = parseISO(value)
-          return format(date, 'PPpp')
-        },
-      },
-      {
-        Header: 'Last Login',
+        Header: 'Last Login At',
         accessor: 'accessed_at',
         Cell: (props) => {
           const { value } = props
@@ -72,10 +63,10 @@ const UserDeviceList = (props: Props) => {
           }
 
           return (
-            <>
-              <Button onClick={handleEdit}>Edit</Button>
-              <Button onClick={handleDelete}>Delete</Button>
-            </>
+            <Dropdown>
+              <Dropdown.Item onClick={handleEdit}>Edit</Dropdown.Item>
+              <Dropdown.Item onClick={handleDelete}>Delete</Dropdown.Item>
+            </Dropdown>
           )
         },
       },

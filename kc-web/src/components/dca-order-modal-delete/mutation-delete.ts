@@ -18,7 +18,7 @@ const MUTATION = gql`
 
 const QUERY_FRAGMENT = gql`
   query getDCAOrderListByUID {
-    kc_dca_order {
+    kc_dca_order(order_by: { enabled_at: desc_nulls_last }) {
       uid
     }
   }

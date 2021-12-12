@@ -4604,7 +4604,7 @@ export type GetMarketPriceQuery = { __typename?: 'query_root', binance: Array<{ 
 export type GetOpenOrderListQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetOpenOrderListQuery = { __typename?: 'query_root', kc_order: Array<{ __typename?: 'kc_order', uid: string, opened_at: string, value: number, volume: number, price: number, primary_currency: string, secondary_currency: string, type: string, exchange: { __typename?: 'kc_exchange', uid: string, id: string } }> };
+export type GetOpenOrderListQuery = { __typename?: 'query_root', kc_order: Array<{ __typename?: 'kc_order', uid: string, opened_at: string, value: number, volume: number, price: number, primary_currency: string, secondary_currency: string, type: string, exchange: { __typename?: 'kc_exchange', uid: string, name: string }, dca_order_histories: Array<{ __typename?: 'kc_dca_order_history', uid: string, dca_order_uid: string }> }> };
 
 export type Create_UserMutationVariables = Exact<{
   email: Scalars['String'];
@@ -5149,7 +5149,7 @@ export const GetOpenOrderListDocument = gql`
     uid
     exchange {
       uid
-      id
+      name
     }
     opened_at
     value
@@ -5158,6 +5158,10 @@ export const GetOpenOrderListDocument = gql`
     primary_currency
     secondary_currency
     type
+    dca_order_histories {
+      uid
+      dca_order_uid
+    }
   }
 }
     `;

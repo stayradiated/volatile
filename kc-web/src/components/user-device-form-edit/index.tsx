@@ -20,10 +20,12 @@ const QUERY = gql`
 
 type Props = {
   userDeviceUID: string
+  onCancel?: () => void,
+  onFinish?: () => void,
 }
 
 const UserDeviceFormEdit = (props: Props) => {
-  const { userDeviceUID } = props
+  const { userDeviceUID, onCancel, onFinish } = props
 
   const updateUserDevice = useUpdateUserDevice()
 
@@ -61,6 +63,9 @@ const UserDeviceFormEdit = (props: Props) => {
       userDeviceUID,
       name: state.name,
     })
+    if (typeof onFinish === 'function') {
+      onFinish()
+    }
   }
 
   return (
@@ -76,7 +81,7 @@ const UserDeviceFormEdit = (props: Props) => {
           <Input />
         </Form.Item>
         <Form.Item>
-          <Button type="link" htmlType="button">
+          <Button type="link" htmlType="button" onClick={onCancel}>
             Cancel
           </Button>
           <Button htmlType="submit">Save</Button>

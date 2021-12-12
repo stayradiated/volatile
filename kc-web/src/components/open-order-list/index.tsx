@@ -19,7 +19,7 @@ const QUERY = gql`
       uid
       exchange {
         uid
-        id
+        name
       }
       opened_at
       value
@@ -28,6 +28,11 @@ const QUERY = gql`
       primary_currency
       secondary_currency
       type
+
+      dca_order_histories {
+        uid
+        dca_order_uid
+      }
     }
   }
 `
@@ -35,7 +40,7 @@ const QUERY = gql`
 const columns: Array<Column<Order>> = [
   {
     Header: 'Exchange',
-    accessor: (row) => row.exchange.id,
+    accessor: (row) => row.exchange.name,
   },
   {
     Header: 'Opened At',
@@ -46,8 +51,12 @@ const columns: Array<Column<Order>> = [
     },
   },
   {
-    Header: 'Asset',
-    accessor: 'primary_currency',
+    Header: 'Trading Pair',
+    accessor: 'uid',
+    Cell: (props) =>  {
+      const { primary_currency, secondary_currency } = props.row.original
+      return `${primary_currency}-${secondary_currency}`
+    }
   },
   {
     Header: 'Volume',
@@ -58,8 +67,7 @@ const columns: Array<Column<Order>> = [
     accessor: 'value',
     Cell: (props) => {
       const { value, row } = props
-      const { secondary_currency } = row.original
-      return `${secondary_currency} $${formatCurrency(value)}`
+      return `$${formatCurrency(value)}`
     },
   },
   {
@@ -71,10 +79,17 @@ const columns: Array<Column<Order>> = [
     accessor: 'price',
     Cell: (props) => {
       const { value, row } = props
-      const { secondary_currency } = row.original
-      return `${secondary_currency} $${formatCurrency(value)}`
+      return `$${formatCurrency(value)}`
     },
   },
+  {
+    Header: 'DCA Order?',
+    accessor: 'dca_order_histories',
+    Cell: (props) => {
+      const { value } = props
+      return value ? 'Yes' : 'No'
+    },
+  }
 ]
 
 const OpenOrderList = () => {

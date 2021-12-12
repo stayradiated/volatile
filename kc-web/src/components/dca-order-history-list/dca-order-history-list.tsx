@@ -3,7 +3,7 @@ import { gql, useQuery } from '@apollo/client'
 import { useTable, Column } from 'react-table'
 import { parseISO, format } from 'date-fns'
 
-import { Alert, Spin, Card, Table } from '../retro-ui'
+import { Button, Alert, Spin, Card, Table } from '../retro-ui'
 import { formatCurrency } from '../../utils/format'
 
 import {
@@ -56,11 +56,15 @@ type Props = {
 const DCAOrderHistoryList = (props: Props) => {
   const { dcaOrderUID } = props
 
-  const { data, loading, error } = useQuery<Query, QueryVariables>(QUERY, {
+  const { data, loading, error, refetch } = useQuery<Query, QueryVariables>(QUERY, {
     variables: {
       dcaOrderUID,
     },
   })
+
+  const handleRefresh = () => {
+    refetch()
+  }
 
   const columns = useMemo(() => {
     const columns: Array<Column<DCAOrderHistory>> = [
@@ -126,6 +130,7 @@ const DCAOrderHistoryList = (props: Props) => {
       <h2>
         ☰ DCA Order | {exchange} | {tradingPair}
       </h2>
+      <Button onClick={handleRefresh}>Refresh</Button>
       <DCAOrderHistoryPriceChart dcaOrderUID={dcaOrderUID} />
       <DCAOrderHistoryValueChart dcaOrderUID={dcaOrderUID} />
       <Table table={table} />

@@ -1,6 +1,9 @@
 import { TableInstance } from 'react-table'
+import cx from 'classnames'
 
 import styles from './table.module.css'
+
+const DISABLED = Symbol('DISABLED')
 
 type Props = {
   table: TableInstance<any>
@@ -40,21 +43,19 @@ const Table = (props: Props) => {
       {/* Apply the table body props */}
       <tbody {...getTableBodyProps()} className={styles.tbody}>
         {
-          // Loop over the table rows
           rows.map((row) => {
-            // Prepare the row for display
             prepareRow(row)
+            const isDisabled = row.original[DISABLED]
+
             return (
-              // Apply the row props
-              <tr {...row.getRowProps()} className={styles.tr}>
+              <tr {...row.getRowProps()} className={cx(styles.tr, {
+                [styles.disabled]: isDisabled
+              })}>
                 {
-                  // Loop over the rows cells
                   row.cells.map((cell) => {
-                    // Apply the cell props
                     return (
                       <td {...cell.getCellProps()} className={styles.td}>
                         {
-                          // Render the cell contents
                           cell.render('Cell')
                         }
                       </td>
@@ -69,5 +70,7 @@ const Table = (props: Props) => {
     </table>
   )
 }
+
+Table.DISABLED = DISABLED
 
 export { Table }

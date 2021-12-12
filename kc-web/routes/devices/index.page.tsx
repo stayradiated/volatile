@@ -12,6 +12,10 @@ import App from '../../src/app'
 const Devices = () => {
   const [editState, setEditState] = useState<string | undefined>(undefined)
 
+  const handleCloseEdit = () => {
+    setEditState(undefined)
+  }
+
   return (
     <>
       <Navigation />
@@ -21,7 +25,10 @@ const Devices = () => {
       </Card>
       {typeof editState === 'string' && (
         <Card width={400}>
-          <UserDeviceFormEdit userDeviceUID={editState} />
+          <UserDeviceFormEdit userDeviceUID={editState}
+            onCancel={handleCloseEdit}
+            onFinish={handleCloseEdit}
+          />
         </Card>
       )}
     </>

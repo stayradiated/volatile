@@ -76,7 +76,7 @@ const executeDCAOrder = async (
     marketUID: dcaOrder.marketUID,
     assetSymbol: dcaOrder.primaryCurrency,
     currency: dcaOrder.secondaryCurrency,
-    minutes: 60,
+    minutes: 30,
   })
   if (marketPrice instanceof Error) {
     return marketPrice
