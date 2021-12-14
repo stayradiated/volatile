@@ -7,7 +7,7 @@ import type {
 } from '../../utils/graphql'
 
 import { Spin, Alert } from '../retro-ui'
-import { Chart, formatDataForChart } from '../chart'
+import { Chart, ChartConfig, formatDataForChart } from '../chart'
 
 const QUERY = gql`
   query getTradeAvgPriceByDay(
@@ -43,11 +43,12 @@ const TradeAvgPrice = (props: Props) => {
     },
   })
 
-  const charts = useMemo(() => {
+  const charts = useMemo((): ChartConfig[] => {
     const rows = data?.kc_trade_avg_price_by_day ?? []
     return [
       {
-        color: 'blue',
+        type: 'line',
+        options: { color: 'blue' },
         data: formatDataForChart({
           interval: 'day',
           data: rows,
@@ -56,7 +57,8 @@ const TradeAvgPrice = (props: Props) => {
         }),
       },
       {
-        color: 'red',
+        type: 'line',
+        options: { color: 'red' },
         data: formatDataForChart({
           interval: 'day',
           data: rows,
@@ -80,7 +82,7 @@ const TradeAvgPrice = (props: Props) => {
       <h2>
         {primaryCurrency}-{secondaryCurrency}
       </h2>
-      <Chart.Line width={960} charts={charts} />
+      <Chart width={960} charts={charts} />
     </>
   )
 }

@@ -9,7 +9,7 @@ import {
 type FormatDataForChartOptions<T> = {
   interval?: 'minute' | 'hour' | 'day' | 'week'
   data: T[]
-  getValue: (item: T) => number
+  getValue: (item: T) => number | undefined
   getTime: (item: T) => string
 }
 
@@ -55,14 +55,14 @@ const formatDataForChart = <T extends Record<string, unknown>>(
     })
     .sort((a, b) => a.time - b.time)
 
-  let lastValue: undefined | number
-  for (const row of results) {
-    if (typeof row.value === 'undefined') {
-      row.value = lastValue
-    } else {
-      lastValue = row.value
-    }
-  }
+  // Let lastValue: undefined | number
+  // for (const row of results) {
+  //   if (typeof row.value === 'undefined') {
+  //     row.value = lastValue
+  //   } else {
+  //     lastValue = row.value
+  //   }
+  // }
 
   return results.filter((row) => {
     return typeof row.value !== 'undefined'

@@ -20,8 +20,8 @@ const QUERY = gql`
 
 type Props = {
   userDeviceUID: string
-  onCancel?: () => void,
-  onFinish?: () => void,
+  onCancel?: () => void
+  onFinish?: () => void
 }
 
 const UserDeviceFormEdit = (props: Props) => {

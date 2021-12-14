@@ -1,7 +1,7 @@
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { gql, useQuery } from '@apollo/client'
 import { useTable, Column } from 'react-table'
-import { parseISO, format } from 'date-fns'
+import { parseISO, format, formatISO, subHours } from 'date-fns'
 
 import { Button, Alert, Spin, Card, Table } from '../retro-ui'
 import { formatCurrency } from '../../utils/format'
@@ -12,12 +12,17 @@ import {
 } from '../../utils/graphql'
 
 import { DCAOrderHistoryPriceChart } from '../dca-order-history-price-chart'
-import { DCAOrderHistoryValueChart } from '../dca-order-history-value-chart'
 
 type DCAOrderHistory = Query['kc_dca_order_history'][0]
 
 const QUERY = gql`
-  query getDCAOrderHistoryList($dcaOrderUID: uuid!) {
+  ${DCAOrderHistoryPriceChart.fragments.kc_dca_order_history}
+
+  query getDCAOrderHistoryList(
+    $dcaOrderUID: uuid!
+    $gt: timestamptz!
+    $lte: timestamptz!
+  ) {
     kc_dca_order_by_pk(uid: $dcaOrderUID) {
       uid
       exchange {
@@ -33,9 +38,14 @@ const QUERY = gql`
     }
 
     kc_dca_order_history(
-      where: { dca_order_uid: { _eq: $dcaOrderUID } }
+      where: {
+        dca_order_uid: { _eq: $dcaOrderUID }
+        created_at: { _lte: $lte, _gt: $gt }
+      }
       order_by: { created_at: desc }
     ) {
+      ...DCAOrderHistoryPriceChart_kc_dca_order_history
+
       uid
       created_at
       market_price
@@ -56,14 +66,34 @@ type Props = {
 const DCAOrderHistoryList = (props: Props) => {
   const { dcaOrderUID } = props
 
-  const { data, loading, error, refetch } = useQuery<Query, QueryVariables>(QUERY, {
-    variables: {
-      dcaOrderUID,
-    },
+  const [dateRange, setDateRange] = useState({
+    gt: subHours(new Date(), 3),
+    lte: new Date(),
   })
 
-  const handleRefresh = () => {
-    refetch()
+  const { data, loading, error, fetchMore } = useQuery<Query, QueryVariables>(
+    QUERY,
+    {
+      variables: {
+        dcaOrderUID,
+        gt: formatISO(dateRange.gt),
+        lte: formatISO(dateRange.lte),
+      },
+    },
+  )
+
+  const handleLoadMore = () => {
+    const nextDateRange = {
+      lte: new Date(),
+      gt: subHours(dateRange.gt, 2),
+    }
+    fetchMore({
+      variables: {
+        gt: formatISO(nextDateRange.gt),
+        lte: dateRange.gt,
+      },
+    })
+    setDateRange(nextDateRange)
   }
 
   const columns = useMemo(() => {
@@ -107,7 +137,9 @@ const DCAOrderHistoryList = (props: Props) => {
     return columns
   }, [])
 
-  const table = useTable({ columns, data: data?.kc_dca_order_history ?? [] })
+  const dcaOrderHistoryList = data?.kc_dca_order_history ?? []
+
+  const table = useTable({ columns, data: dcaOrderHistoryList })
 
   if (loading) {
     return (
@@ -130,9 +162,12 @@ const DCAOrderHistoryList = (props: Props) => {
       <h2>
         ☰ DCA Order | {exchange} | {tradingPair}
       </h2>
-      <Button onClick={handleRefresh}>Refresh</Button>
-      <DCAOrderHistoryPriceChart dcaOrderUID={dcaOrderUID} />
-      <DCAOrderHistoryValueChart dcaOrderUID={dcaOrderUID} />
+      <Button onClick={handleLoadMore}>Load More</Button>
+      <DCAOrderHistoryPriceChart
+        dcaOrderUID={dcaOrderUID}
+        dcaOrderHistoryList={dcaOrderHistoryList}
+        dateRange={dateRange}
+      />
       <Table table={table} />
     </Card>
   )

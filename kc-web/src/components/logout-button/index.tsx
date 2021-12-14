@@ -4,7 +4,7 @@ import { Button } from '../retro-ui'
 const LogoutButton = () => {
   const handleClick = () => {
     clearSession()
-    window.location.reload()
+    window.location.replace('/')
   }
 
   return (

@@ -25,7 +25,8 @@ const Devices = () => {
       </Card>
       {typeof editState === 'string' && (
         <Card width={400}>
-          <UserDeviceFormEdit userDeviceUID={editState}
+          <UserDeviceFormEdit
+            userDeviceUID={editState}
             onCancel={handleCloseEdit}
             onFinish={handleCloseEdit}
           />

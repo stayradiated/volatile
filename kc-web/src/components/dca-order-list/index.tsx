@@ -163,9 +163,7 @@ const DCAOrderList = (props: Props) => {
     })
   }, [data])
 
-  console.log(tableData)
-
-  const table = useTable({ columns, data: tableData, })
+  const table = useTable({ columns, data: tableData })
 
   if (loading) {
     return (

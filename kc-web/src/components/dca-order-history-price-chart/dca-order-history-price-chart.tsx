@@ -1,68 +1,101 @@
-import { useMemo } from 'react'
+import { useMemo, useEffect, useState } from 'react'
 import { gql, useQuery } from '@apollo/client'
+import { formatISO } from 'date-fns'
 
 import { Alert, Spin } from '../retro-ui'
-import { Chart, formatDataForChart } from '../chart'
+import { Chart, ChartConfig, formatDataForChart } from '../chart'
 
-import {
+import type {
   GetDcaOrderHistoryPriceChartQuery as Query,
   GetDcaOrderHistoryPriceChartQueryVariables as QueryVariables,
+  DcaOrderHistoryPriceChart_Kc_Dca_Order_HistoryFragment as Fragment,
 } from '../../utils/graphql'
 
 const QUERY = gql`
-  query getDCAOrderHistoryPriceChart($dcaOrderUID: uuid!) {
+  query getDCAOrderHistoryPriceChart(
+    $dcaOrderUID: uuid!
+    $gt: timestamptz!
+    $lte: timestamptz!
+  ) {
     kc_dca_order_by_pk(uid: $dcaOrderUID) {
       uid
       exchange_market_trading_pair {
-        market_prices(order_by: { timestamp: desc }, limit: 400) {
+        market_uid
+        primary_currency_symbol
+        secondary_currency_symbol
+
+        market_prices(
+          where: { timestamp: { _lte: $lte, _gt: $gt } }
+          order_by: { timestamp: desc }
+        ) {
           price
           timestamp
         }
       }
-      market_prices(order_by: { timestamp: desc }, limit: 400) {
+      market_prices(
+        where: { timestamp: { _lte: $lte, _gt: $gt } }
+        order_by: { timestamp: desc }
+      ) {
         price
         timestamp
       }
-    }
-
-    kc_dca_order_history(
-      where: { dca_order_uid: { _eq: $dcaOrderUID } }
-      order_by: { created_at: desc }
-    ) {
-      uid
-      created_at
-      market_price
-      market_offset
     }
   }
 `
 
 type Props = {
   dcaOrderUID: string
+  dcaOrderHistoryList: Fragment[]
+  dateRange: { lte: Date; gt: Date }
 }
 
 const DCAOrderHistoryPriceChart = (props: Props) => {
-  const { dcaOrderUID } = props
+  const { dcaOrderUID, dcaOrderHistoryList, dateRange } = props
 
-  const { data, loading, error } = useQuery<Query, QueryVariables>(QUERY, {
-    variables: {
-      dcaOrderUID,
+  const [localDateRange, setLocalDateRange] = useState(dateRange)
+
+  const { data, loading, error, fetchMore } = useQuery<Query, QueryVariables>(
+    QUERY,
+    {
+      variables: {
+        dcaOrderUID,
+        gt: formatISO(dateRange.gt),
+        lte: formatISO(dateRange.lte),
+      },
     },
-  })
+  )
 
-  const charts = useMemo(() => {
+  useEffect(() => {
+    console.log({
+      lte: formatISO(localDateRange.gt),
+      gt: formatISO(dateRange.gt),
+    })
+    fetchMore({
+      variables: {
+        lte: formatISO(localDateRange.gt),
+        gt: formatISO(dateRange.gt),
+      },
+    })
+    setLocalDateRange(dateRange)
+  }, [dateRange])
+
+  const charts = useMemo((): ChartConfig[] => {
     return [
       {
-        color: 'blue',
+        type: 'line',
+        options: { color: 'blue' },
         data: formatDataForChart({
-          data: data?.kc_dca_order_history ?? [],
+          data: dcaOrderHistoryList,
           getValue: (row) =>
-            row.market_price * ((100 + row.market_offset) / 100),
+            row.created_order
+              ? row.market_price * ((100 + row.market_offset) / 100)
+              : undefined,
           getTime: (row) => row.created_at,
         }),
       },
       {
-        color: 'red',
+        type: 'line',
+        options: { color: 'red' },
         data: formatDataForChart({
           data: data?.kc_dca_order_by_pk?.market_prices ?? [],
           getValue: (row) => row.price,
@@ -70,17 +103,39 @@ const DCAOrderHistoryPriceChart = (props: Props) => {
         }),
       },
       {
-        color: 'orange',
+        type: 'line',
+        options: { color: 'orange' },
         data: formatDataForChart({
-          data: data?.kc_dca_order_by_pk?.exchange_market_trading_pair?.[0]?.market_prices ?? [],
+          data:
+            data?.kc_dca_order_by_pk?.exchange_market_trading_pair?.[0]
+              ?.market_prices ?? [],
           getValue: (row) => row.price,
           getTime: (row) => row.timestamp,
         }),
       },
+      {
+        type: 'area',
+        options: {
+          topColor: 'rgba(76, 175, 80, 0.5)',
+          lineColor: 'rgba(76, 175, 80, 1)',
+          bottomColor: 'rgba(76, 175, 80, 0.5)',
+          lineWidth: 2,
+          priceScaleId: '',
+          scaleMargins: {
+            top: 0.85,
+            bottom: 0,
+          },
+        },
+        data: formatDataForChart({
+          data: dcaOrderHistoryList,
+          getValue: (row) => row.value,
+          getTime: (row) => row.created_at,
+        }),
+      },
     ]
-  }, [data])
+  }, [data, dcaOrderHistoryList])
 
-  if (loading) {
+  if (loading && !data) {
     return <Spin />
   }
 
@@ -88,7 +143,20 @@ const DCAOrderHistoryPriceChart = (props: Props) => {
     return <Alert message={error.message} type="error" />
   }
 
-  return <Chart.Line width={1160} charts={charts} />
+  return <Chart width={1160} charts={charts} />
+}
+
+DCAOrderHistoryPriceChart.fragments = {
+  kc_dca_order_history: gql`
+    fragment DCAOrderHistoryPriceChart_kc_dca_order_history on kc_dca_order_history {
+      created_at
+      created_order
+      market_price
+      market_offset
+      value
+      available_balance
+    }
+  `,
 }
 
 export { DCAOrderHistoryPriceChart }

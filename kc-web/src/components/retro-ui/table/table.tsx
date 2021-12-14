@@ -42,30 +42,27 @@ const Table = (props: Props) => {
 
       {/* Apply the table body props */}
       <tbody {...getTableBodyProps()} className={styles.tbody}>
-        {
-          rows.map((row) => {
-            prepareRow(row)
-            const isDisabled = row.original[DISABLED]
+        {rows.map((row) => {
+          prepareRow(row)
+          const isDisabled = row.original[DISABLED]
 
-            return (
-              <tr {...row.getRowProps()} className={cx(styles.tr, {
-                [styles.disabled]: isDisabled
-              })}>
-                {
-                  row.cells.map((cell) => {
-                    return (
-                      <td {...cell.getCellProps()} className={styles.td}>
-                        {
-                          cell.render('Cell')
-                        }
-                      </td>
-                    )
-                  })
-                }
-              </tr>
-            )
-          })
-        }
+          return (
+            <tr
+              {...row.getRowProps()}
+              className={cx(styles.tr, {
+                [styles.disabled]: isDisabled,
+              })}
+            >
+              {row.cells.map((cell) => {
+                return (
+                  <td {...cell.getCellProps()} className={styles.td}>
+                    {cell.render('Cell')}
+                  </td>
+                )
+              })}
+            </tr>
+          )
+        })}
       </tbody>
     </table>
   )

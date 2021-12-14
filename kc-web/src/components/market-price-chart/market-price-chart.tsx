@@ -7,7 +7,7 @@ import type {
 } from '../../utils/graphql'
 
 import { Spin, Alert } from '../retro-ui'
-import { Chart, formatDataForChart } from '../chart'
+import { Chart, ChartConfig, formatDataForChart } from '../chart'
 
 const BINANCE = 'e2860358-91a5-44ca-8a61-a4cd077138f2'
 const KIWI_COIN = 'dabad89d-2aae-407f-b97f-819c9461f4d7'
@@ -69,10 +69,11 @@ const MarketPriceChart = (props: Props) => {
     },
   })
 
-  const charts = useMemo(() => {
+  const charts = useMemo((): ChartConfig[] => {
     return [
       {
-        color: 'blue',
+        type: 'line',
+        options: { color: 'blue' },
         data: formatDataForChart({
           data: data?.binance ?? [],
           getValue: (row) => row.price,
@@ -80,7 +81,8 @@ const MarketPriceChart = (props: Props) => {
         }),
       },
       {
-        color: 'green',
+        type: 'line',
+        options: { color: 'green' },
         data: formatDataForChart({
           data: data?.kiwi_coin ?? [],
           getValue: (row) => row.price,
@@ -88,7 +90,8 @@ const MarketPriceChart = (props: Props) => {
         }),
       },
       {
-        color: 'orange',
+        type: 'line',
+        options: { color: 'orange' },
         data: formatDataForChart({
           data: data?.dasset ?? [],
           getValue: (row) => row.price,
@@ -111,7 +114,7 @@ const MarketPriceChart = (props: Props) => {
       <h2>
         {primaryCurrency}-{secondaryCurrency}
       </h2>
-      <Chart.Line width={960} charts={charts} />
+      <Chart width={960} charts={charts} />
     </>
   )
 }

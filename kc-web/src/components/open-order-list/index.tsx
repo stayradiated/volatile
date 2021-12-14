@@ -53,10 +53,10 @@ const columns: Array<Column<Order>> = [
   {
     Header: 'Trading Pair',
     accessor: 'uid',
-    Cell: (props) =>  {
+    Cell: (props) => {
       const { primary_currency, secondary_currency } = props.row.original
       return `${primary_currency}-${secondary_currency}`
-    }
+    },
   },
   {
     Header: 'Volume',
@@ -89,7 +89,7 @@ const columns: Array<Column<Order>> = [
       const { value } = props
       return value ? 'Yes' : 'No'
     },
-  }
+  },
 ]
 
 const OpenOrderList = () => {
