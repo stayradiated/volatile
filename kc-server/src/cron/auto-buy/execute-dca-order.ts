@@ -6,7 +6,10 @@ import {
   DCAOrder,
   getDCAOrderTargetValue,
 } from '../../model/dca-order/index.js'
-import { selectMinMarketPrice } from '../../model/market-price/index.js'
+import {
+  selectAvgMarketPrice,
+  selectLatestMarketPrice,
+} from '../../model/market-price/index.js'
 import { insertOrder } from '../../model/order/index.js'
 import { insertDCAOrderHistory } from '../../model/dca-order-history/index.js'
 import { round } from '../../util/round.js'
@@ -72,15 +75,26 @@ const executeDCAOrder = async (
     return value
   }
 
-  const marketPrice = await selectMinMarketPrice(pool, {
+  const avgMarketPrice = await selectAvgMarketPrice(pool, {
     marketUID: dcaOrder.marketUID,
     assetSymbol: dcaOrder.primaryCurrency,
     currency: dcaOrder.secondaryCurrency,
     minutes: 30,
   })
-  if (marketPrice instanceof Error) {
-    return marketPrice
+  if (avgMarketPrice instanceof Error) {
+    return avgMarketPrice
   }
+
+  const latestMarketPrice = await selectLatestMarketPrice(pool, {
+    marketUID: dcaOrder.marketUID,
+    assetSymbol: dcaOrder.primaryCurrency,
+    currency: dcaOrder.secondaryCurrency,
+  })
+  if (latestMarketPrice instanceof Error) {
+    return latestMarketPrice
+  }
+
+  const marketPrice = Math.min(avgMarketPrice, latestMarketPrice)
 
   if (value <= (dcaOrder.minValue ?? 0)) {
     const dcaOrderHistory = await insertDCAOrderHistory(pool, {
