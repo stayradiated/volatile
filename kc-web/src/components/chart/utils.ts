@@ -25,6 +25,8 @@ const formatDataForChart = <T extends Record<string, unknown>>(
   const endDate = parseISO(getTime(data[0]))
   const startDate = parseISO(getTime(data[data.length - 1]))
 
+  console.log(startDate, endDate)
+
   const eachInterval = (() => {
     switch (interval) {
       case 'minute':

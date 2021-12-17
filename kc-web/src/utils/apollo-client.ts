@@ -14,7 +14,7 @@ const httpLink = createHttpLink({
 const authLink = setContext((_request, { headers }) => {
   const session = getSession()
 
-  if (session.role === 'guest') {
+  if (session.role === 'guest' || session.expiresAt <= new Date()) {
     return {}
   }
 

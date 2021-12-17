@@ -260,6 +260,7 @@ importers:
       '@stayradiated/market-price': workspace:1.0.0
       '@types/bcrypt': 5.0.0
       '@types/luxon': 2.0.7
+      '@types/nodemailer': 6.4.4
       '@types/pg': 8.6.1
       '@types/sinon': 10.0.6
       '@vercel/ncc': ^0.33
@@ -274,6 +275,7 @@ importers:
       luxon: 2.2.0
       njwt: 1.2.0
       nock: 13.2.1
+      nodemailer: 6.7.2
       otplib: 12.0.1
       pg: 8.7.1
       rambda: 6.9.0
@@ -291,6 +293,7 @@ importers:
       '@stayradiated/kc-keyring': link:../kc-keyring
       '@stayradiated/kiwi-coin-api': link:../api-kiwi-coin
       '@stayradiated/market-price': link:../market-price
+      '@types/nodemailer': 6.4.4
       bcrypt: 5.0.1
       debug: 4.3.3
       dotenv: 10.0.0
@@ -298,6 +301,7 @@ importers:
       fastify: 3.24.1
       luxon: 2.2.0
       njwt: 1.2.0
+      nodemailer: 6.7.2
       otplib: 12.0.1
       pg: 8.7.1
       rambda: 6.9.0
@@ -2435,6 +2439,16 @@ packages:
   /@types/node/16.3.1:
     resolution: {integrity: sha512-N87VuQi7HEeRJkhzovao/JviiqKjDKMVKxKMfUvSKw+MbkbW8R0nA3fi/MQhhlxV2fQ+2ReM+/Nt4efdrJx3zA==}
     dev: true
+
+  /@types/node/17.0.0:
+    resolution: {integrity: sha512-eMhwJXc931Ihh4tkU+Y7GiLzT/y/DBNpNtr4yU9O2w3SYBsr9NaOPhQlLKRmoWtI54uNwuo0IOUFQjVOTZYRvw==}
+    dev: false
+
+  /@types/nodemailer/6.4.4:
+    resolution: {integrity: sha512-Ksw4t7iliXeYGvIQcSIgWQ5BLuC/mljIEbjf615svhZL10PE9t+ei8O9gDaD3FPCasUJn9KTLwz2JFJyiiyuqw==}
+    dependencies:
+      '@types/node': 17.0.0
+    dev: false
 
   /@types/normalize-package-data/2.4.1:
     resolution: {integrity: sha512-Gj7cI7z+98M282Tqmp2K5EIsoouUEzbBJhQQzDE3jSIRk6r9gsz0oUokqIUR4u1R3dMHo0pDHM7sNOHyhulypw==}
@@ -6657,6 +6671,11 @@ packages:
   /node-releases/2.0.1:
     resolution: {integrity: sha512-CqyzN6z7Q6aMeF/ktcMVTzhAHCEpf8SOarwpzpf8pNBY2k5/oM34UHldUwp8VKI7uxct2HxSRdJjBaZeESzcxA==}
     dev: true
+
+  /nodemailer/6.7.2:
+    resolution: {integrity: sha512-Dz7zVwlef4k5R71fdmxwR8Q39fiboGbu3xgswkzGwczUfjp873rVxt1O46+Fh0j1ORnAC6L9+heI8uUpO6DT7Q==}
+    engines: {node: '>=6.0.0'}
+    dev: false
 
   /nopt/5.0.0:
     resolution: {integrity: sha512-Tbj67rffqceeLpcRXrT7vKAN8CwfPeIBgM7E6iBkmKLV7bEMwpGgYLGv0jACUsECaa/vuxP0IjEont6umdMgtQ==}

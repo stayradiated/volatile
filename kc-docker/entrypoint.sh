@@ -15,6 +15,7 @@ env --ignore-environment \
   DEBUG="*" \
   PORT="7946" \
   BCRYPT_SALT_ROUNDS=10 \
+  BASE_URL="$BASE_URL" \
   DATABASE_URL="$DATABASE_URL" \
   KEYRING="$KEYRING" \
   ACTIONS_SECRET="$ACTIONS_SECRET" \
@@ -25,6 +26,8 @@ env --ignore-environment \
   DASSET_API_KEY="$DASSET_API_KEY" \
   DASSET_ACCOUNT_ID="$DASSET_ACCOUNT_ID" \
   OPEN_EXCHANGE_RATES_APP_ID="$OPEN_EXCHANGE_RATES_APP_ID" \
+  MAIL_SMTP_URL="$MAIL_SMTP_URL" \
+  MAIL_FROM="$MAIL_FROM" \
   /usr/local/bin/node /kc-server/kc-server.js &
 
 # start hasura

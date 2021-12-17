@@ -64,6 +64,15 @@ actions:
       value_from_env: HASURA_ACTIONS_SECRET
   permissions:
   - role: user
+- name: refresh_auth_token
+  definition:
+    kind: synchronous
+    handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/refresh_auth_token'
+    headers:
+    - name: x-hasura-actions-secret
+      value_from_env: HASURA_ACTIONS_SECRET
+  permissions:
+  - role: user
 - name: reset_user_password
   definition:
     kind: synchronous
@@ -73,6 +82,7 @@ actions:
       value_from_env: HASURA_ACTIONS_SECRET
   permissions:
   - role: user
+  - role: guest
 - name: send_user_email_verify
   definition:
     kind: synchronous
@@ -91,6 +101,7 @@ actions:
       value_from_env: HASURA_ACTIONS_SECRET
   permissions:
   - role: user
+  - role: guest
 - name: sync_exchange_open_order_list
   definition:
     kind: synchronous
@@ -145,6 +156,16 @@ actions:
       value_from_env: HASURA_ACTIONS_SECRET
   permissions:
   - role: user
+- name: validate_user_password_reset
+  definition:
+    kind: synchronous
+    handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/validate_user_password_reset'
+    headers:
+    - name: x-hasura-actions-secret
+      value_from_env: HASURA_ACTIONS_SECRET
+  permissions:
+  - role: user
+  - role: guest
 - name: verify_user_email
   definition:
     kind: synchronous
@@ -282,4 +303,15 @@ custom_types:
       field_mapping:
         user_uid: uid
   - name: ValidateUserExchangeKeysLiveOutput
+  - name: RefreshAuthTokenOutput
+    relationships:
+    - remote_table:
+        schema: kc
+        name: user
+      name: user
+      source: default
+      type: object
+      field_mapping:
+        user_uid: uid
+  - name: ValidatUserPasswordResetOutput
   scalars: []

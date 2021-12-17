@@ -12,6 +12,7 @@ import { SelectCurrency } from '../../src/components/select/currency/index'
 import { SelectExchange } from '../../src/components/select/exchange/index'
 
 import App from '../../src/app'
+import { AuthenticatedRoute } from '../../src/authenticated-route'
 
 const Trades = () => {
   const [exchange, setExchange] = useState<string | undefined>(undefined)
@@ -74,7 +75,9 @@ const Trades = () => {
 
 ReactDOM.render(
   <App>
-    <Trades />
+    <AuthenticatedRoute>
+      <Trades />
+    </AuthenticatedRoute>
   </App>,
   document.querySelector('#root'),
 )

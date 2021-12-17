@@ -13,10 +13,13 @@ const Navigation = () => {
     setSession(getSession())
   }, [])
 
+  const isAuthenticatedUser =
+    session.role === 'user' && session.expiresAt > new Date()
+
   return (
     <Card>
       <Logo />
-      {session.role === 'guest' && (
+      {!isAuthenticatedUser && (
         <>
           <Button type="primary" href="/register/">
             Sign Up
@@ -26,7 +29,7 @@ const Navigation = () => {
           </Button>
         </>
       )}
-      {session.role === 'user' && (
+      {isAuthenticatedUser && (
         <>
           <p>
             Logged in as <strong>{session.email}</strong>.

@@ -1,6 +1,12 @@
 import { DateTime } from 'luxon'
 
 import type { ActionHandlerFn } from '../../util/action-handler.js'
+
+import { BASE_URL } from '../../env.js'
+
+import { sendMail } from '../../util/mail.js'
+import { UnexpectedError } from '../../util/error.js'
+
 import { selectUserByEmail } from '../../model/user/index.js'
 import {
   generateUserPasswordResetSecret,
@@ -12,7 +18,7 @@ type Input = {
 }
 
 type Output = {
-  secret: string
+  email: string
 }
 
 const sendUserPasswordResetHandler: ActionHandlerFn<Input, Output> = async (
@@ -31,17 +37,30 @@ const sendUserPasswordResetHandler: ActionHandlerFn<Input, Output> = async (
     return secret
   }
 
-  const error = await insertUserPasswordReset(pool, {
+  const insertError = await insertUserPasswordReset(pool, {
     userUID: user.UID,
     expiresAt: DateTime.local().plus({ minutes: 30 }),
     secret,
   })
-  if (error instanceof Error) {
-    return error
+  if (insertError instanceof Error) {
+    return insertError
+  }
+
+  const sendMailError = await sendMail({
+    to: email,
+    subject: 'Volatile Password Reset',
+    text: `To reset your account password, visit this URL: ${BASE_URL}reset-password/index.html?secret=${secret}`,
+  })
+  if (sendMailError instanceof Error) {
+    return new UnexpectedError({
+      message: 'Could not send password reset link.',
+      cause: sendMailError,
+      context: { email },
+    })
   }
 
   return {
-    secret,
+    email,
   }
 }
 

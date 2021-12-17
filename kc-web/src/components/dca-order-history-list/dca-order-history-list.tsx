@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
 import { gql, useQuery } from '@apollo/client'
-import { useTable, Column } from 'react-table'
+import { useTable, Column, CellProps } from 'react-table'
 import { parseISO, format, formatISO, subHours } from 'date-fns'
 
 import { Button, Alert, Spin, Card, Table } from '../retro-ui'
@@ -104,16 +104,17 @@ const DCAOrderHistoryList = (props: Props) => {
         Cell: ({ value }) => format(parseISO(value), 'PPpp'),
       },
       {
-        Header: 'Market Price',
-        accessor: 'market_price',
-        Cell: ({ value }) => `$${formatCurrency(value)}`,
-      },
-      {
-        Header: 'Market Offset',
+        Header: 'Offset',
         accessor: 'market_offset',
         Cell: ({ value }) => `${value}%`,
       },
-
+      {
+        id: 'price',
+        Header: 'Price',
+        accessor: (row) => row.market_price * ((100 + row.market_offset) / 100),
+        Cell: ({ value }: CellProps<DCAOrderHistory, number>) =>
+          `$${formatCurrency(value)}`,
+      },
       {
         Header: 'Value',
         accessor: 'value',
@@ -125,9 +126,13 @@ const DCAOrderHistoryList = (props: Props) => {
         Cell: ({ value }) => `$${formatCurrency(value)}`,
       },
       {
-        Header: 'Created Order',
-        accessor: 'created_order',
-        Cell: ({ value }) => (value ? 'Yes' : 'No'),
+        id: 'volume',
+        Header: 'Volume',
+        accessor: (row) =>
+          row.value / (row.market_price * ((100 + row.market_offset) / 100)),
+        Cell: ({ row, value }: CellProps<DCAOrderHistory, number>) => {
+          return row.original.created_order ? value.toFixed(8) : '--'
+        },
       },
       {
         Header: 'Description',

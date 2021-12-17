@@ -7,7 +7,7 @@ import type {
 } from '../../utils/graphql'
 
 import { getDeviceID, getDeviceName } from '../../utils/device-store'
-import { setSession, Session } from '../../utils/session-store'
+import { Session } from '../../utils/session-store'
 
 const MUTATION_CREATE_AUTH_TOKEN = gql`
   mutation createAuthTokenHook(
@@ -73,7 +73,7 @@ const useCreateAuthToken = (): CreateAuthTokenFn => {
       authToken,
       expiresAt,
     }
-    setSession(session)
+
     return session
   }
 }

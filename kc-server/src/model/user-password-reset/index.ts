@@ -1,3 +1,4 @@
+export * from './delete-user-password-reset.js'
 export * from './generate-user-password-reset-secret.js'
 export * from './insert-user-password-reset.js'
 export * from './purge-expired-user-password-reset.js'

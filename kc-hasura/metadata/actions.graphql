@@ -57,6 +57,10 @@ type Mutation {
 }
 
 type Mutation {
+  refresh_auth_token: RefreshAuthTokenOutput
+}
+
+type Mutation {
   reset_user_password(
     password_reset_secret: String!
     new_password: String!
@@ -116,6 +120,12 @@ type Mutation {
     exchange_uid: uuid!
     keys: jsonb!
   ): ValidateUserExchangeKeysLiveOutput
+}
+
+type Mutation {
+  validate_user_password_reset(
+    password_reset_secret: String!
+  ): ValidatUserPasswordResetOutput!
 }
 
 type Mutation {
@@ -202,12 +212,13 @@ type EnableUser2FAOutput {
 }
 
 type SendUserPasswordResetOutput {
-  secret: String!
+  email: String!
 }
 
 type ResetUserPasswordOutput {
   user_uid: uuid!
   auth_token: String!
+  expires_at: timestamptz!
 }
 
 type SendUserEmailVerifyOutput {
@@ -230,5 +241,16 @@ type SyncExchangeOpenOrderListOutput {
 type ValidateUserExchangeKeysLiveOutput {
   is_valid: Boolean!
   validation_message: String
+}
+
+type RefreshAuthTokenOutput {
+  user_uid: String!
+  auth_token: String!
+  expires_at: timestamptz!
+}
+
+type ValidatUserPasswordResetOutput {
+  is_valid: Boolean!
+  email: String
 }
 

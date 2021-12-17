@@ -15,6 +15,11 @@ import { formatCurrency } from '../../utils/format'
 
 import { Spin, Alert } from '../retro-ui'
 
+import type {
+  GetTradeSumValueByWeekQuery as Query,
+  GetTradeSumValueByWeekQueryVariables as QueryVariables,
+} from '../../utils/graphql'
+
 const formatUnixTime =
   (formatString: string) =>
   (unixTime: number): string => {
@@ -29,8 +34,10 @@ const formatUnixTimeAsDate = formatUnixTime('PP')
 const formatUnixTimeAsDateTime = formatUnixTime('PPpp')
 
 const QUERY = gql`
-  query getTradeSumValueByWeek {
-    kc_trade_sum_total_value_by_week {
+  query getTradeSumValueByWeek(
+    $filters: kc_trade_sum_total_value_by_week_bool_exp
+  ) {
+    kc_trade_sum_total_value_by_week(where: $filters) {
       week
       sum
       primary_currency
@@ -39,8 +46,26 @@ const QUERY = gql`
   }
 `
 
-const ChartWeek = () => {
-  const { data, error, loading } = useQuery(QUERY)
+type Props = {
+  primaryCurrency?: string
+  secondaryCurrency?: string
+}
+
+const ChartWeek = (props: Props) => {
+  const { primaryCurrency, secondaryCurrency } = props
+
+  const { data, error, loading } = useQuery<Query, QueryVariables>(QUERY, {
+    variables: {
+      filters: {
+        primary_currency: {
+          _eq: primaryCurrency,
+        },
+        secondary_currency: {
+          _eq: secondaryCurrency,
+        },
+      },
+    },
+  })
 
   if (loading) {
     return <Spin />
@@ -51,11 +76,11 @@ const ChartWeek = () => {
   }
 
   const chartData = [
-    ...[...data.kc_trade_sum_total_value_by_week]
+    ...[...data!.kc_trade_sum_total_value_by_week]
       .map((row) => {
         const key = `${row.primary_currency}-${row.secondary_currency}`
         return {
-          index: getTime(parseISO(row.week)),
+          index: getTime(parseISO(row.week!)),
           key,
           value: row.sum,
         }
@@ -66,8 +91,8 @@ const ChartWeek = () => {
           acc.set(index, { index, sum: 0 })
         }
 
-        acc.get(index)![key] = value
-        acc.get(index)!.sum += value
+        acc.get(index)![key] = value!
+        acc.get(index)!.sum += value!
         return acc
       }, new Map())
       .values(),
@@ -83,7 +108,7 @@ const ChartWeek = () => {
           domain={['auto', 'auto']}
           tickFormatter={formatUnixTimeAsDate}
         />
-        <YAxis />
+        <YAxis scale="sqrt" />
         <Tooltip
           formatter={(value: number) => '$' + formatCurrency(value)}
           labelFormatter={formatUnixTimeAsDateTime}

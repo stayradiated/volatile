@@ -83,9 +83,19 @@ export type EnableUser2FaOutput = {
   user_uid: Scalars['uuid']
 }
 
+export type RefreshAuthTokenOutput = {
+  __typename?: 'RefreshAuthTokenOutput'
+  auth_token: Scalars['String']
+  expires_at: Scalars['timestamptz']
+  /** An object relationship */
+  user: Kc_User
+  user_uid: Scalars['String']
+}
+
 export type ResetUserPasswordOutput = {
   __typename?: 'ResetUserPasswordOutput'
   auth_token: Scalars['String']
+  expires_at: Scalars['timestamptz']
   user_uid: Scalars['uuid']
 }
 
@@ -97,7 +107,7 @@ export type SendUserEmailVerifyOutput = {
 
 export type SendUserPasswordResetOutput = {
   __typename?: 'SendUserPasswordResetOutput'
-  secret: Scalars['String']
+  email: Scalars['String']
 }
 
 /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
@@ -159,6 +169,12 @@ export type UpdateUserOutput = {
   /** An object relationship */
   user: Kc_User
   user_uid: Scalars['uuid']
+}
+
+export type ValidatUserPasswordResetOutput = {
+  __typename?: 'ValidatUserPasswordResetOutput'
+  email?: Maybe<Scalars['String']>
+  is_valid: Scalars['Boolean']
 }
 
 export type ValidateUserExchangeKeysLiveOutput = {
@@ -3376,6 +3392,7 @@ export type Mutation_Root = {
   /** Delete single row from the table: "kc.user_exchange_keys" */
   delete_kc_user_exchange_keys_by_pk?: Maybe<Kc_User_Exchange_Keys>
   enable_user_2fa?: Maybe<EnableUser2FaOutput>
+  refresh_auth_token?: Maybe<RefreshAuthTokenOutput>
   reset_user_password: ResetUserPasswordOutput
   send_user_email_verify: SendUserEmailVerifyOutput
   send_user_password_reset: SendUserPasswordResetOutput
@@ -3393,6 +3410,7 @@ export type Mutation_Root = {
   update_user_exchange_keys?: Maybe<UpdateUserExchangeKeysOutput>
   validate_user_exchange_keys?: Maybe<ValidateUserExchangeKeysOutput>
   validate_user_exchange_keys_live?: Maybe<ValidateUserExchangeKeysLiveOutput>
+  validate_user_password_reset: ValidatUserPasswordResetOutput
   verify_user_email: VerifyUserEmailOutput
 }
 
@@ -3555,6 +3573,11 @@ export type Mutation_RootValidate_User_Exchange_KeysArgs = {
 export type Mutation_RootValidate_User_Exchange_Keys_LiveArgs = {
   exchange_uid: Scalars['uuid']
   keys: Scalars['jsonb']
+}
+
+/** Mutation root */
+export type Mutation_RootValidate_User_Password_ResetArgs = {
+  password_reset_secret: Scalars['String']
 }
 
 /** Mutation root */
@@ -4600,13 +4623,6 @@ export type DcaOrderHistoryPriceChart_Kc_Dca_Order_HistoryFragment = {
   available_balance: number
 }
 
-export type DcaOrderHistoryValueChart_Kc_Dca_Order_HistoryFragment = {
-  __typename?: 'kc_dca_order_history'
-  created_at: string
-  value: number
-  available_balance: number
-}
-
 export type GetDcaOrderListQueryVariables = Exact<Record<string, never>>
 
 export type GetDcaOrderListQuery = {
@@ -4733,6 +4749,20 @@ export type GetMarketPriceListQuery = {
   }>
 }
 
+export type GetMarketPriceCalcQueryVariables = Exact<{
+  primaryCurrency: Scalars['String']
+  secondaryCurrency: Scalars['String']
+}>
+
+export type GetMarketPriceCalcQuery = {
+  __typename?: 'query_root'
+  source: Array<{
+    __typename?: 'kc_market_price'
+    price: number
+    timestamp: string
+  }>
+}
+
 export type GetMarketPriceQueryVariables = Exact<{
   primaryCurrency: Scalars['String']
   secondaryCurrency: Scalars['String']
@@ -4793,7 +4823,9 @@ export type Create_UserMutation = {
     | undefined
 }
 
-export type GetTradeSumValueByWeekQueryVariables = Exact<Record<string, never>>
+export type GetTradeSumValueByWeekQueryVariables = Exact<{
+  filters?: InputMaybe<Kc_Trade_Sum_Total_Value_By_Week_Bool_Exp>
+}>
 
 export type GetTradeSumValueByWeekQuery = {
   __typename?: 'query_root'
@@ -5123,6 +5155,37 @@ export type CreateAuthTokenHookMutation = {
     | undefined
 }
 
+export type UseResetUserPasswordMutationVariables = Exact<{
+  passwordResetSecret: Scalars['String']
+  newPassword: Scalars['String']
+  deviceID: Scalars['String']
+  deviceName: Scalars['String']
+  deviceTrusted: Scalars['Boolean']
+  token2FA?: InputMaybe<Scalars['String']>
+}>
+
+export type UseResetUserPasswordMutation = {
+  __typename?: 'mutation_root'
+  reset_user_password: {
+    __typename?: 'ResetUserPasswordOutput'
+    user_uid: string
+    auth_token: string
+    expires_at: string
+  }
+}
+
+export type UseSendUserPasswordResetMutationVariables = Exact<{
+  email: Scalars['String']
+}>
+
+export type UseSendUserPasswordResetMutation = {
+  __typename?: 'mutation_root'
+  send_user_password_reset: {
+    __typename?: 'SendUserPasswordResetOutput'
+    email: string
+  }
+}
+
 export type ValidateUserExchangeKeysLiveMutationVariables = Exact<{
   exchangeUID: Scalars['uuid']
   keys: Scalars['jsonb']
@@ -5156,6 +5219,19 @@ export type ValidateUserExchangeKeysMutation = {
     | undefined
 }
 
+export type UseValidateUserPasswordResetMutationVariables = Exact<{
+  passwordResetSecret: Scalars['String']
+}>
+
+export type UseValidateUserPasswordResetMutation = {
+  __typename?: 'mutation_root'
+  validate_user_password_reset: {
+    __typename?: 'ValidatUserPasswordResetOutput'
+    is_valid: boolean
+    email?: string | null | undefined
+  }
+}
+
 export const NewDcaOrderFragmentDoc = gql`
   fragment NewDCAOrder on kc_dca_order {
     uid
@@ -5184,13 +5260,6 @@ export const DcaOrderHistoryPriceChart_Kc_Dca_Order_HistoryFragmentDoc = gql`
     created_order
     market_price
     market_offset
-    value
-    available_balance
-  }
-`
-export const DcaOrderHistoryValueChart_Kc_Dca_Order_HistoryFragmentDoc = gql`
-  fragment DCAOrderHistoryValueChart_kc_dca_order_history on kc_dca_order_history {
-    created_at
     value
     available_balance
   }
@@ -5616,6 +5685,28 @@ export type GetMarketPriceListQueryResult = Apollo.QueryResult<
   GetMarketPriceListQuery,
   GetMarketPriceListQueryVariables
 >
+export const GetMarketPriceCalcDocument = gql`
+  query getMarketPriceCalc(
+    $primaryCurrency: String!
+    $secondaryCurrency: String!
+  ) {
+    source: kc_market_price(
+      where: {
+        market_uid: { _eq: "" }
+        asset_symbol: { _eq: $primaryCurrency }
+        currency: { _eq: $secondaryCurrency }
+      }
+      order_by: { timestamp: desc }
+    ) {
+      price
+      timestamp
+    }
+  }
+`
+export type GetMarketPriceCalcQueryResult = Apollo.QueryResult<
+  GetMarketPriceCalcQuery,
+  GetMarketPriceCalcQueryVariables
+>
 export const GetMarketPriceDocument = gql`
   query getMarketPrice($primaryCurrency: String!, $secondaryCurrency: String!) {
     binance: kc_market_price(
@@ -5701,8 +5792,10 @@ export type Create_UserMutationOptions = Apollo.BaseMutationOptions<
   Create_UserMutationVariables
 >
 export const GetTradeSumValueByWeekDocument = gql`
-  query getTradeSumValueByWeek {
-    kc_trade_sum_total_value_by_week {
+  query getTradeSumValueByWeek(
+    $filters: kc_trade_sum_total_value_by_week_bool_exp
+  ) {
+    kc_trade_sum_total_value_by_week(where: $filters) {
       week
       sum
       primary_currency
@@ -6057,6 +6150,57 @@ export type CreateAuthTokenHookMutationOptions = Apollo.BaseMutationOptions<
   CreateAuthTokenHookMutation,
   CreateAuthTokenHookMutationVariables
 >
+export const UseResetUserPasswordDocument = gql`
+  mutation useResetUserPassword(
+    $passwordResetSecret: String!
+    $newPassword: String!
+    $deviceID: String!
+    $deviceName: String!
+    $deviceTrusted: Boolean!
+    $token2FA: String
+  ) {
+    reset_user_password(
+      password_reset_secret: $passwordResetSecret
+      new_password: $newPassword
+      device_id: $deviceID
+      device_name: $deviceName
+      device_trusted: $deviceTrusted
+      token_2fa: $token2FA
+    ) {
+      user_uid
+      auth_token
+      expires_at
+    }
+  }
+`
+export type UseResetUserPasswordMutationFn = Apollo.MutationFunction<
+  UseResetUserPasswordMutation,
+  UseResetUserPasswordMutationVariables
+>
+export type UseResetUserPasswordMutationResult =
+  Apollo.MutationResult<UseResetUserPasswordMutation>
+export type UseResetUserPasswordMutationOptions = Apollo.BaseMutationOptions<
+  UseResetUserPasswordMutation,
+  UseResetUserPasswordMutationVariables
+>
+export const UseSendUserPasswordResetDocument = gql`
+  mutation useSendUserPasswordReset($email: String!) {
+    send_user_password_reset(email: $email) {
+      email
+    }
+  }
+`
+export type UseSendUserPasswordResetMutationFn = Apollo.MutationFunction<
+  UseSendUserPasswordResetMutation,
+  UseSendUserPasswordResetMutationVariables
+>
+export type UseSendUserPasswordResetMutationResult =
+  Apollo.MutationResult<UseSendUserPasswordResetMutation>
+export type UseSendUserPasswordResetMutationOptions =
+  Apollo.BaseMutationOptions<
+    UseSendUserPasswordResetMutation,
+    UseSendUserPasswordResetMutationVariables
+  >
 export const ValidateUserExchangeKeysLiveDocument = gql`
   mutation validateUserExchangeKeysLive($exchangeUID: uuid!, $keys: jsonb!) {
     validate_user_exchange_keys_live(exchange_uid: $exchangeUID, keys: $keys) {
@@ -6094,4 +6238,23 @@ export type ValidateUserExchangeKeysMutationOptions =
   Apollo.BaseMutationOptions<
     ValidateUserExchangeKeysMutation,
     ValidateUserExchangeKeysMutationVariables
+  >
+export const UseValidateUserPasswordResetDocument = gql`
+  mutation useValidateUserPasswordReset($passwordResetSecret: String!) {
+    validate_user_password_reset(password_reset_secret: $passwordResetSecret) {
+      is_valid
+      email
+    }
+  }
+`
+export type UseValidateUserPasswordResetMutationFn = Apollo.MutationFunction<
+  UseValidateUserPasswordResetMutation,
+  UseValidateUserPasswordResetMutationVariables
+>
+export type UseValidateUserPasswordResetMutationResult =
+  Apollo.MutationResult<UseValidateUserPasswordResetMutation>
+export type UseValidateUserPasswordResetMutationOptions =
+  Apollo.BaseMutationOptions<
+    UseValidateUserPasswordResetMutation,
+    UseValidateUserPasswordResetMutationVariables
   >

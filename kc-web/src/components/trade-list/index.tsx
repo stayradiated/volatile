@@ -167,7 +167,11 @@ const TradeList = (props: TradeListProps) => {
         secondaryCurrency={secondaryCurrency}
       />
 
-      <ChartWeek />
+      <ChartWeek
+        primaryCurrency={primaryCurrency}
+        secondaryCurrency={secondaryCurrency}
+      />
+
       <TradeStats
         sumValue={agg?.sum?.value ?? 0}
         sumVolume={agg?.sum?.volume ?? 0}

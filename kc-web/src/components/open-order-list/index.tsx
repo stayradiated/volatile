@@ -2,7 +2,7 @@ import { gql, useQuery } from '@apollo/client'
 import { parseISO, format } from 'date-fns'
 import { useTable, Column } from 'react-table'
 
-import { Alert, Spin, Table } from '../retro-ui'
+import { Button, Alert, Spin, Table } from '../retro-ui'
 
 import { formatCurrency } from '../../utils/format'
 
@@ -66,7 +66,7 @@ const columns: Array<Column<Order>> = [
     Header: 'Value',
     accessor: 'value',
     Cell: (props) => {
-      const { value, row } = props
+      const { value } = props
       return `$${formatCurrency(value)}`
     },
   },
@@ -78,7 +78,7 @@ const columns: Array<Column<Order>> = [
     Header: 'Price',
     accessor: 'price',
     Cell: (props) => {
-      const { value, row } = props
+      const { value } = props
       return `$${formatCurrency(value)}`
     },
   },
@@ -93,7 +93,7 @@ const columns: Array<Column<Order>> = [
 ]
 
 const OpenOrderList = () => {
-  const { data, loading, error } = useQuery<
+  const { data, loading, error, refetch } = useQuery<
     GetOpenOrderListQuery,
     GetOpenOrderListQueryVariables
   >(QUERY)
@@ -113,6 +113,7 @@ const OpenOrderList = () => {
 
   return (
     <>
+      <Button onClick={async () => refetch()}>Refresh</Button>
       <Table table={table} />
     </>
   )

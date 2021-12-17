@@ -5,9 +5,12 @@ import { test } from '../../test-util/ava.js'
 
 import { selectMinMarketPrice } from './select-min-market-price.js'
 
-test('selectOpenOrdersForDCA: should return open orders', async (t) => {
+test('selectMinMarketPrice: should return min price', async (t) => {
   const { pool, make } = t.context
-  const marketUID = await make.market()
+  const marketUID = await make.market({
+    ID: 'avg-market-min-price.test',
+    name: 'selectMinMarketPrice',
+  })
   const assetSymbol = 'BTC'
   const currency = 'NZD'
 

@@ -3,7 +3,11 @@ import { DateTime } from 'luxon'
 import { throwIfError } from '@stayradiated/error-boundary'
 
 import { getExchangeUID, EXCHANGE_KIWI_COIN } from '../model/exchange/index.js'
-import { getMarketUID, MARKET_KIWI_COIN } from '../model/market/index.js'
+import {
+  getMarketUID,
+  MARKET_KIWI_COIN,
+  Market,
+} from '../model/market/index.js'
 import { upsertCurrency, Currency } from '../model/currency/index.js'
 import { insertMarketPrice, MarketPrice } from '../model/market-price/index.js'
 import { insertDCAOrder, DCAOrder } from '../model/dca-order/index.js'
@@ -39,7 +43,7 @@ type MakeInstance = {
   userExchangeKeys: MakeInstanceFn
   userExchangeKeysUID?: string
 
-  market: MakeInstanceFn
+  market: MakeInstanceFn<Market>
   marketUID?: string
 
   marketPrice: MakeInstanceFn<MarketPrice>
@@ -120,15 +124,20 @@ const makeUserExchangeKeys: MakeFn = (make) => async () => {
   return userExchangeKeys.UID
 }
 
-const makeMarket: MakeFn = (make) => async () => {
-  const marketUID = await throwIfError<string>(
-    getMarketUID(pool, MARKET_KIWI_COIN),
-  )
+const makeMarket: MakeFn<Market> =
+  (make) =>
+  async (options = {}) => {
+    const market = {
+      ID: options.ID ?? MARKET_KIWI_COIN.ID,
+      name: options.name ?? MARKET_KIWI_COIN.name,
+    }
 
-  make.marketUID = marketUID
+    const marketUID = await throwIfError<string>(getMarketUID(pool, market))
 
-  return marketUID
-}
+    make.marketUID = marketUID
+
+    return marketUID
+  }
 
 const makeMarketPrice: MakeFn<MarketPrice> = (make) => async (options) => {
   const { marketUID = await make.market() } = make

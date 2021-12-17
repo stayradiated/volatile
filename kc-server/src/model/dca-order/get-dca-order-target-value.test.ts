@@ -54,6 +54,8 @@ test('should calculate with multiple trades', async (t) => {
   const exchangeUID = await make.exchange()
   const userExchangeKeysUID = await make.userExchangeKeys()
   const marketUID = await make.market()
+  const primaryCurrencySymbol = await make.primaryCurrency()
+  const secondaryCurrencySymbol = await make.secondaryCurrency()
 
   const dailyAverage = 100
   const tradedValue = 90
@@ -67,8 +69,8 @@ test('should calculate with multiple trades', async (t) => {
       exchangeUID,
       userExchangeKeysUID,
       marketUID,
-      primaryCurrency: 'BTC',
-      secondaryCurrency: 'NZD',
+      primaryCurrency: primaryCurrencySymbol,
+      secondaryCurrency: secondaryCurrencySymbol,
       startAt,
       marketOffset: 0,
       dailyAverage,
@@ -88,8 +90,8 @@ test('should calculate with multiple trades', async (t) => {
       timestamp: DateTime.local(),
       tradeID: 'dca-order-trade-1',
       type: 'BUY',
-      primaryCurrency: 'BTC',
-      secondaryCurrency: 'NZD',
+      primaryCurrency: primaryCurrencySymbol,
+      secondaryCurrency: secondaryCurrencySymbol,
       volume: 0.4,
       price: 1000,
       fee: 10,
@@ -106,8 +108,8 @@ test('should calculate with multiple trades', async (t) => {
       timestamp: DateTime.local(),
       tradeID: 'dca-order-trade-2',
       type: 'BUY',
-      primaryCurrency: 'BTC',
-      secondaryCurrency: 'NZD',
+      primaryCurrency: primaryCurrencySymbol,
+      secondaryCurrency: secondaryCurrencySymbol,
       volume: 0.4,
       price: 1000,
       fee: 10,
@@ -146,6 +148,8 @@ test('should cap target at maxValue', async (t) => {
   const exchangeUID = await make.exchange()
   const userExchangeKeysUID = await make.userExchangeKeys()
   const marketUID = await make.market()
+  const primaryCurrencySymbol = await make.primaryCurrency()
+  const secondaryCurrencySymbol = await make.secondaryCurrency()
 
   const dailyAverage = 100
 
@@ -158,8 +162,8 @@ test('should cap target at maxValue', async (t) => {
       exchangeUID,
       userExchangeKeysUID,
       marketUID,
-      primaryCurrency: 'BTC',
-      secondaryCurrency: 'NZD',
+      primaryCurrency: primaryCurrencySymbol,
+      secondaryCurrency: secondaryCurrencySymbol,
       startAt,
       marketOffset: 0,
       dailyAverage,

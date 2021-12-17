@@ -66,59 +66,25 @@ const DCAOrderHistoryPriceChart = (props: Props) => {
   )
 
   useEffect(() => {
-    console.log({
-      lte: formatISO(localDateRange.gt),
-      gt: formatISO(dateRange.gt),
-    })
-    fetchMore({
-      variables: {
-        lte: formatISO(localDateRange.gt),
-        gt: formatISO(dateRange.gt),
-      },
-    })
-    setLocalDateRange(dateRange)
-  }, [dateRange])
+    if (!loading && dateRange !== localDateRange) {
+      fetchMore({
+        variables: {
+          lte: formatISO(localDateRange.gt),
+          gt: formatISO(dateRange.gt),
+        },
+      })
+      setLocalDateRange(dateRange)
+    }
+  }, [loading, dateRange])
 
   const charts = useMemo((): ChartConfig[] => {
     return [
       {
-        type: 'line',
-        options: { color: 'blue' },
-        data: formatDataForChart({
-          data: dcaOrderHistoryList,
-          getValue: (row) =>
-            row.created_order
-              ? row.market_price * ((100 + row.market_offset) / 100)
-              : undefined,
-          getTime: (row) => row.created_at,
-        }),
-      },
-      {
-        type: 'line',
-        options: { color: 'red' },
-        data: formatDataForChart({
-          data: data?.kc_dca_order_by_pk?.market_prices ?? [],
-          getValue: (row) => row.price,
-          getTime: (row) => row.timestamp,
-        }),
-      },
-      {
-        type: 'line',
-        options: { color: 'orange' },
-        data: formatDataForChart({
-          data:
-            data?.kc_dca_order_by_pk?.exchange_market_trading_pair?.[0]
-              ?.market_prices ?? [],
-          getValue: (row) => row.price,
-          getTime: (row) => row.timestamp,
-        }),
-      },
-      {
         type: 'area',
         options: {
-          topColor: 'rgba(76, 175, 80, 0.5)',
-          lineColor: 'rgba(76, 175, 80, 1)',
-          bottomColor: 'rgba(76, 175, 80, 0.5)',
+          topColor: 'rgba(50, 255, 126,1.0)',
+          lineColor: 'rgba(50, 255, 126,0.5)',
+          bottomColor: 'rgba(50, 255, 126,0.5)',
           lineWidth: 2,
           priceScaleId: '',
           scaleMargins: {
@@ -129,6 +95,58 @@ const DCAOrderHistoryPriceChart = (props: Props) => {
         data: formatDataForChart({
           data: dcaOrderHistoryList,
           getValue: (row) => row.value,
+          getTime: (row) => row.created_at,
+        }),
+      },
+      {
+        type: 'line',
+        options: { color: 'rgba(75, 75, 75,0.5)' },
+        data: formatDataForChart({
+          data: data?.kc_dca_order_by_pk?.market_prices ?? [],
+          getValue: (row) => row.price,
+          getTime: (row) => row.timestamp,
+        }),
+      },
+      {
+        type: 'area',
+        options: {
+          lineColor: 'rgba(255, 159, 26,1.0)',
+          topColor: 'rgba(255, 159, 26,0.5)',
+          bottomColor: 'rgba(255, 159, 26,0.0)',
+        },
+        data: formatDataForChart({
+          data:
+            data?.kc_dca_order_by_pk?.exchange_market_trading_pair?.[0]
+              ?.market_prices ?? [],
+          getValue: (row) => row.price,
+          getTime: (row) => row.timestamp,
+        }),
+      },
+      {
+        type: 'line',
+        options: { color: 'rgba(125, 95, 255,0.5)' },
+        data: formatDataForChart({
+          data: dcaOrderHistoryList,
+          getValue: (row) =>
+            row.created_order
+              ? undefined
+              : row.market_price * ((100 + row.market_offset) / 100),
+          getTime: (row) => row.created_at,
+        }),
+      },
+      {
+        type: 'area',
+        options: {
+          topColor: 'rgba(125, 95, 255,1.0)',
+          lineColor: 'rgba(125, 95, 255,0.5)',
+          bottomColor: 'rgba(125, 95, 255,0)',
+        },
+        data: formatDataForChart({
+          data: dcaOrderHistoryList,
+          getValue: (row) =>
+            row.created_order
+              ? row.market_price * ((100 + row.market_offset) / 100)
+              : undefined,
           getTime: (row) => row.created_at,
         }),
       },

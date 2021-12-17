@@ -3,7 +3,10 @@ import { DateTime } from 'luxon'
 import { AuthError } from '../../util/error.js'
 
 import type { ActionHandlerFn } from '../../util/action-handler.js'
-import { selectUserPasswordResetBySecret } from '../../model/user-password-reset/index.js'
+import {
+  selectUserPasswordResetBySecret,
+  deleteUserPasswordReset,
+} from '../../model/user-password-reset/index.js'
 import { updateUser } from '../../model/user/index.js'
 import { generateAuthToken } from '../../model/auth-token/index.js'
 import {
@@ -102,6 +105,14 @@ const resetUserPasswordHandler: ActionHandlerFn<Input, Output> = async (
   })
   if (userDeviceError instanceof Error) {
     return userDeviceError
+  }
+
+  const deleteUserPasswordResetResult = await deleteUserPasswordReset(
+    pool,
+    userPasswordReset.UID,
+  )
+  if (deleteUserPasswordResetResult instanceof Error) {
+    return deleteUserPasswordResetResult
   }
 
   return {
