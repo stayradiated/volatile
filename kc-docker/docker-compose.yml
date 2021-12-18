@@ -21,6 +21,9 @@ services:
       - env_kc
     depends_on:
       - postgres
+    volumes:
+      - ./ssl_certificate.crt:/ssl_certificate.crt
+      - ./ssl_certificate_key.key:/ssl_certificate_key.key
 
 volumes:
   pgdata:
