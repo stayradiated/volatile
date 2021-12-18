@@ -22,8 +22,8 @@ services:
     depends_on:
       - postgres
     volumes:
-      - ./ssl_certificate.crt:/ssl_certificate.crt
-      - ./ssl_certificate_key.key:/ssl_certificate_key.key
+      - /etc/letsencrypt/live/volatile.co.nz/fullchain.pem:/ssl_certificate.crt
+      - /etc/letsencrypt/live/volatile.co.nz/privkey.pem:/ssl_certificate_key.key
 
 volumes:
   pgdata:
