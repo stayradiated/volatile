@@ -16,14 +16,15 @@ services:
     ports:
       - "127.0.0.1:7947:7947"
       - "127.0.0.1:7949:7949"
+      - "127.0.0.1:7950:7950"
     restart: always
     env_file: 
       - env_kc
     depends_on:
       - postgres
     volumes:
-      - /etc/letsencrypt/live/volatile.co.nz/fullchain.pem:/ssl_certificate.crt
-      - /etc/letsencrypt/live/volatile.co.nz/privkey.pem:/ssl_certificate_key.key
+      - ./fullchain.pem:/ssl_certificate.crt
+      - ./privkey.pem:/ssl_certificate_key.key
 
 volumes:
   pgdata:
