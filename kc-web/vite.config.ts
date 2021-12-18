@@ -16,6 +16,7 @@ export default defineConfig({
         'market-price': resolve(__dirname, 'routes/market-price/index.html'),
         'open-orders': resolve(__dirname, 'routes/open-orders/index.html'),
         'register': resolve(__dirname, 'routes/register/index.html'),
+        'reset-password': resolve(__dirname, 'routes/reset-password/index.html'),
         'settings': resolve(__dirname, 'routes/settings/index.html'),
         'trades': resolve(__dirname, 'routes/trades/index.html'),
       }
