@@ -2,10 +2,21 @@ import ky from 'ky-universal'
 import type KyInstance from 'ky'
 import debug from 'debug'
 import { errorBoundary } from '@stayradiated/error-boundary'
+import createLimitFunction, { LimitFunction } from 'p-limit'
 
 import { createSignedBody } from './signature.js'
 import { NetError, getCause } from './error.js'
 import type { Config } from './types.js'
+
+const MAP_API_KEY_LIMIT_FN = new Map<string, LimitFunction>()
+
+const waitForApiKey = (apiKey: string): Promise<void> => {
+  if (MAP_API_KEY_LIMIT_FN.has(apiKey) === false) {
+    MAP_API_KEY_LIMIT_FN.set(apiKey, createLimitFunction(1))
+  }
+  const limitFn = MAP_API_KEY_LIMIT_FN.get(apiKey)!
+  return limitFn(() => undefined)
+}
 
 const log = debug('independent-reserve-api')
 
@@ -52,6 +63,8 @@ const post = async (
   endpoint: string,
   parameters: Record<string, undefined | string | number>,
 ) => {
+  await waitForApiKey(config.apiKey)
+
   const result = await errorBoundary(async () =>
     client
       .post(endpoint, {
