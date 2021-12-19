@@ -53,7 +53,6 @@ importers:
       eslint-plugin-fp: 2.3.0
       ky: 0.28.7
       ky-universal: 0.9.1
-      luxon: 2.2.0
       nock: 13.2.1
       p-limit: 4.0.0
       rambda: 6.9.0
@@ -65,7 +64,6 @@ importers:
       debug: 4.3.3
       ky: 0.28.7
       ky-universal: 0.9.1_ky@0.28.7
-      luxon: 2.2.0
       p-limit: 4.0.0
       rambda: 6.9.0
     devDependencies:
