@@ -1,0 +1,17 @@
+{
+  "private": true,
+  "author": {
+    "name": "George Czabania",
+    "email": "george@czabania.com"
+  },
+  "license": "GPL-3.0",
+  "scripts": {
+    "hasura:local": "HASURA_GRAPHQL_ENDPOINT=http://localhost:9999 HASURA_GRAPHQL_ADMIN_SECRET=unlockedinfinity hasura",
+    "hasura:prod": "HASURA_GRAPHQL_ENDPOINT=http://localhost:7947 hasura",
+    "hasura:local:export": "pnpm run hasura:local metadata export",
+    "hasura:prod:export": "pnpm run hasura:prod metadata export"
+  },
+  "devDependencies": {
+    "hasura-cli": "2.0.9"
+  }
+}

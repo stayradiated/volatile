@@ -1,0 +1,100 @@
+{
+  "private": true,
+  "name": "@volatile/market-price",
+  "version": "1.0.0",
+  "description": "Get the price of bitcoin from various sources",
+  "type": "module",
+  "exports": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "test": "ava",
+    "tidy": "xo --fix",
+    "build": "del-cli dist && tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stayradiated/volatile.git"
+  },
+  "keywords": [
+    "binance",
+    "price",
+    "bitcoin",
+    "ticker"
+  ],
+  "author": {
+    "name": "George Czabania",
+    "email": "george@czabania.com"
+  },
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/stayradiated/volatile/issues"
+  },
+  "homepage": "https://github.com/stayradiated/volatile#readme",
+  "dependencies": {
+    "@northscaler/better-error": "0.1.0-dev.10",
+    "@volatile/dasset-api": "workspace:1.0.1",
+    "@stayradiated/error-boundary": "1.10.0",
+    "@volatile/independent-reserve-api": "workspace:1.0.1",
+    "@volatile/kiwi-coin-api": "workspace:1.0.1",
+    "debug": "4.3.3",
+    "ky": "0.28.7",
+    "ky-universal": "0.9.1",
+    "luxon": "2.2.0"
+  },
+  "devDependencies": {
+    "@stayradiated/jsconfig": "1.15.0",
+    "@types/debug": "4.1.7",
+    "@types/luxon": "2.0.7",
+    "@types/sinon": "10.0.6",
+    "ava": "3.15.0",
+    "del-cli": "4.0.1",
+    "eslint-plugin-fp": "2.3.0",
+    "sinon": "12.0.1",
+    "typescript": "4.5.3",
+    "xo": "0.47.0"
+  },
+  "__comment": "The following configs are managed by `npx @stayradiated/jsconfig`",
+  "ava": {
+    "verbose": true
+  },
+  "xo": {
+    "space": true,
+    "semicolon": false,
+    "prettier": true,
+    "plugins": [
+      "fp"
+    ],
+    "extends": [
+      "plugin:fp/recommended"
+    ],
+    "rules": {
+      "ava/assertion-arguments": "off",
+      "ava/no-ignored-test-files": [
+        "error",
+        {
+          "files": [
+            "**/src/**/*.test.ts"
+          ],
+          "extensions": [
+            "ts"
+          ]
+        }
+      ],
+      "unicorn/prefer-node-protocol": "off",
+      "fp/no-unused-expression": "off",
+      "fp/no-nil": "off",
+      "fp/no-loops": "off",
+      "fp/no-mutation": "off"
+    }
+  },
+  "prettier": {
+    "arrowParens": "always",
+    "bracketSpacing": true,
+    "jsxBracketSameLine": false,
+    "semi": false,
+    "singleQuote": true,
+    "tabWidth": 2,
+    "trailingComma": "all",
+    "useTabs": false
+  }
+}

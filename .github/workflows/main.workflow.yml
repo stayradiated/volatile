@@ -18,7 +18,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v3
         with:
-          images: stayradiated/kc
+          images: stayradiated/volatile
           tags: |
             type=schedule
             type=ref,event=branch
@@ -58,7 +58,7 @@ jobs:
           pnpm -r build
           
           # hack to fix issue with ncc mixing CJS/ESM code
-          sed -i -e '/"type": "module"/d' ./kc-server/package.json
+          sed -i -e '/"type": "module"/d' ./svc-server/package.json
           pnpm -r build:ncc
 
       -
@@ -81,7 +81,7 @@ jobs:
         id: docker_build
         uses: docker/build-push-action@v2
         with:
-          file: kc-docker/Dockerfile
+          file: svc-docker/Dockerfile
           context: .
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
