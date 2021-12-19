@@ -1,2 +1,2 @@
 build:
-	docker build --tag stayradiated/kc --file ./kc-docker/Dockerfile .
+	docker build --tag stayradiated/volatile --file ./kc-docker/Dockerfile .

@@ -11,15 +11,15 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
 
-  kc:
-    image: stayradiated/kc:latest
+  volatile:
+    image: stayradiated/volatile:latest
     ports:
       - "127.0.0.1:7947:7947"
       - "80:7949"
       - "443:7950"
     restart: always
     env_file: 
-      - env_kc
+      - env_volatile
     depends_on:
       - postgres
     volumes:

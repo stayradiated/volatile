@@ -8,7 +8,7 @@ dbmate \
   --url="${DATABASE_URL}?sslmode=disable&search_path=kc" \
   migrate
 
-# start kc-server.js
+# start server.js
 env --ignore-environment \
   HOME="$HOME" \
   NODE_ENV="production" \
@@ -28,7 +28,7 @@ env --ignore-environment \
   OPEN_EXCHANGE_RATES_APP_ID="$OPEN_EXCHANGE_RATES_APP_ID" \
   MAIL_SMTP_URL="$MAIL_SMTP_URL" \
   MAIL_FROM="$MAIL_FROM" \
-  /usr/local/bin/node /kc-server/kc-server.js &
+  /usr/local/bin/node /server/server.js &
 
 # start hasura
 env --ignore-environment \
