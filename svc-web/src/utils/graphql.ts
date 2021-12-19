@@ -101,7 +101,6 @@ export type ResetUserPasswordOutput = {
 
 export type SendUserEmailVerifyOutput = {
   __typename?: 'SendUserEmailVerifyOutput'
-  secret: Scalars['String']
   user_uid: Scalars['uuid']
 }
 
@@ -194,9 +193,7 @@ export type ValidateUserExchangeKeysOutput = {
 
 export type VerifyUserEmailOutput = {
   __typename?: 'VerifyUserEmailOutput'
-  /** An object relationship */
-  user: Kc_User
-  user_uid: Scalars['uuid']
+  email: Scalars['String']
 }
 
 /** Boolean expression to compare columns of type "bpchar". All fields are combined with logical 'AND'. */
@@ -5134,6 +5131,17 @@ export type GetUserExchangeKeysModalDeleteQuery = {
     | undefined
 }
 
+export type VerifyEmailQueryVariables = Exact<Record<string, never>>
+
+export type VerifyEmailQuery = {
+  __typename?: 'query_root'
+  kc_user: Array<{
+    __typename?: 'kc_user'
+    uid: string
+    email_verified: boolean
+  }>
+}
+
 export type CreateAuthTokenHookMutationVariables = Exact<{
   email: Scalars['String']
   password: Scalars['String']
@@ -5171,6 +5179,18 @@ export type UseResetUserPasswordMutation = {
     user_uid: string
     auth_token: string
     expires_at: string
+  }
+}
+
+export type UseSendUserEmailVerifyMutationVariables = Exact<
+  Record<string, never>
+>
+
+export type UseSendUserEmailVerifyMutation = {
+  __typename?: 'mutation_root'
+  send_user_email_verify: {
+    __typename?: 'SendUserEmailVerifyOutput'
+    user_uid: string
   }
 }
 
@@ -5230,6 +5250,15 @@ export type UseValidateUserPasswordResetMutation = {
     is_valid: boolean
     email?: string | null | undefined
   }
+}
+
+export type UseVerifyUserEmailMutationVariables = Exact<{
+  emailVerifySecret: Scalars['String']
+}>
+
+export type UseVerifyUserEmailMutation = {
+  __typename?: 'mutation_root'
+  verify_user_email: { __typename?: 'VerifyUserEmailOutput'; email: string }
 }
 
 export const NewDcaOrderFragmentDoc = gql`
@@ -6119,6 +6148,18 @@ export type GetUserExchangeKeysModalDeleteQueryResult = Apollo.QueryResult<
   GetUserExchangeKeysModalDeleteQuery,
   GetUserExchangeKeysModalDeleteQueryVariables
 >
+export const VerifyEmailDocument = gql`
+  query verifyEmail {
+    kc_user {
+      uid
+      email_verified
+    }
+  }
+`
+export type VerifyEmailQueryResult = Apollo.QueryResult<
+  VerifyEmailQuery,
+  VerifyEmailQueryVariables
+>
 export const CreateAuthTokenHookDocument = gql`
   mutation createAuthTokenHook(
     $email: String!
@@ -6182,6 +6223,23 @@ export type UseResetUserPasswordMutationResult =
 export type UseResetUserPasswordMutationOptions = Apollo.BaseMutationOptions<
   UseResetUserPasswordMutation,
   UseResetUserPasswordMutationVariables
+>
+export const UseSendUserEmailVerifyDocument = gql`
+  mutation useSendUserEmailVerify {
+    send_user_email_verify {
+      user_uid
+    }
+  }
+`
+export type UseSendUserEmailVerifyMutationFn = Apollo.MutationFunction<
+  UseSendUserEmailVerifyMutation,
+  UseSendUserEmailVerifyMutationVariables
+>
+export type UseSendUserEmailVerifyMutationResult =
+  Apollo.MutationResult<UseSendUserEmailVerifyMutation>
+export type UseSendUserEmailVerifyMutationOptions = Apollo.BaseMutationOptions<
+  UseSendUserEmailVerifyMutation,
+  UseSendUserEmailVerifyMutationVariables
 >
 export const UseSendUserPasswordResetDocument = gql`
   mutation useSendUserPasswordReset($email: String!) {
@@ -6258,3 +6316,20 @@ export type UseValidateUserPasswordResetMutationOptions =
     UseValidateUserPasswordResetMutation,
     UseValidateUserPasswordResetMutationVariables
   >
+export const UseVerifyUserEmailDocument = gql`
+  mutation useVerifyUserEmail($emailVerifySecret: String!) {
+    verify_user_email(email_verify_secret: $emailVerifySecret) {
+      email
+    }
+  }
+`
+export type UseVerifyUserEmailMutationFn = Apollo.MutationFunction<
+  UseVerifyUserEmailMutation,
+  UseVerifyUserEmailMutationVariables
+>
+export type UseVerifyUserEmailMutationResult =
+  Apollo.MutationResult<UseVerifyUserEmailMutation>
+export type UseVerifyUserEmailMutationOptions = Apollo.BaseMutationOptions<
+  UseVerifyUserEmailMutation,
+  UseVerifyUserEmailMutationVariables
+>

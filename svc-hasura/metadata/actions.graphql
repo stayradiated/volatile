@@ -223,11 +223,10 @@ type ResetUserPasswordOutput {
 
 type SendUserEmailVerifyOutput {
   user_uid: uuid!
-  secret: String!
 }
 
 type VerifyUserEmailOutput {
-  user_uid: uuid!
+  email: String!
 }
 
 type UpdateUserExchangeKeysOutput {

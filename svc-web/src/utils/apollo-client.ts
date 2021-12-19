@@ -49,6 +49,7 @@ const cache = new InMemoryCache({
     },
     kc_dca_order_history: { keyFields: ['uid'] },
     kc_trade: { keyFields: ['uid'] },
+    kc_user: { keyFields: ['uid'] },
     kc_user_device: { keyFields: ['uid'] },
     Query: {
       fields: {

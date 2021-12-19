@@ -1,15 +1,21 @@
 import ReactDOM from 'react-dom'
 
+import { useSession } from '../../src/hooks/use-session'
+
 import { Card } from '../../src/components/retro-ui'
 import { MarketPriceChart } from '../../src/components/market-price-chart'
 import { MarketPriceChartCalc } from '../../src/components/market-price-chart-calc'
 import { Navigation } from '../../src/components/navigation'
 
 import App from '../../src/app'
+import { AuthenticatedRoute } from '../../src/authenticated-route'
 
-const MarketPrice = () => (
+const MarketPrice = () => {
+  const session = useSession()
+
+  return (
   <>
-    <Navigation />
+    <Navigation session={session} />
     <Card width={1000}>
       <MarketPriceChartCalc primaryCurrency="BTC" secondaryCurrency="NZD" />
     </Card>
@@ -21,10 +27,13 @@ const MarketPrice = () => (
     </Card>
   </>
 )
+}
 
 ReactDOM.render(
   <App>
-    <MarketPrice />
+    <AuthenticatedRoute>
+      <MarketPrice />
+    </AuthenticatedRoute>
   </App>,
   document.querySelector('#root'),
 )

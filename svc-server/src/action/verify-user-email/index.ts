@@ -3,14 +3,14 @@ import {
   selectUserEmailVerifyBySecret,
   deleteUserEmailVerify,
 } from '../../model/user-email-verify/index.js'
-import { updateUser } from '../../model/user/index.js'
+import { updateUser, getUserEmail } from '../../model/user/index.js'
 
 type Input = {
   email_verify_secret: string
 }
 
 type Output = {
-  user_uid: string
+  email: string
 }
 
 const verifyUserEmailHandler: ActionHandlerFn<Input, Output> = async (
@@ -39,8 +39,13 @@ const verifyUserEmailHandler: ActionHandlerFn<Input, Output> = async (
     return deleteError
   }
 
+  const email = await getUserEmail(pool, userUID)
+  if (email instanceof Error) {
+    return email
+  }
+
   return {
-    user_uid: userUID,
+    email,
   }
 }
 

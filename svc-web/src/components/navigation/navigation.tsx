@@ -1,17 +1,15 @@
-import { useState, useEffect } from 'react'
-
-import { getSession, Session, GUEST_SESSION } from '../../utils/session-store'
+import { Session } from '../../utils/session-store'
 
 import { Logo } from '../logo'
 import { LogoutButton } from '../logout-button'
 import { Card, Button } from '../retro-ui'
 
-const Navigation = () => {
-  const [session, setSession] = useState<Session>(GUEST_SESSION)
+type Props = {
+  session: Session
+}
 
-  useEffect(() => {
-    setSession(getSession())
-  }, [])
+const Navigation = (props: Props) => {
+  const { session } = props
 
   const isAuthenticatedUser =
     session.role === 'user' && session.expiresAt > new Date()

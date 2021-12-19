@@ -53,7 +53,7 @@ const sendUserPasswordResetHandler: ActionHandlerFn<Input, Output> = async (
   })
   if (sendMailError instanceof Error) {
     return new UnexpectedError({
-      message: 'Could not send password reset link.',
+      message: 'Could not send password reset URL.',
       cause: sendMailError,
       context: { email },
     })

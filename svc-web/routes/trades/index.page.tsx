@@ -3,8 +3,9 @@ import ReactDOM from 'react-dom'
 import { DatePicker } from 'antd'
 import type { Moment } from 'moment'
 
-import { Card } from '../../src/components/retro-ui'
+import { useSession } from '../../src/hooks/use-session'
 
+import { Card } from '../../src/components/retro-ui'
 import { Navigation } from '../../src/components/navigation'
 import { TradeList } from '../../src/components/trade-list/index'
 import { SelectAsset } from '../../src/components/select/asset/index'
@@ -15,6 +16,8 @@ import App from '../../src/app'
 import { AuthenticatedRoute } from '../../src/authenticated-route'
 
 const Trades = () => {
+  const session = useSession()
+
   const [exchange, setExchange] = useState<string | undefined>(undefined)
   const [primaryCurrency, setPrimaryCurrency] = useState<string | undefined>(
     undefined,
@@ -49,7 +52,7 @@ const Trades = () => {
 
   return (
     <>
-      <Navigation />
+      <Navigation session={session} />
       <Card>
         <h1>Trades</h1>
 

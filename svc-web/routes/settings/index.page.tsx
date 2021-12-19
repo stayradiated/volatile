@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import ReactDOM from 'react-dom'
 
+import { useSession } from '../../src/hooks/use-session'
+
 import { Navigation } from '../../src/components/navigation'
 import { UserExchangeKeysFormCreate } from '../../src/components/user-exchange-keys-form-create/index'
 import { UserExchangeKeysFormEdit } from '../../src/components/user-exchange-keys-form-edit/index'
@@ -8,8 +10,11 @@ import { UserExchangeKeysList } from '../../src/components/user-exchange-keys-li
 import { Card } from '../../src/components/retro-ui'
 
 import App from '../../src/app'
+import { AuthenticatedRoute } from '../../src/authenticated-route'
 
 const Settings = () => {
+  const session = useSession()
+
   const [createState, setCreateState] = useState<boolean>(false)
   const [editState, setEditState] = useState<string | undefined>(undefined)
 
@@ -27,7 +32,7 @@ const Settings = () => {
 
   return (
     <>
-      <Navigation />
+      <Navigation session={session} />
       <UserExchangeKeysList onCreate={handleOpenCreate} onEdit={setEditState} />
       {createState && (
         <Card width={400}>
@@ -52,7 +57,9 @@ const Settings = () => {
 
 ReactDOM.render(
   <App>
-    <Settings />
+    <AuthenticatedRoute>
+      <Settings />
+    </AuthenticatedRoute>
   </App>,
   document.querySelector('#root'),
 )
