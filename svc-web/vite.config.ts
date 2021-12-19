@@ -19,6 +19,7 @@ export default defineConfig({
         'reset-password': resolve(__dirname, 'routes/reset-password/index.html'),
         'settings': resolve(__dirname, 'routes/settings/index.html'),
         'trades': resolve(__dirname, 'routes/trades/index.html'),
+        'verify-email': resolve(__dirname, 'routes/verify-email/index.html'),
       }
     }
   },
