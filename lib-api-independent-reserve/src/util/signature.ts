@@ -41,7 +41,7 @@ type CreateSignedBodyOptions = {
   config: Config
   endpoint: string
   parameters: Record<string, undefined | string | number>
-  nonce?: number
+  nonce: number
 }
 
 type SignedBody = {
@@ -52,7 +52,7 @@ type SignedBody = {
 }
 
 const createSignedBody = (options: CreateSignedBodyOptions): SignedBody => {
-  const { config, endpoint, parameters, nonce = Date.now() } = options
+  const { config, endpoint, parameters, nonce } = options
   const { apiKey } = config
 
   const validParameters = filterNullKeys(parameters)

@@ -24,7 +24,6 @@
   },
   "homepage": "https://github.com/stayradiated/volatile#readme",
   "devDependencies": {
-    "@stayradiated/jsconfig": "1.15.0",
     "ava": "3.15.0",
     "del-cli": "4.0.1",
     "eslint-plugin-fp": "2.3.0",

@@ -42,7 +42,6 @@
     "luxon": "2.2.0"
   },
   "devDependencies": {
-    "@stayradiated/jsconfig": "1.15.0",
     "@types/debug": "4.1.7",
     "@types/luxon": "2.0.8",
     "@types/sinon": "10.0.6",

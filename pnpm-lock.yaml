@@ -6,7 +6,6 @@ importers:
     specifiers:
       '@northscaler/better-error': 0.1.0-dev.10
       '@stayradiated/error-boundary': 1.10.0
-      '@stayradiated/jsconfig': 1.15.0
       '@types/debug': 4.1.7
       '@types/node': 17.0.0
       ava: 3.15.0
@@ -31,7 +30,6 @@ importers:
       luxon: 2.2.0
       rambda: 6.9.0
     devDependencies:
-      '@stayradiated/jsconfig': 1.15.0
       '@types/debug': 4.1.7
       '@types/node': 17.0.0
       ava: 3.15.0
@@ -47,7 +45,6 @@ importers:
     specifiers:
       '@northscaler/better-error': 0.1.0-dev.10
       '@stayradiated/error-boundary': 1.10.0
-      '@stayradiated/jsconfig': 1.15.0
       '@types/debug': 4.1.7
       '@types/node': 17.0.0
       ava: 3.15.0
@@ -72,7 +69,6 @@ importers:
       p-limit: 4.0.0
       rambda: 6.9.0
     devDependencies:
-      '@stayradiated/jsconfig': 1.15.0
       '@types/debug': 4.1.7
       '@types/node': 17.0.0
       ava: 3.15.0
@@ -86,7 +82,6 @@ importers:
     specifiers:
       '@northscaler/better-error': 0.1.0-dev.10
       '@stayradiated/error-boundary': 1.10.0
-      '@stayradiated/jsconfig': 1.15.0
       '@types/debug': 4.1.7
       '@types/node': 17.0.0
       '@zwolf/prism': 2.13.0
@@ -108,7 +103,6 @@ importers:
       ky-universal: 0.9.1_ky@0.28.7
       luxon: 2.2.0
     devDependencies:
-      '@stayradiated/jsconfig': 1.15.0
       '@types/debug': 4.1.7
       '@types/node': 17.0.0
       ava: 3.15.0
@@ -120,7 +114,6 @@ importers:
   lib-keyring:
     specifiers:
       '@stayradiated/error-boundary': 1.10.0
-      '@stayradiated/jsconfig': 1.15.0
       ava: 3.15.0
       del-cli: 4.0.1
       eslint-plugin-fp: 2.3.0
@@ -129,7 +122,6 @@ importers:
     dependencies:
       '@stayradiated/error-boundary': 1.10.0
     devDependencies:
-      '@stayradiated/jsconfig': 1.15.0
       ava: 3.15.0
       del-cli: 4.0.1
       eslint-plugin-fp: 2.3.0
@@ -140,7 +132,6 @@ importers:
     specifiers:
       '@northscaler/better-error': 0.1.0-dev.10
       '@stayradiated/error-boundary': 1.10.0
-      '@stayradiated/jsconfig': 1.15.0
       '@types/debug': 4.1.7
       '@types/luxon': 2.0.8
       '@types/sinon': 10.0.6
@@ -168,7 +159,6 @@ importers:
       ky-universal: 0.9.1_ky@0.28.7
       luxon: 2.2.0
     devDependencies:
-      '@stayradiated/jsconfig': 1.15.0
       '@types/debug': 4.1.7
       '@types/luxon': 2.0.8
       '@types/sinon': 10.0.6
@@ -248,7 +238,6 @@ importers:
       '@graphql-codegen/typescript': 2.4.1
       '@graphql-codegen/typescript-operations': 2.2.1
       '@stayradiated/error-boundary': 1.10.0
-      '@stayradiated/jsconfig': 1.15.0
       '@types/luxon': 2.0.8
       '@types/yargs': 17.0.7
       '@vercel/ncc': ^0.33
@@ -277,7 +266,6 @@ importers:
       '@graphql-codegen/near-operation-file-preset': 2.2.2
       '@graphql-codegen/typescript': 2.4.1
       '@graphql-codegen/typescript-operations': 2.2.1
-      '@stayradiated/jsconfig': 1.15.0
       '@types/luxon': 2.0.8
       '@types/yargs': 17.0.7
       '@vercel/ncc': 0.33.1
@@ -297,7 +285,6 @@ importers:
     specifiers:
       '@northscaler/better-error': 0.1.0-dev.10
       '@stayradiated/error-boundary': 1.10.0
-      '@stayradiated/jsconfig': 1.15.0
       '@types/bcrypt': 5.0.0
       '@types/luxon': 2.0.8
       '@types/nodemailer': 6.4.4
@@ -353,7 +340,6 @@ importers:
       stripe: 8.194.0
       zapatos: 5.0.0_4a6675f101f259edcc88d6e4814adc52
     devDependencies:
-      '@stayradiated/jsconfig': 1.15.0
       '@types/bcrypt': 5.0.0
       '@types/luxon': 2.0.8
       '@types/pg': 8.6.2
@@ -2319,16 +2305,6 @@ packages:
       '@northscaler/better-error': 0.1.0-dev.10
     dev: false
 
-  /@stayradiated/jsconfig/1.15.0:
-    resolution: {integrity: sha512-IqcXRXzyvapxOSIRHOgUd5zFgYqwkok/l8Po25ej73OM6nbC9bw2jsezWlPd1u4wTDDHsnVHrY7t+GWKLy9Wyw==}
-    engines: {node: '>=12'}
-    hasBin: true
-    dependencies:
-      rambda: 6.9.0
-      read-pkg-up: 8.0.0
-      write-pkg: 5.0.0
-    dev: true
-
   /@szmarczak/http-timer/1.1.2:
     resolution: {integrity: sha512-XIB2XbzHTN6ieIjfIMV9hlVcfPU26s2vafYWQcZHWXHOxiaRZYEDKEwdl129Zyg50+foYV2jCgtrqSA6qNuNSA==}
     engines: {node: '>=6'}
@@ -3938,11 +3914,6 @@ packages:
   /detect-indent/6.1.0:
     resolution: {integrity: sha512-reYkTUJAZb9gUuZ2RvVCNhVHdg62RHnJ7WJl8ftMi4diZ6NWlciOzQN88pUhSELEwflJht4oQDv0F0BMlwaYtA==}
     engines: {node: '>=8'}
-    dev: true
-
-  /detect-indent/7.0.0:
-    resolution: {integrity: sha512-/6kJlmVv6RDFPqaHC/ZDcU8bblYcoph2dUQ3kB47QqhkUEqXe3VZPELK9BaEMrC73qu+wn0AQ7iSteceN+yuMw==}
-    engines: {node: '>=12.20'}
     dev: true
 
   /detect-libc/1.0.3:
@@ -5805,11 +5776,6 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: true
 
-  /is-plain-obj/4.0.0:
-    resolution: {integrity: sha512-NXRbBtUdBioI73y/HmOhogw/U5msYPC9DAtGkJXeFcFWSFZw0mCUsPxk/snTuJHzNKA8kLBK4rH97RMB1BfCXw==}
-    engines: {node: '>=12'}
-    dev: true
-
   /is-plain-object/5.0.0:
     resolution: {integrity: sha512-VRSzKkbMm5jMDoKLbltAkFQ5Qr7VDiTFGXxYFXXowVj387GeGNOCsOH6Msy00SGZ3Fp84b1Naa1psqgcCIEP5Q==}
     engines: {node: '>=0.10.0'}
@@ -7396,6 +7362,7 @@ packages:
 
   /rambda/6.9.0:
     resolution: {integrity: sha512-yosVdGg1hNGkXPzqGiOYNEpXKjEOxzUCg2rB0l+NKdyCaSf4z+i5ojbN0IqDSezMMf71YEglI+ZUTgTffn5afw==}
+    dev: false
 
   /rc-align/4.0.11_react-dom@17.0.2+react@17.0.2:
     resolution: {integrity: sha512-n9mQfIYQbbNTbefyQnRHZPWuTEwG1rY4a9yKlIWHSTbgwI+XUMGRYd0uJ5pE2UbrNX0WvnMBA1zJ3Lrecpra/A==}
@@ -8558,13 +8525,6 @@ packages:
       flatstr: 1.0.12
     dev: false
 
-  /sort-keys/5.0.0:
-    resolution: {integrity: sha512-Pdz01AvCAottHTPQGzndktFNdbRA75BgOfeT1hH+AMnJFv8lynkPi42rfeEhpx1saTEI3YNMWxfqu0sFD1G8pw==}
-    engines: {node: '>=12'}
-    dependencies:
-      is-plain-obj: 4.0.0
-    dev: true
-
   /source-map-js/1.0.1:
     resolution: {integrity: sha512-4+TN2b3tqOCd/kaGRJ/sTYA0tR0mdXx26ipdolxcwtJVqEnqNYvlCAt1q3ypy4QMlYus+Zh34RNtYLoq2oQ4IA==}
     engines: {node: '>=0.10.0'}
@@ -9345,25 +9305,6 @@ packages:
       is-typedarray: 1.0.0
       signal-exit: 3.0.6
       typedarray-to-buffer: 3.1.5
-    dev: true
-
-  /write-json-file/5.0.0:
-    resolution: {integrity: sha512-ddSsCLa4aQ3kI21BthINo4q905/wfhvQ3JL3774AcRjBaiQmfn5v4rw77jQ7T6CmAit9VOQO+FsLyPkwxoB1fw==}
-    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
-    dependencies:
-      detect-indent: 7.0.0
-      is-plain-obj: 4.0.0
-      sort-keys: 5.0.0
-      write-file-atomic: 3.0.3
-    dev: true
-
-  /write-pkg/5.0.0:
-    resolution: {integrity: sha512-ihflUwZ8WvVcXD2uhk4JAAe5+x9FT+0n4Z5b/OMZXBG8/hXCvSQXTYDf9raox0aqJGWRBipIE4rWSi6aCaiebw==}
-    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
-    dependencies:
-      sort-keys: 5.0.0
-      type-fest: 2.8.0
-      write-json-file: 5.0.0
     dev: true
 
   /ws/7.5.6:

@@ -19,21 +19,21 @@ class NetError extends BetterError {
   }
 }
 
-class APIError extends BetterError {
+class ApiError extends BetterError {
   constructor(arg?: BetterErrorConstructorArg) {
     super(arg)
   }
 }
 
-type APIErrorContext = {
+type ApiErrorContext = {
   Message: string
 }
 
 const getCause = async (error: Error): Promise<Error> => {
   if (error instanceof HTTPError) {
     return errorBoundary(async () => {
-      const context = (await error.response.json()) as APIErrorContext
-      return new APIError({
+      const context = (await error.response.json()) as ApiErrorContext
+      return new ApiError({
         message: context.Message,
         context,
       })
@@ -43,4 +43,4 @@ const getCause = async (error: Error): Promise<Error> => {
   return error
 }
 
-export { ConfigError, NetError, APIError, getCause }
+export { ConfigError, NetError, ApiError, getCause }

@@ -1,7 +1,4 @@
-import {
-  createCachedFetchFn,
-  currencySources,
-} from '@volatile/market-price'
+import { createCachedFetchFn, currencySources } from '@volatile/market-price'
 
 import { OPEN_EXCHANGE_RATES_APP_ID } from '../../env.js'
 

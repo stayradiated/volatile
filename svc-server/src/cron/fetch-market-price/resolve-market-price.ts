@@ -1,7 +1,4 @@
-import {
-  createCachedFetchFn,
-  marketPriceSources,
-} from '@volatile/market-price'
+import { createCachedFetchFn, marketPriceSources } from '@volatile/market-price'
 
 import {
   Market,

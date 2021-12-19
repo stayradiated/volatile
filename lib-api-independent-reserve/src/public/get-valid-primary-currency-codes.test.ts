@@ -1,11 +1,13 @@
 import test from 'ava'
+import { sort } from 'rambda'
 import { throwIfError } from '@stayradiated/error-boundary'
 
 import { getValidPrimaryCurrencyCodes } from './get-valid-primary-currency-codes.js'
 
 test('should get valid primary currency codes', async (t) => {
   const result = await throwIfError<string[]>(getValidPrimaryCurrencyCodes())
-  t.deepEqual(result.sort(), [
+  const sortedResults = sort((a, b) => a.localeCompare(b), result)
+  t.deepEqual(sortedResults, [
     'Aave',
     'Ada',
     'Bat',

@@ -33,7 +33,6 @@
     "rambda": "6.9.0"
   },
   "devDependencies": {
-    "@stayradiated/jsconfig": "1.15.0",
     "@types/debug": "4.1.7",
     "@types/node": "17.0.0",
     "ava": "3.15.0",

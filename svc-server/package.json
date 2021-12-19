@@ -16,7 +16,6 @@
     "start": "NODE_ENV=production node --require 'dotenv/config' ./dist/index.js"
   },
   "devDependencies": {
-    "@stayradiated/jsconfig": "1.15.0",
     "@types/bcrypt": "5.0.0",
     "@types/luxon": "2.0.8",
     "@types/pg": "8.6.2",
