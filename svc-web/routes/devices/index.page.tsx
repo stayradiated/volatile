@@ -1,16 +1,19 @@
 import ReactDOM from 'react-dom'
-import { useState } from 'react'
+import { useState, Suspense, lazy } from 'react'
 
 import { useSession } from '../../src/hooks/use-session'
 
 import { Navigation } from '../../src/components/navigation'
 import { UserDeviceList } from '../../src/components/user-device-list'
-import { UserDeviceFormEdit } from '../../src/components/user-device-form-edit'
 
-import { Card } from '../../src/components/retro-ui'
+import { Card, Spin } from '../../src/components/retro-ui'
 
 import App from '../../src/app'
 import { AuthenticatedRoute } from '../../src/authenticated-route'
+
+const UserDeviceFormEdit = lazy(
+  async () => import('../../src/components/user-device-form-edit'),
+)
 
 const Devices = () => {
   const session = useSession()
@@ -29,13 +32,15 @@ const Devices = () => {
         <UserDeviceList onEdit={setEditState} />
       </Card>
       {typeof editState === 'string' && (
-        <Card width={400}>
-          <UserDeviceFormEdit
-            userDeviceUID={editState}
-            onCancel={handleCloseEdit}
-            onFinish={handleCloseEdit}
-          />
-        </Card>
+        <Suspense fallback={<Spin />}>
+          <Card width={400}>
+            <UserDeviceFormEdit
+              userDeviceUID={editState}
+              onCancel={handleCloseEdit}
+              onFinish={handleCloseEdit}
+            />
+          </Card>
+        </Suspense>
       )}
     </>
   )

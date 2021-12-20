@@ -1,1 +1,1 @@
-export * from './dca-order-history-list'
+export { DCAOrderHistoryList as default } from './dca-order-history-list'

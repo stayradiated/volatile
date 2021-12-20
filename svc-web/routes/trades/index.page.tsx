@@ -1,11 +1,9 @@
 import { useState, useCallback } from 'react'
 import ReactDOM from 'react-dom'
-import { DatePicker } from 'antd'
-import type { Moment } from 'moment'
 
 import { useSession } from '../../src/hooks/use-session'
 
-import { Card } from '../../src/components/retro-ui'
+import { Card, DateInput } from '../../src/components/retro-ui'
 import { Navigation } from '../../src/components/navigation'
 import { TradeList } from '../../src/components/trade-list/index'
 import { SelectAsset } from '../../src/components/select/asset/index'
@@ -26,8 +24,8 @@ const Trades = () => {
     string | undefined
   >(undefined)
 
-  const [startDate, setStartDate] = useState<Moment | null>(null)
-  const [endDate, setEndDate] = useState<Moment | null>(null)
+  const [startDate, setStartDate] = useState<Date | undefined>(undefined)
+  const [endDate, setEndDate] = useState<Date | undefined>(undefined)
 
   const handleChangeExchange = useCallback(
     (option: null | { uid: string | undefined }) => {
@@ -60,8 +58,8 @@ const Trades = () => {
         <SelectAsset onChange={handleChangePrimaryCurrency} />
         <SelectCurrency onChange={handleChangeSecondaryCurrency} />
 
-        <DatePicker value={startDate} onChange={setStartDate} />
-        <DatePicker value={endDate} onChange={setEndDate} />
+        <DateInput value={startDate} onChange={setStartDate} />
+        <DateInput value={endDate} onChange={setEndDate} />
       </Card>
       <Card width={1000}>
         <TradeList

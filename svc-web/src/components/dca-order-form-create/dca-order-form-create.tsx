@@ -1,10 +1,9 @@
 import { useState } from 'react'
 import { gql, useQuery } from '@apollo/client'
 import Select from 'react-select'
-import { DatePicker } from 'antd'
-import { Moment } from 'moment'
+import { startOfToday } from 'date-fns'
 
-import { Spin, Alert, Form, Button, Input } from '../retro-ui'
+import { Spin, Alert, Form, Button, Input, DateInput } from '../retro-ui'
 
 import {
   GetDcaOrderFormCreateQuery as Query,
@@ -62,8 +61,8 @@ type FormState = {
   market: null | Market
   primaryCurrency: null | PrimaryCurrency
   secondaryCurrency: null | SecondaryCurrency
-  startAt: null | Moment
   marketOffset: string
+  startAt: Date
   dailyAverage: string
   minValue: string
   maxValue: string
@@ -89,14 +88,16 @@ const DCAOrderFormCreate = (props: Props) => {
     market: null,
     primaryCurrency: null,
     secondaryCurrency: null,
-    startAt: null,
     marketOffset: '',
+    startAt: startOfToday(),
     dailyAverage: '',
     minValue: '',
     maxValue: '',
   })
 
   const handleFinish = async () => {
+    console.log(state.startAt.toISOString())
+
     if (!state.userExchangeKeys?.uid) {
       throw new Error('No User Exchange Keys')
     }
@@ -216,8 +217,8 @@ const DCAOrderFormCreate = (props: Props) => {
             getOptionValue={(option) => option.uid}
           />
         </Form.Item>
-        <Form.Item name="startAt" label="Start At">
-          <DatePicker />
+        <Form.Item label="Start At" name="startAt">
+          <DateInput />
         </Form.Item>
         <Form.Item name="marketOffset" label="Market Offset">
           <Input required type="number" step="0.01" />

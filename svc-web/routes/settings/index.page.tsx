@@ -1,16 +1,22 @@
-import { useState } from 'react'
 import ReactDOM from 'react-dom'
+import { useState, Suspense, lazy } from 'react'
 
 import { useSession } from '../../src/hooks/use-session'
 
 import { Navigation } from '../../src/components/navigation'
-import { UserExchangeKeysFormCreate } from '../../src/components/user-exchange-keys-form-create/index'
-import { UserExchangeKeysFormEdit } from '../../src/components/user-exchange-keys-form-edit/index'
 import { UserExchangeKeysList } from '../../src/components/user-exchange-keys-list/index'
-import { Card } from '../../src/components/retro-ui'
+
+import { Card, Spin } from '../../src/components/retro-ui'
 
 import App from '../../src/app'
 import { AuthenticatedRoute } from '../../src/authenticated-route'
+
+const UserExchangeKeysFormCreate = lazy(
+  async () => import('../../src/components/user-exchange-keys-form-create'),
+)
+const UserExchangeKeysFormEdit = lazy(
+  async () => import('../../src/components/user-exchange-keys-form-edit'),
+)
 
 const Settings = () => {
   const session = useSession()
@@ -35,21 +41,25 @@ const Settings = () => {
       <Navigation session={session} />
       <UserExchangeKeysList onCreate={handleOpenCreate} onEdit={setEditState} />
       {createState && (
-        <Card width={400}>
-          <UserExchangeKeysFormCreate
-            onFinish={handleCloseCreate}
-            onCancel={handleCloseCreate}
-          />
-        </Card>
+        <Suspense fallback={<Spin />}>
+          <Card width={400}>
+            <UserExchangeKeysFormCreate
+              onFinish={handleCloseCreate}
+              onCancel={handleCloseCreate}
+            />
+          </Card>
+        </Suspense>
       )}
       {typeof editState === 'string' && (
-        <Card width={400}>
-          <UserExchangeKeysFormEdit
-            userExchangeKeysUID={editState}
-            onFinish={handleCloseEdit}
-            onCancel={handleCloseEdit}
-          />
-        </Card>
+        <Suspense fallback={<Spin />}>
+          <Card width={400}>
+            <UserExchangeKeysFormEdit
+              userExchangeKeysUID={editState}
+              onFinish={handleCloseEdit}
+              onCancel={handleCloseEdit}
+            />
+          </Card>
+        </Suspense>
       )}
     </>
   )

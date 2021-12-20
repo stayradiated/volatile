@@ -1,4 +1,3 @@
-import { Descriptions } from 'antd'
 import { differenceInDays } from 'date-fns'
 
 import { formatCurrency } from '../../utils/format'
@@ -17,22 +16,27 @@ const TradeStats = (props: Props) => {
   const dayCount = differenceInDays(maxTimestamp, minTimestamp)
 
   return (
-    <Descriptions bordered>
-      <Descriptions.Item label="Sum Value">
-        ${formatCurrency(sumValue)}
-      </Descriptions.Item>
-      <Descriptions.Item label="Sum Volume">{sumVolume}</Descriptions.Item>
-      <Descriptions.Item label="Sum Fee">
+    <dl>
+      <dt>Sum Value</dt>
+      <dd>${formatCurrency(sumValue)}</dd>
+
+      <dt>Sum Volume</dt>
+      <dd>{sumVolume}</dd>
+
+      <dt>Sum Fee</dt>
+      <dd>
         ${formatCurrency(sumFee)} ({((sumFee / sumValue) * 100).toFixed(2)}%)
-      </Descriptions.Item>
-      <Descriptions.Item label="Avg Price">
-        ${formatCurrency(sumValue / sumVolume)}
-      </Descriptions.Item>
-      <Descriptions.Item label="Days">{dayCount}</Descriptions.Item>
-      <Descriptions.Item label="Avg Value">
-        ${formatCurrency(sumValue / dayCount)}
-      </Descriptions.Item>
-    </Descriptions>
+      </dd>
+
+      <dt>Avg Price</dt>
+      <dd>${formatCurrency(sumValue / sumVolume)}</dd>
+
+      <dt>Days</dt>
+      <dd>{dayCount}</dd>
+
+      <dt>Avg Value</dt>
+      <dd>${formatCurrency(sumValue / dayCount)}</dd>
+    </dl>
   )
 }
 

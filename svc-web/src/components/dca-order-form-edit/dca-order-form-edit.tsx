@@ -1,11 +1,9 @@
 import Select from 'react-select'
-import moment, { Moment } from 'moment'
-import { DatePicker } from 'antd'
 import { gql, useQuery } from '@apollo/client'
-import { parseISO } from 'date-fns'
+import { startOfToday, parseISO } from 'date-fns'
 import { useState, useEffect } from 'react'
 
-import { Alert, Spin, Form, Input, Button } from '../retro-ui/index'
+import { Alert, Spin, Form, Input, DateInput, Button } from '../retro-ui/index'
 
 import {
   GetDcaOrderFormEditQuery as Query,
@@ -64,8 +62,8 @@ type Market = Query['kc_market'][0]
 type FormState = {
   userExchangeKeys: null | UserExchangeKeys
   market: null | Market
-  startAt: null | Moment
   marketOffset: string
+  startAt: Date
   dailyAverage: string
   minValue: string
   maxValue: string
@@ -94,14 +92,16 @@ const DCAOrderFormEdit = (props: Props) => {
   const [state, setState] = useState<FormState>({
     userExchangeKeys: null,
     market: null,
-    startAt: null,
     minValue: '',
     maxValue: '',
+    startAt: startOfToday(),
     dailyAverage: '',
     marketOffset: '',
   })
 
   const handleFinish = async () => {
+    console.log(state)
+
     if (!order?.uid) {
       throw new Error('No DCA Order UID')
     }
@@ -165,9 +165,9 @@ const DCAOrderFormEdit = (props: Props) => {
           ) ?? null,
         market:
           marketOptions.find((item) => item.uid === order.market_uid) ?? null,
-        startAt: moment(parseISO(order.start_at)),
         minValue: String(order.min_value) ?? '',
         maxValue: String(order.max_value) ?? '',
+        startAt: parseISO(order.start_at),
         dailyAverage: String(order.daily_average) ?? '',
         marketOffset: String(order.market_offset) ?? '',
       })
@@ -221,7 +221,7 @@ const DCAOrderFormEdit = (props: Props) => {
           />
         </Form.Item>
         <Form.Item label="Start Date" name="startAt">
-          <DatePicker />
+          <DateInput />
         </Form.Item>
         <Form.Item label="Market Offset" name="marketOffset">
           <Input type="number" step="0.01" />

@@ -13,14 +13,14 @@ const OpenOrders = () => {
   const session = useSession()
 
   return (
-  <>
-    <Navigation session={session} />
-    <Card width={1000}>
-      <h2>Open Orders</h2>
-      <OpenOrderList />
-    </Card>
-  </>
-)
+    <>
+      <Navigation session={session} />
+      <Card width={1000}>
+        <h2>Open Orders</h2>
+        <OpenOrderList />
+      </Card>
+    </>
+  )
 }
 
 ReactDOM.render(

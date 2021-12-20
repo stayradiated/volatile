@@ -3,7 +3,7 @@ import { ApolloProvider } from '@apollo/client'
 
 import { client } from './utils/apollo-client'
 
-import 'antd/dist/antd.css'
+import 'react-day-picker/style.css'
 import './global.css'
 
 type Props = {

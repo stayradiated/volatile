@@ -1,11 +1,13 @@
-import { Alert, Table, TableColumnsType, TablePaginationConfig } from 'antd'
 import { gql, useQuery } from '@apollo/client'
 import { parseISO, formatISO, format } from 'date-fns'
+import { useTable, Column } from 'react-table'
 
 import {
   GetTradeListQuery,
   GetTradeListQueryVariables,
 } from '../../utils/graphql'
+
+import { Alert, Table } from '../retro-ui'
 
 import { formatCurrency } from '../../utils/format'
 import { TradeChart } from './chart'
@@ -61,50 +63,47 @@ const QUERY = gql`
   }
 `
 
-const columns: TableColumnsType<Trade> = [
+const columns: Array<Column<Trade>> = [
   {
-    title: 'Timestamp',
-    dataIndex: 'timestamp',
-    render: (timestamp) => format(parseISO(timestamp), 'PPpp'),
+    Header: 'Timestamp',
+    accessor: 'timestamp',
+    Cell: ({ value }) => format(parseISO(value), 'PPpp'),
   },
   {
-    title: 'Exchange',
-    dataIndex: ['exchange', 'id'],
+    Header: 'Exchange',
+    accessor: (row) => row.exchange.id,
   },
   {
-    title: 'Volume',
-    dataIndex: 'volume',
-    render: (volume) => volume.toFixed(8),
-    align: 'right',
+    Header: 'Volume',
+    accessor: 'volume',
+    Cell: ({ value }) => value.toFixed(8),
   },
   {
-    title: 'Asset',
-    dataIndex: 'primary_currency',
+    Header: 'Asset',
+    accessor: 'primary_currency',
   },
   {
-    title: 'Type',
-    dataIndex: 'type',
+    Header: 'Type',
+    accessor: 'type',
   },
   {
-    title: 'Price',
-    dataIndex: 'price',
-    render: (price) => '$' + formatCurrency(price),
-    align: 'right',
+    Header: 'Price',
+    accessor: 'price',
+    Cell: ({ value }) => '$' + formatCurrency(value),
   },
   {
-    title: 'Currency',
-    dataIndex: 'secondary_currency',
+    Header: 'Currency',
+    accessor: 'secondary_currency',
   },
   {
-    title: 'Total Value',
-    dataIndex: 'total_value',
-    render: (total) => '$' + formatCurrency(total),
-    align: 'right',
+    Header: 'Total Value',
+    accessor: 'total_value',
+    Cell: ({ value }) => '$' + formatCurrency(value),
   },
   {
-    title: 'Fee',
-    dataIndex: 'fee',
-    render: (fee) => '$' + formatCurrency(fee),
+    Header: 'Fee',
+    accessor: 'fee',
+    Cell: ({ value }) => '$' + formatCurrency(value),
   },
 ]
 
@@ -125,7 +124,7 @@ const TradeList = (props: TradeListProps) => {
     secondaryCurrency,
   } = props
 
-  const { data, error, loading, fetchMore } = useQuery<
+  const { data, error } = useQuery<
     GetTradeListQuery,
     GetTradeListQueryVariables
   >(QUERY, {
@@ -147,17 +146,15 @@ const TradeList = (props: TradeListProps) => {
     },
   })
 
-  const handleChange = (event: TablePaginationConfig) => {
-    const { current = 1, pageSize = 100 } = event
-    const offset = (current - 1) * pageSize
-    fetchMore({ variables: { offset } }).then(console.log)
-  }
+  const table = useTable<Trade>({
+    columns,
+    data: data?.kc_trade ?? [],
+  })
 
   if (error) {
     return <Alert message={error.message} type="error" />
   }
 
-  const total = data?.kc_trade_aggregate?.aggregate?.count ?? 0
   const agg = data?.kc_trade_aggregate?.aggregate
 
   return (
@@ -180,18 +177,8 @@ const TradeList = (props: TradeListProps) => {
         maxTimestamp={parseISO(agg?.max?.timestamp ?? formatISO(new Date()))}
       />
       <TradeChart data={data?.kc_trade ?? []} />
-      <Table
-        rowKey="uid"
-        columns={columns}
-        dataSource={data?.kc_trade ?? []}
-        loading={loading}
-        pagination={{
-          total,
-          pageSize: 50,
-          showSizeChanger: false,
-        }}
-        onChange={handleChange}
-      />
+
+      <Table table={table} />
     </>
   )
 }
