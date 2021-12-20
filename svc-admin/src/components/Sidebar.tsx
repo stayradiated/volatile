@@ -12,7 +12,7 @@ const Sidebar = () => {
     fetchMetadata(session, 'export_metadata', {}),
   )
 
-  if (error) return <div>failed to load</div>
+  if (error) return <div>{error.message}</div>
   if (!data) return <div>loading...</div>
 
   const cronTriggers = data.cron_triggers
@@ -38,6 +38,7 @@ const Sidebar = () => {
       ))}
 
       <a href="/admin/exchange/">Manage Exchanges</a>
+      <a href="/admin/user/">Manage Users</a>
     </div>
   )
 }

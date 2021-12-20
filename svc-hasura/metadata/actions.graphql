@@ -56,6 +56,12 @@ type Mutation {
   ): EnableUser2FAOutput
 }
 
+type Query {
+  query_user_email(
+    user_uid: uuid!
+  ): QueryUserEmailOutput
+}
+
 type Mutation {
   refresh_auth_token: RefreshAuthTokenOutput
 }
@@ -137,6 +143,10 @@ type Mutation {
 input SampleInput {
   username: String!
   password: String!
+}
+
+input QueryUserEmailInput {
+  user_uid: uuid!
 }
 
 type SampleOutput {
@@ -251,5 +261,10 @@ type RefreshAuthTokenOutput {
 type ValidatUserPasswordResetOutput {
   is_valid: Boolean!
   email: String
+}
+
+type QueryUserEmailOutput {
+  user_uid: uuid!
+  email: String!
 }
 

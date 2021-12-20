@@ -1,6 +1,7 @@
 import * as db from 'zapatos/db'
 import { errorBoundary } from '@stayradiated/error-boundary'
 
+import { DBError } from '../../util/error.js'
 import { keyring } from '../../util/keyring.js'
 
 import type { Pool } from '../../types.js'
@@ -19,7 +20,11 @@ const getUserEmail = async (
       .run(pool),
   )
   if (row instanceof Error) {
-    return row
+    return new DBError({
+      message: 'Could not get user email',
+      cause: row,
+      context: { userUID },
+    })
   }
 
   const email = keyring.decrypt(row.email_encrypted, row.email_keyring_id)

@@ -16,6 +16,12 @@ const fetchMetadata = async (
     },
     body: JSON.stringify({ type, args }),
   })
+
+  if (response.status >= 400) {
+    const body = await response.json()
+    throw new Error(body.error)
+  }
+
   return response.json()
 }
 

@@ -2,7 +2,7 @@ import { randomBytes } from 'crypto'
 import { promisify } from 'util'
 import { errorBoundary } from '@stayradiated/error-boundary'
 
-import { encodeBase64URL } from '../../util/base64-url'
+import { encodeBase64URL } from '../../util/base64-url.js'
 
 const randomBytesAsync = promisify(randomBytes)
 

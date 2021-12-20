@@ -13,16 +13,17 @@ export default defineConfig({
         'main': resolve(__dirname, 'routes/index.html'),
         'event': resolve(__dirname, 'routes/event/index.html'),
         'exchange': resolve(__dirname, 'routes/exchange/index.html'),
+        'user': resolve(__dirname, 'routes/user/index.html'),
       }
     }
   },
   server: {
     proxy: {
       '/hasura': {
-        // target: 'http://localhost:7947',
-        target: 'http://103.18.59.78:7949/',
+        // target: 'https://volatile.co.nz/',
+        target: 'http://localhost:9999',
+        rewrite: (path) => path.replace(/^\/hasura/, ''),
         changeOrigin: true,
-        // rewrite: (path) => path.replace(/^\/hasura/, ''),
         secure: false
       }
     }

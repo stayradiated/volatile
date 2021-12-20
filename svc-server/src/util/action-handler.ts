@@ -58,7 +58,7 @@ const parseSessionVariables = (
   }
 
   const userUID = input['x-hasura-user-id']
-  if (role !== SessionRole.GUEST && !userUID) {
+  if (role === SessionRole.USER && !userUID) {
     return new IllegalArgumentError({
       message: 'session_variables is missing x-hasura-user-uid.',
     })

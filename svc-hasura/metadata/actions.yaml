@@ -64,6 +64,13 @@ actions:
       value_from_env: HASURA_ACTIONS_SECRET
   permissions:
   - role: user
+- name: query_user_email
+  definition:
+    kind: ""
+    handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/query_user_email'
+    headers:
+    - name: x-hasura-actions-secret
+      value_from_env: HASURA_ACTIONS_SECRET
 - name: refresh_auth_token
   definition:
     kind: synchronous
@@ -180,6 +187,7 @@ custom_types:
   enums: []
   input_objects:
   - name: SampleInput
+  - name: QueryUserEmailInput
   objects:
   - name: SampleOutput
   - name: CreateUserOutput
@@ -306,4 +314,5 @@ custom_types:
       field_mapping:
         user_uid: uid
   - name: ValidatUserPasswordResetOutput
+  - name: QueryUserEmailOutput
   scalars: []
