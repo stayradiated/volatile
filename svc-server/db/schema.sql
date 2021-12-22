@@ -132,6 +132,18 @@ CREATE TABLE kc.currency (
 
 
 --
+-- Name: currency_fx; Type: TABLE; Schema: kc; Owner: -
+--
+
+CREATE TABLE kc.currency_fx (
+    "timestamp" timestamp with time zone NOT NULL,
+    from_symbol text NOT NULL,
+    to_symbol text NOT NULL,
+    fx_rate numeric(12,6) NOT NULL
+);
+
+
+--
 -- Name: customer; Type: TABLE; Schema: kc; Owner: -
 --
 
@@ -466,6 +478,14 @@ CREATE TABLE kc.user_password_reset (
 
 ALTER TABLE ONLY kc.currency
     ADD CONSTRAINT asset_pkey PRIMARY KEY (symbol);
+
+
+--
+-- Name: currency_fx currency_fx_pkey; Type: CONSTRAINT; Schema: kc; Owner: -
+--
+
+ALTER TABLE ONLY kc.currency_fx
+    ADD CONSTRAINT currency_fx_pkey PRIMARY KEY ("timestamp", from_symbol, to_symbol);
 
 
 --
@@ -951,4 +971,5 @@ INSERT INTO kc.schema_migrations (version) VALUES
     ('20211208061245'),
     ('20211210060725'),
     ('20211210070506'),
-    ('20211211123516');
+    ('20211211123516'),
+    ('20211222165111');

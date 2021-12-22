@@ -1,33 +1,10 @@
 import { inspect } from 'util'
-import ky from 'ky-universal'
-import debug from 'debug'
 import { DateTime, Duration } from 'luxon'
-import { errorBoundary } from '@stayradiated/error-boundary'
-
-import { createDebugHooks } from '../util/hooks.js'
+import { latest as getLatestExchangeRate, Config as OpenExchangeRatesConfig } from '@volatile/open-exchange-rates-api'
 import { MarketPriceSource } from '../util/market-price-source.js'
-
-const log = debug('market-price:open-exchange-rates')
-
-const openExchangeRates = ky.create({
-  prefixUrl: 'https://openexchangerates.org/api/',
-  hooks: createDebugHooks(log),
-})
-
-type OpenExchangeRatesConfig = {
-  appId: string
-}
 
 type Options = {
   config: OpenExchangeRatesConfig
-}
-
-type APIResponse = {
-  disclaimer: string
-  license: string
-  timestamp: number
-  base: string
-  rates: Record<string, number>
 }
 
 type CreateMarketSourceForCurrencyOptions = {
@@ -42,22 +19,14 @@ const createMarketSourceForCurrency = (
 
   const marketSource: MarketPriceSource<Options> = {
     minCacheDuration: Duration.fromISOTime('01:15:00', {}),
-    fetch: async (options) => {
-      const { config } = options
-      const { appId } = config
+    fetch: async (fetchOptions) => {
+      const { config } = fetchOptions
 
-      const response = await errorBoundary<APIResponse>(async () =>
-        openExchangeRates
-          .get('latest.json', {
-            searchParams: {
-              app_id: appId,
-              base,
-              symbols: symbol,
-              t: Date.now(),
-            },
-          })
-          .json(),
-      )
+      const response = await getLatestExchangeRate({
+        config, 
+        base,
+        symbols: [symbol],
+      })
       if (response instanceof Error) {
         return response
       }

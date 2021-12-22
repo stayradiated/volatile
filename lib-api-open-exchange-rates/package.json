@@ -1,8 +1,8 @@
 {
   "private": true,
-  "name": "@volatile/independent-reserve-api",
-  "version": "1.0.1",
-  "description": "A minimal independentreserve.com API client",
+  "name": "@volatile/open-exchange-rates-api",
+  "version": "1.0.0",
+  "description": "A minimal openexchangerates.org API client",
   "type": "module",
   "exports": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -11,7 +11,7 @@
     "url": "git+https://github.com/stayradiated/volatile.git"
   },
   "keywords": [
-    "independentreserve.com",
+    "openexchangerates.org",
     "api"
   ],
   "author": {
@@ -26,11 +26,10 @@
   "dependencies": {
     "@northscaler/better-error": "0.1.0-dev.10",
     "@stayradiated/error-boundary": "1.10.0",
+    "date-fns": "2.27.0",
     "debug": "4.3.3",
     "ky": "0.28.7",
-    "ky-universal": "0.9.1",
-    "p-limit": "4.0.0",
-    "rambda": "6.9.0"
+    "ky-universal": "0.9.1"
   },
   "devDependencies": {
     "@types/debug": "4.1.7",

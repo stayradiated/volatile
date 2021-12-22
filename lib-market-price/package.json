@@ -32,10 +32,11 @@
   "homepage": "https://github.com/stayradiated/volatile#readme",
   "dependencies": {
     "@northscaler/better-error": "0.1.0-dev.10",
-    "@volatile/dasset-api": "workspace:1.0.1",
     "@stayradiated/error-boundary": "1.10.0",
+    "@volatile/dasset-api": "workspace:1.0.1",
     "@volatile/independent-reserve-api": "workspace:1.0.1",
     "@volatile/kiwi-coin-api": "workspace:1.0.1",
+    "@volatile/open-exchange-rates-api": "workspace:1.0.0",
     "debug": "4.3.3",
     "ky": "0.28.7",
     "ky-universal": "0.9.1",
