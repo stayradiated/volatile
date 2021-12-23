@@ -1,14 +1,15 @@
 table:
-  name: trade_sum_total_value_by_month
+  name: type_trade_sum_by_window
   schema: kc
 select_permissions:
 - permission:
     columns:
     - user_uid
-    - month
+    - timestamp
     - primary_currency
-    - secondary_currency
-    - sum
+    - volume
+    - value
+    - total_value
     filter:
       user_uid:
         _eq: X-Hasura-User-Id

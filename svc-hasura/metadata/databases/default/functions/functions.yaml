@@ -1,1 +1,3 @@
 - "!include kc_market_price_latest.yaml"
+- "!include kc_trade_avg_price_by_window.yaml"
+- "!include kc_trade_sum_by_window.yaml"

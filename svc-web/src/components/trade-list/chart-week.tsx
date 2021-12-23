@@ -35,33 +35,34 @@ const formatUnixTimeAsDateTime = formatUnixTime('PPpp')
 
 const QUERY = gql`
   query getTradeSumValueByWeek(
-    $filters: kc_trade_sum_total_value_by_week_bool_exp
+    $filters: kc_type_trade_sum_by_window_bool_exp
   ) {
-    kc_trade_sum_total_value_by_week(where: $filters) {
-      week
-      sum
+    kc_trade_sum_by_window(
+      args: {
+        group_by: "day",
+        currency: "NZD",
+      }
+      where: $filters
+    ) {
+      timestamp
       primary_currency
-      secondary_currency
+      total_value
     }
   }
 `
 
 type Props = {
   primaryCurrency?: string
-  secondaryCurrency?: string
 }
 
 const ChartWeek = (props: Props) => {
-  const { primaryCurrency, secondaryCurrency } = props
+  const { primaryCurrency } = props
 
   const { data, error, loading } = useQuery<Query, QueryVariables>(QUERY, {
     variables: {
       filters: {
         primary_currency: {
           _eq: primaryCurrency,
-        },
-        secondary_currency: {
-          _eq: secondaryCurrency,
         },
       },
     },
@@ -76,13 +77,13 @@ const ChartWeek = (props: Props) => {
   }
 
   const chartData = [
-    ...[...data!.kc_trade_sum_total_value_by_week]
+    ...[...data!.kc_trade_sum_by_window]
       .map((row) => {
-        const key = `${row.primary_currency}-${row.secondary_currency}`
+        const key = `${row.primary_currency}-NZD`
         return {
-          index: getTime(parseISO(row.week!)),
+          index: getTime(parseISO(row.timestamp!)),
           key,
-          value: row.sum,
+          value: row.total_value,
         }
       })
       .reduce<Map<number, Record<string, number>>>((acc, row) => {
@@ -115,10 +116,6 @@ const ChartWeek = (props: Props) => {
         />
         <Legend />
         <Bar dataKey="sum" fill="#8884d8" />
-        {/* <Bar dataKey="BTC-NZD" fill="#8884d8" /> */}
-        {/* <Bar dataKey="BTC-AUD" fill="#8884d8" /> */}
-        {/* <Bar dataKey="ETH-NZD" fill="#82ca9d" /> */}
-        {/* <Bar dataKey="ETH-AUD" fill="#82ca9d" /> */}
       </BarChart>
     </ResponsiveContainer>
   )

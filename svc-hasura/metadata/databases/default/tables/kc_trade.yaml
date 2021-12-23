@@ -14,24 +14,24 @@ object_relationships:
 computed_fields:
 - definition:
     function:
-      name: trade_fee_nzd
+      name: trade_fee_fx
       schema: kc
-  name: fee_nzd
+  name: fee_fx
 - definition:
     function:
-      name: trade_price_nzd
+      name: trade_price_fx
       schema: kc
-  name: price_nzd
+  name: price_fx
 - definition:
     function:
-      name: trade_total_value_nzd
+      name: trade_total_value_fx
       schema: kc
-  name: total_value_nzd
+  name: total_value_fx
 - definition:
     function:
-      name: trade_value_nzd
+      name: trade_value_fx
       schema: kc
-  name: value_nzd
+  name: value_fx
 select_permissions:
 - permission:
     allow_aggregations: true
@@ -53,9 +53,10 @@ select_permissions:
     - value
     - volume
     computed_fields:
-    - price_nzd
-    - total_value_nzd
-    - value_nzd
+    - price_fx
+    - total_value_fx
+    - value_fx
+    - fee_fx
     filter:
       user_uid:
         _eq: X-Hasura-User-Id

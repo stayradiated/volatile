@@ -74,6 +74,35 @@ $$;
 
 
 --
+-- Name: currency_fx; Type: TABLE; Schema: kc; Owner: -
+--
+
+CREATE TABLE kc.currency_fx (
+    "timestamp" timestamp with time zone NOT NULL,
+    from_symbol text NOT NULL,
+    to_symbol text NOT NULL,
+    fx_rate numeric(12,6) NOT NULL
+);
+
+
+--
+-- Name: get_currency_fx_rate(timestamp with time zone, text, text); Type: FUNCTION; Schema: kc; Owner: -
+--
+
+CREATE FUNCTION kc.get_currency_fx_rate(_timestamp timestamp with time zone, _from_symbol text, _to_symbol text) RETURNS kc.currency_fx
+    LANGUAGE sql STABLE
+    AS $$
+  SELECT *
+  FROM currency_fx
+  WHERE
+    currency_fx.from_symbol = _from_symbol
+    AND currency_fx.to_symbol = _to_symbol
+  ORDER BY _timestamp <-> currency_fx.timestamp
+  LIMIT 1;
+$$;
+
+
+--
 -- Name: market_price; Type: TABLE; Schema: kc; Owner: -
 --
 
@@ -120,6 +149,222 @@ $$;
 
 
 --
+-- Name: type_trade_avg_price_by_window; Type: TABLE; Schema: kc; Owner: -
+--
+
+CREATE TABLE kc.type_trade_avg_price_by_window (
+    user_uid uuid,
+    "timestamp" timestamp with time zone,
+    primary_currency text,
+    price numeric(12,2),
+    volume numeric(16,8),
+    total_value numeric(12,2),
+    avg_price numeric(12,2)
+);
+
+
+--
+-- Name: trade_avg_price_by_window(text, text); Type: FUNCTION; Schema: kc; Owner: -
+--
+
+CREATE FUNCTION kc.trade_avg_price_by_window(group_by text, currency text) RETURNS SETOF kc.type_trade_avg_price_by_window
+    LANGUAGE sql STABLE
+    AS $$
+  SELECT
+    *,
+    round(total_value / volume, 2) as avg_price
+  FROM (
+    SELECT
+      user_uid,
+      timestamp,
+      primary_currency,
+      price,
+      sum(volume) OVER (
+        PARTITION BY user_uid,
+        primary_currency
+        ORDER BY timestamp
+      ) AS volume,
+      sum(total_value) OVER (
+        PARTITION BY user_uid,
+        primary_currency
+        ORDER BY timestamp
+      ) AS total_value
+    FROM (
+      SELECT
+        user_uid,
+        date_trunc(group_by, timestamp) AS timestamp,
+        primary_currency,
+        sum(total_value) as total_value,
+        sum(volume) as volume,
+        round((sum(total_value) / sum(volume)), 2) as price
+      FROM trade_fx(currency)
+      WHERE type = 'BUY'
+      GROUP BY user_uid, date_trunc(group_by, timestamp), primary_currency
+    ) AS source1
+  ) as source2
+  ORDER BY timestamp desc;
+$$;
+
+
+--
+-- Name: trade; Type: TABLE; Schema: kc; Owner: -
+--
+
+CREATE TABLE kc.trade (
+    uid uuid NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL,
+    "timestamp" timestamp with time zone NOT NULL,
+    user_uid uuid NOT NULL,
+    exchange_uid uuid NOT NULL,
+    order_uid uuid,
+    trade_id character varying NOT NULL,
+    type character varying(4) NOT NULL,
+    primary_currency character varying NOT NULL,
+    volume numeric(16,8) NOT NULL,
+    price numeric(12,2) NOT NULL,
+    value numeric(12,2) NOT NULL,
+    fee numeric(12,4) NOT NULL,
+    secondary_currency text NOT NULL,
+    total_value numeric(12,2) NOT NULL
+);
+
+
+--
+-- Name: trade_fee_fx(kc.trade, text); Type: FUNCTION; Schema: kc; Owner: -
+--
+
+CREATE FUNCTION kc.trade_fee_fx(self kc.trade, currency text) RETURNS numeric
+    LANGUAGE sql STABLE
+    AS $$
+  SELECT
+    CASE
+      WHEN self.secondary_currency = currency THEN self.fee
+      ELSE (
+        SELECT ROUND(fx_rate * self.fee, 4)
+        FROM get_currency_fx_rate(self.timestamp, self.secondary_currency, currency)
+      )
+    END;
+$$;
+
+
+--
+-- Name: trade_fx(text); Type: FUNCTION; Schema: kc; Owner: -
+--
+
+CREATE FUNCTION kc.trade_fx(currency text) RETURNS SETOF kc.trade
+    LANGUAGE sql STABLE
+    AS $$
+  SELECT
+    user_uid,
+    created_at,
+    updated_at,
+    timestamp,
+    user_uid,
+    exchange_uid,
+    order_uid,
+    trade_id,
+    type,
+    primary_currency,
+    volume,
+    trade_price_fx(trade, currency) as price,
+    trade_value_fx(trade, currency) as value,
+    trade_fee_fx(trade, currency) as fee,
+    secondary_currency,
+    trade_total_value_fx(trade, currency) as total_value
+  FROM kc.trade
+$$;
+
+
+--
+-- Name: trade_price_fx(kc.trade, text); Type: FUNCTION; Schema: kc; Owner: -
+--
+
+CREATE FUNCTION kc.trade_price_fx(self kc.trade, currency text) RETURNS numeric
+    LANGUAGE sql STABLE
+    AS $$
+  SELECT
+    CASE
+      WHEN self.secondary_currency = currency THEN self.price
+      ELSE (
+        SELECT ROUND(fx_rate * self.price, 2)
+        FROM get_currency_fx_rate(self.timestamp, self.secondary_currency, currency)
+      )
+    END;
+$$;
+
+
+--
+-- Name: type_trade_sum_by_window; Type: TABLE; Schema: kc; Owner: -
+--
+
+CREATE TABLE kc.type_trade_sum_by_window (
+    user_uid uuid,
+    "timestamp" timestamp with time zone,
+    primary_currency text,
+    volume numeric(16,8),
+    value numeric(12,2),
+    total_value numeric(12,2)
+);
+
+
+--
+-- Name: trade_sum_by_window(text, text); Type: FUNCTION; Schema: kc; Owner: -
+--
+
+CREATE FUNCTION kc.trade_sum_by_window(group_by text, currency text) RETURNS SETOF kc.type_trade_sum_by_window
+    LANGUAGE sql STABLE
+    AS $$
+  SELECT
+    user_uid,
+    date_trunc(group_by, timestamp) AS timestamp,
+    primary_currency,
+    sum(volume) as volume,
+    sum(value) as value,
+    sum(total_value) as total_value
+  FROM trade_fx(currency)
+  GROUP BY user_uid, date_trunc(group_by, timestamp), primary_currency
+  ORDER BY date_trunc(group_by, timestamp) desc;
+$$;
+
+
+--
+-- Name: trade_total_value_fx(kc.trade, text); Type: FUNCTION; Schema: kc; Owner: -
+--
+
+CREATE FUNCTION kc.trade_total_value_fx(self kc.trade, currency text) RETURNS numeric
+    LANGUAGE sql STABLE
+    AS $$
+  SELECT
+    CASE
+      WHEN self.secondary_currency = currency THEN self.total_value
+      ELSE (
+        SELECT ROUND(fx_rate * self.total_value, 2)
+        FROM get_currency_fx_rate(self.timestamp, self.secondary_currency, currency)
+      )
+    END;
+$$;
+
+
+--
+-- Name: trade_value_fx(kc.trade, text); Type: FUNCTION; Schema: kc; Owner: -
+--
+
+CREATE FUNCTION kc.trade_value_fx(self kc.trade, currency text) RETURNS numeric
+    LANGUAGE sql STABLE
+    AS $$
+  SELECT
+    CASE
+      WHEN self.secondary_currency = currency THEN self.value
+      ELSE (
+        SELECT ROUND(FX_RATE * self.value, 2)
+        FROM get_currency_fx_rate(self.timestamp, self.secondary_currency, currency)
+      )
+    END;
+$$;
+
+
+--
 -- Name: currency; Type: TABLE; Schema: kc; Owner: -
 --
 
@@ -128,18 +373,6 @@ CREATE TABLE kc.currency (
     created_at timestamp with time zone NOT NULL,
     updated_at timestamp with time zone NOT NULL,
     name text NOT NULL
-);
-
-
---
--- Name: currency_fx; Type: TABLE; Schema: kc; Owner: -
---
-
-CREATE TABLE kc.currency_fx (
-    "timestamp" timestamp with time zone NOT NULL,
-    from_symbol text NOT NULL,
-    to_symbol text NOT NULL,
-    fx_rate numeric(12,6) NOT NULL
 );
 
 
@@ -257,127 +490,6 @@ CREATE TABLE kc."order" (
 CREATE TABLE kc.schema_migrations (
     version character varying(255) NOT NULL
 );
-
-
---
--- Name: trade; Type: TABLE; Schema: kc; Owner: -
---
-
-CREATE TABLE kc.trade (
-    uid uuid NOT NULL,
-    created_at timestamp with time zone NOT NULL,
-    updated_at timestamp with time zone NOT NULL,
-    "timestamp" timestamp with time zone NOT NULL,
-    user_uid uuid NOT NULL,
-    exchange_uid uuid NOT NULL,
-    order_uid uuid,
-    trade_id character varying NOT NULL,
-    type character varying(4) NOT NULL,
-    primary_currency character varying NOT NULL,
-    volume numeric(16,8) NOT NULL,
-    price numeric(12,2) NOT NULL,
-    value numeric(12,2) NOT NULL,
-    fee numeric(12,4) NOT NULL,
-    secondary_currency text NOT NULL,
-    total_value numeric(12,2) NOT NULL
-);
-
-
---
--- Name: trade_avg_price_by_day; Type: VIEW; Schema: kc; Owner: -
---
-
-CREATE VIEW kc.trade_avg_price_by_day AS
- SELECT source2.user_uid,
-    source2.day,
-    source2.primary_currency,
-    source2.secondary_currency,
-    source2.total_value,
-    source2.volume,
-    source2.price,
-    source2.sum_volume,
-    source2.sum_total_value,
-    round((source2.sum_total_value / source2.sum_volume), 2) AS avg_price
-   FROM ( SELECT source1.user_uid,
-            source1.day,
-            source1.primary_currency,
-            source1.secondary_currency,
-            source1.total_value,
-            source1.volume,
-            source1.price,
-            sum(source1.volume) OVER (PARTITION BY source1.user_uid, source1.primary_currency, source1.secondary_currency ORDER BY source1.day) AS sum_volume,
-            sum(source1.total_value) OVER (PARTITION BY source1.user_uid, source1.primary_currency, source1.secondary_currency ORDER BY source1.day) AS sum_total_value
-           FROM ( SELECT trade.user_uid,
-                    date_trunc('day'::text, trade."timestamp") AS day,
-                    trade.primary_currency,
-                    trade.secondary_currency,
-                    sum(trade.total_value) AS total_value,
-                    sum(trade.volume) AS volume,
-                    round(avg(trade.price), 2) AS price
-                   FROM kc.trade
-                  WHERE ((trade.type)::text = 'BUY'::text)
-                  GROUP BY trade.user_uid, (date_trunc('day'::text, trade."timestamp")), trade.primary_currency, trade.secondary_currency) source1) source2
-  ORDER BY source2.day DESC;
-
-
---
--- Name: trade_sum_total_value_by_month; Type: VIEW; Schema: kc; Owner: -
---
-
-CREATE VIEW kc.trade_sum_total_value_by_month AS
- SELECT trade.user_uid,
-    date_trunc('month'::text, trade."timestamp") AS month,
-    trade.primary_currency,
-    trade.secondary_currency,
-    sum(trade.total_value) AS sum
-   FROM kc.trade
-  GROUP BY trade.user_uid, (date_trunc('month'::text, trade."timestamp")), trade.primary_currency, trade.secondary_currency
-  ORDER BY (date_trunc('month'::text, trade."timestamp")) DESC;
-
-
---
--- Name: trade_sum_total_value_by_week; Type: VIEW; Schema: kc; Owner: -
---
-
-CREATE VIEW kc.trade_sum_total_value_by_week AS
- SELECT trade.user_uid,
-    date_trunc('week'::text, trade."timestamp") AS week,
-    trade.primary_currency,
-    trade.secondary_currency,
-    sum(trade.total_value) AS sum
-   FROM kc.trade
-  GROUP BY trade.user_uid, (date_trunc('week'::text, trade."timestamp")), trade.primary_currency, trade.secondary_currency
-  ORDER BY (date_trunc('week'::text, trade."timestamp")) DESC;
-
-
---
--- Name: trade_sum_volume_by_month; Type: VIEW; Schema: kc; Owner: -
---
-
-CREATE VIEW kc.trade_sum_volume_by_month AS
- SELECT trade.user_uid,
-    date_trunc('month'::text, trade."timestamp") AS month,
-    trade.primary_currency,
-    trade.secondary_currency,
-    sum(trade.volume) AS sum
-   FROM kc.trade
-  GROUP BY trade.user_uid, (date_trunc('month'::text, trade."timestamp")), trade.primary_currency, trade.secondary_currency
-  ORDER BY (date_trunc('month'::text, trade."timestamp")) DESC;
-
-
---
--- Name: trade_sum_volume_by_week; Type: VIEW; Schema: kc; Owner: -
---
-
-CREATE VIEW kc.trade_sum_volume_by_week AS
- SELECT trade.user_uid,
-    date_trunc('week'::text, trade."timestamp") AS week,
-    trade.primary_currency,
-    trade.secondary_currency,
-    sum(trade.volume) AS sum
-   FROM kc.trade
-  GROUP BY trade.user_uid, (date_trunc('week'::text, trade."timestamp")), trade.primary_currency, trade.secondary_currency
-  ORDER BY (date_trunc('week'::text, trade."timestamp")) DESC;
 
 
 --
@@ -721,6 +833,13 @@ ALTER TABLE ONLY kc."user"
 
 
 --
+-- Name: currency_fx_timestamp_idx; Type: INDEX; Schema: kc; Owner: -
+--
+
+CREATE INDEX currency_fx_timestamp_idx ON kc.currency_fx USING gist ("timestamp");
+
+
+--
 -- Name: dca_order fk_dca_order_exchange; Type: FK CONSTRAINT; Schema: kc; Owner: -
 --
 
@@ -972,4 +1091,7 @@ INSERT INTO kc.schema_migrations (version) VALUES
     ('20211210060725'),
     ('20211210070506'),
     ('20211211123516'),
-    ('20211222165111');
+    ('20211222165111'),
+    ('20211223085648'),
+    ('20211223192407'),
+    ('20211223195806');

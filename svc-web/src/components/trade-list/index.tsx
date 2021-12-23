@@ -7,7 +7,7 @@ import {
   GetTradeListQueryVariables,
 } from '../../utils/graphql'
 
-import { Alert, Table } from '../retro-ui'
+import { Alert, Table, Card } from '../retro-ui'
 
 import { formatCurrency } from '../../utils/format'
 import { TradeChart } from './chart'
@@ -56,9 +56,9 @@ const QUERY = gql`
       primary_currency
       secondary_currency
       type
-      price
-      total_value
-      fee
+      price: price_fx(args: {currency: "NZD"})
+      total_value: total_value_fx(args: {currency: "NZD"})
+      fee: fee_fx(args: {currency: "NZD"})
     }
   }
 `
@@ -89,7 +89,7 @@ const columns: Array<Column<Trade>> = [
   {
     Header: 'Price',
     accessor: 'price',
-    Cell: ({ value }) => '$' + formatCurrency(value),
+    Cell: ({ value }) => '$' + formatCurrency(value!),
   },
   {
     Header: 'Currency',
@@ -98,12 +98,12 @@ const columns: Array<Column<Trade>> = [
   {
     Header: 'Total Value',
     accessor: 'total_value',
-    Cell: ({ value }) => '$' + formatCurrency(value),
+    Cell: ({ value }) => '$' + formatCurrency(value!),
   },
   {
     Header: 'Fee',
     accessor: 'fee',
-    Cell: ({ value }) => '$' + formatCurrency(value),
+    Cell: ({ value }) => '$' + formatCurrency(value!),
   },
 ]
 
@@ -158,15 +158,13 @@ const TradeList = (props: TradeListProps) => {
   const agg = data?.kc_trade_aggregate?.aggregate
 
   return (
-    <>
+    <Card width={1200}>
       <TradeAvgPrice
         primaryCurrency={primaryCurrency}
-        secondaryCurrency={secondaryCurrency}
       />
 
       <ChartWeek
         primaryCurrency={primaryCurrency}
-        secondaryCurrency={secondaryCurrency}
       />
 
       <TradeStats
@@ -179,7 +177,7 @@ const TradeList = (props: TradeListProps) => {
       <TradeChart data={data?.kc_trade ?? []} />
 
       <Table table={table} />
-    </>
+    </Card>
   )
 }
 

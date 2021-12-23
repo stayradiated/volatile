@@ -12,16 +12,18 @@ import { Chart, ChartConfig, formatDataForChart } from '../chart'
 const QUERY = gql`
   query getTradeAvgPriceByDay(
     $primaryCurrency: String!
-    $secondaryCurrency: String!
   ) {
-    kc_trade_avg_price_by_day(
+    kc_trade_avg_price_by_window(
+      args: {
+        group_by: "day",
+        currency: "NZD"
+      }
       where: {
         primary_currency: { _eq: $primaryCurrency }
-        secondary_currency: { _eq: $secondaryCurrency }
       }
-      order_by: { day: desc }
+      order_by: { timestamp: desc }
     ) {
-      day
+      timestamp
       price
       avg_price
     }
@@ -30,21 +32,19 @@ const QUERY = gql`
 
 type Props = {
   primaryCurrency?: string
-  secondaryCurrency?: string
 }
 
 const TradeAvgPrice = (props: Props) => {
-  const { primaryCurrency = 'BTC', secondaryCurrency = 'NZD' } = props
+  const { primaryCurrency = 'BTC' } = props
 
   const { data, loading, error } = useQuery<Query, QueryVariables>(QUERY, {
     variables: {
       primaryCurrency,
-      secondaryCurrency,
     },
   })
 
   const charts = useMemo((): ChartConfig[] => {
-    const rows = data?.kc_trade_avg_price_by_day ?? []
+    const rows = data?.kc_trade_avg_price_by_window ?? []
     return [
       {
         type: 'line',
@@ -53,7 +53,7 @@ const TradeAvgPrice = (props: Props) => {
           interval: 'day',
           data: rows,
           getValue: (row) => row.price!,
-          getTime: (row) => row.day!,
+          getTime: (row) => row.timestamp!,
         }),
       },
       {
@@ -63,7 +63,7 @@ const TradeAvgPrice = (props: Props) => {
           interval: 'day',
           data: rows,
           getValue: (row) => row.avg_price!,
-          getTime: (row) => row.day!,
+          getTime: (row) => row.timestamp!,
         }),
       },
     ]
@@ -80,9 +80,9 @@ const TradeAvgPrice = (props: Props) => {
   return (
     <>
       <h2>
-        {primaryCurrency}-{secondaryCurrency}
+        {primaryCurrency}-NZD
       </h2>
-      <Chart width={960} charts={charts} />
+      <Chart width={1160} charts={charts} />
     </>
   )
 }

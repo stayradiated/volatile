@@ -61,15 +61,13 @@ const Trades = () => {
         <DateInput value={startDate} onChange={setStartDate} />
         <DateInput value={endDate} onChange={setEndDate} />
       </Card>
-      <Card width={1000}>
-        <TradeList
-          exchangeUID={exchange}
-          startDate={startDate?.toISOString()}
-          endDate={endDate?.toISOString()}
-          primaryCurrency={primaryCurrency}
-          secondaryCurrency={secondaryCurrency}
-        />
-      </Card>
+      <TradeList
+        exchangeUID={exchange}
+        startDate={startDate?.toISOString()}
+        endDate={endDate?.toISOString()}
+        primaryCurrency={primaryCurrency}
+        secondaryCurrency={secondaryCurrency}
+      />
     </>
   )
 }

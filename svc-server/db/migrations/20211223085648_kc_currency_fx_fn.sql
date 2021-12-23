@@ -65,11 +65,11 @@ RETURNS NUMERIC(12,2) AS $$
 $$ LANGUAGE sql STABLE;
 
 -- migrate:down
-DROP EXTENSION btree_gist;
-DROP INDEX currency_fx_timestamp_idx;
-CREATE FUNCTION get_currency_fx_rate;
-
 DROP FUNCTION trade_fee_nzd;
 DROP FUNCTION trade_total_value_nzd;
 DROP FUNCTION trade_value_nzd;
 DROP FUNCTION trade_price_nzd;
+DROP FUNCTION get_currency_fx_rate;
+DROP INDEX currency_fx_timestamp_idx;
+DROP EXTENSION btree_gist;
+
