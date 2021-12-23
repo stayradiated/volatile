@@ -11,6 +11,27 @@ object_relationships:
 - name: user
   using:
     foreign_key_constraint_on: user_uid
+computed_fields:
+- definition:
+    function:
+      name: trade_fee_nzd
+      schema: kc
+  name: fee_nzd
+- definition:
+    function:
+      name: trade_price_nzd
+      schema: kc
+  name: price_nzd
+- definition:
+    function:
+      name: trade_total_value_nzd
+      schema: kc
+  name: total_value_nzd
+- definition:
+    function:
+      name: trade_value_nzd
+      schema: kc
+  name: value_nzd
 select_permissions:
 - permission:
     allow_aggregations: true
@@ -31,6 +52,10 @@ select_permissions:
     - user_uid
     - value
     - volume
+    computed_fields:
+    - price_nzd
+    - total_value_nzd
+    - value_nzd
     filter:
       user_uid:
         _eq: X-Hasura-User-Id
