@@ -329,6 +329,7 @@ importers:
       '@volatile/keyring': workspace:1.0.0
       '@volatile/kiwi-coin-api': workspace:1.0.1
       '@volatile/market-price': workspace:1.0.0
+      '@volatile/open-exchange-rates-api': workspace:1.0.0
       ava: 3.15.0
       bcrypt: 5.0.1
       date-fns: 2.27.0
@@ -360,6 +361,7 @@ importers:
       '@volatile/keyring': link:../lib-keyring
       '@volatile/kiwi-coin-api': link:../lib-api-kiwi-coin
       '@volatile/market-price': link:../lib-market-price
+      '@volatile/open-exchange-rates-api': link:../lib-api-open-exchange-rates
       bcrypt: 5.0.1
       date-fns: 2.27.0
       debug: 4.3.3

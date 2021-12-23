@@ -39,6 +39,7 @@
     "@volatile/keyring": "workspace:1.0.0",
     "@volatile/kiwi-coin-api": "workspace:1.0.1",
     "@volatile/market-price": "workspace:1.0.0",
+    "@volatile/open-exchange-rates-api": "workspace:1.0.0",
     "bcrypt": "5.0.1",
     "date-fns": "2.27.0",
     "debug": "4.3.3",

@@ -88,6 +88,15 @@ type Mutation {
 }
 
 type Mutation {
+  sync_currency_fx(
+    start_date: timestamptz!
+    end_date: timestamptz!
+    from_symbol: String!
+    to_symbol: String!
+  ): SyncCurrencyFxOutput
+}
+
+type Mutation {
   sync_exchange_open_order_list(
     user_exchange_keys_uid: uuid!
   ): SyncExchangeOpenOrderListOutput
@@ -266,5 +275,9 @@ type ValidatUserPasswordResetOutput {
 type QueryUserEmailOutput {
   user_uid: uuid!
   email: String!
+}
+
+type SyncCurrencyFxOutput {
+  insert_count: Int!
 }
 

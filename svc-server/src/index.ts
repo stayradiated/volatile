@@ -33,6 +33,7 @@ addAction('refresh_auth_token', actions.refreshAuthTokenHandler)
 addAction('reset_user_password', actions.resetUserPasswordHandler)
 addAction('send_user_email_verify', actions.sendUserEmailVerifyHandler)
 addAction('send_user_password_reset', actions.sendUserPasswordResetHandler)
+addAction('sync_currency_fx', actions.syncCurrencyFxHandler)
 addAction(
   'sync_exchange_open_order_list',
   actions.syncExchangeOpenOrderListHandler,

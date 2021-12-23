@@ -17,8 +17,7 @@ type HistoricalOptions = {
 type HistoricalResult = {
   disclaimer: string
   license: string
-  start_date: string
-  end_date: string
+  timestamp: number
   base: string
   rates: Record<string, number>
 }
