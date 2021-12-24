@@ -77,18 +77,27 @@ const DCAOrderHistoryPriceChart = (props: Props) => {
     }
   }, [loading, dateRange])
 
+  const config = {
+    rightPriceScale: {
+      scaleMargins: {
+        top: 0,
+        bottom: 0.1
+      }
+    }
+  }
+
   const charts = useMemo((): ChartConfig[] => {
     return [
       {
         type: 'area',
         options: {
-          topColor: 'rgba(50, 255, 126,1.0)',
-          lineColor: 'rgba(50, 255, 126,0.5)',
-          bottomColor: 'rgba(50, 255, 126,0.5)',
-          lineWidth: 2,
+          topColor: 'rgba(75, 75, 75,1.0)',
+          lineColor: 'rgba(75, 75, 75,0.8)',
+          bottomColor: 'rgba(75, 75, 75,0.2)',
+          lineWidth: 1,
           priceScaleId: '',
           scaleMargins: {
-            top: 0.85,
+            top: 0.9,
             bottom: 0,
           },
         },
@@ -161,7 +170,7 @@ const DCAOrderHistoryPriceChart = (props: Props) => {
     return <Alert message={error.message} type="error" />
   }
 
-  return <Chart width={1160} charts={charts} />
+  return <Chart width={1160} config={config} charts={charts} />
 }
 
 DCAOrderHistoryPriceChart.fragments = {

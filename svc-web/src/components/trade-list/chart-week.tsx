@@ -39,7 +39,7 @@ const QUERY = gql`
   ) {
     kc_trade_sum_by_window(
       args: {
-        group_by: "day",
+        group_by: "week",
         currency: "NZD",
       }
       where: $filters

@@ -4540,12 +4540,22 @@ export type GetTradeListQueryVariables = Exact<{
 
 export type GetTradeListQuery = { __typename?: 'query_root', kc_trade_aggregate: { __typename?: 'kc_trade_aggregate', aggregate?: { __typename?: 'kc_trade_aggregate_fields', count: number, sum?: { __typename?: 'kc_trade_sum_fields', value?: number | null | undefined, volume?: number | null | undefined, fee?: number | null | undefined } | null | undefined, min?: { __typename?: 'kc_trade_min_fields', timestamp?: string | null | undefined } | null | undefined, max?: { __typename?: 'kc_trade_max_fields', timestamp?: string | null | undefined } | null | undefined } | null | undefined }, kc_trade: Array<{ __typename?: 'kc_trade', uid: string, timestamp: string, value: number, volume: number, primary_currency: string, secondary_currency: string, type: string, price?: number | null | undefined, total_value?: number | null | undefined, fee?: number | null | undefined, exchange: { __typename?: 'kc_exchange', uid: string, id: string } }> };
 
-export type GetTradeAvgPriceByDayQueryVariables = Exact<{
+export type GetTradeAvgPriceQueryVariables = Exact<{
   primaryCurrency: Scalars['String'];
 }>;
 
 
-export type GetTradeAvgPriceByDayQuery = { __typename?: 'query_root', kc_trade_avg_price_by_window: Array<{ __typename?: 'kc_type_trade_avg_price_by_window', timestamp?: string | null | undefined, price?: number | null | undefined, avg_price?: number | null | undefined }> };
+export type GetTradeAvgPriceQuery = { __typename?: 'query_root', kc_trade_avg_price_by_window: Array<{ __typename?: 'kc_type_trade_avg_price_by_window', timestamp?: string | null | undefined, price?: number | null | undefined, avg_price?: number | null | undefined }> };
+
+export type GetTradeCumulativeSumByDayQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetTradeCumulativeSumByDayQuery = { __typename?: 'query_root', kc_trade_avg_price_by_window: Array<{ __typename?: 'kc_type_trade_avg_price_by_window', timestamp?: string | null | undefined, primary_currency?: string | null | undefined, total_value?: number | null | undefined }> };
+
+export type GetTradeSumValueByWeekByWeekQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetTradeSumValueByWeekByWeekQuery = { __typename?: 'query_root', kc_trade_sum_by_window: Array<{ __typename?: 'kc_type_trade_sum_by_window', timestamp?: string | null | undefined, primary_currency?: string | null | undefined, total_value?: number | null | undefined }> };
 
 export type UpdateUserDeviceMutationVariables = Exact<{
   userDeviceUID: Scalars['uuid'];
@@ -5159,10 +5169,10 @@ export const GetTradeListDocument = gql`
 }
     `;
 export type GetTradeListQueryResult = Apollo.QueryResult<GetTradeListQuery, GetTradeListQueryVariables>;
-export const GetTradeAvgPriceByDayDocument = gql`
-    query getTradeAvgPriceByDay($primaryCurrency: String!) {
+export const GetTradeAvgPriceDocument = gql`
+    query getTradeAvgPrice($primaryCurrency: String!) {
   kc_trade_avg_price_by_window(
-    args: {group_by: "day", currency: "NZD"}
+    args: {group_by: "hour", currency: "NZD"}
     where: {primary_currency: {_eq: $primaryCurrency}}
     order_by: {timestamp: desc}
   ) {
@@ -5172,7 +5182,33 @@ export const GetTradeAvgPriceByDayDocument = gql`
   }
 }
     `;
-export type GetTradeAvgPriceByDayQueryResult = Apollo.QueryResult<GetTradeAvgPriceByDayQuery, GetTradeAvgPriceByDayQueryVariables>;
+export type GetTradeAvgPriceQueryResult = Apollo.QueryResult<GetTradeAvgPriceQuery, GetTradeAvgPriceQueryVariables>;
+export const GetTradeCumulativeSumByDayDocument = gql`
+    query getTradeCumulativeSumByDay {
+  kc_trade_avg_price_by_window(
+    args: {group_by: "day", currency: "NZD"}
+    order_by: {timestamp: desc}
+  ) {
+    timestamp
+    primary_currency
+    total_value
+  }
+}
+    `;
+export type GetTradeCumulativeSumByDayQueryResult = Apollo.QueryResult<GetTradeCumulativeSumByDayQuery, GetTradeCumulativeSumByDayQueryVariables>;
+export const GetTradeSumValueByWeekByWeekDocument = gql`
+    query getTradeSumValueByWeekByWeek {
+  kc_trade_sum_by_window(
+    args: {group_by: "week", currency: "NZD"}
+    order_by: {timestamp: desc}
+  ) {
+    timestamp
+    primary_currency
+    total_value
+  }
+}
+    `;
+export type GetTradeSumValueByWeekByWeekQueryResult = Apollo.QueryResult<GetTradeSumValueByWeekByWeekQuery, GetTradeSumValueByWeekByWeekQueryVariables>;
 export const UpdateUserDeviceDocument = gql`
     mutation updateUserDevice($userDeviceUID: uuid!, $name: String) {
   update_kc_user_device_by_pk(

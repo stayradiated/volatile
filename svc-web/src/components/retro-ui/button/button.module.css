@@ -15,25 +15,23 @@ a.base {
 
 .primary {
   position: relative;
-  line-height: 40px;
-  height: 40px;
-  padding: 0 20px;
-  color: var(--button-primary-color);
-  background: var(--button-primary-background);
-  border: 1px solid var(--button-primary-border);
-  box-shadow: -2px 2px 0 0 var(--button-primary-border);
+
+  line-height: 30px;
+  height: 30px;
+  padding: 0 10px;
+
+  border-radius: 2px;
+
+  font-size: 14px;
   text-transform: uppercase;
-}
-.primary:not(:disabled):hover,
-.primary:not(:disabled):focus {
-  top: -1px;
-  left: 1px;
-  box-shadow: -3px 3px 0 0 var(--button-primary-border);
-}
-.primary:not(:disabled):active {
-  top: 1px;
-  left: -1px;
-  box-shadow: none;
+  text-decoration: none;
+  color: var(--black-900);
+
+  background: var(--gray-300);
+  border: 1px solid var(--black-900);
+
+  /* Button Framing */
+  box-shadow: inset -1px -1px 0px #000000, inset 1px 1px 0px #FFFFFF, inset -2px -2px 0px #808080, inset 2px 2px 0px #DBDBDB;
 }
 
 .link {

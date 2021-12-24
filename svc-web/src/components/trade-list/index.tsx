@@ -10,10 +10,12 @@ import {
 import { Alert, Table, Card } from '../retro-ui'
 
 import { formatCurrency } from '../../utils/format'
-import { TradeChart } from './chart'
+// import { TradeChart } from './chart'
 import { TradeStats } from './stats'
-import { ChartWeek } from './chart-week'
+// import { ChartWeek } from './chart-week'
 import { TradeAvgPrice } from './trade-avg-price'
+import { TradeCumulativeSum } from './trade-cumulative-sum'
+import { TradeSumValueByWeek } from './trade-sum-value-by-week'
 
 type Trade = GetTradeListQuery['kc_trade'][0]
 
@@ -159,13 +161,11 @@ const TradeList = (props: TradeListProps) => {
 
   return (
     <Card width={1200}>
-      <TradeAvgPrice
-        primaryCurrency={primaryCurrency}
-      />
+      <TradeSumValueByWeek />
+      <TradeAvgPrice primaryCurrency='BTC' />
+      <TradeAvgPrice primaryCurrency='ETH' />
+      <TradeCumulativeSum />
 
-      <ChartWeek
-        primaryCurrency={primaryCurrency}
-      />
 
       <TradeStats
         sumValue={agg?.sum?.value ?? 0}
@@ -174,7 +174,7 @@ const TradeList = (props: TradeListProps) => {
         minTimestamp={parseISO(agg?.min?.timestamp ?? formatISO(new Date()))}
         maxTimestamp={parseISO(agg?.max?.timestamp ?? formatISO(new Date()))}
       />
-      <TradeChart data={data?.kc_trade ?? []} />
+
 
       <Table table={table} />
     </Card>

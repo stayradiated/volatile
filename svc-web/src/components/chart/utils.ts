@@ -13,7 +13,7 @@ type FormatDataForChartOptions<T> = {
   getTime: (item: T) => string
 }
 
-const formatDataForChart = <T extends Record<string, unknown>>(
+const formatDataForChart = <T>(
   options: FormatDataForChartOptions<T>,
 ) => {
   const { interval = 'minute', data, getValue, getTime } = options
@@ -57,14 +57,14 @@ const formatDataForChart = <T extends Record<string, unknown>>(
     })
     .sort((a, b) => a.time - b.time)
 
-  // Let lastValue: undefined | number
-  // for (const row of results) {
-  //   if (typeof row.value === 'undefined') {
-  //     row.value = lastValue
-  //   } else {
-  //     lastValue = row.value
-  //   }
-  // }
+  let lastValue: undefined | number
+  for (const row of results) {
+    if (typeof row.value === 'undefined') {
+      row.value = lastValue
+    } else {
+      lastValue = row.value
+    }
+  }
 
   return results.filter((row) => {
     return typeof row.value !== 'undefined'

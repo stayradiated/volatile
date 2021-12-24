@@ -1,6 +1,8 @@
 import { useRef, useEffect } from 'react'
 import {
   createChart,
+  DeepPartial,
+  ChartOptions,
   AreaSeriesOptions,
   LineData,
   LineSeriesOptions,
@@ -25,7 +27,7 @@ type LineChartConfig = {
 type HistogramChartConfig = {
   type: 'histogram'
   options: Partial<HistogramSeriesOptions>
-  data: HistogramData[]
+  data: HistogramData[] | AlternateLineData[]
 }
 
 type ChartConfig = AreaChartConfig | LineChartConfig | HistogramChartConfig
@@ -33,11 +35,12 @@ type ChartConfig = AreaChartConfig | LineChartConfig | HistogramChartConfig
 type Props = {
   width?: number
   height?: number
+  config?: DeepPartial<ChartOptions>,
   charts: ChartConfig[]
 }
 
 const Chart = (props: Props) => {
-  const { width = 1000, height = 300, charts } = props
+  const { width = 1000, height = 300, config, charts } = props
 
   const containerRef = useRef<HTMLDivElement>(null)
 
@@ -53,6 +56,7 @@ const Chart = (props: Props) => {
         timeVisible: true,
         secondsVisible: false,
       },
+      ...config,
     })
 
     for (const config of charts) {
