@@ -7,6 +7,7 @@ import { errorBoundary } from '@stayradiated/error-boundary'
 import { NetError, APIError } from './error.js'
 import { createSignedBody } from './signature.js'
 import { isAPIErrorBody } from './is-api-error-body.js'
+import { serial } from './serial.js'
 import type { Config } from './types.js'
 
 const log = debug('kiwi-coin-api')
@@ -72,9 +73,10 @@ const post = async <Result>(
     return body
   }
 
-  const result = await errorBoundary(async () =>
-    client.post(endpoint, { body }).json(),
-  )
+  const result = await serial(config.userId, () => {
+    return errorBoundary(async () => client.post(endpoint, { body }).json())
+  })
+
   if (result instanceof Error) {
     return new NetError({
       message: `Received error from POST https://kiwi-coin.com/api/${endpoint}`,

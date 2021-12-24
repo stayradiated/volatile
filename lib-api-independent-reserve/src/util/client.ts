@@ -53,7 +53,7 @@ const post = async (
   endpoint: string,
   parameters: Record<string, undefined | string | number>,
 ) => {
-  const result = withNonce(config.apiKey, (nonce) => {
+  const result = await withNonce(config.apiKey, (nonce) => {
     return errorBoundary(async () =>
       client
         .post(endpoint, {
