@@ -17,20 +17,18 @@ type Props = {
   userUID: string
 }
 
-const UserEmail = (props: Props )=> {
+const UserEmail = (props: Props) => {
   const { userUID } = props
 
-  const { data } = useQuery<Query, QueryVariables>(QUERY,{
+  const { data } = useQuery<Query, QueryVariables>(QUERY, {
     variables: {
-      userUID
-    }
+      userUID,
+    },
   })
 
   const email = data?.query_user_email?.email ?? '…'
 
-  return (
-    <>{email}</>
-  )
+  return <>{email}</>
 }
 
 export { UserEmail }

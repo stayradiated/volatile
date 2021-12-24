@@ -1,3 +1,5 @@
+import { useMemo } from 'react'
+
 import type { Invocation } from '../utils/types.invocation'
 
 import styles from './EventResponse.module.css'
@@ -59,7 +61,20 @@ const ErrorDetails = (props: ErrorDetailsProps) => {
 
 const EventResponse = (props: EventResponseProps) => {
   const { event } = props
-  const error = JSON.parse(event.response.data.body)
+
+  const error = useMemo(() => {
+    try {
+      const data = event.response.data
+      const messageJSON = data.body ?? data.message
+      if (!messageJSON) {
+        throw new Error('Could not find message body')
+      }
+
+      return JSON.parse(messageJSON)
+    } catch {
+      throw new Error('Could not find parse message JSON')
+    }
+  }, [event])
 
   return (
     <>

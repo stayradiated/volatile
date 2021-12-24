@@ -1,3 +1,4 @@
+import { useMemo } from 'react'
 import { parseISO, format } from 'date-fns'
 
 import type { Invocation } from '../utils/types.invocation'
@@ -16,12 +17,20 @@ const EventListItem = (props: EventListItemProps) => {
   const statusClassName =
     status >= 200 && status <= 200 ? styles.statusSuccess : styles.statusError
 
-  let message = invocation.response.data.body
-  try {
-    message = JSON.parse(invocation.response.data.body).message
-  } catch (error) {
-    console.error(error)
-  }
+  const message = useMemo(() => {
+    try {
+      const data = invocation.response.data
+      const messageJSON = data.body ?? data.message
+      if (!messageJSON) {
+        return '[error: Could not find message body]'
+      }
+
+      return JSON.parse(messageJSON).message
+    } catch {
+      console.log(invocation.response)
+      return '[error: Could not parse message JSON]'
+    }
+  }, [invocation])
 
   const handleClick = () => {
     onClick && onClick(invocation)

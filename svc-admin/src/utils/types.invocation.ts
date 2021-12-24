@@ -60,12 +60,9 @@ export interface Response {
 
 export interface Data {
   status: number
-  body: Body
+  body?: string
+  message?: string
   headers: DataHeader[]
-}
-
-export enum Body {
-  MessageSuccessfullyExecuted2DCAOrderS = '{"message":"Successfully executed 2 DCA order(s)."}',
 }
 
 export interface DataHeader {

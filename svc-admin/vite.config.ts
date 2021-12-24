@@ -20,9 +20,9 @@ export default defineConfig({
   server: {
     proxy: {
       '/hasura': {
-        // target: 'https://volatile.co.nz/',
-        target: 'http://localhost:9999',
-        rewrite: (path) => path.replace(/^\/hasura/, ''),
+        target: 'https://volatile.co.nz/',
+        // target: 'http://localhost:9999',
+        // rewrite: (path) => path.replace(/^\/hasura/, ''),
         changeOrigin: true,
         secure: false
       }
