@@ -61,10 +61,14 @@ const kiwiCoin: ExchangeAPI<kc.Config> = {
       openedAt: order.datetime,
     }))
   },
-  getTrades: (config) => async () => {
+  getTrades: (config) => async (options) => {
+    const { pageIndex } = options
+
+    const getAll = pageIndex > 1
+
     const allTrades = await kc.getTradeList({
       config,
-      timeframe: 'all',
+      timeframe: getAll ? 'all' : 'day',
     })
     if (allTrades instanceof Error) {
       return allTrades
@@ -72,7 +76,7 @@ const kiwiCoin: ExchangeAPI<kc.Config> = {
 
     return {
       total: allTrades.length,
-      hasNextPage: false,
+      hasNextPage: !getAll,
       items: allTrades.map((trade) => ({
         tradeID: String(trade.transactionId),
         orderID: String(trade.orderId),
