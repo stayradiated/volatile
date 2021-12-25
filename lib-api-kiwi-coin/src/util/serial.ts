@@ -1,10 +1,18 @@
-import createLimitFunction, { LimitFunction } from 'p-limit'
+import Queue from 'p-queue'
 
-const globalStore = new Map<string, LimitFunction>()
+const globalStore = new Map<string, Queue>()
 
-const getLimitFn = (userId: string): LimitFunction => {
+const getQueue = (userId: string): Queue => {
   if (!globalStore.has(userId)) {
-    globalStore.set(userId, createLimitFunction(1))
+    globalStore.set(
+      userId,
+      new Queue({
+        concurrency: 1,
+        autoStart: true,
+        intervalCap: 1,
+        interval: 1000,
+      }),
+    )
   }
 
   return globalStore.get(userId)!
@@ -14,10 +22,8 @@ const serial = async <ReturnValue>(
   userId: string,
   fn: () => ReturnValue,
 ): Promise<ReturnValue> => {
-  const limitFn = getLimitFn(userId)
-  return limitFn(() => {
-    return fn()
-  })
+  const queue = getQueue(userId)
+  return queue.add(fn)
 }
 
 export { serial }

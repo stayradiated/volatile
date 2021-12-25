@@ -31,7 +31,8 @@
     "ky": "0.28.7",
     "ky-universal": "0.9.1",
     "luxon": "2.2.0",
-    "p-limit": "4.0.0"
+    "p-limit": "4.0.0",
+    "p-queue": "7.1.0"
   },
   "devDependencies": {
     "@types/debug": "4.1.7",
