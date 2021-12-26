@@ -16,7 +16,9 @@ const marketSource: MarketPriceSource<Options> = {
     const { config, assetSymbol, currency } = options
 
     if (assetSymbol.toUpperCase() !== assetSymbol) {
-      return new Error(`Asset symbol must be uppercase, received "${assetSymbol}".`)
+      return new Error(
+        `Asset symbol must be uppercase, received "${assetSymbol}".`,
+      )
     }
 
     if (currency.toUpperCase() !== currency) {
@@ -32,19 +34,19 @@ const marketSource: MarketPriceSource<Options> = {
       marketSymbol,
     })
     if (ticker instanceof Error) {
-      // dasset library already wraps the error for us
+      // Dasset library already wraps the error for us
       return ticker
     }
 
     if (!ticker) {
       return new IllegalStateError({
         message: 'Received an empty ticker value from dassetx.com.',
-        context: { assetSymbol, currency }
+        context: { assetSymbol, currency },
       })
     }
 
     const bidRate = Number.parseFloat(ticker.bidRate)
-    // const askRate = Number.parseFloat(ticker.askRate)
+    // Const askRate = Number.parseFloat(ticker.askRate)
     // Const value = Math.round(((bidRate + askRate) / 2) * 100) / 100
     const value = bidRate
 

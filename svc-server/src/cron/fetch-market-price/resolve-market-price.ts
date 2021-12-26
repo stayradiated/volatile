@@ -7,6 +7,7 @@ import {
   MARKET_KIWI_COIN,
   MARKET_EASY_CRYPTO,
   MARKET_INDEPENDENT_RESERVE,
+  MARKET_KRAKEN,
 } from '../../model/market/index.js'
 
 import { DASSET_API_KEY, DASSET_ACCOUNT_ID } from '../../env.js'
@@ -65,6 +66,15 @@ const resolveMarketPriceMap = new Map<Market, Resolver>([
     MARKET_INDEPENDENT_RESERVE,
     ({ assetSymbol, currency }) =>
       createCachedFetchFn(marketPriceSources.independentReserve, {
+        assetSymbol,
+        currency,
+      }),
+  ],
+
+  [
+    MARKET_KRAKEN,
+    ({ assetSymbol, currency }) =>
+      createCachedFetchFn(marketPriceSources.kraken, {
         assetSymbol,
         currency,
       }),

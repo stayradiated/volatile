@@ -5,6 +5,7 @@ import {
   MARKET_KIWI_COIN,
   MARKET_EASY_CRYPTO,
   MARKET_INDEPENDENT_RESERVE,
+  MARKET_KRAKEN,
 } from '../../model/market/index.js'
 
 type Currency = 'AUD' | 'NZD' | 'USD'
@@ -50,6 +51,8 @@ const marketPriceConfigList: MarketPriceConfig[] = [
   { market: MARKET_INDEPENDENT_RESERVE, pair: ETH_AUD },
   { market: MARKET_INDEPENDENT_RESERVE, pair: ETH_NZD },
   { market: MARKET_KIWI_COIN, pair: BTC_NZD },
+  { market: MARKET_KRAKEN, pair: BTC_USD, convert: USD_NZD },
+  { market: MARKET_KRAKEN, pair: BTC_USD, convert: USD_AUD },
 ]
 
 export {

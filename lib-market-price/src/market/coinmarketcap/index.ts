@@ -7,8 +7,6 @@ import { NetError, withErrorResponse } from '../../util/error.js'
 import { createDebugHooks } from '../../util/hooks.js'
 import { MarketPriceSource } from '../../util/market-price-source.js'
 
-import * as privateAPI from './private-api.js'
-
 const log = debug('market-price:coin-market-cap')
 
 const coinMarketCap = ky.create({
@@ -115,4 +113,6 @@ const marketSource: MarketPriceSource<CoinMarketCapConfig> = {
 }
 
 export default marketSource
-export { CoinMarketCapConfig, privateAPI }
+export { CoinMarketCapConfig }
+
+export * as privateAPI from './private-api.js'

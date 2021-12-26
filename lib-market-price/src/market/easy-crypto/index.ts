@@ -30,7 +30,9 @@ const marketSource: MarketPriceSource<Options> = {
   fetch: async (options) => {
     const { assetSymbol, currency } = options
     if (assetSymbol.toUpperCase() !== assetSymbol) {
-      return new Error(`Asset symbol must be uppercase, received "${assetSymbol}".`)
+      return new Error(
+        `Asset symbol must be uppercase, received "${assetSymbol}".`,
+      )
     }
 
     if (currency.toUpperCase() !== currency) {

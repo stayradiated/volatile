@@ -1,6 +1,9 @@
 import { inspect } from 'util'
 import { DateTime, Duration } from 'luxon'
-import { latest as getLatestExchangeRate, Config as OpenExchangeRatesConfig } from '@volatile/open-exchange-rates-api'
+import {
+  latest as getLatestExchangeRate,
+  Config as OpenExchangeRatesConfig,
+} from '@volatile/open-exchange-rates-api'
 import { MarketPriceSource } from '../util/market-price-source.js'
 
 type Options = {
@@ -23,7 +26,7 @@ const createMarketSourceForCurrency = (
       const { config } = fetchOptions
 
       const response = await getLatestExchangeRate({
-        config, 
+        config,
         base,
         symbols: [symbol],
       })
@@ -52,4 +55,6 @@ const createMarketSourceForCurrency = (
   return marketSource
 }
 
-export { createMarketSourceForCurrency, OpenExchangeRatesConfig }
+export { createMarketSourceForCurrency }
+
+export { Config as OpenExchangeRatesConfig } from '@volatile/open-exchange-rates-api'

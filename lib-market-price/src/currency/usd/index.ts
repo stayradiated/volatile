@@ -10,7 +10,4 @@ const USD_AUD = createMarketSourceForCurrency({
   symbol: 'AUD',
 })
 
-export {
-  USD_NZD,
-  USD_AUD
-}
+export { USD_NZD, USD_AUD }

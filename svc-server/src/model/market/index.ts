@@ -36,6 +36,11 @@ const MARKET_INDEPENDENT_RESERVE: Market = {
   name: 'Independent Reserve',
 }
 
+const MARKET_KRAKEN: Market = {
+  ID: 'kraken.com',
+  name: 'Kraken',
+}
+
 const forceGetMarketUID = async (
   pool: Pool,
   market: Market,
@@ -93,6 +98,7 @@ export {
   MARKET_KIWI_COIN,
   MARKET_EASY_CRYPTO,
   MARKET_INDEPENDENT_RESERVE,
+  MARKET_KRAKEN,
   getMarketUID,
   forceGetMarketUID,
 }
