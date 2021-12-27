@@ -45,7 +45,7 @@ const marketSource: MarketPriceSource<Options> = {
 
     const result = await errorBoundary<APIResponse>(async () =>
       binance
-        .get('v3/avgPrice', {
+        .get('v3/ticker/price', {
           searchParams: {
             symbol: tradingPair,
           },
@@ -55,7 +55,7 @@ const marketSource: MarketPriceSource<Options> = {
 
     if (result instanceof Error) {
       return new NetError({
-        message: 'Could not fetch average price from binance.us.',
+        message: 'Could not fetch ticker price from binance.us.',
         cause: await withErrorResponse(result),
         context: {
           assetSymbol,
