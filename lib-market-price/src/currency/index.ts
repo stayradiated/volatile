@@ -12,7 +12,7 @@ const USD_AUD = createMarketSourceForCurrency({
 
 const AUD_NZD = createMarketSourceForCurrency({
   base: 'AUD',
-  symbol: 'AUD',
+  symbol: 'NZD',
 })
 
 export { USD_NZD, USD_AUD, AUD_NZD }
