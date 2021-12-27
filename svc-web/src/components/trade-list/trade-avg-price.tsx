@@ -10,17 +10,10 @@ import { Spin, Alert } from '../retro-ui'
 import { Chart, ChartConfig, formatDataForChart } from '../chart'
 
 const QUERY = gql`
-  query getTradeAvgPrice(
-    $primaryCurrency: String!
-  ) {
+  query getTradeAvgPrice($primaryCurrency: String!) {
     kc_trade_avg_price_by_window(
-      args: {
-        group_by: "hour",
-        currency: "NZD"
-      }
-      where: {
-        primary_currency: { _eq: $primaryCurrency }
-      }
+      args: { group_by: "hour", currency: "NZD" }
+      where: { primary_currency: { _eq: $primaryCurrency } }
       order_by: { timestamp: desc }
     ) {
       timestamp
@@ -51,7 +44,7 @@ const TradeAvgPrice = (props: Props) => {
         options: {
           lineColor: 'rgba(125, 95, 255,1.0)',
           topColor: 'rgba(125, 95, 255,0.2)',
-          bottomColor: 'rgba(125, 95, 255,0.2)' 
+          bottomColor: 'rgba(125, 95, 255,0.2)',
         },
         data: formatDataForChart({
           interval: 'hour',
@@ -87,9 +80,7 @@ const TradeAvgPrice = (props: Props) => {
 
   return (
     <>
-      <h2>
-        {primaryCurrency}-NZD
-      </h2>
+      <h2>{primaryCurrency}-NZD</h2>
       <Chart width={1160} charts={charts} />
     </>
   )

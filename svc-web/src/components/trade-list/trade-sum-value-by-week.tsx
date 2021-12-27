@@ -12,10 +12,7 @@ import { Chart, ChartConfig, formatDataForChart } from '../chart'
 const QUERY = gql`
   query getTradeSumValueByWeekByWeek {
     kc_trade_sum_by_window(
-      args: {
-        group_by: "week",
-        currency: "NZD"
-      }
+      args: { group_by: "week", currency: "NZD" }
       order_by: { timestamp: desc }
     ) {
       timestamp
@@ -32,9 +29,10 @@ const TradeSumValueByWeek = () => {
     const rows = data?.kc_trade_sum_by_window ?? []
 
     const sum: Record<string, number> = {}
-    rows.forEach((row) => {
+    for (const row of rows) {
       sum[row.timestamp!] = (sum[row.timestamp!] ?? 0) + row.total_value!
-    })
+    }
+
     const sumRows = Object.entries(sum)
 
     return [

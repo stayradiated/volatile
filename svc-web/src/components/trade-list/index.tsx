@@ -10,9 +10,9 @@ import {
 import { Alert, Table, Card } from '../retro-ui'
 
 import { formatCurrency } from '../../utils/format'
-// import { TradeChart } from './chart'
+// Import { TradeChart } from './chart'
 import { TradeStats } from './stats'
-// import { ChartWeek } from './chart-week'
+// Import { ChartWeek } from './chart-week'
 import { TradeAvgPrice } from './trade-avg-price'
 import { TradeCumulativeSum } from './trade-cumulative-sum'
 import { TradeSumValueByWeek } from './trade-sum-value-by-week'
@@ -58,9 +58,9 @@ const QUERY = gql`
       primary_currency
       secondary_currency
       type
-      price: price_fx(args: {currency: "NZD"})
-      total_value: total_value_fx(args: {currency: "NZD"})
-      fee: fee_fx(args: {currency: "NZD"})
+      price: price_fx(args: { currency: "NZD" })
+      total_value: total_value_fx(args: { currency: "NZD" })
+      fee: fee_fx(args: { currency: "NZD" })
     }
   }
 `
@@ -162,10 +162,9 @@ const TradeList = (props: TradeListProps) => {
   return (
     <Card width={1200}>
       <TradeSumValueByWeek />
-      <TradeAvgPrice primaryCurrency='BTC' />
-      <TradeAvgPrice primaryCurrency='ETH' />
+      <TradeAvgPrice primaryCurrency="BTC" />
+      <TradeAvgPrice primaryCurrency="ETH" />
       <TradeCumulativeSum />
-
 
       <TradeStats
         sumValue={agg?.sum?.value ?? 0}
@@ -174,7 +173,6 @@ const TradeList = (props: TradeListProps) => {
         minTimestamp={parseISO(agg?.min?.timestamp ?? formatISO(new Date()))}
         maxTimestamp={parseISO(agg?.max?.timestamp ?? formatISO(new Date()))}
       />
-
 
       <Table table={table} />
     </Card>

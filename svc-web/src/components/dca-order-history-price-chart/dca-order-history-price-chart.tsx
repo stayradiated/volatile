@@ -81,9 +81,9 @@ const DCAOrderHistoryPriceChart = (props: Props) => {
     rightPriceScale: {
       scaleMargins: {
         top: 0,
-        bottom: 0.1
-      }
-    }
+        bottom: 0.1,
+      },
+    },
   }
 
   const charts = useMemo((): ChartConfig[] => {

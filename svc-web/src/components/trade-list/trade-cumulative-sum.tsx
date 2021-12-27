@@ -12,10 +12,7 @@ import { Chart, ChartConfig, formatDataForChart } from '../chart'
 const QUERY = gql`
   query getTradeCumulativeSumByDay {
     kc_trade_avg_price_by_window(
-      args: {
-        group_by: "day",
-        currency: "NZD"
-      }
+      args: { group_by: "day", currency: "NZD" }
       order_by: { timestamp: desc }
     ) {
       timestamp
@@ -39,7 +36,7 @@ const TradeCumulativeSum = () => {
         options: {
           lineColor: 'rgba(125, 95, 255,1.0)',
           topColor: 'rgba(125, 95, 255,0.2)',
-          bottomColor: 'rgba(125, 95, 255,0.2)' 
+          bottomColor: 'rgba(125, 95, 255,0.2)',
         },
         data: formatDataForChart({
           interval: 'day',
@@ -53,7 +50,7 @@ const TradeCumulativeSum = () => {
         options: {
           lineColor: 'rgba(125, 95, 255,1.0)',
           topColor: 'rgba(125, 95, 255,0.2)',
-          bottomColor: 'rgba(125, 95, 255,0.2)' 
+          bottomColor: 'rgba(125, 95, 255,0.2)',
         },
         data: formatDataForChart({
           interval: 'day',

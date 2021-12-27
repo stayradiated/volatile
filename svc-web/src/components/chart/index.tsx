@@ -35,7 +35,7 @@ type ChartConfig = AreaChartConfig | LineChartConfig | HistogramChartConfig
 type Props = {
   width?: number
   height?: number
-  config?: DeepPartial<ChartOptions>,
+  config?: DeepPartial<ChartOptions>
   charts: ChartConfig[]
 }
 

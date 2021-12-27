@@ -13,9 +13,7 @@ type FormatDataForChartOptions<T> = {
   getTime: (item: T) => string
 }
 
-const formatDataForChart = <T>(
-  options: FormatDataForChartOptions<T>,
-) => {
+const formatDataForChart = <T>(options: FormatDataForChartOptions<T>) => {
   const { interval = 'minute', data, getValue, getTime } = options
 
   if (data.length === 0) {
