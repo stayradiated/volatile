@@ -1,5 +1,3 @@
-import type { DateTime } from 'luxon'
-
 import type { BuySell } from '../../types.js'
 
 type Trade = {
@@ -7,7 +5,7 @@ type Trade = {
   userUID: string
   exchangeUID: string
   orderUID: string | undefined
-  timestamp: DateTime
+  timestamp: Date
   tradeID: string
   type: BuySell
   primaryCurrency: string

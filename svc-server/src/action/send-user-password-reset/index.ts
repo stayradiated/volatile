@@ -1,4 +1,4 @@
-import { DateTime } from 'luxon'
+import { addMinutes } from 'date-fns'
 
 import type { ActionHandlerFn } from '../../util/action-handler.js'
 
@@ -39,7 +39,7 @@ const sendUserPasswordResetHandler: ActionHandlerFn<Input, Output> = async (
 
   const insertError = await insertUserPasswordReset(pool, {
     userUID: user.UID,
-    expiresAt: DateTime.local().plus({ minutes: 30 }),
+    expiresAt: addMinutes(new Date(), 30),
     secret,
   })
   if (insertError instanceof Error) {

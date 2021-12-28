@@ -1,5 +1,4 @@
 import * as db from 'zapatos/db'
-import { DateTime } from 'luxon'
 import { throwIfError } from '@stayradiated/error-boundary'
 
 import { test } from '../../test-util/ava.js'
@@ -17,7 +16,7 @@ test('upsertTrade', async (t) => {
     userUID,
     exchangeUID,
     orderUID,
-    timestamp: DateTime.local(),
+    timestamp: new Date(),
     tradeID: 'upsert-trade.test',
     type: 'BUY',
     primaryCurrency: 'BTC',

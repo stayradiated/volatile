@@ -499,6 +499,24 @@ declare module 'zapatos/schema' {
       * - `NOT NULL`, no default
       */
       secondary_currency_symbol: string;
+      /**
+      * **dca_order.interval_ms**
+      * - `int4` in database
+      * - `NOT NULL`, no default
+      */
+      interval_ms: number;
+      /**
+      * **dca_order.last_run_at**
+      * - `timestamptz` in database
+      * - Nullable, no default
+      */
+      last_run_at: Date | null;
+      /**
+      * **dca_order.next_run_at**
+      * - `timestamptz` in database
+      * - Nullable, no default
+      */
+      next_run_at: Date | null;
     }
     export interface JSONSelectable {
       /**
@@ -603,6 +621,24 @@ declare module 'zapatos/schema' {
       * - `NOT NULL`, no default
       */
       secondary_currency_symbol: string;
+      /**
+      * **dca_order.interval_ms**
+      * - `int4` in database
+      * - `NOT NULL`, no default
+      */
+      interval_ms: number;
+      /**
+      * **dca_order.last_run_at**
+      * - `timestamptz` in database
+      * - Nullable, no default
+      */
+      last_run_at: db.TimestampTzString | null;
+      /**
+      * **dca_order.next_run_at**
+      * - `timestamptz` in database
+      * - Nullable, no default
+      */
+      next_run_at: db.TimestampTzString | null;
     }
     export interface Whereable {
       /**
@@ -707,6 +743,24 @@ declare module 'zapatos/schema' {
       * - `NOT NULL`, no default
       */
       secondary_currency_symbol?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **dca_order.interval_ms**
+      * - `int4` in database
+      * - `NOT NULL`, no default
+      */
+      interval_ms?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **dca_order.last_run_at**
+      * - `timestamptz` in database
+      * - Nullable, no default
+      */
+      last_run_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **dca_order.next_run_at**
+      * - `timestamptz` in database
+      * - Nullable, no default
+      */
+      next_run_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
     }
     export interface Insertable {
       /**
@@ -811,6 +865,24 @@ declare module 'zapatos/schema' {
       * - `NOT NULL`, no default
       */
       secondary_currency_symbol: string | db.Parameter<string> | db.SQLFragment;
+      /**
+      * **dca_order.interval_ms**
+      * - `int4` in database
+      * - `NOT NULL`, no default
+      */
+      interval_ms: number | db.Parameter<number> | db.SQLFragment;
+      /**
+      * **dca_order.last_run_at**
+      * - `timestamptz` in database
+      * - Nullable, no default
+      */
+      last_run_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment;
+      /**
+      * **dca_order.next_run_at**
+      * - `timestamptz` in database
+      * - Nullable, no default
+      */
+      next_run_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment;
     }
     export interface Updatable {
       /**
@@ -915,6 +987,24 @@ declare module 'zapatos/schema' {
       * - `NOT NULL`, no default
       */
       secondary_currency_symbol?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+      /**
+      * **dca_order.interval_ms**
+      * - `int4` in database
+      * - `NOT NULL`, no default
+      */
+      interval_ms?: number | db.Parameter<number> | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
+      /**
+      * **dca_order.last_run_at**
+      * - `timestamptz` in database
+      * - Nullable, no default
+      */
+      last_run_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment>;
+      /**
+      * **dca_order.next_run_at**
+      * - `timestamptz` in database
+      * - Nullable, no default
+      */
+      next_run_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment>;
     }
     export type UniqueIndex = 'dca_order_pkey';
     export type Column = keyof Selectable;
@@ -3464,68 +3554,50 @@ declare module 'zapatos/schema' {
   }
 
   /**
-   * **trade_avg_price_by_day**
-   * - View in database
+   * **type_trade_avg_price_by_window**
+   * - Table in database
    */
-  export namespace trade_avg_price_by_day {
-    export type Table = 'trade_avg_price_by_day';
+  export namespace type_trade_avg_price_by_window {
+    export type Table = 'type_trade_avg_price_by_window';
     export interface Selectable {
       /**
-      * **trade_avg_price_by_day.user_uid**
+      * **type_trade_avg_price_by_window.user_uid**
       * - `uuid` in database
       * - Nullable, no default
       */
       user_uid: string | null;
       /**
-      * **trade_avg_price_by_day.day**
+      * **type_trade_avg_price_by_window.timestamp**
       * - `timestamptz` in database
       * - Nullable, no default
       */
-      day: Date | null;
+      timestamp: Date | null;
       /**
-      * **trade_avg_price_by_day.primary_currency**
-      * - `varchar` in database
+      * **type_trade_avg_price_by_window.primary_currency**
+      * - `text` in database
       * - Nullable, no default
       */
       primary_currency: string | null;
       /**
-      * **trade_avg_price_by_day.secondary_currency**
-      * - `text` in database
-      * - Nullable, no default
-      */
-      secondary_currency: string | null;
-      /**
-      * **trade_avg_price_by_day.total_value**
-      * - `numeric` in database
-      * - Nullable, no default
-      */
-      total_value: number | null;
-      /**
-      * **trade_avg_price_by_day.volume**
-      * - `numeric` in database
-      * - Nullable, no default
-      */
-      volume: number | null;
-      /**
-      * **trade_avg_price_by_day.price**
+      * **type_trade_avg_price_by_window.price**
       * - `numeric` in database
       * - Nullable, no default
       */
       price: number | null;
       /**
-      * **trade_avg_price_by_day.sum_volume**
+      * **type_trade_avg_price_by_window.volume**
       * - `numeric` in database
       * - Nullable, no default
       */
-      sum_volume: number | null;
+      volume: number | null;
       /**
-      * **trade_avg_price_by_day.sum_total_value**
+      * **type_trade_avg_price_by_window.total_value**
       * - `numeric` in database
       * - Nullable, no default
       */
-      sum_total_value: number | null;
+      total_value: number | null;
       /**
-      * **trade_avg_price_by_day.avg_price**
+      * **type_trade_avg_price_by_window.avg_price**
       * - `numeric` in database
       * - Nullable, no default
       */
@@ -3533,61 +3605,43 @@ declare module 'zapatos/schema' {
     }
     export interface JSONSelectable {
       /**
-      * **trade_avg_price_by_day.user_uid**
+      * **type_trade_avg_price_by_window.user_uid**
       * - `uuid` in database
       * - Nullable, no default
       */
       user_uid: string | null;
       /**
-      * **trade_avg_price_by_day.day**
+      * **type_trade_avg_price_by_window.timestamp**
       * - `timestamptz` in database
       * - Nullable, no default
       */
-      day: db.TimestampTzString | null;
+      timestamp: db.TimestampTzString | null;
       /**
-      * **trade_avg_price_by_day.primary_currency**
-      * - `varchar` in database
+      * **type_trade_avg_price_by_window.primary_currency**
+      * - `text` in database
       * - Nullable, no default
       */
       primary_currency: string | null;
       /**
-      * **trade_avg_price_by_day.secondary_currency**
-      * - `text` in database
-      * - Nullable, no default
-      */
-      secondary_currency: string | null;
-      /**
-      * **trade_avg_price_by_day.total_value**
-      * - `numeric` in database
-      * - Nullable, no default
-      */
-      total_value: number | null;
-      /**
-      * **trade_avg_price_by_day.volume**
-      * - `numeric` in database
-      * - Nullable, no default
-      */
-      volume: number | null;
-      /**
-      * **trade_avg_price_by_day.price**
+      * **type_trade_avg_price_by_window.price**
       * - `numeric` in database
       * - Nullable, no default
       */
       price: number | null;
       /**
-      * **trade_avg_price_by_day.sum_volume**
+      * **type_trade_avg_price_by_window.volume**
       * - `numeric` in database
       * - Nullable, no default
       */
-      sum_volume: number | null;
+      volume: number | null;
       /**
-      * **trade_avg_price_by_day.sum_total_value**
+      * **type_trade_avg_price_by_window.total_value**
       * - `numeric` in database
       * - Nullable, no default
       */
-      sum_total_value: number | null;
+      total_value: number | null;
       /**
-      * **trade_avg_price_by_day.avg_price**
+      * **type_trade_avg_price_by_window.avg_price**
       * - `numeric` in database
       * - Nullable, no default
       */
@@ -3595,71 +3649,135 @@ declare module 'zapatos/schema' {
     }
     export interface Whereable {
       /**
-      * **trade_avg_price_by_day.user_uid**
+      * **type_trade_avg_price_by_window.user_uid**
       * - `uuid` in database
       * - Nullable, no default
       */
       user_uid?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
       /**
-      * **trade_avg_price_by_day.day**
+      * **type_trade_avg_price_by_window.timestamp**
       * - `timestamptz` in database
       * - Nullable, no default
       */
-      day?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
+      timestamp?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
       /**
-      * **trade_avg_price_by_day.primary_currency**
-      * - `varchar` in database
+      * **type_trade_avg_price_by_window.primary_currency**
+      * - `text` in database
       * - Nullable, no default
       */
       primary_currency?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
       /**
-      * **trade_avg_price_by_day.secondary_currency**
-      * - `text` in database
-      * - Nullable, no default
-      */
-      secondary_currency?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
-      /**
-      * **trade_avg_price_by_day.total_value**
-      * - `numeric` in database
-      * - Nullable, no default
-      */
-      total_value?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
-      /**
-      * **trade_avg_price_by_day.volume**
-      * - `numeric` in database
-      * - Nullable, no default
-      */
-      volume?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
-      /**
-      * **trade_avg_price_by_day.price**
+      * **type_trade_avg_price_by_window.price**
       * - `numeric` in database
       * - Nullable, no default
       */
       price?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
       /**
-      * **trade_avg_price_by_day.sum_volume**
+      * **type_trade_avg_price_by_window.volume**
       * - `numeric` in database
       * - Nullable, no default
       */
-      sum_volume?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+      volume?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
       /**
-      * **trade_avg_price_by_day.sum_total_value**
+      * **type_trade_avg_price_by_window.total_value**
       * - `numeric` in database
       * - Nullable, no default
       */
-      sum_total_value?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+      total_value?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
       /**
-      * **trade_avg_price_by_day.avg_price**
+      * **type_trade_avg_price_by_window.avg_price**
       * - `numeric` in database
       * - Nullable, no default
       */
       avg_price?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
     }
     export interface Insertable {
-      [key: string]: never;
+      /**
+      * **type_trade_avg_price_by_window.user_uid**
+      * - `uuid` in database
+      * - Nullable, no default
+      */
+      user_uid?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment;
+      /**
+      * **type_trade_avg_price_by_window.timestamp**
+      * - `timestamptz` in database
+      * - Nullable, no default
+      */
+      timestamp?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment;
+      /**
+      * **type_trade_avg_price_by_window.primary_currency**
+      * - `text` in database
+      * - Nullable, no default
+      */
+      primary_currency?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment;
+      /**
+      * **type_trade_avg_price_by_window.price**
+      * - `numeric` in database
+      * - Nullable, no default
+      */
+      price?: number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment;
+      /**
+      * **type_trade_avg_price_by_window.volume**
+      * - `numeric` in database
+      * - Nullable, no default
+      */
+      volume?: number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment;
+      /**
+      * **type_trade_avg_price_by_window.total_value**
+      * - `numeric` in database
+      * - Nullable, no default
+      */
+      total_value?: number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment;
+      /**
+      * **type_trade_avg_price_by_window.avg_price**
+      * - `numeric` in database
+      * - Nullable, no default
+      */
+      avg_price?: number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment;
     }
     export interface Updatable {
-      [key: string]: never;
+      /**
+      * **type_trade_avg_price_by_window.user_uid**
+      * - `uuid` in database
+      * - Nullable, no default
+      */
+      user_uid?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment>;
+      /**
+      * **type_trade_avg_price_by_window.timestamp**
+      * - `timestamptz` in database
+      * - Nullable, no default
+      */
+      timestamp?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment>;
+      /**
+      * **type_trade_avg_price_by_window.primary_currency**
+      * - `text` in database
+      * - Nullable, no default
+      */
+      primary_currency?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment>;
+      /**
+      * **type_trade_avg_price_by_window.price**
+      * - `numeric` in database
+      * - Nullable, no default
+      */
+      price?: number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment>;
+      /**
+      * **type_trade_avg_price_by_window.volume**
+      * - `numeric` in database
+      * - Nullable, no default
+      */
+      volume?: number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment>;
+      /**
+      * **type_trade_avg_price_by_window.total_value**
+      * - `numeric` in database
+      * - Nullable, no default
+      */
+      total_value?: number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment>;
+      /**
+      * **type_trade_avg_price_by_window.avg_price**
+      * - `numeric` in database
+      * - Nullable, no default
+      */
+      avg_price?: number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment>;
     }
     export type UniqueIndex = never;
     export type Column = keyof Selectable;
@@ -3669,457 +3787,200 @@ declare module 'zapatos/schema' {
   }
 
   /**
-   * **trade_sum_total_value_by_month**
-   * - View in database
+   * **type_trade_sum_by_window**
+   * - Table in database
    */
-  export namespace trade_sum_total_value_by_month {
-    export type Table = 'trade_sum_total_value_by_month';
+  export namespace type_trade_sum_by_window {
+    export type Table = 'type_trade_sum_by_window';
     export interface Selectable {
       /**
-      * **trade_sum_total_value_by_month.user_uid**
+      * **type_trade_sum_by_window.user_uid**
       * - `uuid` in database
       * - Nullable, no default
       */
       user_uid: string | null;
       /**
-      * **trade_sum_total_value_by_month.month**
+      * **type_trade_sum_by_window.timestamp**
       * - `timestamptz` in database
       * - Nullable, no default
       */
-      month: Date | null;
+      timestamp: Date | null;
       /**
-      * **trade_sum_total_value_by_month.primary_currency**
-      * - `varchar` in database
+      * **type_trade_sum_by_window.primary_currency**
+      * - `text` in database
       * - Nullable, no default
       */
       primary_currency: string | null;
       /**
-      * **trade_sum_total_value_by_month.secondary_currency**
-      * - `text` in database
-      * - Nullable, no default
-      */
-      secondary_currency: string | null;
-      /**
-      * **trade_sum_total_value_by_month.sum**
+      * **type_trade_sum_by_window.volume**
       * - `numeric` in database
       * - Nullable, no default
       */
-      sum: number | null;
+      volume: number | null;
+      /**
+      * **type_trade_sum_by_window.value**
+      * - `numeric` in database
+      * - Nullable, no default
+      */
+      value: number | null;
+      /**
+      * **type_trade_sum_by_window.total_value**
+      * - `numeric` in database
+      * - Nullable, no default
+      */
+      total_value: number | null;
     }
     export interface JSONSelectable {
       /**
-      * **trade_sum_total_value_by_month.user_uid**
+      * **type_trade_sum_by_window.user_uid**
       * - `uuid` in database
       * - Nullable, no default
       */
       user_uid: string | null;
       /**
-      * **trade_sum_total_value_by_month.month**
+      * **type_trade_sum_by_window.timestamp**
       * - `timestamptz` in database
       * - Nullable, no default
       */
-      month: db.TimestampTzString | null;
+      timestamp: db.TimestampTzString | null;
       /**
-      * **trade_sum_total_value_by_month.primary_currency**
-      * - `varchar` in database
+      * **type_trade_sum_by_window.primary_currency**
+      * - `text` in database
       * - Nullable, no default
       */
       primary_currency: string | null;
       /**
-      * **trade_sum_total_value_by_month.secondary_currency**
-      * - `text` in database
-      * - Nullable, no default
-      */
-      secondary_currency: string | null;
-      /**
-      * **trade_sum_total_value_by_month.sum**
+      * **type_trade_sum_by_window.volume**
       * - `numeric` in database
       * - Nullable, no default
       */
-      sum: number | null;
+      volume: number | null;
+      /**
+      * **type_trade_sum_by_window.value**
+      * - `numeric` in database
+      * - Nullable, no default
+      */
+      value: number | null;
+      /**
+      * **type_trade_sum_by_window.total_value**
+      * - `numeric` in database
+      * - Nullable, no default
+      */
+      total_value: number | null;
     }
     export interface Whereable {
       /**
-      * **trade_sum_total_value_by_month.user_uid**
+      * **type_trade_sum_by_window.user_uid**
       * - `uuid` in database
       * - Nullable, no default
       */
       user_uid?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
       /**
-      * **trade_sum_total_value_by_month.month**
+      * **type_trade_sum_by_window.timestamp**
       * - `timestamptz` in database
       * - Nullable, no default
       */
-      month?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
+      timestamp?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
       /**
-      * **trade_sum_total_value_by_month.primary_currency**
-      * - `varchar` in database
+      * **type_trade_sum_by_window.primary_currency**
+      * - `text` in database
       * - Nullable, no default
       */
       primary_currency?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
       /**
-      * **trade_sum_total_value_by_month.secondary_currency**
-      * - `text` in database
-      * - Nullable, no default
-      */
-      secondary_currency?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
-      /**
-      * **trade_sum_total_value_by_month.sum**
+      * **type_trade_sum_by_window.volume**
       * - `numeric` in database
       * - Nullable, no default
       */
-      sum?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+      volume?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **type_trade_sum_by_window.value**
+      * - `numeric` in database
+      * - Nullable, no default
+      */
+      value?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **type_trade_sum_by_window.total_value**
+      * - `numeric` in database
+      * - Nullable, no default
+      */
+      total_value?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
     }
     export interface Insertable {
-      [key: string]: never;
+      /**
+      * **type_trade_sum_by_window.user_uid**
+      * - `uuid` in database
+      * - Nullable, no default
+      */
+      user_uid?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment;
+      /**
+      * **type_trade_sum_by_window.timestamp**
+      * - `timestamptz` in database
+      * - Nullable, no default
+      */
+      timestamp?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment;
+      /**
+      * **type_trade_sum_by_window.primary_currency**
+      * - `text` in database
+      * - Nullable, no default
+      */
+      primary_currency?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment;
+      /**
+      * **type_trade_sum_by_window.volume**
+      * - `numeric` in database
+      * - Nullable, no default
+      */
+      volume?: number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment;
+      /**
+      * **type_trade_sum_by_window.value**
+      * - `numeric` in database
+      * - Nullable, no default
+      */
+      value?: number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment;
+      /**
+      * **type_trade_sum_by_window.total_value**
+      * - `numeric` in database
+      * - Nullable, no default
+      */
+      total_value?: number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment;
     }
     export interface Updatable {
-      [key: string]: never;
-    }
-    export type UniqueIndex = never;
-    export type Column = keyof Selectable;
-    export type OnlyCols<T extends readonly Column[]> = Pick<Selectable, T[number]>;
-    export type SQLExpression = db.GenericSQLExpression | db.ColumnNames<Updatable | (keyof Updatable)[]> | db.ColumnValues<Updatable> | Table | Whereable | Column;
-    export type SQL = SQLExpression | SQLExpression[];
-  }
-
-  /**
-   * **trade_sum_total_value_by_week**
-   * - View in database
-   */
-  export namespace trade_sum_total_value_by_week {
-    export type Table = 'trade_sum_total_value_by_week';
-    export interface Selectable {
       /**
-      * **trade_sum_total_value_by_week.user_uid**
+      * **type_trade_sum_by_window.user_uid**
       * - `uuid` in database
       * - Nullable, no default
       */
-      user_uid: string | null;
+      user_uid?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment>;
       /**
-      * **trade_sum_total_value_by_week.week**
+      * **type_trade_sum_by_window.timestamp**
       * - `timestamptz` in database
       * - Nullable, no default
       */
-      week: Date | null;
+      timestamp?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment>;
       /**
-      * **trade_sum_total_value_by_week.primary_currency**
-      * - `varchar` in database
-      * - Nullable, no default
-      */
-      primary_currency: string | null;
-      /**
-      * **trade_sum_total_value_by_week.secondary_currency**
+      * **type_trade_sum_by_window.primary_currency**
       * - `text` in database
       * - Nullable, no default
       */
-      secondary_currency: string | null;
+      primary_currency?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment>;
       /**
-      * **trade_sum_total_value_by_week.sum**
+      * **type_trade_sum_by_window.volume**
       * - `numeric` in database
       * - Nullable, no default
       */
-      sum: number | null;
-    }
-    export interface JSONSelectable {
+      volume?: number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment>;
       /**
-      * **trade_sum_total_value_by_week.user_uid**
-      * - `uuid` in database
-      * - Nullable, no default
-      */
-      user_uid: string | null;
-      /**
-      * **trade_sum_total_value_by_week.week**
-      * - `timestamptz` in database
-      * - Nullable, no default
-      */
-      week: db.TimestampTzString | null;
-      /**
-      * **trade_sum_total_value_by_week.primary_currency**
-      * - `varchar` in database
-      * - Nullable, no default
-      */
-      primary_currency: string | null;
-      /**
-      * **trade_sum_total_value_by_week.secondary_currency**
-      * - `text` in database
-      * - Nullable, no default
-      */
-      secondary_currency: string | null;
-      /**
-      * **trade_sum_total_value_by_week.sum**
+      * **type_trade_sum_by_window.value**
       * - `numeric` in database
       * - Nullable, no default
       */
-      sum: number | null;
-    }
-    export interface Whereable {
+      value?: number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment>;
       /**
-      * **trade_sum_total_value_by_week.user_uid**
-      * - `uuid` in database
-      * - Nullable, no default
-      */
-      user_uid?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
-      /**
-      * **trade_sum_total_value_by_week.week**
-      * - `timestamptz` in database
-      * - Nullable, no default
-      */
-      week?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
-      /**
-      * **trade_sum_total_value_by_week.primary_currency**
-      * - `varchar` in database
-      * - Nullable, no default
-      */
-      primary_currency?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
-      /**
-      * **trade_sum_total_value_by_week.secondary_currency**
-      * - `text` in database
-      * - Nullable, no default
-      */
-      secondary_currency?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
-      /**
-      * **trade_sum_total_value_by_week.sum**
+      * **type_trade_sum_by_window.total_value**
       * - `numeric` in database
       * - Nullable, no default
       */
-      sum?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
-    }
-    export interface Insertable {
-      [key: string]: never;
-    }
-    export interface Updatable {
-      [key: string]: never;
-    }
-    export type UniqueIndex = never;
-    export type Column = keyof Selectable;
-    export type OnlyCols<T extends readonly Column[]> = Pick<Selectable, T[number]>;
-    export type SQLExpression = db.GenericSQLExpression | db.ColumnNames<Updatable | (keyof Updatable)[]> | db.ColumnValues<Updatable> | Table | Whereable | Column;
-    export type SQL = SQLExpression | SQLExpression[];
-  }
-
-  /**
-   * **trade_sum_volume_by_month**
-   * - View in database
-   */
-  export namespace trade_sum_volume_by_month {
-    export type Table = 'trade_sum_volume_by_month';
-    export interface Selectable {
-      /**
-      * **trade_sum_volume_by_month.user_uid**
-      * - `uuid` in database
-      * - Nullable, no default
-      */
-      user_uid: string | null;
-      /**
-      * **trade_sum_volume_by_month.month**
-      * - `timestamptz` in database
-      * - Nullable, no default
-      */
-      month: Date | null;
-      /**
-      * **trade_sum_volume_by_month.primary_currency**
-      * - `varchar` in database
-      * - Nullable, no default
-      */
-      primary_currency: string | null;
-      /**
-      * **trade_sum_volume_by_month.secondary_currency**
-      * - `text` in database
-      * - Nullable, no default
-      */
-      secondary_currency: string | null;
-      /**
-      * **trade_sum_volume_by_month.sum**
-      * - `numeric` in database
-      * - Nullable, no default
-      */
-      sum: number | null;
-    }
-    export interface JSONSelectable {
-      /**
-      * **trade_sum_volume_by_month.user_uid**
-      * - `uuid` in database
-      * - Nullable, no default
-      */
-      user_uid: string | null;
-      /**
-      * **trade_sum_volume_by_month.month**
-      * - `timestamptz` in database
-      * - Nullable, no default
-      */
-      month: db.TimestampTzString | null;
-      /**
-      * **trade_sum_volume_by_month.primary_currency**
-      * - `varchar` in database
-      * - Nullable, no default
-      */
-      primary_currency: string | null;
-      /**
-      * **trade_sum_volume_by_month.secondary_currency**
-      * - `text` in database
-      * - Nullable, no default
-      */
-      secondary_currency: string | null;
-      /**
-      * **trade_sum_volume_by_month.sum**
-      * - `numeric` in database
-      * - Nullable, no default
-      */
-      sum: number | null;
-    }
-    export interface Whereable {
-      /**
-      * **trade_sum_volume_by_month.user_uid**
-      * - `uuid` in database
-      * - Nullable, no default
-      */
-      user_uid?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
-      /**
-      * **trade_sum_volume_by_month.month**
-      * - `timestamptz` in database
-      * - Nullable, no default
-      */
-      month?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
-      /**
-      * **trade_sum_volume_by_month.primary_currency**
-      * - `varchar` in database
-      * - Nullable, no default
-      */
-      primary_currency?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
-      /**
-      * **trade_sum_volume_by_month.secondary_currency**
-      * - `text` in database
-      * - Nullable, no default
-      */
-      secondary_currency?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
-      /**
-      * **trade_sum_volume_by_month.sum**
-      * - `numeric` in database
-      * - Nullable, no default
-      */
-      sum?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
-    }
-    export interface Insertable {
-      [key: string]: never;
-    }
-    export interface Updatable {
-      [key: string]: never;
-    }
-    export type UniqueIndex = never;
-    export type Column = keyof Selectable;
-    export type OnlyCols<T extends readonly Column[]> = Pick<Selectable, T[number]>;
-    export type SQLExpression = db.GenericSQLExpression | db.ColumnNames<Updatable | (keyof Updatable)[]> | db.ColumnValues<Updatable> | Table | Whereable | Column;
-    export type SQL = SQLExpression | SQLExpression[];
-  }
-
-  /**
-   * **trade_sum_volume_by_week**
-   * - View in database
-   */
-  export namespace trade_sum_volume_by_week {
-    export type Table = 'trade_sum_volume_by_week';
-    export interface Selectable {
-      /**
-      * **trade_sum_volume_by_week.user_uid**
-      * - `uuid` in database
-      * - Nullable, no default
-      */
-      user_uid: string | null;
-      /**
-      * **trade_sum_volume_by_week.week**
-      * - `timestamptz` in database
-      * - Nullable, no default
-      */
-      week: Date | null;
-      /**
-      * **trade_sum_volume_by_week.primary_currency**
-      * - `varchar` in database
-      * - Nullable, no default
-      */
-      primary_currency: string | null;
-      /**
-      * **trade_sum_volume_by_week.secondary_currency**
-      * - `text` in database
-      * - Nullable, no default
-      */
-      secondary_currency: string | null;
-      /**
-      * **trade_sum_volume_by_week.sum**
-      * - `numeric` in database
-      * - Nullable, no default
-      */
-      sum: number | null;
-    }
-    export interface JSONSelectable {
-      /**
-      * **trade_sum_volume_by_week.user_uid**
-      * - `uuid` in database
-      * - Nullable, no default
-      */
-      user_uid: string | null;
-      /**
-      * **trade_sum_volume_by_week.week**
-      * - `timestamptz` in database
-      * - Nullable, no default
-      */
-      week: db.TimestampTzString | null;
-      /**
-      * **trade_sum_volume_by_week.primary_currency**
-      * - `varchar` in database
-      * - Nullable, no default
-      */
-      primary_currency: string | null;
-      /**
-      * **trade_sum_volume_by_week.secondary_currency**
-      * - `text` in database
-      * - Nullable, no default
-      */
-      secondary_currency: string | null;
-      /**
-      * **trade_sum_volume_by_week.sum**
-      * - `numeric` in database
-      * - Nullable, no default
-      */
-      sum: number | null;
-    }
-    export interface Whereable {
-      /**
-      * **trade_sum_volume_by_week.user_uid**
-      * - `uuid` in database
-      * - Nullable, no default
-      */
-      user_uid?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
-      /**
-      * **trade_sum_volume_by_week.week**
-      * - `timestamptz` in database
-      * - Nullable, no default
-      */
-      week?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
-      /**
-      * **trade_sum_volume_by_week.primary_currency**
-      * - `varchar` in database
-      * - Nullable, no default
-      */
-      primary_currency?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
-      /**
-      * **trade_sum_volume_by_week.secondary_currency**
-      * - `text` in database
-      * - Nullable, no default
-      */
-      secondary_currency?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
-      /**
-      * **trade_sum_volume_by_week.sum**
-      * - `numeric` in database
-      * - Nullable, no default
-      */
-      sum?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
-    }
-    export interface Insertable {
-      [key: string]: never;
-    }
-    export interface Updatable {
-      [key: string]: never;
+      total_value?: number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment>;
     }
     export type UniqueIndex = never;
     export type Column = keyof Selectable;
@@ -5588,19 +5449,19 @@ declare module 'zapatos/schema' {
 
   /* === cross-table types === */
 
-  export type Table = currency.Table | currency_fx.Table | customer.Table | dca_order.Table | dca_order_history.Table | exchange.Table | exchange_primary_currency.Table | exchange_secondary_currency.Table | market.Table | market_price.Table | market_trading_pair.Table | order.Table | schema_migrations.Table | trade.Table | trade_avg_price_by_day.Table | trade_sum_total_value_by_month.Table | trade_sum_total_value_by_week.Table | trade_sum_volume_by_month.Table | trade_sum_volume_by_week.Table | user.Table | user_2fa.Table | user_device.Table | user_email_verify.Table | user_exchange_keys.Table | user_password_reset.Table;
-  export type Selectable = currency.Selectable | currency_fx.Selectable | customer.Selectable | dca_order.Selectable | dca_order_history.Selectable | exchange.Selectable | exchange_primary_currency.Selectable | exchange_secondary_currency.Selectable | market.Selectable | market_price.Selectable | market_trading_pair.Selectable | order.Selectable | schema_migrations.Selectable | trade.Selectable | trade_avg_price_by_day.Selectable | trade_sum_total_value_by_month.Selectable | trade_sum_total_value_by_week.Selectable | trade_sum_volume_by_month.Selectable | trade_sum_volume_by_week.Selectable | user.Selectable | user_2fa.Selectable | user_device.Selectable | user_email_verify.Selectable | user_exchange_keys.Selectable | user_password_reset.Selectable;
-  export type JSONSelectable = currency.JSONSelectable | currency_fx.JSONSelectable | customer.JSONSelectable | dca_order.JSONSelectable | dca_order_history.JSONSelectable | exchange.JSONSelectable | exchange_primary_currency.JSONSelectable | exchange_secondary_currency.JSONSelectable | market.JSONSelectable | market_price.JSONSelectable | market_trading_pair.JSONSelectable | order.JSONSelectable | schema_migrations.JSONSelectable | trade.JSONSelectable | trade_avg_price_by_day.JSONSelectable | trade_sum_total_value_by_month.JSONSelectable | trade_sum_total_value_by_week.JSONSelectable | trade_sum_volume_by_month.JSONSelectable | trade_sum_volume_by_week.JSONSelectable | user.JSONSelectable | user_2fa.JSONSelectable | user_device.JSONSelectable | user_email_verify.JSONSelectable | user_exchange_keys.JSONSelectable | user_password_reset.JSONSelectable;
-  export type Whereable = currency.Whereable | currency_fx.Whereable | customer.Whereable | dca_order.Whereable | dca_order_history.Whereable | exchange.Whereable | exchange_primary_currency.Whereable | exchange_secondary_currency.Whereable | market.Whereable | market_price.Whereable | market_trading_pair.Whereable | order.Whereable | schema_migrations.Whereable | trade.Whereable | trade_avg_price_by_day.Whereable | trade_sum_total_value_by_month.Whereable | trade_sum_total_value_by_week.Whereable | trade_sum_volume_by_month.Whereable | trade_sum_volume_by_week.Whereable | user.Whereable | user_2fa.Whereable | user_device.Whereable | user_email_verify.Whereable | user_exchange_keys.Whereable | user_password_reset.Whereable;
-  export type Insertable = currency.Insertable | currency_fx.Insertable | customer.Insertable | dca_order.Insertable | dca_order_history.Insertable | exchange.Insertable | exchange_primary_currency.Insertable | exchange_secondary_currency.Insertable | market.Insertable | market_price.Insertable | market_trading_pair.Insertable | order.Insertable | schema_migrations.Insertable | trade.Insertable | trade_avg_price_by_day.Insertable | trade_sum_total_value_by_month.Insertable | trade_sum_total_value_by_week.Insertable | trade_sum_volume_by_month.Insertable | trade_sum_volume_by_week.Insertable | user.Insertable | user_2fa.Insertable | user_device.Insertable | user_email_verify.Insertable | user_exchange_keys.Insertable | user_password_reset.Insertable;
-  export type Updatable = currency.Updatable | currency_fx.Updatable | customer.Updatable | dca_order.Updatable | dca_order_history.Updatable | exchange.Updatable | exchange_primary_currency.Updatable | exchange_secondary_currency.Updatable | market.Updatable | market_price.Updatable | market_trading_pair.Updatable | order.Updatable | schema_migrations.Updatable | trade.Updatable | trade_avg_price_by_day.Updatable | trade_sum_total_value_by_month.Updatable | trade_sum_total_value_by_week.Updatable | trade_sum_volume_by_month.Updatable | trade_sum_volume_by_week.Updatable | user.Updatable | user_2fa.Updatable | user_device.Updatable | user_email_verify.Updatable | user_exchange_keys.Updatable | user_password_reset.Updatable;
-  export type UniqueIndex = currency.UniqueIndex | currency_fx.UniqueIndex | customer.UniqueIndex | dca_order.UniqueIndex | dca_order_history.UniqueIndex | exchange.UniqueIndex | exchange_primary_currency.UniqueIndex | exchange_secondary_currency.UniqueIndex | market.UniqueIndex | market_price.UniqueIndex | market_trading_pair.UniqueIndex | order.UniqueIndex | schema_migrations.UniqueIndex | trade.UniqueIndex | trade_avg_price_by_day.UniqueIndex | trade_sum_total_value_by_month.UniqueIndex | trade_sum_total_value_by_week.UniqueIndex | trade_sum_volume_by_month.UniqueIndex | trade_sum_volume_by_week.UniqueIndex | user.UniqueIndex | user_2fa.UniqueIndex | user_device.UniqueIndex | user_email_verify.UniqueIndex | user_exchange_keys.UniqueIndex | user_password_reset.UniqueIndex;
-  export type Column = currency.Column | currency_fx.Column | customer.Column | dca_order.Column | dca_order_history.Column | exchange.Column | exchange_primary_currency.Column | exchange_secondary_currency.Column | market.Column | market_price.Column | market_trading_pair.Column | order.Column | schema_migrations.Column | trade.Column | trade_avg_price_by_day.Column | trade_sum_total_value_by_month.Column | trade_sum_total_value_by_week.Column | trade_sum_volume_by_month.Column | trade_sum_volume_by_week.Column | user.Column | user_2fa.Column | user_device.Column | user_email_verify.Column | user_exchange_keys.Column | user_password_reset.Column;
-  export type AllBaseTables = [currency.Table, currency_fx.Table, customer.Table, dca_order.Table, dca_order_history.Table, exchange.Table, exchange_primary_currency.Table, exchange_secondary_currency.Table, market.Table, market_price.Table, market_trading_pair.Table, order.Table, schema_migrations.Table, trade.Table, user.Table, user_2fa.Table, user_device.Table, user_email_verify.Table, user_exchange_keys.Table, user_password_reset.Table];
+  export type Table = currency.Table | currency_fx.Table | customer.Table | dca_order.Table | dca_order_history.Table | exchange.Table | exchange_primary_currency.Table | exchange_secondary_currency.Table | market.Table | market_price.Table | market_trading_pair.Table | order.Table | schema_migrations.Table | trade.Table | type_trade_avg_price_by_window.Table | type_trade_sum_by_window.Table | user.Table | user_2fa.Table | user_device.Table | user_email_verify.Table | user_exchange_keys.Table | user_password_reset.Table;
+  export type Selectable = currency.Selectable | currency_fx.Selectable | customer.Selectable | dca_order.Selectable | dca_order_history.Selectable | exchange.Selectable | exchange_primary_currency.Selectable | exchange_secondary_currency.Selectable | market.Selectable | market_price.Selectable | market_trading_pair.Selectable | order.Selectable | schema_migrations.Selectable | trade.Selectable | type_trade_avg_price_by_window.Selectable | type_trade_sum_by_window.Selectable | user.Selectable | user_2fa.Selectable | user_device.Selectable | user_email_verify.Selectable | user_exchange_keys.Selectable | user_password_reset.Selectable;
+  export type JSONSelectable = currency.JSONSelectable | currency_fx.JSONSelectable | customer.JSONSelectable | dca_order.JSONSelectable | dca_order_history.JSONSelectable | exchange.JSONSelectable | exchange_primary_currency.JSONSelectable | exchange_secondary_currency.JSONSelectable | market.JSONSelectable | market_price.JSONSelectable | market_trading_pair.JSONSelectable | order.JSONSelectable | schema_migrations.JSONSelectable | trade.JSONSelectable | type_trade_avg_price_by_window.JSONSelectable | type_trade_sum_by_window.JSONSelectable | user.JSONSelectable | user_2fa.JSONSelectable | user_device.JSONSelectable | user_email_verify.JSONSelectable | user_exchange_keys.JSONSelectable | user_password_reset.JSONSelectable;
+  export type Whereable = currency.Whereable | currency_fx.Whereable | customer.Whereable | dca_order.Whereable | dca_order_history.Whereable | exchange.Whereable | exchange_primary_currency.Whereable | exchange_secondary_currency.Whereable | market.Whereable | market_price.Whereable | market_trading_pair.Whereable | order.Whereable | schema_migrations.Whereable | trade.Whereable | type_trade_avg_price_by_window.Whereable | type_trade_sum_by_window.Whereable | user.Whereable | user_2fa.Whereable | user_device.Whereable | user_email_verify.Whereable | user_exchange_keys.Whereable | user_password_reset.Whereable;
+  export type Insertable = currency.Insertable | currency_fx.Insertable | customer.Insertable | dca_order.Insertable | dca_order_history.Insertable | exchange.Insertable | exchange_primary_currency.Insertable | exchange_secondary_currency.Insertable | market.Insertable | market_price.Insertable | market_trading_pair.Insertable | order.Insertable | schema_migrations.Insertable | trade.Insertable | type_trade_avg_price_by_window.Insertable | type_trade_sum_by_window.Insertable | user.Insertable | user_2fa.Insertable | user_device.Insertable | user_email_verify.Insertable | user_exchange_keys.Insertable | user_password_reset.Insertable;
+  export type Updatable = currency.Updatable | currency_fx.Updatable | customer.Updatable | dca_order.Updatable | dca_order_history.Updatable | exchange.Updatable | exchange_primary_currency.Updatable | exchange_secondary_currency.Updatable | market.Updatable | market_price.Updatable | market_trading_pair.Updatable | order.Updatable | schema_migrations.Updatable | trade.Updatable | type_trade_avg_price_by_window.Updatable | type_trade_sum_by_window.Updatable | user.Updatable | user_2fa.Updatable | user_device.Updatable | user_email_verify.Updatable | user_exchange_keys.Updatable | user_password_reset.Updatable;
+  export type UniqueIndex = currency.UniqueIndex | currency_fx.UniqueIndex | customer.UniqueIndex | dca_order.UniqueIndex | dca_order_history.UniqueIndex | exchange.UniqueIndex | exchange_primary_currency.UniqueIndex | exchange_secondary_currency.UniqueIndex | market.UniqueIndex | market_price.UniqueIndex | market_trading_pair.UniqueIndex | order.UniqueIndex | schema_migrations.UniqueIndex | trade.UniqueIndex | type_trade_avg_price_by_window.UniqueIndex | type_trade_sum_by_window.UniqueIndex | user.UniqueIndex | user_2fa.UniqueIndex | user_device.UniqueIndex | user_email_verify.UniqueIndex | user_exchange_keys.UniqueIndex | user_password_reset.UniqueIndex;
+  export type Column = currency.Column | currency_fx.Column | customer.Column | dca_order.Column | dca_order_history.Column | exchange.Column | exchange_primary_currency.Column | exchange_secondary_currency.Column | market.Column | market_price.Column | market_trading_pair.Column | order.Column | schema_migrations.Column | trade.Column | type_trade_avg_price_by_window.Column | type_trade_sum_by_window.Column | user.Column | user_2fa.Column | user_device.Column | user_email_verify.Column | user_exchange_keys.Column | user_password_reset.Column;
+  export type AllBaseTables = [currency.Table, currency_fx.Table, customer.Table, dca_order.Table, dca_order_history.Table, exchange.Table, exchange_primary_currency.Table, exchange_secondary_currency.Table, market.Table, market_price.Table, market_trading_pair.Table, order.Table, schema_migrations.Table, trade.Table, type_trade_avg_price_by_window.Table, type_trade_sum_by_window.Table, user.Table, user_2fa.Table, user_device.Table, user_email_verify.Table, user_exchange_keys.Table, user_password_reset.Table];
   export type AllForeignTables = [];
-  export type AllViews = [trade_avg_price_by_day.Table, trade_sum_total_value_by_month.Table, trade_sum_total_value_by_week.Table, trade_sum_volume_by_month.Table, trade_sum_volume_by_week.Table];
+  export type AllViews = [];
   export type AllMaterializedViews = [];
-  export type AllTablesAndViews = [currency.Table, currency_fx.Table, customer.Table, dca_order.Table, dca_order_history.Table, exchange.Table, exchange_primary_currency.Table, exchange_secondary_currency.Table, market.Table, market_price.Table, market_trading_pair.Table, order.Table, schema_migrations.Table, trade.Table, trade_avg_price_by_day.Table, trade_sum_total_value_by_month.Table, trade_sum_total_value_by_week.Table, trade_sum_volume_by_month.Table, trade_sum_volume_by_week.Table, user.Table, user_2fa.Table, user_device.Table, user_email_verify.Table, user_exchange_keys.Table, user_password_reset.Table];
+  export type AllTablesAndViews = [currency.Table, currency_fx.Table, customer.Table, dca_order.Table, dca_order_history.Table, exchange.Table, exchange_primary_currency.Table, exchange_secondary_currency.Table, market.Table, market_price.Table, market_trading_pair.Table, order.Table, schema_migrations.Table, trade.Table, type_trade_avg_price_by_window.Table, type_trade_sum_by_window.Table, user.Table, user_2fa.Table, user_device.Table, user_email_verify.Table, user_exchange_keys.Table, user_password_reset.Table];
 
 
   export type SelectableForTable<T extends Table> = {
@@ -5618,11 +5479,8 @@ declare module 'zapatos/schema' {
     order: order.Selectable;
     schema_migrations: schema_migrations.Selectable;
     trade: trade.Selectable;
-    trade_avg_price_by_day: trade_avg_price_by_day.Selectable;
-    trade_sum_total_value_by_month: trade_sum_total_value_by_month.Selectable;
-    trade_sum_total_value_by_week: trade_sum_total_value_by_week.Selectable;
-    trade_sum_volume_by_month: trade_sum_volume_by_month.Selectable;
-    trade_sum_volume_by_week: trade_sum_volume_by_week.Selectable;
+    type_trade_avg_price_by_window: type_trade_avg_price_by_window.Selectable;
+    type_trade_sum_by_window: type_trade_sum_by_window.Selectable;
     user: user.Selectable;
     user_2fa: user_2fa.Selectable;
     user_device: user_device.Selectable;
@@ -5646,11 +5504,8 @@ declare module 'zapatos/schema' {
     order: order.JSONSelectable;
     schema_migrations: schema_migrations.JSONSelectable;
     trade: trade.JSONSelectable;
-    trade_avg_price_by_day: trade_avg_price_by_day.JSONSelectable;
-    trade_sum_total_value_by_month: trade_sum_total_value_by_month.JSONSelectable;
-    trade_sum_total_value_by_week: trade_sum_total_value_by_week.JSONSelectable;
-    trade_sum_volume_by_month: trade_sum_volume_by_month.JSONSelectable;
-    trade_sum_volume_by_week: trade_sum_volume_by_week.JSONSelectable;
+    type_trade_avg_price_by_window: type_trade_avg_price_by_window.JSONSelectable;
+    type_trade_sum_by_window: type_trade_sum_by_window.JSONSelectable;
     user: user.JSONSelectable;
     user_2fa: user_2fa.JSONSelectable;
     user_device: user_device.JSONSelectable;
@@ -5674,11 +5529,8 @@ declare module 'zapatos/schema' {
     order: order.Whereable;
     schema_migrations: schema_migrations.Whereable;
     trade: trade.Whereable;
-    trade_avg_price_by_day: trade_avg_price_by_day.Whereable;
-    trade_sum_total_value_by_month: trade_sum_total_value_by_month.Whereable;
-    trade_sum_total_value_by_week: trade_sum_total_value_by_week.Whereable;
-    trade_sum_volume_by_month: trade_sum_volume_by_month.Whereable;
-    trade_sum_volume_by_week: trade_sum_volume_by_week.Whereable;
+    type_trade_avg_price_by_window: type_trade_avg_price_by_window.Whereable;
+    type_trade_sum_by_window: type_trade_sum_by_window.Whereable;
     user: user.Whereable;
     user_2fa: user_2fa.Whereable;
     user_device: user_device.Whereable;
@@ -5702,11 +5554,8 @@ declare module 'zapatos/schema' {
     order: order.Insertable;
     schema_migrations: schema_migrations.Insertable;
     trade: trade.Insertable;
-    trade_avg_price_by_day: trade_avg_price_by_day.Insertable;
-    trade_sum_total_value_by_month: trade_sum_total_value_by_month.Insertable;
-    trade_sum_total_value_by_week: trade_sum_total_value_by_week.Insertable;
-    trade_sum_volume_by_month: trade_sum_volume_by_month.Insertable;
-    trade_sum_volume_by_week: trade_sum_volume_by_week.Insertable;
+    type_trade_avg_price_by_window: type_trade_avg_price_by_window.Insertable;
+    type_trade_sum_by_window: type_trade_sum_by_window.Insertable;
     user: user.Insertable;
     user_2fa: user_2fa.Insertable;
     user_device: user_device.Insertable;
@@ -5730,11 +5579,8 @@ declare module 'zapatos/schema' {
     order: order.Updatable;
     schema_migrations: schema_migrations.Updatable;
     trade: trade.Updatable;
-    trade_avg_price_by_day: trade_avg_price_by_day.Updatable;
-    trade_sum_total_value_by_month: trade_sum_total_value_by_month.Updatable;
-    trade_sum_total_value_by_week: trade_sum_total_value_by_week.Updatable;
-    trade_sum_volume_by_month: trade_sum_volume_by_month.Updatable;
-    trade_sum_volume_by_week: trade_sum_volume_by_week.Updatable;
+    type_trade_avg_price_by_window: type_trade_avg_price_by_window.Updatable;
+    type_trade_sum_by_window: type_trade_sum_by_window.Updatable;
     user: user.Updatable;
     user_2fa: user_2fa.Updatable;
     user_device: user_device.Updatable;
@@ -5758,11 +5604,8 @@ declare module 'zapatos/schema' {
     order: order.UniqueIndex;
     schema_migrations: schema_migrations.UniqueIndex;
     trade: trade.UniqueIndex;
-    trade_avg_price_by_day: trade_avg_price_by_day.UniqueIndex;
-    trade_sum_total_value_by_month: trade_sum_total_value_by_month.UniqueIndex;
-    trade_sum_total_value_by_week: trade_sum_total_value_by_week.UniqueIndex;
-    trade_sum_volume_by_month: trade_sum_volume_by_month.UniqueIndex;
-    trade_sum_volume_by_week: trade_sum_volume_by_week.UniqueIndex;
+    type_trade_avg_price_by_window: type_trade_avg_price_by_window.UniqueIndex;
+    type_trade_sum_by_window: type_trade_sum_by_window.UniqueIndex;
     user: user.UniqueIndex;
     user_2fa: user_2fa.UniqueIndex;
     user_device: user_device.UniqueIndex;
@@ -5786,11 +5629,8 @@ declare module 'zapatos/schema' {
     order: order.Column;
     schema_migrations: schema_migrations.Column;
     trade: trade.Column;
-    trade_avg_price_by_day: trade_avg_price_by_day.Column;
-    trade_sum_total_value_by_month: trade_sum_total_value_by_month.Column;
-    trade_sum_total_value_by_week: trade_sum_total_value_by_week.Column;
-    trade_sum_volume_by_month: trade_sum_volume_by_month.Column;
-    trade_sum_volume_by_week: trade_sum_volume_by_week.Column;
+    type_trade_avg_price_by_window: type_trade_avg_price_by_window.Column;
+    type_trade_sum_by_window: type_trade_sum_by_window.Column;
     user: user.Column;
     user_2fa: user_2fa.Column;
     user_device: user_device.Column;
@@ -5814,11 +5654,8 @@ declare module 'zapatos/schema' {
     order: order.SQL;
     schema_migrations: schema_migrations.SQL;
     trade: trade.SQL;
-    trade_avg_price_by_day: trade_avg_price_by_day.SQL;
-    trade_sum_total_value_by_month: trade_sum_total_value_by_month.SQL;
-    trade_sum_total_value_by_week: trade_sum_total_value_by_week.SQL;
-    trade_sum_volume_by_month: trade_sum_volume_by_month.SQL;
-    trade_sum_volume_by_week: trade_sum_volume_by_week.SQL;
+    type_trade_avg_price_by_window: type_trade_avg_price_by_window.SQL;
+    type_trade_sum_by_window: type_trade_sum_by_window.SQL;
     user: user.SQL;
     user_2fa: user_2fa.SQL;
     user_device: user_device.SQL;

@@ -1,5 +1,5 @@
 import * as s from 'zapatos/schema'
-import { DateTime } from 'luxon'
+import { parseISO } from 'date-fns'
 
 import { ConfigError } from '../../util/error.js'
 import { keyring } from '../../util/keyring.js'
@@ -26,7 +26,7 @@ const mapRowToUserExchangeKeys = <Keys extends Record<string, string>>(
     keys,
     description: row.description,
     invalidatedAt: row.invalidated_at
-      ? DateTime.fromISO(row.invalidated_at)
+      ? parseISO(row.invalidated_at)
       : undefined,
   }
 }

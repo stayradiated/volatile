@@ -13,7 +13,7 @@ export const command = 'trades'
 export const desc = 'Print trades'
 
 type Options = {
-  asset: string
+  asset?: string
 }
 
 export const builder = (yargs: Argv) =>

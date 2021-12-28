@@ -1,9 +1,8 @@
-import type { DateTime } from 'luxon'
 import type { Except } from 'type-fest'
 
 type UserPasswordReset = {
   UID: string
-  expiresAt: DateTime
+  expiresAt: Date
   userUID: string
   secret: string
 }

@@ -1,3 +1,5 @@
+import { formatISO } from 'date-fns'
+
 import { MissingRequiredArgumentError } from '../../util/error.js'
 
 import { generateAuthToken } from '../../model/auth-token/index.js'
@@ -34,7 +36,7 @@ const refreshAuthTokenHandler: ActionHandlerFn<
   return {
     user_uid: userUID,
     auth_token: authToken,
-    expires_at: expiresAt.toISO(),
+    expires_at: formatISO(expiresAt),
   }
 }
 

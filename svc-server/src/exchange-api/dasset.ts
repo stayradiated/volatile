@@ -1,5 +1,5 @@
 import * as d from '@volatile/dasset-api'
-import { DateTime } from 'luxon'
+import { parseISO } from 'date-fns'
 
 import { ExchangeError } from '../util/error.js'
 import { EXCHANGE_DASSET } from '../model/exchange/index.js'
@@ -65,7 +65,7 @@ const dasset: ExchangeAPI<d.Config> = {
       price: order.details.price ?? 0,
       volume: order.baseAmount,
       type: order.type,
-      openedAt: DateTime.fromISO(order.timestamp),
+      openedAt: parseISO(order.timestamp),
     }))
   },
   getTrades: (config) => async (options) => {
@@ -102,7 +102,7 @@ const dasset: ExchangeAPI<d.Config> = {
           volume: trade.baseAmount,
           type: trade.type,
           fee: trade.details.nzdFee ?? 0,
-          timestamp: DateTime.fromISO(trade.timestamp),
+          timestamp: parseISO(trade.timestamp),
         })),
     }
   },

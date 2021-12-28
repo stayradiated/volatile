@@ -30,8 +30,8 @@ const insertOrder = async (
     volume: options.volume,
     value: options.value,
     type: options.type,
-    opened_at: options.openedAt.toJSDate(),
-    closed_at: options.closedAt ? options.closedAt.toJSDate() : undefined,
+    opened_at: options.openedAt,
+    closed_at: options.closedAt,
   }
 
   const rows = await errorBoundary(async () =>

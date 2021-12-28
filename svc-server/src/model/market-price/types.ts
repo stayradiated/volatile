@@ -1,7 +1,5 @@
-import type { DateTime } from 'luxon'
-
 type MarketPrice = {
-  timestamp: DateTime
+  timestamp: Date
   marketUID: string
   assetSymbol: string
   sourcePrice: number

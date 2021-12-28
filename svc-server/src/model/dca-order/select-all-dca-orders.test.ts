@@ -1,5 +1,4 @@
 import { inspect } from 'util'
-import { DateTime } from 'luxon'
 
 import { test } from '../../test-util/ava.js'
 
@@ -20,14 +19,17 @@ test('dcaOrder', async (t) => {
     marketUID,
     primaryCurrency: 'BTC',
     secondaryCurrency: 'NZD',
-    startAt: DateTime.local(),
+    startAt: new Date(),
     dailyAverage: 10,
     marketOffset: -10,
+    intervalMs: 1000 * 60 * 5,
     minPrice: 0,
     maxPrice: 10_000,
     minValue: 0,
     maxValue: 1000,
-    enabledAt: DateTime.local(),
+    enabledAt: new Date(),
+    nextRunAt: undefined,
+    lastRunAt: undefined,
   }
 
   await insertDCAOrder(pool, input)

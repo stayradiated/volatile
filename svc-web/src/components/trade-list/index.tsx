@@ -15,6 +15,7 @@ import { TradeStats } from './stats'
 // Import { ChartWeek } from './chart-week'
 import { TradeAvgPrice } from './trade-avg-price'
 import { TradeCumulativeSum } from './trade-cumulative-sum'
+import { TradeCumulativeVolume } from './trade-cumulative-volume'
 import { TradeSumValueByWeek } from './trade-sum-value-by-week'
 
 type Trade = GetTradeListQuery['kc_trade'][0]
@@ -165,6 +166,7 @@ const TradeList = (props: TradeListProps) => {
       <TradeAvgPrice primaryCurrency="BTC" />
       <TradeAvgPrice primaryCurrency="ETH" />
       <TradeCumulativeSum />
+      <TradeCumulativeVolume />
 
       <TradeStats
         sumValue={agg?.sum?.value ?? 0}

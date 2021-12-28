@@ -1,6 +1,6 @@
 import * as db from 'zapatos/db'
 import { errorBoundary } from '@stayradiated/error-boundary'
-import type { DateTime } from 'luxon'
+import { formatISO } from 'date-fns'
 
 import type { Pool, BuySell } from '../../types.js'
 import { mapRowToTrade } from './map-row-to-trade.js'
@@ -13,7 +13,7 @@ type SelectTradesAfterDateOptions = {
   primaryCurrency: string
   secondaryCurrency: string
   type: BuySell
-  afterDate: DateTime
+  afterDate: Date
 }
 
 const selectTradesAfterDate = async (
@@ -37,7 +37,7 @@ const selectTradesAfterDate = async (
         primary_currency: primaryCurrency,
         secondary_currency: secondaryCurrency,
         type,
-        timestamp: db.sql`${db.self} >= ${db.param(afterDate.toISO())}`,
+        timestamp: db.sql`${db.self} >= ${db.param(formatISO(afterDate))}`,
       })
       .run(pool),
   )

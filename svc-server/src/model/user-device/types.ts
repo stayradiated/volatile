@@ -1,9 +1,8 @@
-import type { DateTime } from 'luxon'
 import type { Except } from 'type-fest'
 
 type UserDevice = {
   UID: string
-  accessedAt: DateTime
+  accessedAt: Date
   userUID: string
   name: string
   deviceID: string

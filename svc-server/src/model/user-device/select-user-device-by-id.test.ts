@@ -1,4 +1,3 @@
-import { DateTime } from 'luxon'
 import { throwIfError } from '@stayradiated/error-boundary'
 
 import { test } from '../../test-util/ava.js'
@@ -20,7 +19,7 @@ test('can find a device by its device ID', async (t) => {
 
   const input: UpsertUserDevicesOptions = {
     userUID,
-    accessedAt: DateTime.local(),
+    accessedAt: new Date(),
     name: 'Special Test Device',
     trusted: true,
     deviceID,

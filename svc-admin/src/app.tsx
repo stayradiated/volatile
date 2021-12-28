@@ -6,7 +6,6 @@ import { getSession } from './utils/session-store'
 import { SessionProvider } from './utils/session-context'
 
 import './global.css'
-import 'antd/dist/antd.css'
 
 type Props = {
   children: React.ReactNode

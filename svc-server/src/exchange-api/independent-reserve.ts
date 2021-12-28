@@ -1,5 +1,5 @@
 import * as ir from '@volatile/independent-reserve-api'
-import { DateTime } from 'luxon'
+import { parseISO } from 'date-fns'
 
 import { ExchangeError } from '../util/error.js'
 import { EXCHANGE_INDEPENDENT_RESERVE } from '../model/exchange/index.js'
@@ -66,7 +66,7 @@ const independentReserve: ExchangeAPI<ir.Config> = {
       price: order.Price,
       volume: order.Volume,
       type: order.OrderType === 'LimitOffer' ? 'BUY' : 'SELL',
-      openedAt: DateTime.fromISO(order.CreatedTimestampUtc),
+      openedAt: parseISO(order.CreatedTimestampUtc),
     }))
   },
   getTrades: (config) => async (options) => {
@@ -87,7 +87,7 @@ const independentReserve: ExchangeAPI<ir.Config> = {
       items: results.Data.map((trade) => ({
         tradeID: trade.TradeGuid,
         orderID: trade.OrderGuid,
-        timestamp: DateTime.fromISO(trade.TradeTimestampUtc),
+        timestamp: parseISO(trade.TradeTimestampUtc),
         primaryCurrency: formatCurrency(trade.PrimaryCurrencyCode),
         secondaryCurrency: formatCurrency(trade.SecondaryCurrencyCode),
         price: trade.Price,

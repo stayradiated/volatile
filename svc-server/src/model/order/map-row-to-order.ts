@@ -1,16 +1,12 @@
-import { DateTime } from 'luxon'
+import { parseISO } from 'date-fns'
 import type * as s from 'zapatos/schema'
 
 import type { BuySell } from '../../types.js'
 import type { Order } from './types.js'
 
-const mapToDateTime = (input: string | Date | DateTime): DateTime => {
+const mapToDateTime = (input: string | Date): Date => {
   if (typeof input === 'string') {
-    return DateTime.fromISO(input)
-  }
-
-  if (input instanceof Date) {
-    return DateTime.fromJSDate(input)
+    return parseISO(input)
   }
 
   return input

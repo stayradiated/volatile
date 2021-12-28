@@ -1,6 +1,5 @@
 import * as db from 'zapatos/db'
 import { errorBoundary } from '@stayradiated/error-boundary'
-import { DateTime } from 'luxon'
 
 import type { Pool } from '../../types.js'
 import type { Currency } from './types.js'
@@ -9,7 +8,7 @@ const upsertCurrency = async (
   pool: Pool,
   currency: Currency,
 ): Promise<void | Error> => {
-  const now = DateTime.local().toJSDate()
+  const now = new Date()
 
   const error = await errorBoundary(async () =>
     db

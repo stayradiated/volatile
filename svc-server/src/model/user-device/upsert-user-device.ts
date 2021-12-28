@@ -29,7 +29,7 @@ const upsertUserDevice = async (
           uid: UID,
           created_at: now,
           updated_at: now,
-          accessed_at: options.accessedAt.toJSDate(),
+          accessed_at: options.accessedAt,
           user_uid: options.userUID,
           name: options.name,
           device_id_hash: deviceIDHash,

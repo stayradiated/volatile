@@ -4638,6 +4638,16 @@ export type GetMarketPriceQuery = {
     price: number
     timestamp: string
   }>
+  independent_reserve_aud: Array<{
+    __typename?: 'kc_market_price'
+    price: number
+    timestamp: string
+  }>
+  independent_reserve_nzd: Array<{
+    __typename?: 'kc_market_price'
+    price: number
+    timestamp: string
+  }>
 }
 
 export type GetOpenOrderListQueryVariables = Exact<Record<string, never>>
@@ -4772,6 +4782,20 @@ export type GetTradeCumulativeSumByDayQuery = {
     timestamp?: string | null | undefined
     primary_currency?: string | null | undefined
     total_value?: number | null | undefined
+  }>
+}
+
+export type GetTradeCumulativeVolumeByDayQueryVariables = Exact<
+  Record<string, never>
+>
+
+export type GetTradeCumulativeVolumeByDayQuery = {
+  __typename?: 'query_root'
+  kc_trade_avg_price_by_window: Array<{
+    __typename?: 'kc_type_trade_avg_price_by_window'
+    timestamp?: string | null | undefined
+    primary_currency?: string | null | undefined
+    volume?: number | null | undefined
   }>
 }
 
@@ -5620,6 +5644,30 @@ export const GetMarketPriceDocument = gql`
       price
       timestamp
     }
+    independent_reserve_aud: kc_market_price(
+      where: {
+        market_uid: { _eq: "" }
+        source_currency: { _eq: "AUD" }
+        asset_symbol: { _eq: $primaryCurrency }
+        currency: { _eq: $secondaryCurrency }
+      }
+      order_by: { timestamp: desc }
+    ) {
+      price
+      timestamp
+    }
+    independent_reserve_nzd: kc_market_price(
+      where: {
+        market_uid: { _eq: "" }
+        source_currency: { _eq: "NZD" }
+        asset_symbol: { _eq: $primaryCurrency }
+        currency: { _eq: $secondaryCurrency }
+      }
+      order_by: { timestamp: desc }
+    ) {
+      price
+      timestamp
+    }
   }
 `
 export type GetMarketPriceQueryResult = Apollo.QueryResult<
@@ -5766,6 +5814,22 @@ export const GetTradeCumulativeSumByDayDocument = gql`
 export type GetTradeCumulativeSumByDayQueryResult = Apollo.QueryResult<
   GetTradeCumulativeSumByDayQuery,
   GetTradeCumulativeSumByDayQueryVariables
+>
+export const GetTradeCumulativeVolumeByDayDocument = gql`
+  query getTradeCumulativeVolumeByDay {
+    kc_trade_avg_price_by_window(
+      args: { group_by: "day", currency: "NZD" }
+      order_by: { timestamp: desc }
+    ) {
+      timestamp
+      primary_currency
+      volume
+    }
+  }
+`
+export type GetTradeCumulativeVolumeByDayQueryResult = Apollo.QueryResult<
+  GetTradeCumulativeVolumeByDayQuery,
+  GetTradeCumulativeVolumeByDayQueryVariables
 >
 export const GetTradeSumValueByWeekByWeekDocument = gql`
   query getTradeSumValueByWeekByWeek {

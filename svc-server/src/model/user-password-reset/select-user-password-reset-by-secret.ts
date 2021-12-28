@@ -1,6 +1,6 @@
 import { errorBoundary } from '@stayradiated/error-boundary'
 import * as db from 'zapatos/db'
-import { DateTime } from 'luxon'
+import { parseISO } from 'date-fns'
 
 import { AuthError } from '../../util/error.js'
 import * as hash from '../../util/hash.js'
@@ -40,7 +40,7 @@ const selectUserPasswordResetBySecret = async (
   return {
     UID: row.uid,
     userUID: row.user_uid,
-    expiresAt: DateTime.fromISO(row.expires_at),
+    expiresAt: parseISO(row.expires_at),
   }
 }
 

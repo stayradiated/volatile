@@ -24,7 +24,7 @@ const resolveCurrencyMap = new Map<CurrencyPair, Resolver>([
   [
     AUD_NZD,
     createCachedFetchFn(currencySources.AUD_NZD, OPEN_EXCHANGE_RATES_OPTIONS),
-  ]
+  ],
 ])
 
 export { resolveCurrencyMap }

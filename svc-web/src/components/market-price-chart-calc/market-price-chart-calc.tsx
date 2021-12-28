@@ -9,7 +9,7 @@ import type {
 import { Spin, Alert, Button } from '../retro-ui'
 import { Chart, ChartConfig, formatDataForChart } from '../chart'
 
-const BINANCE = 'e2860358-91a5-44ca-8a61-a4cd077138f2'
+const KRAKEN = '20ed696d-1a82-42b9-8037-d7ae2c7bb3c4'
 
 const QUERY = gql`
   query getMarketPriceCalc (
@@ -17,7 +17,7 @@ const QUERY = gql`
     $secondaryCurrency: String!
   ) {
     source: kc_market_price(where:{
-      market_uid: {_eq: "${BINANCE}"},
+      market_uid: {_eq: "${KRAKEN}"},
       asset_symbol:{ _eq: $primaryCurrency },
       currency:{ _eq: $secondaryCurrency }
     }, order_by: {
@@ -30,27 +30,31 @@ const QUERY = gql`
 `
 
 const calcAvg = (
-  timespan: number,
+  longAvg: number,
+  minAvg: number,
   offset: number,
-  frequency: number,
+  interval: number,
   dataSource: Query['source'],
 ) => {
   const offsetDec = (1000 + offset) / 1000
 
   return [...dataSource]
     .map((item, index) => {
-      const lastNPrices = dataSource
-        .slice(index, index + timespan)
-        .map((item) => {
-          return item.price
-        })
+      const lastLongPrices = dataSource
+        .slice(index, index + longAvg)
+        .map((item) => item.price)
 
-      const avgPrice =
-        lastNPrices.reduce((price, sum) => {
-          return price + sum
-        }, 0) / lastNPrices.length
+      const lastMinPrices = lastLongPrices.slice(0, minAvg)
 
-      const calcPrice = Math.min(item.price, avgPrice) * offsetDec
+      const longAvgPrice =
+        lastLongPrices.reduce((price, sum) => price + sum, 0) /
+        lastLongPrices.length
+
+      const minAvgPrice =
+        lastMinPrices.reduce((price, sum) => price + sum, 0) /
+        lastMinPrices.length
+
+      const calcPrice = Math.min(longAvgPrice, minAvgPrice) * offsetDec
       // Const calcPrice = Math.min(avgPrice, smallAvgPrice) * offsetDec
 
       // const calcPrice = lastNPrices.slice(1).reduce((price, acc) => {
@@ -62,7 +66,10 @@ const calcAvg = (
         price: calcPrice,
       }
     })
-    .filter((_, index) => index % frequency === 0)
+    .filter(
+      (_, index, array) =>
+        index == array.length - 1 || (array.length - index) % interval === 0,
+    )
 }
 
 type Props = {
@@ -73,13 +80,19 @@ type Props = {
 const MarketPriceChartCalc = (props: Props) => {
   const { primaryCurrency, secondaryCurrency } = props
 
-  const [timespan, setTimespan] = useState(30)
+  const [longAvg, setLongAvg] = useState(30)
+  const [minAvg, setMinAvg] = useState(3)
   const [offset, setOffset] = useState(0)
-  const [frequency, setFrequency] = useState(4)
+  const [interval, setInterval] = useState(4)
 
-  const handleChangeTimespan = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeLongAvg = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target
-    setTimespan(Number.parseInt(value))
+    setLongAvg(Number.parseInt(value))
+  }
+
+  const handleChangeMinAvg = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target
+    setMinAvg(Number.parseInt(value))
   }
 
   const handleChangeOffset = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -87,11 +100,9 @@ const MarketPriceChartCalc = (props: Props) => {
     setOffset(Number.parseInt(value))
   }
 
-  const handleChangeFrequency = (
-    event: React.ChangeEvent<HTMLInputElement>,
-  ) => {
+  const handleChangeInterval = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target
-    setFrequency(Number.parseInt(value))
+    setInterval(Number.parseInt(value))
   }
 
   const { data, loading, error, refetch } = useQuery<Query, QueryVariables>(
@@ -123,13 +134,20 @@ const MarketPriceChartCalc = (props: Props) => {
           lineColor: 'rgba(171, 71, 188, 1)',
         },
         data: formatDataForChart({
-          data: calcAvg(timespan, offset, frequency, data?.source ?? []),
+          data: calcAvg(longAvg, minAvg, offset, interval, data?.source ?? []),
           getValue: (row) => row.price,
           getTime: (row) => row.timestamp,
         }),
       },
     ]
-  }, [timespan, offset, frequency, data])
+  }, [longAvg, minAvg, offset, interval, data])
+
+  const chartConfig = useMemo(
+    () => ({
+      timeScale: { fixLeftEdge: true, fixRightEdge: true },
+    }),
+    [],
+  )
 
   if (loading) {
     return <Spin />
@@ -145,18 +163,29 @@ const MarketPriceChartCalc = (props: Props) => {
         {primaryCurrency}-{secondaryCurrency}
       </h2>
 
-      <Chart width={960} charts={charts} />
+      <Chart width={960} config={chartConfig} charts={charts} />
 
       <Button onClick={async () => refetch()}>Refetch</Button>
+
+      <hr />
 
       <input
         type="range"
         min="1"
         max="120"
-        value={timespan}
-        onChange={handleChangeTimespan}
+        value={longAvg}
+        onChange={handleChangeLongAvg}
       />
-      <p>{timespan}</p>
+      <p>Long Avg: {longAvg}</p>
+
+      <input
+        type="range"
+        min="1"
+        max="10"
+        value={minAvg}
+        onChange={handleChangeMinAvg}
+      />
+      <p>Min Avg: {minAvg}</p>
 
       <input
         type="range"
@@ -166,17 +195,17 @@ const MarketPriceChartCalc = (props: Props) => {
         value={offset}
         onChange={handleChangeOffset}
       />
-      <p>{offset}</p>
+      <p>Offset: {offset / 10}%</p>
 
       <input
         type="range"
         min="1"
         max="60"
         step="1"
-        value={frequency}
-        onChange={handleChangeFrequency}
+        value={interval}
+        onChange={handleChangeInterval}
       />
-      <p>{frequency}</p>
+      <p>Interval: {interval}</p>
     </>
   )
 }

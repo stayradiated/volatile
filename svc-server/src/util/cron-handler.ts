@@ -4,7 +4,7 @@ import type {
   RawRequestDefaultExpression,
   RawReplyDefaultExpression,
 } from 'fastify/types/utils'
-import { DateTime } from 'luxon'
+import { parseISO } from 'date-fns'
 
 import { UnexpectedError, CronError } from '../util/error.js'
 import { ACTIONS_SECRET } from '../env.js'
@@ -31,7 +31,7 @@ type CronHandlerRequest<Payload> = {
 type Context<Input> = {
   pool: Pool
   input: Input
-  scheduledTime: DateTime
+  scheduledTime: Date
   headers: RawRequestDefaultExpression['headers']
 }
 
@@ -77,7 +77,7 @@ const wrapCronHandler =
     try {
       const context: Context<Input> = {
         pool,
-        scheduledTime: DateTime.fromISO(scheduledTime),
+        scheduledTime: parseISO(scheduledTime),
         input,
         headers: request.headers,
       }

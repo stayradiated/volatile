@@ -1,5 +1,4 @@
 import ReactDOM from 'react-dom'
-import { Card } from 'antd'
 
 import { useSessionContext } from '../../src/utils/session-context'
 import { LoginPage } from '../../src/components/LoginPage'
@@ -17,12 +16,8 @@ const Page = () => {
 
   return (
     <>
-      <Card>
-        <ExchangeList />
-      </Card>
-      <Card>
-        <CurrencyList />
-      </Card>
+      <ExchangeList />
+      <CurrencyList />
     </>
   )
 }

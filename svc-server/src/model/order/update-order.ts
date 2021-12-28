@@ -18,7 +18,7 @@ const updateOrder = async (
     db
       .update(
         'order',
-        { updated_at: new Date(), closed_at: closedAt?.toJSDate() },
+        { updated_at: new Date(), closed_at: closedAt },
         { uid: UID },
       )
       .run(pool),

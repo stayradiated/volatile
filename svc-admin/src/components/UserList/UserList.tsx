@@ -1,16 +1,17 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { gql, useQuery } from '@apollo/client'
-import { Table, Typography, Button } from 'antd'
+import { useTable, Column } from 'react-table'
 
 import type {
   GetUserListQuery as Query,
   GetUserListQueryVariables as QueryVariables,
 } from '../../utils/graphql'
 
+import { Table, Button } from '../retro-ui'
+
 import { UserEmail } from './user-email'
 
-const { Column } = Table
-const { Text } = Typography
+type User = Query['kc_user'][0]
 
 const QUERY = gql`
   query getUserList {
@@ -26,6 +27,66 @@ const UserList = () => {
 
   const [state, setState] = useState<Record<string, boolean>>({})
 
+  const columns = useMemo(() => {
+    const columns: Array<Column<User>> = [
+      {
+        Header: 'UID',
+        accessor: 'uid',
+        Cell: ({ value }) => (
+          <pre>
+            <code>{value}</code>
+          </pre>
+        ),
+      },
+      {
+        id: 'email_hash',
+        Header: 'Email Hash',
+        accessor: 'uid',
+        Cell: ({ value: userUID }) => {
+          const handleShow = async () => {
+            setState({ ...state, [userUID]: true })
+          }
+
+          const handleHide = async () => {
+            setState({ ...state, [userUID]: false })
+          }
+
+          const showEmail = state[userUID]
+          if (showEmail) {
+            return (
+              <pre onClick={handleHide}>
+                <code>
+                  <UserEmail userUID={userUID} />
+                </code>
+              </pre>
+            )
+          }
+
+          return (
+            <pre>
+              <code onClick={handleShow}>***********</code>
+            </pre>
+          )
+        },
+      },
+      {
+        Header: 'Email Verified',
+        accessor: 'email_verified',
+        Cell: ({ value }) => (value ? 'Yes' : 'No'),
+      },
+      {
+        Header: 'Actions',
+        Cell: () => <Button>Edit</Button>,
+      },
+    ]
+    return columns
+  }, [state])
+
+  const table = useTable({
+    columns,
+    data: data?.kc_user ?? [],
+  })
+
   if (loading) {
     return <>Loading...</>
   }
@@ -36,47 +97,7 @@ const UserList = () => {
 
   return (
     <>
-      <Table rowKey="uid" dataSource={data?.kc_user ?? []} pagination={false}>
-        <Column
-          title="UID"
-          dataIndex="uid"
-          render={(uid) => <Text code>{uid}</Text>}
-        />
-        <Column
-          title="Email Hash"
-          dataIndex="uid"
-          render={(userUID) => {
-            const handleShow = async () => {
-              setState({ ...state, [userUID]: true })
-            }
-
-            const handleHide = async () => {
-              setState({ ...state, [userUID]: false })
-            }
-
-            const showEmail = state[userUID]
-            if (showEmail) {
-              return (
-                <Text code onClick={handleHide}>
-                  <UserEmail userUID={userUID} />
-                </Text>
-              )
-            }
-
-            return (
-              <Text code onClick={handleShow}>
-                ***********
-              </Text>
-            )
-          }}
-        />
-        <Column
-          title="Email Verified"
-          dataIndex="email_verified"
-          render={(value) => (value ? 'Yes' : 'No')}
-        />
-        <Column title="Actions" render={() => <Button>Edit</Button>} />
-      </Table>
+      <Table table={table} />
     </>
   )
 }

@@ -1,4 +1,4 @@
-import { DateTime } from 'luxon'
+import { formatISO } from 'date-fns'
 
 import { AuthError } from '../../util/error.js'
 
@@ -98,7 +98,7 @@ const resetUserPasswordHandler: ActionHandlerFn<Input, Output> = async (
 
   const userDeviceError = await upsertUserDevice(pool, {
     userUID,
-    accessedAt: DateTime.local(),
+    accessedAt: new Date(),
     deviceID,
     name: deviceName,
     trusted: deviceTrusted,
@@ -118,7 +118,7 @@ const resetUserPasswordHandler: ActionHandlerFn<Input, Output> = async (
   return {
     user_uid: userUID,
     auth_token: authToken,
-    expires_at: expiresAt.toISO(),
+    expires_at: formatISO(expiresAt),
   }
 }
 

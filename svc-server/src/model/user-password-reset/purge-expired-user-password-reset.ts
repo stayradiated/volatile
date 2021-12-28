@@ -13,7 +13,7 @@ const purgeExpiredUserPasswordReset = async (
       .deletes(
         'user_password_reset',
         {
-          expires_at: db.sql`${db.self} <= now()`,
+          expires_at: db.sql`${db.self} <= NOW()`,
         },
         {
           returning: ['uid'],

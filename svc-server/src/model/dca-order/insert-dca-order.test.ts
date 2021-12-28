@@ -1,4 +1,3 @@
-import { DateTime } from 'luxon'
 import { throwIfError } from '@stayradiated/error-boundary'
 
 import { test } from '../../test-util/ava.js'
@@ -22,14 +21,17 @@ test('insertDCAOrder', async (t) => {
     marketUID,
     primaryCurrency: primaryCurrencySymbol,
     secondaryCurrency: secondaryCurrencySymbol,
-    startAt: DateTime.local(),
+    startAt: new Date(),
     marketOffset: -2,
     dailyAverage: 50,
+    intervalMs: 1000 * 60 * 5,
     minPrice: 0,
     maxPrice: 50_000,
     minValue: 20,
     maxValue: 1000,
-    enabledAt: DateTime.local(),
+    enabledAt: new Date(),
+    nextRunAt: undefined,
+    lastRunAt: undefined,
   }
 
   const dcaOrder = await throwIfError<DCAOrder>(insertDCAOrder(pool, input))
@@ -54,14 +56,17 @@ test('insertDCAOrder (no min/max)', async (t) => {
     marketUID,
     primaryCurrency: primaryCurrencySymbol,
     secondaryCurrency: secondaryCurrencySymbol,
-    startAt: DateTime.local(),
+    startAt: new Date(),
     marketOffset: -2,
     dailyAverage: 50,
+    intervalMs: 1000 * 60 * 5,
     minPrice: undefined,
     maxPrice: undefined,
     minValue: undefined,
     maxValue: undefined,
     enabledAt: undefined,
+    nextRunAt: undefined,
+    lastRunAt: undefined,
   }
 
   const dcaOrder = await throwIfError<DCAOrder>(insertDCAOrder(pool, input))

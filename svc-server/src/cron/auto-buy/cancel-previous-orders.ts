@@ -1,5 +1,4 @@
 import { errorListBoundary } from '@stayradiated/error-boundary'
-import { DateTime } from 'luxon'
 
 import type { Pool } from '../../types.js'
 import type { UserExchangeAPI } from '../../exchange-api/index.js'
@@ -43,7 +42,7 @@ const cancelPreviousOrders = async (
 
       const updateOrderError = await updateOrder(pool, {
         UID: order.UID,
-        closedAt: DateTime.local(),
+        closedAt: new Date(),
       })
       if (updateOrderError instanceof Error) {
         return updateOrderError

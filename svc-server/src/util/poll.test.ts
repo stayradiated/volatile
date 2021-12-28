@@ -1,12 +1,11 @@
 import test from 'ava'
-import { Duration } from 'luxon'
 
 import { poll } from './poll.js'
 
 test('poll every 500ms until end', async (t) => {
   const result = await poll<number>({
-    frequency: Duration.fromMillis(500),
-    timeout: Duration.fromISOTime('00:00:10', {}),
+    frequencyMs: 500,
+    timeoutMs: 1000 * 10,
     fn: async (count) => {
       if (count > 5) {
         return {
@@ -26,8 +25,8 @@ test('poll every 500ms until end', async (t) => {
 
 test('hit timeout after 2s', async (t) => {
   const result = await poll<number>({
-    frequency: Duration.fromMillis(500),
-    timeout: Duration.fromISOTime('00:00:02', {}),
+    frequencyMs: 500,
+    timeoutMs: 1000 * 2,
     fn: async (count) => {
       if (count > 5) {
         return {

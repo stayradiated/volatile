@@ -1,6 +1,6 @@
-import { DateTime } from 'luxon'
 import * as db from 'zapatos/db'
 import { throwIfError } from '@stayradiated/error-boundary'
+import { parseISO } from 'date-fns'
 
 import { test } from '../../test-util/ava.js'
 
@@ -21,7 +21,7 @@ test('upsertOrder', async (t) => {
     volume: 2,
     value: 100_000,
     type: 'SELL',
-    openedAt: DateTime.local(),
+    openedAt: new Date(),
     closedAt: undefined,
   }
 
@@ -45,7 +45,7 @@ test('upsertOrder', async (t) => {
     })
     t.is(
       original.openedAt.valueOf(),
-      DateTime.fromISO(row.opened_at).valueOf(),
+      parseISO(row.opened_at).valueOf(),
       'original.opened_at',
     )
     t.is('string', typeof row.created_at)
@@ -63,8 +63,8 @@ test('upsertOrder', async (t) => {
     volume: 55,
     value: 1_100_000,
     type: 'BUY',
-    openedAt: DateTime.local(),
-    closedAt: DateTime.local(),
+    openedAt: new Date(),
+    closedAt: new Date(),
   }
 
   const mutateUID = await throwIfError<string>(upsertOrder(pool, mutate))
@@ -87,12 +87,12 @@ test('upsertOrder', async (t) => {
     })
     t.is(
       mutate.openedAt.valueOf(),
-      DateTime.fromISO(row.opened_at).valueOf(),
+      parseISO(row.opened_at).valueOf(),
       'mutate.opened_at',
     )
     t.is(
       mutate.closedAt!.valueOf(),
-      DateTime.fromISO(row.closed_at!).valueOf(),
+      parseISO(row.closed_at!).valueOf(),
       'mutate.closed_at',
     )
   }

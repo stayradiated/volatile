@@ -1,5 +1,3 @@
-import { DateTime } from 'luxon'
-
 import { IllegalStateError } from '../../util/error.js'
 import { log } from '../../util/debug.js'
 import {
@@ -49,11 +47,7 @@ const executeDCAOrder = async (
     return cancelPreviousOrdersError
   }
 
-  const targetValue = await getDCAOrderTargetValue(
-    pool,
-    dcaOrder,
-    DateTime.local(),
-  )
+  const targetValue = await getDCAOrderTargetValue(pool, dcaOrder, new Date())
   if (targetValue instanceof Error) {
     return targetValue
   }
@@ -172,7 +166,7 @@ const executeDCAOrder = async (
       price: orderPrice,
       volume,
       value: orderPrice * volume,
-      openedAt: DateTime.local(),
+      openedAt: new Date(),
       closedAt: undefined,
     })
     if (order instanceof Error) {

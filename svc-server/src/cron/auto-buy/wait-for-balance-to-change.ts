@@ -1,5 +1,3 @@
-import { Duration } from 'luxon'
-
 import { poll } from '../../util/poll.js'
 
 import type { UserExchangeAPI } from '../../exchange-api/index.js'
@@ -15,8 +13,8 @@ const waitForBalanceToChange = async (
   const { initialBalance, userExchangeAPI } = options
 
   return poll<number>({
-    frequency: Duration.fromISOTime('00:00:05', {}),
-    timeout: Duration.fromISOTime('00:02:00', {}),
+    frequencyMs: 1000 * 5,
+    timeoutMs: 1000 * 60 * 2,
     fn: async () => {
       const balance = await userExchangeAPI.getBalance({ currency: 'NZD' })
       if (balance instanceof Error) {

@@ -41,7 +41,11 @@ CREATE TABLE kc.dca_order (
     user_exchange_keys_uid uuid NOT NULL,
     enabled_at timestamp with time zone,
     primary_currency_symbol text NOT NULL,
-    secondary_currency_symbol text NOT NULL
+    secondary_currency_symbol text NOT NULL,
+    interval_ms integer NOT NULL,
+    last_run_at timestamp with time zone,
+    next_run_at timestamp with time zone,
+    CONSTRAINT dca_order_interval_ms_check CHECK ((interval_ms >= 0))
 );
 
 
@@ -1094,4 +1098,5 @@ INSERT INTO kc.schema_migrations (version) VALUES
     ('20211222165111'),
     ('20211223085648'),
     ('20211223192407'),
-    ('20211223195806');
+    ('20211223195806'),
+    ('20211228103502');

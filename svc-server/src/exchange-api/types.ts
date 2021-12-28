@@ -1,5 +1,3 @@
-import type { DateTime } from 'luxon'
-
 import type { BuySell } from '../types.js'
 import type { Exchange } from '../model/exchange/index.js'
 
@@ -48,7 +46,7 @@ type GetOpenOrdersResult = Array<{
   price: number
   volume: number
   type: BuySell
-  openedAt: DateTime
+  openedAt: Date
 }>
 
 type GetOpenOrders = () => Promise<GetOpenOrdersResult | Error>
@@ -61,7 +59,7 @@ type GetTradesResult = {
   items: Array<{
     tradeID: string
     orderID: string
-    timestamp: DateTime
+    timestamp: Date
     primaryCurrency: string
     secondaryCurrency: string
     price: number

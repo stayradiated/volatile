@@ -1,5 +1,5 @@
-import { DateTime } from 'luxon'
 import { throwIfError } from '@stayradiated/error-boundary'
+import { subDays } from 'date-fns'
 
 import { test } from '../../test-util/ava.js'
 
@@ -21,8 +21,8 @@ test('should calculate without trades', async (t) => {
 
   const dailyAverage = 100
 
-  const currentTime = DateTime.local()
-  const startAt = currentTime.minus({ days: 1 })
+  const currentTime = new Date()
+  const startAt = subDays(currentTime, 1)
 
   const dcaOrder = await throwIfError<DCAOrder>(
     insertDCAOrder(pool, {
@@ -35,11 +35,14 @@ test('should calculate without trades', async (t) => {
       startAt,
       marketOffset: 0,
       dailyAverage,
+      intervalMs: 1000 * 60 * 5,
       minPrice: undefined,
       maxPrice: undefined,
       minValue: undefined,
       maxValue: undefined,
       enabledAt: undefined,
+      nextRunAt: undefined,
+      lastRunAt: undefined,
     }),
   )
 
@@ -60,8 +63,8 @@ test('should calculate with multiple trades', async (t) => {
   const dailyAverage = 100
   const tradedValue = 90
 
-  const currentTime = DateTime.local()
-  const startAt = currentTime.minus({ days: 1 })
+  const currentTime = new Date()
+  const startAt = subDays(currentTime, 1)
 
   const dcaOrder = await throwIfError<DCAOrder>(
     insertDCAOrder(pool, {
@@ -74,11 +77,14 @@ test('should calculate with multiple trades', async (t) => {
       startAt,
       marketOffset: 0,
       dailyAverage,
+      intervalMs: 1000 * 60 * 5,
       minPrice: undefined,
       maxPrice: undefined,
       minValue: undefined,
       maxValue: undefined,
       enabledAt: undefined,
+      nextRunAt: undefined,
+      lastRunAt: undefined,
     }),
   )
 
@@ -87,7 +93,7 @@ test('should calculate with multiple trades', async (t) => {
       userUID,
       exchangeUID,
       orderUID: undefined,
-      timestamp: DateTime.local(),
+      timestamp: new Date(),
       tradeID: 'dca-order-trade-1',
       type: 'BUY',
       primaryCurrency: primaryCurrencySymbol,
@@ -105,7 +111,7 @@ test('should calculate with multiple trades', async (t) => {
       userUID,
       exchangeUID,
       orderUID: undefined,
-      timestamp: DateTime.local(),
+      timestamp: new Date(),
       tradeID: 'dca-order-trade-2',
       type: 'BUY',
       primaryCurrency: primaryCurrencySymbol,
@@ -125,8 +131,8 @@ test('should calculate with multiple trades', async (t) => {
 test('should ignore minValue', async (t) => {
   const { pool, make } = t.context
 
-  const currentTime = DateTime.local()
-  const startAt = currentTime.minus({ days: 1 })
+  const currentTime = new Date()
+  const startAt = subDays(currentTime, 1)
   const dailyAverage = 100
 
   const dcaOrderUID = await make.dcaOrder({
@@ -153,8 +159,8 @@ test('should cap target at maxValue', async (t) => {
 
   const dailyAverage = 100
 
-  const currentTime = DateTime.local()
-  const startAt = currentTime.minus({ days: 1 })
+  const currentTime = new Date()
+  const startAt = subDays(currentTime, 1)
 
   const dcaOrder = await throwIfError<DCAOrder>(
     insertDCAOrder(pool, {
@@ -167,11 +173,14 @@ test('should cap target at maxValue', async (t) => {
       startAt,
       marketOffset: 0,
       dailyAverage,
+      intervalMs: 1000 * 60 * 5,
       minPrice: undefined,
       maxPrice: undefined,
       minValue: undefined,
       maxValue: undefined,
       enabledAt: undefined,
+      nextRunAt: undefined,
+      lastRunAt: undefined,
     }),
   )
 

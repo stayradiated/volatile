@@ -1,6 +1,6 @@
-import { DateTime } from 'luxon'
 import * as db from 'zapatos/db'
 import { throwIfError } from '@stayradiated/error-boundary'
+import { parseISO } from 'date-fns'
 
 import { test } from '../../test-util/ava.js'
 
@@ -22,7 +22,7 @@ test('insertOrder', async (t) => {
     volume: 2,
     value: 100_000,
     type: 'SELL',
-    openedAt: DateTime.local(),
+    openedAt: new Date(),
     closedAt: undefined,
   }
 
@@ -46,7 +46,7 @@ test('insertOrder', async (t) => {
     exchange_uid: input.exchangeUID,
   })
 
-  t.is(input.openedAt.valueOf(), DateTime.fromISO(row.opened_at).valueOf())
+  t.is(input.openedAt.valueOf(), parseISO(row.opened_at).valueOf())
   t.is('string', typeof row.created_at)
   t.is('string', typeof row.updated_at)
 })

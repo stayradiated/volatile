@@ -1,4 +1,4 @@
-import { DateTime } from 'luxon'
+import { parseISO } from 'date-fns'
 import { throwIfError } from '@stayradiated/error-boundary'
 
 import { test } from '../../test-util/ava.js'
@@ -13,7 +13,7 @@ test('select trades made after specified date', async (t) => {
   const userUID = await make.user()
   const exchangeUID = await make.exchange()
 
-  const afterDate = DateTime.fromISO('2021-01-05')
+  const afterDate = parseISO('2021-01-05')
 
   await throwIfError<Trade>(
     insertTrade(pool, {
@@ -29,7 +29,7 @@ test('select trades made after specified date', async (t) => {
       value: 995,
       fee: 5,
       totalValue: 1000,
-      timestamp: DateTime.fromISO('2021-01-04'),
+      timestamp: parseISO('2021-01-04'),
     }),
   )
 
@@ -47,7 +47,7 @@ test('select trades made after specified date', async (t) => {
       value: 995,
       fee: 5,
       totalValue: 1000,
-      timestamp: DateTime.fromISO('2021-01-05'),
+      timestamp: parseISO('2021-01-05'),
     }),
   )
 

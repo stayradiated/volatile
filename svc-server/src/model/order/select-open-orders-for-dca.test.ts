@@ -1,4 +1,4 @@
-import { DateTime } from 'luxon'
+import { subHours } from 'date-fns'
 import { throwIfError } from '@stayradiated/error-boundary'
 
 import { test } from '../../test-util/ava.js'
@@ -11,19 +11,19 @@ test('selectOpenOrdersForDCA: should return all open orders', async (t) => {
   const dcaOrderUID = await make.dcaOrder()
 
   const orderA = await make.order({
-    openedAt: DateTime.local().minus({ hours: 2 }),
+    openedAt: subHours(new Date(), 2),
     closedAt: undefined,
   })
   await make.dcaOrderHistory()
 
   const orderB = await make.order({
-    openedAt: DateTime.local().minus({ hours: 1 }),
+    openedAt: subHours(new Date(), 1),
     closedAt: undefined,
   })
   await make.dcaOrderHistory()
 
   const orderC = await make.order({
-    openedAt: DateTime.local(),
+    openedAt: new Date(),
     closedAt: undefined,
   })
   await make.dcaOrderHistory()
@@ -43,8 +43,8 @@ test('selectOpenOrdersForDCA: should not return closed orders', async (t) => {
   const dcaOrderUID = await make.dcaOrder()
 
   await make.order({
-    openedAt: DateTime.local().minus({ hours: 1 }),
-    closedAt: DateTime.local(),
+    openedAt: subHours(new Date(), 1),
+    closedAt: new Date(),
   })
   await make.dcaOrderHistory()
 

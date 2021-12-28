@@ -14,7 +14,7 @@ export const command = 'market-price'
 export const desc = 'Print current market price'
 
 type Options = {
-  asset: string
+  asset?: string
 }
 
 export const builder = (yargs: Argv) =>

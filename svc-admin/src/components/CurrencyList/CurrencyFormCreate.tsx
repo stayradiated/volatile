@@ -1,4 +1,4 @@
-import { Form, Input, Button } from 'antd'
+import { useState } from 'react'
 import { gql, useMutation } from '@apollo/client'
 import { formatISO } from 'date-fns'
 
@@ -6,6 +6,8 @@ import type {
   CreateCurrencyMutation,
   CreateCurrencyMutationVariables,
 } from '../../utils/graphql'
+
+import { Form, Input, Button } from '../retro-ui'
 
 const MUTATION = gql`
   mutation createCurrency(
@@ -39,7 +41,12 @@ const CurrencyFormCreate = () => {
     CreateCurrencyMutationVariables
   >(MUTATION)
 
-  const handleFinish = async (state: FormState) => {
+  const [state, setState] = useState<FormState>({
+    symbol: '',
+    name: '',
+  })
+
+  const handleFinish = async () => {
     await mutation({
       variables: {
         name: state.name,
@@ -51,7 +58,12 @@ const CurrencyFormCreate = () => {
   }
 
   return (
-    <Form<FormState> name="CurrencyFormCreate" onFinish={handleFinish}>
+    <Form
+      state={state}
+      onChange={setState}
+      name="CurrencyFormCreate"
+      onFinish={handleFinish}
+    >
       <Form.Item name="symbol" label="Symbol">
         <Input />
       </Form.Item>

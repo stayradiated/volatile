@@ -1,4 +1,4 @@
-import { DateTime } from 'luxon'
+import { differenceInMinutes } from 'date-fns'
 
 import { IllegalStateError } from '../../util/error.js'
 import { round } from '../../util/round.js'
@@ -11,7 +11,7 @@ import type { DCAOrder } from './types.js'
 const getDCAOrderTargetValue = async (
   pool: Pool,
   dcaOrder: DCAOrder,
-  currentTime: DateTime,
+  currentTime: Date,
 ): Promise<number | Error> => {
   const {
     userUID,
@@ -38,7 +38,7 @@ const getDCAOrderTargetValue = async (
 
   const tradedValue = trades.reduce((sum, trade) => sum + trade.totalValue, 0)
 
-  const minutesSinceStartDate = currentTime.diff(startAt).as('minutes')
+  const minutesSinceStartDate = differenceInMinutes(currentTime, startAt)
   const minuteAverage = dailyAverage / 24 / 60
 
   const orderValue = round(

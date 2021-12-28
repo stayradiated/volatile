@@ -1,5 +1,5 @@
 import { setTimeout } from 'timers/promises'
-import { Duration, DateTime } from 'luxon'
+import { addMilliseconds, isAfter } from 'date-fns'
 
 type PollFnResult<V> = {
   end: boolean
@@ -7,18 +7,17 @@ type PollFnResult<V> = {
 }
 
 type PollOptions<V> = {
-  frequency: Duration
-  timeout: Duration
+  frequencyMs: number
+  timeoutMs: number
   fn: (index: number) => Promise<PollFnResult<V>>
 }
 
 const poll = async <V>(options: PollOptions<V>): Promise<V | Error> => {
-  const { frequency, timeout, fn } = options
-  const deadline = DateTime.local().plus(timeout)
-  const frequencyMs = frequency.valueOf()
+  const { frequencyMs, timeoutMs, fn } = options
+  const deadline = addMilliseconds(new Date(), timeoutMs)
 
   const loop = async (index: number): Promise<V | Error> => {
-    if (deadline.diffNow().valueOf() <= 0) {
+    if (isAfter(new Date(), deadline)) {
       return new Error('Timed out waiting for poll to finish.')
     }
 

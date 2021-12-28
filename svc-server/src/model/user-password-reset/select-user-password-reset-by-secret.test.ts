@@ -1,4 +1,4 @@
-import { DateTime } from 'luxon'
+import { addMinutes, subMinutes } from 'date-fns'
 import { throwIfError } from '@stayradiated/error-boundary'
 
 import { test } from '../../test-util/ava.js'
@@ -18,7 +18,7 @@ test('should get valid password reset', async (t) => {
     await throwIfError<UserPasswordResetMasked>(
       insertUserPasswordReset(pool, {
         userUID,
-        expiresAt: DateTime.local().plus({ minutes: 5 }),
+        expiresAt: addMinutes(new Date(), 5),
         secret,
       }),
     )
@@ -49,7 +49,7 @@ test('should fail for expired password reset', async (t) => {
   await throwIfError<UserPasswordResetMasked>(
     insertUserPasswordReset(pool, {
       userUID,
-      expiresAt: DateTime.local().minus({ minutes: 5 }),
+      expiresAt: subMinutes(new Date(), 5),
       secret,
     }),
   )

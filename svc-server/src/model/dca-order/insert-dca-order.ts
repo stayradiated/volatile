@@ -23,14 +23,17 @@ const insertDCAOrder = async (
     secondary_currency_symbol: dcaOrder.secondaryCurrency,
     user_exchange_keys_uid: dcaOrder.userExchangeKeysUID,
     market_uid: dcaOrder.marketUID,
-    start_at: dcaOrder.startAt.toJSDate(),
+    start_at: dcaOrder.startAt,
     market_offset: dcaOrder.marketOffset,
     daily_average: dcaOrder.dailyAverage,
+    interval_ms: dcaOrder.intervalMs,
     min_price: dcaOrder.minPrice,
     max_price: dcaOrder.maxPrice,
     min_value: dcaOrder.minValue,
     max_value: dcaOrder.maxValue,
-    enabled_at: dcaOrder.enabledAt ? dcaOrder.enabledAt.toJSDate() : undefined,
+    enabled_at: dcaOrder.enabledAt,
+    last_run_at: dcaOrder.lastRunAt,
+    next_run_at: dcaOrder.nextRunAt,
   }
 
   const row = await errorBoundary(async () =>

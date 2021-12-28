@@ -1,5 +1,3 @@
-import { DateTime } from 'luxon'
-
 type UserExchangeKeys<
   Keys extends Record<string, string> = Record<string, string>,
 > = {
@@ -8,7 +6,7 @@ type UserExchangeKeys<
   exchangeUID: string
   keys: Keys
   description: string
-  invalidatedAt: DateTime | undefined
+  invalidatedAt: Date | undefined
 }
 
 export { UserExchangeKeys }

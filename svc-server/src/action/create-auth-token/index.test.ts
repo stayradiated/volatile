@@ -1,6 +1,5 @@
 import { randomUUID } from 'crypto'
 import { throwIfError } from '@stayradiated/error-boundary'
-import { DateTime } from 'luxon'
 
 import { authenticator } from '../../util/otplib.js'
 import { test } from '../../test-util/ava.js'
@@ -201,7 +200,7 @@ test('should fail if 2FA is required and device is not trusted', async (t) => {
   await throwIfError(
     upsertUserDevice(pool, {
       userUID,
-      accessedAt: DateTime.local(),
+      accessedAt: new Date(),
       deviceID,
       name: 'not a trusted device',
       trusted: false,
@@ -252,7 +251,7 @@ test('should skip 2FA when using a trusted device', async (t) => {
   await throwIfError(
     upsertUserDevice(pool, {
       userUID,
-      accessedAt: DateTime.local(),
+      accessedAt: new Date(),
       deviceID,
       name: 'not important',
       trusted: true,

@@ -1,4 +1,4 @@
-import { DateTime } from 'luxon'
+import { parseISO } from 'date-fns'
 
 import { MissingRequiredArgumentError } from '../../util/error.js'
 
@@ -14,6 +14,7 @@ type Input = {
   start_at: string
   market_offset: number
   daily_average: number
+  interval_ms: number
   min_price: number | undefined
   max_price: number | undefined
   min_value: number | undefined
@@ -44,6 +45,7 @@ const createDCAOrderHandler: ActionHandlerFn<Input, Output> = async (
     start_at: startAt,
     market_offset: marketOffset,
     daily_average: dailyAverage,
+    interval_ms: intervalMs,
     min_price: minPrice,
     max_price: maxPrice,
     min_value: minValue,
@@ -62,14 +64,17 @@ const createDCAOrderHandler: ActionHandlerFn<Input, Output> = async (
     marketUID,
     primaryCurrency,
     secondaryCurrency,
-    startAt: DateTime.fromISO(startAt),
+    startAt: parseISO(startAt),
     marketOffset,
     dailyAverage,
+    intervalMs,
     minPrice,
     maxPrice,
     minValue,
     maxValue,
     enabledAt: undefined,
+    nextRunAt: undefined,
+    lastRunAt: undefined,
   })
   if (dcaOrder instanceof Error) {
     return dcaOrder

@@ -26,7 +26,7 @@ const insertUserPasswordReset = async (
         created_at: now,
         updated_at: now,
         user_uid: options.userUID,
-        expires_at: options.expiresAt.toJSDate(),
+        expires_at: options.expiresAt,
         secret_hash: secretHash,
       })
       .run(pool),

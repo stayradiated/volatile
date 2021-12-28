@@ -10,7 +10,7 @@ const insertMarketPrice = async (
   options: MarketPrice,
 ): Promise<void | Error> => {
   const marketPrice: s.market_price.Insertable = {
-    timestamp: options.timestamp.toJSDate(),
+    timestamp: options.timestamp,
     market_uid: options.marketUID,
     asset_symbol: options.assetSymbol,
     source_price: options.sourcePrice,

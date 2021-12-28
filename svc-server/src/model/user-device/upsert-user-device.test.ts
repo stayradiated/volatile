@@ -1,6 +1,7 @@
-import { DateTime } from 'luxon'
 import { throwIfError } from '@stayradiated/error-boundary'
 import * as db from 'zapatos/db'
+import { parseISO } from 'date-fns'
+
 import { test } from '../../test-util/ava.js'
 
 import * as hash from '../../util/hash.js'
@@ -16,7 +17,7 @@ test('can insert a user device', async (t) => {
 
   const input: UpsertUserDevicesOptions = {
     userUID,
-    accessedAt: DateTime.local(),
+    accessedAt: new Date(),
     name: 'Test Device',
     trusted: true,
     deviceID: 'my randomly generated device id',
@@ -39,7 +40,7 @@ test('can insert a user device', async (t) => {
     device_id_hash: deviceIDHash,
   })
 
-  t.is(DateTime.fromISO(row.accessed_at).valueOf(), input.accessedAt.valueOf())
+  t.is(parseISO(row.accessed_at).valueOf(), input.accessedAt.valueOf())
 })
 
 test('can update a user device', async (t) => {
@@ -51,7 +52,7 @@ test('can update a user device', async (t) => {
   await throwIfError<void>(
     upsertUserDevice(pool, {
       userUID,
-      accessedAt: DateTime.fromISO('2000-01-01'),
+      accessedAt: parseISO('2000-01-01'),
       name: 'Test Device A',
       trusted: false,
       deviceID,
@@ -61,7 +62,7 @@ test('can update a user device', async (t) => {
   await throwIfError<void>(
     upsertUserDevice(pool, {
       userUID,
-      accessedAt: DateTime.fromISO('2020-02-02'),
+      accessedAt: parseISO('2020-02-02'),
       name: 'Test Device B',
       trusted: true,
       deviceID,
@@ -83,8 +84,5 @@ test('can update a user device', async (t) => {
     device_id_hash: deviceIDHash,
   })
 
-  t.is(
-    DateTime.fromISO(row.accessed_at).valueOf(),
-    DateTime.fromISO('2020-02-02').valueOf(),
-  )
+  t.is(parseISO(row.accessed_at).valueOf(), parseISO('2020-02-02').valueOf())
 })

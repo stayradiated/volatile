@@ -1,5 +1,5 @@
-import { DateTime } from 'luxon'
 import { throwIfError } from '@stayradiated/error-boundary'
+import { subMinutes } from 'date-fns'
 
 import { test } from '../../test-util/ava.js'
 
@@ -16,7 +16,7 @@ test('selectAvgMarketPrice: should return avg price', async (t) => {
 
   // Same asset symbol, different currency
   await make.marketPrice({
-    timestamp: DateTime.local().minus({ minutes: 2 }),
+    timestamp: subMinutes(new Date(), 2),
     assetSymbol: 'BTC',
     currency: 'AUD',
     marketUID,
@@ -25,7 +25,7 @@ test('selectAvgMarketPrice: should return avg price', async (t) => {
 
   // Same currency, different asset symbol
   await make.marketPrice({
-    timestamp: DateTime.local().minus({ minutes: 2 }),
+    timestamp: subMinutes(new Date(), 2),
     assetSymbol: 'ETH',
     currency: 'NZD',
     marketUID,
@@ -33,7 +33,7 @@ test('selectAvgMarketPrice: should return avg price', async (t) => {
   })
 
   const makeMarketPrice = async (minutesAgo: number, price: number) => {
-    const timestamp = DateTime.local().minus({ minutes: minutesAgo })
+    const timestamp = subMinutes(new Date(), minutesAgo)
     await make.marketPrice({
       timestamp,
       assetSymbol,

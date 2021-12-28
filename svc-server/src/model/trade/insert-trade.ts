@@ -20,7 +20,7 @@ const insertTrade = async (
           uid: randomUUID(),
           created_at: new Date(),
           updated_at: new Date(),
-          timestamp: trade.timestamp.toJSDate(),
+          timestamp: trade.timestamp,
           user_uid: trade.userUID,
           exchange_uid: trade.exchangeUID,
           order_uid: trade.orderUID,

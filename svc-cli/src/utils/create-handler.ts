@@ -1,6 +1,7 @@
 import fs from 'fs/promises'
 import * as process from 'process'
 import { errorBoundary } from '@stayradiated/error-boundary'
+import { ArgumentsCamelCase } from 'yargs'
 
 type Config = {
   endpoint: string
@@ -8,7 +9,7 @@ type Config = {
   password: string
 }
 
-type Argv<T extends Record<string, unknown>> = T & {
+type Argv<T extends Record<string, unknown>> = ArgumentsCamelCase<T> & {
   config?: string
 }
 

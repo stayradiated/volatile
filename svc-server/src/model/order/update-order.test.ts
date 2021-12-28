@@ -1,6 +1,6 @@
-import { DateTime } from 'luxon'
 import * as db from 'zapatos/db'
 import { throwIfError } from '@stayradiated/error-boundary'
+import { parseISO } from 'date-fns'
 
 import { test } from '../../test-util/ava.js'
 
@@ -12,12 +12,12 @@ test('updatedOrder', async (t) => {
 
   const input = {
     UID: orderUID,
-    closedAt: DateTime.local(),
+    closedAt: new Date(),
   }
 
   await throwIfError(updateOrder(pool, input))
 
   const row = await db.selectExactlyOne('order', { uid: orderUID }).run(pool)
 
-  t.is(input.closedAt.valueOf(), DateTime.fromISO(row.closed_at!).valueOf())
+  t.is(input.closedAt.valueOf(), parseISO(row.closed_at!).valueOf())
 })

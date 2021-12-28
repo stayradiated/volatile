@@ -1,6 +1,8 @@
-import { Form, Input, Button } from 'antd'
+import { useState } from 'react'
 import { gql, useMutation } from '@apollo/client'
 import { formatISO } from 'date-fns'
+
+import { Form, Input, Button } from '../retro-ui'
 
 import type {
   CreateExchangeSecondaryCurrencyMutation as Mutation,
@@ -36,7 +38,12 @@ type FormState = {
 const ExchangeSecondaryCurrencyFormCreate = () => {
   const [mutation] = useMutation<Mutation, MutationVariables>(MUTATION)
 
-  const handleFinish = async (state: FormState) => {
+  const [state, setState] = useState<FormState>({
+    exchangeUID: '',
+    symbol: '',
+  })
+
+  const handleFinish = async () => {
     await mutation({
       variables: {
         exchangeUID: state.exchangeUID,
@@ -48,7 +55,12 @@ const ExchangeSecondaryCurrencyFormCreate = () => {
   }
 
   return (
-    <Form<FormState> name="ExchangeSecondaryCurrency" onFinish={handleFinish}>
+    <Form
+      state={state}
+      onChange={setState}
+      name="ExchangeSecondaryCurrency"
+      onFinish={handleFinish}
+    >
       <h2>Secondary Currency</h2>
       <Form.Item name="exchangeUID" label="Exchange UID">
         <Input />

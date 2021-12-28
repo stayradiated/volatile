@@ -1,6 +1,6 @@
 import { randomUUID } from 'crypto'
-import { DateTime } from 'luxon'
 import { throwIfError } from '@stayradiated/error-boundary'
+import { formatISO } from 'date-fns'
 
 import { getExchangeUID, EXCHANGE_KIWI_COIN } from '../model/exchange/index.js'
 import {
@@ -145,7 +145,7 @@ const makeMarketPrice: MakeFn<MarketPrice> = (make) => async (options) => {
   const sourcePrice = round(2, Math.random() * 1_000_000)
   const fxRate = round(6, Math.random() * 3)
   const price = sourcePrice * fxRate
-  const timestamp = DateTime.local()
+  const timestamp = new Date()
 
   await throwIfError(
     insertMarketPrice(pool, {
@@ -161,9 +161,9 @@ const makeMarketPrice: MakeFn<MarketPrice> = (make) => async (options) => {
     }),
   )
 
-  make.marketPriceUID = timestamp.toISO()
+  make.marketPriceUID = formatISO(timestamp)
 
-  return timestamp.toISO()
+  return formatISO(timestamp)
 }
 
 const makeDCAOrder: MakeFn<DCAOrder> = (make) => async (options) => {
@@ -184,14 +184,17 @@ const makeDCAOrder: MakeFn<DCAOrder> = (make) => async (options) => {
       marketUID,
       primaryCurrency: primaryCurrencySymbol,
       secondaryCurrency: secondaryCurrencySymbol,
-      startAt: DateTime.local(),
+      startAt: new Date(),
       marketOffset: round(2, Math.random() * -100),
       dailyAverage: round(0, Math.random() * 1000),
+      intervalMs: 1000 * 60 * 5,
       minPrice: round(0, Math.random() * 100),
       maxPrice: round(0, Math.random() * 10_000),
       minValue: round(0, Math.random() * 100),
       maxValue: round(0, Math.random() * 10_000),
-      enabledAt: DateTime.local(),
+      enabledAt: new Date(),
+      nextRunAt: undefined,
+      lastRunAt: undefined,
       ...options,
     }),
   )
@@ -223,7 +226,7 @@ const makeTrade: MakeFn = (make) => async () => {
       primaryCurrency: 'BTC',
       secondaryCurrency: 'NZD',
       type: Math.random() > 0.5 ? 'BUY' : 'SELL',
-      timestamp: DateTime.local(),
+      timestamp: new Date(),
       volume,
       price,
       value,
@@ -256,7 +259,7 @@ const makeOrder: MakeFn<InsertOrderOptions> = (make) => async (options) => {
       volume,
       value,
       type: Math.random() > 0.5 ? 'BUY' : 'SELL',
-      openedAt: DateTime.local(),
+      openedAt: new Date(),
       closedAt: undefined,
       ...options,
     }),

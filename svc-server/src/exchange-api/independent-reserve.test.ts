@@ -1,7 +1,7 @@
 import anyTest, { TestInterface } from 'ava'
 import { throwIfError } from '@stayradiated/error-boundary'
 import nock from 'nock'
-import { DateTime } from 'luxon'
+import { parseISO } from 'date-fns'
 
 import { getIndependentReserveExchangeAPI } from './independent-reserve.js'
 import type { UserExchangeAPI } from './types.js'
@@ -149,7 +149,7 @@ test('getOpenOrders', async (t) => {
       price: 466.36,
       volume: 21.456_21,
       type: 'BUY',
-      openedAt: DateTime.fromISO('2014-05-05T09:35:22.4032405Z'),
+      openedAt: parseISO('2014-05-05T09:35:22.4032405Z'),
     },
     {
       orderID: '58f9da9d-a12e-4362-afa8-f5c252ba1725',
@@ -158,7 +158,7 @@ test('getOpenOrders', async (t) => {
       price: 455.48,
       volume: 1.345,
       type: 'SELL',
-      openedAt: DateTime.fromISO('2014-05-05T09:35:22.4032405Z'),
+      openedAt: parseISO('2014-05-05T09:35:22.4032405Z'),
     },
   ])
 })
@@ -212,7 +212,7 @@ test('getTrades', async (t) => {
       {
         tradeID: '593e609d-041a-4f46-a41d-2cb8e908973f',
         orderID: '8bf851a3-76d2-439c-945a-93367541d467',
-        timestamp: DateTime.fromISO('2014-12-16T03:44:19.2187707Z'),
+        timestamp: parseISO('2014-12-16T03:44:19.2187707Z'),
         primaryCurrency: 'BTC',
         secondaryCurrency: 'USD',
         price: 410,
@@ -223,7 +223,7 @@ test('getTrades', async (t) => {
       {
         tradeID: '13c1e71c-bfb4-452c-b13e-e03535f98b09',
         orderID: '1ce88acf-6013-4867-b58d-77f0e41ec475',
-        timestamp: DateTime.fromISO('2014-12-11T11:37:42.2089564Z'),
+        timestamp: parseISO('2014-12-11T11:37:42.2089564Z'),
         primaryCurrency: 'BTC',
         secondaryCurrency: 'USD',
         price: 399,

@@ -1,6 +1,6 @@
 import { errorListBoundary } from '@stayradiated/error-boundary'
 
-import { selectAllDCAOrders } from '../../model/dca-order/index.js'
+import { selectAndUpdateOverdueDCAOrders } from '../../model/dca-order/index.js'
 import type { CronHandlerFn } from '../../util/cron-handler.js'
 
 import { getUserExchangeAPIByKeysUID } from '../../model/user-exchange-keys/index.js'
@@ -14,9 +14,7 @@ type Output = {
 const autoBuyHandler: CronHandlerFn<Input, Output> = async (context) => {
   const { pool } = context
 
-  const dcaOrderList = await selectAllDCAOrders(pool, {
-    enabled: true,
-  })
+  const dcaOrderList = await selectAndUpdateOverdueDCAOrders(pool)
   if (dcaOrderList instanceof Error) {
     return dcaOrderList
   }

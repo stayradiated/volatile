@@ -1,0 +1,52 @@
+.base {
+  appearance: none;
+  cursor: pointer;
+}
+.base:focus {
+  outline: none;
+}
+a.base {
+  display: inline-block;
+}
+
+.base + .base {
+  margin-left: 10px;
+}
+
+.primary {
+  position: relative;
+
+  line-height: 30px;
+  height: 30px;
+  padding: 0 10px;
+
+  border-radius: 2px;
+
+  font-size: 14px;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--black-900);
+
+  background: var(--gray-300);
+  border: 1px solid var(--black-900);
+
+  /* Button Framing */
+  box-shadow: inset -1px -1px 0px #000000, inset 1px 1px 0px #FFFFFF, inset -2px -2px 0px #808080, inset 2px 2px 0px #DBDBDB;
+}
+
+.link {
+  background: none;
+  border: none;
+  text-decoration: underline;
+}
+
+.loading {
+}
+
+.disabled {
+  cursor: default;
+  color: var(--button-disabled-color);
+  background: var(--button-disabled-background);
+  border: 1px solid var(--button-disabled-border);
+  box-shadow: -2px 2px 0 0 var(--button-disabled-border);
+}

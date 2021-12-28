@@ -1,5 +1,3 @@
-import type { DateTime } from 'luxon'
-
 import type { BuySell } from '../../types.js'
 
 type Order = {
@@ -13,8 +11,8 @@ type Order = {
   volume: number
   value: number
   type: BuySell
-  openedAt: DateTime
-  closedAt: DateTime | undefined
+  openedAt: Date
+  closedAt: Date | undefined
 }
 
 export { Order }

@@ -1,15 +1,17 @@
+import { useMemo } from 'react'
 import { gql, useQuery } from '@apollo/client'
-import { Table, Typography, Button } from 'antd'
+import { useTable, Column } from 'react-table'
 
 import type {
-  GetCurrencyListQuery,
-  GetCurrencyListQueryVariables,
+  GetCurrencyListQuery as Query,
+  GetCurrencyListQueryVariables as QueryVariables,
 } from '../../utils/graphql'
+
+import { Table, Button } from '../retro-ui'
 
 import { CurrencyFormCreate } from './CurrencyFormCreate'
 
-const { Column } = Table
-const { Text } = Typography
+type Currency = Query['kc_currency'][0]
 
 const QUERY = gql`
   query getCurrencyList {
@@ -23,12 +25,35 @@ const QUERY = gql`
 `
 
 const CurrencyList = () => {
-  const { data, loading, error } = useQuery<
-    GetCurrencyListQuery,
-    GetCurrencyListQueryVariables
-  >(QUERY)
+  const { data, loading, error } = useQuery<Query, QueryVariables>(QUERY)
 
-  console.log(data, loading, error)
+  const columns = useMemo(() => {
+    const columns: Array<Column<Currency>> = [
+      {
+        Header: 'Symbol',
+        accessor: 'symbol',
+        Cell: ({ value }) => (
+          <pre>
+            <code>{value}</code>
+          </pre>
+        ),
+      },
+      {
+        Header: 'Name',
+        accessor: 'name',
+      },
+      {
+        Header: 'Actions',
+        Cell: () => <Button>Edit</Button>,
+      },
+    ]
+    return columns
+  }, [])
+
+  const table = useTable({
+    columns,
+    data: data?.kc_currency ?? [],
+  })
 
   if (loading) {
     return <>Loading...</>
@@ -40,20 +65,7 @@ const CurrencyList = () => {
 
   return (
     <>
-      <Table
-        rowKey="symbol"
-        dataSource={data?.kc_currency ?? []}
-        pagination={false}
-      >
-        <Column
-          title="Symbol"
-          dataIndex="symbol"
-          render={(uid) => <Text code>{uid}</Text>}
-        />
-        <Column title="Name" dataIndex="name" />
-        <Column title="Actions" render={() => <Button>Edit</Button>} />
-      </Table>
-
+      <Table table={table} />
       <CurrencyFormCreate />
     </>
   )

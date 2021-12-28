@@ -30,8 +30,8 @@ const upsertOrder = async (
     price: order.price,
     value: order.value,
     type: order.type,
-    opened_at: order.openedAt.toJSDate(),
-    closed_at: order.closedAt ? order.closedAt.toJSDate() : undefined,
+    opened_at: order.openedAt,
+    closed_at: order.closedAt,
   }
 
   const row = await errorBoundary(async () =>

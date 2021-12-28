@@ -1,0 +1,11 @@
+.container {
+  margin: 20px 0;
+}
+
+.label {
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.input {
+}

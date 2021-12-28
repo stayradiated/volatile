@@ -1,0 +1,33 @@
+table {
+  border-collapse: collapse;
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+.td,
+.th {
+  padding: 6px;
+  text-align: left;
+  vertical-align: top;
+  word-wrap: break-word;
+}
+
+.thead {
+  border-bottom: 1px solid #dbdbdb;
+}
+
+.tfoot {
+  border-top: 1px solid #dbdbdb;
+}
+
+.tbody .tr:nth-child(even) {
+  background-color: #f5f5f5;
+}
+
+.tr {
+  line-height: 40px;
+}
+
+.tr.disabled {
+  text-decoration: line-through;
+}

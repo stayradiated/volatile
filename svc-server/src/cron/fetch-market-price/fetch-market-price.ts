@@ -1,5 +1,3 @@
-import { DateTime } from 'luxon'
-
 import { getMarketUID } from '../../model/market/index.js'
 import { insertMarketPrice } from '../../model/market-price/index.js'
 import { upsertCurrencyFx } from '../../model/currency-fx/index.js'
@@ -25,7 +23,7 @@ const fetchMarketPrice = async (
     return marketUID
   }
 
-  const timestamp = DateTime.local()
+  const timestamp = new Date()
 
   const [sourcePrice, fxRate] = await Promise.all([
     fetchSourcePrice(),
@@ -42,7 +40,7 @@ const fetchMarketPrice = async (
 
   if (currency !== sourceCurrency) {
     const currencyFxError = await upsertCurrencyFx(pool, {
-      timestamp: timestamp.toJSDate(),
+      timestamp,
       fromSymbol: sourceCurrency,
       toSymbol: currency,
       fxRate,

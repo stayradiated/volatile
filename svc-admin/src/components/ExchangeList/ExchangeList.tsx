@@ -1,21 +1,18 @@
+import { useMemo } from 'react'
 import { gql, useQuery } from '@apollo/client'
-import { Table, Tag, Typography, Button } from 'antd'
+import { useTable, Column } from 'react-table'
 
 import type {
-  GetExchangeListQuery,
-  GetExchangeListQueryVariables,
+  GetExchangeListQuery as Query,
+  GetExchangeListQueryVariables as QueryVariables,
 } from '../../utils/graphql'
+
+import { Table, Button } from '../retro-ui'
 
 import { ExchangePrimaryCurrencyFormCreate } from './ExchangePrimaryCurrencyFormCreate'
 import { ExchangeSecondaryCurrencyFormCreate } from './ExchangeSecondaryCurrencyFormCreate'
 
-const { Column } = Table
-const { Text, Link } = Typography
-
-type PrimaryCurrency =
-  GetExchangeListQuery['kc_exchange'][0]['primary_currencies'][0]
-type SecondaryCurrency =
-  GetExchangeListQuery['kc_exchange'][0]['secondary_currencies'][0]
+type Exchange = Query['kc_exchange'][0]
 
 const QUERY_EXCHANGE_LIST = gql`
   query getExchangeList {
@@ -37,12 +34,73 @@ const QUERY_EXCHANGE_LIST = gql`
 `
 
 const ExchangeList = () => {
-  const { data, loading, error } = useQuery<
-    GetExchangeListQuery,
-    GetExchangeListQueryVariables
-  >(QUERY_EXCHANGE_LIST)
+  const { data, loading, error } = useQuery<Query, QueryVariables>(
+    QUERY_EXCHANGE_LIST,
+  )
 
-  console.log(data, loading, error)
+  const columns = useMemo(() => {
+    const columns: Array<Column<Exchange>> = [
+      {
+        Header: 'UID',
+        accessor: 'uid',
+        Cell: ({ value }) => (
+          <pre>
+            <code>{value}</code>
+          </pre>
+        ),
+      },
+      {
+        Header: 'ID',
+        accessor: 'id',
+        Cell: ({ value }) => (
+          <pre>
+            <code>{value}</code>
+          </pre>
+        ),
+      },
+      {
+        Header: 'Name',
+        accessor: 'name',
+      },
+      {
+        Header: 'URL',
+        accessor: 'url',
+        Cell: ({ value }) => <a href={value}>{value}</a>,
+      },
+      {
+        Header: 'Primary Currency',
+        accessor: 'primary_currencies',
+        Cell: ({ value }) => (
+          <>
+            {value.map((row) => (
+              <code key={row.symbol}>{row.symbol}</code>
+            ))}
+          </>
+        ),
+      },
+      {
+        Header: 'Secondary Currency',
+        accessor: 'secondary_currencies',
+        Cell: ({ value }) => (
+          <>
+            {value.map((row) => (
+              <code key={row.symbol}>{row.symbol}</code>
+            ))}
+          </>
+        ),
+      },
+      {
+        Header: 'Actions',
+        Cell: () => <Button>Edit</Button>,
+      },
+    ]
+    return columns
+  }, [])
+
+  const table = useTable({
+    columns,
+    data: data?.kc_exchange ?? [],
+  })
 
   if (loading) {
     return <>Loading...</>
@@ -54,55 +112,7 @@ const ExchangeList = () => {
 
   return (
     <>
-      <Table
-        rowKey="uid"
-        dataSource={data?.kc_exchange ?? []}
-        pagination={false}
-      >
-        <Column
-          title="UID"
-          dataIndex="uid"
-          render={(uid) => <Text code>{uid}</Text>}
-        />
-        <Column
-          title="ID"
-          dataIndex="id"
-          render={(id) => <Text code>{id}</Text>}
-        />
-        <Column title="Name" dataIndex="name" />
-        <Column
-          title="URL"
-          dataIndex="url"
-          render={(href) => <Link href={href}>{href}</Link>}
-        />
-        <Column
-          title="Primary Currency"
-          dataIndex="primary_currencies"
-          render={(rows: PrimaryCurrency[]) => (
-            <>
-              {rows.map((row) => (
-                <Tag color="blue" key={row.symbol}>
-                  {row.symbol}
-                </Tag>
-              ))}
-            </>
-          )}
-        />
-        <Column
-          title="Secondary Currency"
-          dataIndex="secondary_currencies"
-          render={(rows: SecondaryCurrency[]) => (
-            <>
-              {rows.map((row) => (
-                <Tag color="blue" key={row.symbol}>
-                  {row.symbol}
-                </Tag>
-              ))}
-            </>
-          )}
-        />
-        <Column title="Actions" render={() => <Button>Edit</Button>} />
-      </Table>
+      <Table table={table} />
       <hr />
       <ExchangePrimaryCurrencyFormCreate />
       <hr />

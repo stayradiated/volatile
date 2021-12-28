@@ -1,6 +1,5 @@
 import * as db from 'zapatos/db'
 import { errorBoundary } from '@stayradiated/error-boundary'
-import { DateTime } from 'luxon'
 
 import { AuthError } from '../../util/error.js'
 
@@ -16,7 +15,7 @@ type CreateAuthTokenOptions = {
 type AuthTokenResult = {
   userUID: string
   authToken: string
-  expiresAt: DateTime
+  expiresAt: Date
 }
 
 const createAuthToken = async (

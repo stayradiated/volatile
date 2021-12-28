@@ -31,7 +31,7 @@ const insertUserExchangeKeys = async (
     keys_encrypted: keys.encrypted,
     keys_hash: keysHash,
     description: userExchangeKeys.description,
-    invalidated_at: userExchangeKeys.invalidatedAt?.toJSDate(),
+    invalidated_at: userExchangeKeys.invalidatedAt,
   }
 
   const row = await errorBoundary(async () =>
