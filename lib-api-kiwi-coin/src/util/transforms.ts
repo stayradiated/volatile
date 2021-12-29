@@ -1,5 +1,5 @@
 import { inspect } from 'util'
-import { DateTime } from 'luxon'
+import { fromUnixTime, parseISO } from 'date-fns'
 import type { Prism } from '@zwolf/prism'
 
 const toFloat = ($: Prism<string | undefined>) => {
@@ -21,20 +21,20 @@ const toBuySell = ($: Prism<number | undefined>): 'BUY' | 'SELL' => {
   }
 }
 
-const toDateTime = ($: Prism<string | undefined>): DateTime => {
+const toDate = ($: Prism<string | undefined>): Date => {
   if (typeof $.value !== 'string') {
-    throw new TypeError(`Could not convert ${inspect($.value)} to DateTime.`)
+    throw new TypeError(`Could not convert ${inspect($.value)} to Date.`)
   }
 
-  return DateTime.fromISO($.value)
+  return parseISO($.value)
 }
 
-const toDateTimeFromSeconds = ($: Prism<number | undefined>): DateTime => {
+const toDateFromSeconds = ($: Prism<number | undefined>): Date => {
   if (typeof $.value !== 'number') {
-    throw new TypeError(`Could not convert ${inspect($.value)} to DateTime.`)
+    throw new TypeError(`Could not convert ${inspect($.value)} to Date.`)
   }
 
-  return DateTime.fromSeconds($.value)
+  return fromUnixTime($.value)
 }
 
-export { toFloat, toBuySell, toDateTime, toDateTimeFromSeconds }
+export { toFloat, toBuySell, toDate, toDateFromSeconds }

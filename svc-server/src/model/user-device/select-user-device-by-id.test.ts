@@ -1,7 +1,6 @@
-import { throwIfError } from '@stayradiated/error-boundary'
+import { throwIfError, throwIfValue } from '@stayradiated/error-boundary'
 
 import { test } from '../../test-util/ava.js'
-import { asError } from '../../test-util/as-error.js'
 
 import { selectUserDeviceByID } from './select-user-device-by-id.js'
 import {
@@ -39,7 +38,7 @@ test('can find a device by its device ID', async (t) => {
 test('should handle missing device', async (t) => {
   const { pool } = t.context
   const deviceID = 'weddingherb'
-  const error = await asError(selectUserDeviceByID(pool, deviceID))
+  const error = await throwIfValue(selectUserDeviceByID(pool, deviceID))
 
   t.is(error.message, `E_DB: Could not find user device.`)
 })

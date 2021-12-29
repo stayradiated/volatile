@@ -1,5 +1,6 @@
-import { inspect } from 'util'
 import test from 'ava'
+import { format } from 'date-fns'
+import { throwIfError } from '@stayradiated/error-boundary'
 
 import { parseStats, Stats } from './stats.js'
 
@@ -8,7 +9,7 @@ const serializeStats = (stats: Stats): string => {
   const prices = stats.prices
     .map((price) =>
       [
-        price.datetime.toUTC().toFormat('yyyy.LL.dd'),
+        format(price.datetime, 'yyyy.LL.dd'),
         price.open.toFixed(2),
         price.close.toFixed(2),
         price.low.toFixed(2),
@@ -21,7 +22,7 @@ const serializeStats = (stats: Stats): string => {
   const deals = stats.deals
     .map((deal) =>
       [
-        deal.datetime.toUTC().toFormat('yyyy.LL.dd HH:mm:ss'),
+        format(deal.datetime, 'yyyy.LL.dd HH:mm:ss'),
         deal.price.toFixed(2),
         deal.volume.toFixed(8),
         deal.direction,
@@ -39,18 +40,14 @@ var DealArray = [{"datetime":1625987654,"price":45678.9,"volume":0.01234567,"dir
 var Begin = 1623412800;
 var Period = 86400;`
 
-  const stats = parseStats(input)
-  if (stats instanceof Error) {
-    t.fail(inspect(stats))
-    return
-  }
+  const stats = throwIfError(parseStats(input))
 
   const expected = `
 2021.06.11 12345.67 98765.43 10000.00 99999.99 0.12345668
 2021.06.12 59832.01 48522.91 53421.44 98934.24 0.12345679
 
-2021.07.11 07:14:14 45678.90 0.01234567 0
-2021.07.10 00:22:23 56789.01 0.98765432 1`
+2021.07.11 09:14:14 45678.90 0.01234567 0
+2021.07.10 02:22:23 56789.01 0.98765432 1`
 
   const output = serializeStats(stats)
   t.is(output, expected)

@@ -1,8 +1,7 @@
 import { addMinutes, subMinutes } from 'date-fns'
-import { throwIfError } from '@stayradiated/error-boundary'
+import { throwIfError, throwIfValue } from '@stayradiated/error-boundary'
 
 import { test } from '../../test-util/ava.js'
-import { asError } from '../../test-util/as-error.js'
 
 import { insertUserPasswordReset } from './insert-user-password-reset.js'
 import { selectUserPasswordResetBySecret } from './select-user-password-reset-by-secret.js'
@@ -35,7 +34,9 @@ test('should fail for invalid password reset secret.', async (t) => {
 
   const secret = 'airplanelocked'
 
-  const error = await asError(selectUserPasswordResetBySecret(pool, secret))
+  const error = await throwIfValue(
+    selectUserPasswordResetBySecret(pool, secret),
+  )
 
   t.is('E_AUTH: Invalid password reset secret.', error.message)
 })
@@ -54,7 +55,9 @@ test('should fail for expired password reset', async (t) => {
     }),
   )
 
-  const error = await asError(selectUserPasswordResetBySecret(pool, secret))
+  const error = await throwIfValue(
+    selectUserPasswordResetBySecret(pool, secret),
+  )
 
   t.is('E_AUTH: Invalid password reset secret.', error.message)
 })

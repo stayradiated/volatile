@@ -1,7 +1,6 @@
 import { Prism, formatWarnings } from '@zwolf/prism'
-import { DateTime } from 'luxon'
 
-import { toBuySell, toDateTimeFromSeconds } from '../util/transforms.js'
+import { toBuySell, toDateFromSeconds } from '../util/transforms.js'
 import { post } from '../util/client.js'
 import type { Config } from '../util/types.js'
 
@@ -22,7 +21,7 @@ type GetTradeListResponse = Array<{
 type GetTradeListResult = Array<{
   transactionId: number
   orderId: number
-  datetime: DateTime
+  datetime: Date
   tradeType: 'BUY' | 'SELL'
   tradeSize: number
   price: number
@@ -40,8 +39,8 @@ const parseResponse = (
       transactionId: $item.get<number>('transaction_id').value ?? -1,
       orderId: $item.get<number>('order_id').value ?? -1,
       datetime:
-        $item.get<number>('datetime').transform(toDateTimeFromSeconds).value ??
-        DateTime.fromMillis(0),
+        $item.get<number>('datetime').transform(toDateFromSeconds).value ??
+        new Date(0),
       tradeType:
         $item.get<number>('trade_type').transform(toBuySell).value ?? 'BUY',
       tradeSize: $item.get<number>('trade_size').value ?? -1,

@@ -58,7 +58,7 @@ const kiwiCoin: ExchangeAPI<kc.Config> = {
       price: order.price,
       volume: order.amount,
       type: order.type,
-      openedAt: order.datetime.toJSDate(),
+      openedAt: order.datetime,
     }))
   },
   getTrades: (config) => async (options) => {
@@ -80,7 +80,7 @@ const kiwiCoin: ExchangeAPI<kc.Config> = {
       items: allTrades.map((trade) => ({
         tradeID: String(trade.transactionId),
         orderID: String(trade.orderId),
-        timestamp: trade.datetime.toJSDate(),
+        timestamp: trade.datetime,
         primaryCurrency: 'BTC',
         secondaryCurrency: 'NZD',
         price: trade.price,

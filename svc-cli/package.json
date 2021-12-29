@@ -17,7 +17,7 @@
     "graphql": "graphql-codegen --config ./graphql.codegen.cjs"
   },
   "dependencies": {
-    "@stayradiated/error-boundary": "1.10.0",
+    "@stayradiated/error-boundary": "1.11.0",
     "ky": "0.28.7",
     "ky-universal": "0.9.1",
     "luxon": "2.2.0",

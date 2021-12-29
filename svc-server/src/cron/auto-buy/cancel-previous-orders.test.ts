@@ -1,4 +1,6 @@
-import { test, mockUserExchangeAPI, asError } from '../../test-util/index.js'
+import { throwIfValue } from '@stayradiated/error-boundary'
+
+import { test, mockUserExchangeAPI } from '../../test-util/index.js'
 
 import { EXCHANGE_DASSET } from '../../model/exchange/index.js'
 import { cancelPreviousOrders } from './cancel-previous-orders.js'
@@ -70,7 +72,7 @@ test('fail to cancel order → should error', async (t) => {
   const userExchangeAPI = mockUserExchangeAPI()
   userExchangeAPI.cancelOrder.rejects(new Error('Fail'))
 
-  const error = await asError(
+  const error = await throwIfValue(
     cancelPreviousOrders(pool, {
       dcaOrderUID,
       userExchangeAPI,
@@ -98,7 +100,7 @@ test('fail to cancel 3 orders on dasset → should error', async (t) => {
   const userExchangeAPI = mockUserExchangeAPI(EXCHANGE_DASSET)
   userExchangeAPI.cancelOrder.rejects(new Error('Fail'))
 
-  const error = await asError(
+  const error = await throwIfValue(
     cancelPreviousOrders(pool, {
       dcaOrderUID,
       userExchangeAPI,

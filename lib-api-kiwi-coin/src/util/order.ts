@@ -1,7 +1,6 @@
 import { Prism, formatWarnings } from '@zwolf/prism'
-import { DateTime } from 'luxon'
 
-import { toFloat, toBuySell, toDateTime } from './transforms.js'
+import { toFloat, toBuySell, toDate } from './transforms.js'
 
 type APIResponse = {
   price: string
@@ -15,7 +14,7 @@ type Order = {
   price: number
   amount: number
   type: 'BUY' | 'SELL'
-  datetime: DateTime
+  datetime: Date
 }
 
 const toOrder = ($: Prism<APIResponse>): Order => ({
@@ -23,9 +22,7 @@ const toOrder = ($: Prism<APIResponse>): Order => ({
   price: $.get<string>('price').transform(toFloat).value ?? -1,
   amount: $.get<string>('amount').transform(toFloat).value ?? -1,
   type: $.get<number>('type').transform(toBuySell).value ?? 'BUY',
-  datetime:
-    $.get<string>('datetime').transform(toDateTime).value ??
-    DateTime.fromMillis(0),
+  datetime: $.get<string>('datetime').transform(toDate).value ?? new Date(0),
 })
 
 const parseOrder = (data: APIResponse): Order | Error => {

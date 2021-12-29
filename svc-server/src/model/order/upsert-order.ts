@@ -53,7 +53,7 @@ const upsertOrder = async (
   )
   if (row instanceof Error) {
     return new DBError({
-      message: 'Could not upsert order.',
+      message: 'Could not upsert order',
       cause: row,
       context: { order },
     })

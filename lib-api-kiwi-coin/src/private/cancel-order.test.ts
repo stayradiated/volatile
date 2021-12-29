@@ -1,6 +1,6 @@
 import test from 'ava'
 import nock from 'nock'
-import { throwIfError } from '@stayradiated/error-boundary'
+import { throwIfError, throwIfValue } from '@stayradiated/error-boundary'
 
 import { cancelOrder } from './cancel-order.js'
 
@@ -38,11 +38,12 @@ test('should return API error', async (t) => {
       '/api/cancel_order',
       (body: RequestBody) => body.id === String(orderID),
     )
-    .reply(400, 'Unauthorized')
+    .reply(200, JSON.stringify({ error: 'Unauthorized' }))
 
-  const result = (await cancelOrder({ config, orderID })) as Error
+  const result = await throwIfValue(cancelOrder({ config, orderID }))
+
   t.is(
     result.message,
-    'E_NET: Received error from POST https://kiwi-coin.com/api/cancel_order: E_API: Unauthorized',
+    'E_API: Received error from POST https://kiwi-coin.com/api/cancel_order',
   )
 })

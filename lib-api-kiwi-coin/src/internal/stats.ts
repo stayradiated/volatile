@@ -1,6 +1,6 @@
 import ky from 'ky-universal'
 import { errorBoundary } from '@stayradiated/error-boundary'
-import { DateTime } from 'luxon'
+import { fromUnixTime, addSeconds } from 'date-fns'
 
 const matchArray =
   <T>(varName: string) =>
@@ -44,14 +44,14 @@ enum DealDirection {
 }
 
 type Deal = {
-  datetime: DateTime
+  datetime: Date
   price: number
   volume: number
   direction: DealDirection
 }
 
 const parseDeal = (kiwiCoinDeal: KiwiCoinDeal): Deal => ({
-  datetime: DateTime.fromSeconds(kiwiCoinDeal.datetime),
+  datetime: fromUnixTime(kiwiCoinDeal.datetime),
   price: kiwiCoinDeal.price,
   volume: kiwiCoinDeal.volume,
   direction:
@@ -67,7 +67,7 @@ type KiwiCoinPrice = {
 }
 
 type Price = {
-  datetime: DateTime
+  datetime: Date
   open: number
   close: number
   low: number
@@ -81,7 +81,7 @@ const parsePrice = (
   kiwiCoinPrice: KiwiCoinPrice,
   index: number,
 ): Price => ({
-  datetime: DateTime.fromSeconds(begin).plus({ seconds: period * index }),
+  datetime: addSeconds(fromUnixTime(begin), period * index),
   open: Math.max(0, kiwiCoinPrice.o),
   close: Math.max(0, kiwiCoinPrice.c),
   low: Math.max(0, kiwiCoinPrice.l),

@@ -1,7 +1,7 @@
 import test from 'ava'
 import nock from 'nock'
-import { throwIfError } from '@stayradiated/error-boundary'
-import { DateTime } from 'luxon'
+import { throwIfError, throwIfValue } from '@stayradiated/error-boundary'
+import { fromUnixTime } from 'date-fns'
 
 import { getTradeList } from './get-trade-list.js'
 
@@ -40,7 +40,7 @@ test('should parse response', async (t) => {
     {
       transactionId: 12_345,
       orderId: 98_765,
-      datetime: DateTime.fromSeconds(1_631_710_068),
+      datetime: fromUnixTime(1_631_710_068),
       tradeType: 'BUY',
       tradeSize: 0.5,
       price: 30_000,
@@ -55,13 +55,13 @@ test('should detect invalid response', async (t) => {
     .post('/api/trades', () => true)
     .reply(200, JSON.stringify([{}]))
 
-  const result = (await getTradeList({ config, timeframe: 'all' })) as Error
+  const result = await throwIfValue(getTradeList({ config, timeframe: 'all' }))
   t.is(
     stripPath(result.message),
     `Warning: root[0].transaction_id value is undefined. at PATH
 Warning: root[0].order_id value is undefined. at PATH
 Warning: root[0].datetime value is undefined. at PATH
-Warning: root[0].datetime Could not convert undefined to DateTime. at PATH
+Warning: root[0].datetime Could not convert undefined to Date. at PATH
 Warning: root[0].trade_type value is undefined. at PATH
 Warning: root[0].trade_type Unsupported value "undefined" at PATH
 Warning: root[0].trade_size value is undefined. at PATH

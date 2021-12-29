@@ -1,9 +1,8 @@
 import { randomUUID } from 'crypto'
-import { throwIfError } from '@stayradiated/error-boundary'
+import { throwIfError, throwIfValue } from '@stayradiated/error-boundary'
 
 import { authenticator } from '../../util/otplib.js'
 import { test } from '../../test-util/ava.js'
-import { asError } from '../../test-util/as-error.js'
 
 import { insertUser, User } from '../../model/user/index.js'
 import { SessionRole } from '../../util/action-handler.js'
@@ -60,7 +59,7 @@ test('should fail if email does not exist', async (t) => {
     token_2fa: undefined,
   }
 
-  const error = await asError(
+  const error = await throwIfValue(
     createAuthTokenHandler({
       pool,
       input,
@@ -88,7 +87,7 @@ test('should fail if password is incorrect', async (t) => {
     token_2fa: undefined,
   }
 
-  const error = await asError(
+  const error = await throwIfValue(
     createAuthTokenHandler({
       pool,
       input,
@@ -126,7 +125,7 @@ test('should fail if 2FA token is required.', async (t) => {
     device_trusted: false,
     token_2fa: undefined,
   }
-  const error = await asError(
+  const error = await throwIfValue(
     createAuthTokenHandler({
       pool,
       input,
@@ -217,7 +216,7 @@ test('should fail if 2FA is required and device is not trusted', async (t) => {
     // Note that we are not passing a 2fa token here
     token_2fa: undefined,
   }
-  const error = await asError(
+  const error = await throwIfValue(
     createAuthTokenHandler({
       pool,
       input,

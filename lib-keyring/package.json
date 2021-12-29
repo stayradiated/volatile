@@ -75,6 +75,6 @@
     "useTabs": false
   },
   "dependencies": {
-    "@stayradiated/error-boundary": "1.10.0"
+    "@stayradiated/error-boundary": "1.11.0"
   }
 }

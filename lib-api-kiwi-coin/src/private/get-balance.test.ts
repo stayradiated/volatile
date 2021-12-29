@@ -1,6 +1,6 @@
 import test from 'ava'
 import nock from 'nock'
-import { throwIfError } from '@stayradiated/error-boundary'
+import { throwIfError, throwIfValue } from '@stayradiated/error-boundary'
 
 import { getBalance } from './get-balance.js'
 
@@ -56,7 +56,7 @@ test('should detect invalid response', async (t) => {
     .post('/api/balance', () => true)
     .reply(200, JSON.stringify({}))
 
-  const result = (await getBalance({ config })) as Error
+  const result = await throwIfValue(getBalance({ config }))
   t.is(
     stripPath(result.message),
     `Warning: root.nzd_available value is undefined. at PATH

@@ -1,7 +1,7 @@
 import test from 'ava'
 import nock from 'nock'
-import { throwIfError } from '@stayradiated/error-boundary'
-import { DateTime } from 'luxon'
+import { throwIfError, throwIfValue } from '@stayradiated/error-boundary'
+import { parseISO } from 'date-fns'
 
 import { createBuyOrder } from './create-buy-order.js'
 
@@ -45,7 +45,7 @@ test('should return true', async (t) => {
     amount: 0.123_456_78,
     type: 'BUY',
     id: 123_456,
-    datetime: DateTime.fromISO('2021-09-15T07:04:54.280Z'),
+    datetime: parseISO('2021-09-15T07:04:54.280Z'),
   })
 })
 
@@ -61,7 +61,8 @@ test('should return API error', async (t) => {
     )
     .reply(400, 'Unauthorized')
 
-  const result = (await createBuyOrder({ config, price, amount })) as Error
+  const result = await throwIfValue(createBuyOrder({ config, price, amount }))
+
   t.is(
     result.message,
     'E_NET: Received error from POST https://kiwi-coin.com/api/buy: E_API: Unauthorized',
