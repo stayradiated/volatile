@@ -1,22 +1,34 @@
-import anyTest, { TestInterface } from 'ava'
+import { TestInterface } from 'ava'
 import { throwIfError } from '@stayradiated/error-boundary'
 import nock from 'nock'
 import { parseISO } from 'date-fns'
 
+import { test as anyTest, DefaultContext } from '../test-util/ava.js'
 import { getIndependentReserveExchangeAPI } from './independent-reserve.js'
+
 import type { UserExchangeAPI } from './types.js'
 
 nock.disableNetConnect()
 
-const test = anyTest as TestInterface<{
-  api: UserExchangeAPI
-}>
+const test = anyTest as TestInterface<
+  DefaultContext & {
+    api: UserExchangeAPI
+  }
+>
 
-test.beforeEach((t) => {
+test.beforeEach(async (t) => {
+  const { pool, make } = t.context
+
+  const userUID = await make.user()
+  const exchangeUID = await make.exchange()
+
   t.context.api = throwIfError(
     getIndependentReserveExchangeAPI({
-      apiKey: 'API_KEY',
-      apiSecret: 'API_SECRET',
+      pool,
+      config: { apiKey: 'API_KEY', apiSecret: 'API_SECRET' },
+      userUID,
+      exchangeUID,
+      userExchangeKeysUID: undefined,
     }),
   )
 })

@@ -1,7 +1,8 @@
+import { Kanye } from '@volatile/kanye'
 import { Prism, formatWarnings } from '@zwolf/prism'
 
 import { toFloat } from '../util/transforms.js'
-import { post } from '../util/client.js'
+import { post, getResponseBody } from '../util/client.js'
 import type { Config } from '../util/types.js'
 
 type GetBalanceOptions = {
@@ -65,14 +66,21 @@ const parseResponse = (data: GetBalanceResponse): GetBalanceResult | Error => {
 
 const getBalance = async (
   options: GetBalanceOptions,
-): Promise<GetBalanceResult | Error> => {
+): Promise<[GetBalanceResult | Error, Kanye?]> => {
   const { config } = options
-  const data = await post<GetBalanceResponse>(config, 'balance')
-  if (data instanceof Error) {
-    return data
+
+  const raw = await post(config, 'balance')
+  if (raw instanceof Error) {
+    return [raw, undefined]
   }
 
-  return parseResponse(data)
+  const result = getResponseBody<GetBalanceResponse>(raw)
+  if (result instanceof Error) {
+    return [result, raw]
+  }
+
+  const balance = parseResponse(result)
+  return [balance, raw]
 }
 
 export { getBalance }

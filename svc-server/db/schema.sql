@@ -575,6 +575,27 @@ CREATE TABLE kc.user_exchange_keys (
 
 
 --
+-- Name: user_exchange_request; Type: TABLE; Schema: kc; Owner: -
+--
+
+CREATE TABLE kc.user_exchange_request (
+    uid uuid NOT NULL,
+    user_uid uuid NOT NULL,
+    exchange_uid uuid NOT NULL,
+    user_exchange_keys_uid uuid,
+    method text NOT NULL,
+    url text NOT NULL,
+    request_at timestamp with time zone NOT NULL,
+    request_body text,
+    response_at timestamp with time zone,
+    response_status integer,
+    response_headers jsonb,
+    response_body text,
+    response_body_at timestamp with time zone
+);
+
+
+--
 -- Name: user_password_reset; Type: TABLE; Schema: kc; Owner: -
 --
 
@@ -821,6 +842,14 @@ ALTER TABLE ONLY kc.user_exchange_keys
 
 
 --
+-- Name: user_exchange_request user_exchange_request_pkey; Type: CONSTRAINT; Schema: kc; Owner: -
+--
+
+ALTER TABLE ONLY kc.user_exchange_request
+    ADD CONSTRAINT user_exchange_request_pkey PRIMARY KEY (uid);
+
+
+--
 -- Name: user_password_reset user_password_reset_pkey; Type: CONSTRAINT; Schema: kc; Owner: -
 --
 
@@ -1052,6 +1081,30 @@ ALTER TABLE ONLY kc.user_exchange_keys
 
 
 --
+-- Name: user_exchange_request fk_user_exchange_request_exchange; Type: FK CONSTRAINT; Schema: kc; Owner: -
+--
+
+ALTER TABLE ONLY kc.user_exchange_request
+    ADD CONSTRAINT fk_user_exchange_request_exchange FOREIGN KEY (exchange_uid) REFERENCES kc.exchange(uid) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: user_exchange_request fk_user_exchange_request_user; Type: FK CONSTRAINT; Schema: kc; Owner: -
+--
+
+ALTER TABLE ONLY kc.user_exchange_request
+    ADD CONSTRAINT fk_user_exchange_request_user FOREIGN KEY (user_uid) REFERENCES kc."user"(uid) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: user_exchange_request fk_user_exchange_request_user_exchange_keys; Type: FK CONSTRAINT; Schema: kc; Owner: -
+--
+
+ALTER TABLE ONLY kc.user_exchange_request
+    ADD CONSTRAINT fk_user_exchange_request_user_exchange_keys FOREIGN KEY (user_exchange_keys_uid) REFERENCES kc.user_exchange_keys(uid) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
 -- Name: user_password_reset fk_user_password_reset_user; Type: FK CONSTRAINT; Schema: kc; Owner: -
 --
 
@@ -1099,4 +1152,5 @@ INSERT INTO kc.schema_migrations (version) VALUES
     ('20211223085648'),
     ('20211223192407'),
     ('20211223195806'),
-    ('20211228103502');
+    ('20211228103502'),
+    ('20211230175305');

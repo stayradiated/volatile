@@ -35,8 +35,10 @@ test('should parse response', async (t) => {
       ]),
     )
 
-  const result = await throwIfError(getTradeList({ config, timeframe: 'all' }))
-  t.deepEqual(result, [
+  const [tradeList] = await getTradeList({ config, timeframe: 'all' })
+  throwIfError(tradeList)
+
+  t.deepEqual(tradeList, [
     {
       transactionId: 12_345,
       orderId: 98_765,
@@ -55,9 +57,11 @@ test('should detect invalid response', async (t) => {
     .post('/api/trades', () => true)
     .reply(200, JSON.stringify([{}]))
 
-  const result = await throwIfValue(getTradeList({ config, timeframe: 'all' }))
+  const [tradeList] = await getTradeList({ config, timeframe: 'all' })
+  const error = throwIfValue(tradeList)
+
   t.is(
-    stripPath(result.message),
+    stripPath(error.message),
     `Warning: root[0].transaction_id value is undefined. at PATH
 Warning: root[0].order_id value is undefined. at PATH
 Warning: root[0].datetime value is undefined. at PATH

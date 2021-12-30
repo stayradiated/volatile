@@ -18,7 +18,7 @@ type RequestBody = {
   amount: string
 }
 
-test('should return true', async (t) => {
+test('should create buy order and return info', async (t) => {
   const price = 9876
   const amount = 0.9876
 
@@ -39,8 +39,10 @@ test('should return true', async (t) => {
       }),
     )
 
-  const result = await throwIfError(createBuyOrder({ config, price, amount }))
-  t.deepEqual(result, {
+  const [order] = await createBuyOrder({ config, price, amount })
+  throwIfError(order)
+
+  t.deepEqual(order, {
     price: 65_000,
     amount: 0.123_456_78,
     type: 'BUY',
@@ -59,12 +61,13 @@ test('should return API error', async (t) => {
       (body: RequestBody) =>
         body.price === String(price) && body.amount === String(amount),
     )
-    .reply(400, 'Unauthorized')
+    .reply(401, 'Unauthorized')
 
-  const result = await throwIfValue(createBuyOrder({ config, price, amount }))
+  const [order] = await createBuyOrder({ config, price, amount })
+  const error = throwIfValue(order)
 
   t.is(
-    result.message,
-    'E_NET: Received error from POST https://kiwi-coin.com/api/buy: E_API: Unauthorized',
+    error.message,
+    'E_API: Received 401 error from POST https://kiwi-coin.com/api/buy: Unauthorized',
   )
 })

@@ -1,7 +1,8 @@
+import { Kanye } from '@volatile/kanye'
 import { Prism, formatWarnings } from '@zwolf/prism'
 
 import { toBuySell, toDateFromSeconds } from '../util/transforms.js'
-import { post } from '../util/client.js'
+import { post, getResponseBody } from '../util/client.js'
 import type { Config } from '../util/types.js'
 
 type GetTradeListOptions = {
@@ -59,14 +60,23 @@ const parseResponse = (
 
 const getTradeList = async (
   options: GetTradeListOptions,
-): Promise<GetTradeListResult | Error> => {
+): Promise<[GetTradeListResult | Error, Kanye?]> => {
   const { config, timeframe } = options
-  const data = await post<GetTradeListResponse>(config, 'trades', { timeframe })
-  if (data instanceof Error) {
-    return data
+
+  const raw = await post(config, 'trades', {
+    timeframe,
+  })
+  if (raw instanceof Error) {
+    return [raw, undefined]
   }
 
-  return parseResponse(data)
+  const result = getResponseBody<GetTradeListResponse>(raw)
+  if (result instanceof Error) {
+    return [result, raw]
+  }
+
+  const tradeList = parseResponse(result)
+  return [tradeList, raw]
 }
 
 export { getTradeList }

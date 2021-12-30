@@ -1,4 +1,4 @@
-import type { BuySell } from '../types.js'
+import type { BuySell, Pool } from '../types.js'
 import type { Exchange } from '../model/exchange/index.js'
 
 type CreateOrderOptions = {
@@ -78,7 +78,15 @@ type GetTrades = (options: GetTradesOptions) => Promise<GetTradesResult | Error>
 
 /* EXCHANGE API */
 
-type WithConfig<Config, Fn> = (config: Config) => Fn
+type ConfigOptions<Config> = {
+  pool: Pool
+  config: Config
+  userUID: string
+  exchangeUID: string
+  userExchangeKeysUID: string | undefined
+}
+
+type WithConfig<Config, Fn> = (options: ConfigOptions<Config>) => Fn
 
 type ExchangeAPI<Config> = {
   exchange: Exchange
@@ -100,4 +108,4 @@ type UserExchangeAPI = {
   cancelOrder: CancelOrderFn
 }
 
-export type { ExchangeAPI, UserExchangeAPI }
+export type { ExchangeAPI, UserExchangeAPI, ConfigOptions }

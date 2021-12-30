@@ -1,20 +1,17 @@
-import { errorBoundary } from '@stayradiated/error-boundary'
-
-import { NetError } from '../util/error.js'
-import { client } from '../util/client.js'
+import { kanye, getResponseBody, NetError } from '@volatile/kanye'
 
 type GetLowestAskResult = number
 
 const getLowestAsk = async (): Promise<GetLowestAskResult | Error> => {
-  const price = await errorBoundary(async () =>
-    client
-      .get('extprice', {
-        prefixUrl: 'https://kiwi-coin.com/',
-        searchParams: { s: '-1', t: 'sell' },
-      })
-      .text(),
-  )
+  const raw = await kanye('extprice', {
+    prefixUrl: 'https://kiwi-coin.com/',
+    searchParams: { s: '-1', t: 'sell' },
+  })
+  if (raw instanceof Error) {
+    return raw
+  }
 
+  const price = getResponseBody(raw)
   if (price instanceof Error) {
     return new NetError({
       message: 'Could not fetch lowest ask from kiwi-coin.com',

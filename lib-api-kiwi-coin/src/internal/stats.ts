@@ -1,5 +1,4 @@
-import ky from 'ky-universal'
-import { errorBoundary } from '@stayradiated/error-boundary'
+import { kanye, getResponseBody } from '@volatile/kanye'
 import { fromUnixTime, addSeconds } from 'date-fns'
 
 const matchArray =
@@ -129,14 +128,18 @@ const parseStats = (input: string): Stats | Error => {
 }
 
 const fetchStats = async (): Promise<Stats | Error> => {
-  const result = await errorBoundary(async () =>
-    ky('https://kiwi-coin.com/stats.html', {
-      headers: {
-        'user-agent':
-          'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36',
-      },
-    }).text(),
-  )
+  const raw = await kanye('stats.html', {
+    prefixUrl: 'https://kiwi-coin.com/',
+    headers: {
+      'user-agent':
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36',
+    },
+  })
+  if (raw instanceof Error) {
+    return raw
+  }
+
+  const result = getResponseBody(raw)
   if (result instanceof Error) {
     return result
   }

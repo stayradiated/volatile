@@ -5,10 +5,16 @@ import {
   BetterErrorConstructorArg,
 } from '@northscaler/better-error'
 
-class ConfigError extends BetterError {
+class NetError extends BetterError {
   constructor(arg?: BetterErrorConstructorArg) {
     super(arg)
   }
 }
 
-export { ConfigError }
+class APIError extends BetterError {
+  constructor(arg?: BetterErrorConstructorArg) {
+    super(arg)
+  }
+}
+
+export { NetError, APIError }

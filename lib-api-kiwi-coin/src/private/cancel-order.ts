@@ -1,5 +1,6 @@
-import { post } from '../util/client.js'
-import { APIError } from '../util/error.js'
+import { Kanye, APIError } from '@volatile/kanye'
+
+import { post, getResponseBody } from '../util/client.js'
 import type { Config } from '../util/types.js'
 
 type CancelOrderOptions = {
@@ -7,27 +8,30 @@ type CancelOrderOptions = {
   orderID: number
 }
 
-type CancelOrderResult = boolean | { error: string }
-
 const cancelOrder = async (
   options: CancelOrderOptions,
-): Promise<CancelOrderResult | Error> => {
+): Promise<[boolean | Error, Kanye?]> => {
   const { config, orderID } = options
 
-  const result = await post(config, 'cancel_order', {
+  const raw = await post(config, 'cancel_order', {
     id: String(orderID),
   })
+  if (raw instanceof Error) {
+    return [raw, undefined]
+  }
+
+  const result = getResponseBody(raw)
 
   if (result instanceof APIError) {
     if (result.info.result?.error === 'Order not found') {
-      return false
+      return [false, raw]
     }
 
-    return result
+    return [result, raw]
   }
 
-  return true
+  return [true, raw]
 }
 
 export { cancelOrder }
-export type { CancelOrderOptions, CancelOrderResult }
+export type { CancelOrderOptions }

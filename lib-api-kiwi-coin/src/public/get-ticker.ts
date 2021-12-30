@@ -1,4 +1,4 @@
-import { get } from '../util/client.js'
+import { get, getResponseBody } from '../util/client.js'
 
 type GetTickerResult = {
   last: number
@@ -11,7 +11,15 @@ type GetTickerResult = {
   ask: number
 }
 
-const getTicker = async (): Promise<GetTickerResult | Error> => get('ticker')
+const getTicker = async (): Promise<GetTickerResult | Error> => {
+  const raw = await get('ticker')
+  if (raw instanceof Error) {
+    return raw
+  }
+
+  const ticker = getResponseBody<GetTickerResult>(raw)
+  return ticker
+}
 
 export { getTicker }
 export type { GetTickerResult }

@@ -26,7 +26,9 @@ test('should return true', async (t) => {
     )
     .reply(200, JSON.stringify(true))
 
-  const result = await throwIfError(cancelOrder({ config, orderID }))
+  const [result] = await cancelOrder({ config, orderID })
+  throwIfError(result)
+
   t.is(result, true)
 })
 
@@ -40,10 +42,12 @@ test('should return API error', async (t) => {
     )
     .reply(200, JSON.stringify({ error: 'Unauthorized' }))
 
-  const result = await throwIfValue(cancelOrder({ config, orderID }))
+  const [result] = await cancelOrder({ config, orderID })
+
+  const error = throwIfValue(result)
 
   t.is(
-    result.message,
+    error.message,
     'E_API: Received error from POST https://kiwi-coin.com/api/cancel_order',
   )
 })

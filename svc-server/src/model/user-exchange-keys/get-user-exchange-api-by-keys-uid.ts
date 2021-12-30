@@ -22,7 +22,14 @@ const getUserExchangeAPIByKeysUID = async (
     return exchange
   }
 
-  return getUserExchangeAPI(exchange, userExchangeKeys.keys)
+  return getUserExchangeAPI({
+    pool,
+    exchange,
+    config: userExchangeKeys.keys,
+    userUID: userExchangeKeys.userUID,
+    exchangeUID: userExchangeKeys.exchangeUID,
+    userExchangeKeysUID,
+  })
 }
 
 export { getUserExchangeAPIByKeysUID }

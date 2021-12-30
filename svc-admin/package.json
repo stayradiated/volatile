@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@apollo/client": "3.5.6",
-    "@floating-ui/react-dom": "0.4.0",
+    "@floating-ui/react-dom": "0.4.1",
     "classnames": "2.3.1",
     "date-fns": "2.28.0",
     "graphql": "16.2.0",
@@ -29,11 +29,11 @@
     "swr": "1.1.2"
   },
   "devDependencies": {
-    "@graphql-codegen/cli": "2.3.0",
-    "@graphql-codegen/introspection": "2.1.0",
-    "@graphql-codegen/typescript": "2.4.1",
-    "@graphql-codegen/typescript-operations": "2.2.1",
-    "@graphql-codegen/typescript-react-apollo": "3.2.2",
+    "@graphql-codegen/cli": "2.3.1",
+    "@graphql-codegen/introspection": "2.1.1",
+    "@graphql-codegen/typescript": "2.4.2",
+    "@graphql-codegen/typescript-operations": "2.2.2",
+    "@graphql-codegen/typescript-react-apollo": "3.2.3",
     "@types/node": "17.0.5",
     "@types/react": "17.0.38",
     "@types/react-dom": "17.0.11",
@@ -45,7 +45,7 @@
     "del-cli": "4.0.1",
     "eslint-plugin-fp": "2.3.0",
     "typescript": "4.5.4",
-    "vite": "2.7.9",
+    "vite": "2.7.10",
     "xo": "0.47.0"
   },
   "ava": {

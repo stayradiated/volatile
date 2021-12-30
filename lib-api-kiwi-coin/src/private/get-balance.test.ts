@@ -32,8 +32,10 @@ test('should return true', async (t) => {
       }),
     )
 
-  const result = await throwIfError(getBalance({ config }))
-  t.deepEqual(result, {
+  const [balance] = await getBalance({ config })
+  throwIfError(balance)
+
+  t.deepEqual(balance, {
     nzd: {
       available: 10.1,
       reserved: 20.2,
@@ -56,9 +58,11 @@ test('should detect invalid response', async (t) => {
     .post('/api/balance', () => true)
     .reply(200, JSON.stringify({}))
 
-  const result = await throwIfValue(getBalance({ config }))
+  const [balance] = await getBalance({ config })
+  const error = throwIfValue(balance)
+
   t.is(
-    stripPath(result.message),
+    stripPath(error.message),
     `Warning: root.nzd_available value is undefined. at PATH
 Warning: root.nzd_available Could not convert undefined to float. at PATH
 Warning: root.nzd_reserved value is undefined. at PATH

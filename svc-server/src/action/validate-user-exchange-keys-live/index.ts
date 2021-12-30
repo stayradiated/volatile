@@ -31,7 +31,14 @@ const validateUserExchangeKeysLiveHandler: ActionHandlerFn<
     return exchange
   }
 
-  const userExchangeAPI = await getUserExchangeAPI(exchange, keys)
+  const userExchangeAPI = await getUserExchangeAPI({
+    pool,
+    exchange,
+    config: keys,
+    userUID,
+    exchangeUID,
+    userExchangeKeysUID: undefined,
+  })
   if (userExchangeAPI instanceof Error) {
     return userExchangeAPI
   }

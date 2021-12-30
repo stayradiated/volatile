@@ -4,10 +4,12 @@ import { pool } from '../pool.js'
 import type { Pool } from '../types.js'
 import { createMakeInstance, MakeInstance } from './make.js'
 
-const test = anyTest as TestInterface<{
+type DefaultContext = {
   pool: Pool
   make: MakeInstance
-}>
+}
+
+const test = anyTest as TestInterface<DefaultContext>
 
 test.beforeEach((t) => {
   t.context.pool = pool
@@ -15,3 +17,4 @@ test.beforeEach((t) => {
 })
 
 export { test }
+export type { DefaultContext }

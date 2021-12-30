@@ -1,7 +1,4 @@
-import { errorBoundary } from '@stayradiated/error-boundary'
-
-import { NetError } from '../util/error.js'
-import { client } from '../util/client.js'
+import { kanye, getResponseBody, NetError } from '@volatile/kanye'
 
 enum GetExtPriceSource {
   worldwide = '1',
@@ -19,15 +16,15 @@ const getExtPrice = async (
 ): Promise<GetExtPriceResult | Error> => {
   const { source } = options
 
-  const price = await errorBoundary(async () =>
-    client
-      .get('extprice', {
-        prefixUrl: 'https://kiwi-coin.com/',
-        searchParams: { s: source },
-      })
-      .text(),
-  )
+  const raw = await kanye('extprice', {
+    prefixUrl: 'https://kiwi-coin.com/',
+    searchParams: { s: source },
+  })
+  if (raw instanceof Error) {
+    return raw
+  }
 
+  const price = getResponseBody(raw)
   if (price instanceof Error) {
     return new NetError({
       message: 'Could not fetch ext price from kiwi-coin.com',

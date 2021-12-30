@@ -1,4 +1,6 @@
-import { post } from '../util/client.js'
+import { Kanye } from '@volatile/kanye'
+
+import { post, getResponseBody } from '../util/client.js'
 import { parseOrderList, Order } from '../util/order.js'
 import type { Config } from '../util/types.js'
 
@@ -14,15 +16,21 @@ type GetOpenOrderListResponse = Array<{
 
 const getOpenOrderList = async (
   options: GetOpenOrderListOptions,
-): Promise<Order[] | Error> => {
+): Promise<[Order[] | Error, Kanye?]> => {
   const { config } = options
 
-  const data = await post<GetOpenOrderListResponse>(config, 'open_orders')
-  if (data instanceof Error) {
-    return data
+  const raw = await post(config, 'open_orders')
+  if (raw instanceof Error) {
+    return [raw, undefined]
   }
 
-  return parseOrderList(data)
+  const responseBody = getResponseBody<GetOpenOrderListResponse>(raw)
+  if (responseBody instanceof Error) {
+    return [responseBody, raw]
+  }
+
+  const openOrderList = parseOrderList(responseBody)
+  return [openOrderList, raw]
 }
 
 export { getOpenOrderList }

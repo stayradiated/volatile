@@ -1,4 +1,5 @@
-import { post } from '../util/client.js'
+import { Kanye } from '@volatile/kanye'
+import { post, getResponseBody } from '../util/client.js'
 import { parseOrder, Order } from '../util/order.js'
 import type { Config } from '../util/types.js'
 
@@ -13,17 +14,24 @@ type CreateBuyOrderResponse = {
 
 const createBuyOrder = async (
   options: CreateBuyOrderOptions,
-): Promise<Order | Error> => {
+): Promise<[Order | Error, Kanye?]> => {
   const { config, price, amount } = options
-  const data = await post<CreateBuyOrderResponse>(config, 'buy', {
+
+  const raw = await post(config, 'buy', {
     price: String(price),
     amount: String(amount),
   })
-  if (data instanceof Error) {
-    return data
+  if (raw instanceof Error) {
+    return [raw, undefined]
   }
 
-  return parseOrder(data)
+  const result = getResponseBody<CreateBuyOrderResponse>(raw)
+  if (result instanceof Error) {
+    return [result, raw]
+  }
+
+  const order = parseOrder(result)
+  return [order, raw]
 }
 
 export { createBuyOrder }

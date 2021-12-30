@@ -26,11 +26,11 @@
     "yargs": "17.3.1"
   },
   "devDependencies": {
-    "@graphql-codegen/cli": "2.3.0",
-    "@graphql-codegen/introspection": "2.1.0",
-    "@graphql-codegen/near-operation-file-preset": "2.2.2",
-    "@graphql-codegen/typescript": "2.4.1",
-    "@graphql-codegen/typescript-operations": "2.2.1",
+    "@graphql-codegen/cli": "2.3.1",
+    "@graphql-codegen/introspection": "2.1.1",
+    "@graphql-codegen/near-operation-file-preset": "2.2.3",
+    "@graphql-codegen/typescript": "2.4.2",
+    "@graphql-codegen/typescript-operations": "2.2.2",
     "@types/luxon": "2.0.8",
     "@types/yargs": "17.0.8",
     "@vercel/ncc": "^0.33",
