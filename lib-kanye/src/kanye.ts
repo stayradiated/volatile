@@ -26,8 +26,7 @@ const kanye = async (endpoint: string, options: KyOptions): Promise<Kanye> => {
   const log = debug('kanye')
 
   const method = options.method ?? 'GET'
-  const url = (options.prefixUrl ?? '') + endpoint
-
+  let url = (options.prefixUrl ?? '') + endpoint
   let requestBody: string | undefined
 
   const requestAt = new Date()
@@ -37,6 +36,7 @@ const kanye = async (endpoint: string, options: KyOptions): Promise<Kanye> => {
       hooks: {
         beforeRequest: [
           (request) => {
+            url = request.url
             requestBody = String(request.body)
             log(`∙ ${request.method.slice(0, 3)} ${request.url}`)
           },
