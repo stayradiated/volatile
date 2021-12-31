@@ -7,12 +7,12 @@ import {
 } from './get-market-summary.js'
 
 test('should get market summary', async (t) => {
-  const result = await throwIfError<GetMarketSummaryResult>(
-    getMarketSummary({
-      primaryCurrencyCode: 'Xbt',
-      secondaryCurrencyCode: 'Nzd',
-    }),
-  )
+  const [resultOrError] = await getMarketSummary({
+    primaryCurrencyCode: 'Xbt',
+    secondaryCurrencyCode: 'Nzd',
+  })
+  const result = throwIfError<GetMarketSummaryResult>(resultOrError)
+
   t.is(typeof result.DayHighestPrice, 'number')
   t.is(typeof result.DayLowestPrice, 'number')
   t.is(typeof result.DayAvgPrice, 'number')

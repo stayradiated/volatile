@@ -1,25 +1,28 @@
-import { kanye, getResponseBody, NetError } from '@volatile/kanye'
+import { kanye, Kanye, getResponseBody, NetError } from '@volatile/kanye'
 
 type GetHighestBidResult = number
 
-const getHighestBid = async (): Promise<GetHighestBidResult | Error> => {
+const getHighestBid = async (): Promise<
+  [GetHighestBidResult | Error, Kanye?]
+> => {
   const raw = await kanye('extprice', {
     prefixUrl: 'https://kiwi-coin.com/',
     searchParams: { s: '-1', t: 'buy' },
   })
   if (raw instanceof Error) {
-    return raw
+    return [raw, undefined]
   }
 
   const price = getResponseBody(raw)
   if (price instanceof Error) {
-    return new NetError({
+    const error = new NetError({
       message: 'Could not fetch highest bid from kiwi-coin.com',
       cause: price,
     })
+    return [error, raw]
   }
 
-  return Number.parseFloat(price)
+  return [Number.parseFloat(price), raw]
 }
 
 export { getHighestBid }

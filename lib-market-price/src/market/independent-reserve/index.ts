@@ -13,7 +13,7 @@ const marketSource: MarketPriceSource<Options> = {
   fetch: async (options) => {
     const { assetSymbol, currency } = options
 
-    const result = await ir.getMarketSummary({
+    const [result] = await ir.getMarketSummary({
       primaryCurrencyCode: assetSymbol,
       secondaryCurrencyCode: currency,
     })

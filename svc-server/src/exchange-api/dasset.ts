@@ -10,13 +10,22 @@ import type { ExchangeAPI, UserExchangeAPI, ConfigOptions } from './types.js'
 const dasset: ExchangeAPI<d.Config> = {
   exchange: EXCHANGE_DASSET,
   getLowestAskPrice:
-    ({ config }) =>
+    ({ pool, config, userUID, exchangeUID, userExchangeKeysUID }) =>
     async (options) => {
       const { primaryCurrency, secondaryCurrency } = options
-      const [orderBook] = await d.getMarketOrderBook({
+      const [orderBook, info] = await d.getMarketOrderBook({
         config,
         marketSymbol: `${primaryCurrency}-${secondaryCurrency}`,
       })
+      if (info) {
+        await insertUserExchangeRequest(pool, {
+          userUID,
+          exchangeUID,
+          userExchangeKeysUID,
+          ...info,
+        })
+      }
+
       if (orderBook instanceof Error) {
         return new ExchangeError({
           message: 'Failed to get lowest ask price from dassetx.com',

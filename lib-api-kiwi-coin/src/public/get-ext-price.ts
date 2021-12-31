@@ -1,4 +1,4 @@
-import { kanye, getResponseBody, NetError } from '@volatile/kanye'
+import { kanye, Kanye, getResponseBody, NetError } from '@volatile/kanye'
 
 enum GetExtPriceSource {
   worldwide = '1',
@@ -13,7 +13,7 @@ type GetExtPriceResult = number
 
 const getExtPrice = async (
   options: GetExtPriceOptions,
-): Promise<GetExtPriceResult | Error> => {
+): Promise<[GetExtPriceResult | Error, Kanye?]> => {
   const { source } = options
 
   const raw = await kanye('extprice', {
@@ -21,21 +21,22 @@ const getExtPrice = async (
     searchParams: { s: source },
   })
   if (raw instanceof Error) {
-    return raw
+    return [raw, undefined]
   }
 
   const price = getResponseBody(raw)
   if (price instanceof Error) {
-    return new NetError({
+    const error = new NetError({
       message: 'Could not fetch ext price from kiwi-coin.com',
       cause: price,
       context: {
         options,
       },
     })
+    return [error, raw]
   }
 
-  return Number.parseFloat(price)
+  return [Number.parseFloat(price), raw]
 }
 
 export { getExtPrice }

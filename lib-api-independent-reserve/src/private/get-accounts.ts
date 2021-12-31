@@ -1,5 +1,7 @@
+import type { Kanye } from '@volatile/kanye'
+
 import type { Config } from '../util/types.js'
-import { post } from '../util/client.js'
+import { post, getResponseBody } from '../util/client.js'
 
 type GetAccountsOptions = {
   config: Config
@@ -15,9 +17,15 @@ type GetAccountsResult = Array<{
 
 const getAccounts = async (
   options: GetAccountsOptions,
-): Promise<GetAccountsResult | Error> => {
+): Promise<[GetAccountsResult | Error, Kanye?]> => {
   const { config } = options
-  return post(config, 'Private/GetAccounts', {})
+  const raw = await post(config, 'Private/GetAccounts', {})
+  if (raw instanceof Error) {
+    return [raw, undefined]
+  }
+
+  const result = getResponseBody<GetAccountsResult>(raw)
+  return [result, raw]
 }
 
 export { getAccounts }

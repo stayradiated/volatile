@@ -1,5 +1,7 @@
+import type { Kanye } from '@volatile/kanye'
+
 import type { Config } from '../util/types.js'
-import { post } from '../util/client.js'
+import { post, getResponseBody } from '../util/client.js'
 
 type GetClosedFilledOrdersOptions = {
   config: Config
@@ -34,7 +36,7 @@ type GetClosedFilledOrdersResult = {
 
 const getClosedFilledOrders = async (
   options: GetClosedFilledOrdersOptions,
-): Promise<GetClosedFilledOrdersResult | Error> => {
+): Promise<[GetClosedFilledOrdersResult | Error, Kanye?]> => {
   const {
     config,
     primaryCurrencyCode,
@@ -42,12 +44,18 @@ const getClosedFilledOrders = async (
     pageIndex,
     pageSize,
   } = options
-  return post(config, 'Private/GetClosedFilledOrders', {
+  const raw = await post(config, 'Private/GetClosedFilledOrders', {
     primaryCurrencyCode,
     secondaryCurrencyCode,
     pageIndex,
     pageSize,
   })
+  if (raw instanceof Error) {
+    return [raw, undefined]
+  }
+
+  const result = getResponseBody<GetClosedFilledOrdersResult>(raw)
+  return [result, raw]
 }
 
 export { getClosedFilledOrders }

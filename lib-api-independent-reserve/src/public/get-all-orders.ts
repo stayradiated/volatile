@@ -1,4 +1,6 @@
-import { get } from '../util/client.js'
+import type { Kanye } from '@volatile/kanye'
+
+import { get, getResponseBody } from '../util/client.js'
 
 type GetAllOrdersOptions = {
   // The cryptocurrency for which to retrieve order book. Must be a valid
@@ -35,12 +37,18 @@ type GetAllOrdersResult = {
 
 const getAllOrders = async (
   options: GetAllOrdersOptions,
-): Promise<GetAllOrdersResult | Error> => {
+): Promise<[GetAllOrdersResult | Error, Kanye?]> => {
   const { primaryCurrencyCode, secondaryCurrencyCode } = options
-  return get('Public/GetAllOrders', {
+  const raw = await get('Public/GetAllOrders', {
     primaryCurrencyCode,
     secondaryCurrencyCode,
   })
+  if (raw instanceof Error) {
+    return [raw, undefined]
+  }
+
+  const result = getResponseBody<GetAllOrdersResult>(raw)
+  return [result, raw]
 }
 
 export { getAllOrders }

@@ -1,5 +1,7 @@
+import type { Kanye } from '@volatile/kanye'
+
 import type { Config } from '../util/types.js'
-import { post } from '../util/client.js'
+import { post, getResponseBody } from '../util/client.js'
 
 type PlaceLimitOrderOptions = {
   config: Config
@@ -33,7 +35,7 @@ type PlaceLimitOrderResult = {
 
 const placeLimitOrder = async (
   options: PlaceLimitOrderOptions,
-): Promise<PlaceLimitOrderResult | Error> => {
+): Promise<[PlaceLimitOrderResult | Error, Kanye?]> => {
   const {
     config,
     primaryCurrencyCode,
@@ -42,13 +44,19 @@ const placeLimitOrder = async (
     price,
     volume,
   } = options
-  return post(config, 'Private/PlaceLimitOrder', {
+  const raw = await post(config, 'Private/PlaceLimitOrder', {
     primaryCurrencyCode,
     secondaryCurrencyCode,
     orderType,
     price,
     volume,
   })
+  if (raw instanceof Error) {
+    return [raw, undefined]
+  }
+
+  const result = getResponseBody<PlaceLimitOrderResult>(raw)
+  return [result, raw]
 }
 
 export { placeLimitOrder }

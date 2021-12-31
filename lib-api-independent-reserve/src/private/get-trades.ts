@@ -1,5 +1,7 @@
+import type { Kanye } from '@volatile/kanye'
+
 import type { Config } from '../util/types.js'
-import { post } from '../util/client.js'
+import { post, getResponseBody } from '../util/client.js'
 
 type GetTradesOptions = {
   config: Config
@@ -26,12 +28,18 @@ type GetTradesResult = {
 
 const getTrades = async (
   options: GetTradesOptions,
-): Promise<GetTradesResult | Error> => {
+): Promise<[GetTradesResult | Error, Kanye?]> => {
   const { config, pageIndex, pageSize } = options
-  return post(config, 'Private/GetTrades', {
+  const raw = await post(config, 'Private/GetTrades', {
     pageIndex,
     pageSize,
   })
+  if (raw instanceof Error) {
+    return [raw, undefined]
+  }
+
+  const result = getResponseBody<GetTradesResult>(raw)
+  return [result, raw]
 }
 
 export { getTrades }

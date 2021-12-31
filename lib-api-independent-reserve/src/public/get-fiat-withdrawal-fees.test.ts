@@ -7,9 +7,9 @@ import {
 } from './get-fiat-withdrawal-fees.js'
 
 test('should get fiat withdrawal fees', async (t) => {
-  const result = await throwIfError<GetFiatWithdrawalFeesResult>(
-    getFiatWithdrawalFees(),
-  )
+  const [resultOrError] = await getFiatWithdrawalFees()
+  const result = throwIfError<GetFiatWithdrawalFeesResult>(resultOrError)
+
   t.true(Array.isArray(result))
   const item = result[0]!
   t.is(typeof item.CurrencyCode, 'string')

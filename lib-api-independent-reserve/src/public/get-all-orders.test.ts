@@ -4,12 +4,12 @@ import { throwIfError } from '@stayradiated/error-boundary'
 import { getAllOrders, GetAllOrdersResult } from './get-all-orders.js'
 
 test('should get all orders', async (t) => {
-  const result = await throwIfError<GetAllOrdersResult>(
-    getAllOrders({
-      primaryCurrencyCode: 'Xbt',
-      secondaryCurrencyCode: 'Nzd',
-    }),
-  )
+  const [resultOrError] = await getAllOrders({
+    primaryCurrencyCode: 'Xbt',
+    secondaryCurrencyCode: 'Nzd',
+  })
+  const result = throwIfError<GetAllOrdersResult>(resultOrError)
+
   t.true(Array.isArray(result.BuyOrders))
   t.true(Array.isArray(result.SellOrders))
   t.is(result.PrimaryCurrencyCode, 'Xbt')

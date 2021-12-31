@@ -1,77 +1,57 @@
-import ky from 'ky-universal'
-import type KyInstance from 'ky'
-import debug from 'debug'
+import {
+  kanye,
+  Kanye,
+  getResponseBody as getKanyeResponseBody,
+} from '@volatile/kanye'
 import { errorBoundary } from '@stayradiated/error-boundary'
 
 import { createSignedBody } from './signature.js'
-import { NetError, getCause } from './error.js'
 import { withNonce } from './nonce.js'
 import type { Config } from './types.js'
 
-const log = debug('independent-reserve-api')
-
-const client: typeof KyInstance = ky.create({
-  prefixUrl: 'https://api.independentreserve.com/',
-  hooks: {
-    beforeRequest: [
-      (request) => {
-        log(`∙ ${request.method.slice(0, 3)} ${request.url}`)
-      },
-    ],
-    afterResponse: [
-      (request) => {
-        log(`✓ ${request.method.slice(0, 3)} ${request.url}`)
-      },
-    ],
-  },
-})
+const prefixUrl = 'https://api.independentreserve.com/'
 
 const get = async (
   endpoint: string,
   searchParameters?: Record<string, string | number>,
-) => {
-  const result = errorBoundary(async () =>
-    client
-      .get(endpoint, {
-        searchParams: searchParameters,
-      })
-      .json(),
-  )
-  if (result instanceof Error) {
-    return new NetError({
-      message: `Received error from GET https://api.independentreserve.com/${endpoint}`,
-      cause: await getCause(result),
-      context: searchParameters,
-    })
-  }
-
-  return result
+): Promise<Kanye | Error> => {
+  return kanye(endpoint, {
+    method: 'GET',
+    prefixUrl,
+    searchParams: searchParameters,
+  })
 }
 
 const post = async (
   config: Config,
   endpoint: string,
   parameters: Record<string, undefined | string | number>,
-) => {
-  const result = await withNonce(config.apiKey, (nonce) => {
-    return errorBoundary(async () =>
-      client
-        .post(endpoint, {
-          json: createSignedBody({ config, endpoint, parameters, nonce }),
-        })
-        .json(),
-    )
-  })
+): Promise<Kanye | Error> => {
+  return withNonce(config.apiKey, async (nonce) => {
+    const signedBody = createSignedBody({ config, endpoint, parameters, nonce })
 
-  if (result instanceof Error) {
-    return new NetError({
-      message: `Received error from POST https://api.independentreserve.com/${endpoint}`,
-      cause: await getCause(result),
-      context: parameters,
+    return kanye(endpoint, {
+      method: 'POST',
+      prefixUrl,
+      json: signedBody,
     })
-  }
-
-  return result
+  })
 }
 
-export { client, get, post }
+const getResponseBody = <ResponseBody>(raw: Kanye): ResponseBody | Error => {
+  const responseBodyText = getKanyeResponseBody(raw)
+  if (responseBodyText instanceof Error) {
+    return responseBodyText
+  }
+
+  const responseBody = errorBoundary(() => {
+    return JSON.parse(responseBodyText) as ResponseBody
+  })
+  if (responseBody instanceof Error) {
+    return responseBody
+  }
+
+  return responseBody
+}
+
+export { get, post, getResponseBody }

@@ -7,13 +7,13 @@ import {
 } from './get-trade-history-summary.js'
 
 test('should get history summary', async (t) => {
-  const result = await throwIfError<GetTradeHistorySummaryResult>(
-    getTradeHistorySummary({
-      primaryCurrencyCode: 'Xbt',
-      secondaryCurrencyCode: 'Nzd',
-      numberOfHoursInThePastToRetrieve: 1,
-    }),
-  )
+  const [resultOrError] = await getTradeHistorySummary({
+    primaryCurrencyCode: 'Xbt',
+    secondaryCurrencyCode: 'Nzd',
+    numberOfHoursInThePastToRetrieve: 1,
+  })
+  const result = throwIfError<GetTradeHistorySummaryResult>(resultOrError)
+
   t.true(Array.isArray(result.HistorySummaryItems))
   t.is(result.NumberOfHoursInThePastToRetrieve, 1)
   t.is(result.PrimaryCurrencyCode, 'Xbt')

@@ -4,7 +4,9 @@ import { throwIfError } from '@stayradiated/error-boundary'
 import { getDepositFees, GetDepositFeesResult } from './get-deposit-fees.js'
 
 test('should get deposit fees', async (t) => {
-  const result = await throwIfError<GetDepositFeesResult>(getDepositFees())
+  const [resultOrError] = await getDepositFees()
+  const result = throwIfError<GetDepositFeesResult>(resultOrError)
+
   t.true(Array.isArray(result))
   const item = result[0]!
   t.is(typeof item.DepositType, 'string')

@@ -1,3 +1,5 @@
+import { Kanye } from '@volatile/kanye'
+
 import { get, getResponseBody } from '../util/client.js'
 
 type GetOrderBookResult = {
@@ -6,14 +8,16 @@ type GetOrderBookResult = {
   asks: Array<[string, string]>
 }
 
-const getOrderBook = async (): Promise<GetOrderBookResult | Error> => {
+const getOrderBook = async (): Promise<
+  [GetOrderBookResult | Error, Kanye?]
+> => {
   const raw = await get('order_book')
   if (raw instanceof Error) {
-    return raw
+    return [raw, undefined]
   }
 
   const orderBook = getResponseBody<GetOrderBookResult>(raw)
-  return orderBook
+  return [orderBook, raw]
 }
 
 export { getOrderBook }

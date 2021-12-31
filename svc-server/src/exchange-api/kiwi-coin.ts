@@ -8,22 +8,33 @@ import type { ExchangeAPI, UserExchangeAPI, ConfigOptions } from './types.js'
 
 const kiwiCoin: ExchangeAPI<kc.Config> = {
   exchange: EXCHANGE_KIWI_COIN,
-  getLowestAskPrice: () => async () => {
-    const orderBook = await kc.getOrderBook()
-    if (orderBook instanceof Error) {
-      return new ExchangeError({
-        message: 'Failed to get lowest ask price from kiwi-coin.com',
-        cause: orderBook,
-      })
-    }
+  getLowestAskPrice:
+    ({ pool, userUID, exchangeUID, userExchangeKeysUID }) =>
+    async () => {
+      const [orderBook, info] = await kc.getOrderBook()
+      if (info) {
+        await insertUserExchangeRequest(pool, {
+          userUID,
+          exchangeUID,
+          userExchangeKeysUID,
+          ...info,
+        })
+      }
 
-    const lowestAsk = orderBook.asks[0]
-    const lowestAskPrice = lowestAsk
-      ? Number.parseFloat(lowestAsk[0])
-      : Number.POSITIVE_INFINITY
+      if (orderBook instanceof Error) {
+        return new ExchangeError({
+          message: 'Failed to get lowest ask price from kiwi-coin.com',
+          cause: orderBook,
+        })
+      }
 
-    return lowestAskPrice
-  },
+      const lowestAsk = orderBook.asks[0]
+      const lowestAskPrice = lowestAsk
+        ? Number.parseFloat(lowestAsk[0])
+        : Number.POSITIVE_INFINITY
+
+      return lowestAskPrice
+    },
   getBalance:
     ({ pool, config, userUID, exchangeUID, userExchangeKeysUID }) =>
     async () => {

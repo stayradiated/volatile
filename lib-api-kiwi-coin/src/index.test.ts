@@ -19,7 +19,7 @@ test.serial('ticker', async (t) => {
     ask: 48_454.63,
   })
 
-  const ticker = await kiwiCoin.getTicker()
+  const [ticker] = await kiwiCoin.getTicker()
   t.deepEqual(ticker, {
     last: 47_899.05,
     date: 1_625_804_519,

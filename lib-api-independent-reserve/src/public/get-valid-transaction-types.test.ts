@@ -4,7 +4,9 @@ import { throwIfError } from '@stayradiated/error-boundary'
 import { getValidTransactionTypes } from './get-valid-transaction-types.js'
 
 test('should get valid transaction types', async (t) => {
-  const result = await throwIfError(getValidTransactionTypes())
+  const [resultOrError] = await getValidTransactionTypes()
+  const result = throwIfError(resultOrError)
+
   t.deepEqual(result, [
     'AccountFee',
     'Brokerage',

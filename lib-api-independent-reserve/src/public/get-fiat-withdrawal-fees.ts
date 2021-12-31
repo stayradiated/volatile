@@ -1,4 +1,6 @@
-import { get } from '../util/client.js'
+import type { Kanye } from '@volatile/kanye'
+
+import { get, getResponseBody } from '../util/client.js'
 
 // Withdrawal fee for the currency. Denominated in the withdrawal currency.
 type GetFiatWithdrawalFeesResult = Array<{
@@ -18,8 +20,16 @@ type GetFiatWithdrawalFeesResult = Array<{
 }>
 
 const getFiatWithdrawalFees = async (): Promise<
-  GetFiatWithdrawalFeesResult | Error
-> => get('Public/GetFiatWithdrawalFees')
+  [GetFiatWithdrawalFeesResult | Error, Kanye?]
+> => {
+  const raw = await get('Public/GetFiatWithdrawalFees')
+  if (raw instanceof Error) {
+    return [raw, undefined]
+  }
+
+  const result = getResponseBody<GetFiatWithdrawalFeesResult>(raw)
+  return [result, raw]
+}
 
 export { getFiatWithdrawalFees }
 export type { GetFiatWithdrawalFeesResult }

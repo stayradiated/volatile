@@ -1,5 +1,7 @@
+import type { Kanye } from '@volatile/kanye'
+
 import type { Config } from '../util/types.js'
-import { post } from '../util/client.js'
+import { post, getResponseBody } from '../util/client.js'
 
 type GetOpenOrdersOptions = {
   config: Config
@@ -31,7 +33,7 @@ type GetOpenOrdersResult = {
 
 const getOpenOrders = async (
   options: GetOpenOrdersOptions,
-): Promise<GetOpenOrdersResult | Error> => {
+): Promise<[GetOpenOrdersResult | Error, Kanye?]> => {
   const {
     config,
     primaryCurrencyCode,
@@ -39,12 +41,18 @@ const getOpenOrders = async (
     pageIndex,
     pageSize,
   } = options
-  return post(config, 'Private/GetOpenOrders', {
+  const raw = await post(config, 'Private/GetOpenOrders', {
     primaryCurrencyCode,
     secondaryCurrencyCode,
     pageIndex,
     pageSize,
   })
+  if (raw instanceof Error) {
+    return [raw, undefined]
+  }
+
+  const result = getResponseBody<GetOpenOrdersResult>(raw)
+  return [result, raw]
 }
 
 export { getOpenOrders }

@@ -54,7 +54,7 @@ const getResponseBody = <ResponseBody>(input: Kanye): ResponseBody | Error => {
 
   if (isAPIErrorBody(responseBody)) {
     return new APIError({
-      message: `Received error from POST ${input.url}`,
+      message: `Received error from ${input.method} ${input.url}`,
       context: input,
     })
   }

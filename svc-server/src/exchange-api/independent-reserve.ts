@@ -3,6 +3,7 @@ import { parseISO } from 'date-fns'
 
 import { ExchangeError } from '../util/error.js'
 import { EXCHANGE_INDEPENDENT_RESERVE } from '../model/exchange/index.js'
+import { insertUserExchangeRequest } from '../model/user-exchange-request/index.js'
 
 import type { ExchangeAPI, UserExchangeAPI, ConfigOptions } from './types.js'
 
@@ -18,24 +19,44 @@ const formatCurrency = (currency: string): string => {
 
 const independentReserve: ExchangeAPI<ir.Config> = {
   exchange: EXCHANGE_INDEPENDENT_RESERVE,
-  getLowestAskPrice: () => async (options) => {
-    const { primaryCurrency, secondaryCurrency } = options
-    const orderBook = await ir.getOrderBook({
-      primaryCurrencyCode: primaryCurrency,
-      secondaryCurrencyCode: secondaryCurrency,
-    })
-    if (orderBook instanceof Error) {
-      return orderBook
-    }
+  getLowestAskPrice:
+    ({ pool, userUID, exchangeUID, userExchangeKeysUID }) =>
+    async (options) => {
+      const { primaryCurrency, secondaryCurrency } = options
+      const [orderBook, info] = await ir.getOrderBook({
+        primaryCurrencyCode: primaryCurrency,
+        secondaryCurrencyCode: secondaryCurrency,
+      })
+      if (info) {
+        await insertUserExchangeRequest(pool, {
+          userUID,
+          exchangeUID,
+          userExchangeKeysUID,
+          ...info,
+        })
+      }
 
-    const askPriceList = orderBook.SellOrders.map((order) => order.Price)
-    return Math.min(...askPriceList)
-  },
+      if (orderBook instanceof Error) {
+        return orderBook
+      }
+
+      const askPriceList = orderBook.SellOrders.map((order) => order.Price)
+      return Math.min(...askPriceList)
+    },
   getBalance:
-    ({ config }) =>
+    ({ pool, config, userUID, exchangeUID, userExchangeKeysUID }) =>
     async (options) => {
       const { currency } = options
-      const accounts = await ir.getAccounts({ config })
+      const [accounts, info] = await ir.getAccounts({ config })
+      if (info) {
+        await insertUserExchangeRequest(pool, {
+          userUID,
+          exchangeUID,
+          userExchangeKeysUID,
+          ...info,
+        })
+      }
+
       if (accounts instanceof Error) {
         return accounts
       }
@@ -53,13 +74,22 @@ const independentReserve: ExchangeAPI<ir.Config> = {
       return account.AvailableBalance
     },
   getOpenOrders:
-    ({ config }) =>
+    ({ pool, config, userUID, exchangeUID, userExchangeKeysUID }) =>
     async () => {
-      const openOrders = await ir.getOpenOrders({
+      const [openOrders, info] = await ir.getOpenOrders({
         config,
         pageIndex: 0,
         pageSize: 25,
       })
+      if (info) {
+        await insertUserExchangeRequest(pool, {
+          userUID,
+          exchangeUID,
+          userExchangeKeysUID,
+          ...info,
+        })
+      }
+
       if (openOrders instanceof Error) {
         return openOrders
       }
@@ -75,15 +105,24 @@ const independentReserve: ExchangeAPI<ir.Config> = {
       }))
     },
   getTrades:
-    ({ config }) =>
+    ({ pool, config, userUID, exchangeUID, userExchangeKeysUID }) =>
     async (options) => {
       const { pageIndex, pageSize } = options
 
-      const results = await ir.getTrades({
+      const [results, info] = await ir.getTrades({
         config,
         pageIndex,
         pageSize,
       })
+      if (info) {
+        await insertUserExchangeRequest(pool, {
+          userUID,
+          exchangeUID,
+          userExchangeKeysUID,
+          ...info,
+        })
+      }
+
       if (results instanceof Error) {
         return results
       }
@@ -108,10 +147,10 @@ const independentReserve: ExchangeAPI<ir.Config> = {
       }
     },
   createOrder:
-    ({ config }) =>
+    ({ pool, config, userUID, exchangeUID, userExchangeKeysUID }) =>
     async (options) => {
       const { volume, price, primaryCurrency, secondaryCurrency } = options
-      const order = await ir.placeLimitOrder({
+      const [order, info] = await ir.placeLimitOrder({
         config,
         primaryCurrencyCode: primaryCurrency,
         secondaryCurrencyCode: secondaryCurrency,
@@ -119,6 +158,15 @@ const independentReserve: ExchangeAPI<ir.Config> = {
         price,
         volume: volume * (1 - 0.0051), // Account for 0.50% trading fee,
       })
+      if (info) {
+        await insertUserExchangeRequest(pool, {
+          userUID,
+          exchangeUID,
+          userExchangeKeysUID,
+          ...info,
+        })
+      }
+
       if (order instanceof Error) {
         return order
       }
@@ -128,9 +176,21 @@ const independentReserve: ExchangeAPI<ir.Config> = {
       }
     },
   cancelOrder:
-    ({ config }) =>
+    ({ pool, config, userUID, exchangeUID, userExchangeKeysUID }) =>
     async (options) => {
-      const error = await ir.cancelOrder({ config, orderGuid: options.orderID })
+      const [error, info] = await ir.cancelOrder({
+        config,
+        orderGuid: options.orderID,
+      })
+      if (info) {
+        await insertUserExchangeRequest(pool, {
+          userUID,
+          exchangeUID,
+          userExchangeKeysUID,
+          ...info,
+        })
+      }
+
       if (error instanceof Error) {
         return error
       }

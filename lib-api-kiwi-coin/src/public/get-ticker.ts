@@ -1,3 +1,5 @@
+import { Kanye } from '@volatile/kanye'
+
 import { get, getResponseBody } from '../util/client.js'
 
 type GetTickerResult = {
@@ -11,14 +13,14 @@ type GetTickerResult = {
   ask: number
 }
 
-const getTicker = async (): Promise<GetTickerResult | Error> => {
+const getTicker = async (): Promise<[GetTickerResult | Error, Kanye?]> => {
   const raw = await get('ticker')
   if (raw instanceof Error) {
-    return raw
+    return [raw, undefined]
   }
 
   const ticker = getResponseBody<GetTickerResult>(raw)
-  return ticker
+  return [ticker, raw]
 }
 
 export { getTicker }

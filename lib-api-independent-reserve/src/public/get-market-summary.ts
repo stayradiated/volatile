@@ -1,4 +1,6 @@
-import { get } from '../util/client.js'
+import type { Kanye } from '@volatile/kanye'
+
+import { get, getResponseBody } from '../util/client.js'
 
 type GetMarketSummaryOptions = {
   // The cryptocurrency for which to retrieve order book. Must be a valid
@@ -38,12 +40,18 @@ type GetMarketSummaryResult = {
 
 const getMarketSummary = async (
   options: GetMarketSummaryOptions,
-): Promise<GetMarketSummaryResult | Error> => {
+): Promise<[GetMarketSummaryResult | Error, Kanye?]> => {
   const { primaryCurrencyCode, secondaryCurrencyCode } = options
-  return get('Public/GetMarketSummary', {
+  const raw = await get('Public/GetMarketSummary', {
     primaryCurrencyCode,
     secondaryCurrencyCode,
   })
+  if (raw instanceof Error) {
+    return [raw, undefined]
+  }
+
+  const result = getResponseBody<GetMarketSummaryResult>(raw)
+  return [result, raw]
 }
 
 export { getMarketSummary }
