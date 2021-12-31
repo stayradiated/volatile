@@ -1,3 +1,4 @@
+import { Kanye } from '@volatile/kanye'
 import { errorListBoundary } from '@stayradiated/error-boundary'
 
 import type { Config, PaginationOptions, PaginatedList } from './types.js'
@@ -6,7 +7,7 @@ type PaginatedFetchFn<T> = (
   options: PaginationOptions & {
     config: Config
   },
-) => Promise<PaginatedList<T> | Error>
+) => Promise<[PaginatedList<T> | Error, Kanye?]>
 
 type PaginatorState<T> = PaginatedList<T> & {
   hasNext: boolean
@@ -23,23 +24,26 @@ type GetPageOptions<T> = {
 
 const getPage = async <T>(
   options: GetPageOptions<T>,
-): Promise<PaginatorState<T> | Error> => {
+): Promise<[PaginatorState<T> | Error, Kanye?]> => {
   const { config, fetchFn, limit, page } = options
 
-  const response = await fetchFn({ config, limit, page })
+  const [response, raw] = await fetchFn({ config, limit, page })
   if (response instanceof Error) {
-    return response
+    return [response, raw]
   }
 
   const { total, results } = response
   const count = page * limit
-  return {
-    total,
-    results,
-    hasNext: total > count,
-    limit,
-    page,
-  }
+  return [
+    {
+      total,
+      results,
+      hasNext: total > count,
+      limit,
+      page,
+    },
+    raw,
+  ]
 }
 
 type GetAllPagesOptions<T> = {
@@ -50,13 +54,13 @@ type GetAllPagesOptions<T> = {
 
 const getAllPages = async <T>(
   options: GetAllPagesOptions<T>,
-): Promise<T[] | Error> => {
+): Promise<[T[] | Error, Kanye[]]> => {
   const { config, fetchFn, limit = 100 } = options
 
   // Find out how many pages there are
-  const state = await getPage({ config, fetchFn, limit: 1, page: 1 })
+  const [state, raw] = await getPage({ config, fetchFn, limit: 1, page: 1 })
   if (state instanceof Error) {
-    return state
+    return [state, raw ? [raw] : []]
   }
 
   // How many pages do we need to fetch?
@@ -65,17 +69,21 @@ const getAllPages = async <T>(
     .fill(undefined)
     .map((_, index) => index + 1)
 
+  const allPages = await Promise.all(
+    pageArray.map(async (page) => getPage<T>({ config, fetchFn, limit, page })),
+  )
+
+  const rawList = allPages.map((item) => item[1]).filter(Boolean) as Kanye[]
+
   // Fetch all the pages
-  const list = await errorListBoundary(async () =>
-    Promise.all(
-      pageArray.map(async (page) => getPage({ config, fetchFn, limit, page })),
-    ),
+  const list = errorListBoundary<PaginatorState<T>>(() =>
+    allPages.map((item) => item[0]),
   )
   if (list instanceof Error) {
-    return list
+    return [list, rawList]
   }
 
-  return list.flatMap((item) => item.results)
+  return [list.flatMap((item) => item.results), rawList]
 }
 
 const buildPaginationSearchParameters = (

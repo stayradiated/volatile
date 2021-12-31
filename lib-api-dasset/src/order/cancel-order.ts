@@ -1,7 +1,6 @@
-import { errorBoundary } from '@stayradiated/error-boundary'
+import { kanye, Kanye, APIError } from '@volatile/kanye'
 
-import { client } from '../util/client.js'
-import { APIError, NetError, getCause } from '../util/error.js'
+import { requestOptions, getResponseBody } from '../util/client.js'
 import { buildHeaders } from '../util/build-headers.js'
 import type { Config } from '../util/types.js'
 
@@ -16,40 +15,46 @@ type CancelOrderResult = {
 
 const cancelOrder = async (
   options: CancelOrderOptions,
-): Promise<CancelOrderResult | Error> => {
+): Promise<[CancelOrderResult | Error, Kanye?]> => {
   const { config, orderID } = options
 
   const headers = buildHeaders(config)
   if (headers instanceof Error) {
-    return headers
+    return [headers, undefined]
   }
 
-  const result = await errorBoundary<CancelOrderResult[]>(async () =>
-    client
-      .delete(`orders/${orderID}`, {
-        headers,
-      })
-      .json(),
-  )
+  const raw = await kanye(`orders/${orderID}`, {
+    ...requestOptions,
+    method: 'DELETE',
+    headers,
+  })
+  if (raw instanceof Error) {
+    return [raw, undefined]
+  }
+
+  const result = getResponseBody<[CancelOrderResult]>(raw)
   if (result instanceof Error) {
-    const cause = await getCause(result)
-    if (cause instanceof APIError && cause.info.status === 409) {
+    if (raw.responseStatus === 409) {
       // 409: order has already been cancelled
-      return {
-        message: cause.message,
-      }
+      return [
+        {
+          message: 'Order has already been cancelled',
+        },
+        raw,
+      ]
     }
 
-    return new NetError({
+    const error = new APIError({
       message: 'Could not cancel order on dasset.com',
-      cause,
+      cause: result,
       context: {
         orderID,
       },
     })
+    return [error, raw]
   }
 
-  return result[0]!
+  return [result[0], raw]
 }
 
 export { cancelOrder }

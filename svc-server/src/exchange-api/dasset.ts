@@ -3,6 +3,7 @@ import { parseISO } from 'date-fns'
 
 import { ExchangeError } from '../util/error.js'
 import { EXCHANGE_DASSET } from '../model/exchange/index.js'
+import { insertUserExchangeRequest } from '../model/user-exchange-request/index.js'
 
 import type { ExchangeAPI, UserExchangeAPI, ConfigOptions } from './types.js'
 
@@ -12,7 +13,7 @@ const dasset: ExchangeAPI<d.Config> = {
     ({ config }) =>
     async (options) => {
       const { primaryCurrency, secondaryCurrency } = options
-      const orderBook = await d.getMarketOrderBook({
+      const [orderBook] = await d.getMarketOrderBook({
         config,
         marketSymbol: `${primaryCurrency}-${secondaryCurrency}`,
       })
@@ -32,10 +33,22 @@ const dasset: ExchangeAPI<d.Config> = {
       return lowestAskPrice
     },
   getBalance:
-    ({ config }) =>
+    ({ config, pool, userUID, exchangeUID, userExchangeKeysUID }) =>
     async (options) => {
       const { currency } = options
-      const balance = await d.getBalance({ config, currencySymbol: currency })
+      const [balance, info] = await d.getBalance({
+        config,
+        currencySymbol: currency,
+      })
+      if (info) {
+        await insertUserExchangeRequest(pool, {
+          userUID,
+          exchangeUID,
+          userExchangeKeysUID,
+          ...info,
+        })
+      }
+
       if (balance instanceof Error) {
         return new ExchangeError({
           message: 'Failed to fetch available NZD from dassetx.com',
@@ -55,9 +68,18 @@ const dasset: ExchangeAPI<d.Config> = {
       return availableNZD
     },
   getOpenOrders:
-    ({ config }) =>
+    ({ config, pool, userUID, exchangeUID, userExchangeKeysUID }) =>
     async () => {
-      const openOrders = await d.getOpenOrderList({ config })
+      const [openOrders, info] = await d.getOpenOrderList({ config })
+      if (info) {
+        await insertUserExchangeRequest(pool, {
+          userUID,
+          exchangeUID,
+          userExchangeKeysUID,
+          ...info,
+        })
+      }
+
       if (openOrders instanceof Error) {
         return new ExchangeError({
           message: 'Failed to get open orders for dassetx.com',
@@ -76,16 +98,25 @@ const dasset: ExchangeAPI<d.Config> = {
       }))
     },
   getTrades:
-    ({ config }) =>
+    ({ config, pool, userUID, exchangeUID, userExchangeKeysUID }) =>
     async (options) => {
       const { pageSize, pageIndex } = options
 
-      const orders = await d.getPage({
+      const [orders, info] = await d.getPage({
         config,
         fetchFn: d.getClosedOrderList,
         limit: pageSize,
         page: pageIndex,
       })
+      if (info) {
+        await insertUserExchangeRequest(pool, {
+          userUID,
+          exchangeUID,
+          userExchangeKeysUID,
+          ...info,
+        })
+      }
+
       if (orders instanceof Error) {
         return new ExchangeError({
           message: 'Failed to get closed orders from dassetx.com',
@@ -117,10 +148,10 @@ const dasset: ExchangeAPI<d.Config> = {
       }
     },
   createOrder:
-    ({ config }) =>
+    ({ config, pool, userUID, exchangeUID, userExchangeKeysUID }) =>
     async (options) => {
       const { volume, price, primaryCurrency, secondaryCurrency } = options
-      const order = await d.createOrder({
+      const [order, info] = await d.createOrder({
         config,
         order: {
           amount: volume * (1 - 0.0036), // Account for 0.35% trading fee,
@@ -131,6 +162,15 @@ const dasset: ExchangeAPI<d.Config> = {
           tradingPair: `${primaryCurrency}-${secondaryCurrency}`,
         },
       })
+      if (info) {
+        await insertUserExchangeRequest(pool, {
+          userUID,
+          exchangeUID,
+          userExchangeKeysUID,
+          ...info,
+        })
+      }
+
       if (order instanceof Error) {
         return new ExchangeError({
           message: 'Failed to create order on dassetx.com',
@@ -144,10 +184,19 @@ const dasset: ExchangeAPI<d.Config> = {
       }
     },
   cancelOrder:
-    ({ config }) =>
+    ({ config, pool, userUID, exchangeUID, userExchangeKeysUID }) =>
     async (options) => {
       const { orderID } = options
-      const error = await d.cancelOrder({ config, orderID })
+      const [error, info] = await d.cancelOrder({ config, orderID })
+      if (info) {
+        await insertUserExchangeRequest(pool, {
+          userUID,
+          exchangeUID,
+          userExchangeKeysUID,
+          ...info,
+        })
+      }
+
       if (error instanceof Error) {
         return new ExchangeError({
           message: 'Failed to cancel order on dassetx.com',

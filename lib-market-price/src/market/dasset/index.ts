@@ -29,7 +29,7 @@ const marketSource: MarketPriceSource<Options> = {
 
     const lastUpdated = DateTime.local()
 
-    const ticker = await dasset.getMarketTicker({
+    const [ticker] = await dasset.getMarketTicker({
       config,
       marketSymbol,
     })

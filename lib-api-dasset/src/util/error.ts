@@ -1,11 +1,9 @@
 /* eslint-disable fp/no-class, @typescript-eslint/no-useless-constructor */
 
-import { HTTPError } from 'ky'
 import {
   BetterError,
   BetterErrorConstructorArg,
 } from '@northscaler/better-error'
-import { errorBoundary } from '@stayradiated/error-boundary'
 
 class ConfigError extends BetterError {
   constructor(arg: BetterErrorConstructorArg) {
@@ -13,43 +11,4 @@ class ConfigError extends BetterError {
   }
 }
 
-class NetError extends BetterError {
-  constructor(arg: BetterErrorConstructorArg) {
-    super(arg)
-  }
-}
-
-type APIErrorContext = {
-  status: number
-  type: string
-  code: number
-  message: string
-}
-
-type APIErrorConstructorArg = BetterErrorConstructorArg & {
-  context: APIErrorContext
-}
-
-class APIError extends BetterError {
-  declare info: APIErrorContext
-
-  constructor(arg: APIErrorConstructorArg) {
-    super(arg)
-  }
-}
-
-const getCause = async (error: Error): Promise<Error> => {
-  if (error instanceof HTTPError) {
-    return errorBoundary(async () => {
-      const context = (await error.response.json()) as APIErrorContext
-      return new APIError({
-        message: context.message,
-        context,
-      })
-    })
-  }
-
-  return error
-}
-
-export { ConfigError, NetError, APIError, getCause }
+export { ConfigError }

@@ -1,7 +1,6 @@
-import { errorBoundary } from '@stayradiated/error-boundary'
+import { kanye, Kanye, APIError } from '@volatile/kanye'
 
-import { client } from '../util/client.js'
-import { NetError, getCause } from '../util/error.js'
+import { requestOptions, getResponseBody } from '../util/client.js'
 import { buildHeaders } from '../util/build-headers.js'
 import type { Config } from '../util/types.js'
 
@@ -26,25 +25,33 @@ type GetBalanceListResult = Balance[]
 
 const getBalanceList = async (
   options: GetBalanceListOptions,
-): Promise<GetBalanceListResult | Error> => {
+): Promise<[GetBalanceListResult | Error, Kanye?]> => {
   const { config } = options
 
   const headers = buildHeaders(config)
   if (headers instanceof Error) {
-    return headers
+    return [headers, undefined]
   }
 
-  const result = await errorBoundary(async () =>
-    client.get('balances', { headers }).json(),
-  )
+  const raw = await kanye('balances', {
+    ...requestOptions,
+    method: 'GET',
+    headers,
+  })
+  if (raw instanceof Error) {
+    return [raw, undefined]
+  }
+
+  const result = getResponseBody<GetBalanceListResult>(raw)
   if (result instanceof Error) {
-    return new NetError({
+    const error = new APIError({
       message: 'Could not get balance list from dasset.com',
-      cause: await getCause(result),
+      cause: result,
     })
+    return [error, raw]
   }
 
-  return result as GetBalanceListResult
+  return [result, raw]
 }
 
 export { getBalanceList }

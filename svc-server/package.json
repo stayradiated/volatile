@@ -32,7 +32,7 @@
   },
   "dependencies": {
     "@northscaler/better-error": "0.1.0-dev.10",
-    "@stayradiated/error-boundary": "1.11.0",
+    "@stayradiated/error-boundary": "1.13.0",
     "@types/nodemailer": "6.4.4",
     "@volatile/dasset-api": "workspace:1.0.1",
     "@volatile/independent-reserve-api": "workspace:1.0.1",

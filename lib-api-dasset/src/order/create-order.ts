@@ -1,7 +1,6 @@
-import { errorBoundary } from '@stayradiated/error-boundary'
+import { kanye, Kanye, APIError } from '@volatile/kanye'
 
-import { client } from '../util/client.js'
-import { NetError, getCause } from '../util/error.js'
+import { requestOptions, getResponseBody } from '../util/client.js'
 import { buildHeaders } from '../util/build-headers.js'
 import type { Config } from '../util/types.js'
 
@@ -29,33 +28,37 @@ type CreateOrderResult = {
 
 const createOrder = async (
   options: CreateOrderOptions,
-): Promise<CreateOrderResult | Error> => {
+): Promise<[CreateOrderResult | Error, Kanye?]> => {
   const { config, order } = options
 
   const headers = buildHeaders(config)
   if (headers instanceof Error) {
-    return headers
+    return [headers, undefined]
   }
 
-  const result = await errorBoundary(async () =>
-    client
-      .post('orders', {
-        headers,
-        json: order,
-      })
-      .json(),
-  )
+  const raw = await kanye('orders', {
+    ...requestOptions,
+    method: 'POST',
+    headers,
+    json: order,
+  })
+  if (raw instanceof Error) {
+    return [raw, undefined]
+  }
+
+  const result = getResponseBody<[CreateOrderResult]>(raw)
   if (result instanceof Error) {
-    return new NetError({
+    const error = new APIError({
       message: 'Could not create order on dasset.com',
-      cause: await getCause(result),
+      cause: result,
       context: {
         order,
       },
     })
+    return [error, raw]
   }
 
-  return result[0] as CreateOrderResult
+  return [result[0], raw]
 }
 
 export { createOrder }

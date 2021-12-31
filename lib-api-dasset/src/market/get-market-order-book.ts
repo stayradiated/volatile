@@ -1,8 +1,8 @@
-import { errorBoundary } from '@stayradiated/error-boundary'
+import { kanye, Kanye, APIError } from '@volatile/kanye'
 
-import { client } from '../util/client.js'
-import { NetError, getCause } from '../util/error.js'
+import { requestOptions, getResponseBody } from '../util/client.js'
 import { buildHeaders } from '../util/build-headers.js'
+
 import type { Config } from '../util/types.js'
 
 type GetMarketOrderBookOptions = {
@@ -23,32 +23,36 @@ type GetMarketOrderBookResult = {
 
 const getMarketOrderBook = async (
   options: GetMarketOrderBookOptions,
-): Promise<GetMarketOrderBookResult | Error> => {
+): Promise<[GetMarketOrderBookResult | Error, Kanye?]> => {
   const { config, marketSymbol } = options
 
   const headers = buildHeaders(config)
   if (headers instanceof Error) {
-    return headers
+    return [headers, undefined]
   }
 
-  const result = await errorBoundary<[GetMarketOrderBookResult]>(async () =>
-    client
-      .get(`markets/${marketSymbol}/orderbook`, {
-        headers,
-      })
-      .json(),
-  )
+  const raw = await kanye(`markets/${marketSymbol}/orderbook`, {
+    ...requestOptions,
+    method: 'GET',
+    headers,
+  })
+  if (raw instanceof Error) {
+    return [raw, undefined]
+  }
+
+  const result = getResponseBody<[GetMarketOrderBookResult]>(raw)
   if (result instanceof Error) {
-    return new NetError({
+    const error = new APIError({
       message: 'Could not get market order book from dasset.com',
-      cause: await getCause(result),
+      cause: result,
       context: {
         marketSymbol,
       },
     })
+    return [error, raw]
   }
 
-  return result[0]
+  return [result[0], raw]
 }
 
 export { getMarketOrderBook }

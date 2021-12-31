@@ -1,9 +1,9 @@
-import { errorBoundary } from '@stayradiated/error-boundary'
+import { kanye, Kanye, APIError } from '@volatile/kanye'
 
-import { client } from '../util/client.js'
-import { NetError, getCause } from '../util/error.js'
+import { requestOptions, getResponseBody } from '../util/client.js'
 import { buildHeaders } from '../util/build-headers.js'
 import { buildPaginationSearchParams } from '../util/pagination.js'
+
 import type { PaginationOptions, PaginatedList, Config } from '../util/types.js'
 
 type Order = {
@@ -37,30 +37,34 @@ type GetOpenOrderListResult = PaginatedList<Order>
 
 const getOpenOrderList = async (
   options: GetOpenOrderListOptions,
-): Promise<GetOpenOrderListResult | Error> => {
+): Promise<[GetOpenOrderListResult | Error, Kanye?]> => {
   const { config } = options
 
   const headers = buildHeaders(config)
   if (headers instanceof Error) {
-    return headers
+    return [headers, undefined]
   }
 
-  const result = await errorBoundary(async () =>
-    client
-      .get('orders/open', {
-        headers,
-        searchParams: buildPaginationSearchParams(options),
-      })
-      .json(),
-  )
+  const raw = await kanye('orders/open', {
+    ...requestOptions,
+    method: 'GET',
+    headers,
+    searchParams: buildPaginationSearchParams(options),
+  })
+  if (raw instanceof Error) {
+    return [raw, undefined]
+  }
+
+  const result = getResponseBody<[GetOpenOrderListResult]>(raw)
   if (result instanceof Error) {
-    return new NetError({
+    const error = new APIError({
       message: 'Could not get open order list from dasset.com',
-      cause: await getCause(result),
+      cause: result,
     })
+    return [error, raw]
   }
 
-  return result[0] as GetOpenOrderListResult
+  return [result[0], raw]
 }
 
 export { getOpenOrderList }

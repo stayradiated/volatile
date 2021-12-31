@@ -25,7 +25,7 @@
   "homepage": "https://github.com/stayradiated/volatile#readme",
   "dependencies": {
     "@northscaler/better-error": "0.1.0-dev.10",
-    "@stayradiated/error-boundary": "1.11.0",
+    "@stayradiated/error-boundary": "1.13.0",
     "@volatile/kanye": "workspace:1.0.1",
     "@zwolf/prism": "2.13.0",
     "date-fns": "2.28.0",
