@@ -15,6 +15,7 @@ type Kanye = {
   url: string
   requestAt: Date
   requestBody: string | undefined
+  requestHeaders: Record<string, string> | undefined
   responseAt: Date | undefined
   responseStatus: number | undefined
   responseHeaders: Record<string, string> | undefined
@@ -28,6 +29,7 @@ const kanye = async (endpoint: string, options: KyOptions): Promise<Kanye> => {
   const method = options.method ?? 'GET'
   let url = (options.prefixUrl ?? '') + endpoint
   let requestBody: string | undefined
+  let requestHeaders: {} | undefined
 
   const requestAt = new Date()
 
@@ -37,6 +39,7 @@ const kanye = async (endpoint: string, options: KyOptions): Promise<Kanye> => {
         beforeRequest: [
           (request) => {
             url = request.url
+            requestHeaders = parseHeaders(request.headers)
             requestBody = String(request.body)
             log(`∙ ${request.method.slice(0, 3)} ${request.url}`)
           },
@@ -59,6 +62,7 @@ const kanye = async (endpoint: string, options: KyOptions): Promise<Kanye> => {
         method,
         url,
         requestAt,
+        requestHeaders,
         requestBody,
         responseAt,
         responseStatus: undefined,
@@ -79,6 +83,7 @@ const kanye = async (endpoint: string, options: KyOptions): Promise<Kanye> => {
         method,
         url,
         requestAt,
+        requestHeaders,
         requestBody,
         responseAt,
         responseStatus: response.response.status,
@@ -99,6 +104,7 @@ const kanye = async (endpoint: string, options: KyOptions): Promise<Kanye> => {
       method,
       url,
       requestAt,
+        requestHeaders,
       requestBody,
       responseAt,
       responseStatus: undefined,
@@ -118,6 +124,7 @@ const kanye = async (endpoint: string, options: KyOptions): Promise<Kanye> => {
         method,
         url,
         requestAt,
+        requestHeaders,
         requestBody,
         responseAt,
         responseStatus: undefined,
@@ -133,6 +140,7 @@ const kanye = async (endpoint: string, options: KyOptions): Promise<Kanye> => {
         method,
         url,
         requestAt,
+        requestHeaders,
         requestBody,
         responseAt,
         responseStatus: responseBody.response.status,
@@ -152,6 +160,7 @@ const kanye = async (endpoint: string, options: KyOptions): Promise<Kanye> => {
       method,
       url,
       requestAt,
+        requestHeaders,
       requestBody,
       responseAt,
       responseStatus: undefined,
@@ -166,6 +175,7 @@ const kanye = async (endpoint: string, options: KyOptions): Promise<Kanye> => {
     method,
     url,
     requestAt,
+        requestHeaders,
     requestBody,
     responseStatus: response.status,
     responseHeaders: parseHeaders(response.headers),

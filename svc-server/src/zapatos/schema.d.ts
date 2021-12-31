@@ -5329,6 +5329,12 @@ declare module 'zapatos/schema' {
       * - Nullable, no default
       */
       response_body_at: Date | null;
+      /**
+      * **user_exchange_request.request_headers**
+      * - `jsonb` in database
+      * - Nullable, no default
+      */
+      request_headers: db.JSONValue | null;
     }
     export interface JSONSelectable {
       /**
@@ -5409,6 +5415,12 @@ declare module 'zapatos/schema' {
       * - Nullable, no default
       */
       response_body_at: db.TimestampTzString | null;
+      /**
+      * **user_exchange_request.request_headers**
+      * - `jsonb` in database
+      * - Nullable, no default
+      */
+      request_headers: db.JSONValue | null;
     }
     export interface Whereable {
       /**
@@ -5489,6 +5501,12 @@ declare module 'zapatos/schema' {
       * - Nullable, no default
       */
       response_body_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **user_exchange_request.request_headers**
+      * - `jsonb` in database
+      * - Nullable, no default
+      */
+      request_headers?: db.JSONValue | db.Parameter<db.JSONValue> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, db.JSONValue | db.Parameter<db.JSONValue> | db.SQLFragment | db.ParentColumn>;
     }
     export interface Insertable {
       /**
@@ -5569,6 +5587,12 @@ declare module 'zapatos/schema' {
       * - Nullable, no default
       */
       response_body_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment;
+      /**
+      * **user_exchange_request.request_headers**
+      * - `jsonb` in database
+      * - Nullable, no default
+      */
+      request_headers?: db.JSONValue | db.Parameter<db.JSONValue> | null | db.DefaultType | db.SQLFragment;
     }
     export interface Updatable {
       /**
@@ -5649,6 +5673,12 @@ declare module 'zapatos/schema' {
       * - Nullable, no default
       */
       response_body_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment>;
+      /**
+      * **user_exchange_request.request_headers**
+      * - `jsonb` in database
+      * - Nullable, no default
+      */
+      request_headers?: db.JSONValue | db.Parameter<db.JSONValue> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, db.JSONValue | db.Parameter<db.JSONValue> | null | db.DefaultType | db.SQLFragment>;
     }
     export type UniqueIndex = 'user_exchange_request_pkey';
     export type Column = keyof Selectable;

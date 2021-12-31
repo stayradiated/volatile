@@ -591,7 +591,8 @@ CREATE TABLE kc.user_exchange_request (
     response_status integer,
     response_headers jsonb,
     response_body text,
-    response_body_at timestamp with time zone
+    response_body_at timestamp with time zone,
+    request_headers jsonb
 );
 
 
@@ -1153,4 +1154,5 @@ INSERT INTO kc.schema_migrations (version) VALUES
     ('20211223192407'),
     ('20211223195806'),
     ('20211228103502'),
-    ('20211230175305');
+    ('20211230175305'),
+    ('20211231200236');

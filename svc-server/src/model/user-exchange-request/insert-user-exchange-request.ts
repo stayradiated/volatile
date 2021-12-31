@@ -19,6 +19,7 @@ const insertUserExchangeRequest = async (
     method: userExchangeRequest.method,
     url: userExchangeRequest.url,
     request_at: userExchangeRequest.requestAt,
+    request_headers: userExchangeRequest.requestHeaders,
     request_body: userExchangeRequest.requestBody,
     response_at: userExchangeRequest.responseAt,
     response_status: userExchangeRequest.responseStatus,

@@ -6,6 +6,20 @@ import { insertUserExchangeRequest } from '../model/user-exchange-request/index.
 
 import type { ExchangeAPI, UserExchangeAPI, ConfigOptions } from './types.js'
 
+const redactRequestBody = (
+  config: kc.Config,
+  responseBody: string | undefined,
+): string | undefined => {
+  if (typeof responseBody === 'undefined') {
+    return undefined
+  }
+
+  return responseBody
+    .replace(config.userId, '********')
+    .replace(config.apiKey, '********')
+    .replace(config.apiSecret, '********')
+}
+
 const kiwiCoin: ExchangeAPI<kc.Config> = {
   exchange: EXCHANGE_KIWI_COIN,
   getLowestAskPrice:
@@ -45,6 +59,7 @@ const kiwiCoin: ExchangeAPI<kc.Config> = {
           exchangeUID,
           userExchangeKeysUID,
           ...info,
+          requestBody: redactRequestBody(config, info.requestBody),
         })
       }
 
@@ -75,6 +90,7 @@ const kiwiCoin: ExchangeAPI<kc.Config> = {
           exchangeUID,
           userExchangeKeysUID,
           ...info,
+          requestBody: redactRequestBody(config, info.requestBody),
         })
       }
 
@@ -112,6 +128,7 @@ const kiwiCoin: ExchangeAPI<kc.Config> = {
           exchangeUID,
           userExchangeKeysUID,
           ...info,
+          requestBody: redactRequestBody(config, info.requestBody),
         })
       }
 
@@ -150,6 +167,7 @@ const kiwiCoin: ExchangeAPI<kc.Config> = {
           exchangeUID,
           userExchangeKeysUID,
           ...info,
+          requestBody: redactRequestBody(config, info.requestBody),
         })
       }
 
@@ -179,6 +197,7 @@ const kiwiCoin: ExchangeAPI<kc.Config> = {
           exchangeUID,
           userExchangeKeysUID,
           ...info,
+          requestBody: redactRequestBody(config, info.requestBody),
         })
       }
 
