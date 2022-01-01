@@ -75,7 +75,7 @@ const independentReserve: ExchangeAPI<ir.Config> = {
     async () => {
       const [openOrders, request] = await ir.getOpenOrders({
         config,
-        pageIndex: 0,
+        pageIndex: 1,
         pageSize: 25,
       })
       if (request) {
