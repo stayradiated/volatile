@@ -107,7 +107,10 @@ test('getBalance', async (t) => {
     }),
   )
 
-  t.deepEqual(balance, 45.334)
+  t.deepEqual(balance, {
+    available: 45.334,
+    total: 46.81,
+  })
 })
 
 test('getOpenOrders', async (t) => {

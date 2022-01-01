@@ -8,8 +8,12 @@ import {
   selectAvgMarketPrice,
   selectLatestMarketPrice,
 } from '../../model/market-price/index.js'
-import { insertOrder, syncExchangeOpenOrderList } from '../../model/order/index.js'
+import {
+  insertOrder,
+  syncExchangeOpenOrderList,
+} from '../../model/order/index.js'
 import { insertDCAOrderHistory } from '../../model/dca-order-history/index.js'
+import { upsertBalance } from '../../model/balance/index.js'
 import { round } from '../../util/round.js'
 import { syncExchangeTradeList } from '../../model/trade/index.js'
 
@@ -61,18 +65,27 @@ const executeDCAOrder = async (
     return targetValue
   }
 
-  const availableBalance = await userExchangeAPI.getBalance({
+  const balance = await userExchangeAPI.getBalance({
     currency: dcaOrder.secondaryCurrency,
   })
-  if (availableBalance instanceof Error) {
-    return availableBalance
+  if (balance instanceof Error) {
+    return balance
   }
+
+  await upsertBalance(pool, {
+    userUID: dcaOrder.userUID,
+    exchangeUID: dcaOrder.exchangeUID,
+    currencySymbol: dcaOrder.secondaryCurrency,
+    timestamp: new Date(),
+    totalBalance: balance.total,
+    availableBalance: balance.available,
+  })
 
   const value = await calculateValueToBid(pool, {
     dcaOrderUID: dcaOrder.UID,
     userExchangeKeysUID: dcaOrder.userExchangeKeysUID,
     targetValue,
-    availableBalance,
+    availableBalance: balance.available,
   })
   if (value instanceof Error) {
     return value
@@ -110,7 +123,7 @@ const executeDCAOrder = async (
       marketOffset: dcaOrder.marketOffset,
       targetValue,
       value,
-      availableBalance,
+      availableBalance: balance.available,
       description: `value (${value.toFixed(2)}) is below minValue (${
         dcaOrder.minValue ?? 0
       })`,
@@ -192,7 +205,7 @@ const executeDCAOrder = async (
       marketOffset: dcaOrder.marketOffset,
       targetValue,
       value,
-      availableBalance,
+      availableBalance: balance.available,
       description: 'Created order',
     })
     if (dcaOrderHistory instanceof Error) {

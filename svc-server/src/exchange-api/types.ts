@@ -28,7 +28,13 @@ type GetBalanceOptions = {
   currency: string
 }
 
-type GetBalanceFn = (options: GetBalanceOptions) => Promise<number | Error>
+type GetBalanceFn = (options: GetBalanceOptions) => Promise<
+  | {
+      total: number
+      available: number
+    }
+  | Error
+>
 
 type GetLowestAskPriceOptions = {
   primaryCurrency: string

@@ -68,7 +68,10 @@ const independentReserve: ExchangeAPI<ir.Config> = {
         })
       }
 
-      return account.AvailableBalance
+      return {
+        available: account.AvailableBalance,
+        total: account.TotalBalance,
+      }
     },
   getOpenOrders:
     ({ config, logRequest }) =>

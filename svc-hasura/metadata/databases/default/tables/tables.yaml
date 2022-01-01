@@ -1,3 +1,4 @@
+- "!include kc_balance.yaml"
 - "!include kc_currency.yaml"
 - "!include kc_dca_order.yaml"
 - "!include kc_dca_order_history.yaml"

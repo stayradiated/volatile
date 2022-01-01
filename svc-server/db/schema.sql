@@ -369,6 +369,20 @@ $$;
 
 
 --
+-- Name: balance; Type: TABLE; Schema: kc; Owner: -
+--
+
+CREATE TABLE kc.balance (
+    user_uid uuid NOT NULL,
+    exchange_uid uuid NOT NULL,
+    currency_symbol text NOT NULL,
+    "timestamp" timestamp with time zone NOT NULL,
+    total_balance numeric(16,8) NOT NULL,
+    available_balance numeric(16,8) NOT NULL
+);
+
+
+--
 -- Name: currency; Type: TABLE; Schema: kc; Owner: -
 --
 
@@ -616,6 +630,14 @@ CREATE TABLE kc.user_password_reset (
 
 ALTER TABLE ONLY kc.currency
     ADD CONSTRAINT asset_pkey PRIMARY KEY (symbol);
+
+
+--
+-- Name: balance balance_pkey; Type: CONSTRAINT; Schema: kc; Owner: -
+--
+
+ALTER TABLE ONLY kc.balance
+    ADD CONSTRAINT balance_pkey PRIMARY KEY (user_uid, exchange_uid, currency_symbol, "timestamp");
 
 
 --
@@ -871,6 +893,22 @@ ALTER TABLE ONLY kc."user"
 --
 
 CREATE INDEX currency_fx_timestamp_idx ON kc.currency_fx USING gist ("timestamp");
+
+
+--
+-- Name: balance fk_balance_exchange; Type: FK CONSTRAINT; Schema: kc; Owner: -
+--
+
+ALTER TABLE ONLY kc.balance
+    ADD CONSTRAINT fk_balance_exchange FOREIGN KEY (exchange_uid) REFERENCES kc.exchange(uid) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: balance fk_balance_user; Type: FK CONSTRAINT; Schema: kc; Owner: -
+--
+
+ALTER TABLE ONLY kc.balance
+    ADD CONSTRAINT fk_balance_user FOREIGN KEY (user_uid) REFERENCES kc."user"(uid) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
@@ -1155,4 +1193,5 @@ INSERT INTO kc.schema_migrations (version) VALUES
     ('20211223195806'),
     ('20211228103502'),
     ('20211230175305'),
-    ('20211231200236');
+    ('20211231200236'),
+    ('20220101111511');

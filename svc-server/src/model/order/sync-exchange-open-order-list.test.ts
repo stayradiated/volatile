@@ -15,6 +15,7 @@ test('sync open orders for user/exchange', async (t) => {
 
   await make.order({
     orderID: 'order-a',
+    type: 'BUY',
     price: 900,
     volume: 6,
     value: 5400,

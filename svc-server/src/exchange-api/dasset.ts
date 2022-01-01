@@ -57,21 +57,32 @@ const dasset: ExchangeAPI<d.Config> = {
 
       if (balance instanceof Error) {
         return new ExchangeError({
-          message: 'Failed to fetch available NZD from dassetx.com',
+          message: `Failed to fetch available ${currency} from dassetx.com`,
           cause: balance,
           context: { currency },
         })
       }
 
-      const availableNZD = balance.available
-      if (typeof availableNZD !== 'number' || Number.isNaN(availableNZD)) {
+      const available = balance.available
+      if (typeof available !== 'number' || Number.isNaN(available)) {
         return new ExchangeError({
-          message: 'Could not fetch available NZD from dassetx.com',
-          context: { balance },
+          message: `Could not parse available balance of ${currency} from dassetx.com`,
+          context: { currency, balance },
         })
       }
 
-      return availableNZD
+      const total = balance.total
+      if (typeof total !== 'number' || Number.isNaN(total)) {
+        return new ExchangeError({
+          message: `Could not parse total balance of ${currency} from dassetx.com`,
+          context: { currency, balance },
+        })
+      }
+
+      return {
+        available,
+        total,
+      }
     },
   getOpenOrders:
     ({ config, logRequest }) =>
