@@ -12,6 +12,7 @@ const MUTATION = gql`
     $startAt: timestamp!
     $marketOffset: Float!
     $dailyAverage: Float!
+    $intervalMs: Int!
     $primaryCurrency: String!
     $secondaryCurrency: String!
     $minValue: Float
@@ -23,6 +24,7 @@ const MUTATION = gql`
       start_at: $startAt
       market_offset: $marketOffset
       daily_average: $dailyAverage
+      interval_ms: $intervalMs
       primary_currency: $primaryCurrency
       secondary_currency: $secondaryCurrency
       min_value: $minValue
@@ -41,6 +43,7 @@ const MUTATION = gql`
         start_at
         market_offset
         daily_average
+        interval_ms
         primary_currency {
           symbol
         }

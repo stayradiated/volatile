@@ -64,6 +64,7 @@ type FormState = {
   marketOffset: string
   startAt: Date
   dailyAverage: string
+  intervalMin: string,
   minValue: string
   maxValue: string
 }
@@ -91,6 +92,7 @@ const DCAOrderFormCreate = (props: Props) => {
     marketOffset: '',
     startAt: startOfToday(),
     dailyAverage: '',
+    intervalMin: '1',
     minValue: '',
     maxValue: '',
   })
@@ -134,6 +136,7 @@ const DCAOrderFormCreate = (props: Props) => {
       startAt: state.startAt.toISOString(),
       marketOffset: Number.parseFloat(state.marketOffset),
       dailyAverage: Number.parseFloat(state.dailyAverage),
+      intervalMs: Number.parseInt(state.intervalMin) * 60 * 1000,
       minValue: Number.parseFloat(state.minValue),
       maxValue: Number.parseFloat(state.maxValue),
     })
@@ -225,6 +228,9 @@ const DCAOrderFormCreate = (props: Props) => {
         </Form.Item>
         <Form.Item name="dailyAverage" label="Daily Average">
           <Input required type="number" step="0.01" />
+        </Form.Item>
+        <Form.Item name="intervalMin" label="Interval (minutes)">
+          <Input required type="number" step="1" min="1" />
         </Form.Item>
         <Form.Item name="minValue" label="Min Value">
           <Input type="number" placeholder="0.00" step="0.01" min="0" />

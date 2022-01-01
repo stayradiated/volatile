@@ -17,6 +17,7 @@ const MUTATION = gql`
       uid
       daily_average
       enabled_at
+      interval_ms
       market_offset
       market_uid
       max_value
@@ -34,6 +35,7 @@ type EditableFields = {
   startAt?: string
   marketOffset?: number
   dailyAverage?: number
+  intervalMs?: number
   minValue?: number
   maxValue?: number
 }
@@ -67,6 +69,10 @@ const useUpdateDCAOrder = () => {
 
     if (typeof fields.dailyAverage === 'number') {
       variables.values.daily_average = fields.dailyAverage
+    }
+
+    if (typeof fields.intervalMs === 'number') {
+      variables.values.interval_ms = fields.intervalMs
     }
 
     if (typeof fields.minValue === 'number') {

@@ -38,6 +38,7 @@ const QUERY_DCA_ORDER_FORM = gql`
       start_at
       market_offset
       daily_average
+      interval_ms
       primary_currency {
         symbol
         name
@@ -65,6 +66,7 @@ type FormState = {
   marketOffset: string
   startAt: Date
   dailyAverage: string
+  intervalMin: string
   minValue: string
   maxValue: string
 }
@@ -97,6 +99,7 @@ const DCAOrderFormEdit = (props: Props) => {
     startAt: startOfToday(),
     dailyAverage: '',
     marketOffset: '',
+    intervalMin: '1',
   })
 
   const handleFinish = async () => {
@@ -126,12 +129,17 @@ const DCAOrderFormEdit = (props: Props) => {
       throw new TypeError('No Daily Average')
     }
 
+    if (typeof state.intervalMin !== 'string') {
+      throw new TypeError('No Interval')
+    }
+
     await updateDCAOrder(order.uid, {
       userExchangeKeysUID: state.userExchangeKeys.uid,
       marketUID: state.market.uid,
       startAt: state.startAt.toISOString(),
       marketOffset: Number.parseFloat(state.marketOffset),
       dailyAverage: Number.parseFloat(state.dailyAverage),
+      intervalMs: Number.parseInt(state.intervalMin) * 60 * 1000,
       minValue: Number.parseFloat(state.minValue),
       maxValue: Number.parseFloat(state.maxValue),
     })
@@ -170,6 +178,7 @@ const DCAOrderFormEdit = (props: Props) => {
         startAt: parseISO(order.start_at),
         dailyAverage: String(order.daily_average) ?? '',
         marketOffset: String(order.market_offset) ?? '',
+        intervalMin: String(order.interval_ms / 60 / 1000) ?? '1',
       })
     }
   }, [order])
@@ -228,6 +237,9 @@ const DCAOrderFormEdit = (props: Props) => {
         </Form.Item>
         <Form.Item label="Daily Average" name="dailyAverage">
           <Input type="number" step="0.01" />
+        </Form.Item>
+        <Form.Item label="Interval (minute)" name="intervalMin">
+          <Input type="number" step="1" min="1" />
         </Form.Item>
         <Form.Item label="Min Value" name="minValue">
           <Input type="number" step="0.01" min={0} />

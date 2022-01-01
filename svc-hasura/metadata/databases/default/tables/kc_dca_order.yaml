@@ -50,23 +50,26 @@ select_permissions:
 - permission:
     allow_aggregations: true
     columns:
-    - uid
     - created_at
-    - updated_at
-    - user_uid
-    - exchange_uid
-    - market_uid
-    - start_at
-    - market_offset
     - daily_average
-    - min_price
-    - max_price
-    - min_value
-    - max_value
-    - user_exchange_keys_uid
-    - primary_currency_symbol
     - enabled_at
+    - exchange_uid
+    - interval_ms
+    - last_run_at
+    - market_offset
+    - market_uid
+    - max_price
+    - max_value
+    - min_price
+    - min_value
+    - next_run_at
+    - primary_currency_symbol
     - secondary_currency_symbol
+    - start_at
+    - uid
+    - updated_at
+    - user_exchange_keys_uid
+    - user_uid
     filter:
       user_uid:
         _eq: X-Hasura-User-Id
@@ -80,6 +83,7 @@ update_permissions:
     columns:
     - daily_average
     - enabled_at
+    - interval_ms
     - market_offset
     - market_uid
     - max_price

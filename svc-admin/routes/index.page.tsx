@@ -8,7 +8,6 @@ import { App } from '../src/app'
 
 const Page = () => {
   const session = useSessionContext()
-  console.log(session)
 
   if (!session.isAuthenticated) {
     return <LoginPage />

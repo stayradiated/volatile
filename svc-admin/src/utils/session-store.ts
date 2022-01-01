@@ -33,6 +33,10 @@ const setSession = (session: Session): void => {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(session))
 }
 
-export { getSession, setSession }
+const removeSession = (): void => {
+  localStorage.removeItem(STORAGE_KEY)
+}
+
+export { getSession, setSession, removeSession }
 
 export type { Session, GuestSession, UserSession }

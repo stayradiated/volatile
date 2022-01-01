@@ -1,6 +1,7 @@
 import useSWR from 'swr'
 
 import { useSessionContext } from '../utils/session-context'
+import { removeSession } from '../utils/session-store'
 
 import { fetchMetadata } from '../utils/fetch-metadata'
 import type { Metadata } from '../utils/types.metadata'
@@ -12,7 +13,18 @@ const Sidebar = () => {
     fetchMetadata(session, 'export_metadata', {}),
   )
 
-  if (error) return <div>{error.message}</div>
+  const handleLogout = () => {
+    removeSession()
+    window.location.reload()
+  }
+
+  if (error) {
+    return <div>
+      <pre><code>Error: {error.message}</code></pre>
+      <button onClick={handleLogout}>Log out</button>
+    </div>
+  }
+
   if (!data) return <div>loading...</div>
 
   const cronTriggers = data.cron_triggers

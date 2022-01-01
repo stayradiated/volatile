@@ -18,6 +18,7 @@ type Mutation {
     start_at: timestamp!
     market_offset: Float!
     daily_average: Float!
+    interval_ms: Int!
     min_price: Float
     max_price: Float
     min_value: Float

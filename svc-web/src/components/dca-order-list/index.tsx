@@ -30,6 +30,7 @@ const QUERY = gql`
       daily_average
       start_at
       market_offset
+      interval_ms
       primary_currency {
         symbol
       }
@@ -108,6 +109,11 @@ const DCAOrderList = (props: Props) => {
             ' days'
           )
         },
+      },
+      {
+        Header: 'Interval',
+        accessor: 'interval_ms',
+        Cell: ({ value }) => (value / 60 / 1000) + ' min'
       },
       {
         Header: 'Min Value',
