@@ -8,7 +8,7 @@ import {
   selectAvgMarketPrice,
   selectLatestMarketPrice,
 } from '../../model/market-price/index.js'
-import { insertOrder } from '../../model/order/index.js'
+import { insertOrder, syncExchangeOpenOrderList } from '../../model/order/index.js'
 import { insertDCAOrderHistory } from '../../model/dca-order-history/index.js'
 import { round } from '../../util/round.js'
 import { syncExchangeTradeList } from '../../model/trade/index.js'
@@ -31,11 +31,20 @@ const executeDCAOrder = async (
   const { userExchangeAPI, dcaOrder } = options
 
   // Must do this before calling getDCAOrderTargetValue
-  const syncError = await syncExchangeTradeList(pool, {
+  const tradeSyncError = await syncExchangeTradeList(pool, {
     userExchangeKeysUID: dcaOrder.userExchangeKeysUID,
   })
-  if (syncError instanceof Error) {
-    return syncError
+  if (tradeSyncError instanceof Error) {
+    return tradeSyncError
+  }
+
+  const openOrderSyncError = await syncExchangeOpenOrderList(pool, {
+    userUID: dcaOrder.userUID,
+    exchangeUID: dcaOrder.exchangeUID,
+    userExchangeAPI,
+  })
+  if (openOrderSyncError instanceof Error) {
+    return openOrderSyncError
   }
 
   // We cancel after sync in case to make sure we have kept track of failed errors
