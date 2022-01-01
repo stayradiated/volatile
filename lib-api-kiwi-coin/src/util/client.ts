@@ -45,21 +45,24 @@ const getResponseBody = <ResponseBody>(input: Kanye): ResponseBody | Error => {
     return responseBodyText
   }
 
-  const responseBody = errorBoundary(() => {
+  const responseBodyJSON = errorBoundary(() => {
     return JSON.parse(responseBodyText) as ResponseBody
   })
-  if (responseBody instanceof Error) {
-    return responseBody
+  if (responseBodyJSON instanceof Error) {
+    return responseBodyJSON
   }
 
-  if (isAPIErrorBody(responseBody)) {
+  if (isAPIErrorBody(responseBodyJSON)) {
     return new APIError({
       message: `Received error from ${input.method} ${input.url}`,
-      context: input,
+      context: {
+        ...input,
+        responseBodyJSON,
+      },
     })
   }
 
-  return responseBody
+  return responseBodyJSON
 }
 
 export { get, post, getResponseBody }

@@ -23,7 +23,7 @@ const cancelOrder = async (
   const result = getResponseBody(raw)
 
   if (result instanceof APIError) {
-    if (result.info.result?.error === 'Order not found') {
+    if (result.info.responseBodyJSON?.error === 'Order not found') {
       return [false, raw]
     }
 
