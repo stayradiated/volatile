@@ -33,7 +33,7 @@ const validateUserExchangeKeys = async (
     }
   }
 
-  const balance = await userExchangeAPI.getBalance({ currency: 'NZD' })
+  const balance = await userExchangeAPI.getBalance()
   if (balance instanceof Error) {
     return {
       isValid: false,

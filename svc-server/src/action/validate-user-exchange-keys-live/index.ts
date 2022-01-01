@@ -43,7 +43,7 @@ const validateUserExchangeKeysLiveHandler: ActionHandlerFn<
     return userExchangeAPI
   }
 
-  const balance = await userExchangeAPI.getBalance({ currency: 'NZD' })
+  const balance = await userExchangeAPI.getBalance()
   if (balance instanceof Error) {
     return {
       is_valid: false,

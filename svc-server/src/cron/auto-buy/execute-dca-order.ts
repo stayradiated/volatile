@@ -65,21 +65,32 @@ const executeDCAOrder = async (
     return targetValue
   }
 
-  const balance = await userExchangeAPI.getBalance({
-    currency: dcaOrder.secondaryCurrency,
-  })
-  if (balance instanceof Error) {
-    return balance
+  const balanceList = await userExchangeAPI.getBalance()
+  if (balanceList instanceof Error) {
+    return balanceList
   }
 
-  await upsertBalance(pool, {
-    userUID: dcaOrder.userUID,
-    exchangeUID: dcaOrder.exchangeUID,
-    currencySymbol: dcaOrder.secondaryCurrency,
-    timestamp: new Date(),
-    totalBalance: balance.total,
-    availableBalance: balance.available,
-  })
+  await Promise.all(
+    balanceList.map(async (balance) => {
+      return upsertBalance(pool, {
+        userUID: dcaOrder.userUID,
+        exchangeUID: dcaOrder.exchangeUID,
+        currencySymbol: balance.currency,
+        timestamp: new Date(),
+        totalBalance: balance.total,
+        availableBalance: balance.available,
+      })
+    }),
+  )
+
+  const balance = balanceList.find(
+    (balance) => balance.currency === dcaOrder.secondaryCurrency,
+  )
+  if (!balance) {
+    return new Error(
+      `Could not read balance for currency ${dcaOrder.secondaryCurrency}`,
+    )
+  }
 
   const value = await calculateValueToBid(pool, {
     dcaOrderUID: dcaOrder.UID,

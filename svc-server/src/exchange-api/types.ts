@@ -24,15 +24,12 @@ type CancelOrderOptions = {
 
 type CancelOrderFn = (options: CancelOrderOptions) => Promise<void | Error>
 
-type GetBalanceOptions = {
-  currency: string
-}
-
-type GetBalanceFn = (options: GetBalanceOptions) => Promise<
-  | {
+type GetBalanceFn = () => Promise<
+  | Array<{
+      currency: string
       total: number
       available: number
-    }
+    }>
   | Error
 >
 

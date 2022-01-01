@@ -101,16 +101,20 @@ test('getBalance', async (t) => {
       },
     ])
 
-  const balance = await throwIfError(
-    api.getBalance({
-      currency: 'BTC',
-    }),
-  )
+  const balance = await throwIfError(api.getBalance())
 
-  t.deepEqual(balance, {
-    available: 45.334,
-    total: 46.81,
-  })
+  t.deepEqual(balance, [
+    {
+      currency: 'BTC',
+      available: 45.334,
+      total: 46.81,
+    },
+    {
+      currency: 'USD',
+      available: 14_345.53,
+      total: 15_784.07,
+    },
+  ])
 })
 
 test('getOpenOrders', async (t) => {

@@ -47,8 +47,7 @@ const independentReserve: ExchangeAPI<ir.Config> = {
     },
   getBalance:
     ({ config, logRequest }) =>
-    async (options) => {
-      const { currency } = options
+    async () => {
       const [accounts, request] = await ir.getAccounts({ config })
       if (request) {
         await logRequest(request)
@@ -58,20 +57,11 @@ const independentReserve: ExchangeAPI<ir.Config> = {
         return accounts
       }
 
-      const account = accounts.find(
-        (account) => formatCurrency(account.CurrencyCode) === currency,
-      )
-      if (!account) {
-        return new ExchangeError({
-          message: 'Failed to get balance from independentreserve.com',
-          context: { currency },
-        })
-      }
-
-      return {
+      return accounts.map((account) => ({
+        currency: formatCurrency(account.CurrencyCode),
         available: account.AvailableBalance,
         total: account.TotalBalance,
-      }
+      }))
     },
   getOpenOrders:
     ({ config, logRequest }) =>

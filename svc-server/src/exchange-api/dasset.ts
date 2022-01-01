@@ -45,44 +45,24 @@ const dasset: ExchangeAPI<d.Config> = {
     },
   getBalance:
     ({ config, logRequest }) =>
-    async (options) => {
-      const { currency } = options
-      const [balance, request] = await d.getBalance({
-        config,
-        currencySymbol: currency,
-      })
+    async () => {
+      const [balanceList, request] = await d.getBalanceList({ config })
       if (request) {
         await logRequest(request)
       }
 
-      if (balance instanceof Error) {
+      if (balanceList instanceof Error) {
         return new ExchangeError({
-          message: `Failed to fetch available ${currency} from dassetx.com`,
-          cause: balance,
-          context: { currency },
+          message: `Failed to fetch balance from dassetx.com`,
+          cause: balanceList,
         })
       }
 
-      const available = balance.available
-      if (typeof available !== 'number' || Number.isNaN(available)) {
-        return new ExchangeError({
-          message: `Could not parse available balance of ${currency} from dassetx.com`,
-          context: { currency, balance },
-        })
-      }
-
-      const total = balance.total
-      if (typeof total !== 'number' || Number.isNaN(total)) {
-        return new ExchangeError({
-          message: `Could not parse total balance of ${currency} from dassetx.com`,
-          context: { currency, balance },
-        })
-      }
-
-      return {
-        available,
-        total,
-      }
+      return balanceList.map((entry) => ({
+        currency: entry.currencySymbol,
+        available: entry.available ?? 0,
+        total: entry.total ?? 0,
+      }))
     },
   getOpenOrders:
     ({ config, logRequest }) =>

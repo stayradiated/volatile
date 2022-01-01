@@ -39,7 +39,7 @@ const kiwiCoin: ExchangeAPI<kc.Config> = {
     },
   getBalance:
     ({ config, logRequest }) =>
-    async ({ currency }) => {
+    async () => {
       const [balance, request] = await kc.getBalance({ config })
       if (request) {
         await logRequest(request)
@@ -52,24 +52,18 @@ const kiwiCoin: ExchangeAPI<kc.Config> = {
         })
       }
 
-      if (currency === 'NZD') {
-        return {
+      return [
+        {
+          currency: 'NZD',
           available: balance.nzd.available,
           total: balance.nzd.balance,
-        }
-      }
-
-      if (currency === 'BTC') {
-        return {
+        },
+        {
+          currency: 'BTC',
           available: balance.btc.available,
           total: balance.btc.balance,
-        }
-      }
-
-      return new ExchangeError({
-        message: `Could not fetch balance for currency ${currency} from kiwi-coin.com`,
-        context: { currency },
-      })
+        },
+      ]
     },
   getOpenOrders:
     ({ config, logRequest }) =>
