@@ -342,6 +342,7 @@ importers:
       '@vercel/ncc': ^0.33
       '@volatile/dasset-api': workspace:1.0.1
       '@volatile/independent-reserve-api': workspace:1.0.1
+      '@volatile/kanye': workspace:1.0.1
       '@volatile/keyring': workspace:1.0.0
       '@volatile/kiwi-coin-api': workspace:1.0.1
       '@volatile/market-price': workspace:1.0.0
@@ -354,6 +355,7 @@ importers:
       del-cli: 4.0.1
       dotenv: 10.0.0
       env-var: 7.1.1
+      escape-string-regexp: 5.0.0
       eslint-plugin-fp: 2.3.0
       fastify: 3.25.3
       njwt: 1.2.0
@@ -375,6 +377,7 @@ importers:
       '@types/nodemailer': 6.4.4
       '@volatile/dasset-api': link:../lib-api-dasset
       '@volatile/independent-reserve-api': link:../lib-api-independent-reserve
+      '@volatile/kanye': link:../lib-kanye
       '@volatile/keyring': link:../lib-keyring
       '@volatile/kiwi-coin-api': link:../lib-api-kiwi-coin
       '@volatile/market-price': link:../lib-market-price
@@ -385,6 +388,7 @@ importers:
       debug: 4.3.3
       dotenv: 10.0.0
       env-var: 7.1.1
+      escape-string-regexp: 5.0.0
       fastify: 3.25.3
       njwt: 1.2.0
       nodemailer: 6.7.2
@@ -4226,6 +4230,11 @@ packages:
     resolution: {integrity: sha512-TtpcNJ3XAzx3Gq8sWRzJaVajRs0uVxA2YAkdb1jm2YkPz4G6egUFAyA3n5vtEIZefPk5Wa4UXbKuS5fKkJWdgA==}
     engines: {node: '>=10'}
     dev: true
+
+  /escape-string-regexp/5.0.0:
+    resolution: {integrity: sha512-/veY75JbMK4j1yjvuUxuVsiS/hr/4iHs9FTT6cgTexxdE0Ly/glccBAkloH/DofkjRbZU3bnoj38mOmhkZ0lHw==}
+    engines: {node: '>=12'}
+    dev: false
 
   /eslint-ast-utils/1.1.0:
     resolution: {integrity: sha512-otzzTim2/1+lVrlH19EfQQJEhVJSu0zOb9ygb3iapN6UlyaDtyRq4b5U1FuW0v1lRa9Fp/GJyHkSwm6NqABgCA==}

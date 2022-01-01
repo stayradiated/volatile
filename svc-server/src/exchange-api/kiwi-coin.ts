@@ -4,35 +4,23 @@ import { ExchangeError } from '../util/error.js'
 import { EXCHANGE_KIWI_COIN } from '../model/exchange/index.js'
 import { insertUserExchangeRequest } from '../model/user-exchange-request/index.js'
 
-import type { ExchangeAPI, UserExchangeAPI, ConfigOptions } from './types.js'
+import { redactString, redactObject } from './redact.js'
 
-const redactRequestBody = (
-  config: kc.Config,
-  responseBody: string | undefined,
-): string | undefined => {
-  if (typeof responseBody === 'undefined') {
-    return undefined
-  }
-
-  return responseBody
-    .replace(config.userId, '********')
-    .replace(config.apiKey, '********')
-    .replace(config.apiSecret, '********')
-}
+import type {
+  ExchangeAPI,
+  UserExchangeAPI,
+  ConfigOptions,
+  LogRequestFn,
+} from './types.js'
 
 const kiwiCoin: ExchangeAPI<kc.Config> = {
   exchange: EXCHANGE_KIWI_COIN,
   getLowestAskPrice:
-    ({ pool, userUID, exchangeUID, userExchangeKeysUID }) =>
+    ({ logRequest }) =>
     async () => {
-      const [orderBook, info] = await kc.getOrderBook()
-      if (info) {
-        await insertUserExchangeRequest(pool, {
-          userUID,
-          exchangeUID,
-          userExchangeKeysUID,
-          ...info,
-        })
+      const [orderBook, request] = await kc.getOrderBook()
+      if (request) {
+        await logRequest(request)
       }
 
       if (orderBook instanceof Error) {
@@ -50,17 +38,11 @@ const kiwiCoin: ExchangeAPI<kc.Config> = {
       return lowestAskPrice
     },
   getBalance:
-    ({ pool, config, userUID, exchangeUID, userExchangeKeysUID }) =>
+    ({ config, logRequest }) =>
     async () => {
-      const [balance, info] = await kc.getBalance({ config })
-      if (info) {
-        await insertUserExchangeRequest(pool, {
-          userUID,
-          exchangeUID,
-          userExchangeKeysUID,
-          ...info,
-          requestBody: redactRequestBody(config, info.requestBody),
-        })
+      const [balance, request] = await kc.getBalance({ config })
+      if (request) {
+        await logRequest(request)
       }
 
       if (balance instanceof Error) {
@@ -81,17 +63,11 @@ const kiwiCoin: ExchangeAPI<kc.Config> = {
       return availableNZD
     },
   getOpenOrders:
-    ({ config, pool, userUID, exchangeUID, userExchangeKeysUID }) =>
+    ({ config, logRequest }) =>
     async () => {
-      const [openOrders, info] = await kc.getOpenOrderList({ config })
-      if (info) {
-        await insertUserExchangeRequest(pool, {
-          userUID,
-          exchangeUID,
-          userExchangeKeysUID,
-          ...info,
-          requestBody: redactRequestBody(config, info.requestBody),
-        })
+      const [openOrders, request] = await kc.getOpenOrderList({ config })
+      if (request) {
+        await logRequest(request)
       }
 
       if (openOrders instanceof Error) {
@@ -112,24 +88,18 @@ const kiwiCoin: ExchangeAPI<kc.Config> = {
       }))
     },
   getTrades:
-    ({ config, pool, userUID, exchangeUID, userExchangeKeysUID }) =>
+    ({ config, logRequest }) =>
     async (options) => {
       const { pageIndex } = options
 
       const getAll = pageIndex > 1
 
-      const [allTrades, info] = await kc.getTradeList({
+      const [allTrades, request] = await kc.getTradeList({
         config,
         timeframe: getAll ? 'all' : 'day',
       })
-      if (info) {
-        await insertUserExchangeRequest(pool, {
-          userUID,
-          exchangeUID,
-          userExchangeKeysUID,
-          ...info,
-          requestBody: redactRequestBody(config, info.requestBody),
-        })
+      if (request) {
+        await logRequest(request)
       }
 
       if (allTrades instanceof Error) {
@@ -153,22 +123,16 @@ const kiwiCoin: ExchangeAPI<kc.Config> = {
       }
     },
   createOrder:
-    ({ config, userUID, pool, exchangeUID, userExchangeKeysUID }) =>
+    ({ config, logRequest }) =>
     async (options) => {
       const { price, volume } = options
-      const [order, info] = await kc.createBuyOrder({
+      const [order, request] = await kc.createBuyOrder({
         config,
         price,
         amount: volume,
       })
-      if (info) {
-        await insertUserExchangeRequest(pool, {
-          userUID,
-          exchangeUID,
-          userExchangeKeysUID,
-          ...info,
-          requestBody: redactRequestBody(config, info.requestBody),
-        })
+      if (request) {
+        await logRequest(request)
       }
 
       if (order instanceof Error) {
@@ -184,21 +148,15 @@ const kiwiCoin: ExchangeAPI<kc.Config> = {
       }
     },
   cancelOrder:
-    ({ config, pool, userUID, exchangeUID, userExchangeKeysUID }) =>
+    ({ config, logRequest }) =>
     async (options) => {
       const { orderID } = options
-      const [error, info] = await kc.cancelOrder({
+      const [error, request] = await kc.cancelOrder({
         config,
         orderID: Number.parseInt(orderID, 10),
       })
-      if (info) {
-        await insertUserExchangeRequest(pool, {
-          userUID,
-          exchangeUID,
-          userExchangeKeysUID,
-          ...info,
-          requestBody: redactRequestBody(config, info.requestBody),
-        })
+      if (request) {
+        await logRequest(request)
       }
 
       if (error instanceof Error) {
@@ -214,9 +172,9 @@ const kiwiCoin: ExchangeAPI<kc.Config> = {
 }
 
 const getKiwiCoinExchangeAPI = (
-  input: ConfigOptions<Record<string, string>>,
+  options: ConfigOptions<Record<string, string>>,
 ): UserExchangeAPI | Error => {
-  const { config } = input
+  const { pool, config, userUID, exchangeUID, userExchangeKeysUID } = options
 
   if (!kc.isValidConfig(config)) {
     return new ExchangeError({
@@ -224,16 +182,31 @@ const getKiwiCoinExchangeAPI = (
     })
   }
 
-  const options = { ...input, config }
+  const logRequest: LogRequestFn = async (request) => {
+    return insertUserExchangeRequest(pool, {
+      ...request,
+      userUID,
+      exchangeUID,
+      userExchangeKeysUID,
+      requestBody: request.requestBody
+        ? redactString(config, request.requestBody)
+        : undefined,
+      requestHeaders: request.requestHeaders
+        ? redactObject(config, request.requestHeaders)
+        : undefined,
+    })
+  }
+
+  const context = { config, logRequest }
 
   return {
     exchange: kiwiCoin.exchange,
-    getLowestAskPrice: kiwiCoin.getLowestAskPrice(options),
-    getBalance: kiwiCoin.getBalance(options),
-    getOpenOrders: kiwiCoin.getOpenOrders(options),
-    getTrades: kiwiCoin.getTrades(options),
-    createOrder: kiwiCoin.createOrder(options),
-    cancelOrder: kiwiCoin.cancelOrder(options),
+    getLowestAskPrice: kiwiCoin.getLowestAskPrice(context),
+    getBalance: kiwiCoin.getBalance(context),
+    getOpenOrders: kiwiCoin.getOpenOrders(context),
+    getTrades: kiwiCoin.getTrades(context),
+    createOrder: kiwiCoin.createOrder(context),
+    cancelOrder: kiwiCoin.cancelOrder(context),
   }
 }
 

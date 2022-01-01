@@ -1,3 +1,5 @@
+import type { Kanye } from '@volatile/kanye'
+
 import type { BuySell, Pool } from '../types.js'
 import type { Exchange } from '../model/exchange/index.js'
 
@@ -86,16 +88,23 @@ type ConfigOptions<Config> = {
   userExchangeKeysUID: string | undefined
 }
 
-type WithConfig<Config, Fn> = (options: ConfigOptions<Config>) => Fn
+type LogRequestFn = (raw: Kanye) => Promise<unknown | Error>
+
+type Context<Config> = {
+  config: Config
+  logRequest: LogRequestFn
+}
+
+type WithContext<Config, Fn> = (options: Context<Config>) => Fn
 
 type ExchangeAPI<Config> = {
   exchange: Exchange
-  getLowestAskPrice: WithConfig<Config, GetLowestAskPriceFn>
-  getBalance: WithConfig<Config, GetBalanceFn>
-  getOpenOrders: WithConfig<Config, GetOpenOrders>
-  getTrades: WithConfig<Config, GetTrades>
-  createOrder: WithConfig<Config, CreateOrderFn>
-  cancelOrder: WithConfig<Config, CancelOrderFn>
+  getLowestAskPrice: WithContext<Config, GetLowestAskPriceFn>
+  getBalance: WithContext<Config, GetBalanceFn>
+  getOpenOrders: WithContext<Config, GetOpenOrders>
+  getTrades: WithContext<Config, GetTrades>
+  createOrder: WithContext<Config, CreateOrderFn>
+  cancelOrder: WithContext<Config, CancelOrderFn>
 }
 
 type UserExchangeAPI = {
@@ -108,4 +117,4 @@ type UserExchangeAPI = {
   cancelOrder: CancelOrderFn
 }
 
-export type { ExchangeAPI, UserExchangeAPI, ConfigOptions }
+export type { ExchangeAPI, UserExchangeAPI, ConfigOptions, LogRequestFn }

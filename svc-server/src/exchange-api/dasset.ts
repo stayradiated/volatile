@@ -5,25 +5,27 @@ import { ExchangeError } from '../util/error.js'
 import { EXCHANGE_DASSET } from '../model/exchange/index.js'
 import { insertUserExchangeRequest } from '../model/user-exchange-request/index.js'
 
-import type { ExchangeAPI, UserExchangeAPI, ConfigOptions } from './types.js'
+import { redactString, redactObject } from './redact.js'
+
+import type {
+  ExchangeAPI,
+  UserExchangeAPI,
+  ConfigOptions,
+  LogRequestFn,
+} from './types.js'
 
 const dasset: ExchangeAPI<d.Config> = {
   exchange: EXCHANGE_DASSET,
   getLowestAskPrice:
-    ({ pool, config, userUID, exchangeUID, userExchangeKeysUID }) =>
+    ({ config, logRequest }) =>
     async (options) => {
       const { primaryCurrency, secondaryCurrency } = options
-      const [orderBook, info] = await d.getMarketOrderBook({
+      const [orderBook, request] = await d.getMarketOrderBook({
         config,
         marketSymbol: `${primaryCurrency}-${secondaryCurrency}`,
       })
-      if (info) {
-        await insertUserExchangeRequest(pool, {
-          userUID,
-          exchangeUID,
-          userExchangeKeysUID,
-          ...info,
-        })
+      if (request) {
+        await logRequest(request)
       }
 
       if (orderBook instanceof Error) {
@@ -42,20 +44,15 @@ const dasset: ExchangeAPI<d.Config> = {
       return lowestAskPrice
     },
   getBalance:
-    ({ config, pool, userUID, exchangeUID, userExchangeKeysUID }) =>
+    ({ config, logRequest }) =>
     async (options) => {
       const { currency } = options
-      const [balance, info] = await d.getBalance({
+      const [balance, request] = await d.getBalance({
         config,
         currencySymbol: currency,
       })
-      if (info) {
-        await insertUserExchangeRequest(pool, {
-          userUID,
-          exchangeUID,
-          userExchangeKeysUID,
-          ...info,
-        })
+      if (request) {
+        await logRequest(request)
       }
 
       if (balance instanceof Error) {
@@ -77,16 +74,11 @@ const dasset: ExchangeAPI<d.Config> = {
       return availableNZD
     },
   getOpenOrders:
-    ({ config, pool, userUID, exchangeUID, userExchangeKeysUID }) =>
+    ({ config, logRequest }) =>
     async () => {
-      const [openOrders, info] = await d.getOpenOrderList({ config })
-      if (info) {
-        await insertUserExchangeRequest(pool, {
-          userUID,
-          exchangeUID,
-          userExchangeKeysUID,
-          ...info,
-        })
+      const [openOrders, request] = await d.getOpenOrderList({ config })
+      if (request) {
+        await logRequest(request)
       }
 
       if (openOrders instanceof Error) {
@@ -107,23 +99,18 @@ const dasset: ExchangeAPI<d.Config> = {
       }))
     },
   getTrades:
-    ({ config, pool, userUID, exchangeUID, userExchangeKeysUID }) =>
+    ({ config, logRequest }) =>
     async (options) => {
       const { pageSize, pageIndex } = options
 
-      const [orders, info] = await d.getPage({
+      const [orders, request] = await d.getPage({
         config,
         fetchFn: d.getClosedOrderList,
         limit: pageSize,
         page: pageIndex,
       })
-      if (info) {
-        await insertUserExchangeRequest(pool, {
-          userUID,
-          exchangeUID,
-          userExchangeKeysUID,
-          ...info,
-        })
+      if (request) {
+        await logRequest(request)
       }
 
       if (orders instanceof Error) {
@@ -157,10 +144,10 @@ const dasset: ExchangeAPI<d.Config> = {
       }
     },
   createOrder:
-    ({ config, pool, userUID, exchangeUID, userExchangeKeysUID }) =>
+    ({ config, logRequest }) =>
     async (options) => {
       const { volume, price, primaryCurrency, secondaryCurrency } = options
-      const [order, info] = await d.createOrder({
+      const [order, request] = await d.createOrder({
         config,
         order: {
           amount: volume * (1 - 0.0036), // Account for 0.35% trading fee,
@@ -171,13 +158,8 @@ const dasset: ExchangeAPI<d.Config> = {
           tradingPair: `${primaryCurrency}-${secondaryCurrency}`,
         },
       })
-      if (info) {
-        await insertUserExchangeRequest(pool, {
-          userUID,
-          exchangeUID,
-          userExchangeKeysUID,
-          ...info,
-        })
+      if (request) {
+        await logRequest(request)
       }
 
       if (order instanceof Error) {
@@ -193,17 +175,12 @@ const dasset: ExchangeAPI<d.Config> = {
       }
     },
   cancelOrder:
-    ({ config, pool, userUID, exchangeUID, userExchangeKeysUID }) =>
+    ({ config, logRequest }) =>
     async (options) => {
       const { orderID } = options
-      const [error, info] = await d.cancelOrder({ config, orderID })
-      if (info) {
-        await insertUserExchangeRequest(pool, {
-          userUID,
-          exchangeUID,
-          userExchangeKeysUID,
-          ...info,
-        })
+      const [error, request] = await d.cancelOrder({ config, orderID })
+      if (request) {
+        await logRequest(request)
       }
 
       if (error instanceof Error) {
@@ -219,9 +196,9 @@ const dasset: ExchangeAPI<d.Config> = {
 }
 
 const getDassetExchangeAPI = (
-  input: ConfigOptions<Record<string, string>>,
+  options: ConfigOptions<Record<string, string>>,
 ): UserExchangeAPI | Error => {
-  const { config } = input
+  const { pool, config, userUID, exchangeUID, userExchangeKeysUID } = options
 
   if (!d.isValidConfig(config)) {
     return new ExchangeError({
@@ -229,16 +206,31 @@ const getDassetExchangeAPI = (
     })
   }
 
-  const options = { ...input, config }
+  const logRequest: LogRequestFn = async (request) => {
+    return insertUserExchangeRequest(pool, {
+      ...request,
+      userUID,
+      exchangeUID,
+      userExchangeKeysUID,
+      requestBody: request.requestBody
+        ? redactString(config, request.requestBody)
+        : undefined,
+      requestHeaders: request.requestHeaders
+        ? redactObject(config, request.requestHeaders)
+        : undefined,
+    })
+  }
+
+  const context = { config, logRequest }
 
   return {
     exchange: dasset.exchange,
-    getLowestAskPrice: dasset.getLowestAskPrice(options),
-    getBalance: dasset.getBalance(options),
-    getOpenOrders: dasset.getOpenOrders(options),
-    getTrades: dasset.getTrades(options),
-    createOrder: dasset.createOrder(options),
-    cancelOrder: dasset.cancelOrder(options),
+    getLowestAskPrice: dasset.getLowestAskPrice(context),
+    getBalance: dasset.getBalance(context),
+    getOpenOrders: dasset.getOpenOrders(context),
+    getTrades: dasset.getTrades(context),
+    createOrder: dasset.createOrder(context),
+    cancelOrder: dasset.cancelOrder(context),
   }
 }
 
