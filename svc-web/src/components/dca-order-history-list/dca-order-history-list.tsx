@@ -116,8 +116,8 @@ const DCAOrderHistoryList = (props: Props) => {
           `$${formatCurrency(value)}`,
       },
       {
-        Header: 'Value',
-        accessor: 'value',
+        Header: 'Target Value',
+        accessor: 'target_value',
         Cell: ({ value }) => `$${formatCurrency(value)}`,
       },
       {

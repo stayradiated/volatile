@@ -43,8 +43,6 @@ const upsertBalance = async (
     !equalNumber(previousBalance.total_balance, balance.totalBalance) ||
     !equalNumber(previousBalance.available_balance, balance.availableBalance)
 
-  console.log(previousBalance, balanceHasChanged)
-
   const balanceUID = balanceHasChanged ? randomUUID() : previousBalance.uid
 
   const error = await errorBoundary(async () =>

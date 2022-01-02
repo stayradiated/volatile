@@ -1,0 +1,20 @@
+table:
+  name: balance_latest
+  schema: kc
+select_permissions:
+- permission:
+    columns:
+    - uid
+    - created_at
+    - updated_at
+    - user_uid
+    - exchange_uid
+    - user_exchange_keys_uid
+    - currency_symbol
+    - total_balance
+    - available_balance
+    filter:
+      user_uid:
+        _eq: X-Hasura-User-Id
+    limit: 100
+  role: user
