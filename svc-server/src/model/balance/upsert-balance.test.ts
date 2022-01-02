@@ -57,8 +57,8 @@ test('should update existing balance', async (t) => {
     exchangeUID,
     userExchangeKeysUID,
     currencySymbol,
-    totalBalance: 123_456.78,
-    availableBalance: 777.77,
+    totalBalance: 123_456_789.123_456_789,
+    availableBalance: 777.000_000_01,
   }
 
   const existingBalanceUID = await make.balance(balance)

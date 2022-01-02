@@ -380,8 +380,8 @@ CREATE TABLE kc.balance (
     exchange_uid uuid NOT NULL,
     user_exchange_keys_uid uuid NOT NULL,
     currency_symbol text NOT NULL,
-    total_balance numeric(16,8) NOT NULL,
-    available_balance numeric(16,8) NOT NULL
+    total_balance numeric(18,8) NOT NULL,
+    available_balance numeric(18,8) NOT NULL
 );
 
 
@@ -1214,4 +1214,5 @@ INSERT INTO kc.schema_migrations (version) VALUES
     ('20211230175305'),
     ('20211231200236'),
     ('20220101111511'),
-    ('20220102071546');
+    ('20220102071546'),
+    ('20220102083618');

@@ -8,6 +8,8 @@ import type { Balance } from './types.js'
 
 type UpsertBalanceOptions = Except<Balance, 'UID'>
 
+const equalNumber = (a: number, b: number) => a.toFixed(8) === b.toFixed(8)
+
 const upsertBalance = async (
   pool: Pool,
   balance: UpsertBalanceOptions,
@@ -38,8 +40,8 @@ const upsertBalance = async (
   const balanceHasChanged =
     typeof previousBalance === 'undefined' ||
     previousBalance === null ||
-    previousBalance.total_balance !== balance.totalBalance ||
-    previousBalance.available_balance !== balance.availableBalance
+    !equalNumber(previousBalance.total_balance, balance.totalBalance) ||
+    !equalNumber(previousBalance.available_balance, balance.availableBalance)
 
   console.log(previousBalance, balanceHasChanged)
 
