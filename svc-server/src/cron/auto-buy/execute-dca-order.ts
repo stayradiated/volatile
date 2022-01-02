@@ -1,3 +1,5 @@
+import { errorListBoundary } from '@stayradiated/error-boundary'
+
 import { IllegalStateError } from '../../util/error.js'
 import { log } from '../../util/debug.js'
 import {
@@ -16,6 +18,7 @@ import { insertDCAOrderHistory } from '../../model/dca-order-history/index.js'
 import { upsertBalance } from '../../model/balance/index.js'
 import { round } from '../../util/round.js'
 import { syncExchangeTradeList } from '../../model/trade/index.js'
+import { selectAllCurrencies } from '../../model/currency/index.js'
 
 import type { Pool } from '../../types.js'
 import type { UserExchangeAPI } from '../../exchange-api/index.js'
@@ -70,18 +73,36 @@ const executeDCAOrder = async (
     return balanceList
   }
 
-  await Promise.all(
-    balanceList.map(async (balance) => {
-      return upsertBalance(pool, {
-        userUID: dcaOrder.userUID,
-        exchangeUID: dcaOrder.exchangeUID,
-        currencySymbol: balance.currency,
-        timestamp: new Date(),
-        totalBalance: balance.total,
-        availableBalance: balance.available,
-      })
-    }),
+  const currencyList = await selectAllCurrencies(pool)
+  if (currencyList instanceof Error) {
+    return currencyList
+  }
+
+  const upsertBalanceError = await errorListBoundary(async () =>
+    Promise.all(
+      balanceList
+        .filter((balance) => {
+          return currencyList.some((currency) => {
+            return currency.symbol === balance.currency
+          })
+        })
+        .map(async (balance) => {
+          return upsertBalance(pool, {
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            userUID: dcaOrder.userUID,
+            exchangeUID: dcaOrder.exchangeUID,
+            userExchangeKeysUID: dcaOrder.userExchangeKeysUID,
+            currencySymbol: balance.currency,
+            totalBalance: balance.total,
+            availableBalance: balance.available,
+          })
+        }),
+    ),
   )
+  if (upsertBalanceError instanceof Error) {
+    return upsertBalanceError
+  }
 
   const balance = balanceList.find(
     (balance) => balance.currency === dcaOrder.secondaryCurrency,

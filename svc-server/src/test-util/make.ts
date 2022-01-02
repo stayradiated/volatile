@@ -8,6 +8,7 @@ import {
   MARKET_KIWI_COIN,
   Market,
 } from '../model/market/index.js'
+import { upsertBalance, Balance } from '../model/balance/index.js'
 import { upsertCurrency, Currency } from '../model/currency/index.js'
 import { insertMarketPrice, MarketPrice } from '../model/market-price/index.js'
 import { insertDCAOrder, DCAOrder } from '../model/dca-order/index.js'
@@ -30,6 +31,9 @@ type MakeInstanceFn<T = void> = (options?: Partial<T>) => Promise<string>
 type MakeInstance = {
   user: MakeInstanceFn
   userUID?: string
+
+  balance: MakeInstanceFn<Balance>
+  balacnceUID?: string
 
   primaryCurrency: MakeInstanceFn<Currency>
   primaryCurrencySymbol?: string
@@ -77,6 +81,34 @@ const makeUser: MakeFn = (make) => async () => {
   make.userUID = user.UID
 
   return user.UID
+}
+
+const makeBalance: MakeFn<Balance> = (make) => async (options) => {
+  const {
+    userUID = await make.user(),
+    exchangeUID = await make.exchange(),
+    userExchangeKeysUID = await make.userExchangeKeys(),
+    secondaryCurrencySymbol = await make.primaryCurrency(),
+  } = make
+
+  const totalBalance = Math.floor(Math.random() * 100_000_000) / 100
+  const availableBalance = totalBalance / 3
+
+  const balanceUID = await throwIfError<string>(
+    upsertBalance(pool, {
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      userUID,
+      exchangeUID,
+      userExchangeKeysUID,
+      currencySymbol: secondaryCurrencySymbol,
+      totalBalance,
+      availableBalance,
+      ...options,
+    }),
+  )
+
+  return balanceUID
 }
 
 const makePrimaryCurrency: MakeFn<Currency> = (make) => async (options) => {
@@ -304,6 +336,7 @@ const createMakeInstance = () => {
   const instance: MakeInstance = {} as unknown as MakeInstance
 
   instance.user = makeUser(instance)
+  instance.balance = makeBalance(instance)
   instance.primaryCurrency = makePrimaryCurrency(instance)
   instance.secondaryCurrency = makeSecondaryCurrency(instance)
   instance.exchange = makeExchange(instance)

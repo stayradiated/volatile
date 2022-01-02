@@ -29,6 +29,24 @@ declare module 'zapatos/schema' {
     export type Table = 'balance';
     export interface Selectable {
       /**
+      * **balance.uid**
+      * - `uuid` in database
+      * - `NOT NULL`, no default
+      */
+      uid: string;
+      /**
+      * **balance.created_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+      created_at: Date;
+      /**
+      * **balance.updated_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+      updated_at: Date;
+      /**
       * **balance.user_uid**
       * - `uuid` in database
       * - `NOT NULL`, no default
@@ -41,11 +59,11 @@ declare module 'zapatos/schema' {
       */
       exchange_uid: string;
       /**
-      * **balance.timestamp**
-      * - `timestamptz` in database
+      * **balance.user_exchange_keys_uid**
+      * - `uuid` in database
       * - `NOT NULL`, no default
       */
-      timestamp: Date;
+      user_exchange_keys_uid: string;
       /**
       * **balance.currency_symbol**
       * - `text` in database
@@ -67,6 +85,24 @@ declare module 'zapatos/schema' {
     }
     export interface JSONSelectable {
       /**
+      * **balance.uid**
+      * - `uuid` in database
+      * - `NOT NULL`, no default
+      */
+      uid: string;
+      /**
+      * **balance.created_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+      created_at: db.TimestampTzString;
+      /**
+      * **balance.updated_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+      updated_at: db.TimestampTzString;
+      /**
       * **balance.user_uid**
       * - `uuid` in database
       * - `NOT NULL`, no default
@@ -79,11 +115,11 @@ declare module 'zapatos/schema' {
       */
       exchange_uid: string;
       /**
-      * **balance.timestamp**
-      * - `timestamptz` in database
+      * **balance.user_exchange_keys_uid**
+      * - `uuid` in database
       * - `NOT NULL`, no default
       */
-      timestamp: db.TimestampTzString;
+      user_exchange_keys_uid: string;
       /**
       * **balance.currency_symbol**
       * - `text` in database
@@ -105,6 +141,24 @@ declare module 'zapatos/schema' {
     }
     export interface Whereable {
       /**
+      * **balance.uid**
+      * - `uuid` in database
+      * - `NOT NULL`, no default
+      */
+      uid?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **balance.created_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+      created_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **balance.updated_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+      updated_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
+      /**
       * **balance.user_uid**
       * - `uuid` in database
       * - `NOT NULL`, no default
@@ -117,11 +171,11 @@ declare module 'zapatos/schema' {
       */
       exchange_uid?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
       /**
-      * **balance.timestamp**
-      * - `timestamptz` in database
+      * **balance.user_exchange_keys_uid**
+      * - `uuid` in database
       * - `NOT NULL`, no default
       */
-      timestamp?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
+      user_exchange_keys_uid?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
       /**
       * **balance.currency_symbol**
       * - `text` in database
@@ -143,6 +197,24 @@ declare module 'zapatos/schema' {
     }
     export interface Insertable {
       /**
+      * **balance.uid**
+      * - `uuid` in database
+      * - `NOT NULL`, no default
+      */
+      uid: string | db.Parameter<string> | db.SQLFragment;
+      /**
+      * **balance.created_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+      created_at: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment;
+      /**
+      * **balance.updated_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+      updated_at: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment;
+      /**
       * **balance.user_uid**
       * - `uuid` in database
       * - `NOT NULL`, no default
@@ -155,11 +227,11 @@ declare module 'zapatos/schema' {
       */
       exchange_uid: string | db.Parameter<string> | db.SQLFragment;
       /**
-      * **balance.timestamp**
-      * - `timestamptz` in database
+      * **balance.user_exchange_keys_uid**
+      * - `uuid` in database
       * - `NOT NULL`, no default
       */
-      timestamp: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment;
+      user_exchange_keys_uid: string | db.Parameter<string> | db.SQLFragment;
       /**
       * **balance.currency_symbol**
       * - `text` in database
@@ -181,6 +253,24 @@ declare module 'zapatos/schema' {
     }
     export interface Updatable {
       /**
+      * **balance.uid**
+      * - `uuid` in database
+      * - `NOT NULL`, no default
+      */
+      uid?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+      /**
+      * **balance.created_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+      created_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment>;
+      /**
+      * **balance.updated_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+      updated_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment>;
+      /**
       * **balance.user_uid**
       * - `uuid` in database
       * - `NOT NULL`, no default
@@ -193,11 +283,11 @@ declare module 'zapatos/schema' {
       */
       exchange_uid?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
       /**
-      * **balance.timestamp**
-      * - `timestamptz` in database
+      * **balance.user_exchange_keys_uid**
+      * - `uuid` in database
       * - `NOT NULL`, no default
       */
-      timestamp?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment>;
+      user_exchange_keys_uid?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
       /**
       * **balance.currency_symbol**
       * - `text` in database
