@@ -35,6 +35,11 @@ const Navigation = (props: Props) => {
 
           <ul>
             <li>
+              <Button type="link" href="/account/">
+                Account
+              </Button>
+            </li>
+            <li>
               <Button type="link" href="/market-price/">
                 Market Price
               </Button>

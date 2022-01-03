@@ -399,9 +399,68 @@
       },
       {
         "kind": "OBJECT",
+        "name": "DeleteUser2FAOutput",
+        "description": null,
+        "fields": [
+          {
+            "name": "user",
+            "description": "An object relationship",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "kc_user",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "user_uid",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "uuid",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
         "name": "EnableUser2FAOutput",
         "description": null,
         "fields": [
+          {
+            "name": "user",
+            "description": "An object relationship",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "kc_user",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
           {
             "name": "user_uid",
             "description": null,
@@ -747,6 +806,49 @@
         "fields": [
           {
             "name": "email",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "SetupUser2FAOutput",
+        "description": null,
+        "fields": [
+          {
+            "name": "qrcode",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "secret",
             "description": null,
             "args": [],
             "type": {
@@ -26039,7 +26141,7 @@
             "deprecationReason": null
           },
           {
-            "name": "user2FA",
+            "name": "user_2fa",
             "description": "An object relationship",
             "args": [],
             "type": {
@@ -26687,57 +26789,6 @@
         "possibleTypes": null
       },
       {
-        "kind": "OBJECT",
-        "name": "kc_user_2fa_mutation_response",
-        "description": "response of any mutation on the table \"kc.user_2fa\"",
-        "fields": [
-          {
-            "name": "affected_rows",
-            "description": "number of rows affected by the mutation",
-            "args": [],
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Int",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "returning",
-            "description": "data from the rows affected by the mutation",
-            "args": [],
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "LIST",
-                "name": null,
-                "ofType": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "OBJECT",
-                    "name": "kc_user_2fa",
-                    "ofType": null
-                  }
-                }
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          }
-        ],
-        "inputFields": null,
-        "interfaces": [],
-        "enumValues": null,
-        "possibleTypes": null
-      },
-      {
         "kind": "INPUT_OBJECT",
         "name": "kc_user_2fa_order_by",
         "description": "Ordering options when selecting data from \"kc.user_2fa\".",
@@ -27016,7 +27067,7 @@
             "deprecationReason": null
           },
           {
-            "name": "user2FA",
+            "name": "user_2fa",
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
@@ -29521,7 +29572,7 @@
             "deprecationReason": null
           },
           {
-            "name": "user2FA",
+            "name": "user_2fa",
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
@@ -30060,64 +30111,6 @@
             "deprecationReason": null
           },
           {
-            "name": "delete_kc_user_2fa",
-            "description": "delete data from the table: \"kc.user_2fa\"",
-            "args": [
-              {
-                "name": "where",
-                "description": "filter the rows which have to be deleted",
-                "type": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "INPUT_OBJECT",
-                    "name": "kc_user_2fa_bool_exp",
-                    "ofType": null
-                  }
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              }
-            ],
-            "type": {
-              "kind": "OBJECT",
-              "name": "kc_user_2fa_mutation_response",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "delete_kc_user_2fa_by_pk",
-            "description": "delete single row from the table: \"kc.user_2fa\"",
-            "args": [
-              {
-                "name": "uid",
-                "description": null,
-                "type": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "uuid",
-                    "ofType": null
-                  }
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              }
-            ],
-            "type": {
-              "kind": "OBJECT",
-              "name": "kc_user_2fa",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "delete_kc_user_device",
             "description": "delete data from the table: \"kc.user_device\"",
             "args": [
@@ -30228,6 +30221,35 @@
             "type": {
               "kind": "OBJECT",
               "name": "kc_user_exchange_keys",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "delete_user_2fa",
+            "description": null,
+            "args": [
+              {
+                "name": "token",
+                "description": null,
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              }
+            ],
+            "type": {
+              "kind": "OBJECT",
+              "name": "DeleteUser2FAOutput",
               "ofType": null
             },
             "isDeprecated": false,
@@ -34564,6 +34586,18 @@
             "type": {
               "kind": "OBJECT",
               "name": "kc_user_exchange_keys",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "setup_user_2fa",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "SetupUser2FAOutput",
               "ofType": null
             },
             "isDeprecated": false,

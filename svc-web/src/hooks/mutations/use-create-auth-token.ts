@@ -16,6 +16,7 @@ const MUTATION_CREATE_AUTH_TOKEN = gql`
     $deviceID: String!
     $deviceName: String!
     $deviceTrusted: Boolean!
+    $token2FA: String
   ) {
     create_auth_token(
       email: $email
@@ -23,6 +24,7 @@ const MUTATION_CREATE_AUTH_TOKEN = gql`
       device_id: $deviceID
       device_name: $deviceName
       device_trusted: $deviceTrusted
+      token_2fa: $token2FA
     ) {
       user_uid
       auth_token
@@ -34,6 +36,7 @@ const MUTATION_CREATE_AUTH_TOKEN = gql`
 type CreateAuthTokenOptions = {
   email: string
   password: string
+  token2FA: string | undefined
 }
 
 type CreateAuthTokenFn = (options: CreateAuthTokenOptions) => Promise<Session>
@@ -45,7 +48,7 @@ const useCreateAuthToken = (): CreateAuthTokenFn => {
   >(MUTATION_CREATE_AUTH_TOKEN)
 
   return async (options: CreateAuthTokenOptions) => {
-    const { email, password } = options
+    const { email, password, token2FA } = options
 
     const result = await createAuthToken({
       variables: {
@@ -54,6 +57,7 @@ const useCreateAuthToken = (): CreateAuthTokenFn => {
         deviceID: getDeviceID(),
         deviceName: getDeviceName(),
         deviceTrusted: false,
+        token2FA,
       },
     })
 

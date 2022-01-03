@@ -45,7 +45,7 @@ const RegisterForm = (props: RegisterFormProps) => {
     setError(undefined)
 
     createUser({ variables: { email, password } })
-      .then(async () => createAuthToken({ email, password }))
+      .then(async () => createAuthToken({ email, password, token2FA: undefined }))
       .then(
         (session) => {
           setLoading(false)

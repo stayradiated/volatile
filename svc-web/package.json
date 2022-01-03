@@ -10,7 +10,7 @@
     "build": "tsc && vite build",
     "serve": "vite preview",
     "tidy": "xo --fix",
-    "graphql": "graphql-codegen --config ./graphql.codegen.js"
+    "graphql": "DEBUG=1 graphql-codegen --config ./graphql.codegen.js"
   },
   "dependencies": {
     "@apollo/client": "3.5.6",

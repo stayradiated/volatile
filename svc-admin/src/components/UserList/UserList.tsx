@@ -47,14 +47,10 @@ const UserList = () => {
             setState({ ...state, [userUID]: true })
           }
 
-          const handleHide = async () => {
-            setState({ ...state, [userUID]: false })
-          }
-
           const showEmail = state[userUID]
           if (showEmail) {
             return (
-              <pre onClick={handleHide}>
+              <pre>
                 <code>
                   <UserEmail userUID={userUID} />
                 </code>

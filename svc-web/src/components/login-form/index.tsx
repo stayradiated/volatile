@@ -15,6 +15,7 @@ type LoginFormProps = {
 type LoginFormState = {
   email: string
   password: string
+  token2FA: string
 }
 
 const LoginForm = (props: LoginFormProps) => {
@@ -27,14 +28,15 @@ const LoginForm = (props: LoginFormProps) => {
   const [state, setState] = useState<LoginFormState>({
     email: '',
     password: '',
+    token2FA: '',
   })
 
   const handleFormFinish = () => {
-    const { email, password } = state
+    const { email, password, token2FA } = state
 
     setError(undefined)
 
-    createAuthToken({ email, password }).then(
+    createAuthToken({ email, password, token2FA }).then(
       (session) => {
         setLoading(false)
         onSession(session)
@@ -60,10 +62,13 @@ const LoginForm = (props: LoginFormProps) => {
         </Form.Item>
         {error && <Alert message={error.message} type="error" />}
         <Form.Item label="Email" name="email">
-          <Input type="email" tabIndex={1} />
+          <Input type="email" tabIndex={0} />
         </Form.Item>
         <Form.Item label="Password" name="password">
-          <Input type="password" disabled={loading} tabIndex={2} />
+          <Input type="password" disabled={loading} />
+        </Form.Item>
+        <Form.Item label="2FA Token" name="token2FA">
+          <Input disabled={loading} />
         </Form.Item>
         <Form.Item className={styles.actions}>
           <div>

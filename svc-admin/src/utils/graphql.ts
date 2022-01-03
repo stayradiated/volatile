@@ -72,8 +72,17 @@ export type CustomerCheckoutSessionOutput = {
   session_url: Scalars['String'];
 };
 
+export type DeleteUser2FaOutput = {
+  __typename?: 'DeleteUser2FAOutput';
+  /** An object relationship */
+  user: Kc_User;
+  user_uid: Scalars['uuid'];
+};
+
 export type EnableUser2FaOutput = {
   __typename?: 'EnableUser2FAOutput';
+  /** An object relationship */
+  user: Kc_User;
   user_uid: Scalars['uuid'];
 };
 
@@ -120,6 +129,12 @@ export type SendUserEmailVerifyOutput = {
 export type SendUserPasswordResetOutput = {
   __typename?: 'SendUserPasswordResetOutput';
   email: Scalars['String'];
+};
+
+export type SetupUser2FaOutput = {
+  __typename?: 'SetupUser2FAOutput';
+  qrcode: Scalars['String'];
+  secret: Scalars['String'];
 };
 
 /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
@@ -214,6 +229,10 @@ export type VerifyUserEmailOutput = {
   email: Scalars['String'];
 };
 
+export type Available_Balance_Fx_Kc_Balance_Latest_Args = {
+  currency?: InputMaybe<Scalars['String']>;
+};
+
 /** Boolean expression to compare columns of type "bpchar". All fields are combined with logical 'AND'. */
 export type Bpchar_Comparison_Exp = {
   _eq?: InputMaybe<Scalars['bpchar']>;
@@ -249,6 +268,603 @@ export type Bpchar_Comparison_Exp = {
 
 export type Fee_Fx_Kc_Trade_Args = {
   currency?: InputMaybe<Scalars['String']>;
+};
+
+/** columns and relationships of "kc.balance" */
+export type Kc_Balance = {
+  __typename?: 'kc_balance';
+  available_balance: Scalars['numeric'];
+  created_at: Scalars['timestamptz'];
+  /** An object relationship */
+  currency: Kc_Currency;
+  currency_symbol: Scalars['String'];
+  /** An object relationship */
+  exchange: Kc_Exchange;
+  exchange_uid: Scalars['uuid'];
+  total_balance: Scalars['numeric'];
+  uid: Scalars['uuid'];
+  updated_at: Scalars['timestamptz'];
+  /** An object relationship */
+  user: Kc_User;
+  /** An object relationship */
+  user_exchange_key: Kc_User_Exchange_Keys;
+  user_exchange_keys_uid: Scalars['uuid'];
+  user_uid: Scalars['uuid'];
+};
+
+/** aggregated selection of "kc.balance" */
+export type Kc_Balance_Aggregate = {
+  __typename?: 'kc_balance_aggregate';
+  aggregate?: Maybe<Kc_Balance_Aggregate_Fields>;
+  nodes: Array<Kc_Balance>;
+};
+
+/** aggregate fields of "kc.balance" */
+export type Kc_Balance_Aggregate_Fields = {
+  __typename?: 'kc_balance_aggregate_fields';
+  avg?: Maybe<Kc_Balance_Avg_Fields>;
+  count: Scalars['Int'];
+  max?: Maybe<Kc_Balance_Max_Fields>;
+  min?: Maybe<Kc_Balance_Min_Fields>;
+  stddev?: Maybe<Kc_Balance_Stddev_Fields>;
+  stddev_pop?: Maybe<Kc_Balance_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<Kc_Balance_Stddev_Samp_Fields>;
+  sum?: Maybe<Kc_Balance_Sum_Fields>;
+  var_pop?: Maybe<Kc_Balance_Var_Pop_Fields>;
+  var_samp?: Maybe<Kc_Balance_Var_Samp_Fields>;
+  variance?: Maybe<Kc_Balance_Variance_Fields>;
+};
+
+
+/** aggregate fields of "kc.balance" */
+export type Kc_Balance_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Kc_Balance_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** aggregate avg on columns */
+export type Kc_Balance_Avg_Fields = {
+  __typename?: 'kc_balance_avg_fields';
+  available_balance?: Maybe<Scalars['Float']>;
+  total_balance?: Maybe<Scalars['Float']>;
+};
+
+/** Boolean expression to filter rows from the table "kc.balance". All fields are combined with a logical 'AND'. */
+export type Kc_Balance_Bool_Exp = {
+  _and?: InputMaybe<Array<Kc_Balance_Bool_Exp>>;
+  _not?: InputMaybe<Kc_Balance_Bool_Exp>;
+  _or?: InputMaybe<Array<Kc_Balance_Bool_Exp>>;
+  available_balance?: InputMaybe<Numeric_Comparison_Exp>;
+  created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+  currency?: InputMaybe<Kc_Currency_Bool_Exp>;
+  currency_symbol?: InputMaybe<String_Comparison_Exp>;
+  exchange?: InputMaybe<Kc_Exchange_Bool_Exp>;
+  exchange_uid?: InputMaybe<Uuid_Comparison_Exp>;
+  total_balance?: InputMaybe<Numeric_Comparison_Exp>;
+  uid?: InputMaybe<Uuid_Comparison_Exp>;
+  updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+  user?: InputMaybe<Kc_User_Bool_Exp>;
+  user_exchange_key?: InputMaybe<Kc_User_Exchange_Keys_Bool_Exp>;
+  user_exchange_keys_uid?: InputMaybe<Uuid_Comparison_Exp>;
+  user_uid?: InputMaybe<Uuid_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "kc.balance" */
+export enum Kc_Balance_Constraint {
+  /** unique or primary key constraint */
+  BalancePkey = 'balance_pkey'
+}
+
+/** input type for incrementing numeric columns in table "kc.balance" */
+export type Kc_Balance_Inc_Input = {
+  available_balance?: InputMaybe<Scalars['numeric']>;
+  total_balance?: InputMaybe<Scalars['numeric']>;
+};
+
+/** input type for inserting data into table "kc.balance" */
+export type Kc_Balance_Insert_Input = {
+  available_balance?: InputMaybe<Scalars['numeric']>;
+  created_at?: InputMaybe<Scalars['timestamptz']>;
+  currency?: InputMaybe<Kc_Currency_Obj_Rel_Insert_Input>;
+  currency_symbol?: InputMaybe<Scalars['String']>;
+  exchange?: InputMaybe<Kc_Exchange_Obj_Rel_Insert_Input>;
+  exchange_uid?: InputMaybe<Scalars['uuid']>;
+  total_balance?: InputMaybe<Scalars['numeric']>;
+  uid?: InputMaybe<Scalars['uuid']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']>;
+  user?: InputMaybe<Kc_User_Obj_Rel_Insert_Input>;
+  user_exchange_key?: InputMaybe<Kc_User_Exchange_Keys_Obj_Rel_Insert_Input>;
+  user_exchange_keys_uid?: InputMaybe<Scalars['uuid']>;
+  user_uid?: InputMaybe<Scalars['uuid']>;
+};
+
+/** columns and relationships of "kc.balance_latest" */
+export type Kc_Balance_Latest = {
+  __typename?: 'kc_balance_latest';
+  available_balance?: Maybe<Scalars['numeric']>;
+  /** A computed field, executes function "kc.balance_latest_available_balance_fx" */
+  available_balance_fx?: Maybe<Scalars['numeric']>;
+  created_at?: Maybe<Scalars['timestamptz']>;
+  /** An object relationship */
+  currency?: Maybe<Kc_Currency>;
+  currency_symbol?: Maybe<Scalars['String']>;
+  /** An object relationship */
+  exchange?: Maybe<Kc_Exchange>;
+  exchange_uid?: Maybe<Scalars['uuid']>;
+  total_balance?: Maybe<Scalars['numeric']>;
+  /** A computed field, executes function "kc.balance_latest_total_balance_fx" */
+  total_balance_fx?: Maybe<Scalars['numeric']>;
+  uid?: Maybe<Scalars['uuid']>;
+  updated_at?: Maybe<Scalars['timestamptz']>;
+  /** An object relationship */
+  user_exchange_keys?: Maybe<Kc_User_Exchange_Keys>;
+  user_exchange_keys_uid?: Maybe<Scalars['uuid']>;
+  user_uid?: Maybe<Scalars['uuid']>;
+};
+
+
+/** columns and relationships of "kc.balance_latest" */
+export type Kc_Balance_LatestAvailable_Balance_FxArgs = {
+  args: Available_Balance_Fx_Kc_Balance_Latest_Args;
+};
+
+
+/** columns and relationships of "kc.balance_latest" */
+export type Kc_Balance_LatestTotal_Balance_FxArgs = {
+  args: Total_Balance_Fx_Kc_Balance_Latest_Args;
+};
+
+/** aggregated selection of "kc.balance_latest" */
+export type Kc_Balance_Latest_Aggregate = {
+  __typename?: 'kc_balance_latest_aggregate';
+  aggregate?: Maybe<Kc_Balance_Latest_Aggregate_Fields>;
+  nodes: Array<Kc_Balance_Latest>;
+};
+
+/** aggregate fields of "kc.balance_latest" */
+export type Kc_Balance_Latest_Aggregate_Fields = {
+  __typename?: 'kc_balance_latest_aggregate_fields';
+  avg?: Maybe<Kc_Balance_Latest_Avg_Fields>;
+  count: Scalars['Int'];
+  max?: Maybe<Kc_Balance_Latest_Max_Fields>;
+  min?: Maybe<Kc_Balance_Latest_Min_Fields>;
+  stddev?: Maybe<Kc_Balance_Latest_Stddev_Fields>;
+  stddev_pop?: Maybe<Kc_Balance_Latest_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<Kc_Balance_Latest_Stddev_Samp_Fields>;
+  sum?: Maybe<Kc_Balance_Latest_Sum_Fields>;
+  var_pop?: Maybe<Kc_Balance_Latest_Var_Pop_Fields>;
+  var_samp?: Maybe<Kc_Balance_Latest_Var_Samp_Fields>;
+  variance?: Maybe<Kc_Balance_Latest_Variance_Fields>;
+};
+
+
+/** aggregate fields of "kc.balance_latest" */
+export type Kc_Balance_Latest_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Kc_Balance_Latest_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** order by aggregate values of table "kc.balance_latest" */
+export type Kc_Balance_Latest_Aggregate_Order_By = {
+  avg?: InputMaybe<Kc_Balance_Latest_Avg_Order_By>;
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Kc_Balance_Latest_Max_Order_By>;
+  min?: InputMaybe<Kc_Balance_Latest_Min_Order_By>;
+  stddev?: InputMaybe<Kc_Balance_Latest_Stddev_Order_By>;
+  stddev_pop?: InputMaybe<Kc_Balance_Latest_Stddev_Pop_Order_By>;
+  stddev_samp?: InputMaybe<Kc_Balance_Latest_Stddev_Samp_Order_By>;
+  sum?: InputMaybe<Kc_Balance_Latest_Sum_Order_By>;
+  var_pop?: InputMaybe<Kc_Balance_Latest_Var_Pop_Order_By>;
+  var_samp?: InputMaybe<Kc_Balance_Latest_Var_Samp_Order_By>;
+  variance?: InputMaybe<Kc_Balance_Latest_Variance_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "kc.balance_latest" */
+export type Kc_Balance_Latest_Arr_Rel_Insert_Input = {
+  data: Array<Kc_Balance_Latest_Insert_Input>;
+};
+
+/** aggregate avg on columns */
+export type Kc_Balance_Latest_Avg_Fields = {
+  __typename?: 'kc_balance_latest_avg_fields';
+  available_balance?: Maybe<Scalars['Float']>;
+  total_balance?: Maybe<Scalars['Float']>;
+};
+
+/** order by avg() on columns of table "kc.balance_latest" */
+export type Kc_Balance_Latest_Avg_Order_By = {
+  available_balance?: InputMaybe<Order_By>;
+  total_balance?: InputMaybe<Order_By>;
+};
+
+/** Boolean expression to filter rows from the table "kc.balance_latest". All fields are combined with a logical 'AND'. */
+export type Kc_Balance_Latest_Bool_Exp = {
+  _and?: InputMaybe<Array<Kc_Balance_Latest_Bool_Exp>>;
+  _not?: InputMaybe<Kc_Balance_Latest_Bool_Exp>;
+  _or?: InputMaybe<Array<Kc_Balance_Latest_Bool_Exp>>;
+  available_balance?: InputMaybe<Numeric_Comparison_Exp>;
+  created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+  currency?: InputMaybe<Kc_Currency_Bool_Exp>;
+  currency_symbol?: InputMaybe<String_Comparison_Exp>;
+  exchange?: InputMaybe<Kc_Exchange_Bool_Exp>;
+  exchange_uid?: InputMaybe<Uuid_Comparison_Exp>;
+  total_balance?: InputMaybe<Numeric_Comparison_Exp>;
+  uid?: InputMaybe<Uuid_Comparison_Exp>;
+  updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+  user_exchange_keys?: InputMaybe<Kc_User_Exchange_Keys_Bool_Exp>;
+  user_exchange_keys_uid?: InputMaybe<Uuid_Comparison_Exp>;
+  user_uid?: InputMaybe<Uuid_Comparison_Exp>;
+};
+
+/** input type for inserting data into table "kc.balance_latest" */
+export type Kc_Balance_Latest_Insert_Input = {
+  available_balance?: InputMaybe<Scalars['numeric']>;
+  created_at?: InputMaybe<Scalars['timestamptz']>;
+  currency?: InputMaybe<Kc_Currency_Obj_Rel_Insert_Input>;
+  currency_symbol?: InputMaybe<Scalars['String']>;
+  exchange?: InputMaybe<Kc_Exchange_Obj_Rel_Insert_Input>;
+  exchange_uid?: InputMaybe<Scalars['uuid']>;
+  total_balance?: InputMaybe<Scalars['numeric']>;
+  uid?: InputMaybe<Scalars['uuid']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']>;
+  user_exchange_keys?: InputMaybe<Kc_User_Exchange_Keys_Obj_Rel_Insert_Input>;
+  user_exchange_keys_uid?: InputMaybe<Scalars['uuid']>;
+  user_uid?: InputMaybe<Scalars['uuid']>;
+};
+
+/** aggregate max on columns */
+export type Kc_Balance_Latest_Max_Fields = {
+  __typename?: 'kc_balance_latest_max_fields';
+  available_balance?: Maybe<Scalars['numeric']>;
+  created_at?: Maybe<Scalars['timestamptz']>;
+  currency_symbol?: Maybe<Scalars['String']>;
+  exchange_uid?: Maybe<Scalars['uuid']>;
+  total_balance?: Maybe<Scalars['numeric']>;
+  uid?: Maybe<Scalars['uuid']>;
+  updated_at?: Maybe<Scalars['timestamptz']>;
+  user_exchange_keys_uid?: Maybe<Scalars['uuid']>;
+  user_uid?: Maybe<Scalars['uuid']>;
+};
+
+/** order by max() on columns of table "kc.balance_latest" */
+export type Kc_Balance_Latest_Max_Order_By = {
+  available_balance?: InputMaybe<Order_By>;
+  created_at?: InputMaybe<Order_By>;
+  currency_symbol?: InputMaybe<Order_By>;
+  exchange_uid?: InputMaybe<Order_By>;
+  total_balance?: InputMaybe<Order_By>;
+  uid?: InputMaybe<Order_By>;
+  updated_at?: InputMaybe<Order_By>;
+  user_exchange_keys_uid?: InputMaybe<Order_By>;
+  user_uid?: InputMaybe<Order_By>;
+};
+
+/** aggregate min on columns */
+export type Kc_Balance_Latest_Min_Fields = {
+  __typename?: 'kc_balance_latest_min_fields';
+  available_balance?: Maybe<Scalars['numeric']>;
+  created_at?: Maybe<Scalars['timestamptz']>;
+  currency_symbol?: Maybe<Scalars['String']>;
+  exchange_uid?: Maybe<Scalars['uuid']>;
+  total_balance?: Maybe<Scalars['numeric']>;
+  uid?: Maybe<Scalars['uuid']>;
+  updated_at?: Maybe<Scalars['timestamptz']>;
+  user_exchange_keys_uid?: Maybe<Scalars['uuid']>;
+  user_uid?: Maybe<Scalars['uuid']>;
+};
+
+/** order by min() on columns of table "kc.balance_latest" */
+export type Kc_Balance_Latest_Min_Order_By = {
+  available_balance?: InputMaybe<Order_By>;
+  created_at?: InputMaybe<Order_By>;
+  currency_symbol?: InputMaybe<Order_By>;
+  exchange_uid?: InputMaybe<Order_By>;
+  total_balance?: InputMaybe<Order_By>;
+  uid?: InputMaybe<Order_By>;
+  updated_at?: InputMaybe<Order_By>;
+  user_exchange_keys_uid?: InputMaybe<Order_By>;
+  user_uid?: InputMaybe<Order_By>;
+};
+
+/** Ordering options when selecting data from "kc.balance_latest". */
+export type Kc_Balance_Latest_Order_By = {
+  available_balance?: InputMaybe<Order_By>;
+  created_at?: InputMaybe<Order_By>;
+  currency?: InputMaybe<Kc_Currency_Order_By>;
+  currency_symbol?: InputMaybe<Order_By>;
+  exchange?: InputMaybe<Kc_Exchange_Order_By>;
+  exchange_uid?: InputMaybe<Order_By>;
+  total_balance?: InputMaybe<Order_By>;
+  uid?: InputMaybe<Order_By>;
+  updated_at?: InputMaybe<Order_By>;
+  user_exchange_keys?: InputMaybe<Kc_User_Exchange_Keys_Order_By>;
+  user_exchange_keys_uid?: InputMaybe<Order_By>;
+  user_uid?: InputMaybe<Order_By>;
+};
+
+/** select columns of table "kc.balance_latest" */
+export enum Kc_Balance_Latest_Select_Column {
+  /** column name */
+  AvailableBalance = 'available_balance',
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  CurrencySymbol = 'currency_symbol',
+  /** column name */
+  ExchangeUid = 'exchange_uid',
+  /** column name */
+  TotalBalance = 'total_balance',
+  /** column name */
+  Uid = 'uid',
+  /** column name */
+  UpdatedAt = 'updated_at',
+  /** column name */
+  UserExchangeKeysUid = 'user_exchange_keys_uid',
+  /** column name */
+  UserUid = 'user_uid'
+}
+
+/** aggregate stddev on columns */
+export type Kc_Balance_Latest_Stddev_Fields = {
+  __typename?: 'kc_balance_latest_stddev_fields';
+  available_balance?: Maybe<Scalars['Float']>;
+  total_balance?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev() on columns of table "kc.balance_latest" */
+export type Kc_Balance_Latest_Stddev_Order_By = {
+  available_balance?: InputMaybe<Order_By>;
+  total_balance?: InputMaybe<Order_By>;
+};
+
+/** aggregate stddev_pop on columns */
+export type Kc_Balance_Latest_Stddev_Pop_Fields = {
+  __typename?: 'kc_balance_latest_stddev_pop_fields';
+  available_balance?: Maybe<Scalars['Float']>;
+  total_balance?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev_pop() on columns of table "kc.balance_latest" */
+export type Kc_Balance_Latest_Stddev_Pop_Order_By = {
+  available_balance?: InputMaybe<Order_By>;
+  total_balance?: InputMaybe<Order_By>;
+};
+
+/** aggregate stddev_samp on columns */
+export type Kc_Balance_Latest_Stddev_Samp_Fields = {
+  __typename?: 'kc_balance_latest_stddev_samp_fields';
+  available_balance?: Maybe<Scalars['Float']>;
+  total_balance?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev_samp() on columns of table "kc.balance_latest" */
+export type Kc_Balance_Latest_Stddev_Samp_Order_By = {
+  available_balance?: InputMaybe<Order_By>;
+  total_balance?: InputMaybe<Order_By>;
+};
+
+/** aggregate sum on columns */
+export type Kc_Balance_Latest_Sum_Fields = {
+  __typename?: 'kc_balance_latest_sum_fields';
+  available_balance?: Maybe<Scalars['numeric']>;
+  total_balance?: Maybe<Scalars['numeric']>;
+};
+
+/** order by sum() on columns of table "kc.balance_latest" */
+export type Kc_Balance_Latest_Sum_Order_By = {
+  available_balance?: InputMaybe<Order_By>;
+  total_balance?: InputMaybe<Order_By>;
+};
+
+/** aggregate var_pop on columns */
+export type Kc_Balance_Latest_Var_Pop_Fields = {
+  __typename?: 'kc_balance_latest_var_pop_fields';
+  available_balance?: Maybe<Scalars['Float']>;
+  total_balance?: Maybe<Scalars['Float']>;
+};
+
+/** order by var_pop() on columns of table "kc.balance_latest" */
+export type Kc_Balance_Latest_Var_Pop_Order_By = {
+  available_balance?: InputMaybe<Order_By>;
+  total_balance?: InputMaybe<Order_By>;
+};
+
+/** aggregate var_samp on columns */
+export type Kc_Balance_Latest_Var_Samp_Fields = {
+  __typename?: 'kc_balance_latest_var_samp_fields';
+  available_balance?: Maybe<Scalars['Float']>;
+  total_balance?: Maybe<Scalars['Float']>;
+};
+
+/** order by var_samp() on columns of table "kc.balance_latest" */
+export type Kc_Balance_Latest_Var_Samp_Order_By = {
+  available_balance?: InputMaybe<Order_By>;
+  total_balance?: InputMaybe<Order_By>;
+};
+
+/** aggregate variance on columns */
+export type Kc_Balance_Latest_Variance_Fields = {
+  __typename?: 'kc_balance_latest_variance_fields';
+  available_balance?: Maybe<Scalars['Float']>;
+  total_balance?: Maybe<Scalars['Float']>;
+};
+
+/** order by variance() on columns of table "kc.balance_latest" */
+export type Kc_Balance_Latest_Variance_Order_By = {
+  available_balance?: InputMaybe<Order_By>;
+  total_balance?: InputMaybe<Order_By>;
+};
+
+/** aggregate max on columns */
+export type Kc_Balance_Max_Fields = {
+  __typename?: 'kc_balance_max_fields';
+  available_balance?: Maybe<Scalars['numeric']>;
+  created_at?: Maybe<Scalars['timestamptz']>;
+  currency_symbol?: Maybe<Scalars['String']>;
+  exchange_uid?: Maybe<Scalars['uuid']>;
+  total_balance?: Maybe<Scalars['numeric']>;
+  uid?: Maybe<Scalars['uuid']>;
+  updated_at?: Maybe<Scalars['timestamptz']>;
+  user_exchange_keys_uid?: Maybe<Scalars['uuid']>;
+  user_uid?: Maybe<Scalars['uuid']>;
+};
+
+/** aggregate min on columns */
+export type Kc_Balance_Min_Fields = {
+  __typename?: 'kc_balance_min_fields';
+  available_balance?: Maybe<Scalars['numeric']>;
+  created_at?: Maybe<Scalars['timestamptz']>;
+  currency_symbol?: Maybe<Scalars['String']>;
+  exchange_uid?: Maybe<Scalars['uuid']>;
+  total_balance?: Maybe<Scalars['numeric']>;
+  uid?: Maybe<Scalars['uuid']>;
+  updated_at?: Maybe<Scalars['timestamptz']>;
+  user_exchange_keys_uid?: Maybe<Scalars['uuid']>;
+  user_uid?: Maybe<Scalars['uuid']>;
+};
+
+/** response of any mutation on the table "kc.balance" */
+export type Kc_Balance_Mutation_Response = {
+  __typename?: 'kc_balance_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Kc_Balance>;
+};
+
+/** on conflict condition type for table "kc.balance" */
+export type Kc_Balance_On_Conflict = {
+  constraint: Kc_Balance_Constraint;
+  update_columns?: Array<Kc_Balance_Update_Column>;
+  where?: InputMaybe<Kc_Balance_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "kc.balance". */
+export type Kc_Balance_Order_By = {
+  available_balance?: InputMaybe<Order_By>;
+  created_at?: InputMaybe<Order_By>;
+  currency?: InputMaybe<Kc_Currency_Order_By>;
+  currency_symbol?: InputMaybe<Order_By>;
+  exchange?: InputMaybe<Kc_Exchange_Order_By>;
+  exchange_uid?: InputMaybe<Order_By>;
+  total_balance?: InputMaybe<Order_By>;
+  uid?: InputMaybe<Order_By>;
+  updated_at?: InputMaybe<Order_By>;
+  user?: InputMaybe<Kc_User_Order_By>;
+  user_exchange_key?: InputMaybe<Kc_User_Exchange_Keys_Order_By>;
+  user_exchange_keys_uid?: InputMaybe<Order_By>;
+  user_uid?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: kc_balance */
+export type Kc_Balance_Pk_Columns_Input = {
+  uid: Scalars['uuid'];
+};
+
+/** select columns of table "kc.balance" */
+export enum Kc_Balance_Select_Column {
+  /** column name */
+  AvailableBalance = 'available_balance',
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  CurrencySymbol = 'currency_symbol',
+  /** column name */
+  ExchangeUid = 'exchange_uid',
+  /** column name */
+  TotalBalance = 'total_balance',
+  /** column name */
+  Uid = 'uid',
+  /** column name */
+  UpdatedAt = 'updated_at',
+  /** column name */
+  UserExchangeKeysUid = 'user_exchange_keys_uid',
+  /** column name */
+  UserUid = 'user_uid'
+}
+
+/** input type for updating data in table "kc.balance" */
+export type Kc_Balance_Set_Input = {
+  available_balance?: InputMaybe<Scalars['numeric']>;
+  created_at?: InputMaybe<Scalars['timestamptz']>;
+  currency_symbol?: InputMaybe<Scalars['String']>;
+  exchange_uid?: InputMaybe<Scalars['uuid']>;
+  total_balance?: InputMaybe<Scalars['numeric']>;
+  uid?: InputMaybe<Scalars['uuid']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']>;
+  user_exchange_keys_uid?: InputMaybe<Scalars['uuid']>;
+  user_uid?: InputMaybe<Scalars['uuid']>;
+};
+
+/** aggregate stddev on columns */
+export type Kc_Balance_Stddev_Fields = {
+  __typename?: 'kc_balance_stddev_fields';
+  available_balance?: Maybe<Scalars['Float']>;
+  total_balance?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate stddev_pop on columns */
+export type Kc_Balance_Stddev_Pop_Fields = {
+  __typename?: 'kc_balance_stddev_pop_fields';
+  available_balance?: Maybe<Scalars['Float']>;
+  total_balance?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate stddev_samp on columns */
+export type Kc_Balance_Stddev_Samp_Fields = {
+  __typename?: 'kc_balance_stddev_samp_fields';
+  available_balance?: Maybe<Scalars['Float']>;
+  total_balance?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate sum on columns */
+export type Kc_Balance_Sum_Fields = {
+  __typename?: 'kc_balance_sum_fields';
+  available_balance?: Maybe<Scalars['numeric']>;
+  total_balance?: Maybe<Scalars['numeric']>;
+};
+
+/** update columns of table "kc.balance" */
+export enum Kc_Balance_Update_Column {
+  /** column name */
+  AvailableBalance = 'available_balance',
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  CurrencySymbol = 'currency_symbol',
+  /** column name */
+  ExchangeUid = 'exchange_uid',
+  /** column name */
+  TotalBalance = 'total_balance',
+  /** column name */
+  Uid = 'uid',
+  /** column name */
+  UpdatedAt = 'updated_at',
+  /** column name */
+  UserExchangeKeysUid = 'user_exchange_keys_uid',
+  /** column name */
+  UserUid = 'user_uid'
+}
+
+/** aggregate var_pop on columns */
+export type Kc_Balance_Var_Pop_Fields = {
+  __typename?: 'kc_balance_var_pop_fields';
+  available_balance?: Maybe<Scalars['Float']>;
+  total_balance?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate var_samp on columns */
+export type Kc_Balance_Var_Samp_Fields = {
+  __typename?: 'kc_balance_var_samp_fields';
+  available_balance?: Maybe<Scalars['Float']>;
+  total_balance?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate variance on columns */
+export type Kc_Balance_Variance_Fields = {
+  __typename?: 'kc_balance_variance_fields';
+  available_balance?: Maybe<Scalars['Float']>;
+  total_balance?: Maybe<Scalars['Float']>;
 };
 
 /** columns and relationships of "kc.currency" */
@@ -1583,6 +2199,10 @@ export type Kc_Dca_Order_Variance_Order_By = {
 /** columns and relationships of "kc.exchange" */
 export type Kc_Exchange = {
   __typename?: 'kc_exchange';
+  /** An array relationship */
+  balance_latest: Array<Kc_Balance_Latest>;
+  /** An aggregate relationship */
+  balance_latest_aggregate: Kc_Balance_Latest_Aggregate;
   created_at: Scalars['timestamptz'];
   /** An array relationship */
   dca_orders: Array<Kc_Dca_Order>;
@@ -1614,6 +2234,26 @@ export type Kc_Exchange = {
   user_exchange_keys: Array<Kc_User_Exchange_Keys>;
   /** An aggregate relationship */
   user_exchange_keys_aggregate: Kc_User_Exchange_Keys_Aggregate;
+};
+
+
+/** columns and relationships of "kc.exchange" */
+export type Kc_ExchangeBalance_LatestArgs = {
+  distinct_on?: InputMaybe<Array<Kc_Balance_Latest_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Kc_Balance_Latest_Order_By>>;
+  where?: InputMaybe<Kc_Balance_Latest_Bool_Exp>;
+};
+
+
+/** columns and relationships of "kc.exchange" */
+export type Kc_ExchangeBalance_Latest_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Kc_Balance_Latest_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Kc_Balance_Latest_Order_By>>;
+  where?: InputMaybe<Kc_Balance_Latest_Bool_Exp>;
 };
 
 
@@ -1763,6 +2403,7 @@ export type Kc_Exchange_Bool_Exp = {
   _and?: InputMaybe<Array<Kc_Exchange_Bool_Exp>>;
   _not?: InputMaybe<Kc_Exchange_Bool_Exp>;
   _or?: InputMaybe<Array<Kc_Exchange_Bool_Exp>>;
+  balance_latest?: InputMaybe<Kc_Balance_Latest_Bool_Exp>;
   created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   dca_orders?: InputMaybe<Kc_Dca_Order_Bool_Exp>;
   id?: InputMaybe<String_Comparison_Exp>;
@@ -1788,6 +2429,7 @@ export enum Kc_Exchange_Constraint {
 
 /** input type for inserting data into table "kc.exchange" */
 export type Kc_Exchange_Insert_Input = {
+  balance_latest?: InputMaybe<Kc_Balance_Latest_Arr_Rel_Insert_Input>;
   created_at?: InputMaybe<Scalars['timestamptz']>;
   dca_orders?: InputMaybe<Kc_Dca_Order_Arr_Rel_Insert_Input>;
   id?: InputMaybe<Scalars['String']>;
@@ -1852,6 +2494,7 @@ export type Kc_Exchange_On_Conflict = {
 
 /** Ordering options when selecting data from "kc.exchange". */
 export type Kc_Exchange_Order_By = {
+  balance_latest_aggregate?: InputMaybe<Kc_Balance_Latest_Aggregate_Order_By>;
   created_at?: InputMaybe<Order_By>;
   dca_orders_aggregate?: InputMaybe<Kc_Dca_Order_Aggregate_Order_By>;
   id?: InputMaybe<Order_By>;
@@ -4505,7 +5148,7 @@ export type Kc_User = {
   uid: Scalars['uuid'];
   updated_at: Scalars['timestamptz'];
   /** An object relationship */
-  user2FA?: Maybe<Kc_User_2fa>;
+  user_2fa?: Maybe<Kc_User_2fa>;
   /** An array relationship */
   user_devices: Array<Kc_User_Device>;
   /** An aggregate relationship */
@@ -4932,7 +5575,7 @@ export type Kc_User_Bool_Exp = {
   trades?: InputMaybe<Kc_Trade_Bool_Exp>;
   uid?: InputMaybe<Uuid_Comparison_Exp>;
   updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
-  user2FA?: InputMaybe<Kc_User_2fa_Bool_Exp>;
+  user_2fa?: InputMaybe<Kc_User_2fa_Bool_Exp>;
   user_devices?: InputMaybe<Kc_User_Device_Bool_Exp>;
   user_exchange_keys?: InputMaybe<Kc_User_Exchange_Keys_Bool_Exp>;
 };
@@ -5725,7 +6368,7 @@ export type Kc_User_Insert_Input = {
   trades?: InputMaybe<Kc_Trade_Arr_Rel_Insert_Input>;
   uid?: InputMaybe<Scalars['uuid']>;
   updated_at?: InputMaybe<Scalars['timestamptz']>;
-  user2FA?: InputMaybe<Kc_User_2fa_Obj_Rel_Insert_Input>;
+  user_2fa?: InputMaybe<Kc_User_2fa_Obj_Rel_Insert_Input>;
   user_devices?: InputMaybe<Kc_User_Device_Arr_Rel_Insert_Input>;
   user_exchange_keys?: InputMaybe<Kc_User_Exchange_Keys_Arr_Rel_Insert_Input>;
 };
@@ -5791,7 +6434,7 @@ export type Kc_User_Order_By = {
   trades_aggregate?: InputMaybe<Kc_Trade_Aggregate_Order_By>;
   uid?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
-  user2FA?: InputMaybe<Kc_User_2fa_Order_By>;
+  user_2fa?: InputMaybe<Kc_User_2fa_Order_By>;
   user_devices_aggregate?: InputMaybe<Kc_User_Device_Aggregate_Order_By>;
   user_exchange_keys_aggregate?: InputMaybe<Kc_User_Exchange_Keys_Aggregate_Order_By>;
 };
@@ -6061,6 +6704,10 @@ export type Mutation_Root = {
   create_dca_order?: Maybe<CreateDcaOrderResult>;
   create_user?: Maybe<CreateUserOutput>;
   create_user_exchange_keys?: Maybe<CreateUserExchangeKeysOutput>;
+  /** delete data from the table: "kc.balance" */
+  delete_kc_balance?: Maybe<Kc_Balance_Mutation_Response>;
+  /** delete single row from the table: "kc.balance" */
+  delete_kc_balance_by_pk?: Maybe<Kc_Balance>;
   /** delete data from the table: "kc.currency" */
   delete_kc_currency?: Maybe<Kc_Currency_Mutation_Response>;
   /** delete single row from the table: "kc.currency" */
@@ -6131,7 +6778,12 @@ export type Mutation_Root = {
   delete_kc_user_password_reset?: Maybe<Kc_User_Password_Reset_Mutation_Response>;
   /** delete single row from the table: "kc.user_password_reset" */
   delete_kc_user_password_reset_by_pk?: Maybe<Kc_User_Password_Reset>;
+  delete_user_2fa?: Maybe<DeleteUser2FaOutput>;
   enable_user_2fa?: Maybe<EnableUser2FaOutput>;
+  /** insert data into the table: "kc.balance" */
+  insert_kc_balance?: Maybe<Kc_Balance_Mutation_Response>;
+  /** insert a single row into the table: "kc.balance" */
+  insert_kc_balance_one?: Maybe<Kc_Balance>;
   /** insert data into the table: "kc.currency" */
   insert_kc_currency?: Maybe<Kc_Currency_Mutation_Response>;
   /** insert a single row into the table: "kc.currency" */
@@ -6215,6 +6867,10 @@ export type Mutation_Root = {
   sync_currency_fx?: Maybe<SyncCurrencyFxOutput>;
   sync_exchange_open_order_list?: Maybe<SyncExchangeOpenOrderListOutput>;
   sync_exchange_trade_list?: Maybe<SyncExchangeTradeListOutput>;
+  /** update data of the table: "kc.balance" */
+  update_kc_balance?: Maybe<Kc_Balance_Mutation_Response>;
+  /** update single row of the table: "kc.balance" */
+  update_kc_balance_by_pk?: Maybe<Kc_Balance>;
   /** update data of the table: "kc.currency" */
   update_kc_currency?: Maybe<Kc_Currency_Mutation_Response>;
   /** update single row of the table: "kc.currency" */
@@ -6334,6 +6990,18 @@ export type Mutation_RootCreate_User_Exchange_KeysArgs = {
   description: Scalars['String'];
   exchange_uid: Scalars['uuid'];
   keys: Scalars['jsonb'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Kc_BalanceArgs = {
+  where: Kc_Balance_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Kc_Balance_By_PkArgs = {
+  uid: Scalars['uuid'];
 };
 
 
@@ -6554,10 +7222,30 @@ export type Mutation_RootDelete_Kc_User_Password_Reset_By_PkArgs = {
 
 
 /** mutation root */
+export type Mutation_RootDelete_User_2faArgs = {
+  token: Scalars['String'];
+};
+
+
+/** mutation root */
 export type Mutation_RootEnable_User_2faArgs = {
   name: Scalars['String'];
   secret: Scalars['String'];
   token: Scalars['String'];
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Kc_BalanceArgs = {
+  objects: Array<Kc_Balance_Insert_Input>;
+  on_conflict?: InputMaybe<Kc_Balance_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Kc_Balance_OneArgs = {
+  object: Kc_Balance_Insert_Input;
+  on_conflict?: InputMaybe<Kc_Balance_On_Conflict>;
 };
 
 
@@ -6857,6 +7545,22 @@ export type Mutation_RootSync_Exchange_Open_Order_ListArgs = {
 export type Mutation_RootSync_Exchange_Trade_ListArgs = {
   force_sync?: InputMaybe<Scalars['Boolean']>;
   user_exchange_keys_uid: Scalars['uuid'];
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Kc_BalanceArgs = {
+  _inc?: InputMaybe<Kc_Balance_Inc_Input>;
+  _set?: InputMaybe<Kc_Balance_Set_Input>;
+  where: Kc_Balance_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Kc_Balance_By_PkArgs = {
+  _inc?: InputMaybe<Kc_Balance_Inc_Input>;
+  _set?: InputMaybe<Kc_Balance_Set_Input>;
+  pk_columns: Kc_Balance_Pk_Columns_Input;
 };
 
 
@@ -7199,6 +7903,16 @@ export type Query_Root = {
   __typename?: 'query_root';
   customer_checkout_session: CustomerCheckoutSessionOutput;
   customer_portal_session?: Maybe<CreateCustomerPortalSession>;
+  /** fetch data from the table: "kc.balance" */
+  kc_balance: Array<Kc_Balance>;
+  /** fetch aggregated fields from the table: "kc.balance" */
+  kc_balance_aggregate: Kc_Balance_Aggregate;
+  /** fetch data from the table: "kc.balance" using primary key columns */
+  kc_balance_by_pk?: Maybe<Kc_Balance>;
+  /** fetch data from the table: "kc.balance_latest" */
+  kc_balance_latest: Array<Kc_Balance_Latest>;
+  /** fetch aggregated fields from the table: "kc.balance_latest" */
+  kc_balance_latest_aggregate: Kc_Balance_Latest_Aggregate;
   /** fetch data from the table: "kc.currency" */
   kc_currency: Array<Kc_Currency>;
   /** fetch aggregated fields from the table: "kc.currency" */
@@ -7320,6 +8034,48 @@ export type Query_Root = {
   /** fetch data from the table: "kc.user_password_reset" using primary key columns */
   kc_user_password_reset_by_pk?: Maybe<Kc_User_Password_Reset>;
   query_user_email?: Maybe<QueryUserEmailOutput>;
+  setup_user_2fa?: Maybe<SetupUser2FaOutput>;
+};
+
+
+export type Query_RootKc_BalanceArgs = {
+  distinct_on?: InputMaybe<Array<Kc_Balance_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Kc_Balance_Order_By>>;
+  where?: InputMaybe<Kc_Balance_Bool_Exp>;
+};
+
+
+export type Query_RootKc_Balance_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Kc_Balance_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Kc_Balance_Order_By>>;
+  where?: InputMaybe<Kc_Balance_Bool_Exp>;
+};
+
+
+export type Query_RootKc_Balance_By_PkArgs = {
+  uid: Scalars['uuid'];
+};
+
+
+export type Query_RootKc_Balance_LatestArgs = {
+  distinct_on?: InputMaybe<Array<Kc_Balance_Latest_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Kc_Balance_Latest_Order_By>>;
+  where?: InputMaybe<Kc_Balance_Latest_Bool_Exp>;
+};
+
+
+export type Query_RootKc_Balance_Latest_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Kc_Balance_Latest_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Kc_Balance_Latest_Order_By>>;
+  where?: InputMaybe<Kc_Balance_Latest_Bool_Exp>;
 };
 
 
@@ -7830,6 +8586,16 @@ export type Smallint_Comparison_Exp = {
 
 export type Subscription_Root = {
   __typename?: 'subscription_root';
+  /** fetch data from the table: "kc.balance" */
+  kc_balance: Array<Kc_Balance>;
+  /** fetch aggregated fields from the table: "kc.balance" */
+  kc_balance_aggregate: Kc_Balance_Aggregate;
+  /** fetch data from the table: "kc.balance" using primary key columns */
+  kc_balance_by_pk?: Maybe<Kc_Balance>;
+  /** fetch data from the table: "kc.balance_latest" */
+  kc_balance_latest: Array<Kc_Balance_Latest>;
+  /** fetch aggregated fields from the table: "kc.balance_latest" */
+  kc_balance_latest_aggregate: Kc_Balance_Latest_Aggregate;
   /** fetch data from the table: "kc.currency" */
   kc_currency: Array<Kc_Currency>;
   /** fetch aggregated fields from the table: "kc.currency" */
@@ -7950,6 +8716,47 @@ export type Subscription_Root = {
   kc_user_password_reset_aggregate: Kc_User_Password_Reset_Aggregate;
   /** fetch data from the table: "kc.user_password_reset" using primary key columns */
   kc_user_password_reset_by_pk?: Maybe<Kc_User_Password_Reset>;
+};
+
+
+export type Subscription_RootKc_BalanceArgs = {
+  distinct_on?: InputMaybe<Array<Kc_Balance_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Kc_Balance_Order_By>>;
+  where?: InputMaybe<Kc_Balance_Bool_Exp>;
+};
+
+
+export type Subscription_RootKc_Balance_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Kc_Balance_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Kc_Balance_Order_By>>;
+  where?: InputMaybe<Kc_Balance_Bool_Exp>;
+};
+
+
+export type Subscription_RootKc_Balance_By_PkArgs = {
+  uid: Scalars['uuid'];
+};
+
+
+export type Subscription_RootKc_Balance_LatestArgs = {
+  distinct_on?: InputMaybe<Array<Kc_Balance_Latest_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Kc_Balance_Latest_Order_By>>;
+  where?: InputMaybe<Kc_Balance_Latest_Bool_Exp>;
+};
+
+
+export type Subscription_RootKc_Balance_Latest_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Kc_Balance_Latest_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Kc_Balance_Latest_Order_By>>;
+  where?: InputMaybe<Kc_Balance_Latest_Bool_Exp>;
 };
 
 
@@ -8451,6 +9258,10 @@ export type Timestamptz_Comparison_Exp = {
   _lte?: InputMaybe<Scalars['timestamptz']>;
   _neq?: InputMaybe<Scalars['timestamptz']>;
   _nin?: InputMaybe<Array<Scalars['timestamptz']>>;
+};
+
+export type Total_Balance_Fx_Kc_Balance_Latest_Args = {
+  currency?: InputMaybe<Scalars['String']>;
 };
 
 export type Total_Value_Fx_Kc_Trade_Args = {

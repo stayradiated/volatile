@@ -55,6 +55,15 @@ actions:
       value_from_env: HASURA_ACTIONS_SECRET
   permissions:
   - role: user
+- name: delete_user_2fa
+  definition:
+    kind: synchronous
+    handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/delete_user_2fa'
+    headers:
+    - name: x-hasura-actions-secret
+      value_from_env: HASURA_ACTIONS_SECRET
+  permissions:
+  - role: user
 - name: enable_user_2fa
   definition:
     kind: synchronous
@@ -109,6 +118,15 @@ actions:
   permissions:
   - role: user
   - role: guest
+- name: setup_user_2fa
+  definition:
+    kind: ""
+    handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/setup_user_2fa'
+    headers:
+    - name: x-hasura-actions-secret
+      value_from_env: HASURA_ACTIONS_SECRET
+  permissions:
+  - role: user
 - name: sync_currency_fx
   definition:
     kind: synchronous
@@ -285,6 +303,15 @@ custom_types:
       field_mapping:
         user_uid: uid
   - name: EnableUser2FAOutput
+    relationships:
+    - remote_table:
+        schema: kc
+        name: user
+      name: user
+      source: default
+      type: object
+      field_mapping:
+        user_uid: uid
   - name: SendUserPasswordResetOutput
   - name: ResetUserPasswordOutput
   - name: SendUserEmailVerifyOutput
@@ -323,4 +350,15 @@ custom_types:
   - name: ValidatUserPasswordResetOutput
   - name: QueryUserEmailOutput
   - name: SyncCurrencyFxOutput
+  - name: SetupUser2FAOutput
+  - name: DeleteUser2FAOutput
+    relationships:
+    - remote_table:
+        schema: kc
+        name: user
+      name: user
+      source: default
+      type: object
+      field_mapping:
+        user_uid: uid
   scalars: []

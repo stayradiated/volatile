@@ -50,6 +50,12 @@ type Query {
 }
 
 type Mutation {
+  delete_user_2fa(
+    token: String!
+  ): DeleteUser2FAOutput
+}
+
+type Mutation {
   enable_user_2fa(
     name: String!
     secret: String!
@@ -86,6 +92,10 @@ type Mutation {
   send_user_password_reset(
     email: String!
   ): SendUserPasswordResetOutput!
+}
+
+type Query {
+  setup_user_2fa: SetupUser2FAOutput
 }
 
 type Mutation {
@@ -280,5 +290,14 @@ type QueryUserEmailOutput {
 
 type SyncCurrencyFxOutput {
   insert_count: Int!
+}
+
+type SetupUser2FAOutput {
+  qrcode: String!
+  secret: String!
+}
+
+type DeleteUser2FAOutput {
+  user_uid: uuid!
 }
 

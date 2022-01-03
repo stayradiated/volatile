@@ -20,7 +20,10 @@ const updateUserHandler: ActionHandlerFn<Input, Output> = async (context) => {
     })
   }
 
-  const { email, password } = input
+  const { email: rawEmail, password } = input
+
+  const email =
+    typeof rawEmail === 'string' ? rawEmail.trim().toLowerCase() : undefined
 
   const error = await updateUser(pool, { userUID, email, password })
   if (error instanceof Error) {
