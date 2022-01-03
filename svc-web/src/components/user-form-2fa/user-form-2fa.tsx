@@ -3,14 +3,13 @@ import { gql, useQuery } from '@apollo/client'
 
 import { Spin, Alert, Card, Button, Form, Input } from '../retro-ui'
 
+import type {
+  GetUser2FaQuery as Query,
+  GetUser2FaQueryVariables as QueryVariables,
+} from '../../utils/graphql'
 import { useSetupUser2FA } from './query-setup-user-2fa'
 import { useEnableUser2FA } from './mutation-enable-user-2fa'
 import { useDeleteUser2FA } from './mutation-delete-user-2fa'
-
-import type {
-  GetUser2FaQuery as Query,
-  GetUser2FaQueryVariables as QueryVariables
-} from '../../utils/graphql'
 
 const QUERY = gql`
   query getUser2FA {
@@ -34,13 +33,13 @@ type State = {
 const initialState = {
   qrcode: undefined,
   secret: undefined,
-  token: ''
+  token: '',
 }
 
 const UserForm2FA = () => {
   const { data, loading, error } = useQuery<Query, QueryVariables>(QUERY)
 
-  const [state ,setState] = useState<State>(initialState)
+  const [state, setState] = useState<State>(initialState)
 
   const enableUser2FA = useEnableUser2FA()
   const setupUser2FA = useSetupUser2FA()
@@ -74,7 +73,7 @@ const UserForm2FA = () => {
       token: state.token,
     })
   }
-  
+
   if (loading) {
     return (
       <Card>
@@ -88,24 +87,26 @@ const UserForm2FA = () => {
   }
 
   if (has2FA) {
-    return <div>
-      <h3>Setup 2FA</h3>
-      <p>You already have 2FA enabled.</p>
+    return (
+      <div>
+        <h3>Setup 2FA</h3>
+        <p>You already have 2FA enabled.</p>
 
-      <Form
-        name='UserForm2FA'
-        state={state}
-        onChange={setState}
-        onFinish={handleDelete}
-      >
-        <Form.Item name='token' label='Token'>
-          <Input />
-        </Form.Item>
-        <Form.Item>
-          <Button>Delete 2FA</Button>
-        </Form.Item>
-      </Form>
-    </div>
+        <Form
+          name="UserForm2FA"
+          state={state}
+          onChange={setState}
+          onFinish={handleDelete}
+        >
+          <Form.Item name="token" label="Token">
+            <Input />
+          </Form.Item>
+          <Form.Item>
+            <Button>Delete 2FA</Button>
+          </Form.Item>
+        </Form>
+      </div>
+    )
   }
 
   return (
@@ -113,15 +114,17 @@ const UserForm2FA = () => {
       <h3>Setup 2FA</h3>
 
       <img src={state.qrcode} />
-      <pre><code>{state.secret}</code></pre>
+      <pre>
+        <code>{state.secret}</code>
+      </pre>
 
       <Form
-        name='UserForm2FA'
+        name="UserForm2FA"
         state={state}
         onChange={setState}
         onFinish={handleEnable}
       >
-        <Form.Item name='token' label='Token'>
+        <Form.Item name="token" label="Token">
           <Input />
         </Form.Item>
         <Form.Item>

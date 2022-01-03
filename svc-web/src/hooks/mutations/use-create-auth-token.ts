@@ -37,6 +37,7 @@ type CreateAuthTokenOptions = {
   email: string
   password: string
   token2FA: string | undefined
+  deviceTrusted: boolean
 }
 
 type CreateAuthTokenFn = (options: CreateAuthTokenOptions) => Promise<Session>
@@ -48,7 +49,7 @@ const useCreateAuthToken = (): CreateAuthTokenFn => {
   >(MUTATION_CREATE_AUTH_TOKEN)
 
   return async (options: CreateAuthTokenOptions) => {
-    const { email, password, token2FA } = options
+    const { email, password, token2FA, deviceTrusted } = options
 
     const result = await createAuthToken({
       variables: {
@@ -56,7 +57,7 @@ const useCreateAuthToken = (): CreateAuthTokenFn => {
         password,
         deviceID: getDeviceID(),
         deviceName: getDeviceName(),
-        deviceTrusted: false,
+        deviceTrusted,
         token2FA,
       },
     })

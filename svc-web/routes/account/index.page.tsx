@@ -14,9 +14,7 @@ const Account = () => {
   const session = useSession()
 
   if (session.role !== 'user') {
-    return (
-      <>You must be logged in to view this page</>
-    )
+    return <>You must be logged in to view this page</>
   }
 
   return (

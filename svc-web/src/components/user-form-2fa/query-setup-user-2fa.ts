@@ -15,8 +15,8 @@ const QUERY = gql`
 `
 
 type Result = {
-  qrcode: string,
-  secret: string,
+  qrcode: string
+  secret: string
 }
 
 const useSetupUser2FA = () => {

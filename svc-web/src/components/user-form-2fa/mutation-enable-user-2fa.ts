@@ -6,11 +6,7 @@ import type {
 } from '../../utils/graphql'
 
 const MUTATION = gql`
-  mutation enableUser2FA(
-    $name: String!,
-    $secret: String!
-    $token: String!
-  ) {
+  mutation enableUser2FA($name: String!, $secret: String!, $token: String!) {
     enable_user_2fa(name: $name, secret: $secret, token: $token) {
       user {
         uid

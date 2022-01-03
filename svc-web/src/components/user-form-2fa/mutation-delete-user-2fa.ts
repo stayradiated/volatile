@@ -6,9 +6,7 @@ import type {
 } from '../../utils/graphql'
 
 const MUTATION = gql`
-  mutation deleteUser2FA(
-    $token: String!
-  ) {
+  mutation deleteUser2FA($token: String!) {
     delete_user_2fa(token: $token) {
       user {
         uid

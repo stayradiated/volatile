@@ -10,7 +10,7 @@ import { ExchangeTable } from './exchange-table'
 
 const QUERY = gql`
   query getExchangeList {
-    kc_exchange {
+    kc_exchange(order_by: { name: asc }) {
       uid
       name
       url
