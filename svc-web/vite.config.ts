@@ -11,6 +11,7 @@ export default defineConfig({
       input: {
         'dca-orders': resolve(__dirname, 'routes/dca-orders/index.html'),
         'devices': resolve(__dirname, 'routes/devices/index.html'),
+        'exchanges': resolve(__dirname, 'routes/exchanges/index.html'),
         'login': resolve(__dirname, 'routes/login/index.html'),
         'main': resolve(__dirname, 'routes/index.html'),
         'market-price': resolve(__dirname, 'routes/market-price/index.html'),
@@ -27,11 +28,11 @@ export default defineConfig({
     proxy: {
       '/hasura': {
         /* production */
-        target: 'https://volatile.co.nz/',
+        // target: 'https://volatile.co.nz/',
         
         /* development */
-        // target: 'http://localhost:9999',
-        // rewrite: (path) => path.replace(/^\/hasura/, ''),
+        target: 'http://localhost:9999',
+        rewrite: (path) => path.replace(/^\/hasura/, ''),
 
         changeOrigin: true,
         secure: false

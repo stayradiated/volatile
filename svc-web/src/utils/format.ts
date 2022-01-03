@@ -1,4 +1,7 @@
-const formatCurrency = (value?: number, mantissa = 2): string => {
+const formatCurrency = (
+  value: number | null | undefined,
+  mantissa = 2,
+): string => {
   if (value == null) {
     return '-.--'
   }

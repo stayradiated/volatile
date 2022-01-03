@@ -1,7 +1,7 @@
 import ky from 'ky-universal'
 import debug from 'debug'
-import { DateTime, Duration } from 'luxon'
 import { errorBoundary } from '@stayradiated/error-boundary'
+import { parseISO } from 'date-fns'
 
 import { NetError, withErrorResponse } from '../../util/error.js'
 import { createDebugHooks } from '../../util/hooks.js'
@@ -65,7 +65,7 @@ type CoinMarketCapConfig = {
 }
 
 const marketSource: MarketPriceSource<CoinMarketCapConfig> = {
-  minCacheDuration: Duration.fromISOTime('00:01:00', {}),
+  minCacheDurationMs: 60 * 1000,
   fetch: async (options) => {
     const { apiKey } = options
 
@@ -103,7 +103,7 @@ const marketSource: MarketPriceSource<CoinMarketCapConfig> = {
     }
 
     const value = quote.price
-    const lastUpdated = DateTime.fromISO(quote.last_updated)
+    const lastUpdated = parseISO(quote.last_updated)
 
     return {
       value,

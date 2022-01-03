@@ -12,8 +12,14 @@ type Props = {
 const Table = (props: Props) => {
   const { table } = props
 
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    table
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    footerGroups,
+    rows,
+    prepareRow,
+  } = table
 
   return (
     <table {...getTableProps()} className={styles.table}>
@@ -64,6 +70,18 @@ const Table = (props: Props) => {
           )
         })}
       </tbody>
+
+      <tfoot className={styles.tfoot}>
+        {footerGroups.map((group) => (
+          <tr {...group.getFooterGroupProps()} className={styles.tr}>
+            {group.headers.map((column) => (
+              <td {...column.getFooterProps()} className={styles.td}>
+                {column.render('Footer')}
+              </td>
+            ))}
+          </tr>
+        ))}
+      </tfoot>
     </table>
   )
 }

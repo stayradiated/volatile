@@ -1,9 +1,10 @@
 import { inspect } from 'util'
-import { DateTime, Duration } from 'luxon'
+import { fromUnixTime } from 'date-fns'
 import {
   latest as getLatestExchangeRate,
   Config as OpenExchangeRatesConfig,
 } from '@volatile/open-exchange-rates-api'
+
 import { MarketPriceSource } from '../util/market-price-source.js'
 
 type Options = {
@@ -21,11 +22,11 @@ const createMarketSourceForCurrency = (
   const { base, symbol } = options
 
   const marketSource: MarketPriceSource<Options> = {
-    minCacheDuration: Duration.fromISOTime('01:15:00', {}),
+    minCacheDurationMs: 75 * 1000,
     fetch: async (fetchOptions) => {
       const { config } = fetchOptions
 
-      const response = await getLatestExchangeRate({
+      const [response] = await getLatestExchangeRate({
         config,
         base,
         symbols: [symbol],
@@ -34,7 +35,7 @@ const createMarketSourceForCurrency = (
         return response
       }
 
-      const lastUpdated = DateTime.fromSeconds(response.timestamp)
+      const lastUpdated = fromUnixTime(response.timestamp)
 
       const value = response.rates[symbol]
       if (typeof value !== 'number') {

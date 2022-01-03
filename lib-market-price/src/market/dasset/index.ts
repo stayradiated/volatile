@@ -1,4 +1,3 @@
-import { DateTime, Duration } from 'luxon'
 import * as dasset from '@volatile/dasset-api'
 
 import { IllegalStateError } from '../../util/error.js'
@@ -11,7 +10,7 @@ type Options = {
 }
 
 const marketSource: MarketPriceSource<Options> = {
-  minCacheDuration: Duration.fromISOTime('00:00:05', {}),
+  minCacheDurationMs: 5 * 1000,
   fetch: async (options) => {
     const { config, assetSymbol, currency } = options
 
@@ -27,7 +26,7 @@ const marketSource: MarketPriceSource<Options> = {
 
     const marketSymbol = `${assetSymbol}-${currency}`
 
-    const lastUpdated = DateTime.local()
+    const lastUpdated = new Date()
 
     const [ticker] = await dasset.getMarketTicker({
       config,

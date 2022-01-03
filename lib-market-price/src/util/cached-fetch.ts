@@ -1,8 +1,8 @@
-import { DateTime, Duration } from 'luxon'
 import { errorBoundary } from '@stayradiated/error-boundary'
+import { differenceInMilliseconds } from 'date-fns'
 
 type FetchFnResult<ReturnValue> = {
-  lastUpdated: DateTime
+  lastUpdated: Date
   value: ReturnValue
 }
 
@@ -11,7 +11,7 @@ type FetchFn<Args, ReturnValue> = (
 ) => Promise<FetchFnResult<ReturnValue> | Error>
 
 type CachedFetchConfig<Args, ReturnValue> = {
-  minCacheDuration: Duration
+  minCacheDurationMs: number
   fetch: FetchFn<Args, ReturnValue>
 }
 
@@ -20,7 +20,7 @@ type CachedFetchFn<ReturnValue> = () => Promise<ReturnValue | Error>
 type State<T> = {
   promise: Promise<T | Error> | undefined
   ready: boolean
-  lastUpdated: DateTime
+  lastUpdated: Date
   lastValue?: T
 }
 
@@ -28,12 +28,12 @@ const createCachedFetchFn = <Args, ReturnValue>(
   config: CachedFetchConfig<Args, ReturnValue>,
   fnArgs: Args,
 ): CachedFetchFn<ReturnValue> => {
-  const { minCacheDuration, fetch } = config
+  const { minCacheDurationMs, fetch } = config
 
   const state: State<ReturnValue> = {
     promise: undefined,
     ready: false,
-    lastUpdated: DateTime.fromSeconds(0),
+    lastUpdated: new Date(0),
     lastValue: undefined,
   }
 
@@ -43,11 +43,11 @@ const createCachedFetchFn = <Args, ReturnValue>(
     }
 
     if (state.ready) {
-      const timeSinceLastUpdated = DateTime.local()
-        .diff(state.lastUpdated)
-        .as('milliseconds')
-
-      if (timeSinceLastUpdated < minCacheDuration.as('milliseconds')) {
+      const timeSinceLastUpdated = differenceInMilliseconds(
+        new Date(),
+        state.lastUpdated,
+      )
+      if (timeSinceLastUpdated < minCacheDurationMs) {
         return state.lastValue!
       }
     }

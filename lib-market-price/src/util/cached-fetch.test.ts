@@ -3,7 +3,6 @@
 import { setTimeout } from 'timers/promises'
 import test from 'ava'
 import debug from 'debug'
-import { DateTime, Duration } from 'luxon'
 import sinon from 'sinon'
 
 import { createCachedFetchFn } from './cached-fetch.js'
@@ -11,10 +10,10 @@ import { createCachedFetchFn } from './cached-fetch.js'
 test('should return value', async (t) => {
   const source = {
     log: debug('test'),
-    minCacheDuration: Duration.fromISOTime('00:00:01', {}),
+    minCacheDurationMs: 1000,
     fetch: async () => ({
       value: 0,
-      lastUpdated: DateTime.local(),
+      lastUpdated: new Date(),
     }),
   }
 
@@ -27,10 +26,10 @@ test('should return value', async (t) => {
 test('should only call fetch when needed', async (t) => {
   const source = {
     log: debug('test'),
-    minCacheDuration: Duration.fromISOTime('00:00:00.500', {}),
+    minCacheDurationMs: 500,
     fetch: sinon.spy(async () => ({
       value: Math.random(),
-      lastUpdated: DateTime.local(),
+      lastUpdated: new Date(),
     })),
   }
 
@@ -55,7 +54,7 @@ test('should only call fetch when needed', async (t) => {
 test('should not cache errors', async (t) => {
   const source = {
     log: debug('test'),
-    minCacheDuration: Duration.fromISOTime('00:00:00.500', {}),
+    minCacheDurationMs: 500,
     fetch: sinon.spy(async () => new Error('fail')),
   }
 

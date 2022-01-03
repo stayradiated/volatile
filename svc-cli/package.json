@@ -20,7 +20,7 @@
     "@stayradiated/error-boundary": "1.13.0",
     "ky": "0.28.7",
     "ky-universal": "0.9.1",
-    "luxon": "2.2.0",
+    "luxon": "2.3.0",
     "rambda": "7.0.1",
     "table": "6.7.5",
     "yargs": "17.3.1"

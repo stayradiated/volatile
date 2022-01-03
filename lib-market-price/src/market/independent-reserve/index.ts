@@ -1,5 +1,5 @@
 import * as ir from '@volatile/independent-reserve-api'
-import { DateTime, Duration } from 'luxon'
+import { parseISO } from 'date-fns'
 
 import { MarketPriceSource } from '../../util/market-price-source.js'
 
@@ -9,7 +9,7 @@ type Options = {
 }
 
 const marketSource: MarketPriceSource<Options> = {
-  minCacheDuration: Duration.fromISOTime('00:00:30', {}),
+  minCacheDurationMs: 30 * 1000,
   fetch: async (options) => {
     const { assetSymbol, currency } = options
 
@@ -22,7 +22,7 @@ const marketSource: MarketPriceSource<Options> = {
     }
 
     const value = result.CurrentHighestBidPrice
-    const lastUpdated = DateTime.fromISO(result.CreatedTimestampUtc)
+    const lastUpdated = parseISO(result.CreatedTimestampUtc)
 
     return {
       value,

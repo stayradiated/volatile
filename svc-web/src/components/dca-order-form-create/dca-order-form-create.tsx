@@ -64,7 +64,7 @@ type FormState = {
   marketOffset: string
   startAt: Date
   dailyAverage: string
-  intervalMin: string,
+  intervalMin: string
   minValue: string
   maxValue: string
 }

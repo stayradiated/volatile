@@ -1,7 +1,8 @@
 import { format } from 'date-fns'
+import { Kanye } from '@volatile/kanye'
 
 import type { Config } from '../util/types.js'
-import { get } from '../util/client.js'
+import { get, getResponseBodyJSON } from '../util/client.js'
 
 /* https://docs.openexchangerates.org/docs/historical-json */
 
@@ -31,7 +32,7 @@ type HistoricalSearchParameters = {
 
 const historical = async (
   options: HistoricalOptions,
-): Promise<HistoricalResult | Error> => {
+): Promise<[HistoricalResult | Error, Kanye?]> => {
   const { config, base, symbols, prettyprint, showAlternative } = options
 
   const parameters: HistoricalSearchParameters = {}
@@ -54,9 +55,14 @@ const historical = async (
 
   const date = format(options.date, 'yyyy-MM-dd')
 
-  const result = await get(config, `historical/${date}.json`, parameters)
+  const raw = await get(config, `historical/${date}.json`, parameters)
+  if (raw instanceof Error) {
+    return [raw, undefined]
+  }
 
-  return result
+  const result = getResponseBodyJSON<HistoricalResult>(raw)
+
+  return [result, raw]
 }
 
 export { historical }

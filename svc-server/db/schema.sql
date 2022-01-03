@@ -21,6 +21,119 @@ SET default_tablespace = '';
 SET default_table_access_method = heap;
 
 --
+-- Name: balance; Type: TABLE; Schema: kc; Owner: -
+--
+
+CREATE TABLE kc.balance (
+    uid uuid NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL,
+    user_uid uuid NOT NULL,
+    exchange_uid uuid NOT NULL,
+    user_exchange_keys_uid uuid NOT NULL,
+    currency_symbol text NOT NULL,
+    total_balance numeric(18,8) NOT NULL,
+    available_balance numeric(18,8) NOT NULL
+);
+
+
+--
+-- Name: balance_available_balance_fx(kc.balance, text); Type: FUNCTION; Schema: kc; Owner: -
+--
+
+CREATE FUNCTION kc.balance_available_balance_fx(self kc.balance, currency text) RETURNS numeric
+    LANGUAGE sql STABLE
+    AS $$
+  SELECT
+    CASE
+      WHEN self.currency_symbol = currency THEN self.available_balance
+      ELSE (
+        SELECT ROUND(fx_rate * self.available_balance, 2)
+        FROM get_currency_fx_rate(now(), self.currency_symbol, currency)
+      )
+    END;
+$$;
+
+
+--
+-- Name: balance_latest; Type: VIEW; Schema: kc; Owner: -
+--
+
+CREATE VIEW kc.balance_latest AS
+ SELECT balance.uid,
+    balance.created_at,
+    balance.updated_at,
+    balance.user_uid,
+    balance.exchange_uid,
+    balance.user_exchange_keys_uid,
+    balance.currency_symbol,
+    balance.total_balance,
+    balance.available_balance
+   FROM (( SELECT balance_1.user_uid,
+            balance_1.exchange_uid,
+            balance_1.user_exchange_keys_uid,
+            balance_1.currency_symbol,
+            max(balance_1.updated_at) AS max_updated_at
+           FROM kc.balance balance_1
+          GROUP BY balance_1.user_uid, balance_1.exchange_uid, balance_1.user_exchange_keys_uid, balance_1.currency_symbol) latest_balance
+     JOIN kc.balance ON (((balance.user_uid = latest_balance.user_uid) AND (balance.exchange_uid = latest_balance.exchange_uid) AND (balance.user_exchange_keys_uid = latest_balance.user_exchange_keys_uid) AND (balance.currency_symbol = latest_balance.currency_symbol) AND (balance.updated_at = latest_balance.max_updated_at))));
+
+
+--
+-- Name: balance_latest_available_balance_fx(kc.balance_latest, text); Type: FUNCTION; Schema: kc; Owner: -
+--
+
+CREATE FUNCTION kc.balance_latest_available_balance_fx(self kc.balance_latest, currency text) RETURNS numeric
+    LANGUAGE sql STABLE
+    AS $$
+  SELECT
+    CASE
+      WHEN self.currency_symbol = currency THEN self.available_balance
+      ELSE (
+        SELECT ROUND(fx_rate * self.available_balance, 2)
+        FROM get_currency_fx_rate(now(), self.currency_symbol, currency)
+      )
+    END;
+$$;
+
+
+--
+-- Name: balance_latest_total_balance_fx(kc.balance_latest, text); Type: FUNCTION; Schema: kc; Owner: -
+--
+
+CREATE FUNCTION kc.balance_latest_total_balance_fx(self kc.balance_latest, currency text) RETURNS numeric
+    LANGUAGE sql STABLE
+    AS $$
+  SELECT
+    CASE
+      WHEN self.currency_symbol = currency THEN self.total_balance
+      ELSE (
+        SELECT ROUND(fx_rate * self.total_balance, 2)
+        FROM get_currency_fx_rate(now(), self.currency_symbol, currency)
+      )
+    END;
+$$;
+
+
+--
+-- Name: balance_total_balance_fx(kc.balance, text); Type: FUNCTION; Schema: kc; Owner: -
+--
+
+CREATE FUNCTION kc.balance_total_balance_fx(self kc.balance, currency text) RETURNS numeric
+    LANGUAGE sql STABLE
+    AS $$
+  SELECT
+    CASE
+      WHEN self.currency_symbol = currency THEN self.total_balance
+      ELSE (
+        SELECT ROUND(fx_rate * self.total_balance, 2)
+        FROM get_currency_fx_rate(now(), self.currency_symbol, currency)
+      )
+    END;
+$$;
+
+
+--
 -- Name: dca_order; Type: TABLE; Schema: kc; Owner: -
 --
 
@@ -366,47 +479,6 @@ CREATE FUNCTION kc.trade_value_fx(self kc.trade, currency text) RETURNS numeric
       )
     END;
 $$;
-
-
---
--- Name: balance; Type: TABLE; Schema: kc; Owner: -
---
-
-CREATE TABLE kc.balance (
-    uid uuid NOT NULL,
-    created_at timestamp with time zone NOT NULL,
-    updated_at timestamp with time zone NOT NULL,
-    user_uid uuid NOT NULL,
-    exchange_uid uuid NOT NULL,
-    user_exchange_keys_uid uuid NOT NULL,
-    currency_symbol text NOT NULL,
-    total_balance numeric(18,8) NOT NULL,
-    available_balance numeric(18,8) NOT NULL
-);
-
-
---
--- Name: balance_latest; Type: VIEW; Schema: kc; Owner: -
---
-
-CREATE VIEW kc.balance_latest AS
- SELECT balance.uid,
-    balance.created_at,
-    balance.updated_at,
-    balance.user_uid,
-    balance.exchange_uid,
-    balance.user_exchange_keys_uid,
-    balance.currency_symbol,
-    balance.total_balance,
-    balance.available_balance
-   FROM (( SELECT balance_1.user_uid,
-            balance_1.exchange_uid,
-            balance_1.user_exchange_keys_uid,
-            balance_1.currency_symbol,
-            max(balance_1.updated_at) AS max_updated_at
-           FROM kc.balance balance_1
-          GROUP BY balance_1.user_uid, balance_1.exchange_uid, balance_1.user_exchange_keys_uid, balance_1.currency_symbol) latest_balance
-     JOIN kc.balance ON (((balance.user_uid = latest_balance.user_uid) AND (balance.exchange_uid = latest_balance.exchange_uid) AND (balance.user_exchange_keys_uid = latest_balance.user_exchange_keys_uid) AND (balance.currency_symbol = latest_balance.currency_symbol) AND (balance.updated_at = latest_balance.max_updated_at))));
 
 
 --
@@ -1240,4 +1312,5 @@ INSERT INTO kc.schema_migrations (version) VALUES
     ('20220101111511'),
     ('20220102071546'),
     ('20220102083618'),
-    ('20220102092309');
+    ('20220102092309'),
+    ('20220103102441');

@@ -1,5 +1,7 @@
+import { Kanye } from '@volatile/kanye'
+
 import type { Config } from '../util/types.js'
-import { get } from '../util/client.js'
+import { get, getResponseBodyJSON } from '../util/client.js'
 
 /* https://docs.openexchangerates.org/docs/latest-json */
 
@@ -29,7 +31,7 @@ type LatestSearchParameters = {
 
 const latest = async (
   options: LatestOptions,
-): Promise<LatestResult | Error> => {
+): Promise<[LatestResult | Error, Kanye?]> => {
   const { config, base, symbols, prettyprint, showAlternative } = options
 
   const parameters: LatestSearchParameters = {}
@@ -50,9 +52,14 @@ const latest = async (
     parameters.show_alternative = String(showAlternative)
   }
 
-  const result = await get(config, 'latest.json', parameters)
+  const raw = await get(config, 'latest.json', parameters)
+  if (raw instanceof Error) {
+    return [raw, undefined]
+  }
 
-  return result
+  const result = getResponseBodyJSON<LatestResult>(raw)
+
+  return [result, raw]
 }
 
 export { latest }

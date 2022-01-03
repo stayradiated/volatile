@@ -1,6 +1,5 @@
 import ky from 'ky-universal'
 import debug from 'debug'
-import { DateTime, Duration } from 'luxon'
 import { errorBoundary } from '@stayradiated/error-boundary'
 
 import { NetError, withErrorResponse } from '../../util/error.js'
@@ -26,7 +25,7 @@ type APIResponse = {
 }
 
 const marketSource: MarketPriceSource<Options> = {
-  minCacheDuration: Duration.fromISOTime('00:00:30', {}),
+  minCacheDurationMs: 30 * 1000,
   fetch: async (options) => {
     const { assetSymbol, currency } = options
     if (assetSymbol.toUpperCase() !== assetSymbol) {
@@ -41,7 +40,7 @@ const marketSource: MarketPriceSource<Options> = {
 
     const tradingPair = assetSymbol + currency
 
-    const lastUpdated = DateTime.local()
+    const lastUpdated = new Date()
 
     const result = await errorBoundary<APIResponse>(async () =>
       easyCrypto.get(`ticker/${tradingPair}`).json(),

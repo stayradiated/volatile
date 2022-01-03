@@ -1,5 +1,4 @@
 import * as kiwiCoin from '@volatile/kiwi-coin-api'
-import { DateTime, Duration } from 'luxon'
 
 import { MarketPriceSource } from '../../util/market-price-source.js'
 
@@ -9,7 +8,7 @@ type Options = {
 }
 
 const marketSource: MarketPriceSource<Options> = {
-  minCacheDuration: Duration.fromISOTime('00:00:30', {}),
+  minCacheDurationMs: 30 * 1000,
   fetch: async (options) => {
     const { assetSymbol, currency } = options
     if (assetSymbol !== 'BTC') {
@@ -20,7 +19,7 @@ const marketSource: MarketPriceSource<Options> = {
       return new Error(`Currency must be "NZD", received ${currency}`)
     }
 
-    const lastUpdated = DateTime.local()
+    const lastUpdated = new Date()
 
     const [value] = await kiwiCoin.getHighestBid()
     if (value instanceof Error) {

@@ -40,6 +40,11 @@ const Navigation = (props: Props) => {
               </Button>
             </li>
             <li>
+              <Button type="link" href="/exchanges/">
+                Exchanges
+              </Button>
+            </li>
+            <li>
               <Button type="link" href="/dca-orders/">
                 DCA Orders
               </Button>

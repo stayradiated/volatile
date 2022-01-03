@@ -1,7 +1,8 @@
 import { format } from 'date-fns'
+import { Kanye } from '@volatile/kanye'
 
 import type { Config } from '../util/types.js'
-import { get } from '../util/client.js'
+import { get, getResponseBodyJSON } from '../util/client.js'
 
 /* https://docs.openexchangerates.org/docs/timeseries-json */
 
@@ -35,7 +36,7 @@ type TimeSeriesSearchParameters = {
 
 const timeseries = async (
   options: TimeSeriesOptions,
-): Promise<TimeSeriesResult | Error> => {
+): Promise<[TimeSeriesResult | Error, Kanye?]> => {
   const { config, base, symbols, prettyprint, showAlternative } = options
 
   const parameters: TimeSeriesSearchParameters = {
@@ -59,9 +60,14 @@ const timeseries = async (
     parameters.show_alternative = String(showAlternative)
   }
 
-  const result = await get(config, 'time-series.json', parameters)
+  const raw = await get(config, 'time-series.json', parameters)
+  if (raw instanceof Error) {
+    return [raw, undefined]
+  }
 
-  return result
+  const result = getResponseBodyJSON<TimeSeriesResult>(raw)
+
+  return [result, raw]
 }
 
 export { timeseries }

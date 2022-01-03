@@ -1,6 +1,5 @@
 import ky from 'ky-universal'
 import debug from 'debug'
-import { DateTime, Duration } from 'luxon'
 import { errorBoundary } from '@stayradiated/error-boundary'
 
 import { NetError, withErrorResponse, APIError } from '../../util/error.js'
@@ -39,7 +38,7 @@ type APIResponse = {
 }
 
 const marketSource: MarketPriceSource<Options> = {
-  minCacheDuration: Duration.fromISOTime('00:00:05', {}),
+  minCacheDurationMs: 5 * 1000,
   fetch: async (options) => {
     const { assetSymbol, currency } = options
 
@@ -55,7 +54,7 @@ const marketSource: MarketPriceSource<Options> = {
 
     const tradingPair = assetSymbol + currency
 
-    const lastUpdated = DateTime.local()
+    const lastUpdated = new Date()
 
     const result = await errorBoundary<APIResponse>(async () =>
       kraken

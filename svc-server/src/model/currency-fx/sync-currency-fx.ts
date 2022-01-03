@@ -62,7 +62,7 @@ const syncCurrencyFx = async (
   for (const row of rows) {
     const date = row.i
 
-    const result = await historical({
+    const [result] = await historical({
       config: { appId: OPEN_EXCHANGE_RATES_APP_ID },
       date,
       base: fromSymbol,

@@ -8,7 +8,7 @@ import { formatCurrency } from '../../utils/format'
 
 import { DCAOrderModalDelete } from '../dca-order-modal-delete'
 
-import {
+import type {
   GetDcaOrderListQuery as Query,
   GetDcaOrderListQueryVariables as QueryVariables,
 } from '../../utils/graphql'
@@ -113,7 +113,7 @@ const DCAOrderList = (props: Props) => {
       {
         Header: 'Interval',
         accessor: 'interval_ms',
-        Cell: ({ value }) => (value / 60 / 1000) + ' min'
+        Cell: ({ value }) => value / 60 / 1000 + ' min',
       },
       {
         Header: 'Min Value',
