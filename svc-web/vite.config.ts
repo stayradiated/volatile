@@ -9,6 +9,7 @@ export default defineConfig({
     outDir: '../dist',
     rollupOptions: {
       input: {
+        'account': resolve(__dirname, 'routes/account/index.html'),
         'dca-orders': resolve(__dirname, 'routes/dca-orders/index.html'),
         'devices': resolve(__dirname, 'routes/devices/index.html'),
         'exchanges': resolve(__dirname, 'routes/exchanges/index.html'),
