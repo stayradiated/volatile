@@ -31,10 +31,14 @@ const fetchMarketPrice = async (
   const [[sourcePrice, rawSourcePrice], [fxRate, rawFxRate]] =
     await Promise.all([fetchSourcePrice(), fetchFxRate()])
 
-  const insertRequestError = await errorListBoundary(() => Promise.all([
-    rawSourcePrice ? insertRequest(pool, rawSourcePrice) : undefined,
-    rawFxRate ? insertRequest(pool, rawFxRate) : undefined,
-  ]))
+  const insertRequestError = await errorListBoundary(async () =>
+    Promise.all([
+      rawSourcePrice
+        ? insertRequest(pool, rawSourcePrice.redacted())
+        : undefined,
+      rawFxRate ? insertRequest(pool, rawFxRate.redacted()) : undefined,
+    ]),
+  )
   if (insertRequestError instanceof Error) {
     return insertRequestError
   }

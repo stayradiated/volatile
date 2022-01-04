@@ -37,7 +37,7 @@ type TimeSeriesSearchParameters = {
 const timeseries = async (
   options: TimeSeriesOptions,
 ): Promise<[TimeSeriesResult | Error, Kanye?]> => {
-  const { config, base, symbols, prettyprint, showAlternative } = options
+  const { config, base, symbols, prettyprint = false, showAlternative } = options
 
   const parameters: TimeSeriesSearchParameters = {
     start: format(options.start, 'yyyy-MM-dd'),

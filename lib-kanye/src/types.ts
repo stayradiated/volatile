@@ -1,4 +1,4 @@
-type Kanye = {
+type KanyeRedacted = {
   error: Error | undefined
   method: string
   url: string
@@ -12,4 +12,10 @@ type Kanye = {
   responseBodyAt: Date | undefined
 }
 
-export { Kanye }
+type KanyeRedactFn = () => KanyeRedacted
+
+type Kanye = KanyeRedacted & {
+  redacted: KanyeRedactFn
+}
+
+export { Kanye, KanyeRedacted, KanyeRedactFn }

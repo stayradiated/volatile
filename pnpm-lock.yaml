@@ -127,6 +127,7 @@ importers:
       ava: 3.15.0
       debug: 4.3.3
       del-cli: 4.0.1
+      escape-string-regexp: 5.0.0
       ky: 0.28.7
       ky-universal: 0.9.1
       nock: 13.2.1
@@ -136,6 +137,7 @@ importers:
       '@northscaler/better-error': 0.1.0-dev.10
       '@stayradiated/error-boundary': 1.13.0
       debug: 4.3.3
+      escape-string-regexp: 5.0.0
       ky: 0.28.7
       ky-universal: 0.9.1_ky@0.28.7
     devDependencies:
@@ -344,7 +346,6 @@ importers:
       del-cli: 4.0.1
       dotenv: 10.0.0
       env-var: 7.1.1
-      escape-string-regexp: 5.0.0
       eslint-plugin-fp: 2.3.0
       fastify: 3.25.3
       njwt: 1.2.0
@@ -378,7 +379,6 @@ importers:
       debug: 4.3.3
       dotenv: 10.0.0
       env-var: 7.1.1
-      escape-string-regexp: 5.0.0
       fastify: 3.25.3
       njwt: 1.2.0
       nodemailer: 6.7.2

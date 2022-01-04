@@ -34,7 +34,7 @@ const getBalanceList = async (
   }
 
   const raw = await kanye('balances', {
-    ...requestOptions,
+    ...requestOptions(config),
     method: 'GET',
     headers,
   })

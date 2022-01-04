@@ -23,6 +23,7 @@ const mockRaw: Kanye = {
   responseHeaders: undefined,
   responseBodyAt: undefined,
   responseBody: undefined,
+  redacted: () => mockRaw,
 }
 
 test('should return value', async (t) => {

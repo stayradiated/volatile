@@ -5,8 +5,6 @@ import { ExchangeError } from '../util/error.js'
 import { EXCHANGE_INDEPENDENT_RESERVE } from '../model/exchange/index.js'
 import { insertUserExchangeRequest } from '../model/user-exchange-request/index.js'
 
-import { redactString, redactObject } from './redact.js'
-
 import type {
   ExchangeAPI,
   UserExchangeAPI,
@@ -182,16 +180,10 @@ const getIndependentReserveExchangeAPI = (
 
   const logRequest: LogRequestFn = async (request) => {
     return insertUserExchangeRequest(pool, {
-      ...request,
+      ...request.redacted(),
       userUID,
       exchangeUID,
       userExchangeKeysUID,
-      requestBody: request.requestBody
-        ? redactString(config, request.requestBody)
-        : undefined,
-      requestHeaders: request.requestHeaders
-        ? redactObject(config, request.requestHeaders)
-        : undefined,
     })
   }
 

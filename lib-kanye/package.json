@@ -27,6 +27,7 @@
     "@northscaler/better-error": "0.1.0-dev.10",
     "@stayradiated/error-boundary": "1.13.0",
     "debug": "4.3.3",
+    "escape-string-regexp": "5.0.0",
     "ky": "0.28.7",
     "ky-universal": "0.9.1"
   },

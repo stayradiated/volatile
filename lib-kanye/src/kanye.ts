@@ -4,19 +4,52 @@ import debug from 'debug'
 import { errorBoundary } from '@stayradiated/error-boundary'
 
 import { NetError } from './error.js'
+import { buildRedactFn } from './redact.js'
+
 import type { Kanye } from './types.js'
 
 const parseHeaders = (headers: Headers): Record<string, string> => {
   return Object.fromEntries((headers as any).entries())
 }
 
-const kanye = async (endpoint: string, options: KyOptions): Promise<Kanye> => {
+type KanyeOptions = KyOptions & {
+  redact?: string[]
+}
+
+const buildReturnValue = (
+  options: KanyeOptions,
+  input: Partial<Kanye>,
+): Kanye => {
+  const object = {
+    error: undefined,
+    method: 'UNKNOWN',
+    url: '[unknown]',
+    requestAt: new Date(0),
+    requestHeaders: undefined,
+    requestBody: undefined,
+    responseStatus: undefined,
+    responseHeaders: undefined,
+    responseBody: undefined,
+    responseAt: undefined,
+    responseBodyAt: undefined,
+    ...input,
+  }
+
+  object.redacted = buildRedactFn(options.redact, object)
+
+  return object as Kanye
+}
+
+const kanye = async (
+  endpoint: string,
+  options: KanyeOptions,
+): Promise<Kanye> => {
   const log = debug('kanye')
 
   const method = options.method ?? 'GET'
   let url = (options.prefixUrl ?? '') + endpoint
   let requestBody: string | undefined
-  let requestHeaders: {} | undefined
+  let requestHeaders: Record<string, string> | undefined
 
   const requestAt = new Date()
 
@@ -44,7 +77,7 @@ const kanye = async (endpoint: string, options: KyOptions): Promise<Kanye> => {
 
   if (response instanceof Error) {
     if (response instanceof TimeoutError) {
-      return {
+      return buildReturnValue(options, {
         error: response,
         method,
         url,
@@ -52,11 +85,7 @@ const kanye = async (endpoint: string, options: KyOptions): Promise<Kanye> => {
         requestHeaders,
         requestBody,
         responseAt,
-        responseStatus: undefined,
-        responseHeaders: undefined,
-        responseBody: undefined,
-        responseBodyAt: undefined,
-      }
+      })
     }
 
     if (response instanceof HTTPError) {
@@ -65,7 +94,7 @@ const kanye = async (endpoint: string, options: KyOptions): Promise<Kanye> => {
         return responseBodyText
       })
 
-      return {
+      return buildReturnValue(options, {
         error: response,
         method,
         url,
@@ -77,8 +106,7 @@ const kanye = async (endpoint: string, options: KyOptions): Promise<Kanye> => {
         responseHeaders: parseHeaders(response.response.headers),
         responseBody:
           responseBodyText instanceof Error ? undefined : responseBodyText,
-        responseBodyAt: undefined,
-      }
+      })
     }
 
     const error = new NetError({
@@ -86,19 +114,15 @@ const kanye = async (endpoint: string, options: KyOptions): Promise<Kanye> => {
       cause: response,
     })
 
-    return {
+    return buildReturnValue(options, {
       error,
       method,
       url,
       requestAt,
-        requestHeaders,
+      requestHeaders,
       requestBody,
       responseAt,
-      responseStatus: undefined,
-      responseHeaders: undefined,
-      responseBody: undefined,
-      responseBodyAt: undefined,
-    }
+    })
   }
 
   const responseBody = await errorBoundary(async () => response.text())
@@ -106,7 +130,7 @@ const kanye = async (endpoint: string, options: KyOptions): Promise<Kanye> => {
 
   if (responseBody instanceof Error) {
     if (responseBody instanceof TimeoutError) {
-      return {
+      return buildReturnValue(options, {
         error: responseBody,
         method,
         url,
@@ -114,15 +138,12 @@ const kanye = async (endpoint: string, options: KyOptions): Promise<Kanye> => {
         requestHeaders,
         requestBody,
         responseAt,
-        responseStatus: undefined,
-        responseHeaders: undefined,
-        responseBody: undefined,
         responseBodyAt,
-      }
+      })
     }
 
     if (responseBody instanceof HTTPError) {
-      return {
+      return buildReturnValue(options, {
         error: responseBody,
         method,
         url,
@@ -132,9 +153,8 @@ const kanye = async (endpoint: string, options: KyOptions): Promise<Kanye> => {
         responseAt,
         responseStatus: responseBody.response.status,
         responseHeaders: parseHeaders(responseBody.response.headers),
-        responseBody: undefined,
         responseBodyAt,
-      }
+      })
     }
 
     const error = new NetError({
@@ -142,34 +162,32 @@ const kanye = async (endpoint: string, options: KyOptions): Promise<Kanye> => {
       cause: responseBody,
     })
 
-    return {
+    return buildReturnValue(options, {
       error,
       method,
       url,
       requestAt,
-        requestHeaders,
+      requestHeaders,
       requestBody,
       responseAt,
-      responseStatus: undefined,
-      responseHeaders: undefined,
-      responseBody: undefined,
       responseBodyAt,
-    }
+    })
   }
 
-  return {
+  return buildReturnValue(options, {
     error: undefined,
     method,
     url,
     requestAt,
-        requestHeaders,
+    requestHeaders,
     requestBody,
     responseStatus: response.status,
     responseHeaders: parseHeaders(response.headers),
     responseBody,
     responseAt,
     responseBodyAt,
-  }
+  })
 }
 
 export { kanye }
+export type { KanyeOptions }

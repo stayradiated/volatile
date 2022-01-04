@@ -4,13 +4,16 @@ import {
   APIError,
 } from '@volatile/kanye'
 
+import { Config } from './types.js'
+
 const prefixUrl = 'https://api.dassetx.com/api/'
 const timeout = 15_000
 
-const requestOptions = {
+const requestOptions = (config: Config) => ({
   prefixUrl,
   timeout,
-}
+  redact: [config.accountId, config.apiKey]
+})
 
 type DassetAPIError = {
   status: number

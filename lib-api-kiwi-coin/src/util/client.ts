@@ -29,7 +29,11 @@ const post = async (
   }
 
   return serial(config.userId, async () => {
-    return kanye(endpoint, { method: 'POST', prefixUrl, body: requestBody })
+    return kanye(endpoint, { method: 'POST', prefixUrl, body: requestBody, redact: [
+      config.userId,
+      config.apiKey,
+      config.apiSecret
+    ]})
   })
 }
 

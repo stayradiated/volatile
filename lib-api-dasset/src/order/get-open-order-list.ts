@@ -46,7 +46,7 @@ const getOpenOrderList = async (
   }
 
   const raw = await kanye('orders/open', {
-    ...requestOptions,
+    ...requestOptions(config),
     method: 'GET',
     headers,
     searchParams: buildPaginationSearchParams(options),

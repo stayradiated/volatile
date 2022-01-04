@@ -4,9 +4,6 @@ import type { Config } from './types.js'
 
 const prefixUrl = 'https://openexchangerates.org/api/'
 
-// TODO: what's the best way to redact logs with kanye?
-// const redactUrl = (url: string) => url.replace(/\?app_id=[^&]+/, '?app_id=[redacted]')
-
 const get = async (
   config: Config,
   endpoint: string,
@@ -18,6 +15,7 @@ const get = async (
       app_id: config.appId,
       ...searchParameters,
     },
+    redact: [config.appId],
   })
 
   return result

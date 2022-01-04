@@ -37,7 +37,7 @@ const createOrder = async (
   }
 
   const raw = await kanye('orders', {
-    ...requestOptions,
+    ...requestOptions(config),
     method: 'POST',
     headers,
     json: order,

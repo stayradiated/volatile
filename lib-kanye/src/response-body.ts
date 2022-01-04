@@ -16,9 +16,9 @@ const getResponseBodyText = (input: Kanye): string | Error => {
 
     if (input.error instanceof HTTPError) {
       return new APIError({
-        message: `Received ${
-          input.responseStatus ?? 'unknown'
-        } error from ${input.method} ${input.url}: ${input.responseBody}`,
+        message: `Received ${input.responseStatus ?? 'unknown'} error from ${
+          input.method
+        } ${input.url}: ${input.responseBody}`,
         context: input,
       })
     }

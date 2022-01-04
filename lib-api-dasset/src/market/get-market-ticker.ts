@@ -28,7 +28,7 @@ const getMarketTicker = async (
   }
 
   const raw = await kanye(`markets/${marketSymbol}/ticker`, {
-    ...requestOptions,
+    ...requestOptions(config),
     method: 'GET',
     headers,
   })

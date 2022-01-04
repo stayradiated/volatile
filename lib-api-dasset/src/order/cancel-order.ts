@@ -24,7 +24,7 @@ const cancelOrder = async (
   }
 
   const raw = await kanye(`orders/${orderID}`, {
-    ...requestOptions,
+    ...requestOptions(config),
     method: 'DELETE',
     headers,
   })

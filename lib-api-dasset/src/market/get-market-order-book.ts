@@ -32,7 +32,7 @@ const getMarketOrderBook = async (
   }
 
   const raw = await kanye(`markets/${marketSymbol}/orderbook`, {
-    ...requestOptions,
+    ...requestOptions(config),
     method: 'GET',
     headers,
   })

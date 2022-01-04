@@ -36,7 +36,7 @@ const getBalance = async (
   }
 
   const raw = await kanye(`balances/${currencySymbol}`, {
-    ...requestOptions,
+    ...requestOptions(config),
     method: 'GET',
     headers,
   })
