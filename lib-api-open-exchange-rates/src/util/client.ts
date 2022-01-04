@@ -1,9 +1,4 @@
-import {
-  kanye,
-  Kanye,
-  getResponseBody as getResponseBodyText,
-} from '@volatile/kanye'
-import { errorBoundary } from '@stayradiated/error-boundary'
+import { kanye } from '@volatile/kanye'
 
 import type { Config } from './types.js'
 
@@ -28,20 +23,5 @@ const get = async (
   return result
 }
 
-const getResponseBodyJSON = <T>(raw: Kanye): T | Error => {
-  const responseBodyText = getResponseBodyText(raw)
-  if (responseBodyText instanceof Error) {
-    return responseBodyText
-  }
 
-  const responseBodyJSON = errorBoundary(
-    () => JSON.parse(responseBodyText) as T,
-  )
-  if (responseBodyJSON instanceof Error) {
-    return responseBodyJSON
-  }
-
-  return responseBodyJSON
-}
-
-export { get, getResponseBodyJSON }
+export { get }

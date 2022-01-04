@@ -1,4 +1,5 @@
 import { createCachedFetchFn, marketPriceSources } from '@volatile/market-price'
+import { Kanye } from '@volatile/kanye'
 
 import {
   Market,
@@ -19,7 +20,9 @@ type ResolverOptions = {
   currency: Currency
 }
 
-type Resolver = (options: ResolverOptions) => () => Promise<number | Error>
+type Resolver = (
+  options: ResolverOptions,
+) => () => Promise<[number | Error, Kanye?]>
 
 const resolveMarketPriceMap = new Map<Market, Resolver>([
   [

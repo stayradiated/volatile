@@ -22,34 +22,38 @@ const createMarketSourceForCurrency = (
   const { base, symbol } = options
 
   const marketSource: MarketPriceSource<Options> = {
-    minCacheDurationMs: 75 * 1000,
+    minCacheDurationMs: 75 * 60 * 1000,
     fetch: async (fetchOptions) => {
       const { config } = fetchOptions
 
-      const [response] = await getLatestExchangeRate({
+      const [response, raw] = await getLatestExchangeRate({
         config,
         base,
         symbols: [symbol],
       })
       if (response instanceof Error) {
-        return response
+        return [response, raw]
       }
 
       const lastUpdated = fromUnixTime(response.timestamp)
 
       const value = response.rates[symbol]
       if (typeof value !== 'number') {
-        return new TypeError(
+        const error = new TypeError(
           `Could not get ${base}/${symbol} rate. Expecting number, got ${inspect(
             value,
           )}`,
         )
+        return [error, raw]
       }
 
-      return {
-        value,
-        lastUpdated,
-      }
+      return [
+        {
+          value,
+          lastUpdated,
+        },
+        raw,
+      ]
     },
   }
 

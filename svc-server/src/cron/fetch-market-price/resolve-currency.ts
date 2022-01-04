@@ -1,4 +1,5 @@
 import { createCachedFetchFn, currencySources } from '@volatile/market-price'
+import { Kanye } from '@volatile/kanye'
 
 import { OPEN_EXCHANGE_RATES_APP_ID } from '../../env.js'
 
@@ -10,7 +11,7 @@ const OPEN_EXCHANGE_RATES_OPTIONS = {
   },
 }
 
-type Resolver = () => Promise<number | Error>
+type Resolver = () => Promise<[number | Error, Kanye?]>
 
 const resolveCurrencyMap = new Map<CurrencyPair, Resolver>([
   [

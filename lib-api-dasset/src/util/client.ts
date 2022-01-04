@@ -1,7 +1,6 @@
-import { errorBoundary } from '@stayradiated/error-boundary'
 import {
   Kanye,
-  getResponseBody as getKanyeResponseBody,
+  getResponseBodyJSON,
   APIError,
 } from '@volatile/kanye'
 
@@ -37,26 +36,19 @@ const isDassetAPIError = (
 }
 
 const getResponseBody = <T>(raw: Kanye): T | Error => {
-  const responseBody = getKanyeResponseBody(raw)
+  const responseBody = getResponseBodyJSON<T>(raw)
   if (responseBody instanceof Error) {
-    const rawResponseBody = raw.responseBody
-    if (rawResponseBody) {
-      const responseBodyJSON = errorBoundary(
-        () => JSON.parse(rawResponseBody) as T,
-      )
-      if (isDassetAPIError(responseBodyJSON)) {
-        return new APIError({
-          message: responseBodyJSON.message,
-          context: responseBodyJSON,
-        })
-      }
+    if (isDassetAPIError(responseBody)) {
+      return new APIError({
+        message: responseBody.message,
+        context: responseBody,
+      })
     }
 
     return responseBody
   }
 
-  const responseBodyJSON = errorBoundary(() => JSON.parse(responseBody) as T)
-  return responseBodyJSON
+  return responseBody
 }
 
 export { prefixUrl, timeout, requestOptions, getResponseBody }

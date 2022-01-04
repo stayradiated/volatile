@@ -1,19 +1,8 @@
-import ky from 'ky-universal'
-import debug from 'debug'
-import { errorBoundary } from '@stayradiated/error-boundary'
+import { kanye, getResponseBodyJSON, APIError } from '@volatile/kanye'
 
-import { NetError, withErrorResponse, APIError } from '../../util/error.js'
-import { createDebugHooks } from '../../util/hooks.js'
 import { MarketPriceSource } from '../../util/market-price-source.js'
 
-const log = debug('market-price:kraken')
-
 const prefixUrl = 'https://api.kraken.com/'
-
-const kraken = ky.create({
-  prefixUrl,
-  hooks: createDebugHooks(log),
-})
 
 type Options = {
   assetSymbol: string
@@ -43,59 +32,70 @@ const marketSource: MarketPriceSource<Options> = {
     const { assetSymbol, currency } = options
 
     if (assetSymbol.toUpperCase() !== assetSymbol) {
-      return new Error(
+      const error = new Error(
         `Asset symbol must be uppercase, received "${assetSymbol}".`,
       )
+      return [error]
     }
 
     if (currency.toUpperCase() !== currency) {
-      return new Error(`Currency must be uppercase, received "${currency}".`)
+      const error = new Error(
+        `Currency must be uppercase, received "${currency}".`,
+      )
+      return [error]
     }
 
     const tradingPair = assetSymbol + currency
 
     const lastUpdated = new Date()
 
-    const result = await errorBoundary<APIResponse>(async () =>
-      kraken
-        .get('0/public/Ticker', {
-          searchParams: {
-            pair: tradingPair,
-          },
-        })
-        .json(),
-    )
+    const raw = await kanye('0/public/Ticker', {
+      method: 'GET',
+      prefixUrl,
+      searchParams: {
+        pair: tradingPair,
+      },
+    })
+    if (raw instanceof Error) {
+      return [raw]
+    }
 
+    const result = getResponseBodyJSON<APIResponse>(raw)
     if (result instanceof Error) {
-      return new NetError({
+      const error = new APIError({
         message: `Could not fetch average price from ${prefixUrl}`,
-        cause: await withErrorResponse(result),
+        cause: result,
         context: {
           assetSymbol,
           currency,
         },
       })
+      return [error, raw]
     }
 
     const ticker = Object.values(result.result)[0]
     if (!ticker) {
-      return new APIError({
+      const error = new APIError({
         message: `Could not parse response price from ${prefixUrl}`,
         context: {
           assetSymbol,
           currency,
         },
       })
+      return [error, raw]
     }
 
     const bid = Number.parseFloat(ticker.b[0])
     const ask = Number.parseFloat(ticker.a[0])
     const value = (bid + ask) / 2
 
-    return {
-      value,
-      lastUpdated,
-    }
+    return [
+      {
+        value,
+        lastUpdated,
+      },
+      raw,
+    ]
   },
 }
 

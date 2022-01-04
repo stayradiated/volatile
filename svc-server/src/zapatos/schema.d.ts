@@ -3478,6 +3478,359 @@ declare module 'zapatos/schema' {
   }
 
   /**
+   * **request**
+   * - Table in database
+   */
+  export namespace request {
+    export type Table = 'request';
+    export interface Selectable {
+      /**
+      * **request.uid**
+      * - `uuid` in database
+      * - `NOT NULL`, no default
+      */
+      uid: string;
+      /**
+      * **request.method**
+      * - `text` in database
+      * - `NOT NULL`, no default
+      */
+      method: string;
+      /**
+      * **request.url**
+      * - `text` in database
+      * - `NOT NULL`, no default
+      */
+      url: string;
+      /**
+      * **request.request_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+      request_at: Date;
+      /**
+      * **request.request_headers**
+      * - `jsonb` in database
+      * - Nullable, no default
+      */
+      request_headers: db.JSONValue | null;
+      /**
+      * **request.request_body**
+      * - `text` in database
+      * - Nullable, no default
+      */
+      request_body: string | null;
+      /**
+      * **request.response_at**
+      * - `timestamptz` in database
+      * - Nullable, no default
+      */
+      response_at: Date | null;
+      /**
+      * **request.response_status**
+      * - `int4` in database
+      * - Nullable, no default
+      */
+      response_status: number | null;
+      /**
+      * **request.response_headers**
+      * - `jsonb` in database
+      * - Nullable, no default
+      */
+      response_headers: db.JSONValue | null;
+      /**
+      * **request.response_body**
+      * - `text` in database
+      * - Nullable, no default
+      */
+      response_body: string | null;
+      /**
+      * **request.response_body_at**
+      * - `timestamptz` in database
+      * - Nullable, no default
+      */
+      response_body_at: Date | null;
+    }
+    export interface JSONSelectable {
+      /**
+      * **request.uid**
+      * - `uuid` in database
+      * - `NOT NULL`, no default
+      */
+      uid: string;
+      /**
+      * **request.method**
+      * - `text` in database
+      * - `NOT NULL`, no default
+      */
+      method: string;
+      /**
+      * **request.url**
+      * - `text` in database
+      * - `NOT NULL`, no default
+      */
+      url: string;
+      /**
+      * **request.request_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+      request_at: db.TimestampTzString;
+      /**
+      * **request.request_headers**
+      * - `jsonb` in database
+      * - Nullable, no default
+      */
+      request_headers: db.JSONValue | null;
+      /**
+      * **request.request_body**
+      * - `text` in database
+      * - Nullable, no default
+      */
+      request_body: string | null;
+      /**
+      * **request.response_at**
+      * - `timestamptz` in database
+      * - Nullable, no default
+      */
+      response_at: db.TimestampTzString | null;
+      /**
+      * **request.response_status**
+      * - `int4` in database
+      * - Nullable, no default
+      */
+      response_status: number | null;
+      /**
+      * **request.response_headers**
+      * - `jsonb` in database
+      * - Nullable, no default
+      */
+      response_headers: db.JSONValue | null;
+      /**
+      * **request.response_body**
+      * - `text` in database
+      * - Nullable, no default
+      */
+      response_body: string | null;
+      /**
+      * **request.response_body_at**
+      * - `timestamptz` in database
+      * - Nullable, no default
+      */
+      response_body_at: db.TimestampTzString | null;
+    }
+    export interface Whereable {
+      /**
+      * **request.uid**
+      * - `uuid` in database
+      * - `NOT NULL`, no default
+      */
+      uid?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **request.method**
+      * - `text` in database
+      * - `NOT NULL`, no default
+      */
+      method?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **request.url**
+      * - `text` in database
+      * - `NOT NULL`, no default
+      */
+      url?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **request.request_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+      request_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **request.request_headers**
+      * - `jsonb` in database
+      * - Nullable, no default
+      */
+      request_headers?: db.JSONValue | db.Parameter<db.JSONValue> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, db.JSONValue | db.Parameter<db.JSONValue> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **request.request_body**
+      * - `text` in database
+      * - Nullable, no default
+      */
+      request_body?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **request.response_at**
+      * - `timestamptz` in database
+      * - Nullable, no default
+      */
+      response_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **request.response_status**
+      * - `int4` in database
+      * - Nullable, no default
+      */
+      response_status?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **request.response_headers**
+      * - `jsonb` in database
+      * - Nullable, no default
+      */
+      response_headers?: db.JSONValue | db.Parameter<db.JSONValue> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, db.JSONValue | db.Parameter<db.JSONValue> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **request.response_body**
+      * - `text` in database
+      * - Nullable, no default
+      */
+      response_body?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **request.response_body_at**
+      * - `timestamptz` in database
+      * - Nullable, no default
+      */
+      response_body_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
+    }
+    export interface Insertable {
+      /**
+      * **request.uid**
+      * - `uuid` in database
+      * - `NOT NULL`, no default
+      */
+      uid: string | db.Parameter<string> | db.SQLFragment;
+      /**
+      * **request.method**
+      * - `text` in database
+      * - `NOT NULL`, no default
+      */
+      method: string | db.Parameter<string> | db.SQLFragment;
+      /**
+      * **request.url**
+      * - `text` in database
+      * - `NOT NULL`, no default
+      */
+      url: string | db.Parameter<string> | db.SQLFragment;
+      /**
+      * **request.request_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+      request_at: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment;
+      /**
+      * **request.request_headers**
+      * - `jsonb` in database
+      * - Nullable, no default
+      */
+      request_headers?: db.JSONValue | db.Parameter<db.JSONValue> | null | db.DefaultType | db.SQLFragment;
+      /**
+      * **request.request_body**
+      * - `text` in database
+      * - Nullable, no default
+      */
+      request_body?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment;
+      /**
+      * **request.response_at**
+      * - `timestamptz` in database
+      * - Nullable, no default
+      */
+      response_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment;
+      /**
+      * **request.response_status**
+      * - `int4` in database
+      * - Nullable, no default
+      */
+      response_status?: number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment;
+      /**
+      * **request.response_headers**
+      * - `jsonb` in database
+      * - Nullable, no default
+      */
+      response_headers?: db.JSONValue | db.Parameter<db.JSONValue> | null | db.DefaultType | db.SQLFragment;
+      /**
+      * **request.response_body**
+      * - `text` in database
+      * - Nullable, no default
+      */
+      response_body?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment;
+      /**
+      * **request.response_body_at**
+      * - `timestamptz` in database
+      * - Nullable, no default
+      */
+      response_body_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment;
+    }
+    export interface Updatable {
+      /**
+      * **request.uid**
+      * - `uuid` in database
+      * - `NOT NULL`, no default
+      */
+      uid?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+      /**
+      * **request.method**
+      * - `text` in database
+      * - `NOT NULL`, no default
+      */
+      method?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+      /**
+      * **request.url**
+      * - `text` in database
+      * - `NOT NULL`, no default
+      */
+      url?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+      /**
+      * **request.request_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+      request_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment>;
+      /**
+      * **request.request_headers**
+      * - `jsonb` in database
+      * - Nullable, no default
+      */
+      request_headers?: db.JSONValue | db.Parameter<db.JSONValue> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, db.JSONValue | db.Parameter<db.JSONValue> | null | db.DefaultType | db.SQLFragment>;
+      /**
+      * **request.request_body**
+      * - `text` in database
+      * - Nullable, no default
+      */
+      request_body?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment>;
+      /**
+      * **request.response_at**
+      * - `timestamptz` in database
+      * - Nullable, no default
+      */
+      response_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment>;
+      /**
+      * **request.response_status**
+      * - `int4` in database
+      * - Nullable, no default
+      */
+      response_status?: number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment>;
+      /**
+      * **request.response_headers**
+      * - `jsonb` in database
+      * - Nullable, no default
+      */
+      response_headers?: db.JSONValue | db.Parameter<db.JSONValue> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, db.JSONValue | db.Parameter<db.JSONValue> | null | db.DefaultType | db.SQLFragment>;
+      /**
+      * **request.response_body**
+      * - `text` in database
+      * - Nullable, no default
+      */
+      response_body?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment>;
+      /**
+      * **request.response_body_at**
+      * - `timestamptz` in database
+      * - Nullable, no default
+      */
+      response_body_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment>;
+    }
+    export type UniqueIndex = 'request_pkey';
+    export type Column = keyof Selectable;
+    export type OnlyCols<T extends readonly Column[]> = Pick<Selectable, T[number]>;
+    export type SQLExpression = db.GenericSQLExpression | db.ColumnNames<Updatable | (keyof Updatable)[]> | db.ColumnValues<Updatable> | Table | Whereable | Column;
+    export type SQL = SQLExpression | SQLExpression[];
+  }
+
+  /**
    * **schema_migrations**
    * - Table in database
    */
@@ -6372,19 +6725,19 @@ declare module 'zapatos/schema' {
 
   /* === cross-table types === */
 
-  export type Table = balance.Table | balance_latest.Table | currency.Table | currency_fx.Table | customer.Table | dca_order.Table | dca_order_history.Table | exchange.Table | exchange_primary_currency.Table | exchange_secondary_currency.Table | market.Table | market_price.Table | market_trading_pair.Table | order.Table | schema_migrations.Table | trade.Table | type_trade_avg_price_by_window.Table | type_trade_sum_by_window.Table | user.Table | user_2fa.Table | user_device.Table | user_email_verify.Table | user_exchange_keys.Table | user_exchange_request.Table | user_password_reset.Table;
-  export type Selectable = balance.Selectable | balance_latest.Selectable | currency.Selectable | currency_fx.Selectable | customer.Selectable | dca_order.Selectable | dca_order_history.Selectable | exchange.Selectable | exchange_primary_currency.Selectable | exchange_secondary_currency.Selectable | market.Selectable | market_price.Selectable | market_trading_pair.Selectable | order.Selectable | schema_migrations.Selectable | trade.Selectable | type_trade_avg_price_by_window.Selectable | type_trade_sum_by_window.Selectable | user.Selectable | user_2fa.Selectable | user_device.Selectable | user_email_verify.Selectable | user_exchange_keys.Selectable | user_exchange_request.Selectable | user_password_reset.Selectable;
-  export type JSONSelectable = balance.JSONSelectable | balance_latest.JSONSelectable | currency.JSONSelectable | currency_fx.JSONSelectable | customer.JSONSelectable | dca_order.JSONSelectable | dca_order_history.JSONSelectable | exchange.JSONSelectable | exchange_primary_currency.JSONSelectable | exchange_secondary_currency.JSONSelectable | market.JSONSelectable | market_price.JSONSelectable | market_trading_pair.JSONSelectable | order.JSONSelectable | schema_migrations.JSONSelectable | trade.JSONSelectable | type_trade_avg_price_by_window.JSONSelectable | type_trade_sum_by_window.JSONSelectable | user.JSONSelectable | user_2fa.JSONSelectable | user_device.JSONSelectable | user_email_verify.JSONSelectable | user_exchange_keys.JSONSelectable | user_exchange_request.JSONSelectable | user_password_reset.JSONSelectable;
-  export type Whereable = balance.Whereable | balance_latest.Whereable | currency.Whereable | currency_fx.Whereable | customer.Whereable | dca_order.Whereable | dca_order_history.Whereable | exchange.Whereable | exchange_primary_currency.Whereable | exchange_secondary_currency.Whereable | market.Whereable | market_price.Whereable | market_trading_pair.Whereable | order.Whereable | schema_migrations.Whereable | trade.Whereable | type_trade_avg_price_by_window.Whereable | type_trade_sum_by_window.Whereable | user.Whereable | user_2fa.Whereable | user_device.Whereable | user_email_verify.Whereable | user_exchange_keys.Whereable | user_exchange_request.Whereable | user_password_reset.Whereable;
-  export type Insertable = balance.Insertable | balance_latest.Insertable | currency.Insertable | currency_fx.Insertable | customer.Insertable | dca_order.Insertable | dca_order_history.Insertable | exchange.Insertable | exchange_primary_currency.Insertable | exchange_secondary_currency.Insertable | market.Insertable | market_price.Insertable | market_trading_pair.Insertable | order.Insertable | schema_migrations.Insertable | trade.Insertable | type_trade_avg_price_by_window.Insertable | type_trade_sum_by_window.Insertable | user.Insertable | user_2fa.Insertable | user_device.Insertable | user_email_verify.Insertable | user_exchange_keys.Insertable | user_exchange_request.Insertable | user_password_reset.Insertable;
-  export type Updatable = balance.Updatable | balance_latest.Updatable | currency.Updatable | currency_fx.Updatable | customer.Updatable | dca_order.Updatable | dca_order_history.Updatable | exchange.Updatable | exchange_primary_currency.Updatable | exchange_secondary_currency.Updatable | market.Updatable | market_price.Updatable | market_trading_pair.Updatable | order.Updatable | schema_migrations.Updatable | trade.Updatable | type_trade_avg_price_by_window.Updatable | type_trade_sum_by_window.Updatable | user.Updatable | user_2fa.Updatable | user_device.Updatable | user_email_verify.Updatable | user_exchange_keys.Updatable | user_exchange_request.Updatable | user_password_reset.Updatable;
-  export type UniqueIndex = balance.UniqueIndex | balance_latest.UniqueIndex | currency.UniqueIndex | currency_fx.UniqueIndex | customer.UniqueIndex | dca_order.UniqueIndex | dca_order_history.UniqueIndex | exchange.UniqueIndex | exchange_primary_currency.UniqueIndex | exchange_secondary_currency.UniqueIndex | market.UniqueIndex | market_price.UniqueIndex | market_trading_pair.UniqueIndex | order.UniqueIndex | schema_migrations.UniqueIndex | trade.UniqueIndex | type_trade_avg_price_by_window.UniqueIndex | type_trade_sum_by_window.UniqueIndex | user.UniqueIndex | user_2fa.UniqueIndex | user_device.UniqueIndex | user_email_verify.UniqueIndex | user_exchange_keys.UniqueIndex | user_exchange_request.UniqueIndex | user_password_reset.UniqueIndex;
-  export type Column = balance.Column | balance_latest.Column | currency.Column | currency_fx.Column | customer.Column | dca_order.Column | dca_order_history.Column | exchange.Column | exchange_primary_currency.Column | exchange_secondary_currency.Column | market.Column | market_price.Column | market_trading_pair.Column | order.Column | schema_migrations.Column | trade.Column | type_trade_avg_price_by_window.Column | type_trade_sum_by_window.Column | user.Column | user_2fa.Column | user_device.Column | user_email_verify.Column | user_exchange_keys.Column | user_exchange_request.Column | user_password_reset.Column;
-  export type AllBaseTables = [balance.Table, currency.Table, currency_fx.Table, customer.Table, dca_order.Table, dca_order_history.Table, exchange.Table, exchange_primary_currency.Table, exchange_secondary_currency.Table, market.Table, market_price.Table, market_trading_pair.Table, order.Table, schema_migrations.Table, trade.Table, type_trade_avg_price_by_window.Table, type_trade_sum_by_window.Table, user.Table, user_2fa.Table, user_device.Table, user_email_verify.Table, user_exchange_keys.Table, user_exchange_request.Table, user_password_reset.Table];
+  export type Table = balance.Table | balance_latest.Table | currency.Table | currency_fx.Table | customer.Table | dca_order.Table | dca_order_history.Table | exchange.Table | exchange_primary_currency.Table | exchange_secondary_currency.Table | market.Table | market_price.Table | market_trading_pair.Table | order.Table | request.Table | schema_migrations.Table | trade.Table | type_trade_avg_price_by_window.Table | type_trade_sum_by_window.Table | user.Table | user_2fa.Table | user_device.Table | user_email_verify.Table | user_exchange_keys.Table | user_exchange_request.Table | user_password_reset.Table;
+  export type Selectable = balance.Selectable | balance_latest.Selectable | currency.Selectable | currency_fx.Selectable | customer.Selectable | dca_order.Selectable | dca_order_history.Selectable | exchange.Selectable | exchange_primary_currency.Selectable | exchange_secondary_currency.Selectable | market.Selectable | market_price.Selectable | market_trading_pair.Selectable | order.Selectable | request.Selectable | schema_migrations.Selectable | trade.Selectable | type_trade_avg_price_by_window.Selectable | type_trade_sum_by_window.Selectable | user.Selectable | user_2fa.Selectable | user_device.Selectable | user_email_verify.Selectable | user_exchange_keys.Selectable | user_exchange_request.Selectable | user_password_reset.Selectable;
+  export type JSONSelectable = balance.JSONSelectable | balance_latest.JSONSelectable | currency.JSONSelectable | currency_fx.JSONSelectable | customer.JSONSelectable | dca_order.JSONSelectable | dca_order_history.JSONSelectable | exchange.JSONSelectable | exchange_primary_currency.JSONSelectable | exchange_secondary_currency.JSONSelectable | market.JSONSelectable | market_price.JSONSelectable | market_trading_pair.JSONSelectable | order.JSONSelectable | request.JSONSelectable | schema_migrations.JSONSelectable | trade.JSONSelectable | type_trade_avg_price_by_window.JSONSelectable | type_trade_sum_by_window.JSONSelectable | user.JSONSelectable | user_2fa.JSONSelectable | user_device.JSONSelectable | user_email_verify.JSONSelectable | user_exchange_keys.JSONSelectable | user_exchange_request.JSONSelectable | user_password_reset.JSONSelectable;
+  export type Whereable = balance.Whereable | balance_latest.Whereable | currency.Whereable | currency_fx.Whereable | customer.Whereable | dca_order.Whereable | dca_order_history.Whereable | exchange.Whereable | exchange_primary_currency.Whereable | exchange_secondary_currency.Whereable | market.Whereable | market_price.Whereable | market_trading_pair.Whereable | order.Whereable | request.Whereable | schema_migrations.Whereable | trade.Whereable | type_trade_avg_price_by_window.Whereable | type_trade_sum_by_window.Whereable | user.Whereable | user_2fa.Whereable | user_device.Whereable | user_email_verify.Whereable | user_exchange_keys.Whereable | user_exchange_request.Whereable | user_password_reset.Whereable;
+  export type Insertable = balance.Insertable | balance_latest.Insertable | currency.Insertable | currency_fx.Insertable | customer.Insertable | dca_order.Insertable | dca_order_history.Insertable | exchange.Insertable | exchange_primary_currency.Insertable | exchange_secondary_currency.Insertable | market.Insertable | market_price.Insertable | market_trading_pair.Insertable | order.Insertable | request.Insertable | schema_migrations.Insertable | trade.Insertable | type_trade_avg_price_by_window.Insertable | type_trade_sum_by_window.Insertable | user.Insertable | user_2fa.Insertable | user_device.Insertable | user_email_verify.Insertable | user_exchange_keys.Insertable | user_exchange_request.Insertable | user_password_reset.Insertable;
+  export type Updatable = balance.Updatable | balance_latest.Updatable | currency.Updatable | currency_fx.Updatable | customer.Updatable | dca_order.Updatable | dca_order_history.Updatable | exchange.Updatable | exchange_primary_currency.Updatable | exchange_secondary_currency.Updatable | market.Updatable | market_price.Updatable | market_trading_pair.Updatable | order.Updatable | request.Updatable | schema_migrations.Updatable | trade.Updatable | type_trade_avg_price_by_window.Updatable | type_trade_sum_by_window.Updatable | user.Updatable | user_2fa.Updatable | user_device.Updatable | user_email_verify.Updatable | user_exchange_keys.Updatable | user_exchange_request.Updatable | user_password_reset.Updatable;
+  export type UniqueIndex = balance.UniqueIndex | balance_latest.UniqueIndex | currency.UniqueIndex | currency_fx.UniqueIndex | customer.UniqueIndex | dca_order.UniqueIndex | dca_order_history.UniqueIndex | exchange.UniqueIndex | exchange_primary_currency.UniqueIndex | exchange_secondary_currency.UniqueIndex | market.UniqueIndex | market_price.UniqueIndex | market_trading_pair.UniqueIndex | order.UniqueIndex | request.UniqueIndex | schema_migrations.UniqueIndex | trade.UniqueIndex | type_trade_avg_price_by_window.UniqueIndex | type_trade_sum_by_window.UniqueIndex | user.UniqueIndex | user_2fa.UniqueIndex | user_device.UniqueIndex | user_email_verify.UniqueIndex | user_exchange_keys.UniqueIndex | user_exchange_request.UniqueIndex | user_password_reset.UniqueIndex;
+  export type Column = balance.Column | balance_latest.Column | currency.Column | currency_fx.Column | customer.Column | dca_order.Column | dca_order_history.Column | exchange.Column | exchange_primary_currency.Column | exchange_secondary_currency.Column | market.Column | market_price.Column | market_trading_pair.Column | order.Column | request.Column | schema_migrations.Column | trade.Column | type_trade_avg_price_by_window.Column | type_trade_sum_by_window.Column | user.Column | user_2fa.Column | user_device.Column | user_email_verify.Column | user_exchange_keys.Column | user_exchange_request.Column | user_password_reset.Column;
+  export type AllBaseTables = [balance.Table, currency.Table, currency_fx.Table, customer.Table, dca_order.Table, dca_order_history.Table, exchange.Table, exchange_primary_currency.Table, exchange_secondary_currency.Table, market.Table, market_price.Table, market_trading_pair.Table, order.Table, request.Table, schema_migrations.Table, trade.Table, type_trade_avg_price_by_window.Table, type_trade_sum_by_window.Table, user.Table, user_2fa.Table, user_device.Table, user_email_verify.Table, user_exchange_keys.Table, user_exchange_request.Table, user_password_reset.Table];
   export type AllForeignTables = [];
   export type AllViews = [balance_latest.Table];
   export type AllMaterializedViews = [];
-  export type AllTablesAndViews = [balance.Table, balance_latest.Table, currency.Table, currency_fx.Table, customer.Table, dca_order.Table, dca_order_history.Table, exchange.Table, exchange_primary_currency.Table, exchange_secondary_currency.Table, market.Table, market_price.Table, market_trading_pair.Table, order.Table, schema_migrations.Table, trade.Table, type_trade_avg_price_by_window.Table, type_trade_sum_by_window.Table, user.Table, user_2fa.Table, user_device.Table, user_email_verify.Table, user_exchange_keys.Table, user_exchange_request.Table, user_password_reset.Table];
+  export type AllTablesAndViews = [balance.Table, balance_latest.Table, currency.Table, currency_fx.Table, customer.Table, dca_order.Table, dca_order_history.Table, exchange.Table, exchange_primary_currency.Table, exchange_secondary_currency.Table, market.Table, market_price.Table, market_trading_pair.Table, order.Table, request.Table, schema_migrations.Table, trade.Table, type_trade_avg_price_by_window.Table, type_trade_sum_by_window.Table, user.Table, user_2fa.Table, user_device.Table, user_email_verify.Table, user_exchange_keys.Table, user_exchange_request.Table, user_password_reset.Table];
 
 
   export type SelectableForTable<T extends Table> = {
@@ -6402,6 +6755,7 @@ declare module 'zapatos/schema' {
     market_price: market_price.Selectable;
     market_trading_pair: market_trading_pair.Selectable;
     order: order.Selectable;
+    request: request.Selectable;
     schema_migrations: schema_migrations.Selectable;
     trade: trade.Selectable;
     type_trade_avg_price_by_window: type_trade_avg_price_by_window.Selectable;
@@ -6430,6 +6784,7 @@ declare module 'zapatos/schema' {
     market_price: market_price.JSONSelectable;
     market_trading_pair: market_trading_pair.JSONSelectable;
     order: order.JSONSelectable;
+    request: request.JSONSelectable;
     schema_migrations: schema_migrations.JSONSelectable;
     trade: trade.JSONSelectable;
     type_trade_avg_price_by_window: type_trade_avg_price_by_window.JSONSelectable;
@@ -6458,6 +6813,7 @@ declare module 'zapatos/schema' {
     market_price: market_price.Whereable;
     market_trading_pair: market_trading_pair.Whereable;
     order: order.Whereable;
+    request: request.Whereable;
     schema_migrations: schema_migrations.Whereable;
     trade: trade.Whereable;
     type_trade_avg_price_by_window: type_trade_avg_price_by_window.Whereable;
@@ -6486,6 +6842,7 @@ declare module 'zapatos/schema' {
     market_price: market_price.Insertable;
     market_trading_pair: market_trading_pair.Insertable;
     order: order.Insertable;
+    request: request.Insertable;
     schema_migrations: schema_migrations.Insertable;
     trade: trade.Insertable;
     type_trade_avg_price_by_window: type_trade_avg_price_by_window.Insertable;
@@ -6514,6 +6871,7 @@ declare module 'zapatos/schema' {
     market_price: market_price.Updatable;
     market_trading_pair: market_trading_pair.Updatable;
     order: order.Updatable;
+    request: request.Updatable;
     schema_migrations: schema_migrations.Updatable;
     trade: trade.Updatable;
     type_trade_avg_price_by_window: type_trade_avg_price_by_window.Updatable;
@@ -6542,6 +6900,7 @@ declare module 'zapatos/schema' {
     market_price: market_price.UniqueIndex;
     market_trading_pair: market_trading_pair.UniqueIndex;
     order: order.UniqueIndex;
+    request: request.UniqueIndex;
     schema_migrations: schema_migrations.UniqueIndex;
     trade: trade.UniqueIndex;
     type_trade_avg_price_by_window: type_trade_avg_price_by_window.UniqueIndex;
@@ -6570,6 +6929,7 @@ declare module 'zapatos/schema' {
     market_price: market_price.Column;
     market_trading_pair: market_trading_pair.Column;
     order: order.Column;
+    request: request.Column;
     schema_migrations: schema_migrations.Column;
     trade: trade.Column;
     type_trade_avg_price_by_window: type_trade_avg_price_by_window.Column;
@@ -6598,6 +6958,7 @@ declare module 'zapatos/schema' {
     market_price: market_price.SQL;
     market_trading_pair: market_trading_pair.SQL;
     order: order.SQL;
+    request: request.SQL;
     schema_migrations: schema_migrations.SQL;
     trade: trade.SQL;
     type_trade_avg_price_by_window: type_trade_avg_price_by_window.SQL;

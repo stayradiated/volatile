@@ -1,7 +1,7 @@
-import { Kanye } from '@volatile/kanye'
+import { Kanye, getResponseBodyJSON } from '@volatile/kanye'
 
 import type { Config } from '../util/types.js'
-import { get, getResponseBodyJSON } from '../util/client.js'
+import { get } from '../util/client.js'
 
 /* https://docs.openexchangerates.org/docs/latest-json */
 

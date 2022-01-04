@@ -94,7 +94,6 @@ importers:
   lib-api-open-exchange-rates:
     specifiers:
       '@northscaler/better-error': 0.1.0-dev.10
-      '@stayradiated/error-boundary': 1.13.0
       '@types/debug': 4.1.7
       '@types/node': 17.0.7
       '@volatile/kanye': workspace:1.0.1
@@ -107,7 +106,6 @@ importers:
       xo: 0.47.0
     dependencies:
       '@northscaler/better-error': 0.1.0-dev.10
-      '@stayradiated/error-boundary': 1.13.0
       '@volatile/kanye': link:../lib-kanye
       date-fns: 2.28.0
     devDependencies:
@@ -174,15 +172,13 @@ importers:
       '@types/sinon': 10.0.6
       '@volatile/dasset-api': workspace:1.0.1
       '@volatile/independent-reserve-api': workspace:1.0.1
+      '@volatile/kanye': workspace:1.0.1
       '@volatile/kiwi-coin-api': workspace:1.0.1
       '@volatile/open-exchange-rates-api': workspace:1.0.0
       ava: 3.15.0
       date-fns: 2.28.0
-      debug: 4.3.3
       del-cli: 4.0.1
       eslint-plugin-fp: 2.3.0
-      ky: 0.28.7
-      ky-universal: 0.9.1
       sinon: 12.0.1
       typescript: 4.5.4
       xo: 0.47.0
@@ -191,12 +187,10 @@ importers:
       '@stayradiated/error-boundary': 1.13.0
       '@volatile/dasset-api': link:../lib-api-dasset
       '@volatile/independent-reserve-api': link:../lib-api-independent-reserve
+      '@volatile/kanye': link:../lib-kanye
       '@volatile/kiwi-coin-api': link:../lib-api-kiwi-coin
       '@volatile/open-exchange-rates-api': link:../lib-api-open-exchange-rates
       date-fns: 2.28.0
-      debug: 4.3.3
-      ky: 0.28.7
-      ky-universal: 0.9.1_ky@0.28.7
     devDependencies:
       '@types/debug': 4.1.7
       '@types/sinon': 10.0.6

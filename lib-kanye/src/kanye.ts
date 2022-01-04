@@ -3,24 +3,11 @@ import { Options as KyOptions, HTTPError, TimeoutError } from 'ky'
 import debug from 'debug'
 import { errorBoundary } from '@stayradiated/error-boundary'
 
-import { APIError, NetError } from './error.js'
+import { NetError } from './error.js'
+import type { Kanye } from './types.js'
 
 const parseHeaders = (headers: Headers): Record<string, string> => {
   return Object.fromEntries((headers as any).entries())
-}
-
-type Kanye = {
-  error: Error | undefined
-  method: string
-  url: string
-  requestAt: Date
-  requestBody: string | undefined
-  requestHeaders: Record<string, string> | undefined
-  responseAt: Date | undefined
-  responseStatus: number | undefined
-  responseHeaders: Record<string, string> | undefined
-  responseBody: string | undefined
-  responseBodyAt: Date | undefined
 }
 
 const kanye = async (endpoint: string, options: KyOptions): Promise<Kanye> => {
@@ -185,33 +172,4 @@ const kanye = async (endpoint: string, options: KyOptions): Promise<Kanye> => {
   }
 }
 
-const getResponseBody = (input: Kanye): string | Error => {
-  if (input.error) {
-    if (input.error instanceof TimeoutError) {
-      return new NetError({
-        message: `Timed out waiting for POST ${input.url}`,
-        context: input,
-      })
-    }
-
-    if (input.error instanceof HTTPError) {
-      return new APIError({
-        message: `Received ${
-          input.responseStatus ?? 'unknown'
-        } error from POST ${input.url}: ${input.responseBody}`,
-        context: input,
-      })
-    }
-
-    return input.error
-  }
-
-  if (!input.responseBody) {
-    return new Error('No response body')
-  }
-
-  return input.responseBody
-}
-
-export { kanye, getResponseBody }
-export type { Kanye }
+export { kanye }

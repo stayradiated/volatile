@@ -1,18 +1,9 @@
-import ky from 'ky-universal'
-import debug from 'debug'
-import { errorBoundary } from '@stayradiated/error-boundary'
+import { kanye, getResponseBodyJSON, APIError } from '@volatile/kanye'
 import { parseISO } from 'date-fns'
 
-import { NetError, withErrorResponse } from '../../util/error.js'
-import { createDebugHooks } from '../../util/hooks.js'
 import { MarketPriceSource } from '../../util/market-price-source.js'
 
-const log = debug('market-price:coin-market-cap')
-
-const coinMarketCap = ky.create({
-  prefixUrl: 'https://pro-api.coinmarketcap.com/',
-  hooks: createDebugHooks(log),
-})
+const prefixUrl = 'https://pro-api.coinmarketcap.com/'
 
 type APIStatus = {
   timestamp: string
@@ -72,43 +63,50 @@ const marketSource: MarketPriceSource<CoinMarketCapConfig> = {
     const slug = 'bitcoin'
     const currency = 'NZD'
 
-    const result = await errorBoundary<APIResponse>(async () =>
-      coinMarketCap
-        .get('v1/cryptocurrency/quotes/latest', {
-          searchParams: {
-            slug,
-            convert: currency,
-          },
-          headers: {
-            'X-CMC_PRO_API_KEY': apiKey,
-          },
-        })
-        .json(),
-    )
+    const raw = await kanye('v1/cryptocurrency/quotes/latest', {
+      method: 'GET',
+      prefixUrl,
+      searchParams: {
+        slug,
+        convert: currency,
+      },
+      headers: {
+        'X-CMC_PRO_API_KEY': apiKey,
+      },
+    })
+    if (raw instanceof Error) {
+      return [raw]
+    }
 
+    const result = getResponseBodyJSON<APIResponse>(raw)
     if (result instanceof Error) {
-      return new NetError({
+      const error = new APIError({
         message: 'Could not fetch market price from coinmarketcap.com',
-        cause: await withErrorResponse(result),
+        cause: result,
         context: {
           slug,
           currency,
         },
       })
+      return [error, raw]
     }
 
     const quote = result.data['1']?.quote[currency]
     if (!quote) {
-      return new Error('Could not read quote back from response.')
+      const error = new Error('Could not read quote back from response.')
+      return [error, raw]
     }
 
     const value = quote.price
     const lastUpdated = parseISO(quote.last_updated)
 
-    return {
-      value,
-      lastUpdated,
-    }
+    return [
+      {
+        value,
+        lastUpdated,
+      },
+      raw,
+    ]
   },
 }
 

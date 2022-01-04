@@ -1,17 +1,8 @@
-import ky from 'ky-universal'
-import debug from 'debug'
-import { errorBoundary } from '@stayradiated/error-boundary'
+import { kanye, getResponseBodyJSON, APIError } from '@volatile/kanye'
 
-import { NetError, withErrorResponse } from '../../util/error.js'
-import { createDebugHooks } from '../../util/hooks.js'
 import { MarketPriceSource } from '../../util/market-price-source.js'
 
-const log = debug('market-price:easy-crypto')
-
-const easyCrypto = ky.create({
-  prefixUrl: 'https://r.easycrypto.nz/pub/',
-  hooks: createDebugHooks(log),
-})
+const prefixUrl = 'https://r.easycrypto.nz/pub/'
 
 type Options = {
   assetSymbol: string
@@ -29,31 +20,42 @@ const marketSource: MarketPriceSource<Options> = {
   fetch: async (options) => {
     const { assetSymbol, currency } = options
     if (assetSymbol.toUpperCase() !== assetSymbol) {
-      return new Error(
+      const error = new Error(
         `Asset symbol must be uppercase, received "${assetSymbol}".`,
       )
+      return [error]
     }
 
     if (currency.toUpperCase() !== currency) {
-      return new Error(`Currency must be uppercase, received "${currency}".`)
+      const error = new Error(
+        `Currency must be uppercase, received "${currency}".`,
+      )
+      return [error]
     }
 
     const tradingPair = assetSymbol + currency
 
     const lastUpdated = new Date()
 
-    const result = await errorBoundary<APIResponse>(async () =>
-      easyCrypto.get(`ticker/${tradingPair}`).json(),
-    )
+    const raw = await kanye(`ticker/${tradingPair}`, {
+      method: 'GET',
+      prefixUrl,
+    })
+    if (raw instanceof Error) {
+      return [raw]
+    }
+
+    const result = getResponseBodyJSON<APIResponse>(raw)
     if (result instanceof Error) {
-      return new NetError({
+      const error = new APIError({
         message: 'Could not ticker price from easycrypto.ai',
-        cause: await withErrorResponse(result),
+        cause: result,
         context: {
           assetSymbol,
           currency,
         },
       })
+      return [error, raw]
     }
 
     // Const bid = Number.parseFloat(result.bid)
@@ -61,10 +63,13 @@ const marketSource: MarketPriceSource<Options> = {
     // Const value = Math.round(((bid + ask) / 2) * 100) / 100
     const value = ask
 
-    return {
-      value,
-      lastUpdated,
-    }
+    return [
+      {
+        value,
+        lastUpdated,
+      },
+      raw,
+    ]
   },
 }
 

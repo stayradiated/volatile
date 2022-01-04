@@ -1,4 +1,4 @@
-import { kanye, getResponseBody } from '@volatile/kanye'
+import { kanye, getResponseBodyText } from '@volatile/kanye'
 import { fromUnixTime, addSeconds } from 'date-fns'
 
 const matchArray =
@@ -139,7 +139,7 @@ const fetchStats = async (): Promise<Stats | Error> => {
     return raw
   }
 
-  const result = getResponseBody(raw)
+  const result = getResponseBodyText(raw)
   if (result instanceof Error) {
     return result
   }

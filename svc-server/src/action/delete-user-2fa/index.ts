@@ -43,11 +43,12 @@ const deleteUser2FAHandler: ActionHandlerFn<Input, Output> = async (
 
   const isValidToken = await verifyUser2FAToken(pool, {
     userUID,
-    token: token,
+    token,
   })
   if (isValidToken instanceof Error) {
     return isValidToken
   }
+
   if (!isValidToken) {
     return new IllegalArgumentError({
       message: 'Token is not valid for secret.',

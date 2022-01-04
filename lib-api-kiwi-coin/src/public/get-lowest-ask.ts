@@ -1,4 +1,4 @@
-import { kanye, Kanye, getResponseBody, NetError } from '@volatile/kanye'
+import { kanye, Kanye, getResponseBodyText, NetError } from '@volatile/kanye'
 
 type GetLowestAskResult = number
 
@@ -13,7 +13,7 @@ const getLowestAsk = async (): Promise<
     return [raw, undefined]
   }
 
-  const price = getResponseBody(raw)
+  const price = getResponseBodyText(raw)
   if (price instanceof Error) {
     const error = new NetError({
       message: 'Could not fetch lowest ask from kiwi-coin.com',

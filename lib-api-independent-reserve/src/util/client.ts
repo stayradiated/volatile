@@ -1,9 +1,4 @@
-import {
-  kanye,
-  Kanye,
-  getResponseBody as getKanyeResponseBody,
-} from '@volatile/kanye'
-import { errorBoundary } from '@stayradiated/error-boundary'
+import { kanye, Kanye, getResponseBodyJSON } from '@volatile/kanye'
 
 import { createSignedBody } from './signature.js'
 import { withNonce } from './nonce.js'
@@ -38,20 +33,6 @@ const post = async (
   })
 }
 
-const getResponseBody = <ResponseBody>(raw: Kanye): ResponseBody | Error => {
-  const responseBodyText = getKanyeResponseBody(raw)
-  if (responseBodyText instanceof Error) {
-    return responseBodyText
-  }
-
-  const responseBody = errorBoundary(() => {
-    return JSON.parse(responseBodyText) as ResponseBody
-  })
-  if (responseBody instanceof Error) {
-    return responseBody
-  }
-
-  return responseBody
-}
+const getResponseBody = getResponseBodyJSON
 
 export { get, post, getResponseBody }

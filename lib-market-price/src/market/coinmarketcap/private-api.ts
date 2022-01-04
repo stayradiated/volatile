@@ -1,8 +1,6 @@
-import ky from 'ky-universal'
+import { kanye, getResponseBodyJSON } from '@volatile/kanye'
 
-const coinMarketCap = ky.create({
-  prefixUrl: 'https://api.coinmarketcap.com/',
-})
+const prefixUrl = 'https://api.coinmarketcap.com/'
 
 export enum Coin {
   BTC = 1,
@@ -142,17 +140,27 @@ type APIChartResponse = {
 
 export type ChartResult = Array<{ date: Date; price: number }>
 
-export const chart = async (options: ChartOptions): Promise<ChartResult> => {
+export const chart = async (
+  options: ChartOptions,
+): Promise<ChartResult | Error> => {
   const { id, range, convertId } = options
-  const result: APIChartResponse = await coinMarketCap
-    .get('data-api/v3/cryptocurrency/detail/chart', {
-      searchParams: {
-        id: id.toString(),
-        range,
-        convertId: convertId.toString(),
-      },
-    })
-    .json()
+  const raw = await kanye('data-api/v3/cryptocurrency/detail/chart', {
+    prefixUrl,
+    method: 'GET',
+    searchParams: {
+      id: id.toString(),
+      range,
+      convertId: convertId.toString(),
+    },
+  })
+  if (raw instanceof Error) {
+    return raw
+  }
+
+  const result = getResponseBodyJSON<APIChartResponse>(raw)
+  if (result instanceof Error) {
+    return result
+  }
 
   const results = Object.entries(result.data.points).map(
     ([timestamp, entry]) => {

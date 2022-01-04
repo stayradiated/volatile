@@ -1,4 +1,4 @@
-import { errorBoundary } from '@stayradiated/error-boundary'
+import { Kanye } from '@volatile/kanye'
 import { differenceInMilliseconds } from 'date-fns'
 
 type FetchFnResult<ReturnValue> = {
@@ -8,20 +8,20 @@ type FetchFnResult<ReturnValue> = {
 
 type FetchFn<Args, ReturnValue> = (
   fnArgs: Args,
-) => Promise<FetchFnResult<ReturnValue> | Error>
+) => Promise<[FetchFnResult<ReturnValue> | Error, Kanye?]>
 
 type CachedFetchConfig<Args, ReturnValue> = {
   minCacheDurationMs: number
   fetch: FetchFn<Args, ReturnValue>
 }
 
-type CachedFetchFn<ReturnValue> = () => Promise<ReturnValue | Error>
+type CachedFetchFn<ReturnValue> = () => Promise<[ReturnValue | Error, Kanye?]>
 
-type State<T> = {
-  promise: Promise<T | Error> | undefined
+type State<ReturnValue> = {
+  promise: Promise<[ReturnValue | Error, Kanye?]> | undefined
   ready: boolean
   lastUpdated: Date
-  lastValue?: T
+  lastValue?: ReturnValue
 }
 
 const createCachedFetchFn = <Args, ReturnValue>(
@@ -39,7 +39,8 @@ const createCachedFetchFn = <Args, ReturnValue>(
 
   const cachedFetchFn: CachedFetchFn<ReturnValue> = async () => {
     if (state.promise) {
-      return state.promise
+      const [result] = await state.promise
+      return [result, undefined]
     }
 
     if (state.ready) {
@@ -48,22 +49,22 @@ const createCachedFetchFn = <Args, ReturnValue>(
         state.lastUpdated,
       )
       if (timeSinceLastUpdated < minCacheDurationMs) {
-        return state.lastValue!
+        return [state.lastValue!, undefined]
       }
     }
 
-    state.promise = (async (): Promise<ReturnValue | Error> => {
-      const result = await errorBoundary(async () => fetch(fnArgs))
+    state.promise = (async (): Promise<[ReturnValue | Error, Kanye?]> => {
+      const [result, kanye] = await fetch(fnArgs)
       if (result instanceof Error) {
         state.promise = undefined
-        return result
+        return [result, kanye]
       }
 
       state.promise = undefined
       state.ready = true
       state.lastUpdated = result.lastUpdated
       state.lastValue = result.value
-      return result.value
+      return [result.value, kanye]
     })()
 
     return state.promise
@@ -72,4 +73,5 @@ const createCachedFetchFn = <Args, ReturnValue>(
   return cachedFetchFn
 }
 
-export { CachedFetchConfig, createCachedFetchFn }
+export { createCachedFetchFn }
+export type { CachedFetchConfig, FetchFn, FetchFnResult }

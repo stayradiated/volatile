@@ -1,3 +1,5 @@
+import { Kanye } from '@volatile/kanye'
+
 import { Market } from '../../model/market/index.js'
 
 import { IllegalArgumentError } from '../../util/error.js'
@@ -21,15 +23,17 @@ type CreateFetchSourcePriceOptions = {
 
 const createFetchSourcePrice = (
   options: CreateFetchSourcePriceOptions,
-): (() => Promise<number | Error>) => {
+): (() => Promise<[number | Error, Kanye?]>) => {
   const { market, assetSymbol, currency } = options
 
   if (!resolveMarketPriceMap.has(market)) {
-    return async () =>
-      new IllegalArgumentError({
+    return async () => {
+      const error = new IllegalArgumentError({
         message: `Could not resolve market price for "${market.ID}"`,
         context: { market, assetSymbol, currency },
       })
+      return [error]
+    }
   }
 
   return resolveMarketPriceMap.get(market)!({
@@ -44,16 +48,18 @@ type CreateFetchFxRateOptions = {
 
 const createFetchFxRate = (
   options: CreateFetchFxRateOptions,
-): (() => Promise<number | Error>) => {
+): (() => Promise<[number | Error, Kanye?]>) => {
   const { currencyPair } = options
   if (!resolveCurrencyMap.has(currencyPair)) {
-    return async () =>
-      new IllegalArgumentError({
+    return async () => {
+      const error = new IllegalArgumentError({
         message: `Could not resolve market price for "${currencyPair.join(
           '/',
         )}"`,
         context: { currencyPair },
       })
+      return [error]
+    }
   }
 
   return resolveCurrencyMap.get(currencyPair)!
@@ -64,8 +70,8 @@ type MarketPriceInstance = {
   assetSymbol: AssetSymbol
   sourceCurrency: Currency
   currency: Currency
-  fetchSourcePrice: () => Promise<number | Error>
-  fetchFxRate: () => Promise<number | Error>
+  fetchSourcePrice: () => Promise<[number | Error, Kanye?]>
+  fetchFxRate: () => Promise<[number | Error, Kanye?]>
 }
 
 const toInstance = (
@@ -84,7 +90,7 @@ const toInstance = (
 
   const fetchFxRate = convert
     ? createFetchFxRate({ currencyPair: convert })
-    : async () => 1
+    : async (): Promise<[number]> => [1]
 
   return {
     market,

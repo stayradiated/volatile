@@ -12,24 +12,31 @@ const marketSource: MarketPriceSource<Options> = {
   fetch: async (options) => {
     const { assetSymbol, currency } = options
     if (assetSymbol !== 'BTC') {
-      return new Error(`Asset symbol must be "BTC", received ${assetSymbol}`)
+      const error = new Error(
+        `Asset symbol must be "BTC", received ${assetSymbol}`,
+      )
+      return [error]
     }
 
     if (currency !== 'NZD') {
-      return new Error(`Currency must be "NZD", received ${currency}`)
+      const error = new Error(`Currency must be "NZD", received ${currency}`)
+      return [error]
     }
 
     const lastUpdated = new Date()
 
-    const [value] = await kiwiCoin.getHighestBid()
+    const [value, raw] = await kiwiCoin.getHighestBid()
     if (value instanceof Error) {
-      return value
+      return [value, raw]
     }
 
-    return {
-      value,
-      lastUpdated,
-    }
+    return [
+      {
+        value,
+        lastUpdated,
+      },
+      raw,
+    ]
   },
 }
 

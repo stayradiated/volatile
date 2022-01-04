@@ -1,10 +1,4 @@
-import {
-  kanye,
-  getResponseBody as getKanyeResponseBody,
-  Kanye,
-  APIError,
-} from '@volatile/kanye'
-import { errorBoundary } from '@stayradiated/error-boundary'
+import { kanye, Kanye, getResponseBodyJSON, APIError } from '@volatile/kanye'
 
 import { createSignedBody } from './signature.js'
 import { isAPIErrorBody } from './is-api-error-body.js'
@@ -39,18 +33,8 @@ const post = async (
   })
 }
 
-const getResponseBody = <ResponseBody>(input: Kanye): ResponseBody | Error => {
-  const responseBodyText = getKanyeResponseBody(input)
-  if (responseBodyText instanceof Error) {
-    return responseBodyText
-  }
-
-  const responseBodyJSON = errorBoundary(() => {
-    return JSON.parse(responseBodyText) as ResponseBody
-  })
-  if (responseBodyJSON instanceof Error) {
-    return responseBodyJSON
-  }
+const getResponseBody = <T>(input: Kanye): T | Error => {
+  const responseBodyJSON = getResponseBodyJSON<T>(input)
 
   if (isAPIErrorBody(responseBodyJSON)) {
     return new APIError({

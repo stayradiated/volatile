@@ -601,6 +601,25 @@ CREATE TABLE kc."order" (
 
 
 --
+-- Name: request; Type: TABLE; Schema: kc; Owner: -
+--
+
+CREATE TABLE kc.request (
+    uid uuid NOT NULL,
+    method text NOT NULL,
+    url text NOT NULL,
+    request_at timestamp with time zone NOT NULL,
+    request_headers jsonb,
+    request_body text,
+    response_at timestamp with time zone,
+    response_status integer,
+    response_headers jsonb,
+    response_body text,
+    response_body_at timestamp with time zone
+);
+
+
+--
 -- Name: schema_migrations; Type: TABLE; Schema: kc; Owner: -
 --
 
@@ -817,6 +836,14 @@ ALTER TABLE ONLY kc.market_price
 
 ALTER TABLE ONLY kc."order"
     ADD CONSTRAINT order_pkey PRIMARY KEY (uid);
+
+
+--
+-- Name: request request_pkey; Type: CONSTRAINT; Schema: kc; Owner: -
+--
+
+ALTER TABLE ONLY kc.request
+    ADD CONSTRAINT request_pkey PRIMARY KEY (uid);
 
 
 --
@@ -1313,4 +1340,5 @@ INSERT INTO kc.schema_migrations (version) VALUES
     ('20220102071546'),
     ('20220102083618'),
     ('20220102092309'),
-    ('20220103102441');
+    ('20220103102441'),
+    ('20220104101603');

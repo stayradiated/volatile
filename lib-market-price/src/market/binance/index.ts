@@ -1,17 +1,8 @@
-import ky from 'ky-universal'
-import debug from 'debug'
-import { errorBoundary } from '@stayradiated/error-boundary'
+import { kanye, getResponseBodyJSON, APIError } from '@volatile/kanye'
 
-import { NetError, withErrorResponse } from '../../util/error.js'
-import { createDebugHooks } from '../../util/hooks.js'
 import { MarketPriceSource } from '../../util/market-price-source.js'
 
-const log = debug('market-price:binance-us')
-
-const binance = ky.create({
-  prefixUrl: 'https://api.binance.us/api/',
-  hooks: createDebugHooks(log),
-})
+const prefixUrl = 'https://api.binance.us/api/'
 
 type Options = {
   assetSymbol: string
@@ -29,46 +20,55 @@ const marketSource: MarketPriceSource<Options> = {
     const { assetSymbol, currency } = options
 
     if (assetSymbol.toUpperCase() !== assetSymbol) {
-      return new Error(
+      const error = new Error(
         `Asset symbol must be uppercase, received "${assetSymbol}".`,
       )
+      return [error, undefined]
     }
 
     if (currency.toUpperCase() !== currency) {
-      return new Error(`Currency must be uppercase, received "${currency}".`)
+      const error = new Error(
+        `Currency must be uppercase, received "${currency}".`,
+      )
+      return [error, undefined]
     }
 
     const tradingPair = assetSymbol + currency
 
     const lastUpdated = new Date()
 
-    const result = await errorBoundary<APIResponse>(async () =>
-      binance
-        .get('v3/ticker/price', {
-          searchParams: {
-            symbol: tradingPair,
-          },
-        })
-        .json(),
-    )
+    const raw = await kanye('v3/ticker/price', {
+      prefixUrl,
+      searchParams: {
+        symbol: tradingPair,
+      },
+    })
+    if (raw instanceof Error) {
+      return [raw, undefined]
+    }
 
+    const result = getResponseBodyJSON<APIResponse>(raw)
     if (result instanceof Error) {
-      return new NetError({
+      const error = new APIError({
         message: 'Could not fetch ticker price from binance.us.',
-        cause: await withErrorResponse(result),
+        cause: result,
         context: {
           assetSymbol,
           currency,
         },
       })
+      return [error, raw]
     }
 
     const value = Number.parseFloat(result.price)
 
-    return {
-      value,
-      lastUpdated,
-    }
+    return [
+      {
+        value,
+        lastUpdated,
+      },
+      raw,
+    ]
   },
 }
 

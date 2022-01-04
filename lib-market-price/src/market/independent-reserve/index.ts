@@ -13,21 +13,24 @@ const marketSource: MarketPriceSource<Options> = {
   fetch: async (options) => {
     const { assetSymbol, currency } = options
 
-    const [result] = await ir.getMarketSummary({
+    const [result, raw] = await ir.getMarketSummary({
       primaryCurrencyCode: assetSymbol,
       secondaryCurrencyCode: currency,
     })
     if (result instanceof Error) {
-      return result
+      return [result, raw]
     }
 
     const value = result.CurrentHighestBidPrice
     const lastUpdated = parseISO(result.CreatedTimestampUtc)
 
-    return {
-      value,
-      lastUpdated,
-    }
+    return [
+      {
+        value,
+        lastUpdated,
+      },
+      raw,
+    ]
   },
 }
 
