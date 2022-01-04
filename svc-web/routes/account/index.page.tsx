@@ -4,6 +4,7 @@ import { useSession } from '../../src/hooks/use-session'
 
 import { UserFormEdit } from '../../src/components/user-form-edit'
 import { UserForm2FA } from '../../src/components/user-form-2fa'
+import { UserFormDelete } from '../../src/components/user-form-delete'
 import { Card } from '../../src/components/retro-ui'
 import { Navigation } from '../../src/components/navigation'
 
@@ -26,6 +27,9 @@ const Account = () => {
       </Card>
       <Card>
         <UserForm2FA />
+      </Card>
+      <Card>
+        <UserFormDelete />
       </Card>
     </>
   )

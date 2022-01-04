@@ -23,7 +23,7 @@ import {
   insertUserExchangeKeys,
   UserExchangeKeys,
 } from '../model/user-exchange-keys/index.js'
-import { upsertUserDevice, UserDevice, } from '../model/user-device/index.js'
+import { upsertUserDevice, UserDevice } from '../model/user-device/index.js'
 import { pool } from '../pool.js'
 import { round } from '../util/round.js'
 
@@ -339,14 +339,16 @@ const makeDCAOrderHistory: MakeFn<DCAOrderHistory> =
 const makeUserDevice: MakeFn<UserDevice> = (make) => async (options) => {
   const { userUID = await make.user() } = make
 
-  const userDeviceUID = await throwIfError<string>(upsertUserDevice(pool, {
-    accessedAt: new Date(),
-    userUID,
-    name: 'Device Name',
-    deviceID: randomUUID(),
-    trusted: Boolean(Math.random() > 0.5),
-    ...options,
-  }))
+  const userDeviceUID = await throwIfError<string>(
+    upsertUserDevice(pool, {
+      accessedAt: new Date(),
+      userUID,
+      name: 'Device Name',
+      deviceID: randomUUID(),
+      trusted: Boolean(Math.random() > 0.5),
+      ...options,
+    }),
+  )
 
   return userDeviceUID
 }

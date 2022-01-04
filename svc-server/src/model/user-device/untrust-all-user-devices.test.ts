@@ -12,7 +12,9 @@ test('should untrust all user devices', async (t) => {
   const untrustedDeviceUID = await make.userDevice({ trusted: false })
   const trustedDeviceUID = await make.userDevice({ trusted: true })
 
-  const deviceUIDs = await throwIfError<string[]>(untrustAllUserDevices(pool, {userUID}))
+  const deviceUIDs = await throwIfError<string[]>(
+    untrustAllUserDevices(pool, { userUID }),
+  )
 
   t.true(deviceUIDs.includes(trustedDeviceUID))
   t.false(deviceUIDs.includes(untrustedDeviceUID))

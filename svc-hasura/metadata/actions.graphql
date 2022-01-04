@@ -50,6 +50,10 @@ type Query {
 }
 
 type Mutation {
+  delete_user: DeleteUserOutput
+}
+
+type Mutation {
   delete_user_2fa(
     token: String!
   ): DeleteUser2FAOutput
@@ -298,6 +302,10 @@ type SetupUser2FAOutput {
 }
 
 type DeleteUser2FAOutput {
+  user_uid: uuid!
+}
+
+type DeleteUserOutput {
   user_uid: uuid!
 }
 

@@ -85,6 +85,11 @@ export type DeleteUser2FaOutput = {
   user_uid: Scalars['uuid']
 }
 
+export type DeleteUserOutput = {
+  __typename?: 'DeleteUserOutput'
+  user_uid: Scalars['uuid']
+}
+
 export type EnableUser2FaOutput = {
   __typename?: 'EnableUser2FAOutput'
   /** An object relationship */
@@ -3623,6 +3628,7 @@ export type Mutation_Root = {
   delete_kc_user_exchange_keys?: Maybe<Kc_User_Exchange_Keys_Mutation_Response>
   /** Delete single row from the table: "kc.user_exchange_keys" */
   delete_kc_user_exchange_keys_by_pk?: Maybe<Kc_User_Exchange_Keys>
+  delete_user?: Maybe<DeleteUserOutput>
   delete_user_2fa?: Maybe<DeleteUser2FaOutput>
   enable_user_2fa?: Maybe<EnableUser2FaOutput>
   refresh_auth_token?: Maybe<RefreshAuthTokenOutput>
@@ -5548,6 +5554,16 @@ export type GetUser2FaQuery = {
   }>
 }
 
+export type DeleteUserMutationVariables = Exact<Record<string, never>>
+
+export type DeleteUserMutation = {
+  __typename?: 'mutation_root'
+  delete_user?:
+    | { __typename?: 'DeleteUserOutput'; user_uid: string }
+    | null
+    | undefined
+}
+
 export type UpdateUserMutationVariables = Exact<{
   email?: InputMaybe<Scalars['String']>
   password?: InputMaybe<Scalars['String']>
@@ -6106,7 +6122,7 @@ export type GetDcaOrderListByUidQueryResult = Apollo.QueryResult<
 >
 export const GetExchangeListDocument = gql`
   query getExchangeList {
-    kc_exchange {
+    kc_exchange(order_by: { name: asc }) {
       uid
       name
       url
@@ -6715,6 +6731,22 @@ export const GetUser2FaDocument = gql`
 export type GetUser2FaQueryResult = Apollo.QueryResult<
   GetUser2FaQuery,
   GetUser2FaQueryVariables
+>
+export const DeleteUserDocument = gql`
+  mutation deleteUser {
+    delete_user {
+      user_uid
+    }
+  }
+`
+export type DeleteUserMutationFn = Apollo.MutationFunction<
+  DeleteUserMutation,
+  DeleteUserMutationVariables
+>
+export type DeleteUserMutationResult = Apollo.MutationResult<DeleteUserMutation>
+export type DeleteUserMutationOptions = Apollo.BaseMutationOptions<
+  DeleteUserMutation,
+  DeleteUserMutationVariables
 >
 export const UpdateUserDocument = gql`
   mutation updateUser($email: String, $password: String) {

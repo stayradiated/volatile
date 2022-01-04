@@ -23,7 +23,9 @@ test('can insert a user device', async (t) => {
     deviceID: 'my randomly generated device id',
   }
 
-  const userDeviceUID = await throwIfError<string>(upsertUserDevice(pool, input))
+  const userDeviceUID = await throwIfError<string>(
+    upsertUserDevice(pool, input),
+  )
   t.is(typeof userDeviceUID, 'string')
 
   const deviceIDHash = hash.sha256(input.deviceID)

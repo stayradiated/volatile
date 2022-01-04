@@ -442,6 +442,33 @@
       },
       {
         "kind": "OBJECT",
+        "name": "DeleteUserOutput",
+        "description": null,
+        "fields": [
+          {
+            "name": "user_uid",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "uuid",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
         "name": "EnableUser2FAOutput",
         "description": null,
         "fields": [
@@ -30221,6 +30248,18 @@
             "type": {
               "kind": "OBJECT",
               "name": "kc_user_exchange_keys",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "delete_user",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "DeleteUserOutput",
               "ofType": null
             },
             "isDeprecated": false,

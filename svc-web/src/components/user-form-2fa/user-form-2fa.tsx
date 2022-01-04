@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { gql, useQuery } from '@apollo/client'
 
-import { Spin, Alert, Card, Button, Form, Input } from '../retro-ui'
+import { Spin, Alert, Button, Form, Input } from '../retro-ui'
 
 import type {
   GetUser2FaQuery as Query,
@@ -75,11 +75,7 @@ const UserForm2FA = () => {
   }
 
   if (loading) {
-    return (
-      <Card>
-        <Spin />
-      </Card>
-    )
+    return <Spin />
   }
 
   if (error) {

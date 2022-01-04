@@ -3,35 +3,27 @@ import { errorBoundary } from '@stayradiated/error-boundary'
 
 import type { Pool } from '../../types.js'
 
-type UntrustAllUserDevicesOptions = {
+type DeleteUserOptions = {
   userUID: string
 }
 
-const untrustAllUserDevices = async (
+const deleteUser = async (
   pool: Pool,
-  options: UntrustAllUserDevicesOptions,
+  options: DeleteUserOptions,
 ): Promise<string[] | Error> => {
   const { userUID } = options
 
   const rows = await errorBoundary(async () =>
     db
-      .update(
-        'user_device',
-        {
-          updated_at: new Date(),
-          trusted: false,
-        },
-        {
-          user_uid: userUID,
-          trusted: true,
-        },
+      .deletes(
+        'user',
+        { uid: userUID },
         {
           returning: ['uid'],
         },
       )
       .run(pool),
   )
-
   if (rows instanceof Error) {
     return rows
   }
@@ -39,4 +31,4 @@ const untrustAllUserDevices = async (
   return rows.map((row) => row.uid)
 }
 
-export { untrustAllUserDevices }
+export { deleteUser }
