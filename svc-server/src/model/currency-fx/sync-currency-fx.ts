@@ -6,8 +6,10 @@ import { historical } from '@volatile/open-exchange-rates-api'
 
 import { OPEN_EXCHANGE_RATES_APP_ID } from '../../env.js'
 
-import type { Pool } from '../../types.js'
 import { upsertCurrencyFx } from './upsert-currency-fx.js'
+import { insertRequest} from '../request/index.js'
+
+import type { Pool } from '../../types.js'
 
 type SyncCurrencyFxOptions = {
   startDate: Date
@@ -62,12 +64,18 @@ const syncCurrencyFx = async (
   for (const row of rows) {
     const date = row.i
 
-    const [result] = await historical({
+    const [result, raw] = await historical({
       config: { appId: OPEN_EXCHANGE_RATES_APP_ID },
       date,
       base: fromSymbol,
       symbols: [toSymbol],
     })
+    if (raw) {
+      const insertRequestError = await insertRequest(pool, raw.redacted())
+      if (insertRequestError instanceof Error) {
+        return insertRequestError
+      }
+    }
     if (result instanceof Error) {
       return result
     }

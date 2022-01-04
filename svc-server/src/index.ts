@@ -56,8 +56,9 @@ addAction('validate_user_password_reset', actions.validateUserPasswordReset)
 addAction('verify_user_email', actions.verifyUserEmailHandler)
 
 const addCron = bindCronHandler(fastify)
-addCron('fetch_market_price', cron.fetchMarketPriceHandler)
 addCron('auto_buy', cron.autoBuyHandler)
+addCron('fetch_currency_fx', cron.fetchCurrencyFxHandler)
+addCron('fetch_market_price', cron.fetchMarketPriceHandler)
 
 const addRoute = bindHandler(fastify)
 addRoute('/webhook/stripe', webhooks.stripeHandler)
