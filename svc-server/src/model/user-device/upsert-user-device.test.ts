@@ -23,7 +23,8 @@ test('can insert a user device', async (t) => {
     deviceID: 'my randomly generated device id',
   }
 
-  await throwIfError<void>(upsertUserDevice(pool, input))
+  const userDeviceUID = await throwIfError<string>(upsertUserDevice(pool, input))
+  t.is(typeof userDeviceUID, 'string')
 
   const deviceIDHash = hash.sha256(input.deviceID)
 
@@ -49,7 +50,7 @@ test('can update a user device', async (t) => {
 
   const deviceID = 'loudspeakerman'
 
-  await throwIfError<void>(
+  const userDeviceAUID = await throwIfError<string>(
     upsertUserDevice(pool, {
       userUID,
       accessedAt: parseISO('2000-01-01'),
@@ -59,7 +60,7 @@ test('can update a user device', async (t) => {
     }),
   )
 
-  await throwIfError<void>(
+  const userDeviceBUID = await throwIfError<string>(
     upsertUserDevice(pool, {
       userUID,
       accessedAt: parseISO('2020-02-02'),
@@ -68,6 +69,8 @@ test('can update a user device', async (t) => {
       deviceID,
     }),
   )
+
+  t.is(userDeviceAUID, userDeviceBUID)
 
   const deviceIDHash = hash.sha256(deviceID)
 

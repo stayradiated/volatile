@@ -23,6 +23,7 @@ import {
   insertUserExchangeKeys,
   UserExchangeKeys,
 } from '../model/user-exchange-keys/index.js'
+import { upsertUserDevice, UserDevice, } from '../model/user-device/index.js'
 import { pool } from '../pool.js'
 import { round } from '../util/round.js'
 
@@ -33,7 +34,7 @@ type MakeInstance = {
   userUID?: string
 
   balance: MakeInstanceFn<Balance>
-  balacnceUID?: string
+  balanceUID?: string
 
   primaryCurrency: MakeInstanceFn<Currency>
   primaryCurrencySymbol?: string
@@ -64,6 +65,9 @@ type MakeInstance = {
 
   trade: MakeInstanceFn
   tradeUID?: string
+
+  userDevice: MakeInstanceFn<UserDevice>
+  userDeviceUID?: string
 }
 
 type MakeFn<T = void> = (instance: MakeInstance) => MakeInstanceFn<T>
@@ -332,6 +336,21 @@ const makeDCAOrderHistory: MakeFn<DCAOrderHistory> =
     return dcaOrderHistory.UID
   }
 
+const makeUserDevice: MakeFn<UserDevice> = (make) => async (options) => {
+  const { userUID = await make.user() } = make
+
+  const userDeviceUID = await throwIfError<string>(upsertUserDevice(pool, {
+    accessedAt: new Date(),
+    userUID,
+    name: 'Device Name',
+    deviceID: randomUUID(),
+    trusted: Boolean(Math.random() > 0.5),
+    ...options,
+  }))
+
+  return userDeviceUID
+}
+
 const createMakeInstance = () => {
   const instance: MakeInstance = {} as unknown as MakeInstance
 
@@ -347,6 +366,7 @@ const createMakeInstance = () => {
   instance.dcaOrderHistory = makeDCAOrderHistory(instance)
   instance.order = makeOrder(instance)
   instance.trade = makeTrade(instance)
+  instance.userDevice = makeUserDevice(instance)
 
   return instance
 }

@@ -15,7 +15,7 @@ type UpsertUserDevicesOptions = Except<UserDevice, 'UID'>
 const upsertUserDevice = async (
   pool: Pool,
   options: UpsertUserDevicesOptions,
-): Promise<void | Error> => {
+): Promise<string | Error> => {
   const UID = randomUUID()
   const now = new Date()
 
@@ -38,6 +38,7 @@ const upsertUserDevice = async (
         ['user_uid', 'device_id_hash'],
         {
           updateColumns: ['updated_at', 'accessed_at', 'name', 'trusted'],
+          returning: ['uid'],
         },
       )
       .run(pool),
@@ -51,7 +52,7 @@ const upsertUserDevice = async (
     })
   }
 
-  return undefined
+  return error.uid
 }
 
 export { upsertUserDevice, UpsertUserDevicesOptions }

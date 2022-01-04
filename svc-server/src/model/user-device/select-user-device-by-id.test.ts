@@ -24,7 +24,7 @@ test('can find a device by its device ID', async (t) => {
     deviceID,
   }
 
-  await throwIfError<void>(upsertUserDevice(pool, input))
+  await throwIfError<string>(upsertUserDevice(pool, input))
 
   const userDevice = await throwIfError<UserDeviceMasked>(
     selectUserDeviceByID(pool, deviceID),

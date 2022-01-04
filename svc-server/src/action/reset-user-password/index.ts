@@ -12,6 +12,7 @@ import { generateAuthToken } from '../../model/auth-token/index.js'
 import {
   hasTrustedUserDeviceByDeviceID,
   upsertUserDevice,
+  untrustAllUserDevices,
 } from '../../model/user-device/index.js'
 import {
   hasUser2FAByUserUID,
@@ -86,6 +87,19 @@ const resetUserPasswordHandler: ActionHandlerFn<Input, Output> = async (
     }
   }
 
+  const deleteUserPasswordResetResult = await deleteUserPasswordReset(
+    pool,
+    userPasswordReset.UID,
+  )
+  if (deleteUserPasswordResetResult instanceof Error) {
+    return deleteUserPasswordResetResult
+  }
+
+  const untrustError = await untrustAllUserDevices(pool, { userUID })
+  if (untrustError instanceof Error) {
+    return untrustError
+  }
+
   const userError = await updateUser(pool, {
     userUID,
     password: newPassword,
@@ -105,14 +119,6 @@ const resetUserPasswordHandler: ActionHandlerFn<Input, Output> = async (
   })
   if (userDeviceError instanceof Error) {
     return userDeviceError
-  }
-
-  const deleteUserPasswordResetResult = await deleteUserPasswordReset(
-    pool,
-    userPasswordReset.UID,
-  )
-  if (deleteUserPasswordResetResult instanceof Error) {
-    return deleteUserPasswordResetResult
   }
 
   return {
