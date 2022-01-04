@@ -63,7 +63,7 @@ const TradeChart = (props: Props) => {
         />
         <YAxis domain={['auto', 'auto']} />
         <Tooltip
-          formatter={(value: number) => '$' + formatCurrency(value)}
+          formatter={(value: number) => formatCurrency(value)}
           labelFormatter={formatUnixTimeAsDateTime}
         />
         <Legend />

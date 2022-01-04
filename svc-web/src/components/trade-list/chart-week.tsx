@@ -106,7 +106,7 @@ const ChartWeek = (props: Props) => {
         />
         <YAxis scale="sqrt" />
         <Tooltip
-          formatter={(value: number) => '$' + formatCurrency(value)}
+          formatter={(value: number) => formatCurrency(value)}
           labelFormatter={formatUnixTimeAsDateTime}
         />
         <Legend />

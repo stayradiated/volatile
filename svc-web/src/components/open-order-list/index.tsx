@@ -67,7 +67,7 @@ const columns: Array<Column<Order>> = [
     accessor: 'value',
     Cell: (props) => {
       const { value } = props
-      return `$${formatCurrency(value)}`
+      return formatCurrency(value)
     },
   },
   {
@@ -79,7 +79,7 @@ const columns: Array<Column<Order>> = [
     accessor: 'price',
     Cell: (props) => {
       const { value } = props
-      return `$${formatCurrency(value)}`
+      return formatCurrency(value)
     },
   },
   {

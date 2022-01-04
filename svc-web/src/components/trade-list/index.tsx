@@ -92,7 +92,7 @@ const columns: Array<Column<Trade>> = [
   {
     Header: 'Price',
     accessor: 'price',
-    Cell: ({ value }) => '$' + formatCurrency(value!),
+    Cell: ({ value }) => formatCurrency(value!),
   },
   {
     Header: 'Currency',
@@ -101,12 +101,12 @@ const columns: Array<Column<Trade>> = [
   {
     Header: 'Total Value',
     accessor: 'total_value',
-    Cell: ({ value }) => '$' + formatCurrency(value!),
+    Cell: ({ value }) => formatCurrency(value!),
   },
   {
     Header: 'Fee',
     accessor: 'fee',
-    Cell: ({ value }) => '$' + formatCurrency(value!),
+    Cell: ({ value }) => formatCurrency(value!),
   },
 ]
 

@@ -113,17 +113,17 @@ const DCAOrderHistoryList = (props: Props) => {
         Header: 'Price',
         accessor: (row) => row.market_price * ((100 + row.market_offset) / 100),
         Cell: ({ value }: CellProps<DCAOrderHistory, number>) =>
-          `$${formatCurrency(value)}`,
+          formatCurrency(value)
       },
       {
         Header: 'Target Value',
         accessor: 'target_value',
-        Cell: ({ value }) => `$${formatCurrency(value)}`,
+        Cell: ({ value }) => formatCurrency(value)
       },
       {
         Header: 'Available Balance',
         accessor: 'available_balance',
-        Cell: ({ value }) => `$${formatCurrency(value)}`,
+        Cell: ({ value }) => formatCurrency(value)
       },
       {
         id: 'volume',

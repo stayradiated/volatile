@@ -18,24 +18,24 @@ const TradeStats = (props: Props) => {
   return (
     <dl>
       <dt>Sum Value</dt>
-      <dd>${formatCurrency(sumValue)}</dd>
+      <dd>{formatCurrency(sumValue)}</dd>
 
       <dt>Sum Volume</dt>
       <dd>{sumVolume}</dd>
 
       <dt>Sum Fee</dt>
       <dd>
-        ${formatCurrency(sumFee)} ({((sumFee / sumValue) * 100).toFixed(2)}%)
+        {formatCurrency(sumFee)} ({((sumFee / sumValue) * 100).toFixed(2)}%)
       </dd>
 
       <dt>Avg Price</dt>
-      <dd>${formatCurrency(sumValue / sumVolume)}</dd>
+      <dd>{formatCurrency(sumValue / sumVolume)}</dd>
 
       <dt>Days</dt>
       <dd>{dayCount}</dd>
 
       <dt>Avg Value</dt>
-      <dd>${formatCurrency(sumValue / dayCount)}</dd>
+      <dd>{formatCurrency(sumValue / dayCount)}</dd>
     </dl>
   )
 }

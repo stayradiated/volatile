@@ -2,15 +2,6 @@ table:
   name: exchange
   schema: kc
 array_relationships:
-- name: balance_latest
-  using:
-    manual_configuration:
-      column_mapping:
-        uid: exchange_uid
-      insertion_order: null
-      remote_table:
-        name: balance_latest
-        schema: kc
 - name: dca_orders
   using:
     foreign_key_constraint_on:

@@ -98,7 +98,7 @@ const DCAOrderList = (props: Props) => {
       {
         Header: 'Daily Average',
         accessor: 'daily_average',
-        Cell: ({ value }) => `$${formatCurrency(value)}`,
+        Cell: ({ value }) => formatCurrency(value)
       },
       {
         Header: 'Start At',
@@ -118,12 +118,12 @@ const DCAOrderList = (props: Props) => {
       {
         Header: 'Min Value',
         accessor: 'min_value',
-        Cell: ({ value }) => (value ? `$${formatCurrency(value)}` : '$0.00'),
+        Cell: ({ value }) => (value ? formatCurrency(value) : '$0.00'),
       },
       {
         Header: 'Max Value',
         accessor: 'max_value',
-        Cell: ({ value }) => (value ? `$${formatCurrency(value)}` : '∞'),
+        Cell: ({ value }) => (value ? formatCurrency(value) : '∞'),
       },
       {
         Header: 'Actions',
