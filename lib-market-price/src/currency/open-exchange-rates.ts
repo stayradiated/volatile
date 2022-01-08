@@ -1,5 +1,4 @@
 import { inspect } from 'util'
-import { fromUnixTime } from 'date-fns'
 import {
   latest as getLatestExchangeRate,
   Config as OpenExchangeRatesConfig,
@@ -22,7 +21,7 @@ const createMarketSourceForCurrency = (
   const { base, symbol } = options
 
   const marketSource: MarketPriceSource<Options> = {
-    minCacheDurationMs: 75 * 60 * 1000,
+    minCacheDurationMs: 60 * 1000,
     fetch: async (fetchOptions) => {
       const { config } = fetchOptions
 
@@ -35,7 +34,7 @@ const createMarketSourceForCurrency = (
         return [response, raw]
       }
 
-      const lastUpdated = fromUnixTime(response.timestamp)
+      const lastUpdated = new Date()
 
       const value = response.rates[symbol]
       if (typeof value !== 'number') {
