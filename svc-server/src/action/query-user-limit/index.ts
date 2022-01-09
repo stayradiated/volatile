@@ -1,15 +1,19 @@
 import { MissingRequiredArgumentError } from '../../util/error.js'
 
+import { getUserLimit } from '../../model/user-limit/index.js'
+
 import type { ActionHandlerFn } from '../../util/action-handler.js'
-import { deleteUser } from '../../model/user/index.js'
 
 type Input = Record<string, never>
 
 type Output = {
   user_uid: string
+  user_limit: Record<string, number>
 }
 
-const deleteUserHandler: ActionHandlerFn<Input, Output> = async (context) => {
+const queryUserLimitHandler: ActionHandlerFn<Input, Output> = async (
+  context,
+) => {
   const { pool, session } = context
   const { userUID } = session
   if (!userUID) {
@@ -19,14 +23,15 @@ const deleteUserHandler: ActionHandlerFn<Input, Output> = async (context) => {
     })
   }
 
-  const error = await deleteUser(pool, { userUID })
-  if (error instanceof Error) {
-    return error
+  const userLimit = await getUserLimit(pool, userUID)
+  if (userLimit instanceof Error) {
+    return userLimit
   }
 
   return {
     user_uid: userUID,
+    user_limit: userLimit,
   }
 }
 
-export { deleteUserHandler }
+export { queryUserLimitHandler }

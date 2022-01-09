@@ -32,6 +32,7 @@ addAction('delete_user_2fa', actions.deleteUser2FAHandler)
 addAction('enable_user_2fa', actions.enableUser2FAHandler)
 addAction('setup_user_2fa', actions.setupUser2FAHandler)
 addAction('query_user_email', actions.queryUserEmailHandler)
+addAction('query_user_limit', actions.queryUserLimitHandler)
 addAction('refresh_auth_token', actions.refreshAuthTokenHandler)
 addAction('reset_user_password', actions.resetUserPasswordHandler)
 addAction('send_user_email_verify', actions.sendUserEmailVerifyHandler)
@@ -42,6 +43,7 @@ addAction(
   actions.syncExchangeOpenOrderListHandler,
 )
 addAction('sync_exchange_trade_list', actions.syncExchangeTradeListHandler)
+addAction('update_dca_order', actions.updateDCAOrderHandler)
 addAction('update_user', actions.updateUserHandler)
 addAction('update_user_exchange_keys', actions.updateUserExchangeKeysHandler)
 addAction(

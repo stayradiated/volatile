@@ -1,36 +1,38 @@
 import { gql, useMutation } from '@apollo/client'
 
 import type {
-  UpdateDcaOrderEnabledAtMutation as Mutation,
-  UpdateDcaOrderEnabledAtMutationVariables as MutationVariables,
+  UpdateDcaOrderEnabledMutation as Mutation,
+  UpdateDcaOrderEnabledMutationVariables as MutationVariables,
 } from '../../utils/graphql'
 
 const MUTATION = gql`
-  mutation updateDCAOrderEnabledAt(
+  mutation updateDCAOrderEnabled(
     $dcaOrderUID: uuid!
-    $enabledAt: timestamptz
+    $enabled: Boolean!
   ) {
-    update_kc_dca_order_by_pk(
-      pk_columns: { uid: $dcaOrderUID }
-      _set: { enabled_at: $enabledAt }
+    update_dca_order(
+      dca_order_uid: $dcaOrderUID
+      enabled: $enabled
     ) {
-      uid
-      enabled_at
+      dca_order {
+        uid
+        enabled_at
+      }
     }
   }
 `
 
-const useUpdateDCAOrderEnabledAt = () => {
+const useUpdateDCAOrderEnabled = () => {
   const [mutate] = useMutation<Mutation, MutationVariables>(MUTATION)
 
-  return async (dcaOrderUID: string, enabledAt: null | string) => {
+  return async (dcaOrderUID: string, enabled: boolean) => {
     return mutate({
       variables: {
         dcaOrderUID,
-        enabledAt,
+        enabled,
       },
     })
   }
 }
 
-export { useUpdateDCAOrderEnabledAt }
+export { useUpdateDCAOrderEnabled }

@@ -13,7 +13,7 @@ import type {
   GetDcaOrderListQueryVariables as QueryVariables,
 } from '../../utils/graphql'
 
-import { useUpdateDCAOrderEnabledAt } from './mutation-pause'
+import { useUpdateDCAOrderEnabled } from './mutation-pause'
 
 type DCAOrder = Query['kc_dca_order'][0]
 
@@ -54,7 +54,7 @@ const DCAOrderList = (props: Props) => {
 
   const { data, loading, error } = useQuery<Query, QueryVariables>(QUERY)
 
-  const updateEnabledAt = useUpdateDCAOrderEnabledAt()
+  const updateEnabled = useUpdateDCAOrderEnabled()
 
   const [deleteState, setDeleteState] = useState<string | undefined>(undefined)
   const handleCloseDeleteModal = () => {
@@ -68,9 +68,7 @@ const DCAOrderList = (props: Props) => {
         accessor: 'enabled_at',
         Cell: ({ value: enabledAt, row }) => {
           const handleTogglePause = async () => {
-            await (enabledAt
-              ? updateEnabledAt(row.original.uid, null)
-              : updateEnabledAt(row.original.uid, new Date().toISOString()))
+            return updateEnabled(row.original.uid, !enabledAt)
           }
 
           return (

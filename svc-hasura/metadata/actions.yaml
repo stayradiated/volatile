@@ -89,6 +89,15 @@ actions:
     headers:
     - name: x-hasura-actions-secret
       value_from_env: HASURA_ACTIONS_SECRET
+- name: query_user_limit
+  definition:
+    kind: ""
+    handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/query_user_limit'
+    headers:
+    - name: x-hasura-actions-secret
+      value_from_env: HASURA_ACTIONS_SECRET
+  permissions:
+  - role: user
 - name: refresh_auth_token
   definition:
     kind: synchronous
@@ -156,6 +165,15 @@ actions:
   definition:
     kind: synchronous
     handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/sync_exchange_trade_list'
+    headers:
+    - name: x-hasura-actions-secret
+      value_from_env: HASURA_ACTIONS_SECRET
+  permissions:
+  - role: user
+- name: update_dca_order
+  definition:
+    kind: synchronous
+    handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/update_dca_order'
     headers:
     - name: x-hasura-actions-secret
       value_from_env: HASURA_ACTIONS_SECRET
@@ -371,4 +389,15 @@ custom_types:
       field_mapping:
         user_uid: uid
   - name: DeleteUserOutput
+  - name: QueryUserLimitOutput
+  - name: UpdateDCAOrderOutput
+    relationships:
+    - remote_table:
+        schema: kc
+        name: dca_order
+      name: dca_order
+      source: default
+      type: object
+      field_mapping:
+        dca_order_uid: uid
   scalars: []

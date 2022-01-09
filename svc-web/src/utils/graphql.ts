@@ -103,6 +103,12 @@ export type Int_Comparison_Exp = {
   _nin?: InputMaybe<Array<Scalars['Int']>>;
 };
 
+export type QueryUserLimitOutput = {
+  __typename?: 'QueryUserLimitOutput';
+  user_limit: Scalars['jsonb'];
+  user_uid: Scalars['String'];
+};
+
 export type RefreshAuthTokenOutput = {
   __typename?: 'RefreshAuthTokenOutput';
   auth_token: Scalars['String'];
@@ -180,6 +186,13 @@ export type SyncExchangeTradeListOutput = {
   /** An object relationship */
   user: Kc_User;
   user_uid: Scalars['uuid'];
+};
+
+export type UpdateDcaOrderOutput = {
+  __typename?: 'UpdateDCAOrderOutput';
+  /** An object relationship */
+  dca_order: Kc_Dca_Order;
+  dca_order_uid: Scalars['uuid'];
 };
 
 export type UpdateUserExchangeKeysOutput = {
@@ -1174,7 +1187,6 @@ export enum Kc_Dca_Order_Select_Column {
 /** input type for updating data in table "kc.dca_order" */
 export type Kc_Dca_Order_Set_Input = {
   daily_average?: InputMaybe<Scalars['numeric']>;
-  enabled_at?: InputMaybe<Scalars['timestamptz']>;
   interval_ms?: InputMaybe<Scalars['Int']>;
   market_offset?: InputMaybe<Scalars['numeric']>;
   market_uid?: InputMaybe<Scalars['uuid']>;
@@ -3514,6 +3526,7 @@ export type Mutation_Root = {
   send_user_password_reset: SendUserPasswordResetOutput;
   sync_exchange_open_order_list?: Maybe<SyncExchangeOpenOrderListOutput>;
   sync_exchange_trade_list?: Maybe<SyncExchangeTradeListOutput>;
+  update_dca_order: UpdateDcaOrderOutput;
   /** update data of the table: "kc.dca_order" */
   update_kc_dca_order?: Maybe<Kc_Dca_Order_Mutation_Response>;
   /** update single row of the table: "kc.dca_order" */
@@ -3651,6 +3664,13 @@ export type Mutation_RootSync_Exchange_Open_Order_ListArgs = {
 export type Mutation_RootSync_Exchange_Trade_ListArgs = {
   force_sync?: InputMaybe<Scalars['Boolean']>;
   user_exchange_keys_uid: Scalars['uuid'];
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Dca_OrderArgs = {
+  dca_order_uid: Scalars['uuid'];
+  enabled: Scalars['Boolean'];
 };
 
 
@@ -3844,6 +3864,7 @@ export type Query_Root = {
   kc_user_exchange_keys_aggregate: Kc_User_Exchange_Keys_Aggregate;
   /** fetch data from the table: "kc.user_exchange_keys" using primary key columns */
   kc_user_exchange_keys_by_pk?: Maybe<Kc_User_Exchange_Keys>;
+  query_user_limit?: Maybe<QueryUserLimitOutput>;
   setup_user_2fa?: Maybe<SetupUser2FaOutput>;
 };
 
@@ -4690,13 +4711,13 @@ export type GetDcaOrderListQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GetDcaOrderListQuery = { __typename?: 'query_root', kc_dca_order: Array<{ __typename?: 'kc_dca_order', uid: string, enabled_at?: string | null | undefined, daily_average: number, start_at: string, market_offset: number, interval_ms: number, min_value?: number | null | undefined, max_value?: number | null | undefined, exchange: { __typename?: 'kc_exchange', uid: string, id: string, name: string }, primary_currency: { __typename?: 'kc_currency', symbol: string }, secondary_currency: { __typename?: 'kc_currency', symbol: string } }> };
 
-export type UpdateDcaOrderEnabledAtMutationVariables = Exact<{
+export type UpdateDcaOrderEnabledMutationVariables = Exact<{
   dcaOrderUID: Scalars['uuid'];
-  enabledAt?: InputMaybe<Scalars['timestamptz']>;
+  enabled: Scalars['Boolean'];
 }>;
 
 
-export type UpdateDcaOrderEnabledAtMutation = { __typename?: 'mutation_root', update_kc_dca_order_by_pk?: { __typename?: 'kc_dca_order', uid: string, enabled_at?: string | null | undefined } | null | undefined };
+export type UpdateDcaOrderEnabledMutation = { __typename?: 'mutation_root', update_dca_order: { __typename?: 'UpdateDCAOrderOutput', dca_order: { __typename?: 'kc_dca_order', uid: string, enabled_at?: string | null | undefined } } };
 
 export type GetDcaOrderModalDeleteQueryVariables = Exact<{
   dcaOrderUID: Scalars['uuid'];
@@ -4723,7 +4744,7 @@ export type GetExchangeListQueryVariables = Exact<{
 }>;
 
 
-export type GetExchangeListQuery = { __typename?: 'query_root', kc_user_exchange_keys: Array<{ __typename?: 'kc_user_exchange_keys', uid: string, exchange: { __typename?: 'kc_exchange', uid: string, name: string, url: string }, balance_latest?: Array<{ __typename?: 'kc_balance', available_balance: number, total_balance: number, currency_symbol: string, total_balance_nzd?: number | null | undefined }> | null | undefined, balance_historic?: Array<{ __typename?: 'kc_balance', available_balance: number, total_balance: number, currency_symbol: string, total_balance_nzd?: number | null | undefined }> | null | undefined }> };
+export type GetExchangeListQuery = { __typename?: 'query_root', kc_user_exchange_keys: Array<{ __typename?: 'kc_user_exchange_keys', uid: string, exchange: { __typename?: 'kc_exchange', uid: string, name: string, url: string }, balance_latest?: Array<{ __typename?: 'kc_balance', available_balance: number, total_balance: number, currency_symbol: string, total_balance_nzd?: number | null | undefined }> | null | undefined, balance_historic?: Array<{ __typename?: 'kc_balance', currency_symbol: string, total_balance_nzd?: number | null | undefined }> | null | undefined }> };
 
 export type GetMarketPriceCalcQueryVariables = Exact<{
   primaryCurrency: Scalars['String'];
@@ -5267,20 +5288,19 @@ export const GetDcaOrderListDocument = gql`
 }
     `;
 export type GetDcaOrderListQueryResult = Apollo.QueryResult<GetDcaOrderListQuery, GetDcaOrderListQueryVariables>;
-export const UpdateDcaOrderEnabledAtDocument = gql`
-    mutation updateDCAOrderEnabledAt($dcaOrderUID: uuid!, $enabledAt: timestamptz) {
-  update_kc_dca_order_by_pk(
-    pk_columns: {uid: $dcaOrderUID}
-    _set: {enabled_at: $enabledAt}
-  ) {
-    uid
-    enabled_at
+export const UpdateDcaOrderEnabledDocument = gql`
+    mutation updateDCAOrderEnabled($dcaOrderUID: uuid!, $enabled: Boolean!) {
+  update_dca_order(dca_order_uid: $dcaOrderUID, enabled: $enabled) {
+    dca_order {
+      uid
+      enabled_at
+    }
   }
 }
     `;
-export type UpdateDcaOrderEnabledAtMutationFn = Apollo.MutationFunction<UpdateDcaOrderEnabledAtMutation, UpdateDcaOrderEnabledAtMutationVariables>;
-export type UpdateDcaOrderEnabledAtMutationResult = Apollo.MutationResult<UpdateDcaOrderEnabledAtMutation>;
-export type UpdateDcaOrderEnabledAtMutationOptions = Apollo.BaseMutationOptions<UpdateDcaOrderEnabledAtMutation, UpdateDcaOrderEnabledAtMutationVariables>;
+export type UpdateDcaOrderEnabledMutationFn = Apollo.MutationFunction<UpdateDcaOrderEnabledMutation, UpdateDcaOrderEnabledMutationVariables>;
+export type UpdateDcaOrderEnabledMutationResult = Apollo.MutationResult<UpdateDcaOrderEnabledMutation>;
+export type UpdateDcaOrderEnabledMutationOptions = Apollo.BaseMutationOptions<UpdateDcaOrderEnabledMutation, UpdateDcaOrderEnabledMutationVariables>;
 export const GetDcaOrderModalDeleteDocument = gql`
     query getDCAOrderModalDelete($dcaOrderUID: uuid!) {
   kc_dca_order_by_pk(uid: $dcaOrderUID) {
@@ -5345,8 +5365,6 @@ export const GetExchangeListDocument = gql`
       args: {timestamp_at: $historicTimestamp}
       order_by: {currency_symbol: asc}
     ) {
-      available_balance
-      total_balance
       total_balance_nzd: total_balance_fx(args: {currency: "NZD"})
       currency_symbol
     }

@@ -47,6 +47,18 @@ class AuthError extends BetterError {
   }
 }
 
+class UserLimitError extends BetterError {
+  constructor(arg?: BetterErrorConstructorArg) {
+    super(arg)
+  }
+}
+
+class PermissionError extends BetterError {
+  constructor(arg?: BetterErrorConstructorArg) {
+    super(arg)
+  }
+}
+
 class AlreadyInitializedError extends BetterError {
   constructor(arg?: BetterErrorConstructorArg) {
     super(arg)
@@ -90,6 +102,8 @@ export {
   CronError,
   DBError,
   ExchangeError,
+  UserLimitError,
+  PermissionError,
   IllegalArgumentError,
   IllegalArgumentTypeError,
   IllegalStateError,

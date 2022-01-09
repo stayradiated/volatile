@@ -82,7 +82,6 @@ update_permissions:
         _eq: X-Hasura-User-Id
     columns:
     - daily_average
-    - enabled_at
     - interval_ms
     - market_offset
     - market_uid

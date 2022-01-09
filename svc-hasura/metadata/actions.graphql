@@ -73,6 +73,10 @@ type Query {
   ): QueryUserEmailOutput
 }
 
+type Query {
+  query_user_limit: QueryUserLimitOutput
+}
+
 type Mutation {
   refresh_auth_token: RefreshAuthTokenOutput
 }
@@ -122,6 +126,13 @@ type Mutation {
     user_exchange_keys_uid: uuid!
     force_sync: Boolean
   ): SyncExchangeTradeListOutput
+}
+
+type Mutation {
+  update_dca_order(
+    dca_order_uid: uuid!
+    enabled: Boolean!
+  ): UpdateDCAOrderOutput!
 }
 
 type Mutation {
@@ -307,5 +318,14 @@ type DeleteUser2FAOutput {
 
 type DeleteUserOutput {
   user_uid: uuid!
+}
+
+type QueryUserLimitOutput {
+  user_uid: String!
+  user_limit: jsonb!
+}
+
+type UpdateDCAOrderOutput {
+  dca_order_uid: uuid!
 }
 
