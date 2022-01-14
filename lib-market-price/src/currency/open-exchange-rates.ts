@@ -21,7 +21,7 @@ const createMarketSourceForCurrency = (
   const { base, symbol } = options
 
   const marketSource: MarketPriceSource<Options> = {
-    minCacheDurationMs: 60 * 60 * 1000,
+    minCacheDurationMs: 100 * 60 * 1000,
     fetch: async (fetchOptions) => {
       const { config } = fetchOptions
 
