@@ -1,4 +1,6 @@
 import type { Pool } from '../../types.js'
+import { NoEntityError } from '../../util/error.js'
+
 import { getCustomer } from './get-customer.js'
 import { createCustomer } from './create-customer.js'
 
@@ -9,8 +11,13 @@ const getOrCreateCustomer = async (
   userUID: string,
 ): Promise<Customer | Error> => {
   const existingCustomer = await getCustomer(pool, userUID)
-  if (existingCustomer instanceof Error) {
+
+  if (existingCustomer instanceof NoEntityError) {
     return createCustomer(pool, userUID)
+  }
+
+  if (existingCustomer instanceof Error) {
+    return existingCustomer
   }
 
   return existingCustomer

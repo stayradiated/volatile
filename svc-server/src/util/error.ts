@@ -41,6 +41,12 @@ class DBError extends BetterError {
   }
 }
 
+class NoEntityError extends BetterError {
+  constructor(arg?: BetterErrorConstructorArg) {
+    super(arg)
+  }
+}
+
 class AuthError extends BetterError {
   constructor(arg?: BetterErrorConstructorArg) {
     super(arg)
@@ -101,6 +107,7 @@ export {
   ConfigError,
   CronError,
   DBError,
+  NoEntityError,
   ExchangeError,
   UserLimitError,
   PermissionError,

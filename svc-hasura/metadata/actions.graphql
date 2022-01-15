@@ -1,4 +1,10 @@
 type Mutation {
+  cancel_subscription(
+    subscription_id: String!
+  ): CancelSubscriptionOutput
+}
+
+type Mutation {
   create_auth_token(
     email: String!
     password: String!
@@ -27,6 +33,12 @@ type Mutation {
 }
 
 type Mutation {
+  create_subscription(
+    price_id: String
+  ): CreateSubscription
+}
+
+type Mutation {
   create_user(
     email: String!
     password: String!
@@ -39,14 +51,6 @@ type Mutation {
     keys: jsonb!
     description: String!
   ): CreateUserExchangeKeysOutput
-}
-
-type Query {
-  customer_checkout_session: CustomerCheckoutSessionOutput!
-}
-
-type Query {
-  customer_portal_session: CreateCustomerPortalSession
 }
 
 type Mutation {
@@ -65,6 +69,14 @@ type Mutation {
     secret: String!
     token: String!
   ): EnableUser2FAOutput
+}
+
+type Query {
+  query_prices: QueryPricesOutput
+}
+
+type Query {
+  query_subscriptions: QuerySubscriptionsOutput
 }
 
 type Query {
@@ -229,7 +241,7 @@ type CreateUserExchangeKeysOutput {
 }
 
 type WebhookOutput {
-  success: Boolean!
+  raw: jsonb!
 }
 
 type CreateCheckoutSession {
@@ -327,5 +339,26 @@ type QueryUserLimitOutput {
 
 type UpdateDCAOrderOutput {
   dca_order_uid: uuid!
+}
+
+type QueryPricesOutput {
+  prices: [jsonb]
+}
+
+type QuerySubscriptionOutput {
+  subscriptions: [jsonb]
+}
+
+type QuerySubscriptionsOutput {
+  subscriptions: [jsonb]
+}
+
+type CreateSubscription {
+  subscription_id: String!
+  client_secret: String!
+}
+
+type CancelSubscriptionOutput {
+  subscription: jsonb!
 }
 
