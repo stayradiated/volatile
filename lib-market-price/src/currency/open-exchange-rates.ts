@@ -27,8 +27,8 @@ const createMarketSourceForCurrency = (
 
       const [response, raw] = await getLatestExchangeRate({
         config,
-        base,
-        symbols: [symbol],
+        base: 'USD', // free tier only supports base of USD
+        symbols: [base, symbol],
       })
       if (response instanceof Error) {
         return [response, raw]
@@ -36,8 +36,11 @@ const createMarketSourceForCurrency = (
 
       const lastUpdated = new Date()
 
-      const value = response.rates[symbol]
-      if (typeof value !== 'number') {
+      const symbolValue = response.rates[symbol] ?? NaN
+      const baseValue = response.rates[base] ?? NaN
+
+      const value = symbolValue / baseValue
+      if (typeof value !== 'number' || Number.isNaN(value)) {
         const error = new TypeError(
           `Could not get ${base}/${symbol} rate. Expecting number, got ${inspect(
             value,

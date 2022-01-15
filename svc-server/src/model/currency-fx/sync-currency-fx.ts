@@ -6,6 +6,8 @@ import { historical } from '@volatile/open-exchange-rates-api'
 
 import { OPEN_EXCHANGE_RATES_APP_ID } from '../../env.js'
 
+import { UnexpectedError } from '../../util/error.js'
+
 import { upsertCurrencyFx } from './upsert-currency-fx.js'
 import { insertRequest} from '../request/index.js'
 
@@ -67,8 +69,8 @@ const syncCurrencyFx = async (
     const [result, raw] = await historical({
       config: { appId: OPEN_EXCHANGE_RATES_APP_ID },
       date,
-      base: fromSymbol,
-      symbols: [toSymbol],
+      base: 'USD', // free tier only supports USD
+      symbols: [fromSymbol, toSymbol],
     })
     if (raw) {
       const insertRequestError = await insertRequest(pool, raw.redacted())
@@ -80,11 +82,28 @@ const syncCurrencyFx = async (
       return result
     }
 
+    const toRate = result.rates[toSymbol] ?? NaN
+    const fromRate = result.rates[fromSymbol] ?? NaN
+    const fxRate = toRate / fromRate
+
+    if (typeof fxRate !== 'number' || Number.isNaN(fxRate)) {
+      return new UnexpectedError({
+        message:  `Could not get ${fromSymbol}→${toSymbol} rate`,
+        context: {
+          fromSymbol,
+          fromRate,
+          toSymbol,
+          toRate,
+          fxRate,
+        }
+      })
+    }
+
     const upsertResult = await upsertCurrencyFx(pool, {
       timestamp: fromUnixTime(result.timestamp),
       fromSymbol,
       toSymbol,
-      fxRate: result.rates[toSymbol]!,
+      fxRate,
     })
     if (upsertResult instanceof Error) {
       return upsertResult
