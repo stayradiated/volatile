@@ -1,8 +1,6 @@
-import type { DateTime } from 'luxon'
-
 type RowData = {
   exchangeID: string
-  openedAt: DateTime
+  openedAt: Date
   value: number
   price: number
   volume: number

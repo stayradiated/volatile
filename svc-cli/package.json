@@ -18,10 +18,9 @@
   },
   "dependencies": {
     "@stayradiated/error-boundary": "1.13.0",
-    "ky": "0.28.7",
-    "ky-universal": "0.9.1",
-    "luxon": "2.3.0",
-    "rambda": "7.0.1",
+    "@volatile/kanye": "workspace:1.0.1",
+    "date-fns": "2.28.0",
+    "prompts": "2.4.2",
     "table": "6.7.5",
     "yargs": "17.3.1"
   },
@@ -31,7 +30,7 @@
     "@graphql-codegen/near-operation-file-preset": "2.2.3",
     "@graphql-codegen/typescript": "2.4.2",
     "@graphql-codegen/typescript-operations": "2.2.2",
-    "@types/luxon": "2.0.8",
+    "@types/prompts": "2.0.14",
     "@types/yargs": "17.0.8",
     "@vercel/ncc": "^0.33",
     "ava": "3.15.0",

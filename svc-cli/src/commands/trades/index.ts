@@ -1,5 +1,5 @@
 import type { Argv } from 'yargs'
-import { DateTime } from 'luxon'
+import { parseISO } from 'date-fns'
 
 import { graphqlPaginate } from '../../utils/graphql.js'
 import { getAuthHeaders } from '../../utils/auth.js'
@@ -82,10 +82,8 @@ export const handler = createHandler<Options>(async (config, argv) => {
   const rowData = result.data.kc_trade.map<RowData>((trade) => ({
     exchange: trade.exchange.id,
     tradeID: trade.trade_id,
-    orderCreatedAt: trade.order
-      ? DateTime.fromISO(trade.order.created_at)
-      : undefined,
-    date: DateTime.fromISO(trade.timestamp),
+    orderCreatedAt: trade.order ? parseISO(trade.order.created_at) : undefined,
+    date: parseISO(trade.timestamp),
     price: trade.price,
     assetSymbol: trade.primary_currency,
     nzd: trade.total_value,

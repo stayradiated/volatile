@@ -1,12 +1,13 @@
-import { sort } from 'rambda'
+import { format } from 'date-fns'
+
 import { table, Row8 } from '../../utils/table.js'
 import { RowData } from './types.js'
 
-const sortByPrice = sort<RowData>((a, b): number => a.price - b.price)
+const sortByPrice = (a: RowData, b: RowData): number => a.price - b.price
 
 const formatRow = (row: RowData): Row8 => [
   row.marketName,
-  row.timestamp.toFormat('yyyy-LL-dd HH:mm:ss'),
+  format(row.timestamp, 'yyyy-LL-dd HH:mm:ss'),
   row.assetSymbol,
   row.sourcePrice.toFixed(2),
   row.sourceCurrency,
@@ -16,7 +17,7 @@ const formatRow = (row: RowData): Row8 => [
 ]
 
 const drawTable = (input: RowData[]): string => {
-  const rowData = sortByPrice(input)
+  const rowData = [...input].sort(sortByPrice)
 
   const header: Row8 = [
     'market',

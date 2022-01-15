@@ -1,17 +1,16 @@
-import { sort } from 'rambda'
+import { format } from 'date-fns'
 
 import { table, Row7 } from '../../utils/table.js'
 import { RowData } from './types.js'
 
-const sortByDateAsc = sort<RowData>(
-  (a, b): number => a.openedAt.valueOf() - b.openedAt.valueOf(),
-)
+const sortByDateAsc = (a: RowData, b: RowData): number =>
+  a.openedAt.valueOf() - b.openedAt.valueOf()
 
 const formatRow = (row: RowData): Row7 => {
   const date =
     row.openedAt.valueOf() === 0
       ? '-'
-      : row.openedAt.toFormat('yyyy-LL-dd HH:mm:ss')
+      : format(row.openedAt, 'yyyy-LL-dd HH:mm:ss')
   const exchange = row.exchangeID
   const volume = row.volume.toFixed(8)
   const price = row.price.toFixed(2)
@@ -23,7 +22,7 @@ const formatRow = (row: RowData): Row7 => {
 }
 
 const drawTable = (unsortedRows: RowData[]): string => {
-  const rowData = sortByDateAsc(unsortedRows)
+  const rowData = [...unsortedRows].sort(sortByDateAsc)
 
   const header: Row7 = [
     'date',

@@ -1,10 +1,8 @@
-import type { DateTime } from 'luxon'
-
 type RowData = {
-  date: DateTime
+  date: Date
   exchange: string
   tradeID: string
-  orderCreatedAt: DateTime | undefined
+  orderCreatedAt: Date | undefined
   assetSymbol: string
   price: number
   nzd: number

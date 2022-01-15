@@ -1,4 +1,4 @@
-import { DateTime } from 'luxon'
+import { parseISO, subMinutes, set, formatISO } from 'date-fns'
 import type { Argv } from 'yargs'
 
 import { graphql } from '../../utils/graphql.js'
@@ -61,10 +61,12 @@ export const handler = createHandler<Options>(async (config, argv) => {
     query: QUERY_GET_MARKET_PRICE,
     variables: {
       assetSymbol: asset,
-      timestamp: DateTime.local()
-        .minus({ minutes: 1 })
-        .set({ second: 0, millisecond: 0 })
-        .toISO(),
+      timestamp: formatISO(
+        set(subMinutes(new Date(), 1), {
+          seconds: 0,
+          milliseconds: 0,
+        }),
+      ),
     },
   })
   if (result instanceof Error) {
@@ -74,7 +76,7 @@ export const handler = createHandler<Options>(async (config, argv) => {
   const rowData = result.data.kc_market_price
     .map<RowData | undefined>((marketPrice) => ({
       marketName: marketPrice.market.name,
-      timestamp: DateTime.fromISO(marketPrice.timestamp),
+      timestamp: parseISO(marketPrice.timestamp),
       assetSymbol: marketPrice.asset_symbol,
       sourcePrice: marketPrice.source_price,
       sourceCurrency: marketPrice.source_currency,

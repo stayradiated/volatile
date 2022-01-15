@@ -19,8 +19,8 @@ const QUERY_GET_DCA_ORDERS = /* GraphQL */ `
       market {
         id
       }
-      primary_currency
-      secondary_currency
+      primary_currency_symbol
+      secondary_currency_symbol
       start_at
       daily_average
       market_offset

@@ -1,4 +1,4 @@
-import { DateTime } from 'luxon'
+import { parseISO } from 'date-fns'
 
 import { graphql } from '../../utils/graphql.js'
 import { getAuthHeaders } from '../../utils/auth.js'
@@ -49,7 +49,7 @@ export const handler = createHandler(async (config) => {
 
   const rowData = result.data.kc_order.map<RowData>((order) => ({
     exchangeID: order.exchange.id,
-    openedAt: DateTime.fromISO(order.opened_at),
+    openedAt: parseISO(order.opened_at),
     value: order.value,
     price: order.price,
     volume: order.volume,

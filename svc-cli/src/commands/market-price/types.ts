@@ -1,8 +1,6 @@
-import type { DateTime } from 'luxon'
-
 type RowData = {
   marketName: string
-  timestamp: DateTime
+  timestamp: Date
   assetSymbol: string
   sourcePrice: number
   sourceCurrency: string

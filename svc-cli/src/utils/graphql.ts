@@ -1,6 +1,4 @@
-import ky from 'ky-universal'
-import { HTTPError } from 'ky'
-import { errorBoundary } from '@stayradiated/error-boundary'
+import { kanye, getResponseBodyJSON } from '@volatile/kanye'
 
 type GraphqlOptions<Variables> = {
   endpoint: string
@@ -22,21 +20,17 @@ const graphql = async <Data, Variables = Record<string, unknown>>(
 ): Promise<GraphQLResult<Data> | Error> => {
   const { endpoint, headers, query, variables } = options
 
-  const result = (await errorBoundary(async () =>
-    ky
-      .post(endpoint, {
-        headers,
-        body: JSON.stringify({ query, variables }),
-      })
-      .json(),
-  )) as GraphQLResult<Data>
+  const raw = await kanye(endpoint, {
+    method: 'POST',
+    headers,
+    body: JSON.stringify({ query, variables }),
+  })
+  if (raw instanceof Error) {
+    return raw
+  }
 
+  const result = getResponseBodyJSON<GraphQLResult<Data>>(raw)
   if (result instanceof Error) {
-    if (result instanceof HTTPError) {
-      const response = (await result.response.json()) as Record<string, any>
-      console.log(response)
-    }
-
     return result
   }
 
