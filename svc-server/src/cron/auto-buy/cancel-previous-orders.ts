@@ -1,7 +1,9 @@
-import { errorListBoundary } from '@stayradiated/error-boundary'
+import { errorListBoundary, MultiError } from '@stayradiated/error-boundary'
 
 import type { Pool } from '../../types.js'
 import type { UserExchangeAPI } from '../../exchange-api/index.js'
+
+import { EXCHANGE_DASSET } from '../../model/exchange/index.js'
 
 import { updateOrder, selectOpenOrdersForDCA } from '../../model/order/index.js'
 
@@ -47,7 +49,15 @@ const cancelPreviousOrders = async (
   )
 
   if (cancelOrderError instanceof Error) {
-    return cancelOrderError
+     if (
+      userExchangeAPI.exchange === EXCHANGE_DASSET &&
+      cancelOrderError instanceof MultiError &&
+      cancelOrderError.cause.length <= 2
+    ) {
+      console.error(cancelOrderError)
+    } else {
+      return cancelOrderError
+    }
   }
 
   return undefined
