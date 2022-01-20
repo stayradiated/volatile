@@ -12,7 +12,7 @@ type Output = {
 
 const pairs: Array<[string, string]> = [
   ['BTC', 'NZD'],
-  ['ETH', 'NZD'],
+  // ['ETH', 'NZD'],
 ]
 
 const fetchCurrencyFxHandler: CronHandlerFn<Input, Output> = async (
