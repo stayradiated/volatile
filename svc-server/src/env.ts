@@ -15,6 +15,10 @@ const JWT_SECRET = Buffer.from(
 const ACTIONS_SECRET = env.get('ACTIONS_SECRET').required().asString()
 
 const STRIPE_API_KEY = env.get('STRIPE_API_KEY').required().asString()
+const STRIPE_PUBLISHABLE_KEY = env
+  .get('STRIPE_PUBLISHABLE_KEY')
+  .required()
+  .asString()
 const STRIPE_WEBHOOK_SECRET = env
   .get('STRIPE_WEBHOOK_SECRET')
   .required()
@@ -40,6 +44,7 @@ export {
   JWT_SECRET,
   ACTIONS_SECRET,
   STRIPE_API_KEY,
+  STRIPE_PUBLISHABLE_KEY,
   STRIPE_WEBHOOK_SECRET,
   DASSET_ACCOUNT_ID,
   DASSET_API_KEY,

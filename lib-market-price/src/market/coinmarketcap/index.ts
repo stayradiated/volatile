@@ -8,10 +8,10 @@ const prefixUrl = 'https://pro-api.coinmarketcap.com/'
 type APIStatus = {
   timestamp: string
   error_code: number
-  error_message: string | null
+  error_message: string | undefined
   elapsed: number
   credit_count: number
-  notice: string | null
+  notice: string | undefined
 }
 
 type APIQuote = {
@@ -39,7 +39,7 @@ type APICoin = {
   circulating_supply: number
   total_supply: number
   is_active: number
-  platform: string | null
+  platform: string | undefined
   cmc_rank: number
   is_fiat: number
   last_updated: string
@@ -57,7 +57,7 @@ type CoinMarketCapConfig = {
 
 const marketSource: MarketPriceSource<CoinMarketCapConfig> = {
   minCacheDurationMs: 60 * 1000,
-  fetch: async (options) => {
+  async fetch(options) {
     const { apiKey } = options
 
     const slug = 'bitcoin'

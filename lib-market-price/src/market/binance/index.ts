@@ -16,7 +16,7 @@ type APIResponse = {
 
 const marketSource: MarketPriceSource<Options> = {
   minCacheDurationMs: 5 * 1000,
-  fetch: async (options) => {
+  async fetch(options) {
     const { assetSymbol, currency } = options
 
     if (assetSymbol.toUpperCase() !== assetSymbol) {

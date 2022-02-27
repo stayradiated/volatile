@@ -1,8 +1,4 @@
-import {
-  Kanye,
-  getResponseBodyJSON,
-  APIError,
-} from '@volatile/kanye'
+import { Kanye, getResponseBodyJSON, APIError } from '@volatile/kanye'
 
 import { Config } from './types.js'
 
@@ -12,7 +8,7 @@ const timeout = 15_000
 const requestOptions = (config: Config) => ({
   prefixUrl,
   timeout,
-  redact: [config.accountId, config.apiKey]
+  redact: [config.accountId, config.apiKey],
 })
 
 type DassetAPIError = {

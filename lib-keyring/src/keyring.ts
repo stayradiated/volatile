@@ -58,7 +58,7 @@ const createKeyring = (
 
   const keyring: Keyring = {
     encrypt: (message) => encrypt(keys, algorithm, message),
-    decrypt: (message, keyringId) => {
+    decrypt(message, keyringId) {
       const keyOrError = findKey(keys, keyringId)
       if (keyOrError instanceof Error) {
         return keyOrError

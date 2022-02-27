@@ -91,6 +91,15 @@ actions:
       value_from_env: HASURA_ACTIONS_SECRET
   permissions:
   - role: user
+- name: query_stripe_config
+  definition:
+    kind: ""
+    handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/query_stripe_config'
+    headers:
+    - name: x-hasura-actions-secret
+      value_from_env: HASURA_ACTIONS_SECRET
+  permissions:
+  - role: user
 - name: query_subscriptions
   definition:
     kind: ""
@@ -423,4 +432,15 @@ custom_types:
   - name: QuerySubscriptionsOutput
   - name: CreateSubscription
   - name: CancelSubscriptionOutput
+  - name: PriceOutput
+  - name: QueryStripeConfigOutput
+  - name: StripeSubscription
+  - name: StripeSubscriptionPaymentSettings
+  - name: StripeSubscriptionAutomaticTax
+  - name: StripeSubscriptionMetadata
+  - name: StripeSubscriptionRecurring
+  - name: StripeSubscriptionPrice
+  - name: StripeSubscriptionPlan
+  - name: StripeSubscriptionItemData
+  - name: StripeSubscriptionItem
   scalars: []

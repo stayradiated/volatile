@@ -33,7 +33,13 @@ type HistoricalSearchParameters = {
 const historical = async (
   options: HistoricalOptions,
 ): Promise<[HistoricalResult | Error, Kanye?]> => {
-  const { config, base, symbols, prettyprint = false, showAlternative } = options
+  const {
+    config,
+    base,
+    symbols,
+    prettyprint = false,
+    showAlternative,
+  } = options
 
   const parameters: HistoricalSearchParameters = {}
 

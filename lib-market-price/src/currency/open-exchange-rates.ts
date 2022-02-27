@@ -22,12 +22,12 @@ const createMarketSourceForCurrency = (
 
   const marketSource: MarketPriceSource<Options> = {
     minCacheDurationMs: 3 * 60 * 60 * 1000,
-    fetch: async (fetchOptions) => {
+    async fetch(fetchOptions) {
       const { config } = fetchOptions
 
       const [response, raw] = await getLatestExchangeRate({
         config,
-        base: 'USD', // free tier only supports base of USD
+        base: 'USD', // Free tier only supports base of USD
         symbols: [base, symbol],
       })
       if (response instanceof Error) {
@@ -36,8 +36,8 @@ const createMarketSourceForCurrency = (
 
       const lastUpdated = new Date()
 
-      const symbolValue = response.rates[symbol] ?? NaN
-      const baseValue = response.rates[base] ?? NaN
+      const symbolValue = response.rates[symbol] ?? Number.NaN
+      const baseValue = response.rates[base] ?? Number.NaN
 
       const value = symbolValue / baseValue
       if (typeof value !== 'number' || Number.isNaN(value)) {

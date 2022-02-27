@@ -1,5 +1,9 @@
 import { forwardRef } from 'react'
-import Select, { Props as SelectProps, SelectInstance } from 'react-select'
+import Select, {
+  Props as SelectProps,
+  SelectInstance,
+  OnChangeValue,
+} from 'react-select'
 
 // TODO: we should track which symbols are available on which exchanges
 const SYMBOL_OPTIONS = [
@@ -10,6 +14,7 @@ const SYMBOL_OPTIONS = [
 
 type AssetOptions = { symbol: string | undefined }
 type SelectAssetInstance = SelectInstance<AssetOptions>
+type SelectAssetOption = OnChangeValue<AssetOptions, false>
 
 type Props = SelectProps<AssetOptions, false, any>
 
@@ -25,4 +30,4 @@ const SelectAsset = forwardRef<SelectAssetInstance, Props>((props, ref) => (
 ))
 
 export { SelectAsset }
-export type { SelectAssetInstance }
+export type { SelectAssetInstance, SelectAssetOption }

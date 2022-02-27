@@ -30,7 +30,7 @@ const useDeleteDCAOrder = () => {
   return async (dcaOrderUID: string) => {
     return mutate({
       variables: { dcaOrderUID },
-      update: (cache) => {
+      update(cache) {
         const list = cache.readQuery<Fragment>({
           query: QUERY_FRAGMENT,
         })

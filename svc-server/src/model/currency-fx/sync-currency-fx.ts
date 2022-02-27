@@ -8,10 +8,10 @@ import { OPEN_EXCHANGE_RATES_APP_ID } from '../../env.js'
 
 import { UnexpectedError } from '../../util/error.js'
 
-import { upsertCurrencyFx } from './upsert-currency-fx.js'
-import { insertRequest} from '../request/index.js'
+import { insertRequest } from '../request/index.js'
 
 import type { Pool } from '../../types.js'
+import { upsertCurrencyFx } from './upsert-currency-fx.js'
 
 type SyncCurrencyFxOptions = {
   startDate: Date
@@ -69,7 +69,7 @@ const syncCurrencyFx = async (
     const [result, raw] = await historical({
       config: { appId: OPEN_EXCHANGE_RATES_APP_ID },
       date,
-      base: 'USD', // free tier only supports USD
+      base: 'USD', // Free tier only supports USD
       symbols: [fromSymbol, toSymbol],
     })
     if (raw) {
@@ -78,24 +78,25 @@ const syncCurrencyFx = async (
         return insertRequestError
       }
     }
+
     if (result instanceof Error) {
       return result
     }
 
-    const toRate = result.rates[toSymbol] ?? NaN
-    const fromRate = result.rates[fromSymbol] ?? NaN
+    const toRate = result.rates[toSymbol] ?? Number.NaN
+    const fromRate = result.rates[fromSymbol] ?? Number.NaN
     const fxRate = toRate / fromRate
 
     if (typeof fxRate !== 'number' || Number.isNaN(fxRate)) {
       return new UnexpectedError({
-        message:  `Could not get ${fromSymbol}→${toSymbol} rate`,
+        message: `Could not get ${fromSymbol}→${toSymbol} rate`,
         context: {
           fromSymbol,
           fromRate,
           toSymbol,
           toRate,
           fxRate,
-        }
+        },
       })
     }
 

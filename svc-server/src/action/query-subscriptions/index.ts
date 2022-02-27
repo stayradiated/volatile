@@ -1,3 +1,4 @@
+import Stripe from 'stripe'
 import { errorBoundary } from '@stayradiated/error-boundary'
 
 import { stripe } from '../../util/stripe.js'
@@ -10,12 +11,10 @@ import { getOrCreateCustomer } from '../../model/customer/index.js'
 type Input = Record<string, never>
 
 type Output = {
-  subscriptions: unknown[]
+  subscriptions: Stripe.Subscription[]
 }
 
-const querySubscriptions: ActionHandlerFn<Input, Output> = async (
-  context,
-) => {
+const querySubscriptions: ActionHandlerFn<Input, Output> = async (context) => {
   const { pool, session } = context
   const { userUID } = session
   if (!userUID) {
@@ -34,8 +33,7 @@ const querySubscriptions: ActionHandlerFn<Input, Output> = async (
     return stripe.subscriptions.list({
       customer: customer.customerID,
       status: 'all',
-      expand: ['data.default_payment_method'],
-    });
+    })
   })
 
   if (subscriptions instanceof Error) {
@@ -43,7 +41,7 @@ const querySubscriptions: ActionHandlerFn<Input, Output> = async (
   }
 
   return {
-    subscriptions: subscriptions.data
+    subscriptions: subscriptions.data,
   }
 }
 

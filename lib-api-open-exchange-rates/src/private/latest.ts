@@ -32,7 +32,13 @@ type LatestSearchParameters = {
 const latest = async (
   options: LatestOptions,
 ): Promise<[LatestResult | Error, Kanye?]> => {
-  const { config, base, symbols, prettyprint = false, showAlternative } = options
+  const {
+    config,
+    base,
+    symbols,
+    prettyprint = false,
+    showAlternative,
+  } = options
 
   const parameters: LatestSearchParameters = {}
 

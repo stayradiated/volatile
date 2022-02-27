@@ -1,4 +1,4 @@
-import test, { Macro } from 'ava'
+import test from 'ava'
 import tk from 'timekeeper'
 import { addMinutes, subMinutes } from 'date-fns'
 
@@ -10,21 +10,22 @@ tk.freeze(now)
 type MacroInput = { startMinAgo: number; intervalMin: number }
 type MacroExpected = { nextRunAtInMin: number }
 
-const macro: Macro<[MacroInput, MacroExpected]> = (t, input, expected) => {
-  const { startMinAgo, intervalMin } = input
-  const { nextRunAtInMin } = expected
+const macro = test.macro({
+  exec(t, input: MacroInput, expected: MacroExpected) {
+    const { startMinAgo, intervalMin } = input
+    const { nextRunAtInMin } = expected
 
-  const result = calculateNextRunAt({
-    startAt: subMinutes(now, startMinAgo),
-    intervalMs: 1000 * 60 * intervalMin,
-  })
+    const result = calculateNextRunAt({
+      startAt: subMinutes(now, startMinAgo),
+      intervalMs: 1000 * 60 * intervalMin,
+    })
 
-  t.deepEqual(result, addMinutes(now, nextRunAtInMin))
-}
-
-macro.title = (title = '', input, expected) => {
-  return `${title} startAt: ${input.startMinAgo} min ago, interval: ${input.intervalMin} min → next run in ${expected.nextRunAtInMin} min`
-}
+    t.deepEqual(result, addMinutes(now, nextRunAtInMin))
+  },
+  title(title = '', input, expected) {
+    return `${title} startAt: ${input.startMinAgo} min ago, interval: ${input.intervalMin} min → next run in ${expected.nextRunAtInMin} min`
+  },
+})
 
 test(macro, { startMinAgo: 0, intervalMin: 1 }, { nextRunAtInMin: 1 })
 test(macro, { startMinAgo: 0, intervalMin: 5 }, { nextRunAtInMin: 5 })

@@ -37,7 +37,7 @@ const useDeleteUserDevice = () => {
         variables: {
           userDeviceUID,
         },
-        update: (cache) => {
+        update(cache) {
           const list = cache.readQuery<GetUserDeviceListByUidQuery>({
             query: QUERY_FRAGMENT,
           })

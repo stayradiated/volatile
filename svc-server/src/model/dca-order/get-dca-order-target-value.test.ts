@@ -46,7 +46,9 @@ test('should calculate without trades', async (t) => {
     }),
   )
 
-  const sum = await getDCAOrderTargetValue(pool, dcaOrder, currentTime)
+  const sum = await throwIfError<number>(
+    getDCAOrderTargetValue(pool, dcaOrder, currentTime),
+  )
   t.is(dailyAverage, sum)
 })
 
@@ -124,7 +126,9 @@ test('should calculate with multiple trades', async (t) => {
     }),
   )
 
-  const sum = await getDCAOrderTargetValue(pool, dcaOrder, currentTime)
+  const sum = await throwIfError<number>(
+    getDCAOrderTargetValue(pool, dcaOrder, currentTime),
+  )
   t.is(dailyAverage - tradedValue, sum)
 })
 
@@ -143,7 +147,9 @@ test('should ignore minValue', async (t) => {
     selectDCAOrder(pool, dcaOrderUID),
   )
 
-  const sum = await getDCAOrderTargetValue(pool, dcaOrder, currentTime)
+  const sum = await throwIfError<number>(
+    getDCAOrderTargetValue(pool, dcaOrder, currentTime),
+  )
   t.is(dailyAverage, sum)
 })
 
@@ -184,6 +190,8 @@ test('should cap target at maxValue', async (t) => {
     }),
   )
 
-  const sum = await getDCAOrderTargetValue(pool, dcaOrder, currentTime)
+  const sum = await throwIfError<number>(
+    getDCAOrderTargetValue(pool, dcaOrder, currentTime),
+  )
   t.is(dailyAverage, sum)
 })

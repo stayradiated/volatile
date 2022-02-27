@@ -10,9 +10,8 @@ type FileContents = {
 const createKeyringFromFilepath = async (
   filepath: string,
 ): Promise<Keyring | Error> => {
-  const fileContents = JSON.parse(
-    await fs.readFile(filepath, 'utf8'),
-  ) as FileContents
+  const buffer = await fs.readFile(filepath)
+  const fileContents = JSON.parse(buffer.toString('utf8')) as FileContents
   const { algorithm, keys } = fileContents
   const keyring = createKeyring(keys, { algorithm })
   return keyring

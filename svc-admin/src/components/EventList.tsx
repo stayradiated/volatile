@@ -11,7 +11,7 @@ import styles from './EventList.module.css'
 
 import { EventListItem } from './EventListItem'
 
-const getKey = (pageIndex: number, previousPageData: null) => {
+const getKey = (pageIndex: number, previousPageData: undefined) => {
   return [pageIndex * 100]
 }
 

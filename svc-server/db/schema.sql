@@ -255,7 +255,7 @@ CREATE FUNCTION kc.trade_avg_price_by_window(group_by text, currency text) RETUR
         sum(volume) as volume,
         round((sum(total_value) / sum(volume)), 2) as price
       FROM trade_fx(currency)
-      WHERE type = 'BUY'
+      WHERE type = 'BUY' AND volume > 0
       GROUP BY user_uid, date_trunc(group_by, timestamp), primary_currency
     ) AS source1
   ) as source2
@@ -1309,4 +1309,5 @@ INSERT INTO kc.schema_migrations (version) VALUES
     ('20220102092309'),
     ('20220103102441'),
     ('20220104101603'),
-    ('20220104174115');
+    ('20220104174115'),
+    ('20220123081226');

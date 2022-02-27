@@ -10,7 +10,7 @@ type Options = {
 
 const marketSource: MarketPriceSource<Options> = {
   minCacheDurationMs: 30 * 1000,
-  fetch: async (options) => {
+  async fetch(options) {
     const { assetSymbol, currency } = options
 
     const [result, raw] = await ir.getMarketSummary({

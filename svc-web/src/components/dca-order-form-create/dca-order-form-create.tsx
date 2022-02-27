@@ -56,11 +56,11 @@ type PrimaryCurrency = Query['kc_exchange'][0]['primary_currencies'][0]
 type SecondaryCurrency = Query['kc_exchange'][0]['secondary_currencies'][0]
 
 type FormState = {
-  exchange: null | Exchange
-  userExchangeKeys: null | UserExchangeKeys
-  market: null | Market
-  primaryCurrency: null | PrimaryCurrency
-  secondaryCurrency: null | SecondaryCurrency
+  exchange: undefined | Exchange
+  userExchangeKeys: undefined | UserExchangeKeys
+  market: undefined | Market
+  primaryCurrency: undefined | PrimaryCurrency
+  secondaryCurrency: undefined | SecondaryCurrency
   marketOffset: string
   startAt: Date
   dailyAverage: string
@@ -84,11 +84,11 @@ const DCAOrderFormCreate = (props: Props) => {
   )
 
   const [state, setState] = useState<FormState>({
-    exchange: null,
-    userExchangeKeys: null,
-    market: null,
-    primaryCurrency: null,
-    secondaryCurrency: null,
+    exchange: undefined,
+    userExchangeKeys: undefined,
+    market: undefined,
+    primaryCurrency: undefined,
+    secondaryCurrency: undefined,
     marketOffset: '',
     startAt: startOfToday(),
     dailyAverage: '',

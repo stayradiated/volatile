@@ -15,7 +15,7 @@ type GetFiatWithdrawalFeesResult = Array<{
     // Fixed fee amount
     Fixed: number
     // Percentage fee
-    Percentage: number | null
+    Percentage: number | undefined
   }
 }>
 
@@ -28,6 +28,14 @@ const getFiatWithdrawalFees = async (): Promise<
   }
 
   const result = getResponseBody<GetFiatWithdrawalFeesResult>(raw)
+
+  if (!(result instanceof Error)) {
+    for (const item of result) {
+      item.Fee.Fixed = item.Fee.Fixed ?? undefined
+      item.Fee.Percentage = item.Fee.Percentage ?? undefined
+    }
+  }
+
   return [result, raw]
 }
 

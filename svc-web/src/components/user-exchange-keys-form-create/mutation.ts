@@ -42,11 +42,11 @@ const useCreateUserExchangeKeys = () => {
   return async (variables: CreateUserExchangeKeysMutationVariables) => {
     return createUserExchangeKeys({
       variables,
-      update: (cache, response) => {
+      update(cache, response) {
         const { data } = response
         cache.modify({
           fields: {
-            kc_user_exchange_keys: (list) => {
+            kc_user_exchange_keys(list) {
               const newItem = cache.writeFragment({
                 data: data?.create_user_exchange_keys?.user_exchange_keys,
                 fragment: gql`

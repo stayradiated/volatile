@@ -8,7 +8,7 @@ import type {
 
 type Result = {
   isValid: boolean
-  validationMessage: string | undefined | null
+  validationMessage?: string
 }
 
 const MUTATION_CREATE_USER_EXCHANGE_KEYS = gql`
@@ -46,7 +46,7 @@ const useValidateUserExchangeKeys = () => {
           is_valid: false,
           validation_message: 'Could not validate keys.',
         }
-      setResult({ isValid, validationMessage })
+      setResult({ isValid, validationMessage: validationMessage ?? undefined })
       return { isValid, validationMessage }
     } catch (error) {
       console.error(error)

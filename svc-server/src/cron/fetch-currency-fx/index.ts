@@ -46,7 +46,9 @@ const fetchCurrencyFxHandler: CronHandlerFn<Input, Output> = async (
   }, 0)
 
   return {
-    message: `Successfully fetched ${totalDays} records for ${pairs.length} pair(s) from ${formatISO(startDate)} to ${formatISO(endDate)}.`,
+    message: `Successfully fetched ${totalDays} records for ${
+      pairs.length
+    } pair(s) from ${formatISO(startDate)} to ${formatISO(endDate)}.`,
   }
 }
 

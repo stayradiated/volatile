@@ -6,7 +6,7 @@ test('poll every 500ms until end', async (t) => {
   const result = await poll<number>({
     frequencyMs: 500,
     timeoutMs: 1000 * 10,
-    fn: async (count) => {
+    async fn(count) {
       if (count > 5) {
         return {
           end: true,
@@ -27,7 +27,7 @@ test('hit timeout after 2s', async (t) => {
   const result = await poll<number>({
     frequencyMs: 500,
     timeoutMs: 1000 * 2,
-    fn: async (count) => {
+    async fn(count) {
       if (count > 5) {
         return {
           end: true,

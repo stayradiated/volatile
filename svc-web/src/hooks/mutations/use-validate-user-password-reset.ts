@@ -20,7 +20,7 @@ type ValidateUserPasswordResetOptions = {
 
 type ValidateUserPasswordResetResult = {
   isValid: boolean
-  email: string | null | undefined
+  email?: string
 }
 
 type ValidateUserPasswordResetFn = (
@@ -42,7 +42,7 @@ const useValidateUserPasswordReset = (): ValidateUserPasswordResetFn => {
     const { is_valid: isValid, email } =
       result.data!.validate_user_password_reset
 
-    return { isValid, email }
+    return { isValid, email: email ?? undefined }
   }
 }
 

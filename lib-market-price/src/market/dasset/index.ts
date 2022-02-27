@@ -11,7 +11,7 @@ type Options = {
 
 const marketSource: MarketPriceSource<Options> = {
   minCacheDurationMs: 5 * 1000,
-  fetch: async (options) => {
+  async fetch(options) {
     const { config, assetSymbol, currency } = options
 
     if (assetSymbol.toUpperCase() !== assetSymbol) {

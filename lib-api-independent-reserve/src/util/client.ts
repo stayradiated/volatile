@@ -29,7 +29,7 @@ const post = async (
       method: 'POST',
       prefixUrl,
       json: signedBody,
-      redact: [config.apiKey, config.apiSecret]
+      redact: [config.apiKey, config.apiSecret],
     })
   })
 }

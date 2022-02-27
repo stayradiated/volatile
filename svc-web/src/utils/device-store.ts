@@ -13,7 +13,7 @@ const generateDeviceID = (length: number): string => {
 
 const getDeviceID = (): string => {
   let deviceID = store.get('device_id')
-  if (deviceID === null) {
+  if (typeof deviceID !== 'string') {
     deviceID = generateDeviceID(40)
     store.set('device_id', deviceID)
   }

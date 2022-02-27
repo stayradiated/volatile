@@ -55,11 +55,11 @@ jobs:
       - 
         name: Compile Typescript Packages
         run: |
-          pnpm -r build
+          pnpm -r --workspace-concurrency=1 build
           
           # hack to fix issue with ncc mixing CJS/ESM code
           sed -i -e '/"type": "module"/d' ./svc-server/package.json
-          pnpm -r build:ncc
+          pnpm -r --workspace-concurrency=1 build:ncc
 
       -
         name: Set up QEMU

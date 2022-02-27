@@ -12,5 +12,5 @@ test('should get deposit fees', async (t) => {
   t.is(typeof item.DepositType, 'string')
   t.is(typeof item.FreeThreshold, 'number')
   t.is(typeof item.Fee.Fixed, 'number')
-  t.is(item.Fee.Percentage, null)
+  t.is(item.Fee.Percentage, undefined)
 })

@@ -59,7 +59,7 @@ test('insertUserExchangeKey: should write to user_exchange_keys', async (t) => {
   t.is('string', typeof row.keys_encrypted)
   t.is('string', typeof row.keys_hash)
   t.is(description, row.description)
-  t.is(null, row.invalidated_at)
+  t.is(row.invalidated_at, null)
 })
 
 test('getUserExchangeKey: should read from user_exchange_keys', async (t) => {
@@ -92,10 +92,10 @@ test('getUserExchangeKey: should read from user_exchange_keys', async (t) => {
     return
   }
 
-  t.is('string', typeof result.UID)
-  t.is(userUID, result.userUID)
+  t.is(typeof result.UID, 'string')
+  t.is(result.userUID, userUID)
   t.is(exchangeUID, result.exchangeUID)
-  t.deepEqual(keys, result.keys)
-  t.is(description, result.description)
-  t.is(undefined, result.invalidatedAt)
+  t.deepEqual(result.keys, keys)
+  t.is(result.description, description)
+  t.is(result.invalidatedAt, undefined)
 })

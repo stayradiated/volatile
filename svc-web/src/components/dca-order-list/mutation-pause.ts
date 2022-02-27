@@ -6,14 +6,8 @@ import type {
 } from '../../utils/graphql'
 
 const MUTATION = gql`
-  mutation updateDCAOrderEnabled(
-    $dcaOrderUID: uuid!
-    $enabled: Boolean!
-  ) {
-    update_dca_order(
-      dca_order_uid: $dcaOrderUID
-      enabled: $enabled
-    ) {
+  mutation updateDCAOrderEnabled($dcaOrderUID: uuid!, $enabled: Boolean!) {
+    update_dca_order(dca_order_uid: $dcaOrderUID, enabled: $enabled) {
       dca_order {
         uid
         enabled_at

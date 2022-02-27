@@ -14,7 +14,7 @@ test('should get fiat withdrawal fees', async (t) => {
   const item = result[0]!
   t.is(typeof item.CurrencyCode, 'string')
   t.is(typeof item.Fee.Fixed, 'number')
-  t.is(item.Fee.Percentage, null)
+  t.is(item.Fee.Percentage, undefined)
   t.is(typeof item.MinimumAmount, 'number')
   t.is(typeof item.WithdrawalType, 'string')
 })

@@ -30,7 +30,7 @@ const GUEST_SESSION: GuestSession = {
 
 const getSession = (): Session => {
   const session = store.get('session')
-  if (session === null) {
+  if (session === undefined) {
     return GUEST_SESSION
   }
 

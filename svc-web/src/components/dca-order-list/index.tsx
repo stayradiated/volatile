@@ -66,7 +66,7 @@ const DCAOrderList = (props: Props) => {
       {
         Header: 'Status',
         accessor: 'enabled_at',
-        Cell: ({ value: enabledAt, row }) => {
+        Cell({ value: enabledAt, row }) {
           const handleTogglePause = async () => {
             return updateEnabled(row.original.uid, !enabledAt)
           }
@@ -84,7 +84,7 @@ const DCAOrderList = (props: Props) => {
       },
       {
         Header: 'Trading Pair',
-        accessor: (row) => {
+        accessor(row) {
           return `${row.primary_currency.symbol}-${row.secondary_currency.symbol}`
         },
       },
@@ -96,12 +96,12 @@ const DCAOrderList = (props: Props) => {
       {
         Header: 'Daily Average',
         accessor: 'daily_average',
-        Cell: ({ value }) => formatCurrency(value)
+        Cell: ({ value }) => formatCurrency(value),
       },
       {
         Header: 'Start At',
         accessor: 'start_at',
-        Cell: ({ value }) => {
+        Cell({ value }) {
           return (
             (differenceInHours(new Date(), parseISO(value)) / 24).toFixed(2) +
             ' days'
@@ -126,7 +126,7 @@ const DCAOrderList = (props: Props) => {
       {
         Header: 'Actions',
         accessor: 'uid',
-        Cell: (props) => {
+        Cell(props) {
           const { value } = props
 
           const handleView = () => {

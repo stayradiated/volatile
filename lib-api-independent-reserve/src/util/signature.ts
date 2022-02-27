@@ -27,31 +27,35 @@ const createSignature = (options: CreateSignatureOptions): string => {
   return signature
 }
 
-const filterNullKeys = (
-  input: Record<string, undefined | null | number | string>,
-): Record<string, number | string> =>
+type PickKeysMatching<T, V> = Pick<
+  T,
+  { [K in keyof T]-?: T[K] extends V ? K : never }[keyof T]
+>
+
+const filterNullKeys = <P>(input: P): PickKeysMatching<P, string | number> =>
   Object.fromEntries(
     Object.entries(input).filter((pair) => {
       const value = pair[1]
       return typeof value !== 'undefined' && value !== null
     }) as Array<[string, string | number]>,
-  )
+  ) as unknown as PickKeysMatching<P, string | number>
 
-type CreateSignedBodyOptions = {
+type CreateSignedBodyOptions<P> = {
   config: Config
   endpoint: string
-  parameters: Record<string, undefined | string | number>
+  parameters: P
   nonce: number
 }
 
-type SignedBody = {
-  [key: string]: string | number
+type SignedBody<P> = P & {
   apiKey: string
   nonce: string
   signature: string
 }
 
-const createSignedBody = (options: CreateSignedBodyOptions): SignedBody => {
+const createSignedBody = <P>(
+  options: CreateSignedBodyOptions<P>,
+): SignedBody<PickKeysMatching<P, string | number>> => {
   const { config, endpoint, parameters, nonce } = options
   const { apiKey } = config
 

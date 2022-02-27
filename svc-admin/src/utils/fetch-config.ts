@@ -14,14 +14,14 @@ interface ConfigResponse {
   jwt: JWT
   is_allow_list_enabled: boolean
   live_queries: LiveQueries
-  console_assets_dir: null
+  console_assets_dir: undefined
   experimental_features: any[]
 }
 
 interface JWT {
   claims_namespace: string
   claims_format: string
-  claims_map: null
+  claims_map: undefined
 }
 
 interface LiveQueries {

@@ -49,7 +49,7 @@ const cancelPreviousOrders = async (
   )
 
   if (cancelOrderError instanceof Error) {
-     if (
+    if (
       userExchangeAPI.exchange === EXCHANGE_DASSET &&
       cancelOrderError instanceof MultiError &&
       cancelOrderError.cause.length <= 2

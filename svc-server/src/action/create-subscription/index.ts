@@ -12,13 +12,11 @@ type Input = {
 }
 
 type Output = {
-  subscription_id: string,
-  client_secret: string,
+  subscription_id: string
+  client_secret: string
 }
 
-const createSubscription: ActionHandlerFn<Input, Output> = async (
-  context,
-) => {
+const createSubscription: ActionHandlerFn<Input, Output> = async (context) => {
   const { pool, input, session } = context
   const { userUID } = session
   if (!userUID) {
@@ -35,15 +33,17 @@ const createSubscription: ActionHandlerFn<Input, Output> = async (
     return customer
   }
 
-  const subscription = await errorBoundary(() => {
+  const subscription = await errorBoundary(async () => {
     return stripe.subscriptions.create({
       customer: customer.customerID,
-      items: [{
-        price: priceId,
-      }],
+      items: [
+        {
+          price: priceId,
+        },
+      ],
       payment_behavior: 'default_incomplete',
       expand: ['latest_invoice.payment_intent'],
-    });
+    })
   })
 
   if (subscription instanceof Error) {

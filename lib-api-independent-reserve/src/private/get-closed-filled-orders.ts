@@ -22,7 +22,7 @@ type GetClosedFilledOrdersResult = {
     OrderGuid: string
     OrderType: string
     Outstanding: number
-    Price: null
+    Price: undefined
     PrimaryCurrencyCode: string
     SecondaryCurrencyCode: string
     Status:

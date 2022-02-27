@@ -7,11 +7,11 @@ import { Button, Alert, Spin, Table } from '../retro-ui'
 import { formatCurrency } from '../../utils/format'
 
 import type {
-  GetOpenOrderListQuery,
-  GetOpenOrderListQueryVariables,
+  GetOpenOrderListQuery as Query,
+  GetOpenOrderListQueryVariables as QueryVariables,
 } from '../../utils/graphql'
 
-type Order = GetOpenOrderListQuery['kc_order'][0]
+type Order = Query['kc_order'][0]
 
 const QUERY = gql`
   query getOpenOrderList {
@@ -45,7 +45,7 @@ const columns: Array<Column<Order>> = [
   {
     Header: 'Opened At',
     accessor: 'opened_at',
-    Cell: (props) => {
+    Cell(props) {
       const { value } = props
       return format(parseISO(value), 'PPpp')
     },
@@ -53,7 +53,7 @@ const columns: Array<Column<Order>> = [
   {
     Header: 'Trading Pair',
     accessor: 'uid',
-    Cell: (props) => {
+    Cell(props) {
       const { primary_currency, secondary_currency } = props.row.original
       return `${primary_currency}-${secondary_currency}`
     },
@@ -65,7 +65,7 @@ const columns: Array<Column<Order>> = [
   {
     Header: 'Value',
     accessor: 'value',
-    Cell: (props) => {
+    Cell(props) {
       const { value } = props
       return formatCurrency(value)
     },
@@ -77,7 +77,7 @@ const columns: Array<Column<Order>> = [
   {
     Header: 'Price',
     accessor: 'price',
-    Cell: (props) => {
+    Cell(props) {
       const { value } = props
       return formatCurrency(value)
     },
@@ -85,7 +85,7 @@ const columns: Array<Column<Order>> = [
   {
     Header: 'DCA Order?',
     accessor: 'dca_order_histories',
-    Cell: (props) => {
+    Cell(props) {
       const { value } = props
       return value ? 'Yes' : 'No'
     },
@@ -93,10 +93,9 @@ const columns: Array<Column<Order>> = [
 ]
 
 const OpenOrderList = () => {
-  const { data, loading, error, refetch } = useQuery<
-    GetOpenOrderListQuery,
-    GetOpenOrderListQueryVariables
-  >(QUERY)
+  const { data, loading, error, refetch } = useQuery<Query, QueryVariables>(
+    QUERY,
+  )
 
   const table = useTable({
     columns,

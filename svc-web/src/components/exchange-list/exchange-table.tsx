@@ -8,8 +8,8 @@ import { formatCurrency } from '../../utils/format'
 import type { GetExchangeListQuery as Query } from '../../utils/graphql'
 
 type UserExchangeKey = Query['kc_user_exchange_keys'][0]
-type LatestBalance = Exclude<UserExchangeKey['balance_latest'], null | undefined>[0]
-type HistoricBalance = Exclude<UserExchangeKey['balance_historic'], null | undefined>[0]
+type LatestBalance = NonNullable<UserExchangeKey['balance_latest']>[0]
+type HistoricBalance = NonNullable<UserExchangeKey['balance_historic']>[0]
 
 type Row = LatestBalance & {
   historic: HistoricBalance
@@ -42,8 +42,8 @@ const ExchangeTable = (props: Props) => {
       {
         Header: 'Total Balance (NZD)',
         accessor: 'total_balance_nzd',
-        Cell: ({ value }) => formatCurrency(value),
-        Footer: ({ rows }) => {
+        Cell: ({ value }) => formatCurrency(value ?? undefined),
+        Footer({ rows }) {
           const total = rows.reduce(
             (sum, row) => row.values.total_balance_nzd + sum,
             0,
@@ -54,15 +54,15 @@ const ExchangeTable = (props: Props) => {
       {
         id: 'change',
         Header: '24 Hour Change',
-        accessor: (row): number => {
-          return (row.total_balance_nzd ?? 0) - (row.historic?.total_balance_nzd ?? 0)
+        accessor(row): number {
+          return (
+            (row.total_balance_nzd ?? 0) -
+            (row.historic?.total_balance_nzd ?? 0)
+          )
         },
         Cell: ({ value }: { value: number }) => formatCurrency(value),
-        Footer: ({ rows }) => {
-          const total = rows.reduce(
-            (sum, row) => row.values.change + sum,
-            0,
-          )
+        Footer({ rows }) {
+          const total = rows.reduce((sum, row) => row.values.change + sum, 0)
           return formatCurrency(total)
         },
       },
@@ -75,14 +75,16 @@ const ExchangeTable = (props: Props) => {
       return []
     }
 
-    const historic = Object.fromEntries(userExchangeKey.balance_historic!.map((row) => {
-      return [row.currency_symbol, row]
-    }))
+    const historic = Object.fromEntries(
+      userExchangeKey.balance_historic!.map((row) => {
+        return [row.currency_symbol, row]
+      }),
+    )
 
     return userExchangeKey.balance_latest!.map((row) => {
       return {
         ...row,
-        historic: historic[row.currency_symbol]
+        historic: historic[row.currency_symbol],
       }
     })
   }, [userExchangeKey])
@@ -96,9 +98,7 @@ const ExchangeTable = (props: Props) => {
 
   return (
     <>
-      <h2>
-        {userExchangeKey.exchange.name}{' '}
-      </h2>
+      <h2>{userExchangeKey.exchange.name} </h2>
       <Table table={table} />
     </>
   )

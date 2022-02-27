@@ -1,13 +1,12 @@
-const formatCurrency = (
-  value: number | null | undefined,
-  mantissa = 2,
-): string => {
-  if (value == null) {
+const formatCurrency = (value: number | undefined, mantissa = 2): string => {
+  if (typeof value !== 'number') {
     return '$-.--'
   }
 
-  const formattedValue = Math.abs(value).toFixed(mantissa).replace(/\d(?=(?:\d{3})+(?!\d))/, '$&,')
-  const prefix = (value < 0) ? '-' : ''
+  const formattedValue = Math.abs(value)
+    .toFixed(mantissa)
+    .replace(/\d(?=(?:\d{3})+(?!\d))/, '$&,')
+  const prefix = value < 0 ? '-' : ''
   return `${prefix}$${formattedValue}`
 }
 

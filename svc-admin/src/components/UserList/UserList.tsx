@@ -42,7 +42,7 @@ const UserList = () => {
         id: 'email_hash',
         Header: 'Email Hash',
         accessor: 'uid',
-        Cell: ({ value: userUID }) => {
+        Cell({ value: userUID }) {
           const handleShow = async () => {
             setState({ ...state, [userUID]: true })
           }

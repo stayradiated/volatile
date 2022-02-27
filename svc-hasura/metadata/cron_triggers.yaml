@@ -1,6 +1,6 @@
 - name: Auto Buy
   webhook: '{{HASURA_ACTIONS_ENDPOINT}}/cron/auto_buy'
-  schedule: '* * * * *'
+  schedule: 0 12 * * 5
   include_in_metadata: true
   payload: {}
   headers:
@@ -8,7 +8,7 @@
     value_from_env: HASURA_ACTIONS_SECRET
 - name: Fetch Currency FX
   webhook: '{{HASURA_ACTIONS_ENDPOINT}}/cron/fetch_currency_fx'
-  schedule: 0 * * * *
+  schedule: 0 12 * * 5
   include_in_metadata: true
   payload: {}
   headers:
@@ -16,7 +16,7 @@
     value_from_env: HASURA_ACTIONS_SECRET
 - name: Fetch Market Price
   webhook: '{{HASURA_ACTIONS_ENDPOINT}}/cron/fetch_market_price'
-  schedule: '* * * * *'
+  schedule: 0 12 * * 5
   include_in_metadata: true
   payload: {}
   headers:

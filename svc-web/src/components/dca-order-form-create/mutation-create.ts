@@ -89,11 +89,11 @@ const useCreateDCAOrder = () => {
   return async (variables: CreateDcaOrderMutationVariables) => {
     return mutate({
       variables,
-      update: (cache, response) => {
+      update(cache, response) {
         const { data } = response
         cache.modify({
           fields: {
-            kc_dca_order: (list) => {
+            kc_dca_order(list) {
               const newItem = cache.writeFragment({
                 fragment: FRAGMENT,
                 data: data?.create_dca_order?.dca_order,

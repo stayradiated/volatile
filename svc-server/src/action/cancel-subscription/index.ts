@@ -12,12 +12,10 @@ type Input = {
 }
 
 type Output = {
-  subscription: unknown,
+  subscription: unknown
 }
 
-const cancelSubscription: ActionHandlerFn<Input, Output> = async (
-  context,
-) => {
+const cancelSubscription: ActionHandlerFn<Input, Output> = async (context) => {
   const { pool, input, session } = context
   const { userUID } = session
   if (!userUID) {
@@ -34,10 +32,8 @@ const cancelSubscription: ActionHandlerFn<Input, Output> = async (
     return customer
   }
 
-  const deletedSubscription = await errorBoundary(() => {
-    return stripe.subscriptions.del(
-      subscriptionID
-    )
+  const deletedSubscription = await errorBoundary(async () => {
+    return stripe.subscriptions.del(subscriptionID)
   })
 
   if (deletedSubscription instanceof Error) {

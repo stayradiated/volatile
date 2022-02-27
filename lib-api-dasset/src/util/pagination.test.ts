@@ -1,4 +1,5 @@
 import test from 'ava'
+import { throwIfError } from '@stayradiated/error-boundary'
 
 import { PaginatedFetchFn, getPage, getAllPages } from './pagination.js'
 import type { Config } from './types.js'
@@ -42,7 +43,13 @@ const mockPaginate = <T>(list: T[]): PaginatedFetchFn<T> => {
 test('getPage: 0 pages', async (t) => {
   const fetchFn = mockPaginate([])
 
-  const [result] = await getPage({ config: CONFIG, fetchFn, limit: 4, page: 1 })
+  const [resultOrError] = await getPage({
+    config: CONFIG,
+    fetchFn,
+    limit: 4,
+    page: 1,
+  })
+  const result = throwIfError(resultOrError)
   t.deepEqual(
     {
       total: 0,
@@ -58,7 +65,13 @@ test('getPage: 0 pages', async (t) => {
 test('getPage: 1 page', async (t) => {
   const fetchFn = mockPaginate(range(0, 4))
 
-  const [result] = await getPage({ config: CONFIG, fetchFn, limit: 4, page: 1 })
+  const [resultOrError] = await getPage({
+    config: CONFIG,
+    fetchFn,
+    limit: 4,
+    page: 1,
+  })
+  const result = throwIfError(resultOrError)
   t.deepEqual(
     {
       total: 4,
@@ -74,12 +87,13 @@ test('getPage: 1 page', async (t) => {
 test('getPage: 2 pages', async (t) => {
   const fetchFn = mockPaginate(range(0, 8))
   {
-    const [result] = await getPage({
+    const [resultOrError] = await getPage({
       config: CONFIG,
       fetchFn,
       limit: 4,
       page: 1,
     })
+    const result = throwIfError(resultOrError)
     t.deepEqual(
       {
         total: 8,
@@ -93,12 +107,13 @@ test('getPage: 2 pages', async (t) => {
   }
 
   {
-    const [result] = await getPage({
+    const [resultOrError] = await getPage({
       config: CONFIG,
       fetchFn,
       limit: 4,
       page: 2,
     })
+    const result = throwIfError(resultOrError)
     t.deepEqual(
       {
         total: 8,
@@ -115,6 +130,7 @@ test('getPage: 2 pages', async (t) => {
 test('getAllPages', async (t) => {
   const fetchFn = mockPaginate(range(0, 350))
 
-  const [results] = await getAllPages({ config: CONFIG, fetchFn })
-  t.deepEqual(range(0, 350), results)
+  const [resultOrError] = await getAllPages({ config: CONFIG, fetchFn })
+  const result = throwIfError(resultOrError)
+  t.deepEqual(range(0, 350), result)
 })

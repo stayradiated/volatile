@@ -8,10 +8,10 @@ const stringFromTxnId = (txnId: number | undefined) =>
   txnId === undefined ? '-' : String(txnId)
 
 db.setConfig({
-  queryListener: (query, txnId) => {
+  queryListener(query, txnId) {
     queryDebug(`(%s) %s\n%o`, stringFromTxnId(txnId), query.text, query.values)
   },
-  resultListener: (result, txnId, elapsedMs) => {
+  resultListener(result, txnId, elapsedMs) {
     resultDebug(
       `(%s, %dms) %O`,
       stringFromTxnId(txnId),
@@ -19,7 +19,7 @@ db.setConfig({
       result,
     )
   },
-  transactionListener: (message, txnId) => {
+  transactionListener(message, txnId) {
     txnDebug(`(%s) %s`, stringFromTxnId(txnId), message)
   },
 })

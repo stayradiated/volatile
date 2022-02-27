@@ -1,5 +1,8 @@
 import { ActionHandlerFn } from '../../util/action-handler.js'
-import { updateDCAOrder, assertUserForDCAOrder } from '../../model/dca-order/index.js'
+import {
+  updateDCAOrder,
+  assertUserForDCAOrder,
+} from '../../model/dca-order/index.js'
 import { MissingRequiredArgumentError } from '../../util/error.js'
 
 type Input = {
@@ -10,7 +13,9 @@ type Output = {
   dca_order_uid: string
 }
 
-const updateDCAOrderHandler: ActionHandlerFn<Input, Output> = async (context) => {
+const updateDCAOrderHandler: ActionHandlerFn<Input, Output> = async (
+  context,
+) => {
   const { session, pool, input } = context
   const { userUID } = session
   if (!userUID) {
@@ -22,7 +27,10 @@ const updateDCAOrderHandler: ActionHandlerFn<Input, Output> = async (context) =>
 
   const { dca_order_uid: dcaOrderUID, enabled } = input
 
-  const assertError = await assertUserForDCAOrder(pool, { userUID, dcaOrderUID })
+  const assertError = await assertUserForDCAOrder(pool, {
+    userUID,
+    dcaOrderUID,
+  })
   if (assertError instanceof Error) {
     return assertError
   }

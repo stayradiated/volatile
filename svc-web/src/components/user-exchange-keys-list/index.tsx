@@ -62,7 +62,7 @@ const UserExchangeKeysList = (props: Props) => {
       {
         Header: 'Last Modified',
         accessor: 'updated_at',
-        Cell: (props) => {
+        Cell(props) {
           const { value } = props
           return format(parseISO(value), 'PPpp')
         },
@@ -74,7 +74,7 @@ const UserExchangeKeysList = (props: Props) => {
       {
         Header: 'Actions',
         accessor: 'uid',
-        Cell: (props) => {
+        Cell(props) {
           const userExchangeKeysUID = props.value
 
           const handleEdit = () => {

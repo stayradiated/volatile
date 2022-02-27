@@ -61,8 +61,8 @@ type UserExchangeKeys = Query['kc_user_exchange_keys'][0]
 type Market = Query['kc_market'][0]
 
 type FormState = {
-  userExchangeKeys: null | UserExchangeKeys
-  market: null | Market
+  userExchangeKeys: undefined | UserExchangeKeys
+  market: undefined | Market
   marketOffset: string
   startAt: Date
   dailyAverage: string
@@ -92,8 +92,8 @@ const DCAOrderFormEdit = (props: Props) => {
   const updateDCAOrder = useUpdateDCAOrder()
 
   const [state, setState] = useState<FormState>({
-    userExchangeKeys: null,
-    market: null,
+    userExchangeKeys: undefined,
+    market: undefined,
     minValue: '',
     maxValue: '',
     startAt: startOfToday(),
@@ -170,9 +170,10 @@ const DCAOrderFormEdit = (props: Props) => {
         userExchangeKeys:
           userExchangeKeysOptions.find(
             (item) => item.uid === order.user_exchange_keys_uid,
-          ) ?? null,
+          ) ?? undefined,
         market:
-          marketOptions.find((item) => item.uid === order.market_uid) ?? null,
+          marketOptions.find((item) => item.uid === order.market_uid) ??
+          undefined,
         minValue: String(order.min_value) ?? '',
         maxValue: String(order.max_value) ?? '',
         startAt: parseISO(order.start_at),

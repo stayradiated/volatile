@@ -19,10 +19,14 @@ const Sidebar = () => {
   }
 
   if (error) {
-    return <div>
-      <pre><code>Error: {error.message}</code></pre>
-      <button onClick={handleLogout}>Log out</button>
-    </div>
+    return (
+      <div>
+        <pre>
+          <code>Error: {error.message}</code>
+        </pre>
+        <button onClick={handleLogout}>Log out</button>
+      </div>
+    )
   }
 
   if (!data) return <div>loading...</div>

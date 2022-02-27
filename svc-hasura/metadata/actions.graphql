@@ -72,7 +72,11 @@ type Mutation {
 }
 
 type Query {
-  query_prices: QueryPricesOutput
+  query_prices: [PriceOutput!]!
+}
+
+type Query {
+  query_stripe_config: QueryStripeConfigOutput!
 }
 
 type Query {
@@ -350,7 +354,7 @@ type QuerySubscriptionOutput {
 }
 
 type QuerySubscriptionsOutput {
-  subscriptions: [jsonb]
+  subscriptions: [StripeSubscription!]!
 }
 
 type CreateSubscription {
@@ -359,6 +363,143 @@ type CreateSubscription {
 }
 
 type CancelSubscriptionOutput {
-  subscription: jsonb!
+  subscription: [StripeSubscription!]!
+}
+
+type PriceOutput {
+  interval: String
+  interval_count: Int
+  currency: String!
+  id: String!
+  unit_amount: Int!
+  type: String!
+}
+
+type QueryStripeConfigOutput {
+  publishable_key: String!
+}
+
+type StripeSubscription {
+  current_period_start: Int
+  status: String!
+  trial_start: String
+  schedule: String
+  discount: String
+  livemode: Boolean
+  created: Int
+  billing_thresholds: String
+  pending_invoice_item_interval: String
+  quantity: Int
+  start_date: Int
+  cancel_at_period_end: Boolean
+  collection_method: String
+  pending_setup_intent: String
+  transfer_data: String
+  customer: String
+  ended_at: String
+  cancel_at: String
+  application_fee_percent: String
+  trial_end: String
+  billing_cycle_anchor: Int
+  object: String
+  id: String!
+  canceled_at: String
+  latest_invoice: String
+  next_pending_invoice_item_invoice: String
+  pause_collection: String
+  current_period_end: Int!
+  default_payment_method: String
+  pending_update: String
+  default_source: String
+  days_until_due: String
+  payment_settings: StripeSubscriptionPaymentSettings
+  default_tax_rates: [String]
+  automatic_tax: StripeSubscriptionAutomaticTax
+  items: StripeSubscriptionItem
+  plan: StripeSubscriptionPlan!
+}
+
+type StripeSubscriptionPaymentSettings {
+  payment_method_options: String
+  payment_method_types: String
+}
+
+type StripeSubscriptionAutomaticTax {
+  enabled: Boolean
+}
+
+type StripeSubscriptionMetadata {
+  lookup_key: String
+}
+
+type StripeSubscriptionRecurring {
+  usage_type: String
+  trial_period_days: String
+  interval: String
+  interval_count: Int
+  aggregate_usage: String
+}
+
+type StripeSubscriptionPrice {
+  lookup_key: String
+  livemode: Boolean
+  tiers_mode: String
+  created: Int
+  billing_scheme: String
+  unit_amount_decimal: String
+  active: Boolean
+  currency: String
+  object: String
+  id: String
+  unit_amount: Int
+  transform_quantity: String
+  nickname: String
+  type: String
+  product: String
+  tax_behavior: String
+  metadata: StripeSubscriptionMetadata
+  recurring: StripeSubscriptionRecurring
+}
+
+type StripeSubscriptionPlan {
+  amount: Int!
+  usage_type: String
+  livemode: Boolean
+  tiers_mode: String
+  trial_period_days: String
+  created: Int
+  transform_usage: String
+  billing_scheme: String
+  active: Boolean
+  interval: String
+  currency: String!
+  object: String
+  id: String
+  amount_decimal: String!
+  nickname: String
+  interval_count: Int
+  product: String
+  aggregate_usage: String
+  metadata: StripeSubscriptionMetadata
+}
+
+type StripeSubscriptionItemData {
+  created: Int
+  billing_thresholds: String
+  quantity: Int
+  object: String
+  id: String
+  subscription: String
+  tax_rates: [String]
+  price: StripeSubscriptionPrice
+  plan: StripeSubscriptionPlan
+}
+
+type StripeSubscriptionItem {
+  has_more: Boolean
+  url: String
+  total_count: Int
+  object: String
+  data: [StripeSubscriptionItemData]
 }
 

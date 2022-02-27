@@ -6,9 +6,18 @@ import { useSession } from '../../src/hooks/use-session'
 import { Card, DateInput } from '../../src/components/retro-ui'
 import { Navigation } from '../../src/components/navigation'
 import { TradeList } from '../../src/components/trade-list/index'
-import { SelectAsset } from '../../src/components/select/asset/index'
-import { SelectCurrency } from '../../src/components/select/currency/index'
-import { SelectExchange } from '../../src/components/select/exchange/index'
+import {
+  SelectAsset,
+  SelectAssetOption,
+} from '../../src/components/select/asset/index'
+import {
+  SelectCurrency,
+  SelectCurrencyOption,
+} from '../../src/components/select/currency/index'
+import {
+  SelectExchange,
+  SelectExchangeOption,
+} from '../../src/components/select/exchange/index'
 
 import App from '../../src/app'
 import { AuthenticatedRoute } from '../../src/authenticated-route'
@@ -28,21 +37,21 @@ const Trades = () => {
   const [endDate, setEndDate] = useState<Date | undefined>(undefined)
 
   const handleChangeExchange = useCallback(
-    (option: null | { uid: string | undefined }) => {
+    (option: SelectExchangeOption) => {
       setExchange(option?.uid)
     },
     [setExchange],
   )
 
   const handleChangePrimaryCurrency = useCallback(
-    (option: null | { symbol: string | undefined }) => {
+    (option: SelectAssetOption) => {
       setPrimaryCurrency(option?.symbol)
     },
     [setPrimaryCurrency],
   )
 
   const handleChangeSecondaryCurrency = useCallback(
-    (option: null | { symbol: string | undefined }) => {
+    (option: SelectCurrencyOption) => {
       setSecoundaryCurrency(option?.symbol)
     },
     [setSecoundaryCurrency],

@@ -11,8 +11,8 @@ import { ExchangeTable } from './exchange-table'
 
 const QUERY = gql`
   query getExchangeList(
-    $currentTimestamp: timestamptz,
-    $historicTimestamp: timestamptz,
+    $currentTimestamp: timestamptz
+    $historicTimestamp: timestamptz
   ) {
     kc_user_exchange_keys(order_by: { created_at: asc }) {
       uid
@@ -52,7 +52,7 @@ const ExchangeList = () => {
     variables: {
       currentTimestamp: formatISO(currentTimestamp),
       historicTimestamp: formatISO(historicTimestamp),
-    }
+    },
   })
 
   if (loading) {

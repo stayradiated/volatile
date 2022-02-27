@@ -15,11 +15,7 @@ test('should redact string: multiple instances', (t) => {
 })
 
 test('should redact string: multiple secrets', (t) => {
-  const regExp = buildRedactRegExp([
-    'secret_a',
-    'secret_b',
-    'secret_c',
-  ])
+  const regExp = buildRedactRegExp(['secret_a', 'secret_b', 'secret_c'])
 
   const result = redactString(regExp, 'a=secret_a b=secret_b c=secret_c')
   t.is(result, 'a=******** b=******** c=********')

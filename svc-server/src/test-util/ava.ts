@@ -1,4 +1,4 @@
-import anyTest, { TestInterface } from 'ava'
+import anyTest, { TestFn } from 'ava'
 
 import { pool } from '../pool.js'
 import type { Pool } from '../types.js'
@@ -9,7 +9,7 @@ type DefaultContext = {
   make: MakeInstance
 }
 
-const test = anyTest as TestInterface<DefaultContext>
+const test = anyTest as TestFn<DefaultContext>
 
 test.beforeEach((t) => {
   t.context.pool = pool

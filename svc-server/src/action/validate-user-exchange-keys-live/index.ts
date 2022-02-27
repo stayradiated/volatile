@@ -10,7 +10,7 @@ type Input = {
 }
 type Output = {
   is_valid: boolean
-  validation_message: string | null
+  validation_message: string | undefined
 }
 const validateUserExchangeKeysLiveHandler: ActionHandlerFn<
   Input,
@@ -53,7 +53,7 @@ const validateUserExchangeKeysLiveHandler: ActionHandlerFn<
 
   return {
     is_valid: true,
-    validation_message: null,
+    validation_message: undefined,
   }
 }
 

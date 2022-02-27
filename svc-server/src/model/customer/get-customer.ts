@@ -21,8 +21,8 @@ const getCustomer = async (
     return new NoEntityError({
       message: 'User does not have a customer.',
       context: {
-        userUID
-      }
+        userUID,
+      },
     })
   }
 

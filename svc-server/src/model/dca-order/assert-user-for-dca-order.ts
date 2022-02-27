@@ -9,17 +9,24 @@ type AssertUserForDCAOrderOptions = {
   dcaOrderUID: string
 }
 
-const assertUserForDCAOrder = async (pool: Pool, options: AssertUserForDCAOrderOptions): Promise<true|Error> => {
+const assertUserForDCAOrder = async (
+  pool: Pool,
+  options: AssertUserForDCAOrderOptions,
+): Promise<true | Error> => {
   const { dcaOrderUID, userUID } = options
 
-  const dcaOrder = await errorBoundary(() => db.selectExactlyOne('dca_order', {
-    uid: dcaOrderUID,
-    user_uid: userUID,
-  }).run(pool))
+  const dcaOrder = await errorBoundary(async () =>
+    db
+      .selectExactlyOne('dca_order', {
+        uid: dcaOrderUID,
+        user_uid: userUID,
+      })
+      .run(pool),
+  )
   if (dcaOrder instanceof Error) {
     return new PermissionError({
       message: 'User does not have access to DCA Order.',
-      context: { dcaOrderUID, userUID }
+      context: { dcaOrderUID, userUID },
     })
   }
 

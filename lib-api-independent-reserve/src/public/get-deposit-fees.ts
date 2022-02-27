@@ -11,9 +11,9 @@ type GetDepositFeesResult = Array<{
   // Deposit fee which will be deducted from deposit amount when under threshold. Denominated in the deposit currency.
   Fee: {
     // Fixed fee amount
-    Fixed: number
+    Fixed: number | undefined
     // Percentage fee
-    Percentage: number
+    Percentage: number | undefined
   }
 }>
 
@@ -26,6 +26,14 @@ const getDepositFees = async (): Promise<
   }
 
   const result = getResponseBody<GetDepositFeesResult>(raw)
+
+  if (!(result instanceof Error)) {
+    for (const item of result) {
+      item.Fee.Fixed = item.Fee.Fixed ?? undefined
+      item.Fee.Percentage = item.Fee.Percentage ?? undefined
+    }
+  }
+
   return [result, raw]
 }
 

@@ -38,7 +38,7 @@ const useDeleteUserExchangeKeys = () => {
         variables: {
           userExchangeKeysUID,
         },
-        update: (cache) => {
+        update(cache) {
           const list = cache.readQuery<GetUserExchangeKeysListByUidQuery>({
             query: QUERY_FRAGMENT,
           })

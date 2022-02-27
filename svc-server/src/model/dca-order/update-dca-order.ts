@@ -12,11 +12,14 @@ import { mapRowToDCAOrder } from './map-row-to-dca-order.js'
 import type { DCAOrder } from './types.js'
 
 type UpdateDCAOrderOptions = {
-  dcaOrderUID: string,
+  dcaOrderUID: string
   enabled: boolean
 }
 
-const updateDCAOrder = async (pool: Pool, options: UpdateDCAOrderOptions): Promise<DCAOrder|Error> => {
+const updateDCAOrder = async (
+  pool: Pool,
+  options: UpdateDCAOrderOptions,
+): Promise<DCAOrder | Error> => {
   const { dcaOrderUID, enabled } = options
 
   const dcaOrder = await selectDCAOrder(pool, dcaOrderUID)
@@ -47,18 +50,26 @@ const updateDCAOrder = async (pool: Pool, options: UpdateDCAOrderOptions): Promi
         context: {
           enabledDCAOrdersCount,
           maxEnabledDCAOrderCount,
-        }
+        },
       })
     }
   }
 
   const enabledAt = enabled ? new Date() : null
 
-  const rows = await errorBoundary(() => db.update('dca_order', {
-    enabled_at: enabledAt,
-  }, {
-    uid: dcaOrderUID,
-  }).run(pool))
+  const rows = await errorBoundary(async () =>
+    db
+      .update(
+        'dca_order',
+        {
+          enabled_at: enabledAt,
+        },
+        {
+          uid: dcaOrderUID,
+        },
+      )
+      .run(pool),
+  )
   if (rows instanceof Error) {
     return new DBError({
       message: 'Could not update DCA Order.',

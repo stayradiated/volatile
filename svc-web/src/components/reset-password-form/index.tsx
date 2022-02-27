@@ -33,7 +33,7 @@ const ResetPasswordForm = (props: Props) => {
 
   const [loading, setLoading] = useState<boolean>(true)
   const [isValid, setIsValid] = useState<boolean>(false)
-  const [email, setEmail] = useState<string | null | undefined>(null)
+  const [email, setEmail] = useState<string>()
 
   useEffect(() => {
     validateUserPasswordReset({

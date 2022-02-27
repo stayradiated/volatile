@@ -1,5 +1,9 @@
 import { forwardRef } from 'react'
-import Select, { Props as SelectProps, SelectInstance } from 'react-select'
+import Select, {
+  Props as SelectProps,
+  SelectInstance,
+  OnChangeValue,
+} from 'react-select'
 
 const SYMBOL_OPTIONS = [
   { symbol: undefined },
@@ -10,6 +14,7 @@ const SYMBOL_OPTIONS = [
 
 type CurrencyOptions = { symbol: string | undefined }
 type SelectCurrencyInstance = SelectInstance<CurrencyOptions>
+type SelectCurrencyOption = OnChangeValue<CurrencyOptions, false>
 
 type Props = SelectProps<CurrencyOptions, false, any>
 
@@ -27,4 +32,4 @@ const SelectCurrency = forwardRef<SelectCurrencyInstance, Props>(
 )
 
 export { SelectCurrency }
-export type { SelectCurrencyInstance }
+export type { SelectCurrencyInstance, SelectCurrencyOption }

@@ -8,7 +8,7 @@ type Input = {
 
 type Output = {
   is_valid: boolean
-  email: string | null
+  email: string | undefined
 }
 
 const validateUserPasswordReset: ActionHandlerFn<Input, Output> = async (
@@ -24,7 +24,7 @@ const validateUserPasswordReset: ActionHandlerFn<Input, Output> = async (
   if (userPasswordReset instanceof Error) {
     return {
       is_valid: false,
-      email: null,
+      email: undefined,
     }
   }
 

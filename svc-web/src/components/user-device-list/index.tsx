@@ -41,7 +41,7 @@ const UserDeviceList = (props: Props) => {
       {
         Header: 'Last Login At',
         accessor: 'accessed_at',
-        Cell: (props) => {
+        Cell(props) {
           const { value } = props
           const date = parseISO(value)
           return format(date, 'PPpp')
@@ -50,7 +50,7 @@ const UserDeviceList = (props: Props) => {
       {
         Header: 'Actions',
         accessor: 'uid',
-        Cell: (props) => {
+        Cell(props) {
           const { value } = props
           const handleEdit = () => {
             if (typeof onEdit === 'function') {

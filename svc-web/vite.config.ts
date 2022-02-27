@@ -20,6 +20,7 @@ export default defineConfig({
         'register': resolve(__dirname, 'routes/register/index.html'),
         'reset-password': resolve(__dirname, 'routes/reset-password/index.html'),
         'settings': resolve(__dirname, 'routes/settings/index.html'),
+        'subscription': resolve(__dirname, 'routes/subscription/index.html'),
         'trades': resolve(__dirname, 'routes/trades/index.html'),
         'verify-email': resolve(__dirname, 'routes/verify-email/index.html'),
       }

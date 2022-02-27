@@ -1,5 +1,9 @@
 import { forwardRef } from 'react'
-import Select, { Props as SelectProps, SelectInstance } from 'react-select'
+import Select, {
+  Props as SelectProps,
+  SelectInstance,
+  OnChangeValue,
+} from 'react-select'
 
 // TODO: fetch this data from the server
 const EXCHANGE_OPTIONS = [
@@ -11,6 +15,7 @@ const EXCHANGE_OPTIONS = [
 
 type ExchangeOptions = { name: string; uid: undefined | string }
 type SelectExchangeInstance = SelectInstance<ExchangeOptions>
+type SelectExchangeOption = OnChangeValue<ExchangeOptions, false>
 
 type Props = SelectProps<ExchangeOptions, false, any>
 
@@ -28,4 +33,4 @@ const SelectExchange = forwardRef<SelectExchangeInstance, Props>(
 )
 
 export { SelectExchange }
-export type { SelectExchangeInstance }
+export type { SelectExchangeInstance, SelectExchangeOption }

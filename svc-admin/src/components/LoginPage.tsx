@@ -4,13 +4,13 @@ import { fetchConfig, isAPIError } from '../utils/fetch-config'
 import { setSession } from '../utils/session-store'
 
 const LoginPage = () => {
-  const [error, setError] = useState<string | null>(null)
+  const [error, setError] = useState<string | undefined>(undefined)
 
   const passwordRef = useRef<HTMLInputElement>(null)
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault()
-    setError(null)
+    setError(undefined)
     const password = passwordRef.current?.value
     if (typeof password !== 'string') {
       setError('Please enter a password.')

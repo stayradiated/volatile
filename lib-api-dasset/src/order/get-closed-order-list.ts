@@ -16,16 +16,16 @@ type Order = {
   description: string
   status: 'Cancelled' | 'Completed' | 'Partially filled'
   baseAmount: number
-  quoteAmount: number | null
+  quoteAmount: number | undefined
   details: {
     precision: number
     orderType: string
-    price: number | null
-    total: number | null
+    price: number | undefined
+    total: number | undefined
     orderId: string
     filled: number
-    fee: number | null
-    nzdFee: number | null
+    fee: number | undefined
+    nzdFee: number | undefined
   }
   isOpen: boolean
 }

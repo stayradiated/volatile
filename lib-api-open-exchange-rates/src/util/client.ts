@@ -21,5 +21,4 @@ const get = async (
   return result
 }
 
-
 export { get }

@@ -45,9 +45,4 @@ const buildRedactFn = (
   }
 }
 
-export {
-  buildRedactRegExp,
-  redactString,
-  redactObject,
-  buildRedactFn,
-}
+export { buildRedactRegExp, redactString, redactObject, buildRedactFn }

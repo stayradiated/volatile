@@ -14,8 +14,8 @@ type CalculateValueToBidOptions = {
 }
 
 type ResultSQL = {
-  sum_bid: string | null
-  sum_target: string | null
+  sum_bid: string | undefined
+  sum_target: string | undefined
 }
 
 const calculateValueToBid = async (
