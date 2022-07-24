@@ -34,7 +34,7 @@ const upsertTrade = async (
           fee: trade.fee,
           total_value: trade.totalValue,
         },
-        db.constraint('unique_trade_exchange_trade_id'),
+        db.constraint('unique_trade_exchange_trade_id_user_uid'),
         {
           updateColumns: [
             'updated_at',

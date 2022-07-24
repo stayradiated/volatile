@@ -1,3 +1,5 @@
+import { subDays } from 'date-fns'
+
 import { throwIfError } from '@stayradiated/error-boundary'
 import { ActionHandlerFn } from '../../util/action-handler.js'
 
@@ -8,6 +10,7 @@ import { upsertBalance } from '../../model/balance/index.js'
 import { upsertCurrency, selectAllCurrencies, Currency } from '../../model/currency/index.js'
 import { insertDCAOrder } from '../../model/dca-order/index.js'
 import { getMarketUID, MARKET_BINANCE_US } from '../../model/market/index.js'
+import { insertTrade } from '../../model/trade/index.js'
 
 type Input = {
   email: string
@@ -71,6 +74,30 @@ const seedTestAccount: ActionHandlerFn<Input, Output> = async (context) => {
       nextRunAt: undefined,
       lastRunAt: undefined,
     }))
+
+    for (let i = 0; i < 100; i++) {
+      const volume = Math.random() * 1
+      const price = Math.random() * 100_000
+      const value = volume * price
+      const fee = 0.0035 * value
+      const totalValue = fee + value
+
+      await throwIfError(insertTrade(pool, {
+        userUID: user.UID,
+        exchangeUID: exchangeUID,
+        orderUID: undefined,
+        timestamp: subDays(new Date(), i),
+        tradeID: `trade-${i}`,
+        type: 'BUY',
+        primaryCurrency: Math.random() > 0.5 ? 'ETH' : 'BTC',
+        secondaryCurrency: 'NZD',
+        volume,
+        price,
+        value,
+        fee,
+        totalValue,
+      }))
+    }
 
     for (const currency of currencyList) {
       const totalBalance = Math.random() * 100

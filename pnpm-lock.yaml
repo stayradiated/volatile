@@ -364,7 +364,7 @@ importers:
       type-fest: 2.17.0
       typescript: 4.7.4
       xo: 0.51.0
-      zapatos: 6.0.1
+      zapatos: 5.0.4
     dependencies:
       '@northscaler/better-error': 0.1.0-dev.10
       '@stayradiated/error-boundary': 2.1.0
@@ -389,7 +389,7 @@ importers:
       qrcode: 1.5.1
       rambda: 7.1.4
       stripe: 9.14.0
-      zapatos: 6.0.1_0b37fbe92f84e974fb4f127c28b26981
+      zapatos: 5.0.4_0b37fbe92f84e974fb4f127c28b26981
     devDependencies:
       '@types/bcrypt': 5.0.0
       '@types/pg': 8.6.5
@@ -504,6 +504,7 @@ importers:
       react-table: 7.8.0
       remix-utils: 3.3.0
       styled-components: 5.3.5
+      tiny-invariant: 1.2.0
       typescript: ^4.7.4
       ua-parser-js: 1.0.2
       xo: 0.51.0
@@ -526,6 +527,7 @@ importers:
       react-table: 7.8.0_react@18.2.0
       remix-utils: 3.3.0_3591e3f5fc98992ca4742f53574283ca
       styled-components: 5.3.5_react-dom@18.2.0+react@18.2.0
+      tiny-invariant: 1.2.0
       ua-parser-js: 1.0.2
       xo: 0.51.0
     devDependencies:
@@ -12024,6 +12026,10 @@ packages:
     resolution: {integrity: sha512-W3AmPTJWZkRwu+iSNxPIsLZ2ByADsOLbbLxe46UJyWj3mlYLlwucKiq+/dPm0l9wTzqoF3/2PH0AGFCebjq23A==}
     dev: true
 
+  /tiny-invariant/1.2.0:
+    resolution: {integrity: sha512-1Uhn/aqw5C6RI4KejVeTg6mIS7IqxnLJ8Mv2tV5rTc0qWobay7pDUz6Wi392Cnc8ak1H0F2cjoRzb2/AW4+Fvg==}
+    dev: false
+
   /tiny-lru/8.0.2:
     resolution: {integrity: sha512-ApGvZ6vVvTNdsmt676grvCkUCGwzG9IqXma5Z07xJgiC5L7akUMof5U8G2JTI9Rz/ovtVhJBlY6mNhEvtjzOIg==}
     engines: {node: '>=6'}
@@ -12958,8 +12964,8 @@ packages:
     resolution: {integrity: sha512-9bnSc/HEW2uRy67wc+T8UwauLuPJVn28jb+GtJY16iiKWyvmYJRXVT4UamsAEGQfPohgr2q4Tq0sQbQlxTfi1g==}
     engines: {node: '>=12.20'}
 
-  /zapatos/6.0.1_0b37fbe92f84e974fb4f127c28b26981:
-    resolution: {integrity: sha512-5modT0QpeV6PBYobeXiSfEhstrFhupHhPfZaIBeSFka5TWDHSDnkdBWOVMt4wJnVUHM6urz3AG14NP7HL95iMg==}
+  /zapatos/5.0.4_0b37fbe92f84e974fb4f127c28b26981:
+    resolution: {integrity: sha512-ckFeoh7caIAbD4mWGPFZVI8ManMPTb9sAg/oOgvPFCwPNuGyglxFlS/7UPOIp7rtWygBWbAyAM9p+NHGAAv/AQ==}
     hasBin: true
     requiresBuild: true
     peerDependencies:
