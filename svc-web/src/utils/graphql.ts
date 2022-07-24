@@ -42,15 +42,13 @@ export type CreateAuthTokenOutput = {
   __typename?: 'CreateAuthTokenOutput';
   auth_token: Scalars['String'];
   expires_at: Scalars['timestamptz'];
-  /** An object relationship */
-  user: Kc_User;
+  user?: Maybe<Kc_User>;
   user_uid: Scalars['String'];
 };
 
 export type CreateDcaOrderResult = {
   __typename?: 'CreateDCAOrderResult';
-  /** An object relationship */
-  dca_order: Kc_Dca_Order;
+  dca_order?: Maybe<Kc_Dca_Order>;
   dca_order_uid: Scalars['uuid'];
 };
 
@@ -62,8 +60,7 @@ export type CreateSubscription = {
 
 export type CreateUserExchangeKeysOutput = {
   __typename?: 'CreateUserExchangeKeysOutput';
-  /** An object relationship */
-  user_exchange_keys: Kc_User_Exchange_Keys;
+  user_exchange_keys?: Maybe<Kc_User_Exchange_Keys>;
   user_exchange_keys_uid: Scalars['uuid'];
 };
 
@@ -74,8 +71,7 @@ export type CreateUserOutput = {
 
 export type DeleteUser2FaOutput = {
   __typename?: 'DeleteUser2FAOutput';
-  /** An object relationship */
-  user: Kc_User;
+  user?: Maybe<Kc_User>;
   user_uid: Scalars['uuid'];
 };
 
@@ -86,8 +82,7 @@ export type DeleteUserOutput = {
 
 export type EnableUser2FaOutput = {
   __typename?: 'EnableUser2FAOutput';
-  /** An object relationship */
-  user: Kc_User;
+  user?: Maybe<Kc_User>;
   user_uid: Scalars['uuid'];
 };
 
@@ -134,8 +129,7 @@ export type RefreshAuthTokenOutput = {
   __typename?: 'RefreshAuthTokenOutput';
   auth_token: Scalars['String'];
   expires_at: Scalars['timestamptz'];
-  /** An object relationship */
-  user: Kc_User;
+  user?: Maybe<Kc_User>;
   user_uid: Scalars['String'];
 };
 
@@ -330,36 +324,31 @@ export type StripeSubscriptionRecurring = {
 
 export type SyncExchangeOpenOrderListOutput = {
   __typename?: 'SyncExchangeOpenOrderListOutput';
-  /** An object relationship */
-  user: Kc_User;
+  user?: Maybe<Kc_User>;
   user_uid: Scalars['uuid'];
 };
 
 export type SyncExchangeTradeListOutput = {
   __typename?: 'SyncExchangeTradeListOutput';
-  /** An object relationship */
-  user: Kc_User;
+  user?: Maybe<Kc_User>;
   user_uid: Scalars['uuid'];
 };
 
 export type UpdateDcaOrderOutput = {
   __typename?: 'UpdateDCAOrderOutput';
-  /** An object relationship */
-  dca_order: Kc_Dca_Order;
+  dca_order?: Maybe<Kc_Dca_Order>;
   dca_order_uid: Scalars['uuid'];
 };
 
 export type UpdateUserExchangeKeysOutput = {
   __typename?: 'UpdateUserExchangeKeysOutput';
-  /** An object relationship */
-  user_exchange_keys: Kc_User_Exchange_Keys;
+  user_exchange_keys?: Maybe<Kc_User_Exchange_Keys>;
   user_exchange_keys_uid: Scalars['uuid'];
 };
 
 export type UpdateUserOutput = {
   __typename?: 'UpdateUserOutput';
-  /** An object relationship */
-  user: Kc_User;
+  user?: Maybe<Kc_User>;
   user_uid: Scalars['uuid'];
 };
 
@@ -378,8 +367,7 @@ export type ValidateUserExchangeKeysLiveOutput = {
 export type ValidateUserExchangeKeysOutput = {
   __typename?: 'ValidateUserExchangeKeysOutput';
   is_valid: Scalars['Boolean'];
-  /** An object relationship */
-  user_exchange_keys: Kc_User_Exchange_Keys;
+  user_exchange_keys?: Maybe<Kc_User_Exchange_Keys>;
   user_exchange_keys_uid: Scalars['uuid'];
   validation_message?: Maybe<Scalars['String']>;
 };
@@ -583,7 +571,6 @@ export type Kc_Dca_Order = {
   enabled_at?: Maybe<Scalars['timestamptz']>;
   /** An object relationship */
   exchange: Kc_Exchange;
-  /** A computed field, executes function "kc.dca_order_market_trading_pair" */
   exchange_market_trading_pair?: Maybe<Array<Kc_Market_Trading_Pair>>;
   exchange_uid: Scalars['uuid'];
   interval_ms: Scalars['Int'];
@@ -4836,7 +4823,7 @@ export type CreateDcaOrderMutationVariables = Exact<{
 }>;
 
 
-export type CreateDcaOrderMutation = { __typename?: 'mutation_root', create_dca_order?: { __typename?: 'CreateDCAOrderResult', dca_order: { __typename?: 'kc_dca_order', uid: string, user_exchange_keys_uid: string, enabled_at?: string | null, market_uid: string, start_at: string, market_offset: number, daily_average: number, interval_ms: number, min_value?: number | null, max_value?: number | null, exchange: { __typename?: 'kc_exchange', uid: string, id: string, name: string }, primary_currency: { __typename?: 'kc_currency', symbol: string }, secondary_currency: { __typename?: 'kc_currency', symbol: string } } } | null };
+export type CreateDcaOrderMutation = { __typename?: 'mutation_root', create_dca_order?: { __typename?: 'CreateDCAOrderResult', dca_order?: { __typename?: 'kc_dca_order', uid: string, user_exchange_keys_uid: string, enabled_at?: string | null, market_uid: string, start_at: string, market_offset: number, daily_average: number, interval_ms: number, min_value?: number | null, max_value?: number | null, exchange: { __typename?: 'kc_exchange', uid: string, id: string, name: string }, primary_currency: { __typename?: 'kc_currency', symbol: string }, secondary_currency: { __typename?: 'kc_currency', symbol: string } } | null } | null };
 
 export type NewDcaOrderFragment = { __typename?: 'kc_dca_order', uid: string, enabled_at?: string | null, daily_average: number, start_at: string, market_offset: number, min_value?: number | null, max_value?: number | null, exchange: { __typename?: 'kc_exchange', uid: string, id: string, name: string }, primary_currency: { __typename?: 'kc_currency', symbol: string }, secondary_currency: { __typename?: 'kc_currency', symbol: string } };
 
@@ -4886,7 +4873,7 @@ export type UpdateDcaOrderEnabledMutationVariables = Exact<{
 }>;
 
 
-export type UpdateDcaOrderEnabledMutation = { __typename?: 'mutation_root', update_dca_order: { __typename?: 'UpdateDCAOrderOutput', dca_order: { __typename?: 'kc_dca_order', uid: string, enabled_at?: string | null } } };
+export type UpdateDcaOrderEnabledMutation = { __typename?: 'mutation_root', update_dca_order: { __typename?: 'UpdateDCAOrderOutput', dca_order?: { __typename?: 'kc_dca_order', uid: string, enabled_at?: string | null } | null } };
 
 export type GetDcaOrderModalDeleteQueryVariables = Exact<{
   dcaOrderUID: Scalars['uuid'];
@@ -5050,7 +5037,7 @@ export type CreateUserExchangeKeysMutationVariables = Exact<{
 }>;
 
 
-export type CreateUserExchangeKeysMutation = { __typename?: 'mutation_root', create_user_exchange_keys?: { __typename?: 'CreateUserExchangeKeysOutput', user_exchange_keys: { __typename?: 'kc_user_exchange_keys', uid: string, description: string, invalidated_at?: string | null, exchange: { __typename?: 'kc_exchange', uid: string }, dca_orders_aggregate: { __typename?: 'kc_dca_order_aggregate', aggregate?: { __typename?: 'kc_dca_order_aggregate_fields', count: number } | null } } } | null };
+export type CreateUserExchangeKeysMutation = { __typename?: 'mutation_root', create_user_exchange_keys?: { __typename?: 'CreateUserExchangeKeysOutput', user_exchange_keys?: { __typename?: 'kc_user_exchange_keys', uid: string, description: string, invalidated_at?: string | null, exchange: { __typename?: 'kc_exchange', uid: string }, dca_orders_aggregate: { __typename?: 'kc_dca_order_aggregate', aggregate?: { __typename?: 'kc_dca_order_aggregate_fields', count: number } | null } } | null } | null };
 
 export type NewKeysFragment = { __typename?: 'kc_user_exchange_keys', uid: string, description: string, invalidated_at?: string | null, exchange: { __typename?: 'kc_exchange', uid: string }, dca_orders_aggregate: { __typename?: 'kc_dca_order_aggregate', aggregate?: { __typename?: 'kc_dca_order_aggregate_fields', count: number } | null } };
 
@@ -5066,7 +5053,7 @@ export type UpdateUserExchangeKeysMutationVariables = Exact<{
 }>;
 
 
-export type UpdateUserExchangeKeysMutation = { __typename?: 'mutation_root', update_user_exchange_keys?: { __typename?: 'UpdateUserExchangeKeysOutput', user_exchange_keys: { __typename?: 'kc_user_exchange_keys', uid: string, description: string, invalidated_at?: string | null, exchange: { __typename?: 'kc_exchange', uid: string }, dca_orders_aggregate: { __typename?: 'kc_dca_order_aggregate', aggregate?: { __typename?: 'kc_dca_order_aggregate_fields', count: number } | null } } } | null };
+export type UpdateUserExchangeKeysMutation = { __typename?: 'mutation_root', update_user_exchange_keys?: { __typename?: 'UpdateUserExchangeKeysOutput', user_exchange_keys?: { __typename?: 'kc_user_exchange_keys', uid: string, description: string, invalidated_at?: string | null, exchange: { __typename?: 'kc_exchange', uid: string }, dca_orders_aggregate: { __typename?: 'kc_dca_order_aggregate', aggregate?: { __typename?: 'kc_dca_order_aggregate_fields', count: number } | null } } | null } | null };
 
 export type GetUserExchangeKeysFormEditQueryVariables = Exact<{
   userExchangeKeysUID: Scalars['uuid'];
@@ -5104,7 +5091,7 @@ export type DeleteUser2FaMutationVariables = Exact<{
 }>;
 
 
-export type DeleteUser2FaMutation = { __typename?: 'mutation_root', delete_user_2fa?: { __typename?: 'DeleteUser2FAOutput', user: { __typename?: 'kc_user', uid: string, user_2fa?: { __typename?: 'kc_user_2fa', created_at: string, name: string, uid: string } | null } } | null };
+export type DeleteUser2FaMutation = { __typename?: 'mutation_root', delete_user_2fa?: { __typename?: 'DeleteUser2FAOutput', user?: { __typename?: 'kc_user', uid: string, user_2fa?: { __typename?: 'kc_user_2fa', created_at: string, name: string, uid: string } | null } | null } | null };
 
 export type EnableUser2FaMutationVariables = Exact<{
   name: Scalars['String'];
@@ -5113,7 +5100,7 @@ export type EnableUser2FaMutationVariables = Exact<{
 }>;
 
 
-export type EnableUser2FaMutation = { __typename?: 'mutation_root', enable_user_2fa?: { __typename?: 'EnableUser2FAOutput', user: { __typename?: 'kc_user', uid: string, user_2fa?: { __typename?: 'kc_user_2fa', created_at: string, name: string, uid: string } | null } } | null };
+export type EnableUser2FaMutation = { __typename?: 'mutation_root', enable_user_2fa?: { __typename?: 'EnableUser2FAOutput', user?: { __typename?: 'kc_user', uid: string, user_2fa?: { __typename?: 'kc_user_2fa', created_at: string, name: string, uid: string } | null } | null } | null };
 
 export type SetupUser2FaQueryVariables = Exact<{ [key: string]: never; }>;
 

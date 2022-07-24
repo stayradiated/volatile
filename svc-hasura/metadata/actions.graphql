@@ -109,6 +109,12 @@ type Mutation {
 }
 
 type Mutation {
+  seed_test_account(
+    email: String!
+  ): SeedTestAccountOutput!
+}
+
+type Mutation {
   send_user_email_verify: SendUserEmailVerifyOutput!
 }
 
@@ -198,6 +204,10 @@ input SampleInput {
 
 input QueryUserEmailInput {
   user_uid: uuid!
+}
+
+input SeedTestAccountInput {
+  email: String!
 }
 
 type SampleOutput {
@@ -501,5 +511,10 @@ type StripeSubscriptionItem {
   total_count: Int
   object: String
   data: [StripeSubscriptionItemData]
+}
+
+type SeedTestAccountOutput {
+  user_uid: uuid!
+  email: String!
 }
 

@@ -1,0 +1,21 @@
+query getOpenOrderList {
+  kc_order(where: { closed_at: { _is_null: true } }) {
+    uid
+    exchange {
+      uid
+      name
+    }
+    opened_at
+    value
+    volume
+    price
+    primary_currency
+    secondary_currency
+    type
+
+    dca_order_histories {
+      uid
+      dca_order_uid
+    }
+  }
+}

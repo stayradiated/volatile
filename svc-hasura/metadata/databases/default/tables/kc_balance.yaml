@@ -1,47 +1,47 @@
 table:
-  name: balance
   schema: kc
+  name: balance
 object_relationships:
-- name: currency
-  using:
-    foreign_key_constraint_on: currency_symbol
-- name: exchange
-  using:
-    foreign_key_constraint_on: exchange_uid
-- name: user
-  using:
-    foreign_key_constraint_on: user_uid
-- name: user_exchange_key
-  using:
-    foreign_key_constraint_on: user_exchange_keys_uid
+  - name: currency
+    using:
+      foreign_key_constraint_on: currency_symbol
+  - name: exchange
+    using:
+      foreign_key_constraint_on: exchange_uid
+  - name: user
+    using:
+      foreign_key_constraint_on: user_uid
+  - name: user_exchange_key
+    using:
+      foreign_key_constraint_on: user_exchange_keys_uid
 computed_fields:
-- definition:
-    function:
-      name: balance_available_balance_fx
-      schema: kc
-  name: available_balance_fx
-- definition:
-    function:
-      name: balance_total_balance_fx
-      schema: kc
-  name: total_balance_fx
+  - name: available_balance_fx
+    definition:
+      function:
+        schema: kc
+        name: balance_available_balance_fx
+  - name: total_balance_fx
+    definition:
+      function:
+        schema: kc
+        name: balance_total_balance_fx
 select_permissions:
-- permission:
-    columns:
-    - uid
-    - created_at
-    - updated_at
-    - user_uid
-    - exchange_uid
-    - user_exchange_keys_uid
-    - currency_symbol
-    - total_balance
-    - available_balance
-    computed_fields:
-    - available_balance_fx
-    - total_balance_fx
-    filter:
-      user_uid:
-        _eq: X-Hasura-User-Id
-    limit: 100
-  role: user
+  - role: user
+    permission:
+      columns:
+        - uid
+        - created_at
+        - updated_at
+        - user_uid
+        - exchange_uid
+        - user_exchange_keys_uid
+        - currency_symbol
+        - total_balance
+        - available_balance
+      computed_fields:
+        - available_balance_fx
+        - total_balance_fx
+      filter:
+        user_uid:
+          _eq: X-Hasura-User-Id
+      limit: 100

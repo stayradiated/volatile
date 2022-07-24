@@ -1,18 +1,18 @@
 table:
-  name: currency
   schema: kc
+  name: currency
 select_permissions:
-- permission:
-    columns:
-    - name
-    - symbol
-    filter: {}
-  role: guest
-- permission:
-    columns:
-    - symbol
-    - created_at
-    - updated_at
-    - name
-    filter: {}
-  role: user
+  - role: guest
+    permission:
+      columns:
+        - name
+        - symbol
+      filter: {}
+  - role: user
+    permission:
+      columns:
+        - symbol
+        - created_at
+        - updated_at
+        - name
+      filter: {}

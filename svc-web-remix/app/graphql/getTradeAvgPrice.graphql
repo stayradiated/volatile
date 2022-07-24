@@ -1,0 +1,11 @@
+query getTradeAvgPrice($primaryCurrency: String!) {
+  kc_trade_avg_price_by_window(
+    args: { group_by: "hour", currency: "NZD" }
+    where: { primary_currency: { _eq: $primaryCurrency } }
+    order_by: { timestamp: desc }
+  ) {
+    timestamp
+    price
+    avg_price
+  }
+}

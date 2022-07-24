@@ -36,8 +36,6 @@ test.serial('(lastRunAt=NULL, nextRunAt=NULL) set nextRunAt', async (t) => {
 
   t.is(typeof updatedJob.next_run_at, 'string')
   t.true(isAfter(parseISO(updatedJob.next_run_at!), now))
-
-  console.log(jobs)
 })
 
 test.serial('(lastRunAt=PAST,nextRunAt=PAST) do nothing', async (t) => {

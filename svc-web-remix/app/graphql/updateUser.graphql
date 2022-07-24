@@ -1,0 +1,5 @@
+mutation updateUser($email: String, $password: String) {
+  update_user(email: $email, password: $password) {
+    user_uid
+  }
+}

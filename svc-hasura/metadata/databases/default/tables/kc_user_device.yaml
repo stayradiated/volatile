@@ -1,37 +1,38 @@
 table:
-  name: user_device
   schema: kc
+  name: user_device
 select_permissions:
-- permission:
-    allow_aggregations: true
-    columns:
-    - accessed_at
-    - created_at
-    - name
-    - trusted
-    - uid
-    - updated_at
-    - user_uid
-    filter:
-      user_uid:
-        _eq: X-Hasura-User-Id
-    limit: 100
-  role: user
+  - role: user
+    permission:
+      columns:
+        - accessed_at
+        - created_at
+        - name
+        - trusted
+        - uid
+        - updated_at
+        - user_uid
+      filter:
+        user_uid:
+          _eq: X-Hasura-User-Id
+      limit: 100
+      allow_aggregations: true
 update_permissions:
-- permission:
-    check:
-      user_uid:
-        _eq: X-Hasura-User-Id
-    columns:
-    - name
-    - updated_at
-    filter:
-      user_uid:
-        _eq: X-Hasura-User-Id
-  role: user
+  - role: user
+    permission:
+      columns:
+        - name
+        - updated_at
+      filter:
+        user_uid:
+          _eq: X-Hasura-User-Id
+      check:
+        user_uid:
+          _eq: X-Hasura-User-Id
 delete_permissions:
-- permission:
-    filter:
-      user_uid:
-        _eq: X-Hasura-User-Id
-  role: user
+  - role: user
+    permission:
+      backend_only: false
+      filter:
+        user_uid:
+          _eq: X-Hasura-User-Id

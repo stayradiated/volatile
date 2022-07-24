@@ -1,0 +1,25 @@
+mutation createUserExchangeKeys(
+  $description: String!
+  $exchangeUID: uuid!
+  $keys: jsonb!
+) {
+  create_user_exchange_keys(
+    description: $description
+    exchange_uid: $exchangeUID
+    keys: $keys
+  ) {
+    user_exchange_keys {
+      uid
+      description
+      exchange {
+        uid
+      }
+      invalidated_at
+      dca_orders_aggregate {
+        aggregate {
+          count
+        }
+      }
+    }
+  }
+}

@@ -143,7 +143,7 @@ const wrapActionHandler =
       console.error(error)
       const message =
         error instanceof Error ? error.message : 'Unknown error occured'
-      await reply.code(500).send({ message })
+      await reply.code(499).send({ message })
     }
   }
 

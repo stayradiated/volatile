@@ -1,0 +1,6 @@
+query setupUser2FA {
+  setup_user_2fa {
+    qrcode
+    secret
+  }
+}

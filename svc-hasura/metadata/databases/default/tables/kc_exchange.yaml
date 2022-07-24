@@ -1,67 +1,67 @@
 table:
-  name: exchange
   schema: kc
+  name: exchange
 array_relationships:
-- name: dca_orders
-  using:
-    foreign_key_constraint_on:
-      column: exchange_uid
-      table:
-        name: dca_order
-        schema: kc
-- name: orders
-  using:
-    foreign_key_constraint_on:
-      column: exchange_uid
-      table:
-        name: order
-        schema: kc
-- name: primary_currencies
-  using:
-    foreign_key_constraint_on:
-      column: exchange_uid
-      table:
-        name: exchange_primary_currency
-        schema: kc
-- name: secondary_currencies
-  using:
-    foreign_key_constraint_on:
-      column: exchange_uid
-      table:
-        name: exchange_secondary_currency
-        schema: kc
-- name: trades
-  using:
-    foreign_key_constraint_on:
-      column: exchange_uid
-      table:
-        name: trade
-        schema: kc
-- name: user_exchange_keys
-  using:
-    foreign_key_constraint_on:
-      column: exchange_uid
-      table:
-        name: user_exchange_keys
-        schema: kc
+  - name: dca_orders
+    using:
+      foreign_key_constraint_on:
+        column: exchange_uid
+        table:
+          schema: kc
+          name: dca_order
+  - name: orders
+    using:
+      foreign_key_constraint_on:
+        column: exchange_uid
+        table:
+          schema: kc
+          name: order
+  - name: primary_currencies
+    using:
+      foreign_key_constraint_on:
+        column: exchange_uid
+        table:
+          schema: kc
+          name: exchange_primary_currency
+  - name: secondary_currencies
+    using:
+      foreign_key_constraint_on:
+        column: exchange_uid
+        table:
+          schema: kc
+          name: exchange_secondary_currency
+  - name: trades
+    using:
+      foreign_key_constraint_on:
+        column: exchange_uid
+        table:
+          schema: kc
+          name: trade
+  - name: user_exchange_keys
+    using:
+      foreign_key_constraint_on:
+        column: exchange_uid
+        table:
+          schema: kc
+          name: user_exchange_keys
 select_permissions:
-- permission:
-    columns:
-    - created_at
-    - id
-    - name
-    - uid
-    - updated_at
-    - url
-    filter: {}
-  role: guest
-- permission:
-    columns:
-    - created_at
-    - id
-    - name
-    - uid
-    - updated_at
-    - url
-    filter: {}
-  role: user
+  - role: guest
+    permission:
+      columns:
+        - created_at
+        - id
+        - name
+        - uid
+        - updated_at
+        - url
+      filter: {}
+  - role: user
+    permission:
+      columns:
+        - created_at
+        - id
+        - name
+        - uid
+        - updated_at
+        - url
+      filter: {}

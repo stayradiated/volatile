@@ -1,37 +1,37 @@
 table:
-  name: market
   schema: kc
+  name: market
 array_relationships:
-- name: dca_orders
-  using:
-    foreign_key_constraint_on:
-      column: market_uid
-      table:
-        name: dca_order
-        schema: kc
-- name: market_prices
-  using:
-    foreign_key_constraint_on:
-      column: market_uid
-      table:
-        name: market_price
-        schema: kc
+  - name: dca_orders
+    using:
+      foreign_key_constraint_on:
+        column: market_uid
+        table:
+          schema: kc
+          name: dca_order
+  - name: market_prices
+    using:
+      foreign_key_constraint_on:
+        column: market_uid
+        table:
+          schema: kc
+          name: market_price
 select_permissions:
-- permission:
-    columns:
-    - uid
-    - created_at
-    - updated_at
-    - id
-    - name
-    filter: {}
-  role: guest
-- permission:
-    columns:
-    - uid
-    - created_at
-    - updated_at
-    - id
-    - name
-    filter: {}
-  role: user
+  - role: guest
+    permission:
+      columns:
+        - uid
+        - created_at
+        - updated_at
+        - id
+        - name
+      filter: {}
+  - role: user
+    permission:
+      columns:
+        - uid
+        - created_at
+        - updated_at
+        - id
+        - name
+      filter: {}

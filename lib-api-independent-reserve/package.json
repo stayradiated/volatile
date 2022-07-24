@@ -25,18 +25,18 @@
   "homepage": "https://github.com/stayradiated/volatile#readme",
   "dependencies": {
     "@northscaler/better-error": "0.1.0-dev.10",
-    "@stayradiated/error-boundary": "1.13.0",
+    "@stayradiated/error-boundary": "2.1.0",
     "@volatile/kanye": "workspace:1.0.1",
     "p-limit": "4.0.0"
   },
   "devDependencies": {
-    "@types/node": "17.0.21",
-    "ava": "4.0.1",
-    "del-cli": "4.0.1",
+    "@types/node": "18.0.6",
+    "ava": "4.3.1",
+    "del-cli": "5.0.0",
     "eslint-plugin-fp": "2.3.0",
-    "nock": "13.2.4",
-    "typescript": "4.5.5",
-    "xo": "0.48.0"
+    "nock": "13.2.9",
+    "typescript": "4.7.4",
+    "xo": "0.51.0"
   },
   "scripts": {
     "tidy": "xo --fix",

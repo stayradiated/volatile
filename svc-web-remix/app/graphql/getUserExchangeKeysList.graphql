@@ -1,0 +1,16 @@
+query getUserExchangeKeysList {
+  kc_user_exchange_keys {
+    uid
+    description
+    updated_at
+    exchange {
+      uid
+      name
+    }
+    dca_orders_aggregate {
+      aggregate {
+        count
+      }
+    }
+  }
+}

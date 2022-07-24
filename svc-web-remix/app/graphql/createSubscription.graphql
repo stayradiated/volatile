@@ -1,0 +1,6 @@
+mutation createSubscription($priceId: String!) {
+  create_subscription(price_id: $priceId) {
+    client_secret
+    subscription_id
+  }
+}

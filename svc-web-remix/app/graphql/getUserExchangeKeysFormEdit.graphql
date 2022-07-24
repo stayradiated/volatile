@@ -1,0 +1,11 @@
+query getUserExchangeKeysFormEdit($userExchangeKeysUID: uuid!) {
+  kc_user_exchange_keys_by_pk(uid: $userExchangeKeysUID) {
+    uid
+    description
+    exchange {
+      uid
+      id
+      name
+    }
+  }
+}

@@ -1,0 +1,14 @@
+query getUser2FA {
+  kc_user {
+    uid
+    user_2fa {
+      created_at
+      name
+      uid
+    }
+  }
+  setup_user_2fa {
+    qrcode
+    secret
+  }
+}

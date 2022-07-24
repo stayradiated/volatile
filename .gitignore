@@ -4,3 +4,4 @@ env_*
 *.env
 *.log
 *.tar
+.turbo

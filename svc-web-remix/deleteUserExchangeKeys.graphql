@@ -1,0 +1,5 @@
+mutation deleteUserExchangeKeys($userExchangeKeysUID: uuid!) {
+  delete_kc_user_exchange_keys_by_pk(uid: $userExchangeKeysUID) {
+    uid
+  }
+}

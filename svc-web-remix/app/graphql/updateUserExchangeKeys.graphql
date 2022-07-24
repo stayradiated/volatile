@@ -1,0 +1,25 @@
+mutation updateUserExchangeKeys(
+  $userExchangeKeysUID: uuid!
+  $description: String
+  $keys: jsonb
+) {
+  update_user_exchange_keys(
+    user_exchange_keys_uid: $userExchangeKeysUID
+    description: $description
+    keys: $keys
+  ) {
+    user_exchange_keys {
+      uid
+      description
+      exchange {
+        uid
+      }
+      invalidated_at
+      dca_orders_aggregate {
+        aggregate {
+          count
+        }
+      }
+    }
+  }
+}

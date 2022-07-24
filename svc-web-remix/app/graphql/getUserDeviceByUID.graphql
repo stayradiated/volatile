@@ -1,0 +1,6 @@
+query getUserDeviceByUID($userDeviceUID: uuid!) {
+  kc_user_device_by_pk(uid: $userDeviceUID) {
+    uid
+    name
+  }
+}

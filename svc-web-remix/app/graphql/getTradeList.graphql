@@ -1,0 +1,43 @@
+query getTradeList(
+  $filters: kc_trade_bool_exp!
+  $offset: Int!
+  $limit: Int!
+) {
+  kc_trade_aggregate(where: $filters) {
+    aggregate {
+      count
+      sum {
+        value
+        volume
+        fee
+      }
+      min {
+        timestamp
+      }
+      max {
+        timestamp
+      }
+    }
+  }
+  kc_trade(
+    where: $filters
+    order_by: { timestamp: desc }
+    limit: $limit
+    offset: $offset
+  ) {
+    uid
+    exchange {
+      uid
+      id
+    }
+    timestamp
+    value
+    volume
+    primary_currency
+    secondary_currency
+    type
+    price: price_fx(args: { currency: "NZD" })
+    total_value: total_value_fx(args: { currency: "NZD" })
+    fee: fee_fx(args: { currency: "NZD" })
+  }
+}

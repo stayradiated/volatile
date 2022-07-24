@@ -24,11 +24,11 @@
   },
   "homepage": "https://github.com/stayradiated/volatile#readme",
   "devDependencies": {
-    "ava": "4.0.1",
-    "del-cli": "4.0.1",
+    "ava": "4.3.1",
+    "del-cli": "5.0.0",
     "eslint-plugin-fp": "2.3.0",
-    "typescript": "4.5.5",
-    "xo": "0.48.0"
+    "typescript": "4.7.4",
+    "xo": "0.51.0"
   },
   "__comment": "The following configs are managed by `npx @stayradiated/jsconfig`",
   "ava": {
@@ -75,6 +75,6 @@
     "useTabs": false
   },
   "dependencies": {
-    "@stayradiated/error-boundary": "1.13.0"
+    "@stayradiated/error-boundary": "2.1.0"
   }
 }

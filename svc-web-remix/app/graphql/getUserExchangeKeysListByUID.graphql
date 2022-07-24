@@ -1,0 +1,5 @@
+query getUserExchangeKeysListByUID {
+  kc_user_exchange_keys {
+    uid
+  }
+}

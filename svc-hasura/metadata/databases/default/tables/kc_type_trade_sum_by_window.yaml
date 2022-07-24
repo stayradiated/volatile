@@ -1,17 +1,17 @@
 table:
-  name: type_trade_sum_by_window
   schema: kc
+  name: type_trade_sum_by_window
 select_permissions:
-- permission:
-    columns:
-    - user_uid
-    - timestamp
-    - primary_currency
-    - volume
-    - value
-    - total_value
-    filter:
-      user_uid:
-        _eq: X-Hasura-User-Id
-    limit: 100
-  role: user
+  - role: user
+    permission:
+      columns:
+        - user_uid
+        - timestamp
+        - primary_currency
+        - volume
+        - value
+        - total_value
+      filter:
+        user_uid:
+          _eq: X-Hasura-User-Id
+      limit: 100

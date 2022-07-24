@@ -1,0 +1,5 @@
+mutation deleteDCAOrder($dcaOrderUID: uuid!) {
+  delete_kc_dca_order_by_pk(uid: $dcaOrderUID) {
+    uid
+  }
+}

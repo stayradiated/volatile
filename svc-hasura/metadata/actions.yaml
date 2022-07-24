@@ -1,446 +1,455 @@
 actions:
-- name: cancel_subscription
-  definition:
-    kind: synchronous
-    handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/cancel_subscription'
-    headers:
-    - name: x-hasura-actions-secret
-      value_from_env: HASURA_ACTIONS_SECRET
-  permissions:
-  - role: user
-- name: create_auth_token
-  definition:
-    kind: synchronous
-    handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/create_auth_token'
-    headers:
-    - name: x-hasura-actions-secret
-      value_from_env: HASURA_ACTIONS_SECRET
-  permissions:
-  - role: user
-  - role: guest
-- name: create_dca_order
-  definition:
-    kind: synchronous
-    handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/create_dca_order'
-    headers:
-    - name: x-hasura-actions-secret
-      value_from_env: HASURA_ACTIONS_SECRET
-  permissions:
-  - role: user
-- name: create_subscription
-  definition:
-    kind: synchronous
-    handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/create_subscription'
-    headers:
-    - name: x-hasura-actions-secret
-      value_from_env: HASURA_ACTIONS_SECRET
-  permissions:
-  - role: user
-- name: create_user
-  definition:
-    kind: synchronous
-    handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/create_user'
-    headers:
-    - name: x-hasura-actions-secret
-      value_from_env: HASURA_ACTIONS_SECRET
-  permissions:
-  - role: user
-  - role: guest
-- name: create_user_exchange_keys
-  definition:
-    kind: synchronous
-    handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/create_user_exchange_keys'
-    headers:
-    - name: x-hasura-actions-secret
-      value_from_env: HASURA_ACTIONS_SECRET
-  permissions:
-  - role: user
-- name: delete_user
-  definition:
-    kind: synchronous
-    handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/delete_user'
-    headers:
-    - name: x-hasura-actions-secret
-      value_from_env: HASURA_ACTIONS_SECRET
-  permissions:
-  - role: user
-- name: delete_user_2fa
-  definition:
-    kind: synchronous
-    handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/delete_user_2fa'
-    headers:
-    - name: x-hasura-actions-secret
-      value_from_env: HASURA_ACTIONS_SECRET
-  permissions:
-  - role: user
-- name: enable_user_2fa
-  definition:
-    kind: synchronous
-    handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/enable_user_2fa'
-    headers:
-    - name: x-hasura-actions-secret
-      value_from_env: HASURA_ACTIONS_SECRET
-  permissions:
-  - role: user
-- name: query_prices
-  definition:
-    kind: ""
-    handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/query_prices'
-    headers:
-    - name: x-hasura-actions-secret
-      value_from_env: HASURA_ACTIONS_SECRET
-  permissions:
-  - role: user
-- name: query_stripe_config
-  definition:
-    kind: ""
-    handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/query_stripe_config'
-    headers:
-    - name: x-hasura-actions-secret
-      value_from_env: HASURA_ACTIONS_SECRET
-  permissions:
-  - role: user
-- name: query_subscriptions
-  definition:
-    kind: ""
-    handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/query_subscriptions'
-    headers:
-    - name: x-hasura-actions-secret
-      value_from_env: HASURA_ACTIONS_SECRET
-  permissions:
-  - role: user
-- name: query_user_email
-  definition:
-    kind: ""
-    handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/query_user_email'
-    headers:
-    - name: x-hasura-actions-secret
-      value_from_env: HASURA_ACTIONS_SECRET
-- name: query_user_limit
-  definition:
-    kind: ""
-    handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/query_user_limit'
-    headers:
-    - name: x-hasura-actions-secret
-      value_from_env: HASURA_ACTIONS_SECRET
-  permissions:
-  - role: user
-- name: refresh_auth_token
-  definition:
-    kind: synchronous
-    handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/refresh_auth_token'
-    headers:
-    - name: x-hasura-actions-secret
-      value_from_env: HASURA_ACTIONS_SECRET
-  permissions:
-  - role: user
-- name: reset_user_password
-  definition:
-    kind: synchronous
-    handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/reset_user_password'
-    headers:
-    - name: x-hasura-actions-secret
-      value_from_env: HASURA_ACTIONS_SECRET
-  permissions:
-  - role: user
-  - role: guest
-- name: send_user_email_verify
-  definition:
-    kind: synchronous
-    handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/send_user_email_verify'
-    headers:
-    - name: x-hasura-actions-secret
-      value_from_env: HASURA_ACTIONS_SECRET
-  permissions:
-  - role: user
-- name: send_user_password_reset
-  definition:
-    kind: synchronous
-    handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/send_user_password_reset'
-    headers:
-    - name: x-hasura-actions-secret
-      value_from_env: HASURA_ACTIONS_SECRET
-  permissions:
-  - role: user
-  - role: guest
-- name: setup_user_2fa
-  definition:
-    kind: ""
-    handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/setup_user_2fa'
-    headers:
-    - name: x-hasura-actions-secret
-      value_from_env: HASURA_ACTIONS_SECRET
-  permissions:
-  - role: user
-- name: sync_currency_fx
-  definition:
-    kind: synchronous
-    handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/sync_currency_fx'
-    headers:
-    - name: x-hasura-actions-secret
-      value_from_env: HASURA_ACTIONS_SECRET
-- name: sync_exchange_open_order_list
-  definition:
-    kind: synchronous
-    handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/sync_exchange_open_order_list'
-    headers:
-    - name: x-hasura-actions-secret
-      value_from_env: HASURA_ACTIONS_SECRET
-  permissions:
-  - role: user
-- name: sync_exchange_trade_list
-  definition:
-    kind: synchronous
-    handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/sync_exchange_trade_list'
-    headers:
-    - name: x-hasura-actions-secret
-      value_from_env: HASURA_ACTIONS_SECRET
-  permissions:
-  - role: user
-- name: update_dca_order
-  definition:
-    kind: synchronous
-    handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/update_dca_order'
-    headers:
-    - name: x-hasura-actions-secret
-      value_from_env: HASURA_ACTIONS_SECRET
-  permissions:
-  - role: user
-- name: update_user
-  definition:
-    kind: synchronous
-    handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/update_user'
-    headers:
-    - name: x-hasura-actions-secret
-      value_from_env: HASURA_ACTIONS_SECRET
-  permissions:
-  - role: user
-- name: update_user_exchange_keys
-  definition:
-    kind: synchronous
-    handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/update_user_exchange_keys'
-    headers:
-    - name: x-hasura-actions-secret
-      value_from_env: HASURA_ACTIONS_SECRET
-  permissions:
-  - role: user
-- name: validate_user_exchange_keys
-  definition:
-    kind: synchronous
-    handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/validate_user_exchange_keys'
-    headers:
-    - name: x-hasura-actions-secret
-      value_from_env: HASURA_ACTIONS_SECRET
-  permissions:
-  - role: user
-- name: validate_user_exchange_keys_live
-  definition:
-    kind: synchronous
-    handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/validate_user_exchange_keys_live'
-    headers:
-    - name: x-hasura-actions-secret
-      value_from_env: HASURA_ACTIONS_SECRET
-  permissions:
-  - role: user
-- name: validate_user_password_reset
-  definition:
-    kind: synchronous
-    handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/validate_user_password_reset'
-    headers:
-    - name: x-hasura-actions-secret
-      value_from_env: HASURA_ACTIONS_SECRET
-  permissions:
-  - role: user
-  - role: guest
-- name: verify_user_email
-  definition:
-    kind: synchronous
-    handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/verify_user_email'
-    headers:
-    - name: x-hasura-actions-secret
-      value_from_env: HASURA_ACTIONS_SECRET
-  permissions:
-  - role: guest
-  - role: user
+  - name: cancel_subscription
+    definition:
+      kind: synchronous
+      handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/cancel_subscription'
+      headers:
+        - name: x-hasura-actions-secret
+          value_from_env: HASURA_ACTIONS_SECRET
+    permissions:
+      - role: user
+  - name: create_auth_token
+    definition:
+      kind: synchronous
+      handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/create_auth_token'
+      headers:
+        - name: x-hasura-actions-secret
+          value_from_env: HASURA_ACTIONS_SECRET
+    permissions:
+      - role: user
+      - role: guest
+  - name: create_dca_order
+    definition:
+      kind: synchronous
+      handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/create_dca_order'
+      headers:
+        - name: x-hasura-actions-secret
+          value_from_env: HASURA_ACTIONS_SECRET
+    permissions:
+      - role: user
+  - name: create_subscription
+    definition:
+      kind: synchronous
+      handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/create_subscription'
+      headers:
+        - name: x-hasura-actions-secret
+          value_from_env: HASURA_ACTIONS_SECRET
+    permissions:
+      - role: user
+  - name: create_user
+    definition:
+      kind: synchronous
+      handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/create_user'
+      headers:
+        - name: x-hasura-actions-secret
+          value_from_env: HASURA_ACTIONS_SECRET
+    permissions:
+      - role: user
+      - role: guest
+  - name: create_user_exchange_keys
+    definition:
+      kind: synchronous
+      handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/create_user_exchange_keys'
+      headers:
+        - name: x-hasura-actions-secret
+          value_from_env: HASURA_ACTIONS_SECRET
+    permissions:
+      - role: user
+  - name: delete_user
+    definition:
+      kind: synchronous
+      handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/delete_user'
+      headers:
+        - name: x-hasura-actions-secret
+          value_from_env: HASURA_ACTIONS_SECRET
+    permissions:
+      - role: user
+  - name: delete_user_2fa
+    definition:
+      kind: synchronous
+      handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/delete_user_2fa'
+      headers:
+        - name: x-hasura-actions-secret
+          value_from_env: HASURA_ACTIONS_SECRET
+    permissions:
+      - role: user
+  - name: enable_user_2fa
+    definition:
+      kind: synchronous
+      handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/enable_user_2fa'
+      headers:
+        - name: x-hasura-actions-secret
+          value_from_env: HASURA_ACTIONS_SECRET
+    permissions:
+      - role: user
+  - name: query_prices
+    definition:
+      kind: ""
+      handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/query_prices'
+      headers:
+        - name: x-hasura-actions-secret
+          value_from_env: HASURA_ACTIONS_SECRET
+    permissions:
+      - role: user
+  - name: query_stripe_config
+    definition:
+      kind: ""
+      handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/query_stripe_config'
+      headers:
+        - name: x-hasura-actions-secret
+          value_from_env: HASURA_ACTIONS_SECRET
+    permissions:
+      - role: user
+  - name: query_subscriptions
+    definition:
+      kind: ""
+      handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/query_subscriptions'
+      headers:
+        - name: x-hasura-actions-secret
+          value_from_env: HASURA_ACTIONS_SECRET
+    permissions:
+      - role: user
+  - name: query_user_email
+    definition:
+      kind: ""
+      handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/query_user_email'
+      headers:
+        - name: x-hasura-actions-secret
+          value_from_env: HASURA_ACTIONS_SECRET
+  - name: query_user_limit
+    definition:
+      kind: ""
+      handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/query_user_limit'
+      headers:
+        - name: x-hasura-actions-secret
+          value_from_env: HASURA_ACTIONS_SECRET
+    permissions:
+      - role: user
+  - name: refresh_auth_token
+    definition:
+      kind: synchronous
+      handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/refresh_auth_token'
+      headers:
+        - name: x-hasura-actions-secret
+          value_from_env: HASURA_ACTIONS_SECRET
+    permissions:
+      - role: user
+  - name: reset_user_password
+    definition:
+      kind: synchronous
+      handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/reset_user_password'
+      headers:
+        - name: x-hasura-actions-secret
+          value_from_env: HASURA_ACTIONS_SECRET
+    permissions:
+      - role: user
+      - role: guest
+  - name: seed_test_account
+    definition:
+      kind: synchronous
+      handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/seed_test_account'
+      headers:
+        - name: x-hasura-actions-secret
+          value_from_env: HASURA_ACTIONS_SECRET
+  - name: send_user_email_verify
+    definition:
+      kind: synchronous
+      handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/send_user_email_verify'
+      headers:
+        - name: x-hasura-actions-secret
+          value_from_env: HASURA_ACTIONS_SECRET
+    permissions:
+      - role: user
+  - name: send_user_password_reset
+    definition:
+      kind: synchronous
+      handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/send_user_password_reset'
+      headers:
+        - name: x-hasura-actions-secret
+          value_from_env: HASURA_ACTIONS_SECRET
+    permissions:
+      - role: user
+      - role: guest
+  - name: setup_user_2fa
+    definition:
+      kind: ""
+      handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/setup_user_2fa'
+      headers:
+        - name: x-hasura-actions-secret
+          value_from_env: HASURA_ACTIONS_SECRET
+    permissions:
+      - role: user
+  - name: sync_currency_fx
+    definition:
+      kind: synchronous
+      handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/sync_currency_fx'
+      headers:
+        - name: x-hasura-actions-secret
+          value_from_env: HASURA_ACTIONS_SECRET
+  - name: sync_exchange_open_order_list
+    definition:
+      kind: synchronous
+      handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/sync_exchange_open_order_list'
+      headers:
+        - name: x-hasura-actions-secret
+          value_from_env: HASURA_ACTIONS_SECRET
+    permissions:
+      - role: user
+  - name: sync_exchange_trade_list
+    definition:
+      kind: synchronous
+      handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/sync_exchange_trade_list'
+      headers:
+        - name: x-hasura-actions-secret
+          value_from_env: HASURA_ACTIONS_SECRET
+    permissions:
+      - role: user
+  - name: update_dca_order
+    definition:
+      kind: synchronous
+      handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/update_dca_order'
+      headers:
+        - name: x-hasura-actions-secret
+          value_from_env: HASURA_ACTIONS_SECRET
+    permissions:
+      - role: user
+  - name: update_user
+    definition:
+      kind: synchronous
+      handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/update_user'
+      headers:
+        - name: x-hasura-actions-secret
+          value_from_env: HASURA_ACTIONS_SECRET
+    permissions:
+      - role: user
+  - name: update_user_exchange_keys
+    definition:
+      kind: synchronous
+      handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/update_user_exchange_keys'
+      headers:
+        - name: x-hasura-actions-secret
+          value_from_env: HASURA_ACTIONS_SECRET
+    permissions:
+      - role: user
+  - name: validate_user_exchange_keys
+    definition:
+      kind: synchronous
+      handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/validate_user_exchange_keys'
+      headers:
+        - name: x-hasura-actions-secret
+          value_from_env: HASURA_ACTIONS_SECRET
+    permissions:
+      - role: user
+  - name: validate_user_exchange_keys_live
+    definition:
+      kind: synchronous
+      handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/validate_user_exchange_keys_live'
+      headers:
+        - name: x-hasura-actions-secret
+          value_from_env: HASURA_ACTIONS_SECRET
+    permissions:
+      - role: user
+  - name: validate_user_password_reset
+    definition:
+      kind: synchronous
+      handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/validate_user_password_reset'
+      headers:
+        - name: x-hasura-actions-secret
+          value_from_env: HASURA_ACTIONS_SECRET
+    permissions:
+      - role: user
+      - role: guest
+  - name: verify_user_email
+    definition:
+      kind: synchronous
+      handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/verify_user_email'
+      headers:
+        - name: x-hasura-actions-secret
+          value_from_env: HASURA_ACTIONS_SECRET
+    permissions:
+      - role: guest
+      - role: user
 custom_types:
   enums: []
   input_objects:
-  - name: SampleInput
-  - name: QueryUserEmailInput
+    - name: SampleInput
+    - name: QueryUserEmailInput
+    - name: SeedTestAccountInput
   objects:
-  - name: SampleOutput
-  - name: CreateUserOutput
-  - name: CreateAuthTokenOutput
-    relationships:
-    - remote_table:
-        schema: kc
-        name: user
-      name: user
-      source: default
-      type: object
-      field_mapping:
-        user_uid: uid
-  - name: GetEmailOutput
-  - name: SetUserExchangeKeysOutput
-    relationships:
-    - remote_table:
-        schema: kc
-        name: user_exchange_keys
-      name: user_exchange_keys
-      source: default
-      type: object
-      field_mapping:
-        user_exchange_keys_uid: uid
-  - name: ValidateUserExchangeKeysOutput
-    relationships:
-    - remote_table:
-        schema: kc
-        name: user_exchange_keys
-      name: user_exchange_keys
-      source: default
-      type: object
-      field_mapping:
-        user_exchange_keys_uid: uid
-  - name: CreateDCAOrderResult
-    relationships:
-    - remote_table:
-        schema: kc
-        name: dca_order
-      name: dca_order
-      source: default
-      type: object
-      field_mapping:
-        dca_order_uid: uid
-  - name: SyncTradeListOutput
-    relationships:
-    - remote_table:
-        schema: kc
-        name: user
-      name: user
-      source: default
-      type: object
-      field_mapping:
-        user_uid: uid
-  - name: SyncExchangeTradeListOutput
-    relationships:
-    - remote_table:
-        schema: kc
-        name: user
-      name: user
-      source: default
-      type: object
-      field_mapping:
-        user_uid: uid
-  - name: CreateUserExchangeKeysOutput
-    relationships:
-    - remote_table:
-        schema: kc
-        name: user_exchange_keys
-      name: user_exchange_keys
-      source: default
-      type: object
-      field_mapping:
-        user_exchange_keys_uid: uid
-  - name: WebhookOutput
-  - name: CreateCheckoutSession
-  - name: CreateCustomerPortalSession
-  - name: CustomerCheckoutSessionOutput
-  - name: UpdateUserPasswordOutput
-  - name: UpdateUserOutput
-    relationships:
-    - remote_table:
-        schema: kc
-        name: user
-      name: user
-      source: default
-      type: object
-      field_mapping:
-        user_uid: uid
-  - name: EnableUser2FAOutput
-    relationships:
-    - remote_table:
-        schema: kc
-        name: user
-      name: user
-      source: default
-      type: object
-      field_mapping:
-        user_uid: uid
-  - name: SendUserPasswordResetOutput
-  - name: ResetUserPasswordOutput
-  - name: SendUserEmailVerifyOutput
-  - name: VerifyUserEmailOutput
-  - name: UpdateUserExchangeKeysOutput
-    relationships:
-    - remote_table:
-        schema: kc
-        name: user_exchange_keys
-      name: user_exchange_keys
-      source: default
-      type: object
-      field_mapping:
-        user_exchange_keys_uid: uid
-  - name: SyncExchangeOpenOrderListOutput
-    relationships:
-    - remote_table:
-        schema: kc
-        name: user
-      name: user
-      source: default
-      type: object
-      field_mapping:
-        user_uid: uid
-  - name: ValidateUserExchangeKeysLiveOutput
-  - name: RefreshAuthTokenOutput
-    relationships:
-    - remote_table:
-        schema: kc
-        name: user
-      name: user
-      source: default
-      type: object
-      field_mapping:
-        user_uid: uid
-  - name: ValidatUserPasswordResetOutput
-  - name: QueryUserEmailOutput
-  - name: SyncCurrencyFxOutput
-  - name: SetupUser2FAOutput
-  - name: DeleteUser2FAOutput
-    relationships:
-    - remote_table:
-        schema: kc
-        name: user
-      name: user
-      source: default
-      type: object
-      field_mapping:
-        user_uid: uid
-  - name: DeleteUserOutput
-  - name: QueryUserLimitOutput
-  - name: UpdateDCAOrderOutput
-    relationships:
-    - remote_table:
-        schema: kc
-        name: dca_order
-      name: dca_order
-      source: default
-      type: object
-      field_mapping:
-        dca_order_uid: uid
-  - name: QueryPricesOutput
-  - name: QuerySubscriptionOutput
-  - name: QuerySubscriptionsOutput
-  - name: CreateSubscription
-  - name: CancelSubscriptionOutput
-  - name: PriceOutput
-  - name: QueryStripeConfigOutput
-  - name: StripeSubscription
-  - name: StripeSubscriptionPaymentSettings
-  - name: StripeSubscriptionAutomaticTax
-  - name: StripeSubscriptionMetadata
-  - name: StripeSubscriptionRecurring
-  - name: StripeSubscriptionPrice
-  - name: StripeSubscriptionPlan
-  - name: StripeSubscriptionItemData
-  - name: StripeSubscriptionItem
+    - name: SampleOutput
+    - name: CreateUserOutput
+    - name: CreateAuthTokenOutput
+      relationships:
+        - remote_table:
+            schema: kc
+            name: user
+          name: user
+          source: default
+          type: object
+          field_mapping:
+            user_uid: uid
+    - name: GetEmailOutput
+    - name: SetUserExchangeKeysOutput
+      relationships:
+        - remote_table:
+            schema: kc
+            name: user_exchange_keys
+          name: user_exchange_keys
+          source: default
+          type: object
+          field_mapping:
+            user_exchange_keys_uid: uid
+    - name: ValidateUserExchangeKeysOutput
+      relationships:
+        - remote_table:
+            schema: kc
+            name: user_exchange_keys
+          name: user_exchange_keys
+          source: default
+          type: object
+          field_mapping:
+            user_exchange_keys_uid: uid
+    - name: CreateDCAOrderResult
+      relationships:
+        - remote_table:
+            schema: kc
+            name: dca_order
+          name: dca_order
+          source: default
+          type: object
+          field_mapping:
+            dca_order_uid: uid
+    - name: SyncTradeListOutput
+      relationships:
+        - remote_table:
+            schema: kc
+            name: user
+          name: user
+          source: default
+          type: object
+          field_mapping:
+            user_uid: uid
+    - name: SyncExchangeTradeListOutput
+      relationships:
+        - remote_table:
+            schema: kc
+            name: user
+          name: user
+          source: default
+          type: object
+          field_mapping:
+            user_uid: uid
+    - name: CreateUserExchangeKeysOutput
+      relationships:
+        - remote_table:
+            schema: kc
+            name: user_exchange_keys
+          name: user_exchange_keys
+          source: default
+          type: object
+          field_mapping:
+            user_exchange_keys_uid: uid
+    - name: WebhookOutput
+    - name: CreateCheckoutSession
+    - name: CreateCustomerPortalSession
+    - name: CustomerCheckoutSessionOutput
+    - name: UpdateUserPasswordOutput
+    - name: UpdateUserOutput
+      relationships:
+        - remote_table:
+            schema: kc
+            name: user
+          name: user
+          source: default
+          type: object
+          field_mapping:
+            user_uid: uid
+    - name: EnableUser2FAOutput
+      relationships:
+        - remote_table:
+            schema: kc
+            name: user
+          name: user
+          source: default
+          type: object
+          field_mapping:
+            user_uid: uid
+    - name: SendUserPasswordResetOutput
+    - name: ResetUserPasswordOutput
+    - name: SendUserEmailVerifyOutput
+    - name: VerifyUserEmailOutput
+    - name: UpdateUserExchangeKeysOutput
+      relationships:
+        - remote_table:
+            schema: kc
+            name: user_exchange_keys
+          name: user_exchange_keys
+          source: default
+          type: object
+          field_mapping:
+            user_exchange_keys_uid: uid
+    - name: SyncExchangeOpenOrderListOutput
+      relationships:
+        - remote_table:
+            schema: kc
+            name: user
+          name: user
+          source: default
+          type: object
+          field_mapping:
+            user_uid: uid
+    - name: ValidateUserExchangeKeysLiveOutput
+    - name: RefreshAuthTokenOutput
+      relationships:
+        - remote_table:
+            schema: kc
+            name: user
+          name: user
+          source: default
+          type: object
+          field_mapping:
+            user_uid: uid
+    - name: ValidatUserPasswordResetOutput
+    - name: QueryUserEmailOutput
+    - name: SyncCurrencyFxOutput
+    - name: SetupUser2FAOutput
+    - name: DeleteUser2FAOutput
+      relationships:
+        - remote_table:
+            schema: kc
+            name: user
+          name: user
+          source: default
+          type: object
+          field_mapping:
+            user_uid: uid
+    - name: DeleteUserOutput
+    - name: QueryUserLimitOutput
+    - name: UpdateDCAOrderOutput
+      relationships:
+        - remote_table:
+            schema: kc
+            name: dca_order
+          name: dca_order
+          source: default
+          type: object
+          field_mapping:
+            dca_order_uid: uid
+    - name: QueryPricesOutput
+    - name: QuerySubscriptionOutput
+    - name: QuerySubscriptionsOutput
+    - name: CreateSubscription
+    - name: CancelSubscriptionOutput
+    - name: PriceOutput
+    - name: QueryStripeConfigOutput
+    - name: StripeSubscription
+    - name: StripeSubscriptionPaymentSettings
+    - name: StripeSubscriptionAutomaticTax
+    - name: StripeSubscriptionMetadata
+    - name: StripeSubscriptionRecurring
+    - name: StripeSubscriptionPrice
+    - name: StripeSubscriptionPlan
+    - name: StripeSubscriptionItemData
+    - name: StripeSubscriptionItem
+    - name: SeedTestAccountOutput
   scalars: []

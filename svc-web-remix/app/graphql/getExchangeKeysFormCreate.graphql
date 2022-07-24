@@ -1,0 +1,7 @@
+query getExchangeKeysFormCreate {
+  kc_exchange {
+    uid
+    id
+    name
+  }
+}

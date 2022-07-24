@@ -1,0 +1,38 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,600;1,400;1,600&display=swap');
+
+:root {
+  --white-100: #FFFFFF;
+  --gray-200: #EEEEEE;
+  --gray-300: #DDDDDD;
+  --gray-400: #CCCCCC;
+  --gray-500: #BBBBBB;
+  --gray-600: #999999;
+  --gray-700: #808080;
+  --gray-800: #666666;
+  --black-900: #262626;
+  --azul: #333399;
+  --lavender: #CCCCFF;
+
+  --card-background: var(--gray-200);
+  --card-border: #000;
+
+  --input-border: #000;
+  --input-disabled: #888;
+
+  --button-primary-color: #000;
+  --button-primary-background: #fff;
+  --button-primary-border: #000;
+
+  --button-disabled-color: #888;
+  --button-disabled-background: #fff;
+  --button-disabled-border: #888;
+}
+
+body {
+  background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAxSURBVHgBjcxJCgAwCATBnvz/z0kugoJb3waxBNwfliTCDtekY18+v3dCp+yFShmFB/v4Fwq49YcTAAAAAElFTkSuQmCC');
+  image-rendering: pixelated;
+}
+
+body, input, button {
+  font-family: 'Source Code Pro', monospace;
+}

@@ -229,16 +229,12 @@
           },
           {
             "name": "user",
-            "description": "An object relationship",
+            "description": null,
             "args": [],
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "kc_user",
-                "ofType": null
-              }
+              "kind": "OBJECT",
+              "name": "kc_user",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -272,16 +268,12 @@
         "fields": [
           {
             "name": "dca_order",
-            "description": "An object relationship",
+            "description": null,
             "args": [],
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "kc_dca_order",
-                "ofType": null
-              }
+              "kind": "OBJECT",
+              "name": "kc_dca_order",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -358,16 +350,12 @@
         "fields": [
           {
             "name": "user_exchange_keys",
-            "description": "An object relationship",
+            "description": null,
             "args": [],
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "kc_user_exchange_keys",
-                "ofType": null
-              }
+              "kind": "OBJECT",
+              "name": "kc_user_exchange_keys",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -428,16 +416,12 @@
         "fields": [
           {
             "name": "user",
-            "description": "An object relationship",
+            "description": null,
             "args": [],
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "kc_user",
-                "ofType": null
-              }
+              "kind": "OBJECT",
+              "name": "kc_user",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -498,16 +482,12 @@
         "fields": [
           {
             "name": "user",
-            "description": "An object relationship",
+            "description": null,
             "args": [],
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "kc_user",
-                "ofType": null
-              }
+              "kind": "OBJECT",
+              "name": "kc_user",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -932,16 +912,12 @@
           },
           {
             "name": "user",
-            "description": "An object relationship",
+            "description": null,
             "args": [],
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "kc_user",
-                "ofType": null
-              }
+              "kind": "OBJECT",
+              "name": "kc_user",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -2699,16 +2675,12 @@
         "fields": [
           {
             "name": "user",
-            "description": "An object relationship",
+            "description": null,
             "args": [],
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "kc_user",
-                "ofType": null
-              }
+              "kind": "OBJECT",
+              "name": "kc_user",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -2742,16 +2714,12 @@
         "fields": [
           {
             "name": "user",
-            "description": "An object relationship",
+            "description": null,
             "args": [],
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "kc_user",
-                "ofType": null
-              }
+              "kind": "OBJECT",
+              "name": "kc_user",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -2785,16 +2753,12 @@
         "fields": [
           {
             "name": "dca_order",
-            "description": "An object relationship",
+            "description": null,
             "args": [],
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "kc_dca_order",
-                "ofType": null
-              }
+              "kind": "OBJECT",
+              "name": "kc_dca_order",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -2828,16 +2792,12 @@
         "fields": [
           {
             "name": "user_exchange_keys",
-            "description": "An object relationship",
+            "description": null,
             "args": [],
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "kc_user_exchange_keys",
-                "ofType": null
-              }
+              "kind": "OBJECT",
+              "name": "kc_user_exchange_keys",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -2871,16 +2831,12 @@
         "fields": [
           {
             "name": "user",
-            "description": "An object relationship",
+            "description": null,
             "args": [],
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "kc_user",
-                "ofType": null
-              }
+              "kind": "OBJECT",
+              "name": "kc_user",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -3008,16 +2964,12 @@
           },
           {
             "name": "user_exchange_keys",
-            "description": "An object relationship",
+            "description": null,
             "args": [],
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "kc_user_exchange_keys",
-                "ofType": null
-              }
+              "kind": "OBJECT",
+              "name": "kc_user_exchange_keys",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -5603,7 +5555,7 @@
           },
           {
             "name": "exchange_market_trading_pair",
-            "description": "A computed field, executes function \"kc.dca_order_market_trading_pair\"",
+            "description": null,
             "args": [
               {
                 "name": "distinct_on",
@@ -38699,33 +38651,8 @@
         ]
       },
       {
-        "name": "deprecated",
-        "description": "Marks an element of a GraphQL schema as no longer supported.",
-        "isRepeatable": false,
-        "locations": [
-          "ARGUMENT_DEFINITION",
-          "ENUM_VALUE",
-          "FIELD_DEFINITION",
-          "INPUT_FIELD_DEFINITION"
-        ],
-        "args": [
-          {
-            "name": "reason",
-            "description": "Explains why this element was deprecated, usually also including a suggestion for how to access supported similar data. Formatted using the Markdown syntax, as specified by [CommonMark](https://commonmark.org/).",
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "defaultValue": "\"No longer supported\"",
-            "isDeprecated": false,
-            "deprecationReason": null
-          }
-        ]
-      },
-      {
         "name": "include",
-        "description": "Directs the executor to include this field or fragment only when the `if` argument is true.",
+        "description": "whether this query should be included",
         "isRepeatable": false,
         "locations": [
           "FIELD",
@@ -38735,7 +38662,7 @@
         "args": [
           {
             "name": "if",
-            "description": "Included when true.",
+            "description": null,
             "type": {
               "kind": "NON_NULL",
               "name": null,
@@ -38753,7 +38680,7 @@
       },
       {
         "name": "skip",
-        "description": "Directs the executor to skip this field or fragment when the `if` argument is true.",
+        "description": "whether this query should be skipped",
         "isRepeatable": false,
         "locations": [
           "FIELD",
@@ -38763,39 +38690,13 @@
         "args": [
           {
             "name": "if",
-            "description": "Skipped when true.",
+            "description": null,
             "type": {
               "kind": "NON_NULL",
               "name": null,
               "ofType": {
                 "kind": "SCALAR",
                 "name": "Boolean",
-                "ofType": null
-              }
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          }
-        ]
-      },
-      {
-        "name": "specifiedBy",
-        "description": "Exposes a URL that specifies the behavior of this scalar.",
-        "isRepeatable": false,
-        "locations": [
-          "SCALAR"
-        ],
-        "args": [
-          {
-            "name": "url",
-            "description": "The URL that specifies the behavior of this scalar.",
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
                 "ofType": null
               }
             },

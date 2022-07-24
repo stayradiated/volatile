@@ -1,0 +1,10 @@
+query getPrices {
+  query_prices {
+    id
+    type
+    interval
+    interval_count
+    currency
+    unit_amount
+  }
+}

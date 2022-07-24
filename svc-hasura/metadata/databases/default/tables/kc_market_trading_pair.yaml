@@ -1,33 +1,33 @@
 table:
-  name: market_trading_pair
   schema: kc
+  name: market_trading_pair
 object_relationships:
-- name: currency
-  using:
-    foreign_key_constraint_on: primary_currency_symbol
-- name: currencyBySecondaryCurrencySymbol
-  using:
-    foreign_key_constraint_on: secondary_currency_symbol
-- name: market
-  using:
-    foreign_key_constraint_on: market_uid
+  - name: currency
+    using:
+      foreign_key_constraint_on: primary_currency_symbol
+  - name: currencyBySecondaryCurrencySymbol
+    using:
+      foreign_key_constraint_on: secondary_currency_symbol
+  - name: market
+    using:
+      foreign_key_constraint_on: market_uid
 array_relationships:
-- name: market_prices
-  using:
-    manual_configuration:
-      column_mapping:
-        market_uid: market_uid
-        primary_currency_symbol: asset_symbol
-        secondary_currency_symbol: currency
-      insertion_order: null
-      remote_table:
-        name: market_price
-        schema: kc
+  - name: market_prices
+    using:
+      manual_configuration:
+        remote_table:
+          schema: kc
+          name: market_price
+        insertion_order: null
+        column_mapping:
+          secondary_currency_symbol: currency
+          primary_currency_symbol: asset_symbol
+          market_uid: market_uid
 select_permissions:
-- permission:
-    columns:
-    - market_uid
-    - primary_currency_symbol
-    - secondary_currency_symbol
-    filter: {}
-  role: user
+  - role: user
+    permission:
+      columns:
+        - market_uid
+        - primary_currency_symbol
+        - secondary_currency_symbol
+      filter: {}

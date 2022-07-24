@@ -59,6 +59,7 @@ addAction(
 )
 addAction('validate_user_password_reset', actions.validateUserPasswordReset)
 addAction('verify_user_email', actions.verifyUserEmailHandler)
+addAction('seed_test_account', actions.seedTestAccount)
 
 const addCron = bindCronHandler(fastify)
 addCron('auto_buy', cron.autoBuyHandler)

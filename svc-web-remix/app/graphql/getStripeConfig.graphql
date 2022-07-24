@@ -1,0 +1,5 @@
+query getStripeConfig {
+  query_stripe_config {
+    publishable_key
+  }
+}

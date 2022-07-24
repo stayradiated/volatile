@@ -1,0 +1,16 @@
+query getSubscriptions {
+  query_subscriptions {
+    subscriptions {
+      id
+      status
+      created
+      current_period_end
+      plan {
+        interval
+        interval_count
+        amount
+        currency
+      }
+    }
+  }
+}

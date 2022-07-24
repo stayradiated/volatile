@@ -1,0 +1,12 @@
+mutation enableUser2FA($name: String!, $secret: String!, $token: String!) {
+  enable_user_2fa(name: $name, secret: $secret, token: $token) {
+    user {
+      uid
+      user_2fa {
+        created_at
+        name
+        uid
+      }
+    }
+  }
+}

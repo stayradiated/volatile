@@ -1,0 +1,10 @@
+query getTradeCumulativeVolumeByDay {
+  kc_trade_avg_price_by_window(
+    args: { group_by: "day", currency: "NZD" }
+    order_by: { timestamp: desc }
+  ) {
+    timestamp
+    primary_currency
+    volume
+  }
+}

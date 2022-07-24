@@ -1,0 +1,21 @@
+mutation createAuthToken(
+  $email: String!
+  $password: String!
+  $deviceID: String!
+  $deviceName: String!
+  $deviceTrusted: Boolean!
+  $token2FA: String
+) {
+  create_auth_token(
+    email: $email
+    password: $password
+    device_id: $deviceID
+    device_name: $deviceName
+    device_trusted: $deviceTrusted
+    token_2fa: $token2FA
+  ) {
+    user_uid
+    auth_token
+    expires_at
+  }
+}

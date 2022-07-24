@@ -1,0 +1,73 @@
+query getMarketPrice (
+  $primaryCurrency: String!
+  $secondaryCurrency: String!
+) {
+  binance_us: kc_market(where: { id: { _eq: "binance.us" }}) {
+    market_prices(where:{
+      asset_symbol:{ _eq: $primaryCurrency },
+      currency:{ _eq: $secondaryCurrency }
+    }, order_by: {
+      timestamp: desc
+    }){
+      price
+      timestamp
+    }
+  }
+  kiwi_coin: kc_market(where:{ id: { _eq: "kiwi-coin.com"  }}) {
+    market_prices(where: {
+      asset_symbol:{ _eq: $primaryCurrency },
+      currency:{ _eq: $secondaryCurrency }
+    }, order_by: {
+      timestamp: desc
+    }){
+      price
+      timestamp
+    }
+  }
+  dasset: kc_market(where:{ id: { _eq: "dassetx.com"  }}) {
+    market_prices(where: {
+      asset_symbol:{ _eq: $primaryCurrency },
+      currency:{ _eq: $secondaryCurrency }
+    }, order_by: {
+      timestamp: desc
+    }){
+      price
+      timestamp
+    }
+  }
+  kraken: kc_market(where:{ id: { _eq: "kraken.com"  }}) {
+    market_prices(where: {
+      asset_symbol:{ _eq: $primaryCurrency },
+      currency:{ _eq: $secondaryCurrency }
+    }, order_by: {
+      timestamp: desc
+    }){
+      price
+      timestamp
+    }
+  }
+  independent_reserve_aud: kc_market(where:{ id: { _eq: "independentreserve.com"  }}) {
+    market_prices(where: {
+      source_currency: { _eq: "AUD" },
+      asset_symbol:{ _eq: $primaryCurrency },
+      currency:{ _eq: $secondaryCurrency }
+    }, order_by: {
+      timestamp: desc
+    }){
+      price
+      timestamp
+    }
+  }
+  independent_reserve_nzd: kc_market(where:{ id: { _eq: "independentreserve.com"  }}) {
+    market_prices(where: {
+      source_currency: { _eq: "NZD" },
+      asset_symbol:{ _eq: $primaryCurrency },
+      currency:{ _eq: $secondaryCurrency }
+    }, order_by: {
+      timestamp: desc
+    }){
+      price
+      timestamp
+    }
+  }
+}

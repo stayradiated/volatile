@@ -1,29 +1,29 @@
 table:
-  name: exchange_primary_currency
   schema: kc
+  name: exchange_primary_currency
 object_relationships:
-- name: currency
-  using:
-    foreign_key_constraint_on: symbol
-- name: exchange
-  using:
-    foreign_key_constraint_on: exchange_uid
+  - name: currency
+    using:
+      foreign_key_constraint_on: symbol
+  - name: exchange
+    using:
+      foreign_key_constraint_on: exchange_uid
 select_permissions:
-- permission:
-    columns:
-    - exchange_uid
-    - symbol
-    - created_at
-    - updated_at
-    filter: {}
-    limit: 50
-  role: guest
-- permission:
-    columns:
-    - exchange_uid
-    - symbol
-    - created_at
-    - updated_at
-    filter: {}
-    limit: 50
-  role: user
+  - role: guest
+    permission:
+      columns:
+        - exchange_uid
+        - symbol
+        - created_at
+        - updated_at
+      filter: {}
+      limit: 50
+  - role: user
+    permission:
+      columns:
+        - exchange_uid
+        - symbol
+        - created_at
+        - updated_at
+      filter: {}
+      limit: 50

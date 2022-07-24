@@ -1,34 +1,34 @@
 table:
-  name: market_price
   schema: kc
+  name: market_price
 object_relationships:
-- name: market
-  using:
-    foreign_key_constraint_on: market_uid
+  - name: market
+    using:
+      foreign_key_constraint_on: market_uid
 select_permissions:
-- permission:
-    columns:
-    - timestamp
-    - market_uid
-    - source_price
-    - source_currency
-    - fx_rate
-    - price
-    - currency
-    - asset_symbol
-    filter: {}
-    limit: 100
-  role: guest
-- permission:
-    columns:
-    - timestamp
-    - market_uid
-    - source_price
-    - source_currency
-    - fx_rate
-    - price
-    - currency
-    - asset_symbol
-    filter: {}
-    limit: 400
-  role: user
+  - role: guest
+    permission:
+      columns:
+        - timestamp
+        - market_uid
+        - source_price
+        - source_currency
+        - fx_rate
+        - price
+        - currency
+        - asset_symbol
+      filter: {}
+      limit: 100
+  - role: user
+    permission:
+      columns:
+        - timestamp
+        - market_uid
+        - source_price
+        - source_currency
+        - fx_rate
+        - price
+        - currency
+        - asset_symbol
+      filter: {}
+      limit: 400

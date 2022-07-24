@@ -1,0 +1,23 @@
+query getDCAOrderList {
+  kc_dca_order(order_by: { enabled_at: desc_nulls_last }) {
+    uid
+    exchange {
+      uid
+      id
+      name
+    }
+    enabled_at
+    daily_average
+    start_at
+    market_offset
+    interval_ms
+    primary_currency {
+      symbol
+    }
+    secondary_currency {
+      symbol
+    }
+    min_value
+    max_value
+  }
+}

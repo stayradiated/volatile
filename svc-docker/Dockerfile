@@ -1,6 +1,6 @@
-FROM node:16.8.0 as node
+FROM node:16.16.0 as node
 FROM amacneil/dbmate:1.12.1 as dbmate
-FROM hasura/graphql-engine:v2.2.1.cli-migrations-v3
+FROM hasura/graphql-engine:v2.8.4.cli-migrations-v3
 
 WORKDIR /
 

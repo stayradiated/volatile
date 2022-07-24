@@ -1,0 +1,5 @@
+mutation deleteUser {
+  delete_user {
+    user_uid
+  }
+}
