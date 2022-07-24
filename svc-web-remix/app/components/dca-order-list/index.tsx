@@ -16,7 +16,6 @@ type Props = {
 const DCAOrderList = (props: Props) => {
   const { query } = props
 
-
   const columns = useMemo(() => {
     const columns: Array<Column<DCAOrder>> = [
       {
@@ -87,9 +86,15 @@ const DCAOrderList = (props: Props) => {
 
           return (
             <Dropdown>
-              <Dropdown.Item to={`/dca-orders/${dcaOrderUID}/history`}>View</Dropdown.Item>
-              <Dropdown.Item to={`/dca-orders/${dcaOrderUID}/edit`}>Edit</Dropdown.Item>
-              <Dropdown.Item to={`/dca-orders/${dcaOrderUID}/delete`}>Delete</Dropdown.Item>
+              <Dropdown.Item to={`/dca-orders/${dcaOrderUID}/history`}>
+                View
+              </Dropdown.Item>
+              <Dropdown.Item to={`/dca-orders/${dcaOrderUID}/edit`}>
+                Edit
+              </Dropdown.Item>
+              <Dropdown.Item to={`/dca-orders/${dcaOrderUID}/delete`}>
+                Delete
+              </Dropdown.Item>
             </Dropdown>
           )
         },

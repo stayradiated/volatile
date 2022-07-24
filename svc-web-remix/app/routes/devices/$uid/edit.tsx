@@ -1,5 +1,6 @@
 import { useLoaderData } from '@remix-run/react'
 import { LoaderFunction, json } from '@remix-run/node'
+import invariant from 'tiny-invariant'
 
 import { UserDeviceFormEdit } from '~/components/user-device-form-edit'
 import { Card } from '~/components/retro-ui'
@@ -16,9 +17,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
   const { authToken } = await getSessionData(request)
   const { uid: userDeviceUID } = params
 
-  if (!userDeviceUID) {
-    throw new Error('Missing required params.')
-  }
+  invariant(userDeviceUID, 'Expected params.uid')
 
   const query = await sdk.getUserDeviceByUID(
     {

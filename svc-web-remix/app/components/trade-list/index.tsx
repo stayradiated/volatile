@@ -1,18 +1,13 @@
 import { parseISO, formatISO, format } from 'date-fns'
 import { useTable, Column } from 'react-table'
 
-import { GetTradeListQuery } from '~/graphql/generated'
-
 import { Table, Card } from '../retro-ui'
+import { TradeStats } from './stats'
+import { GetTradeListQuery } from '~/graphql/generated'
 
 import { formatCurrency } from '~/components/format'
 // Import { TradeChart } from './chart'
-import { TradeStats } from './stats'
 // Import { ChartWeek } from './chart-week'
-import { TradeAvgPrice } from './trade-avg-price'
-import { TradeCumulativeSum } from './trade-cumulative-sum'
-import { TradeCumulativeVolume } from './trade-cumulative-volume'
-import { TradeSumValueByWeek } from './trade-sum-value-by-week'
 
 type Trade = GetTradeListQuery['kc_trade'][0]
 
@@ -61,11 +56,11 @@ const columns: Array<Column<Trade>> = [
 ]
 
 type TradeListProps = {
-  query: GetTradeListQuery,
+  query: GetTradeListQuery
 }
 
 const TradeList = (props: TradeListProps) => {
-  const {query } = props
+  const { query } = props
 
   const table = useTable<Trade>({
     columns,
@@ -76,12 +71,6 @@ const TradeList = (props: TradeListProps) => {
 
   return (
     <Card width={1200}>
-      {/* <TradeSumValueByWeek /> */}
-      {/* <TradeAvgPrice primaryCurrency="BTC" /> */}
-      {/* <TradeAvgPrice primaryCurrency="ETH" /> */}
-      {/* <TradeCumulativeSum /> */}
-      {/* <TradeCumulativeVolume /> */}
-
       <TradeStats
         sumValue={agg?.sum?.value ?? 0}
         sumVolume={agg?.sum?.volume ?? 0}

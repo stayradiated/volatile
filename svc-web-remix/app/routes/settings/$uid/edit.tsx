@@ -1,5 +1,6 @@
 import { useLoaderData } from '@remix-run/react'
 import { LoaderFunction, json } from '@remix-run/node'
+import invariant from 'tiny-invariant'
 import { Card } from '~/components/retro-ui'
 
 import { UserExchangeKeysFormEdit } from '~/components/user-exchange-keys-form-edit'
@@ -16,9 +17,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
   const { authToken } = await getSessionData(request)
   const { uid: userExchangeKeysUID } = params
 
-  if (!userExchangeKeysUID) {
-    throw new Error('Missing required params')
-  }
+  invariant(userExchangeKeysUID, 'Expected params.uid')
 
   const query = await sdk.getUserExchangeKeysFormEdit(
     {

@@ -6,12 +6,12 @@ import { Navigation } from '~/components/navigation'
 import { getSessionData } from '~/utils/auth.server'
 
 interface LoaderData {
-  isAuthenticatedUser: boolean;
+  isAuthenticatedUser: boolean
   email: string | undefined
 }
 
 export const loader: LoaderFunction = async ({ request }) => {
-  const { authToken, email } = await getSessionData(request);
+  const { authToken, email } = await getSessionData(request)
   const isAuthenticatedUser = Boolean(authToken)
 
   return json<LoaderData>({
@@ -28,8 +28,12 @@ const MarketPriceRoute = () => {
       <Navigation isAuthenticatedUser={isAuthenticatedUser} email={email} />
       <Card>
         <ul>
-          <li><Link to="BTC-NZD">BTC-NZD</Link></li>
-          <li><Link to="ETH-NZD">ETH-NZD</Link></li>
+          <li>
+            <Link to="BTC-NZD">BTC-NZD</Link>
+          </li>
+          <li>
+            <Link to="ETH-NZD">ETH-NZD</Link>
+          </li>
         </ul>
       </Card>
       <Outlet />

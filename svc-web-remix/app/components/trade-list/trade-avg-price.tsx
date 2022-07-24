@@ -1,8 +1,7 @@
 import { useMemo } from 'react'
 
-import type { GetTradeAvgPriceQuery, } from '~/graphql/generated'
-
 import { Chart, ChartConfig, formatDataForChart } from '../chart'
+import type { GetTradeAvgPriceQuery } from '~/graphql/generated'
 
 type Props = {
   primaryCurrency?: string
@@ -25,8 +24,8 @@ const TradeAvgPrice = (props: Props) => {
         data: formatDataForChart({
           interval: 'hour',
           data: rows,
-          getValue: (row) => row.price!,
-          getTime: (row) => row.timestamp!,
+          getValue: (row) => row.price,
+          getTime: (row) => row.timestamp,
         }),
       },
       {
@@ -39,8 +38,8 @@ const TradeAvgPrice = (props: Props) => {
         data: formatDataForChart({
           interval: 'hour',
           data: rows,
-          getValue: (row) => row.avg_price!,
-          getTime: (row) => row.timestamp!,
+          getValue: (row) => row.avg_price,
+          getTime: (row) => row.timestamp,
         }),
       },
     ]

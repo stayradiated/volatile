@@ -12,7 +12,7 @@ export const action: ActionFunction = async ({ request }) => {
 
 interface LoaderData {}
 
-export const loader: LoaderFunction = async ({ request }) => {
+export const loader: LoaderFunction = async () => {
   return json<LoaderData>({})
 }
 

@@ -1,5 +1,6 @@
 import { useLoaderData } from '@remix-run/react'
 import { LoaderFunction, json } from '@remix-run/node'
+import invariant from 'tiny-invariant'
 
 import { Card } from '~/components/retro-ui'
 import { MarketPriceChart } from '~/components/market-price-chart'
@@ -18,9 +19,8 @@ export const loader: LoaderFunction = async ({ request, params }) => {
   const { authToken } = await getSessionData(request)
   const { primary: primaryCurrency, secondary: secondaryCurrency } = params
 
-  if (!primaryCurrency || !secondaryCurrency) {
-    throw new Error('Missing required params.')
-  }
+  invariant(primaryCurrency, 'Expected params.primary.')
+  invariant(secondaryCurrency, 'Expected params.secondary.')
 
   const query = await sdk.getMarketPrice(
     {

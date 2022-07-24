@@ -1,16 +1,35 @@
-import { useLoaderData, Outlet } from '@remix-run/react'
+import { useLoaderData } from '@remix-run/react'
 import { LoaderFunction, json } from '@remix-run/node'
+import { ClientOnly } from 'remix-utils'
 
 import { TradeList } from '~/components/trade-list/index'
+import { Card } from '~/components/retro-ui'
 import { Navigation } from '~/components/navigation'
 import { getSessionData } from '~/utils/auth.server'
 import { sdk } from '~/utils/api.server'
-import { GetTradeListQuery } from '~/graphql/generated'
+import {
+  GetTradeListQuery,
+  GetTradeSumValueByWeekQuery,
+  GetTradeAvgPriceQuery,
+  GetTradeCumulativeSumByDayQuery,
+  GetTradeCumulativeVolumeByDayQuery,
+} from '~/graphql/generated'
+import { TradeAvgPrice } from '~/components/trade-list/trade-avg-price'
+import { TradeCumulativeSum } from '~/components/trade-list/trade-cumulative-sum'
+import { TradeCumulativeVolume } from '~/components/trade-list/trade-cumulative-volume'
+import { TradeSumValueByWeek } from '~/components/trade-list/trade-sum-value-by-week'
 
 interface LoaderData {
   isAuthenticatedUser: boolean
   email: string | undefined
   query: GetTradeListQuery
+  tradeCumulativeSum: GetTradeCumulativeSumByDayQuery
+  tradeCumulativeVolume: GetTradeCumulativeVolumeByDayQuery
+  tradeSumValueByWeek: GetTradeSumValueByWeekQuery
+  tradeAvgPrice: {
+    BTC: GetTradeAvgPriceQuery
+    ETH: GetTradeAvgPriceQuery
+  }
 }
 
 export const loader: LoaderFunction = async ({ request }) => {
@@ -39,15 +58,58 @@ export const loader: LoaderFunction = async ({ request }) => {
     },
   )
 
+  const tradeSumValueByWeek = await sdk.getTradeSumValueByWeek(
+    {},
+    {
+      authorization: `Bearer ${authToken}`,
+    },
+  )
+
+  const tradeAvgPrice = {
+    BTC: await sdk.getTradeAvgPrice(
+      { primaryCurrency: 'BTC' },
+      { authorization: `Bearer ${authToken}` },
+    ),
+    ETH: await sdk.getTradeAvgPrice(
+      { primaryCurrency: 'BTC' },
+      { authorization: `Bearer ${authToken}` },
+    ),
+  }
+
+  const tradeCumulativeVolume = await sdk.getTradeCumulativeVolumeByDay(
+    {},
+    {
+      authorization: `Bearer ${authToken}`,
+    },
+  )
+  const tradeCumulativeSum = await sdk.getTradeCumulativeSumByDay(
+    {},
+    {
+      authorization: `Bearer ${authToken}`,
+    },
+  )
+
   return json<LoaderData>({
     isAuthenticatedUser,
     email,
     query,
+    tradeSumValueByWeek,
+    tradeAvgPrice,
+    tradeCumulativeVolume,
+    tradeCumulativeSum,
   })
 }
 
 const TradesRoute = () => {
-  const { isAuthenticatedUser, email, query } = useLoaderData<LoaderData>()
+  const {
+    isAuthenticatedUser,
+    email,
+    query,
+    tradeSumValueByWeek,
+    tradeAvgPrice,
+    tradeCumulativeSum,
+    tradeCumulativeVolume,
+  } = useLoaderData<LoaderData>()
 
   return (
     <>
@@ -63,6 +125,20 @@ const TradesRoute = () => {
       {/*   <DateInput value={} onChange={} /> */}
       {/*   <DateInput value={} onChange={} /> */}
       {/* </Card> */}
+
+      <Card width={1200}>
+        <ClientOnly>
+          {() => (
+            <>
+              <TradeSumValueByWeek query={tradeSumValueByWeek} />
+              <TradeAvgPrice primaryCurrency="BTC" query={tradeAvgPrice.BTC} />
+              <TradeAvgPrice primaryCurrency="ETH" query={tradeAvgPrice.ETH} />
+              <TradeCumulativeSum query={tradeCumulativeSum} />
+              <TradeCumulativeVolume query={tradeCumulativeVolume} />
+            </>
+          )}
+        </ClientOnly>
+      </Card>
 
       <TradeList query={query} />
     </>

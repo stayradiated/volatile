@@ -1,6 +1,5 @@
-
 /*
-const DCAOrderFormCreate = lazy(
+Const DCAOrderFormCreate = lazy(
   async () => import('../../src/components/dca-order-form-create'),
 )
 

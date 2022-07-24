@@ -1,10 +1,7 @@
 import { useMemo } from 'react'
 
-import type {
-  GetTradeCumulativeVolumeByDayQuery
-} from '~/graphql/generated'
-
 import { Chart, ChartConfig, formatDataForChart } from '../chart'
+import type { GetTradeCumulativeVolumeByDayQuery } from '~/graphql/generated'
 
 type Props = {
   query: GetTradeCumulativeVolumeByDayQuery
@@ -29,8 +26,8 @@ const TradeCumulativeVolume = (props: Props) => {
         data: formatDataForChart({
           interval: 'day',
           data: btc,
-          getValue: (row) => row.volume!,
-          getTime: (row) => row.timestamp!,
+          getValue: (row) => row.volume,
+          getTime: (row) => row.timestamp,
         }),
       },
       {
@@ -43,8 +40,8 @@ const TradeCumulativeVolume = (props: Props) => {
         data: formatDataForChart({
           interval: 'day',
           data: eth,
-          getValue: (row) => row.volume!,
-          getTime: (row) => row.timestamp!,
+          getValue: (row) => row.volume,
+          getTime: (row) => row.timestamp,
         }),
       },
     ]

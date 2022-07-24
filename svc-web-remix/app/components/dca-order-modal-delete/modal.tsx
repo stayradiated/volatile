@@ -1,6 +1,5 @@
+import { Card, LinkButton, PrimaryButton } from '../retro-ui'
 import type { GetDcaOrderModalDeleteQuery } from '~/graphql/generated'
-
-import { Card, LinkButton, PrimaryButton} from '../retro-ui'
 
 type Props = {
   query: GetDcaOrderModalDeleteQuery
@@ -14,12 +13,8 @@ const DCAOrderModalDelete = (props: Props) => {
   return (
     <Card>
       <div>Are you sure you want to delete DCA Order {order.uid}?</div>
-      <LinkButton href="/dca-orders">
-        Cancel
-      </LinkButton>
-      <PrimaryButton>
-        Delete
-      </PrimaryButton>
+      <LinkButton href="/dca-orders">Cancel</LinkButton>
+      <PrimaryButton>Delete</PrimaryButton>
     </Card>
   )
 }

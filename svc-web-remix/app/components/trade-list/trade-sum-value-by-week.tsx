@@ -1,8 +1,7 @@
 import { useMemo } from 'react'
 
-import type { GetTradeSumValueByWeekQuery } from '~/graphql/generated'
-
 import { Chart, ChartConfig, formatDataForChart } from '../chart'
+import type { GetTradeSumValueByWeekQuery } from '~/graphql/generated'
 
 type Props = {
   query: GetTradeSumValueByWeekQuery
@@ -16,7 +15,7 @@ const TradeSumValueByWeek = (props: Props) => {
 
     const sum: Record<string, number> = {}
     for (const row of rows) {
-      sum[row.timestamp!] = (sum[row.timestamp!] ?? 0) + row.total_value!
+      sum[row.timestamp] = (sum[row.timestamp] ?? 0) + row.total_value
     }
 
     const sumRows = Object.entries(sum)

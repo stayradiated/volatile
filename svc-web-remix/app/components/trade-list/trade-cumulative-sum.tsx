@@ -1,8 +1,7 @@
 import { useMemo } from 'react'
 
-import type { GetTradeCumulativeSumByDayQuery } from '~/graphql/generated'
-
 import { Chart, ChartConfig, formatDataForChart } from '../chart'
+import type { GetTradeCumulativeSumByDayQuery } from '~/graphql/generated'
 
 type Props = {
   query: GetTradeCumulativeSumByDayQuery
@@ -27,8 +26,8 @@ const TradeCumulativeSum = (props: Props) => {
         data: formatDataForChart({
           interval: 'day',
           data: btc,
-          getValue: (row) => row.total_value!,
-          getTime: (row) => row.timestamp!,
+          getValue: (row) => row.total_value,
+          getTime: (row) => row.timestamp,
         }),
       },
       {
@@ -41,8 +40,8 @@ const TradeCumulativeSum = (props: Props) => {
         data: formatDataForChart({
           interval: 'day',
           data: eth,
-          getValue: (row) => row.total_value!,
-          getTime: (row) => row.timestamp!,
+          getValue: (row) => row.total_value,
+          getTime: (row) => row.timestamp,
         }),
       },
     ]

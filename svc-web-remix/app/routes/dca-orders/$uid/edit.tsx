@@ -1,5 +1,5 @@
 /*
-const DCAOrderFormEdit = lazy(
+Const DCAOrderFormEdit = lazy(
   async () => import('../../src/components/dca-order-form-edit'),
 )
         <Suspense fallback={<Spin />}>
