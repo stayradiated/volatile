@@ -1,4 +1,4 @@
-import { subDays } from 'date-fns'
+import { subDays, subMinutes } from 'date-fns'
 
 import { throwIfError } from '@stayradiated/error-boundary'
 import { ActionHandlerFn } from '../../util/action-handler.js'
@@ -8,7 +8,9 @@ import { getExchangeUID, getExchangeList, Exchange } from '../../model/exchange/
 import { insertUserExchangeKeys, UserExchangeKeys } from '../../model/user-exchange-keys/index.js'
 import { upsertBalance } from '../../model/balance/index.js'
 import { upsertCurrency, selectAllCurrencies, Currency } from '../../model/currency/index.js'
-import { insertDCAOrder } from '../../model/dca-order/index.js'
+import { insertDCAOrder, DCAOrder } from '../../model/dca-order/index.js'
+import { insertDCAOrderHistory } from '../../model/dca-order-history/index.js'
+import { insertOrder, Order } from '../../model/order/index.js'
 import { getMarketUID, MARKET_BINANCE_US } from '../../model/market/index.js'
 import { insertTrade } from '../../model/trade/index.js'
 
@@ -55,7 +57,7 @@ const seedTestAccount: ActionHandlerFn<Input, Output> = async (context) => {
       invalidatedAt: undefined
     }))
 
-    await throwIfError(insertDCAOrder(pool, {
+    const dcaOrder = await throwIfError<DCAOrder>(insertDCAOrder(pool, {
       userUID: user.UID,
       exchangeUID,
       userExchangeKeysUID: userExchangeKeys.UID,
@@ -74,6 +76,52 @@ const seedTestAccount: ActionHandlerFn<Input, Output> = async (context) => {
       nextRunAt: undefined,
       lastRunAt: undefined,
     }))
+
+    for (let i = 0; i < 100; i++) {
+      const marketPrice = Math.random() * 100_000
+      const marketOffset = (Math.random() * 5) - 2.5
+      const targetValue = Math.random() * 200
+      const value = Math.random() * targetValue
+      const availableBalance = Math.random() * 1000
+
+      const price = marketOffset * marketPrice
+      const volume = value / price
+
+      const   primaryCurrency = Math.random() > 0.5 ? 'ETH' : 'BTC'
+      const   secondaryCurrency= 'NZD'
+
+      const date = subMinutes(new Date(), i * 3)
+
+      const order = await throwIfError<Order>(insertOrder(pool, {
+        userUID: user.UID,
+        exchangeUID,
+        orderID: `${dcaOrder.UID}-${i}`,
+        primaryCurrency,
+        secondaryCurrency,
+        price,
+        volume,
+        value,
+        type: 'BUY',
+        openedAt: date,
+        closedAt: date,
+      }))
+
+      await throwIfError(insertDCAOrderHistory(pool, {
+        userUID: user.UID,
+        dcaOrderUID: dcaOrder.UID,
+        orderUID: order.UID, 
+        createdAt: date,
+        updatedAt: date,
+        primaryCurrency,
+        secondaryCurrency,
+        marketPrice,
+        marketOffset,
+        targetValue,
+        value,
+        availableBalance,
+        description: '',
+      }))
+    }
 
     for (let i = 0; i < 100; i++) {
       const volume = Math.random() * 1

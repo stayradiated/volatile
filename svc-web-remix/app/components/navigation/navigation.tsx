@@ -1,5 +1,5 @@
 import { Logo } from '../logo'
-import { Card, Button } from '../retro-ui'
+import { Card, PrimaryButton, LinkButton } from '../retro-ui'
 
 type Props = {
   isAuthenticatedUser: boolean
@@ -14,12 +14,12 @@ const Navigation = (props: Props) => {
       <Logo />
       {!isAuthenticatedUser && (
         <>
-          <Button type="primary" href="/register/">
+          <PrimaryButton href="/register">
             Sign Up
-          </Button>
-          <Button type="primary" href="/login/">
+          </PrimaryButton>
+          <PrimaryButton href="/login">
             Log In
-          </Button>
+          </PrimaryButton>
         </>
       )}
       {isAuthenticatedUser && (
@@ -30,54 +30,54 @@ const Navigation = (props: Props) => {
 
           <ul>
             <li>
-              <Button type="link" href="/account/">
+              <LinkButton href="/account">
                 Account
-              </Button>
+              </LinkButton>
             </li>
             <li>
-              <Button type="link" href="/subscription/">
+              <LinkButton href="/subscription">
                 Subscription
-              </Button>
+              </LinkButton>
             </li>
             <li>
-              <Button type="link" href="/market-price/">
+              <LinkButton href="/market-price">
                 Market Price
-              </Button>
+              </LinkButton>
             </li>
             <li>
-              <Button type="link" href="/exchanges/">
+              <LinkButton href="/exchanges">
                 Exchanges
-              </Button>
+              </LinkButton>
             </li>
             <li>
-              <Button type="link" href="/dca-orders/">
+              <LinkButton href="/dca-orders">
                 DCA Orders
-              </Button>
+              </LinkButton>
             </li>
             <li>
-              <Button type="link" href="/trades/">
+              <LinkButton href="/trades">
                 Trades
-              </Button>
+              </LinkButton>
             </li>
             <li>
-              <Button type="link" href="/open-orders/">
+              <LinkButton href="/open-orders">
                 Open Orders
-              </Button>
+              </LinkButton>
             </li>
             <li>
-              <Button type="link" href="/settings/">
+              <LinkButton href="/settings">
                 Exchange API Keys
-              </Button>
+              </LinkButton>
             </li>
             <li>
-              <Button type="link" href="/devices/">
+              <LinkButton href="/devices">
                 Devices
-              </Button>
+              </LinkButton>
             </li>
             <li>
-              <Button type="link" href="/logout/">
+              <LinkButton href="/logout">
                 Logout
-              </Button>
+              </LinkButton>
             </li>
           </ul>
         </>

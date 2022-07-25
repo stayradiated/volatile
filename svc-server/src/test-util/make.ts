@@ -319,6 +319,8 @@ const makeDCAOrderHistory: MakeFn<DCAOrderHistory> =
         userUID,
         dcaOrderUID,
         orderUID,
+        createdAt: new Date(),
+        updatedAt: new Date(),
         primaryCurrency: 'BTC',
         secondaryCurrency: 'NZD',
         marketPrice: round(2, Math.random() * 100_000),

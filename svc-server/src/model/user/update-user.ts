@@ -48,6 +48,7 @@ const updateUser = async (
     fields.email_encrypted = emailEncrypted.encrypted
     fields.email_keyring_id = emailEncrypted.keyringId
     fields.email_hash = emailHash
+    fields.email_verified = false
   }
 
   if (typeof password === 'string') {

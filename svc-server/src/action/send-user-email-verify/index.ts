@@ -66,7 +66,7 @@ const sendUserEmailVerifyHandler: ActionHandlerFn<Input, Output> = async (
   const sendMailError = await sendMail({
     to: email,
     subject: 'Volatile: Email Verification',
-    text: `Please open this URL to verify your Volatile account: ${BASE_URL}verify-email/index.html?secret=${secret}`,
+    text: `Please open this URL to verify your Volatile account: ${BASE_URL}account/verify-email/index.html?secret=${secret}`,
   })
   if (sendMailError instanceof Error) {
     return new UnexpectedError({

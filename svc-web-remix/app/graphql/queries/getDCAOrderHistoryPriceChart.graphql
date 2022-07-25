@@ -1,0 +1,29 @@
+query getDCAOrderHistoryPriceChart(
+  $dcaOrderUID: uuid!
+  $gt: timestamptz!
+  $lte: timestamptz!
+) {
+  kc_dca_order_by_pk(uid: $dcaOrderUID) {
+    uid
+    exchange_market_trading_pair {
+      market_uid
+      primary_currency_symbol
+      secondary_currency_symbol
+
+      market_prices(
+        where: { timestamp: { _lte: $lte, _gt: $gt } }
+        order_by: { timestamp: desc }
+      ) {
+        price
+        timestamp
+      }
+    }
+    market_prices(
+      where: { timestamp: { _lte: $lte, _gt: $gt } }
+      order_by: { timestamp: desc }
+    ) {
+      price
+      timestamp
+    }
+  }
+}

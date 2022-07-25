@@ -30,7 +30,10 @@ const Account = () => {
       <Card>
         <ul>
           <li>
-            <Link to="/account/edit">Change Email/Password</Link>
+            <Link to="/account/email">Edit Email</Link>
+          </li>
+          <li>
+            <Link to="/account/password">Edit Password</Link>
           </li>
           <li>
             <Link to="/account/2fa">Configure 2FA</Link>

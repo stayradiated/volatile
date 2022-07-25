@@ -7,8 +7,4 @@ query getUser2FA {
       uid
     }
   }
-  setup_user_2fa {
-    qrcode
-    secret
-  }
 }

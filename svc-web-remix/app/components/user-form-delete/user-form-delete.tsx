@@ -1,17 +1,20 @@
 import { useState, useRef } from 'react'
 
-import { Form, Input, Button } from '../retro-ui'
+import { Form, Input, PrimaryButton } from '../retro-ui'
 
-const confirmPhrase = 'DELETE ACCOUNT'
+type Props = {
+  confirmPhrase: string,
+}
 
-const UserFormDelete = () => {
+const UserFormDelete = (props: Props) => {
+  const { confirmPhrase } = props
+
   const [canDelete, setCanDelete] = useState(false)
-  console.log({ canDelete })
 
   const inputRef = useRef<HTMLInputElement>(null)
 
   const handleInputChange = () => {
-    setCanDelete(inputRef.current?.value === 'DELETE ACCOUNT')
+    setCanDelete(inputRef.current?.value === confirmPhrase)
   }
 
   return (
@@ -19,11 +22,14 @@ const UserFormDelete = () => {
       <h3>⚠️ Delete Account ⚠️</h3>
 
       <Form name="UserFormDelete" method="post" action="/account/delete">
-        <Form.Item name="confirm" label={`TYPE "${confirmPhrase}"`}>
+      <Form.Item>
+       <p>Type "{confirmPhrase}" to delete your account.</p>
+      </Form.Item>
+        <Form.Item name="confirm">
           <Input ref={inputRef} onChange={handleInputChange} />
         </Form.Item>
         <Form.Item>
-          <Button disabled={!canDelete}>Delete Account</Button>
+          <PrimaryButton disabled={!canDelete}>Delete Account</PrimaryButton>
         </Form.Item>
       </Form>
     </div>

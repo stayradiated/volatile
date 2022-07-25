@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-type AlertType = 'error'
+type AlertType = 'error' | 'info'
 
 type Props = {
   message: React.ReactNode
@@ -10,12 +10,16 @@ type Props = {
 const Container = styled.div<{ type: AlertType }>`
   padding: 10px;
 
-  ${(props) =>
-    props.type === 'error' &&
-    `
-    border: 3px solid red;
-    background: #fff;
-  `}
+  ${(props) => { switch (props.type) {
+    case 'error': { return `
+      border: 3px solid red;
+      background: #fff;
+    `}
+    case 'info': { return `
+      border: 3px solid green;
+      background: #fff;
+    `}
+  }}}
 `
 
 const Alert = (props: Props) => {

@@ -1,81 +1,34 @@
-import { useMemo, useEffect, useState } from 'react'
-import { gql, useQuery } from '@apollo/client'
-import { formatISO } from 'date-fns'
+import { useMemo} from 'react'
 
-import { Alert, Spin } from '../retro-ui'
 import { Chart, ChartConfig, formatDataForChart } from '../chart'
 
 import type {
-  GetDcaOrderHistoryPriceChartQuery as Query,
-  GetDcaOrderHistoryPriceChartQueryVariables as QueryVariables,
-  DcaOrderHistoryPriceChart_Kc_Dca_Order_HistoryFragment as Fragment,
-} from '../../utils/graphql'
-
-const QUERY = gql`
-  query getDCAOrderHistoryPriceChart(
-    $dcaOrderUID: uuid!
-    $gt: timestamptz!
-    $lte: timestamptz!
-  ) {
-    kc_dca_order_by_pk(uid: $dcaOrderUID) {
-      uid
-      exchange_market_trading_pair {
-        market_uid
-        primary_currency_symbol
-        secondary_currency_symbol
-
-        market_prices(
-          where: { timestamp: { _lte: $lte, _gt: $gt } }
-          order_by: { timestamp: desc }
-        ) {
-          price
-          timestamp
-        }
-      }
-      market_prices(
-        where: { timestamp: { _lte: $lte, _gt: $gt } }
-        order_by: { timestamp: desc }
-      ) {
-        price
-        timestamp
-      }
-    }
-  }
-`
+  GetDcaOrderHistoryPriceChartQuery,
+  DcaOrderHistoryPriceChart_Kc_Dca_Order_HistoryFragment,
+} from '~/graphql/generated'
 
 type Props = {
-  dcaOrderUID: string
-  dcaOrderHistoryList: Fragment[]
+  query: GetDcaOrderHistoryPriceChartQuery,
+  dcaOrderHistoryList: DcaOrderHistoryPriceChart_Kc_Dca_Order_HistoryFragment[]
   dateRange: { lte: Date; gt: Date }
 }
 
 const DCAOrderHistoryPriceChart = (props: Props) => {
-  const { dcaOrderUID, dcaOrderHistoryList, dateRange } = props
+  const { query, dcaOrderHistoryList } = props
 
-  const [localDateRange, setLocalDateRange] = useState(dateRange)
-
-  const { data, loading, error, fetchMore } = useQuery<Query, QueryVariables>(
-    QUERY,
-    {
-      variables: {
-        dcaOrderUID,
-        gt: formatISO(dateRange.gt),
-        lte: formatISO(dateRange.lte),
-      },
-    },
-  )
-
-  useEffect(() => {
-    if (!loading && dateRange !== localDateRange) {
-      fetchMore({
-        variables: {
-          lte: formatISO(localDateRange.gt),
-          gt: formatISO(dateRange.gt),
-        },
-      })
-      setLocalDateRange(dateRange)
-    }
-  }, [loading, dateRange])
+  // const [localDateRange, setLocalDateRange] = useState(dateRange)
+  //
+  // useEffect(() => {
+  //   if (!loading && dateRange !== localDateRange) {
+  //     fetchMore({
+  //       variables: {
+  //         lte: formatISO(localDateRange.gt),
+  //         gt: formatISO(dateRange.gt),
+  //       },
+  //     })
+  //     setLocalDateRange(dateRange)
+  //   }
+  // }, [loading, dateRange])
 
   const config = {
     rightPriceScale: {
@@ -111,7 +64,7 @@ const DCAOrderHistoryPriceChart = (props: Props) => {
         type: 'line',
         options: { color: 'rgba(75, 75, 75,0.5)' },
         data: formatDataForChart({
-          data: data?.kc_dca_order_by_pk?.market_prices ?? [],
+          data: query.kc_dca_order_by_pk?.market_prices ?? [],
           getValue: (row) => row.price,
           getTime: (row) => row.timestamp,
         }),
@@ -125,7 +78,7 @@ const DCAOrderHistoryPriceChart = (props: Props) => {
         },
         data: formatDataForChart({
           data:
-            data?.kc_dca_order_by_pk?.exchange_market_trading_pair?.[0]
+            query.kc_dca_order_by_pk?.exchange_market_trading_pair?.[0]
               ?.market_prices ?? [],
           getValue: (row) => row.price,
           getTime: (row) => row.timestamp,
@@ -160,30 +113,10 @@ const DCAOrderHistoryPriceChart = (props: Props) => {
         }),
       },
     ]
-  }, [data, dcaOrderHistoryList])
-
-  if (loading && !data) {
-    return <Spin />
-  }
-
-  if (error) {
-    return <Alert message={error.message} type="error" />
-  }
+  }, [query, dcaOrderHistoryList])
 
   return <Chart width={1160} config={config} charts={charts} />
 }
 
-DCAOrderHistoryPriceChart.fragments = {
-  kc_dca_order_history: gql`
-    fragment DCAOrderHistoryPriceChart_kc_dca_order_history on kc_dca_order_history {
-      created_at
-      created_order
-      market_price
-      market_offset
-      value
-      available_balance
-    }
-  `,
-}
 
 export { DCAOrderHistoryPriceChart }

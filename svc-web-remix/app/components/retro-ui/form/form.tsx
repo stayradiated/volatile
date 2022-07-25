@@ -7,8 +7,8 @@ import { FormItemGroup } from './form-item-group'
 type Props = {
   children?: React.ReactNode
   name: string
-  action: string
-  method: FormMethod
+  action?: string
+  method?: FormMethod
 }
 
 const Form = (props: Props) => {

@@ -1,0 +1,8 @@
+fragment DCAOrderHistoryPriceChart_kc_dca_order_history on kc_dca_order_history {
+  created_at
+  created_order
+  market_price
+  market_offset
+  value
+  available_balance
+}

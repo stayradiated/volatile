@@ -14,12 +14,10 @@ const insertDCAOrderHistory = async (
   pool: Pool,
   options: InsertDCAOrderHistoryOptions,
 ): Promise<DCAOrderHistory | Error> => {
-  const now = new Date()
-
   const value: s.dca_order_history.Insertable = {
     uid: randomUUID(),
-    created_at: now,
-    updated_at: now,
+    created_at: options.createdAt,
+    updated_at: options.updatedAt,
     user_uid: options.userUID,
     dca_order_uid: options.dcaOrderUID,
     created_order: options.orderUID !== undefined,

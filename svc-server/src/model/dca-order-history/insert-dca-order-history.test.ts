@@ -18,6 +18,8 @@ test('insertDCAOrderHistory', async (t) => {
     userUID,
     dcaOrderUID,
     orderUID,
+    createdAt: new Date(),
+    updatedAt: new Date(),
     primaryCurrency: 'BTC',
     secondaryCurrency: '',
     marketPrice: 54_321,

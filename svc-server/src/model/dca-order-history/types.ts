@@ -3,6 +3,8 @@ type DCAOrderHistory = {
   userUID: string
   dcaOrderUID: string
   orderUID: string | undefined
+  createdAt: Date
+  updatedAt: Date
   primaryCurrency: string
   secondaryCurrency: string
   marketPrice: number

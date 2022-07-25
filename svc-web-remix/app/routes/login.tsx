@@ -1,5 +1,6 @@
 import { ActionFunction, LoaderFunction, redirect, json } from '@remix-run/node'
 import { useActionData } from '@remix-run/react'
+import invariant from 'tiny-invariant'
 
 import { getSession, commitSession } from '~/utils/sessions.server'
 import { sdk } from '~/utils/api.server'
@@ -29,8 +30,13 @@ export const loader: LoaderFunction = async ({ request }) => {
 export const action: ActionFunction = async ({ request }) => {
   const session = await getSession(request.headers.get('Cookie'))
   const form = await request.formData()
-  const email = String(form.get('email'))
-  const password = String(form.get('password'))
+
+  const email = form.get('email')
+  const password  = form.get('password')
+  const token2FA  = form.get('token2FA')
+  invariant(typeof email === 'string', 'Must have email.')
+  invariant(typeof password === 'string', 'Must have password.')
+  invariant(typeof token2FA === 'string', 'Must have token2FA.')
 
   console.log({ email, password })
 
@@ -41,7 +47,7 @@ export const action: ActionFunction = async ({ request }) => {
       deviceID: 'device-name',
       deviceName: 'My Device',
       deviceTrusted: false,
-      token2FA: '',
+      token2FA,
     })
 
     console.log({ result })
