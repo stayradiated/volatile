@@ -1,1 +1,1 @@
-export { DCAOrderFormEdit as default } from './dca-order-form-edit'
+export * from './dca-order-form-edit'

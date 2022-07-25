@@ -20,11 +20,16 @@ export const loader: LoaderFunction = async ({ request }) => {
   const { authToken, email } = await getSessionData(request)
   const isAuthenticatedUser = Boolean(authToken)
 
-    const query = isAuthenticatedUser ? await promiseHash({
-      getEmailVerified: sdk.getEmailVerified({}, {
-        authorization: `Bearer ${authToken}`
+  const query = isAuthenticatedUser
+    ? await promiseHash({
+        getEmailVerified: sdk.getEmailVerified(
+          {},
+          {
+            authorization: `Bearer ${authToken}`,
+          },
+        ),
       })
-    }) : {}
+    : {}
 
   return json<LoaderData>({ isAuthenticatedUser, email, query })
 }
@@ -34,7 +39,9 @@ const Index = () => {
 
   return (
     <>
-      {isAuthenticatedUser && <VerifyEmail email={email} query={query.getEmailVerified!} />}
+      {isAuthenticatedUser && (
+        <VerifyEmail email={email} query={query.getEmailVerified!} />
+      )}
       <Navigation isAuthenticatedUser={isAuthenticatedUser} email={email} />
     </>
   )

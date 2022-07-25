@@ -1,0 +1,21 @@
+mutation updateDCAOrder(
+  $dcaOrderUID: uuid!
+  $values: kc_dca_order_set_input!
+) {
+  update_kc_dca_order_by_pk(
+    pk_columns: { uid: $dcaOrderUID }
+    _set: $values
+  ) {
+    uid
+    daily_average
+    enabled_at
+    interval_ms
+    market_offset
+    market_uid
+    max_value
+    min_value
+    start_at
+    updated_at
+    user_exchange_keys_uid
+  }
+}

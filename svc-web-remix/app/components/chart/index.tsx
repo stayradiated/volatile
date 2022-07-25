@@ -1,2 +1,2 @@
-export * from './chart.client'
+export * from './chart'
 export * from './utils'

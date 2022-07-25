@@ -10,16 +10,23 @@ type Props = {
 const Container = styled.div<{ type: AlertType }>`
   padding: 10px;
 
-  ${(props) => { switch (props.type) {
-    case 'error': { return `
+  ${(props) => {
+    switch (props.type) {
+      case 'error': {
+        return `
       border: 3px solid red;
       background: #fff;
-    `}
-    case 'info': { return `
+    `
+      }
+
+      case 'info': {
+        return `
       border: 3px solid green;
       background: #fff;
-    `}
-  }}}
+    `
+      }
+    }
+  }}
 `
 
 const Alert = (props: Props) => {

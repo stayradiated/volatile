@@ -1,6 +1,5 @@
 import { useLoaderData } from '@remix-run/react'
 import { LoaderFunction, json } from '@remix-run/node'
-import { ClientOnly } from 'remix-utils'
 
 import { TradeList } from '~/components/trade-list/index'
 import { Card } from '~/components/retro-ui'
@@ -127,17 +126,11 @@ const TradesRoute = () => {
       {/* </Card> */}
 
       <Card width={1200}>
-        <ClientOnly>
-          {() => (
-            <>
-              <TradeSumValueByWeek query={tradeSumValueByWeek} />
-              <TradeAvgPrice primaryCurrency="BTC" query={tradeAvgPrice.BTC} />
-              <TradeAvgPrice primaryCurrency="ETH" query={tradeAvgPrice.ETH} />
-              <TradeCumulativeSum query={tradeCumulativeSum} />
-              <TradeCumulativeVolume query={tradeCumulativeVolume} />
-            </>
-          )}
-        </ClientOnly>
+        <TradeSumValueByWeek query={tradeSumValueByWeek} />
+        <TradeAvgPrice primaryCurrency="BTC" query={tradeAvgPrice.BTC} />
+        <TradeAvgPrice primaryCurrency="ETH" query={tradeAvgPrice.ETH} />
+        <TradeCumulativeSum query={tradeCumulativeSum} />
+        <TradeCumulativeVolume query={tradeCumulativeVolume} />
       </Card>
 
       <TradeList query={query} />

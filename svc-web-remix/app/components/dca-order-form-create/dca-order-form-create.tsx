@@ -1,161 +1,36 @@
-import { useState } from 'react'
-import { gql, useQuery } from '@apollo/client'
 import Select from 'react-select'
-import { startOfToday } from 'date-fns'
 
-import { Spin, Alert, Form, Button, Input, DateInput } from '../retro-ui'
+import { Form, LinkButton, PrimaryButton, Input, DateInput } from '../retro-ui'
 
-import {
-  GetDcaOrderFormCreateQuery as Query,
-  GetDcaOrderFormCreateQueryVariables as QueryVariables,
-} from '../../utils/graphql'
+import { GetDcaOrderFormCreateQuery } from '~/graphql/generated'
 
-import { useCreateDCAOrder } from './mutation-create'
-
-const QUERY_DCA_ORDER_FORM = gql`
-  query getDCAOrderFormCreate {
-    kc_market {
-      uid
-      name
-      market_prices(
-        distinct_on: [asset_symbol, currency]
-        where: { timestamp: { _gt: "2021-12-09T12:00:00" } }
-      ) {
-        asset_symbol
-        currency
-      }
-    }
-    kc_user_exchange_keys {
-      uid
-      description
-      exchange_uid
-    }
-    kc_exchange {
-      uid
-      name
-      primary_currencies {
-        symbol
-        currency {
-          name
-        }
-      }
-      secondary_currencies {
-        symbol
-        currency {
-          name
-        }
-      }
-    }
-  }
-`
-
-type Exchange = Query['kc_exchange'][0]
-type UserExchangeKeys = Query['kc_user_exchange_keys'][0]
-type Market = Query['kc_market'][0]
-type PrimaryCurrency = Query['kc_exchange'][0]['primary_currencies'][0]
-type SecondaryCurrency = Query['kc_exchange'][0]['secondary_currencies'][0]
-
-type FormState = {
-  exchange: undefined | Exchange
-  userExchangeKeys: undefined | UserExchangeKeys
-  market: undefined | Market
-  primaryCurrency: undefined | PrimaryCurrency
-  secondaryCurrency: undefined | SecondaryCurrency
-  marketOffset: string
-  startAt: Date
-  dailyAverage: string
-  intervalMin: string
-  minValue: string
-  maxValue: string
-}
+type Exchange = GetDcaOrderFormCreateQuery['kc_exchange'][0]
+type UserExchangeKeys = GetDcaOrderFormCreateQuery['kc_user_exchange_keys'][0]
+type Market = GetDcaOrderFormCreateQuery['kc_market'][0]
+type PrimaryCurrency =
+  GetDcaOrderFormCreateQuery['kc_exchange'][0]['primary_currencies'][0]
+type SecondaryCurrency =
+  GetDcaOrderFormCreateQuery['kc_exchange'][0]['secondary_currencies'][0]
 
 type Props = {
-  onCancel?: () => void
-  onFinish?: () => void
+  query: GetDcaOrderFormCreateQuery
 }
 
 const DCAOrderFormCreate = (props: Props) => {
-  const { onCancel, onFinish } = props
+  const { query } = props
 
-  const createDCAOrder = useCreateDCAOrder()
-
-  const { data, loading, error } = useQuery<Query, QueryVariables>(
-    QUERY_DCA_ORDER_FORM,
-  )
-
-  const [state, setState] = useState<FormState>({
-    exchange: undefined,
-    userExchangeKeys: undefined,
-    market: undefined,
-    primaryCurrency: undefined,
-    secondaryCurrency: undefined,
-    marketOffset: '',
-    startAt: startOfToday(),
-    dailyAverage: '',
-    intervalMin: '1',
-    minValue: '',
-    maxValue: '',
-  })
-
-  const handleFinish = async () => {
-    console.log(state.startAt.toISOString())
-
-    if (!state.userExchangeKeys?.uid) {
-      throw new Error('No User Exchange Keys')
-    }
-
-    if (!state.market?.uid) {
-      throw new Error('No Market')
-    }
-
-    if (!state.primaryCurrency?.symbol) {
-      throw new Error('No Primary Currency')
-    }
-
-    if (!state.secondaryCurrency?.symbol) {
-      throw new Error('No Secondary Currency')
-    }
-
-    if (!state.startAt) {
-      throw new Error('No Start At')
-    }
-
-    if (state.marketOffset.trim().length === 0) {
-      throw new TypeError('No Market Offset')
-    }
-
-    if (state.dailyAverage.trim().length === 0) {
-      throw new TypeError('No Daily Average')
-    }
-
-    await createDCAOrder({
-      userExchangeKeysUID: state.userExchangeKeys.uid,
-      marketUID: state.market.uid,
-      primaryCurrency: state.primaryCurrency.symbol,
-      secondaryCurrency: state.secondaryCurrency.symbol,
-      startAt: state.startAt.toISOString(),
-      marketOffset: Number.parseFloat(state.marketOffset),
-      dailyAverage: Number.parseFloat(state.dailyAverage),
-      intervalMs: Number.parseInt(state.intervalMin) * 60 * 1000,
-      minValue: Number.parseFloat(state.minValue),
-      maxValue: Number.parseFloat(state.maxValue),
-    })
-
-    if (typeof onFinish === 'function') {
-      onFinish()
-    }
+  const state = {
+    primaryCurrency: { symbol: 'BTC' },
+    secondaryCurrency: { symbol: 'NZD' },
+    exchange: {
+      uid: undefined,
+      primary_currencies: [],
+      secondary_currencies: [],
+    },
   }
 
-  if (loading) {
-    return <Spin />
-  }
-
-  if (error) {
-    return <Alert message={error.message} type="error" />
-  }
-
-  const exchangeOptions = data?.kc_exchange ?? []
-  const marketOptions = (data?.kc_market ?? []).filter((item) => {
+  const exchangeOptions = query.kc_exchange ?? []
+  const marketOptions = (query.kc_market ?? []).filter((item) => {
     return item.market_prices.some((price) => {
       return (
         price.asset_symbol === state.primaryCurrency?.symbol &&
@@ -163,7 +38,7 @@ const DCAOrderFormCreate = (props: Props) => {
       )
     })
   })
-  const userExchangeKeysOptions = (data?.kc_user_exchange_keys ?? []).filter(
+  const userExchangeKeysOptions = (query.kc_user_exchange_keys ?? []).filter(
     (item) => {
       return item.exchange_uid === state.exchange?.uid
     },
@@ -174,12 +49,7 @@ const DCAOrderFormCreate = (props: Props) => {
   return (
     <div>
       <h2>+ Add DCA Order</h2>
-      <Form
-        name="dcaOrderFormCreate"
-        state={state}
-        onChange={setState}
-        onFinish={handleFinish}
-      >
+      <Form name="dcaOrderFormCreate">
         <Form.Item name="exchange" label="Exchange">
           <Select<Exchange>
             options={exchangeOptions}
@@ -239,10 +109,8 @@ const DCAOrderFormCreate = (props: Props) => {
           <Input type="number" placeholder="∞" step="0.01" min="0" />
         </Form.Item>
         <Form.Item>
-          <Button onClick={onCancel} htmlType="button" type="link">
-            Cancel
-          </Button>
-          <Button htmlType="submit">Create DCA Order</Button>
+          <LinkButton href="/dca-orders">Cancel</LinkButton>
+          <PrimaryButton type="submit">Create DCA Order</PrimaryButton>
         </Form.Item>
       </Form>
     </div>

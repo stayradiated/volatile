@@ -19,14 +19,19 @@ export const action: ActionFunction = async ({ request }) => {
   invariant(authToken, 'Must be logged in.')
 
   const formData = await request.formData()
-  const token  = formData.get('token')
+  const token = formData.get('token')
   invariant(typeof token === 'string', 'Must have token.')
 
-  const result = await errorBoundary(() => sdk.deleteUser2FA({
-    token,
-  }, {
-    authorization: `Bearer ${authToken}`
-  }))
+  const result = await errorBoundary(async () =>
+    sdk.deleteUser2FA(
+      {
+        token,
+      },
+      {
+        authorization: `Bearer ${authToken}`,
+      },
+    ),
+  )
 
   if (result instanceof Error) {
     return json<ActionData>({ error: result.message })
@@ -35,19 +40,21 @@ export const action: ActionFunction = async ({ request }) => {
   return null
 }
 
-interface LoaderData {
-}
+interface LoaderData {}
 
 export const loader: LoaderFunction = async ({ request }) => {
   const { authToken } = await getSessionData(request)
   invariant(authToken, 'Must be logged in.')
 
-  const user2FA = await sdk.getUser2FA( {}, { authorization: `Bearer ${authToken}`, })
+  const user2FA = await sdk.getUser2FA(
+    {},
+    { authorization: `Bearer ${authToken}` },
+  )
   if (typeof user2FA.kc_user[0].user_2fa?.uid !== 'string') {
     return redirect('/account/2fa')
   }
 
-  return json<LoaderData>({  })
+  return json<LoaderData>({})
 }
 
 const Account = () => {

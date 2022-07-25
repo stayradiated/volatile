@@ -1,14 +1,15 @@
 import { Card, LinkButton, PrimaryButton } from '../retro-ui'
-import type { GetDcaOrderModalDeleteQuery } from '~/graphql/generated'
+
+import type { GetDcaOrderDeleteQuery } from '~/graphql/generated'
 
 type Props = {
-  query: GetDcaOrderModalDeleteQuery
+  query: GetDcaOrderDeleteQuery
 }
 
-const DCAOrderModalDelete = (props: Props) => {
+const DCAOrderDelete = (props: Props) => {
   const { query } = props
 
-  const order = query.kc_dca_order_by_pk
+  const order = query.kc_dca_order_by_pk!
 
   return (
     <Card>
@@ -19,4 +20,4 @@ const DCAOrderModalDelete = (props: Props) => {
   )
 }
 
-export { DCAOrderModalDelete }
+export { DCAOrderDelete }

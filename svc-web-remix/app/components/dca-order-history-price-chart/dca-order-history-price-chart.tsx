@@ -1,4 +1,4 @@
-import { useMemo} from 'react'
+import { useMemo } from 'react'
 
 import { Chart, ChartConfig, formatDataForChart } from '../chart'
 
@@ -8,27 +8,13 @@ import type {
 } from '~/graphql/generated'
 
 type Props = {
-  query: GetDcaOrderHistoryPriceChartQuery,
+  query: GetDcaOrderHistoryPriceChartQuery
   dcaOrderHistoryList: DcaOrderHistoryPriceChart_Kc_Dca_Order_HistoryFragment[]
   dateRange: { lte: Date; gt: Date }
 }
 
 const DCAOrderHistoryPriceChart = (props: Props) => {
   const { query, dcaOrderHistoryList } = props
-
-  // const [localDateRange, setLocalDateRange] = useState(dateRange)
-  //
-  // useEffect(() => {
-  //   if (!loading && dateRange !== localDateRange) {
-  //     fetchMore({
-  //       variables: {
-  //         lte: formatISO(localDateRange.gt),
-  //         gt: formatISO(dateRange.gt),
-  //       },
-  //     })
-  //     setLocalDateRange(dateRange)
-  //   }
-  // }, [loading, dateRange])
 
   const config = {
     rightPriceScale: {
@@ -117,6 +103,5 @@ const DCAOrderHistoryPriceChart = (props: Props) => {
 
   return <Chart width={1160} config={config} charts={charts} />
 }
-
 
 export { DCAOrderHistoryPriceChart }

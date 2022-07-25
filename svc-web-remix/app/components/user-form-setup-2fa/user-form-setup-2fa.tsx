@@ -18,7 +18,7 @@ const UserFormSetup2FA = (props: Props) => {
     <div>
       <h3>Setup 2FA</h3>
 
-      {error && <Alert type='error' message={error} />}
+      {error && <Alert type="error" message={error} />}
 
       <img src={qrcode} />
       <ReadableCode value={secret} />

@@ -19,10 +19,10 @@ export const loader: LoaderFunction = async ({ request }) => {
   invariant(authToken, 'Must be logged in.')
 
   const query = await promiseHash({
-    getUser2FA: sdk.getUser2FA( {}, { authorization: `Bearer ${authToken}`, })
+    getUser2FA: sdk.getUser2FA({}, { authorization: `Bearer ${authToken}` }),
   })
 
-  return json<LoaderData>({ query, })
+  return json<LoaderData>({ query })
 }
 
 const Account = () => {
@@ -33,15 +33,15 @@ const Account = () => {
   const has2FA = query.getUser2FA.kc_user[0].user_2fa?.uid
 
   if (has2FA) {
-  return (
-    <>
-      <Card>
-        <h3>You have 2FA Enabled</h3>
-        <Link to="/account/2fa/delete">Remove 2FA</Link>
-      </Card>
-      <Outlet />
-    </>
-  )
+    return (
+      <>
+        <Card>
+          <h3>You have 2FA Enabled</h3>
+          <Link to="/account/2fa/delete">Remove 2FA</Link>
+        </Card>
+        <Outlet />
+      </>
+    )
   }
 
   return (

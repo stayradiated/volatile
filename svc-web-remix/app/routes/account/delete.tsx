@@ -18,22 +18,27 @@ export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData()
   const confirmPhrase = formData.get('confirm')
   invariant(typeof confirmPhrase === 'string', 'Must have params.confirm')
-  
+
   if (confirmPhrase !== email) {
     return json<ActionData>({ error: 'Invalid confirm phrase.' })
   }
 
-  const error = await errorBoundary(() => sdk.deleteUser({}, {
-    authorization: `Bearer ${authToken}`
-  }))
+  const error = await errorBoundary(async () =>
+    sdk.deleteUser(
+      {},
+      {
+        authorization: `Bearer ${authToken}`,
+      },
+    ),
+  )
   if (error instanceof Error) {
     return json<ActionData>({ error: error.message })
   }
 
   return redirect('/', {
     headers: {
-      'Set-Cookie': await destroySession(session)
-    }
+      'Set-Cookie': await destroySession(session),
+    },
   })
 }
 
@@ -41,7 +46,7 @@ interface LoaderData {
   email: string
 }
 
-export const loader: LoaderFunction = async ({request}) => {
+export const loader: LoaderFunction = async ({ request }) => {
   const { email } = await getSessionData(request)
   invariant(email, 'Must be logged in.')
   return json<LoaderData>({ email })

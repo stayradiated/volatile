@@ -32,8 +32,8 @@ export const action: ActionFunction = async ({ request }) => {
   const form = await request.formData()
 
   const email = form.get('email')
-  const password  = form.get('password')
-  const token2FA  = form.get('token2FA')
+  const password = form.get('password')
+  const token2FA = form.get('token2FA')
   invariant(typeof email === 'string', 'Must have email.')
   invariant(typeof password === 'string', 'Must have password.')
   invariant(typeof token2FA === 'string', 'Must have token2FA.')

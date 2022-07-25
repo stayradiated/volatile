@@ -10,11 +10,9 @@ const UserFormEditEmail = (props: Props) => {
 
   return (
     <Form name="UserFormEditEmail" method="post" action="/account/email">
-      <p>
-        Email: {email}
-      </p>
+      <p>Email: {email}</p>
 
-      {error && <Alert type='error' message={error} />}
+      {error && <Alert type="error" message={error} />}
 
       <Form.Item name="email" label="Email">
         <Input />

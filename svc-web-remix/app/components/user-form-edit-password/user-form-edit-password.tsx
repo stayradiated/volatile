@@ -6,16 +6,16 @@ type Props = {
 }
 
 const UserFormEditPassword = (props: Props) => {
-const { success, error } = props
+  const { success, error } = props
 
   return (
     <Form name="UserFormEditPassword" method="post" action="/account/password">
-      <p>
-        Password: ********
-      </p>
+      <p>Password: ********</p>
 
-      {error && <Alert type='error' message={error} />}
-      {success && <Alert type='info' message='Successfully changed password.' />}
+      {error && <Alert type="error" message={error} />}
+      {success && (
+        <Alert type="info" message="Successfully changed password." />
+      )}
 
       <Form.Item name="password" label="Password">
         <Input type="password" />

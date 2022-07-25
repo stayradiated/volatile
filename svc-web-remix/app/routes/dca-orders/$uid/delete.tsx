@@ -3,16 +3,15 @@ import { useLoaderData } from '@remix-run/react'
 import invariant from 'tiny-invariant'
 import { errorBoundary } from '@stayradiated/error-boundary'
 
-import { DCAOrderFormEdit } from '~/components/dca-order-form-edit'
-import { Card } from '~/components/retro-ui'
+import { DCAOrderDelete } from '~/components/dca-order-delete'
 import { getSessionData } from '~/utils/auth.server'
 import { sdk } from '~/utils/api.server'
 
-import type { GetDcaOrderFormEditQuery } from '~/graphql/generated'
+import type { GetDcaOrderDeleteQuery } from '~/graphql/generated'
 
 type LoaderData = {
   query: {
-    getDCAOrderFormEdit: GetDcaOrderFormEditQuery
+    getDCAOrderDelete: GetDcaOrderDeleteQuery
   }
 }
 
@@ -23,8 +22,8 @@ export const loader: LoaderFunction = async ({ request, params }) => {
   const { uid: dcaOrderUID } = params
   invariant(typeof dcaOrderUID === 'string', 'Must have params.uid')
 
-  const getDCAOrderFormEdit = await errorBoundary(async () =>
-    sdk.getDCAOrderFormEdit(
+  const getDCAOrderDelete = await errorBoundary(async () =>
+    sdk.getDCAOrderDelete(
       {
         dcaOrderUID,
       },
@@ -33,25 +32,21 @@ export const loader: LoaderFunction = async ({ request, params }) => {
       },
     ),
   )
-  if (getDCAOrderFormEdit instanceof Error) {
-    throw getDCAOrderFormEdit
+  if (getDCAOrderDelete instanceof Error) {
+    throw getDCAOrderDelete
   }
 
   const query = {
-    getDCAOrderFormEdit,
+    getDCAOrderDelete,
   }
 
   return json<LoaderData>({ query })
 }
 
-const DCAOrderEditRoute = () => {
+const DCAOrderDeleteRoute = () => {
   const { query } = useLoaderData<LoaderData>()
 
-  return (
-    <Card>
-      <DCAOrderFormEdit query={query.getDCAOrderFormEdit} />
-    </Card>
-  )
+  return <DCAOrderDelete query={query.getDCAOrderDelete} />
 }
 
-export default DCAOrderEditRoute
+export default DCAOrderDeleteRoute

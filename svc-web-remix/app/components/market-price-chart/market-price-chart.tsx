@@ -1,5 +1,4 @@
 import { useMemo, useState } from 'react'
-import { ClientOnly } from 'remix-utils'
 
 import { Chart, ChartConfig, formatDataForChart } from '../chart'
 import type { GetMarketPriceQuery } from '~/graphql/generated'
@@ -123,7 +122,7 @@ const MarketPriceChart = (props: Props) => {
         {primaryCurrency}-{secondaryCurrency}
       </h2>
 
-      <ClientOnly>{() => <Chart width={960} charts={charts} />}</ClientOnly>
+      <Chart width={960} charts={charts} />
 
       <Toggle
         id="binance_us"

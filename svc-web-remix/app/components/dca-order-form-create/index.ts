@@ -1,1 +1,1 @@
-export { DCAOrderFormCreate as default } from './dca-order-form-create'
+export * from './dca-order-form-create'

@@ -14,12 +14,8 @@ const Navigation = (props: Props) => {
       <Logo />
       {!isAuthenticatedUser && (
         <>
-          <PrimaryButton href="/register">
-            Sign Up
-          </PrimaryButton>
-          <PrimaryButton href="/login">
-            Log In
-          </PrimaryButton>
+          <PrimaryButton href="/register">Sign Up</PrimaryButton>
+          <PrimaryButton href="/login">Log In</PrimaryButton>
         </>
       )}
       {isAuthenticatedUser && (
@@ -30,54 +26,34 @@ const Navigation = (props: Props) => {
 
           <ul>
             <li>
-              <LinkButton href="/account">
-                Account
-              </LinkButton>
+              <LinkButton href="/account">Account</LinkButton>
             </li>
             <li>
-              <LinkButton href="/subscription">
-                Subscription
-              </LinkButton>
+              <LinkButton href="/subscription">Subscription</LinkButton>
             </li>
             <li>
-              <LinkButton href="/market-price">
-                Market Price
-              </LinkButton>
+              <LinkButton href="/market-price">Market Price</LinkButton>
             </li>
             <li>
-              <LinkButton href="/exchanges">
-                Exchanges
-              </LinkButton>
+              <LinkButton href="/exchanges">Exchanges</LinkButton>
             </li>
             <li>
-              <LinkButton href="/dca-orders">
-                DCA Orders
-              </LinkButton>
+              <LinkButton href="/dca-orders">DCA Orders</LinkButton>
             </li>
             <li>
-              <LinkButton href="/trades">
-                Trades
-              </LinkButton>
+              <LinkButton href="/trades">Trades</LinkButton>
             </li>
             <li>
-              <LinkButton href="/open-orders">
-                Open Orders
-              </LinkButton>
+              <LinkButton href="/open-orders">Open Orders</LinkButton>
             </li>
             <li>
-              <LinkButton href="/settings">
-                Exchange API Keys
-              </LinkButton>
+              <LinkButton href="/settings">Exchange API Keys</LinkButton>
             </li>
             <li>
-              <LinkButton href="/devices">
-                Devices
-              </LinkButton>
+              <LinkButton href="/devices">Devices</LinkButton>
             </li>
             <li>
-              <LinkButton href="/logout">
-                Logout
-              </LinkButton>
+              <LinkButton href="/logout">Logout</LinkButton>
             </li>
           </ul>
         </>

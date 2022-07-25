@@ -20,24 +20,28 @@ export const action: ActionFunction = async ({ request }) => {
   const email = formData.get('email')
   invariant(typeof email === 'string', 'Missing formData.email')
 
-  const result = await errorBoundary(() => sdk.updateUser(
-    { email },
-    {
-      authorization: `Bearer ${authToken}`,
-    },
-  ))
+  const result = await errorBoundary(async () =>
+    sdk.updateUser(
+      { email },
+      {
+        authorization: `Bearer ${authToken}`,
+      },
+    ),
+  )
 
   if (result instanceof Error) {
     console.error(result)
-    return json<ActionData>({ error: `Sorry, please use a different email address. "${email}" is not available.`})
+    return json<ActionData>({
+      error: `Sorry, please use a different email address. "${email}" is not available.`,
+    })
   }
 
   session.set('email', email)
 
   return redirect('/account/email', {
     headers: {
-      'Set-Cookie': await commitSession(session)
-    }
+      'Set-Cookie': await commitSession(session),
+    },
   })
 }
 

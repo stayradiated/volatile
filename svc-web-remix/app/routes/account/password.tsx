@@ -9,7 +9,7 @@ import { getSessionData } from '~/utils/auth.server'
 import { sdk } from '~/utils/api.server'
 
 type ActionData = {
-  success?: true,
+  success?: true
   error?: string
 }
 
@@ -27,12 +27,14 @@ export const action: ActionFunction = async ({ request }) => {
     return json<ActionData>({ error: 'Passwords do not match!' })
   }
 
-  const error = await errorBoundary(() => sdk.updateUser(
-    { password },
-    {
-      authorization: `Bearer ${authToken}`,
-    },
-  ))
+  const error = await errorBoundary(async () =>
+    sdk.updateUser(
+      { password },
+      {
+        authorization: `Bearer ${authToken}`,
+      },
+    ),
+  )
 
   if (error instanceof Error) {
     return json<ActionData>({ error: error.message })

@@ -1,0 +1,42 @@
+query getDCAOrderFormEdit($dcaOrderUID: uuid!) {
+  kc_market {
+    uid
+    name
+    market_prices(
+      distinct_on: [asset_symbol, currency]
+      where: { timestamp: { _gt: "2022-07-01T12:00:00" } }
+    ) {
+      asset_symbol
+      currency
+    }
+  }
+  kc_user_exchange_keys {
+    uid
+    exchange_uid
+    description
+  }
+  kc_dca_order_by_pk(uid: $dcaOrderUID) {
+    uid
+    user_exchange_keys_uid
+    exchange_uid
+    market_uid
+    start_at
+    market_offset
+    daily_average
+    interval_ms
+    primary_currency {
+      symbol
+      name
+    }
+    secondary_currency {
+      symbol
+      name
+    }
+    min_value
+    max_value
+    exchange {
+      uid
+      name
+    }
+  }
+}

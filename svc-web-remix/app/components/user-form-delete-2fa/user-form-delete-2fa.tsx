@@ -11,7 +11,7 @@ const UserFormDelete2FA = (props: Props) => {
     <div>
       <h3>Remove 2FA</h3>
 
-      {error && <Alert type='error' message={error} />}
+      {error && <Alert type="error" message={error} />}
 
       <Form name="UserForm2FA" method="post" action="/account/2fa/delete">
         <Form.Item name="token" label="Token">

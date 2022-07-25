@@ -4,19 +4,25 @@ import invariant from 'tiny-invariant'
 import { parseISO, formatISO, subHours } from 'date-fns'
 import { errorBoundary } from '@stayradiated/error-boundary'
 
-import { DCAOrderHistoryList }  from '~/components/dca-order-history-list'
+import { DCAOrderHistoryList } from '~/components/dca-order-history-list'
+import { DCAOrderHistoryPriceChart } from '~/components/dca-order-history-price-chart'
+import { Card } from '~/components/retro-ui'
+
 import { sdk } from '~/utils/api.server'
-import { GetDcaOrderHistoryListQuery } from '~/graphql/generated'
+import {
+  GetDcaOrderHistoryListQuery,
+  GetDcaOrderHistoryPriceChartQuery,
+} from '~/graphql/generated'
 import { getSessionData } from '~/utils/auth.server'
 
 type LoaderData = {
-  dcaOrderUID: string
   dateRange: {
-    gt: string,
-    lte: string,
+    gt: string
+    lte: string
   }
   query: {
     getDCAOrderHistoryList: GetDcaOrderHistoryListQuery
+    getDCAOrderHistoryPriceChart: GetDcaOrderHistoryPriceChartQuery
   }
 }
 
@@ -28,44 +34,78 @@ export const loader: LoaderFunction = async ({ request, params }) => {
   invariant(typeof dcaOrderUID === 'string', 'Must have params.uid')
 
   const dateRange = {
-    gt : formatISO(subHours(new Date(), 3)),
-    lte : formatISO(new Date())
+    gt: formatISO(subHours(new Date(), 3)),
+    lte: formatISO(new Date()),
   }
 
-  const getDCAOrderHistoryList = await errorBoundary(() => sdk.getDCAOrderHistoryList({
-    dcaOrderUID,
-    gt: dateRange.gt,
-    lte: dateRange.lte,
-  }, {
-    authorization: `Bearer ${authToken}`
-  }))
-
-  console.log({ getDCAOrderHistoryList })
+  const getDCAOrderHistoryList = await errorBoundary(async () =>
+    sdk.getDCAOrderHistoryList(
+      {
+        dcaOrderUID,
+        gt: dateRange.gt,
+        lte: dateRange.lte,
+      },
+      {
+        authorization: `Bearer ${authToken}`,
+      },
+    ),
+  )
   if (getDCAOrderHistoryList instanceof Error) {
     throw getDCAOrderHistoryList
   }
 
-  const query = {
-    getDCAOrderHistoryList
+  const getDCAOrderHistoryPriceChart = await errorBoundary(async () =>
+    sdk.getDCAOrderHistoryPriceChart(
+      {
+        dcaOrderUID,
+        gt: dateRange.gt,
+        lte: dateRange.lte,
+      },
+      {
+        authorization: `Bearer ${authToken}`,
+      },
+    ),
+  )
+  if (getDCAOrderHistoryPriceChart instanceof Error) {
+    throw getDCAOrderHistoryList
   }
 
-  console.log({ dcaOrderUID, query, dateRange })
+  const query = {
+    getDCAOrderHistoryList,
+    getDCAOrderHistoryPriceChart,
+  }
 
-  return json<LoaderData>({ dcaOrderUID, query, dateRange })
+  return json<LoaderData>({ query, dateRange })
 }
 
 const DCAOrderHistoryRoute = () => {
   const loaderData = useLoaderData<LoaderData>()
-  console.log({ loaderData })
-  const { dcaOrderUID, query, dateRange: dateRangeISO } = loaderData
+  const { query, dateRange: dateRangeISO } = loaderData
 
   const dateRange = {
     gt: parseISO(dateRangeISO.gt),
     lte: parseISO(dateRangeISO.lte),
   }
 
+  const dcaOrder = query.getDCAOrderHistoryList.kc_dca_order_by_pk!
+  const exchange = dcaOrder.exchange.name
+  const tradingPair = `${dcaOrder.primary_currency.symbol}-${dcaOrder.secondary_currency.symbol}`
+
+  const dcaOrderHistoryList =
+    query.getDCAOrderHistoryList.kc_dca_order_history ?? []
+
   return (
-    <DCAOrderHistoryList dcaOrderUID={dcaOrderUID} query={query.getDCAOrderHistoryList} dateRange={dateRange} />
+    <Card width={1200}>
+      <h2>
+        ☰ DCA Order | {exchange} | {tradingPair}
+      </h2>
+      <DCAOrderHistoryPriceChart
+        query={query.getDCAOrderHistoryPriceChart}
+        dcaOrderHistoryList={dcaOrderHistoryList}
+        dateRange={dateRange}
+      />
+      <DCAOrderHistoryList query={query.getDCAOrderHistoryList} />
+    </Card>
   )
 }
 

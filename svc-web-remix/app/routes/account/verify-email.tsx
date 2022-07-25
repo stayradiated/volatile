@@ -1,23 +1,26 @@
 import { errorBoundary } from '@stayradiated/error-boundary'
 import { LoaderFunction, ActionFunction, redirect, json } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
+import invariant from 'tiny-invariant'
 import { sdk } from '~/utils/api.server'
 import { getSessionData } from '~/utils/auth.server'
 import { Card, Alert } from '~/components/retro-ui'
-import invariant from 'tiny-invariant'
 
 export const action: ActionFunction = async ({ request }) => {
   const { authToken } = await getSessionData(request)
 
-  await sdk.sendUserEmailVerify({}, {
-    authorization: `Bearer ${authToken}`
-  })
+  await sdk.sendUserEmailVerify(
+    {},
+    {
+      authorization: `Bearer ${authToken}`,
+    },
+  )
 
   return redirect('/')
 }
 
 type LoaderData = {
-  email: string,
+  email: string
   error?: string
 }
 
@@ -29,11 +32,16 @@ export const loader: LoaderFunction = async ({ request }) => {
   const secret = url.searchParams.get('secret')
   invariant(secret, 'Missing searchParams.secret')
 
-  const verifyUserEmail = await errorBoundary(() => sdk.verifyUserEmail({
-    emailVerifySecret: secret,
-  }, {
-    authorization: `Bearer ${authToken}`
-  }))
+  const verifyUserEmail = await errorBoundary(async () =>
+    sdk.verifyUserEmail(
+      {
+        emailVerifySecret: secret,
+      },
+      {
+        authorization: `Bearer ${authToken}`,
+      },
+    ),
+  )
 
   if (verifyUserEmail instanceof Error) {
     return json<LoaderData>({ email, error: verifyUserEmail.message })

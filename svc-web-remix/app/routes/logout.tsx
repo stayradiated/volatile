@@ -22,7 +22,6 @@ export const loader: LoaderFunction = async ({ request }) => {
   })
 }
 
-
 export const action: ActionFunction = async ({ request }) => {
   const session = await getSession(request.headers.get('Cookie'))
 
@@ -34,10 +33,7 @@ export const action: ActionFunction = async ({ request }) => {
 }
 
 const LogoutRoute = () => {
-  const {
-    isAuthenticatedUser,
-    email,
-  } = useLoaderData<LoaderData>()
+  const { isAuthenticatedUser, email } = useLoaderData<LoaderData>()
 
   return (
     <>

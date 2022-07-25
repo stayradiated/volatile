@@ -19,18 +19,23 @@ export const action: ActionFunction = async ({ request }) => {
   invariant(authToken, 'Must be logged in.')
 
   const formData = await request.formData()
-  const token  = formData.get('token')
+  const token = formData.get('token')
   invariant(typeof token === 'string', 'Must have token.')
-  const secret  = formData.get('secret')
+  const secret = formData.get('secret')
   invariant(typeof secret === 'string', 'Must have secret.')
 
-  const result = await errorBoundary(() => sdk.enableUser2FA({
-    name: 'Name?',
-    secret,
-    token,
-  }, {
-    authorization: `Bearer ${authToken}`
-  }))
+  const result = await errorBoundary(async () =>
+    sdk.enableUser2FA(
+      {
+        name: 'Name?',
+        secret,
+        token,
+      },
+      {
+        authorization: `Bearer ${authToken}`,
+      },
+    ),
+  )
 
   if (result instanceof Error) {
     return json<ActionData>({ error: result.message })
@@ -49,16 +54,22 @@ export const loader: LoaderFunction = async ({ request }) => {
   const { authToken } = await getSessionData(request)
   invariant(authToken, 'Must be logged in.')
 
-  const user2FA = await sdk.getUser2FA( {}, { authorization: `Bearer ${authToken}`, })
+  const user2FA = await sdk.getUser2FA(
+    {},
+    { authorization: `Bearer ${authToken}` },
+  )
   if (typeof user2FA.kc_user[0].user_2fa?.uid === 'string') {
     return redirect('/account/2fa')
   }
 
   const query = await promiseHash({
-    setupUser2FA: sdk.setupUser2FA( {}, { authorization: `Bearer ${authToken}`, })
+    setupUser2FA: sdk.setupUser2FA(
+      {},
+      { authorization: `Bearer ${authToken}` },
+    ),
   })
 
-  return json<LoaderData>({ query, })
+  return json<LoaderData>({ query })
 }
 
 const Account = () => {

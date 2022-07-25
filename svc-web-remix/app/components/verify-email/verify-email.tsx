@@ -18,9 +18,7 @@ const VerifyEmail = (props: Props) => {
         Please verify that you own the email address "{email}".
         <Form name="VerifyEmail" method="post" action="/account/verify-email">
           <Form.Item>
-            <PrimaryButton>
-              Resend Verification Email
-            </PrimaryButton>
+            <PrimaryButton>Resend Verification Email</PrimaryButton>
           </Form.Item>
         </Form>
       </Card>

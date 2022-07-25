@@ -32,14 +32,14 @@ type HistogramChartConfig = {
 
 type ChartConfig = AreaChartConfig | LineChartConfig | HistogramChartConfig
 
-type Props = {
+type ChartProps = {
   width?: number
   height?: number
   config?: DeepPartial<ChartOptions>
   charts: ChartConfig[]
 }
 
-const Chart = (props: Props) => {
+const Chart = (props: ChartProps) => {
   const { width = 1000, height = 300, config, charts } = props
 
   const containerRef = useRef<HTMLDivElement>(null)
@@ -90,5 +90,4 @@ const Chart = (props: Props) => {
 }
 
 export { Chart }
-
-export type { ChartConfig }
+export type { ChartProps, ChartConfig }
