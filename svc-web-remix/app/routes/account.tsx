@@ -21,7 +21,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 }
 
 const Account = () => {
-  const { isAuthenticatedUser, email } = useLoaderData()
+  const { isAuthenticatedUser, email } = useLoaderData<LoaderData>()
 
   return (
     <>
@@ -37,6 +37,9 @@ const Account = () => {
           </li>
           <li>
             <Link to="/account/2fa">Configure 2FA</Link>
+          </li>
+          <li>
+            <Link to="/account/devices">Trusted Devices</Link>
           </li>
           <li>
             <Link to="/account/delete">Delete Account</Link>

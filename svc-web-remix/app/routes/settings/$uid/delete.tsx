@@ -1,0 +1,64 @@
+import { useLoaderData } from '@remix-run/react'
+import { ActionFunction, LoaderFunction, json, redirect } from '@remix-run/node'
+import invariant from 'tiny-invariant'
+
+import { UserExchangeKeysDelete } from '~/components/user-exchange-keys-delete'
+import { getSessionData } from '~/utils/auth.server'
+import { sdk } from '~/utils/api.server'
+import { GetUserExchangeKeysByUidQuery } from '~/graphql/generated'
+
+export const action: ActionFunction = async ({ request, params }) => {
+  const { authToken } = await getSessionData(request)
+  const { uid: userExchangeKeysUID } = params
+
+  invariant(userExchangeKeysUID, 'Expected params.uid')
+
+  sdk.deleteUserExchangeKeys(
+    {
+      userExchangeKeysUID,
+    },
+    {
+      authorization: `Bearer ${authToken}`,
+    },
+  )
+
+  return redirect('/settings')
+}
+
+interface LoaderData {
+  query: {
+    getUserExchangeKeysByUID: GetUserExchangeKeysByUidQuery
+  }
+}
+
+export const loader: LoaderFunction = async ({ request, params }) => {
+  const { authToken } = await getSessionData(request)
+  const { uid: userExchangeKeysUID } = params
+
+  invariant(userExchangeKeysUID, 'Expected params.uid')
+
+  const getUserExchangeKeysByUID = await sdk.getUserExchangeKeysByUID(
+    {
+      userExchangeKeysUID,
+    },
+    {
+      authorization: `Bearer ${authToken}`,
+    },
+  )
+
+  const query = {
+    getUserExchangeKeysByUID,
+  }
+
+  return json<LoaderData>({
+    query,
+  })
+}
+
+const EditRoute = () => {
+  const { query } = useLoaderData<LoaderData>()
+
+  return <UserExchangeKeysDelete query={query.getUserExchangeKeysByUID} />
+}
+
+export default EditRoute

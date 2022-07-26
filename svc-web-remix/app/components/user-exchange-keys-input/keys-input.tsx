@@ -2,15 +2,11 @@ import { Form, Input } from '../retro-ui'
 
 type KeysProps = {
   exchangeID: string | undefined
-  value?: Record<string, string>
-  onChange?: (value: Record<string, string>) => void
 }
 
-const KeysDasset = (props: KeysProps) => {
-  const { value = {}, onChange } = props
-
+const KeysDasset = () => {
   return (
-    <Form.ItemGroup formName="keysDasset" state={value} onChange={onChange}>
+    <Form.ItemGroup formName="keysDasset">
       <Form.Item label="Dasset API Secret" name="apiKey">
         <Input placeholder="XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
       </Form.Item>
@@ -21,11 +17,9 @@ const KeysDasset = (props: KeysProps) => {
   )
 }
 
-const KeysKiwiCoin = (props: KeysProps) => {
-  const { value = {}, onChange } = props
-
+const KeysKiwiCoin = () => {
   return (
-    <Form.ItemGroup formName="keysDasset" state={value} onChange={onChange}>
+    <Form.ItemGroup formName="keysDasset">
       <Form.Item label="Kiwi-Coin User Access Code" name="userId">
         <Input placeholder="XXXX-XXXX-XXXX" />
       </Form.Item>
@@ -39,11 +33,9 @@ const KeysKiwiCoin = (props: KeysProps) => {
   )
 }
 
-const KeysIndependentReserve = (props: KeysProps) => {
-  const { value = {}, onChange } = props
-
+const KeysIndependentReserve = () => {
   return (
-    <Form.ItemGroup formName="keysDasset" state={value} onChange={onChange}>
+    <Form.ItemGroup formName="keysDasset">
       <Form.Item label="Independent Reserve API Key" name="apiKey">
         <Input placeholder="XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX" />
       </Form.Item>
@@ -58,11 +50,11 @@ const KeysInput = (props: KeysProps) => {
   const { exchangeID } = props
   switch (exchangeID) {
     case 'dassetx.com':
-      return <KeysDasset {...props} />
+      return <KeysDasset />
     case 'kiwi-coin.com':
-      return <KeysKiwiCoin {...props} />
+      return <KeysKiwiCoin />
     case 'independentreserve.com':
-      return <KeysIndependentReserve {...props} />
+      return <KeysIndependentReserve />
     default:
       return null
   }

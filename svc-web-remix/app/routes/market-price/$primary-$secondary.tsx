@@ -40,7 +40,8 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 }
 
 const MarketPriceRoute = () => {
-  const { query, primaryCurrency, secondaryCurrency } = useLoaderData()
+  const { query, primaryCurrency, secondaryCurrency } =
+    useLoaderData<LoaderData>()
 
   return (
     <>

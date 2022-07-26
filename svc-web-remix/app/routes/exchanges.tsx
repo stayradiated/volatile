@@ -39,7 +39,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 }
 
 const Exchanges = () => {
-  const { isAuthenticatedUser, email, query } = useLoaderData()
+  const { isAuthenticatedUser, email, query } = useLoaderData<LoaderData>()
 
   return (
     <>

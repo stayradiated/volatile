@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useFloating, shift, offset } from '@floating-ui/react-dom'
 import styled from 'styled-components'
 
-import { Button } from '../button'
+import { PrimaryButton } from '../button'
 import { DropdownItem } from './dropdown-item'
 
 const Container = styled.ul`
@@ -57,7 +57,7 @@ const Dropdown = (props: Props) => {
   return (
     <>
       <div ref={reference}>
-        <Button onClick={handleTargetClick}>...</Button>
+        <PrimaryButton onClick={handleTargetClick}>...</PrimaryButton>
       </div>
       <Container
         ref={floating}

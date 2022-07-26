@@ -103,7 +103,7 @@ const seedTestAccount: ActionHandlerFn<Input, Output> = async (context) => {
         value,
         type: 'BUY',
         openedAt: date,
-        closedAt: date,
+        closedAt: i === 0 ? undefined : date,
       }))
 
       await throwIfError(insertDCAOrderHistory(pool, {

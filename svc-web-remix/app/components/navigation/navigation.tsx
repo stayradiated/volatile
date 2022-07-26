@@ -50,9 +50,6 @@ const Navigation = (props: Props) => {
               <LinkButton href="/settings">Exchange API Keys</LinkButton>
             </li>
             <li>
-              <LinkButton href="/devices">Devices</LinkButton>
-            </li>
-            <li>
               <LinkButton href="/logout">Logout</LinkButton>
             </li>
           </ul>

@@ -1,4 +1,4 @@
-query getUserExchangeKeysModalDelete($userExchangeKeysUID: uuid!) {
+query getUserExchangeKeysByUID($userExchangeKeysUID: uuid!) {
   kc_user_exchange_keys_by_pk(uid: $userExchangeKeysUID) {
     uid
     description

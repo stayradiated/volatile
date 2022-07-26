@@ -38,10 +38,10 @@ const UserDeviceList = (props: Props) => {
 
           return (
             <Dropdown>
-              <Dropdown.Item to={`/devices/${userDeviceUID}/edit`}>
+              <Dropdown.Item to={`/account/devices/${userDeviceUID}/edit`}>
                 Edit
               </Dropdown.Item>
-              <Dropdown.Item to={`/devices/${userDeviceUID}/delete`}>
+              <Dropdown.Item to={`/account/devices/${userDeviceUID}/delete`}>
                 Delete
               </Dropdown.Item>
             </Dropdown>

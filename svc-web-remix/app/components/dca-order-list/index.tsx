@@ -2,7 +2,7 @@ import { useMemo } from 'react'
 import { useTable, Column } from 'react-table'
 import { parseISO, differenceInHours } from 'date-fns'
 
-import { Card, Table, Button, LinkButton, Dropdown } from '../retro-ui'
+import { Card, Table, PrimaryButton, LinkButton, Dropdown } from '../retro-ui'
 import { formatCurrency } from '~/components/format'
 
 import type { GetDcaOrderListQuery } from '~/graphql/generated'
@@ -21,15 +21,11 @@ const DCAOrderList = (props: Props) => {
       {
         Header: 'Status',
         accessor: 'enabled_at',
-        Cell({ value: enabledAt, row }) {
-          const handleTogglePause = async () => {
-            return updateEnabled(row.original.uid, !enabledAt)
-          }
-
+        Cell({ value: enabledAt }) {
           return (
-            <Button type="button" onClick={handleTogglePause}>
+            <PrimaryButton type="button">
               {enabledAt ? 'ACTIVE' : 'PAUSED'}
-            </Button>
+            </PrimaryButton>
           )
         },
       },

@@ -1,5 +1,5 @@
 import React from 'react'
-import { FormMethod } from '@remix-run/react'
+import { Form as RemixForm, FormMethod } from '@remix-run/react'
 
 import { FormItem } from './form-item'
 import { FormItemGroup } from './form-item-group'
@@ -15,9 +15,9 @@ const Form = (props: Props) => {
   const { children, name: formName, action, method } = props
 
   return (
-    <form id={formName} action={action} method={method}>
+    <RemixForm id={formName} action={action} method={method}>
       <FormItemGroup formName={formName}>{children}</FormItemGroup>
-    </form>
+    </RemixForm>
   )
 }
 

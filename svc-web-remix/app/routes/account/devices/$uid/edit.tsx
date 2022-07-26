@@ -1,5 +1,5 @@
 import { useLoaderData } from '@remix-run/react'
-import { LoaderFunction, json } from '@remix-run/node'
+import { ActionFunction, LoaderFunction, json, redirect } from '@remix-run/node'
 import invariant from 'tiny-invariant'
 
 import { UserDeviceFormEdit } from '~/components/user-device-form-edit'
@@ -7,6 +7,30 @@ import { Card } from '~/components/retro-ui'
 import { GetUserDeviceByUidQuery } from '~/graphql/generated'
 import { getSessionData } from '~/utils/auth.server'
 import { sdk } from '~/utils/api.server'
+
+export const action: ActionFunction = async ({ request, params }) => {
+  const { authToken } = await getSessionData(request)
+  invariant(authToken, 'Must be logged in')
+
+  const { uid: userDeviceUID } = params
+  invariant(userDeviceUID, 'Must have params.uid')
+
+  const formData = await request.formData()
+  const name = formData.get('name')
+  invariant(typeof name === 'string', 'Must have formData.name')
+
+  await sdk.updateUserDevice(
+    {
+      userDeviceUID,
+      name,
+    },
+    {
+      authorization: `Bearer ${authToken}`,
+    },
+  )
+
+  return redirect('/account/devices')
+}
 
 interface LoaderData {
   userDeviceUID: string

@@ -1,4 +1,4 @@
-import { Form, Input, PrimaryButton, LinkButton } from '../retro-ui'
+import { Form, PrimaryButton, LinkButton } from '../retro-ui'
 
 import type { GetUserDeviceByUidQuery } from '~/graphql/generated'
 
@@ -7,29 +7,31 @@ type Props = {
   query: GetUserDeviceByUidQuery
 }
 
-const UserDeviceFormEdit = (props: Props) => {
+const UserDeviceDelete = (props: Props) => {
   const { userDeviceUID, query } = props
 
   const name = query.kc_user_device_by_pk?.name
 
   return (
     <>
-      <h2>Edit Device</h2>
+      <h2>Delete Device</h2>
       <Form
         name={`edit-device-${userDeviceUID}`}
         method="post"
-        action={`/account/devices/${userDeviceUID}/edit`}
+        action={`/account/devices/${userDeviceUID}/delete`}
       >
-        <Form.Item label="Name" name="name">
-          <Input defaultValue={name} />
+        <Form.Item>
+          <p>
+            Are you sure want to delete <strong>{name}</strong>?
+          </p>
         </Form.Item>
         <Form.Item>
           <LinkButton href="/devices">Cancel</LinkButton>
-          <PrimaryButton type="submit">Save</PrimaryButton>
+          <PrimaryButton type="submit">Delete</PrimaryButton>
         </Form.Item>
       </Form>
     </>
   )
 }
 
-export { UserDeviceFormEdit }
+export { UserDeviceDelete }

@@ -1,14 +1,9 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 
-import { Alert, Form, Input, Button, LinkButton } from '../retro-ui'
+import { Alert, Form, Input, PrimaryButton, LinkButton } from '../retro-ui'
 import { KeysInput } from '../user-exchange-keys-input'
 
 import type { GetUserExchangeKeysFormEditQuery } from '~/graphql/generated'
-
-type State = {
-  description: string
-  keys: Record<string, string> | undefined
-}
 
 type Props = {
   userExchangeKeysUID: string
@@ -81,9 +76,9 @@ const UserExchangeKeysFormEdit = (props: Props) => {
           {replaceKeys ? (
             <KeysInput exchangeID={userExchangeKeys?.exchange.id} />
           ) : (
-            <Button type="button" onClick={handleReplaceKeys}>
+            <PrimaryButton type="button" onClick={handleReplaceKeys}>
               Replace API Keys
-            </Button>
+            </PrimaryButton>
           )}
         </Form.Item>
 
@@ -95,17 +90,17 @@ const UserExchangeKeysFormEdit = (props: Props) => {
           <LinkButton href="/settings">Cancel</LinkButton>
 
           {replaceKeys && (
-            <Button
+            <PrimaryButton
               type="button"
               onClick={handleValidate}
               loading={isValidating}
               disabled={keysAreValid}
             >
               {keysAreValid ? '✓ Valid' : 'Validate Keys'}
-            </Button>
+            </PrimaryButton>
           )}
 
-          <Button htmlType="submit">Save</Button>
+          <PrimaryButton htmlType="submit">Save</PrimaryButton>
         </Form.Item>
       </Form>
     </div>

@@ -27,7 +27,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 }
 
 const SubscriptionRoute = () => {
-  const { query } = useLoaderData()
+  const { query } = useLoaderData<LoaderData>()
 
   return (
     <>

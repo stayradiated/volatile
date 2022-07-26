@@ -21,7 +21,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 }
 
 const MarketPriceRoute = () => {
-  const { isAuthenticatedUser, email } = useLoaderData()
+  const { isAuthenticatedUser, email } = useLoaderData<LoaderData>()
 
   return (
     <>

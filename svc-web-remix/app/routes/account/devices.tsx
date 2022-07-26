@@ -3,20 +3,16 @@ import { LoaderFunction, json } from '@remix-run/node'
 
 import { Card } from '~/components/retro-ui'
 import { GetUserDeviceListQuery } from '~/graphql/generated'
-import { Navigation } from '~/components/navigation'
 import { UserDeviceList } from '~/components/user-device-list'
 import { getSessionData } from '~/utils/auth.server'
 import { sdk } from '~/utils/api.server'
 
 interface LoaderData {
-  isAuthenticatedUser: boolean
-  email: string | undefined
   query: GetUserDeviceListQuery
 }
 
 export const loader: LoaderFunction = async ({ request }) => {
-  const { authToken, email } = await getSessionData(request)
-  const isAuthenticatedUser = Boolean(authToken)
+  const { authToken } = await getSessionData(request)
 
   const query = await sdk.getUserDeviceList(
     {},
@@ -26,18 +22,15 @@ export const loader: LoaderFunction = async ({ request }) => {
   )
 
   return json<LoaderData>({
-    isAuthenticatedUser,
-    email,
     query,
   })
 }
 
 const DevicesRoute = () => {
-  const { isAuthenticatedUser, email, query } = useLoaderData()
+  const { query } = useLoaderData<LoaderData>()
 
   return (
     <>
-      <Navigation isAuthenticatedUser={isAuthenticatedUser} email={email} />
       <Card width={1000}>
         <h2>Devices</h2>
         <UserDeviceList query={query} />

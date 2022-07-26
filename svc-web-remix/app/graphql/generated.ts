@@ -5582,6 +5582,21 @@ export type GetUserDeviceListQuery = {
   }>
 }
 
+export type GetUserExchangeKeysByUidQueryVariables = Exact<{
+  userExchangeKeysUID: Scalars['uuid']
+}>
+
+export type GetUserExchangeKeysByUidQuery = {
+  __typename?: 'query_root'
+  kc_user_exchange_keys_by_pk?:
+    | {
+        __typename?: 'kc_user_exchange_keys'
+        uid: any
+        description: string
+      }
+    | undefined
+}
+
 export type GetUserExchangeKeysFormEditQueryVariables = Exact<{
   userExchangeKeysUID: Scalars['uuid']
 }>
@@ -5623,33 +5638,6 @@ export type GetUserExchangeKeysListQuery = {
         | undefined
     }
   }>
-}
-
-export type GetUserExchangeKeysListByUidQueryVariables = Exact<
-  Record<string, never>
->
-
-export type GetUserExchangeKeysListByUidQuery = {
-  __typename?: 'query_root'
-  kc_user_exchange_keys: Array<{
-    __typename?: 'kc_user_exchange_keys'
-    uid: any
-  }>
-}
-
-export type GetUserExchangeKeysModalDeleteQueryVariables = Exact<{
-  userExchangeKeysUID: Scalars['uuid']
-}>
-
-export type GetUserExchangeKeysModalDeleteQuery = {
-  __typename?: 'query_root'
-  kc_user_exchange_keys_by_pk?:
-    | {
-        __typename?: 'kc_user_exchange_keys'
-        uid: any
-        description: string
-      }
-    | undefined
 }
 
 export type SetupUser2FaQueryVariables = Exact<Record<string, never>>
@@ -6456,6 +6444,14 @@ export const GetUserDeviceListDocument = gql`
     }
   }
 `
+export const GetUserExchangeKeysByUidDocument = gql`
+  query getUserExchangeKeysByUID($userExchangeKeysUID: uuid!) {
+    kc_user_exchange_keys_by_pk(uid: $userExchangeKeysUID) {
+      uid
+      description
+    }
+  }
+`
 export const GetUserExchangeKeysFormEditDocument = gql`
   query getUserExchangeKeysFormEdit($userExchangeKeysUID: uuid!) {
     kc_user_exchange_keys_by_pk(uid: $userExchangeKeysUID) {
@@ -6484,21 +6480,6 @@ export const GetUserExchangeKeysListDocument = gql`
           count
         }
       }
-    }
-  }
-`
-export const GetUserExchangeKeysListByUidDocument = gql`
-  query getUserExchangeKeysListByUID {
-    kc_user_exchange_keys {
-      uid
-    }
-  }
-`
-export const GetUserExchangeKeysModalDeleteDocument = gql`
-  query getUserExchangeKeysModalDelete($userExchangeKeysUID: uuid!) {
-    kc_user_exchange_keys_by_pk(uid: $userExchangeKeysUID) {
-      uid
-      description
     }
   }
 `
@@ -7183,6 +7164,21 @@ export function getSdk(
         'query',
       )
     },
+    async getUserExchangeKeysByUID(
+      variables: GetUserExchangeKeysByUidQueryVariables,
+      requestHeaders?: Dom.RequestInit['headers'],
+    ): Promise<GetUserExchangeKeysByUidQuery> {
+      return withWrapper(
+        async (wrappedRequestHeaders) =>
+          client.request<GetUserExchangeKeysByUidQuery>(
+            GetUserExchangeKeysByUidDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders },
+          ),
+        'getUserExchangeKeysByUID',
+        'query',
+      )
+    },
     async getUserExchangeKeysFormEdit(
       variables: GetUserExchangeKeysFormEditQueryVariables,
       requestHeaders?: Dom.RequestInit['headers'],
@@ -7210,36 +7206,6 @@ export function getSdk(
             { ...requestHeaders, ...wrappedRequestHeaders },
           ),
         'getUserExchangeKeysList',
-        'query',
-      )
-    },
-    async getUserExchangeKeysListByUID(
-      variables?: GetUserExchangeKeysListByUidQueryVariables,
-      requestHeaders?: Dom.RequestInit['headers'],
-    ): Promise<GetUserExchangeKeysListByUidQuery> {
-      return withWrapper(
-        async (wrappedRequestHeaders) =>
-          client.request<GetUserExchangeKeysListByUidQuery>(
-            GetUserExchangeKeysListByUidDocument,
-            variables,
-            { ...requestHeaders, ...wrappedRequestHeaders },
-          ),
-        'getUserExchangeKeysListByUID',
-        'query',
-      )
-    },
-    async getUserExchangeKeysModalDelete(
-      variables: GetUserExchangeKeysModalDeleteQueryVariables,
-      requestHeaders?: Dom.RequestInit['headers'],
-    ): Promise<GetUserExchangeKeysModalDeleteQuery> {
-      return withWrapper(
-        async (wrappedRequestHeaders) =>
-          client.request<GetUserExchangeKeysModalDeleteQuery>(
-            GetUserExchangeKeysModalDeleteDocument,
-            variables,
-            { ...requestHeaders, ...wrappedRequestHeaders },
-          ),
-        'getUserExchangeKeysModalDelete',
         'query',
       )
     },

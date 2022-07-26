@@ -33,7 +33,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 }
 
 const OpenOrdersRoute = () => {
-  const { isAuthenticatedUser, email, query } = useLoaderData()
+  const { isAuthenticatedUser, email, query } = useLoaderData<LoaderData>()
 
   return (
     <>
