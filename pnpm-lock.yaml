@@ -491,6 +491,8 @@ importers:
       '@types/react-dom': ^18.0.6
       '@types/styled-components': 5.1.25
       '@types/ua-parser-js': 0.7.36
+      ajv: 8.11.0
+      ajv-formats: 2.1.1
       classnames: 2.3.1
       date-fns: 2.29.1
       dotenv: 16.0.1
@@ -518,6 +520,8 @@ importers:
       '@stayradiated/error-boundary': 2.1.0
       '@stripe/react-stripe-js': 1.9.0_fc08e23e9d12f075e53311a7f9fcc956
       '@stripe/stripe-js': 1.32.0
+      ajv: 8.11.0
+      ajv-formats: 2.1.1
       date-fns: 2.29.1
       env-schema: 5.0.0
       graphql-request: 4.3.0
@@ -4332,7 +4336,7 @@ packages:
       ajv:
         optional: true
     dependencies:
-      ajv: 8.10.0
+      ajv: 8.11.0
     dev: false
 
   /ajv/6.12.6:

@@ -1,32 +1,21 @@
-import { useEffect } from 'react'
 import { DayPicker, useInput } from 'react-day-picker'
+import { formatISO } from 'date-fns'
 
 type Props = {
-  value?: Date
-  onChange?: (date: Date) => void
+  name?: string,
 }
 
 const DateInput = (props: Props) => {
-  const { value, onChange } = props
+  const { name } = props
 
-  const { inputProps, dayPickerProps, setSelected } = useInput({
-    defaultSelected: value,
+  const { inputProps, dayPickerProps } = useInput({
     format: 'PP',
   })
 
-  useEffect(() => {
-    setSelected(value)
-  }, [value])
-
-  useEffect(() => {
-    if (typeof onChange === 'function') {
-      onChange(dayPickerProps.selected!)
-    }
-  }, [dayPickerProps.selected])
-
   return (
     <>
-      <input {...inputProps} />
+      {dayPickerProps.selected && <input name={name} type="hidden" value={formatISO(dayPickerProps.selected)} />}
+      <input name="" {...inputProps} />
       <DayPicker {...dayPickerProps} />
     </>
   )

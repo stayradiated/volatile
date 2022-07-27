@@ -30,6 +30,7 @@ const DCAOrderFormCreate = (props: Props) => {
   }
 
   const exchangeOptions = query.kc_exchange ?? []
+
   const marketOptions = (query.kc_market ?? []).filter((item) => {
     return item.market_prices.some((price) => {
       return (
@@ -38,26 +39,28 @@ const DCAOrderFormCreate = (props: Props) => {
       )
     })
   })
+
   const userExchangeKeysOptions = (query.kc_user_exchange_keys ?? []).filter(
-    (item) => {
-      return item.exchange_uid === state.exchange?.uid
+    (_item) => {
+      return true // item.exchange_uid === state.exchange?.uid
     },
   )
-  const primaryCurrencyOptions = state.exchange?.primary_currencies ?? []
-  const secondaryCurrencyOptions = state.exchange?.secondary_currencies ?? []
+
+  const primaryCurrencyOptions = query.kc_exchange[0]?.primary_currencies
+  const secondaryCurrencyOptions = query.kc_exchange[0]?.secondary_currencies
 
   return (
     <div>
       <h2>+ Add DCA Order</h2>
-      <Form name="dcaOrderFormCreate">
-        <Form.Item name="exchange" label="Exchange">
+      <Form name="dcaOrderFormCreate" method="post" action="/dca-orders/create">
+        <Form.Item label="Exchange">
           <Select<Exchange>
             options={exchangeOptions}
             getOptionLabel={(option) => option.name}
             getOptionValue={(option) => option.uid}
           />
         </Form.Item>
-        <Form.Item name="userExchangeKeys" label="Exchange Keys">
+        <Form.Item name="userExchangeKeysUID" label="Exchange Keys">
           <Select<UserExchangeKeys>
             options={userExchangeKeysOptions}
             getOptionLabel={(option) => option.description}
@@ -79,7 +82,7 @@ const DCAOrderFormCreate = (props: Props) => {
           />
         </Form.Item>
         <Form.Item
-          name="market"
+          name="marketUID"
           label={`Market Source (${state.primaryCurrency?.symbol ?? '___'}-${
             state.secondaryCurrency?.symbol ?? '____'
           })`}
@@ -99,7 +102,7 @@ const DCAOrderFormCreate = (props: Props) => {
         <Form.Item name="dailyAverage" label="Daily Average">
           <Input required type="number" step="0.01" />
         </Form.Item>
-        <Form.Item name="intervalMin" label="Interval (minutes)">
+        <Form.Item name="intervalMs" label="Interval (minutes)">
           <Input required type="number" step="1" min="1" />
         </Form.Item>
         <Form.Item name="minValue" label="Min Value">

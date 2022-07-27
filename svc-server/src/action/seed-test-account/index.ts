@@ -8,6 +8,8 @@ import { getExchangeUID, getExchangeList, Exchange } from '../../model/exchange/
 import { insertUserExchangeKeys, UserExchangeKeys } from '../../model/user-exchange-keys/index.js'
 import { upsertBalance } from '../../model/balance/index.js'
 import { upsertCurrency, selectAllCurrencies, Currency } from '../../model/currency/index.js'
+import { upsertExchangePrimaryCurrency } from '../../model/exchange-primary-currency/index.js'
+import { upsertExchangeSecondaryCurrency } from '../../model/exchange-secondary-currency/index.js'
 import { insertDCAOrder, DCAOrder } from '../../model/dca-order/index.js'
 import { insertDCAOrderHistory } from '../../model/dca-order-history/index.js'
 import { insertOrder, Order } from '../../model/order/index.js'
@@ -48,6 +50,10 @@ const seedTestAccount: ActionHandlerFn<Input, Output> = async (context) => {
 
   for (const exchange of exchangeList) {
     const exchangeUID = await throwIfError<string>(getExchangeUID(pool, exchange))
+
+    await throwIfError(upsertExchangePrimaryCurrency(pool, { exchangeUID, symbol: 'BTC', }))
+    await throwIfError(upsertExchangePrimaryCurrency(pool, { exchangeUID, symbol: 'ETH', }))
+    await throwIfError(upsertExchangeSecondaryCurrency(pool, { exchangeUID, symbol: 'NZD', }))
 
     const userExchangeKeys = await throwIfError<UserExchangeKeys>(insertUserExchangeKeys(pool, {
       userUID: user.UID,
