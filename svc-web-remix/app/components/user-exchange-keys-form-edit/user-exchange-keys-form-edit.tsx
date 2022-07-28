@@ -1,6 +1,7 @@
 import { useState } from 'react'
+import { Link } from '@remix-run/react'
 
-import { Alert, Form, Input, PrimaryButton, LinkButton } from '../retro-ui'
+import { Alert, Form, Input, PrimaryButton } from '../retro-ui'
 import { KeysInput } from '../user-exchange-keys-input'
 
 import type { GetUserExchangeKeysFormEditQuery } from '~/graphql/generated'
@@ -87,20 +88,19 @@ const UserExchangeKeysFormEdit = (props: Props) => {
         )}
 
         <Form.Item>
-          <LinkButton href="/settings">Cancel</LinkButton>
+          <Link to="/settings">Cancel</Link>
 
           {replaceKeys && (
             <PrimaryButton
               type="button"
               onClick={handleValidate}
-              loading={isValidating}
-              disabled={keysAreValid}
+              disabled={isValidating || keysAreValid}
             >
               {keysAreValid ? '✓ Valid' : 'Validate Keys'}
             </PrimaryButton>
           )}
 
-          <PrimaryButton htmlType="submit">Save</PrimaryButton>
+          <PrimaryButton type="submit">Save</PrimaryButton>
         </Form.Item>
       </Form>
     </div>

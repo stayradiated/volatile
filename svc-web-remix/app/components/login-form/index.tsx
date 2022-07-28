@@ -1,3 +1,4 @@
+import { Link } from '@remix-run/react'
 import styled from 'styled-components'
 
 import { Logo } from '../logo'
@@ -8,7 +9,6 @@ import {
   CheckboxInput,
   Input,
   PrimaryButton,
-  LinkButton,
 } from '../retro-ui'
 
 const FormActions = styled(Form.Item)`
@@ -45,8 +45,8 @@ const LoginForm = (props: LoginFormProps) => {
         </Form.Item>
         <FormActions>
           <div>
-            <LinkButton href="/register/">sign up</LinkButton> or{' '}
-            <LinkButton href="/reset-password/">reset password</LinkButton>
+            <Link to="/register/">sign up</Link> or{' '}
+            <Link to="/reset-password/">reset password</Link>
           </div>
 
           <PrimaryButton type="submit">Log In</PrimaryButton>

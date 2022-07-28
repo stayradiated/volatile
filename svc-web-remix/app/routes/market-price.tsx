@@ -1,4 +1,5 @@
-import { useLoaderData, Link, Outlet } from '@remix-run/react'
+import { Link } from '@remix-run/react'
+import { useLoaderData, Outlet } from '@remix-run/react'
 import { LoaderFunction, json } from '@remix-run/node'
 
 import { Card } from '~/components/retro-ui'

@@ -1,7 +1,8 @@
+import { Link } from '@remix-run/react'
 import Select from 'react-select'
 import { useState } from 'react'
 
-import { Form, Input, PrimaryButton, LinkButton } from '../retro-ui'
+import { Form, Input, PrimaryButton } from '../retro-ui'
 import { KeysInput } from '../user-exchange-keys-input'
 
 import type { GetExchangeKeysFormCreateQuery } from '~/graphql/generated'
@@ -44,7 +45,7 @@ const UserExchangeKeysFormCreate = (props: Props) => {
         </Form.Item>
 
         <Form.Item>
-          <LinkButton href="/settings">Cancel</LinkButton>
+          <Link to="/settings">Cancel</Link>
           <PrimaryButton type="button">
             {keysAreValid ? '✓ Valid' : 'Validate Keys'}
           </PrimaryButton>

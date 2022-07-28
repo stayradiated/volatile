@@ -34,25 +34,15 @@ const SubscriptionList = (props: Props) => {
     <>
       <Card>
         <h4>Active</h4>
-        {groups.active.map((subscription) => {
-          return (
-            <SubscriptionCard
-              key={subscription.id}
-              subscription={subscription}
-            />
-          )
-        })}
+        {groups.active.map((subscription) => (
+          <SubscriptionCard key={subscription.id} subscription={subscription} />
+        ))}
       </Card>
       <Card>
         <h4>Expired</h4>
-        {groups.expired.map((subscription) => {
-          return (
-            <SubscriptionCard
-              key={subscription.id}
-              subscription={subscription}
-            />
-          )
-        })}
+        {groups.expired.map((subscription) => (
+          <SubscriptionCard key={subscription.id} subscription={subscription} />
+        ))}
       </Card>
     </>
   )

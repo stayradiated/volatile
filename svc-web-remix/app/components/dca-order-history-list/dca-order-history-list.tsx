@@ -21,29 +21,30 @@ const DCAOrderHistoryList = (props: Props) => {
       {
         Header: 'Date',
         accessor: 'created_at',
-        Cell: ({ value }) => format(parseISO(value), 'PPpp'),
+        Cell: ({ value }) => <>{format(parseISO(value), 'PPpp')}</>,
       },
       {
         Header: 'Offset',
         accessor: 'market_offset',
-        Cell: ({ value }) => `${value}%`,
+        Cell: ({ value }) => <>{value}%</>,
       },
       {
         id: 'price',
         Header: 'Price',
         accessor: (row) => row.market_price * ((100 + row.market_offset) / 100),
-        Cell: ({ value }: CellProps<DCAOrderHistory, number>) =>
-          formatCurrency(value),
+        Cell: ({ value }: CellProps<DCAOrderHistory, number>) => (
+          <>{formatCurrency(value)}</>
+        ),
       },
       {
         Header: 'Target Value',
         accessor: 'target_value',
-        Cell: ({ value }) => formatCurrency(value),
+        Cell: ({ value }) => <>{formatCurrency(value)}</>,
       },
       {
         Header: 'Available Balance',
         accessor: 'available_balance',
-        Cell: ({ value }) => formatCurrency(value),
+        Cell: ({ value }) => <>{formatCurrency(value)}</>,
       },
       {
         id: 'volume',
@@ -51,7 +52,7 @@ const DCAOrderHistoryList = (props: Props) => {
         accessor: (row) =>
           row.value / (row.market_price * ((100 + row.market_offset) / 100)),
         Cell({ row, value }: CellProps<DCAOrderHistory, number>) {
-          return row.original.created_order ? value.toFixed(8) : '--'
+          return <>{row.original.created_order ? value.toFixed(8) : '--'}</>
         },
       },
       {

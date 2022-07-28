@@ -1,5 +1,5 @@
 query getDCAOrderList {
-  kc_dca_order(order_by: { enabled_at: desc_nulls_last }) {
+  kc_dca_order(order_by: [{exchange:{name:asc}}, {created_at: asc}]) {
     uid
     exchange {
       uid

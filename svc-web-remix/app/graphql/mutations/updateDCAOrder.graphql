@@ -7,6 +7,7 @@ mutation updateDCAOrder(
     _set: $values
   ) {
     uid
+    enabled_at
     daily_average
     enabled_at
     interval_ms

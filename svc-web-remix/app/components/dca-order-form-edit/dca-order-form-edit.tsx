@@ -1,12 +1,7 @@
+import { Link } from '@remix-run/react'
 import Select from 'react-select'
 
-import {
-  Form,
-  Input,
-  DateInput,
-  LinkButton,
-  PrimaryButton,
-} from '../retro-ui/index'
+import { Form, Input, DateInput, PrimaryButton } from '../retro-ui/index'
 
 import type { GetDcaOrderFormEditQuery } from '~/graphql/generated'
 
@@ -22,14 +17,13 @@ const DCAOrderFormEdit = (props: Props) => {
 
   const dcaOrder = query.kc_dca_order_by_pk
 
-  const marketOptions = (query.kc_market ?? []).filter((item) => {
-    return item.market_prices.some((price) => {
-      return (
+  const marketOptions = (query.kc_market ?? []).filter((item) =>
+    item.market_prices.some(
+      (price) =>
         price.asset_symbol === dcaOrder?.primary_currency.symbol &&
-        price.currency === dcaOrder?.secondary_currency.symbol
-      )
-    })
-  })
+        price.currency === dcaOrder?.secondary_currency.symbol,
+    ),
+  )
 
   const userExchangeKeysOptions = (query.kc_user_exchange_keys ?? []).filter(
     (item) => item.exchange_uid === dcaOrder?.exchange.uid,
@@ -86,7 +80,7 @@ const DCAOrderFormEdit = (props: Props) => {
           <Input type="number" step="0.01" min={0} />
         </Form.Item>
         <Form.Item>
-          <LinkButton href="/dca-orders">Cancel</LinkButton>
+          <Link to="/dca-orders">Cancel</Link>
           <PrimaryButton type="submit">Save</PrimaryButton>
         </Form.Item>
       </Form>

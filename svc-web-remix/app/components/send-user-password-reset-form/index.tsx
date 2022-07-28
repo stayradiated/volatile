@@ -1,9 +1,8 @@
 import { useState } from 'react'
-
-import { useSendUserPasswordReset } from '../../hooks/mutations/use-send-user-password-reset'
+import { Link } from '@remix-run/react'
 
 import { Logo } from '../logo'
-import { Alert, Card, Form, Input, Button } from '../retro-ui'
+import { Alert, Card, Form, Input, PrimaryButton } from '../retro-ui'
 
 import styles from './index.module.css'
 
@@ -68,18 +67,13 @@ const SendUserPasswordResetForm = () => {
         </Form.Item>
         <Form.Item className={styles.actions}>
           <div>
-            <Button type="link" href="/login/">
-              log in
-            </Button>{' '}
-            or
-            <Button type="link" href="/register/">
-              sign up
-            </Button>{' '}
+            <Link to="/login/">log in</Link> or
+            <Link to="/register/">sign up</Link>{' '}
           </div>
 
-          <Button type="primary" htmlType="submit" loading={loading}>
+          <PrimaryButton type="submit" disabled={loading}>
             Send Reset Link
-          </Button>
+          </PrimaryButton>
         </Form.Item>
       </Form>
     </Card>

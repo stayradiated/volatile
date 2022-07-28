@@ -1,19 +1,10 @@
-import { Type } from '@sinclair/typebox'
-import type { Static } from '@sinclair/typebox'
-import envSchema from 'env-schema'
+import * as z from 'zod'
 
-const schema = Type.Strict(
-  Type.Object({
-    COOKIE_SECRET: Type.String(),
-    GRAPHQL_ENDPOINT: Type.String(),
-  }),
-)
-
-export type Config = Static<typeof schema>
-
-const config = envSchema<Config>({
-  schema,
-  env: true,
+const schema = z.object({
+  COOKIE_SECRET: z.string().min(10),
+  GRAPHQL_ENDPOINT: z.string().url(),
 })
+
+const config = schema.parse(process.env)
 
 export default config

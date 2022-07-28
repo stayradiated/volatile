@@ -16,7 +16,7 @@ const StyledTable = styled.table`
 const Tr = styled.tr`
   line-height: 40px;
 
-  &:disabled {
+  &[aria-disabled] {
     text-decoration: line-through;
   }
 `
@@ -93,10 +93,10 @@ const Table = (props: Props) => {
           const isDisabled = row.original[DISABLED]
 
           return (
-            <Tr {...row.getRowProps()} disabled={isDisabled}>
-              {row.cells.map((cell) => {
-                return <Td {...cell.getCellProps()}>{cell.render('Cell')}</Td>
-              })}
+            <Tr {...row.getRowProps()} aria-disabled={isDisabled}>
+              {row.cells.map((cell) => (
+                <Td {...cell.getCellProps()}>{cell.render('Cell')}</Td>
+              ))}
             </Tr>
           )
         })}

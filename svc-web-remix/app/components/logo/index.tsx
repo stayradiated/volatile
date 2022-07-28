@@ -17,8 +17,6 @@ const Container = styled.a`
   }
 `
 
-const Logo = () => {
-  return <Container href="/">🪙 volatile</Container>
-}
+const Logo = () => <Container href="/">🪙 volatile</Container>
 
 export { Logo }

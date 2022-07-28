@@ -1,4 +1,5 @@
-import { Form, PrimaryButton, LinkButton } from '../retro-ui'
+import { Link } from '@remix-run/react'
+import { Form, PrimaryButton } from '../retro-ui'
 
 import type { GetUserDeviceByUidQuery } from '~/graphql/generated'
 
@@ -26,7 +27,7 @@ const UserDeviceDelete = (props: Props) => {
           </p>
         </Form.Item>
         <Form.Item>
-          <LinkButton href="/devices">Cancel</LinkButton>
+          <Link to="/devices">Cancel</Link>
           <PrimaryButton type="submit">Delete</PrimaryButton>
         </Form.Item>
       </Form>

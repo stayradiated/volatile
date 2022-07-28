@@ -25,8 +25,8 @@ const DCAOrderHistoryPriceChart = (props: Props) => {
     },
   }
 
-  const charts = useMemo((): ChartConfig[] => {
-    return [
+  const charts = useMemo(
+    (): ChartConfig[] => [
       {
         type: 'area',
         options: {
@@ -98,8 +98,9 @@ const DCAOrderHistoryPriceChart = (props: Props) => {
           getTime: (row) => row.created_at,
         }),
       },
-    ]
-  }, [query, dcaOrderHistoryList])
+    ],
+    [query, dcaOrderHistoryList],
+  )
 
   return <Chart width={1160} config={config} charts={charts} />
 }

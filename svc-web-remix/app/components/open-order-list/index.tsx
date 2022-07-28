@@ -19,7 +19,7 @@ const columns: Array<Column<Order>> = [
     accessor: 'opened_at',
     Cell(props) {
       const { value } = props
-      return format(parseISO(value), 'PPpp')
+      return <>{format(parseISO(value), 'PPpp')}</>
     },
   },
   {
@@ -27,7 +27,7 @@ const columns: Array<Column<Order>> = [
     accessor: 'uid',
     Cell(props) {
       const { primary_currency, secondary_currency } = props.row.original
-      return `${primary_currency}-${secondary_currency}`
+      return <>{`${primary_currency}-${secondary_currency}`}</>
     },
   },
   {
@@ -39,7 +39,7 @@ const columns: Array<Column<Order>> = [
     accessor: 'value',
     Cell(props) {
       const { value } = props
-      return formatCurrency(value)
+      return <>{formatCurrency(value)}</>
     },
   },
   {
@@ -51,7 +51,7 @@ const columns: Array<Column<Order>> = [
     accessor: 'price',
     Cell(props) {
       const { value } = props
-      return formatCurrency(value)
+      return <>{formatCurrency(value)}</>
     },
   },
   {
@@ -59,7 +59,7 @@ const columns: Array<Column<Order>> = [
     accessor: 'dca_order_histories',
     Cell(props) {
       const { value } = props
-      return value ? 'Yes' : 'No'
+      return <>{value ? 'Yes' : 'No'}</>
     },
   },
 ]

@@ -1,28 +1,6 @@
-import React from 'react'
 import styled from 'styled-components'
 
-type BaseProps = {
-  className?: string
-  type?: 'submit' | 'button'
-  loading?: boolean
-  children?: React.ReactNode
-  tabIndex?: number
-  disabled?: boolean
-}
-
-type AnchorProps = BaseProps & {
-  href?: string
-  onClick?: (event: React.MouseEvent<HTMLAnchorElement>) => void
-}
-
-type ButtonProps = BaseProps & {
-  href?: never
-  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void
-}
-
-type Props = AnchorProps | ButtonProps
-
-const RegularButton = styled.button`
+const Button = styled.button`
   appearance: none;
   cursor: pointer;
   display: inline-block;
@@ -43,35 +21,6 @@ const RegularButton = styled.button`
     box-shadow: -2px 2px 0 0 var(--button-disabled-border);
   }
 `
-
-const Button = (props: Props) => {
-  const {
-    className,
-    href,
-    type,
-    loading,
-    children,
-    tabIndex,
-    onClick,
-    disabled,
-  } = props
-
-  const component = typeof href === 'string' ? 'a' : 'button'
-
-  return (
-    <RegularButton
-      as={component}
-      className={className}
-      type={type}
-      disabled={disabled || loading}
-      tabIndex={tabIndex}
-      href={href}
-      onClick={onClick}
-    >
-      {loading ? '...' : children}
-    </RegularButton>
-  )
-}
 
 const PrimaryButton = styled(Button)`
   position: relative;
@@ -95,10 +44,10 @@ const PrimaryButton = styled(Button)`
     inset -2px -2px 0px #808080, inset 2px 2px 0px #dbdbdb;
 `
 
-const LinkButton = styled(Button)`
+const Link = styled(Button)`
   background: none;
   border: none;
   text-decoration: underline;
 `
 
-export { Button, PrimaryButton, LinkButton }
+export { Button, PrimaryButton, Link }

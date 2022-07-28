@@ -1,8 +1,9 @@
-import { useMemo, useState } from 'react'
+import { Link } from '@remix-run/react'
+import { useMemo } from 'react'
 import { useTable, Column } from 'react-table'
 import { parseISO, format } from 'date-fns'
 
-import { Card, Table, LinkButton, Dropdown } from '../retro-ui'
+import { Card, Table, Dropdown } from '../retro-ui'
 
 import type { GetUserExchangeKeysListQuery } from '~/graphql/generated'
 
@@ -24,7 +25,7 @@ const UserExchangeKeysList = (props: Props) => {
         accessor: 'updated_at',
         Cell(props) {
           const { value } = props
-          return format(parseISO(value), 'PPpp')
+          return <>{format(parseISO(value), 'PPpp')}</>
         },
       },
       {
@@ -66,7 +67,7 @@ const UserExchangeKeysList = (props: Props) => {
       <Card width={1000}>
         <h2>☰ Exchange API List</h2>
         <Table table={table} />
-        <LinkButton href="/settings/create">Add API Keys</LinkButton>
+        <Link to="/settings/create">Add API Keys</Link>
       </Card>
       {/* <UserExchangeKeysModalDelete */}
       {/*   isOpen={Boolean(deleteState)} */}

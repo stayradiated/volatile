@@ -1,4 +1,6 @@
-import { Form, Input, PrimaryButton, LinkButton } from '../retro-ui'
+import { Link } from '@remix-run/react'
+
+import { Form, Input, PrimaryButton } from '../retro-ui'
 
 import type { GetUserDeviceByUidQuery } from '~/graphql/generated'
 
@@ -24,7 +26,7 @@ const UserDeviceFormEdit = (props: Props) => {
           <Input defaultValue={name} />
         </Form.Item>
         <Form.Item>
-          <LinkButton href="/devices">Cancel</LinkButton>
+          <Link to="/devices">Cancel</Link>
           <PrimaryButton type="submit">Save</PrimaryButton>
         </Form.Item>
       </Form>

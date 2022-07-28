@@ -1,5 +1,6 @@
+import { Link } from '@remix-run/react'
 import styled from 'styled-components'
-import { Link, LinkProps } from '@remix-run/react'
+import { LinkProps } from '@remix-run/react'
 
 type Props = LinkProps
 
@@ -25,12 +26,10 @@ const Button = styled(Link)`
   }
 `
 
-const DropdownItem = (props: Props) => {
-  return (
-    <Container>
-      <Button {...props} />
-    </Container>
-  )
-}
+const DropdownItem = (props: Props) => (
+  <Container>
+    <Button {...props} />
+  </Container>
+)
 
 export { DropdownItem }

@@ -1,11 +1,6 @@
-import React from 'react'
 import styled from 'styled-components'
 
-type Props = React.HTMLProps<HTMLInputElement> & {
-  onChange?: (value: string) => void
-}
-
-const StyledInput = styled.input`
+const Input = styled.input`
   appearance: none;
   height: 40px;
   width: 100%;
@@ -33,15 +28,5 @@ const StyledInput = styled.input`
     color: var(--input-disabled);
   }
 `
-
-const Input = React.forwardRef<HTMLInputElement, Props>((props, ref) => {
-  const { onChange = () => undefined, ...restProps } = props
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    onChange(event.target.value)
-  }
-
-  return <StyledInput {...restProps} ref={ref} onChange={handleChange} />
-})
 
 export { Input }

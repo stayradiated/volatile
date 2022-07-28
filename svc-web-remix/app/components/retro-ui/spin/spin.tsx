@@ -1,7 +1,21 @@
-import styles from './spin.module.css'
+import styled from 'styled-components'
 
-const Spin = () => {
-  return <div className={styles.spinner} />
-}
+const Spin = styled.div`
+  width: 20px;
+  height: 20px;
+
+  background: #fff;
+  border: 1px solid #000;
+  animation: spinner 1s infinite linear;
+
+  @keyframes spinner {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(180deg);
+    }
+  }
+`
 
 export { Spin }

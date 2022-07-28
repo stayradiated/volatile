@@ -1,0 +1,5 @@
+mutation create_user($email: String!, $password: String!) {
+  create_user(email: $email, password: $password) {
+    user_uid
+  }
+}

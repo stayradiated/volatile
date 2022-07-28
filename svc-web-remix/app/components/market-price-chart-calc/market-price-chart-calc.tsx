@@ -83,8 +83,8 @@ const MarketPriceChartCalc = (props: Props) => {
     setInterval(Number.parseInt(value))
   }
 
-  const charts = useMemo((): ChartConfig[] => {
-    return [
+  const charts = useMemo(
+    (): ChartConfig[] => [
       {
         type: 'line',
         options: { color: 'black' },
@@ -107,8 +107,9 @@ const MarketPriceChartCalc = (props: Props) => {
           getTime: (row) => row.timestamp,
         }),
       },
-    ]
-  }, [longAvg, minAvg, offset, interval, query])
+    ],
+    [longAvg, minAvg, offset, interval, query],
+  )
 
   const chartConfig = useMemo(
     () => ({

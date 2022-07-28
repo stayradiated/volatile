@@ -1,4 +1,3 @@
-import { gql, useQuery } from '@apollo/client'
 import {
   CartesianGrid,
   Legend,

@@ -1,10 +1,7 @@
 import { useState, useEffect } from 'react'
 
-import { useValidateUserPasswordReset } from '../../hooks/mutations/use-validate-user-password-reset'
-import { useResetUserPassword } from '../../hooks/mutations/use-reset-user-password'
-
 import { Logo } from '../logo'
-import { Alert, Spin, Card, Form, Input, Button } from '../retro-ui'
+import { Alert, Spin, Card, Form, Input, PrimaryButton } from '../retro-ui'
 
 import type { Session } from '../../utils/session-store'
 import styles from './index.module.css'
@@ -112,9 +109,9 @@ const ResetPasswordForm = (props: Props) => {
           <Input type="password" tabIndex={0} />
         </Form.Item>
         <Form.Item className={styles.actions}>
-          <Button type="primary" htmlType="submit" loading={submitting}>
+          <PrimaryButton type="submit" disabled={submitting}>
             Save Password
-          </Button>
+          </PrimaryButton>
         </Form.Item>
       </Form>
     </Card>

@@ -2,9 +2,9 @@ import { ActionFunction, LoaderFunction, json, redirect } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
 import { errorBoundary } from '@stayradiated/error-boundary'
 import invariant from 'tiny-invariant'
-import { Static, Type } from '@sinclair/typebox'
-import addFormats from 'ajv-formats'
-import Ajv        from 'ajv'
+import * as z from 'zod'
+import { parseISO } from 'date-fns'
+import { makeDomainFunction, inputFromForm } from 'remix-domains'
 
 import { Card } from '~/components/retro-ui'
 import { DCAOrderFormCreate } from '~/components/dca-order-form-create'
@@ -12,50 +12,40 @@ import { GetDcaOrderFormCreateQuery } from '~/graphql/generated'
 import { getSessionData } from '~/utils/auth.server'
 import { sdk } from '~/utils/api.server'
 
-const ajv = addFormats(new Ajv({ coerceTypes: true }), [
-  'date-time', 
-  'time', 
-  'date', 
-  'email',  
-  'hostname', 
-  'ipv4', 
-  'ipv6', 
-  'uri', 
-  'uri-reference', 
-  'uuid',
-  'uri-template', 
-  'json-pointer', 
-  'relative-json-pointer', 
-  'regex'
-])
-
-const formDataSchema = Type.Strict(Type.Object({
-  userExchangeKeysUID: Type.String({ format: 'uuid' }),
-  primaryCurrency: Type.String(),
-  secondaryCurrency: Type.String(),
-  marketUID: Type.String({ format: 'uuid' }),
-  startAt: Type.String({ format: 'date-time' }),
-  marketOffset: Type.Number(),
-  dailyAverage: Type.Number(),
-  intervalMs: Type.Integer(),
-  minValue: Type.Number(),
-  maxValue: Type.Number(),
-}))
-
-type FormData = Static<typeof formDataSchema>
+const createDCAOrder = makeDomainFunction(
+  z.object({
+    userExchangeKeysUID: z.string().uuid(),
+    primaryCurrency: z.string(),
+    secondaryCurrency: z.string(),
+    marketUID: z.string().uuid(),
+    startAt: z.preprocess((d: unknown) => {
+      if (typeof d === 'string') {
+        return parseISO(d)
+      }
+    }, z.date()),
+    marketOffset: z.number(),
+    dailyAverage: z.number(),
+    intervalMs: z.number().int(),
+    minValue: z.number(),
+    maxValue: z.number(),
+  }),
+  z.object({
+    authToken: z.string(),
+  }),
+)(async (input, environment) => {
+  await sdk.createDCAOrder(input, {
+    authorization: `Bearer ${environment.authToken}`,
+  })
+})
 
 export const action: ActionFunction = async ({ request }) => {
   const { authToken } = await getSessionData(request)
   invariant(authToken, 'Must be logged in')
 
-  const formData = Object.fromEntries((await request.formData()).entries()) as unknown as FormData
-  const validate = ajv.compile(formDataSchema)
-  const isValid = validate(formData)
-  if (!isValid) { throw validate.errors }
-
-  await sdk.createDCAOrder(formData, {
-    authorization: `Bearer ${authToken}`
+  const result = await createDCAOrder(await inputFromForm(request), {
+    authToken,
   })
+  console.log(result)
 
   return redirect('/dca-orders')
 }

@@ -57,64 +57,66 @@ const MarketPriceChart = (props: Props) => {
     setVisible((state) => ({ ...state, [id]: checked }))
   }
 
-  const charts = useMemo((): ChartConfig[] => {
-    return [
-      visible.binance_us && {
-        type: 'line',
-        options: { color: '#7158e2' },
-        data: formatDataForChart({
-          data: query.binance_us[0]?.market_prices ?? [],
-          getValue: (row) => row.price,
-          getTime: (row) => row.timestamp,
-        }),
-      },
-      visible.kiwi_coin && {
-        type: 'line',
-        options: { color: '#3ae374' },
-        data: formatDataForChart({
-          data: query.kiwi_coin[0]?.market_prices ?? [],
-          getValue: (row) => row.price,
-          getTime: (row) => row.timestamp,
-        }),
-      },
-      visible.dasset && {
-        type: 'line',
-        options: { color: '#ff9f1a' },
-        data: formatDataForChart({
-          data: query.dasset[0]?.market_prices ?? [],
-          getValue: (row) => row.price,
-          getTime: (row) => row.timestamp,
-        }),
-      },
-      visible.kraken && {
-        type: 'line',
-        options: { color: '#3d3d3d' },
-        data: formatDataForChart({
-          data: query.kraken[0]?.market_prices ?? [],
-          getValue: (row) => row.price,
-          getTime: (row) => row.timestamp,
-        }),
-      },
-      visible.independent_reserve_aud && {
-        type: 'line',
-        options: { color: '#3d3d3d' },
-        data: formatDataForChart({
-          data: query.independent_reserve_aud[0]?.market_prices ?? [],
-          getValue: (row) => row.price,
-          getTime: (row) => row.timestamp,
-        }),
-      },
-      visible.independent_reserve_nzd && {
-        type: 'line',
-        options: { color: '#3d3d3d' },
-        data: formatDataForChart({
-          data: query.independent_reserve_nzd[0]?.market_prices ?? [],
-          getValue: (row) => row.price,
-          getTime: (row) => row.timestamp,
-        }),
-      },
-    ].filter(Boolean) as ChartConfig[]
-  }, [query, visible])
+  const charts = useMemo(
+    (): ChartConfig[] =>
+      [
+        visible.binance_us && {
+          type: 'line',
+          options: { color: '#7158e2' },
+          data: formatDataForChart({
+            data: query.binance_us[0]?.market_prices ?? [],
+            getValue: (row) => row.price,
+            getTime: (row) => row.timestamp,
+          }),
+        },
+        visible.kiwi_coin && {
+          type: 'line',
+          options: { color: '#3ae374' },
+          data: formatDataForChart({
+            data: query.kiwi_coin[0]?.market_prices ?? [],
+            getValue: (row) => row.price,
+            getTime: (row) => row.timestamp,
+          }),
+        },
+        visible.dasset && {
+          type: 'line',
+          options: { color: '#ff9f1a' },
+          data: formatDataForChart({
+            data: query.dasset[0]?.market_prices ?? [],
+            getValue: (row) => row.price,
+            getTime: (row) => row.timestamp,
+          }),
+        },
+        visible.kraken && {
+          type: 'line',
+          options: { color: '#3d3d3d' },
+          data: formatDataForChart({
+            data: query.kraken[0]?.market_prices ?? [],
+            getValue: (row) => row.price,
+            getTime: (row) => row.timestamp,
+          }),
+        },
+        visible.independent_reserve_aud && {
+          type: 'line',
+          options: { color: '#3d3d3d' },
+          data: formatDataForChart({
+            data: query.independent_reserve_aud[0]?.market_prices ?? [],
+            getValue: (row) => row.price,
+            getTime: (row) => row.timestamp,
+          }),
+        },
+        visible.independent_reserve_nzd && {
+          type: 'line',
+          options: { color: '#3d3d3d' },
+          data: formatDataForChart({
+            data: query.independent_reserve_nzd[0]?.market_prices ?? [],
+            getValue: (row) => row.price,
+            getTime: (row) => row.timestamp,
+          }),
+        },
+      ].filter(Boolean) as ChartConfig[],
+    [query, visible],
+  )
 
   return (
     <>

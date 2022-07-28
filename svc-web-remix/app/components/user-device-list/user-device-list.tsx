@@ -27,7 +27,7 @@ const UserDeviceList = (props: Props) => {
         Cell(props) {
           const { value } = props
           const date = parseISO(value)
-          return format(date, 'PPpp')
+          return <>{format(date, 'PPpp')}</>
         },
       },
       {

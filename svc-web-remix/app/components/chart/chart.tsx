@@ -8,13 +8,11 @@ const ServerChart = (props: ChartProps) => {
   return <div style={{ width, height, background: '#fff' }} />
 }
 
-const Chart = (props: ChartProps) => {
-  return (
-    <ClientOnly fallback={<ServerChart {...props} />}>
-      {() => <ClientChart {...props} />}
-    </ClientOnly>
-  )
-}
+const Chart = (props: ChartProps) => (
+  <ClientOnly fallback={<ServerChart {...props} />}>
+    {() => <ClientChart {...props} />}
+  </ClientOnly>
+)
 
 export { Chart }
 

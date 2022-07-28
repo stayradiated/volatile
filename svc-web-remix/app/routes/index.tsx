@@ -22,12 +22,16 @@ export const loader: LoaderFunction = async ({ request }) => {
   const { authToken, email, expiresAt, session } = await getSessionData(request)
   const isAuthenticatedUser = Boolean(authToken)
 
-  if (isAuthenticatedUser && expiresAt && isBefore(parseISO(expiresAt), new Date())) {
-  return redirect('/login', {
-    headers: {
-      'Set-Cookie': await destroySession(session),
-    },
-  })
+  if (
+    isAuthenticatedUser &&
+    expiresAt &&
+    isBefore(parseISO(expiresAt), new Date())
+  ) {
+    return redirect('/login', {
+      headers: {
+        'Set-Cookie': await destroySession(session),
+      },
+    })
   }
 
   const query = isAuthenticatedUser

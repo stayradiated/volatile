@@ -15,7 +15,7 @@ const columns: Array<Column<Trade>> = [
   {
     Header: 'Timestamp',
     accessor: 'timestamp',
-    Cell: ({ value }) => format(parseISO(value), 'PPpp'),
+    Cell: ({ value }) => <>{format(parseISO(value), 'PPpp')}</>,
   },
   {
     Header: 'Exchange',
@@ -24,7 +24,7 @@ const columns: Array<Column<Trade>> = [
   {
     Header: 'Volume',
     accessor: 'volume',
-    Cell: ({ value }) => value.toFixed(8),
+    Cell: ({ value }) => <>{value.toFixed(8)}</>,
   },
   {
     Header: 'Asset',
@@ -37,7 +37,7 @@ const columns: Array<Column<Trade>> = [
   {
     Header: 'Price',
     accessor: 'price',
-    Cell: ({ value }) => formatCurrency(value ?? undefined),
+    Cell: ({ value }) => <>{formatCurrency(value ?? undefined)}</>,
   },
   {
     Header: 'Currency',
@@ -46,12 +46,12 @@ const columns: Array<Column<Trade>> = [
   {
     Header: 'Total Value',
     accessor: 'total_value',
-    Cell: ({ value }) => formatCurrency(value ?? undefined),
+    Cell: ({ value }) => <>{formatCurrency(value ?? undefined)}</>,
   },
   {
     Header: 'Fee',
     accessor: 'fee',
-    Cell: ({ value }) => formatCurrency(value ?? undefined),
+    Cell: ({ value }) => <>{formatCurrency(value ?? undefined)}</>,
   },
 ]
 

@@ -1,7 +1,6 @@
 import { useLoaderData } from '@remix-run/react'
 import { ActionFunction, LoaderFunction, json, redirect } from '@remix-run/node'
 
-
 import { Logo } from '~/components/logo'
 import { getSession, destroySession } from '~/utils/sessions.server'
 import { Card, Form, PrimaryButton } from '~/components/retro-ui'

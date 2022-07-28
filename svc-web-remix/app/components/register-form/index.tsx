@@ -1,20 +1,10 @@
 import { useState } from 'react'
-import { gql, useMutation } from '@apollo/client'
+import { Link } from '@remix-run/react'
 
-import type { Session } from '../../utils/session-store'
-import { useCreateAuthToken } from '../../hooks/mutations/use-create-auth-token'
-import { Alert, Card, Form, Input, Button } from '../retro-ui'
+import { Alert, Card, Form, Input, PrimaryButton } from '../retro-ui'
 import { Logo } from '../logo'
 
 import styles from './index.module.css'
-
-const MUTATION_CREATE_USER = gql`
-  mutation create_user($email: String!, $password: String!) {
-    create_user(email: $email, password: $password) {
-      user_uid
-    }
-  }
-`
 
 type RegisterFormProps = {
   onSession: (session: Session) => void
@@ -85,13 +75,11 @@ const RegisterForm = (props: RegisterFormProps) => {
           <Input type="password" disabled={loading} />
         </Form.Item>
         <Form.Item className={styles.actions}>
-          <Button type="link" href="/login/">
-            log in
-          </Button>
+          <Link to="/login">log in</Link>
 
-          <Button type="primary" htmlType="submit" loading={loading}>
+          <PrimaryButton type="submit" disabled={loading}>
             SIGN UP
-          </Button>
+          </PrimaryButton>
         </Form.Item>
       </Form>
     </Card>

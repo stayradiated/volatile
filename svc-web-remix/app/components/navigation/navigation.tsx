@@ -1,5 +1,7 @@
+import { Link } from '@remix-run/react'
+
 import { Logo } from '../logo'
-import { Card, PrimaryButton, LinkButton } from '../retro-ui'
+import { Card } from '../retro-ui'
 
 type Props = {
   isAuthenticatedUser: boolean
@@ -14,8 +16,8 @@ const Navigation = (props: Props) => {
       <Logo />
       {!isAuthenticatedUser && (
         <>
-          <PrimaryButton href="/register">Sign Up</PrimaryButton>
-          <PrimaryButton href="/login">Log In</PrimaryButton>
+          <Link to="/register">Sign Up</Link>
+          <Link to="/login">Log In</Link>
         </>
       )}
       {isAuthenticatedUser && (
@@ -26,31 +28,31 @@ const Navigation = (props: Props) => {
 
           <ul>
             <li>
-              <LinkButton href="/account">Account</LinkButton>
+              <Link to="/account">Account</Link>
             </li>
             <li>
-              <LinkButton href="/subscription">Subscription</LinkButton>
+              <Link to="/subscription">Subscription</Link>
             </li>
             <li>
-              <LinkButton href="/market-price">Market Price</LinkButton>
+              <Link to="/market-price">Market Price</Link>
             </li>
             <li>
-              <LinkButton href="/exchanges">Exchanges</LinkButton>
+              <Link to="/exchanges">Exchanges</Link>
             </li>
             <li>
-              <LinkButton href="/dca-orders">DCA Orders</LinkButton>
+              <Link to="/dca-orders">DCA Orders</Link>
             </li>
             <li>
-              <LinkButton href="/trades">Trades</LinkButton>
+              <Link to="/trades">Trades</Link>
             </li>
             <li>
-              <LinkButton href="/open-orders">Open Orders</LinkButton>
+              <Link to="/open-orders">Open Orders</Link>
             </li>
             <li>
-              <LinkButton href="/settings">Exchange API Keys</LinkButton>
+              <Link to="/settings">Exchange API Keys</Link>
             </li>
             <li>
-              <LinkButton href="/logout">Logout</LinkButton>
+              <Link to="/logout">Logout</Link>
             </li>
           </ul>
         </>

@@ -1,8 +1,10 @@
+import { Link } from '@remix-run/react'
 import { useMemo } from 'react'
 import { useTable, Column } from 'react-table'
 import { parseISO, differenceInHours } from 'date-fns'
 
-import { Card, Table, PrimaryButton, LinkButton, Dropdown } from '../retro-ui'
+import { Card, Table, Dropdown } from '../retro-ui'
+import { ToggleDCAOrder } from './ToggleDCAOrder'
 import { formatCurrency } from '~/components/format'
 
 import type { GetDcaOrderListQuery } from '~/graphql/generated'
@@ -21,11 +23,11 @@ const DCAOrderList = (props: Props) => {
       {
         Header: 'Status',
         accessor: 'enabled_at',
-        Cell({ value: enabledAt }) {
+        Cell({ row, value }) {
+          const enabledAt = value
+          const dcaOrderUID = row.original.uid
           return (
-            <PrimaryButton type="button">
-              {enabledAt ? 'ACTIVE' : 'PAUSED'}
-            </PrimaryButton>
+            <ToggleDCAOrder dcaOrderUID={dcaOrderUID} enabledAt={enabledAt} />
           )
         },
       },
@@ -42,37 +44,40 @@ const DCAOrderList = (props: Props) => {
       {
         Header: 'Market Offset',
         accessor: 'market_offset',
-        Cell: ({ value }) => `${value}%`,
+        Cell: ({ value }) => <>{value}$</>,
       },
       {
         Header: 'Daily Average',
         accessor: 'daily_average',
-        Cell: ({ value }) => formatCurrency(value),
+        Cell: ({ value }) => <>{formatCurrency(value)}</>,
       },
       {
         Header: 'Start At',
         accessor: 'start_at',
         Cell({ value }) {
           return (
-            (differenceInHours(new Date(), parseISO(value)) / 24).toFixed(2) +
-            ' days'
+            <>
+              {(differenceInHours(new Date(), parseISO(value)) / 24).toFixed(
+                2,
+              ) + ' days'}
+            </>
           )
         },
       },
       {
         Header: 'Interval',
         accessor: 'interval_ms',
-        Cell: ({ value }) => value / 60 / 1000 + ' min',
+        Cell: ({ value }) => <>{value / 60 / 1000 + ' min'}</>,
       },
       {
         Header: 'Min Value',
         accessor: 'min_value',
-        Cell: ({ value }) => (value ? formatCurrency(value) : '$0.00'),
+        Cell: ({ value }) => <>{value ? formatCurrency(value) : '$0.00'}</>,
       },
       {
         Header: 'Max Value',
         accessor: 'max_value',
-        Cell: ({ value }) => (value ? formatCurrency(value) : '∞'),
+        Cell: ({ value }) => <>{value ? formatCurrency(value) : '∞'}</>,
       },
       {
         Header: 'Actions',
@@ -99,14 +104,14 @@ const DCAOrderList = (props: Props) => {
     return columns
   }, [])
 
-  const tableData = useMemo(() => {
-    return (query.kc_dca_order ?? []).map((row) => {
-      return {
+  const tableData = useMemo(
+    () =>
+      (query.kc_dca_order ?? []).map((row) => ({
         ...row,
         [Table.DISABLED]: !row.enabled_at,
-      }
-    })
-  }, [query])
+      })),
+    [query],
+  )
 
   const table = useTable({ columns, data: tableData })
 
@@ -115,7 +120,7 @@ const DCAOrderList = (props: Props) => {
       <Card width={1000}>
         <h2>☰ DCA Order List</h2>
         <Table table={table} />
-        <LinkButton href="/dca-orders/create">Create DCA Order</LinkButton>
+        <Link to="/dca-orders/create">Create DCA Order</Link>
       </Card>
     </>
   )

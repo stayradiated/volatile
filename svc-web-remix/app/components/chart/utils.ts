@@ -39,9 +39,10 @@ const formatDataForChart = <T>(options: FormatDataForChartOptions<T>) => {
   })()
 
   const map = new Map<number, any>(
-    eachInterval({ start: startDate, end: endDate }).map((date) => {
-      return [date.getTime() / 1000, undefined]
-    }),
+    eachInterval({ start: startDate, end: endDate }).map((date) => [
+      date.getTime() / 1000,
+      undefined,
+    ]),
   )
 
   for (const row of data) {
@@ -50,9 +51,7 @@ const formatDataForChart = <T>(options: FormatDataForChartOptions<T>) => {
   }
 
   const results = [...map.entries()]
-    .map((row) => {
-      return { time: row[0], value: row[1] }
-    })
+    .map((row) => ({ time: row[0], value: row[1] }))
     .sort((a, b) => a.time - b.time)
 
   let lastValue: undefined | number
@@ -64,9 +63,7 @@ const formatDataForChart = <T>(options: FormatDataForChartOptions<T>) => {
     }
   }
 
-  return results.filter((row) => {
-    return typeof row.value !== 'undefined'
-  })
+  return results.filter((row) => typeof row.value !== 'undefined')
 }
 
 export { formatDataForChart }

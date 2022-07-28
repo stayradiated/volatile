@@ -1,4 +1,5 @@
-import { Form, Card, LinkButton, PrimaryButton } from '../retro-ui'
+import { Link } from '@remix-run/react'
+import { Form, Card, PrimaryButton } from '../retro-ui'
 import type { GetUserExchangeKeysByUidQuery } from '~/graphql/generated'
 
 type Props = {
@@ -22,7 +23,7 @@ const UserExchangeKeysDelete = (props: Props) => {
           {userExchangeKeys.description}"?
         </p>
         <Form.Item></Form.Item>
-        <LinkButton href="/settings">Cancel</LinkButton>
+        <Link to="/settings">Cancel</Link>
         <PrimaryButton type="submit">Delete</PrimaryButton>
       </Form>
     </Card>

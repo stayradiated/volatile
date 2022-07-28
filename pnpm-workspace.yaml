@@ -1,2 +1,4 @@
 packages:
   - '*/'
+  - '!svc-web/'
+  - '!svc-admin/'

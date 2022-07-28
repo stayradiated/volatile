@@ -40,13 +40,13 @@ const ExchangeTable = (props: Props) => {
       {
         Header: 'Total Balance (NZD)',
         accessor: 'total_balance_nzd',
-        Cell: ({ value }) => formatCurrency(value ?? undefined),
+        Cell: ({ value }) => <>{formatCurrency(value ?? undefined)}</>,
         Footer({ rows }) {
           const total = rows.reduce(
             (sum, row) => row.values.total_balance_nzd + sum,
             0,
           )
-          return formatCurrency(total)
+          return <>{formatCurrency(total)}</>
         },
       },
       {
@@ -58,10 +58,10 @@ const ExchangeTable = (props: Props) => {
             (row.historic?.total_balance_nzd ?? 0)
           )
         },
-        Cell: ({ value }: { value: number }) => formatCurrency(value),
+        Cell: ({ value }: { value: number }) => <>{formatCurrency(value)}</>,
         Footer({ rows }) {
           const total = rows.reduce((sum, row) => row.values.change + sum, 0)
-          return formatCurrency(total)
+          return <>{formatCurrency(total)}</>
         },
       },
     ]
@@ -74,17 +74,16 @@ const ExchangeTable = (props: Props) => {
     }
 
     const historic = Object.fromEntries(
-      userExchangeKey.balance_historic!.map((row) => {
-        return [row.currency_symbol, row]
-      }),
+      userExchangeKey.balance_historic!.map((row) => [
+        row.currency_symbol,
+        row,
+      ]),
     )
 
-    return userExchangeKey.balance_latest!.map((row) => {
-      return {
-        ...row,
-        historic: historic[row.currency_symbol],
-      }
-    })
+    return userExchangeKey.balance_latest!.map((row) => ({
+      ...row,
+      historic: historic[row.currency_symbol],
+    }))
   }, [userExchangeKey])
 
   console.log(data)
