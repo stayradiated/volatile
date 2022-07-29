@@ -6,11 +6,18 @@ import { UserExchangeKeysDelete } from '~/components/user-exchange-keys-delete'
 import { getSessionData } from '~/utils/auth.server'
 import { sdk } from '~/utils/api.server'
 import { GetUserExchangeKeysByUidQuery } from '~/graphql/generated'
+import { loginRedirect } from '~/utils/redirect.server'
 
 export const action: ActionFunction = async ({ request, params }) => {
-  const { authToken } = await getSessionData(request)
-  const { uid: userExchangeKeysUID } = params
+  const session = await getSessionData(request)
 
+  if (session.role === 'guest') {
+    return loginRedirect(request, session)
+  }
+
+  const { authToken } = session
+
+  const { uid: userExchangeKeysUID } = params
   invariant(userExchangeKeysUID, 'Expected params.uid')
 
   sdk.deleteUserExchangeKeys(
@@ -19,6 +26,7 @@ export const action: ActionFunction = async ({ request, params }) => {
     },
     {
       authorization: `Bearer ${authToken}`,
+      'x-hasura-role': 'user',
     },
   )
 
@@ -32,9 +40,15 @@ interface LoaderData {
 }
 
 export const loader: LoaderFunction = async ({ request, params }) => {
-  const { authToken } = await getSessionData(request)
-  const { uid: userExchangeKeysUID } = params
+  const session = await getSessionData(request)
 
+  if (session.role === 'guest') {
+    return loginRedirect(request, session)
+  }
+
+  const { authToken } = session
+
+  const { uid: userExchangeKeysUID } = params
   invariant(userExchangeKeysUID, 'Expected params.uid')
 
   const getUserExchangeKeysByUID = await sdk.getUserExchangeKeysByUID(
@@ -43,6 +57,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     },
     {
       authorization: `Bearer ${authToken}`,
+      'x-hasura-role': 'user',
     },
   )
 

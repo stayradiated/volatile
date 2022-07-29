@@ -1,6 +1,6 @@
 import { formatISO } from 'date-fns'
 
-import { AuthError } from '../../util/error.js'
+import { AuthError, IllegalArgumentError } from '../../util/error.js'
 
 import { createAuthToken } from '../../model/auth-token/index.js'
 import type { ActionHandlerFn } from '../../util/action-handler.js'
@@ -20,6 +20,7 @@ type CreateAuthTokenInput = {
   device_name: string
   device_trusted: boolean
   token_2fa: string | undefined
+  role: string
 }
 
 type CreateAuthTokenOutput = {
@@ -40,11 +41,19 @@ const createAuthTokenHandler: ActionHandlerFn<
     device_name: deviceName,
     device_trusted: deviceTrusted,
     token_2fa: token2FA,
+    role,
   } = input
 
   const email = rawEmail.trim().toLowerCase()
 
-  const result = await createAuthToken(pool, { email, password })
+  if (role !== 'user' && role !== 'superuser') {
+    return new IllegalArgumentError({
+      message: 'Role must be either "user" or "superuser".',
+      context: { email, role },
+    })
+  }
+
+  const result = await createAuthToken(pool, { email, password, role })
   if (result instanceof Error) {
     return result
   }

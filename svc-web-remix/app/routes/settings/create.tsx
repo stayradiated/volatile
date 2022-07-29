@@ -7,9 +7,16 @@ import { UserExchangeKeysFormCreate } from '~/components/user-exchange-keys-form
 import { getSessionData } from '~/utils/auth.server'
 import { sdk } from '~/utils/api.server'
 import { GetExchangeKeysFormCreateQuery } from '~/graphql/generated'
+import { loginRedirect } from '~/utils/redirect.server'
 
 export const action: ActionFunction = async ({ request }) => {
-  const { authToken } = await getSessionData(request)
+  const session = await getSessionData(request)
+
+  if (session.role === 'guest') {
+    return loginRedirect(request, session)
+  }
+
+  const { authToken } = session
 
   const formData = await request.formData()
   const description = formData.get('description')
@@ -37,6 +44,7 @@ export const action: ActionFunction = async ({ request }) => {
     },
     {
       authorization: `Bearer ${authToken}`,
+      'x-hasura-role': 'user',
     },
   )
 
@@ -48,12 +56,19 @@ interface LoaderData {
 }
 
 export const loader: LoaderFunction = async ({ request }) => {
-  const { authToken } = await getSessionData(request)
+  const session = await getSessionData(request)
+
+  if (session.role === 'guest') {
+    return loginRedirect(request, session)
+  }
+
+  const { authToken } = session
 
   const query = await sdk.getExchangeKeysFormCreate(
     {},
     {
       authorization: `Bearer ${authToken}`,
+      'x-hasura-role': 'user',
     },
   )
 

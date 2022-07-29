@@ -1,13 +1,13 @@
 import { Link } from '@remix-run/react'
 import { useLoaderData, Outlet } from '@remix-run/react'
 import { LoaderFunction, json } from '@remix-run/node'
-import invariant from 'tiny-invariant'
 import { promiseHash } from 'remix-utils'
 
 import { Card } from '~/components/retro-ui'
 import { getSessionData } from '~/utils/auth.server'
 import { sdk } from '~/utils/api.server'
 import { GetUser2FaQuery } from '~/graphql/generated'
+import { loginRedirect } from '~/utils/redirect.server'
 
 interface LoaderData {
   query: {
@@ -16,11 +16,22 @@ interface LoaderData {
 }
 
 export const loader: LoaderFunction = async ({ request }) => {
-  const { authToken } = await getSessionData(request)
-  invariant(authToken, 'Must be logged in.')
+  const session = await getSessionData(request)
+
+  if (session.role === 'guest') {
+    return loginRedirect(request, session)
+  }
+
+  const { authToken } = session
 
   const query = await promiseHash({
-    getUser2FA: sdk.getUser2FA({}, { authorization: `Bearer ${authToken}` }),
+    getUser2FA: sdk.getUser2FA(
+      {},
+      {
+        authorization: `Bearer ${authToken}`,
+        'x-hasura-role': 'user',
+      },
+    ),
   })
 
   return json<LoaderData>({ query })

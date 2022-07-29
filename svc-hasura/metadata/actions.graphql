@@ -12,6 +12,7 @@ type Mutation {
     device_name: String!
     device_trusted: Boolean!
     token_2fa: String
+    role: String!
   ): CreateAuthTokenOutput
 }
 

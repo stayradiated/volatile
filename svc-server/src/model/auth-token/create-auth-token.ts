@@ -10,6 +10,7 @@ import { generateAuthToken } from './generate-auth-token.js'
 type CreateAuthTokenOptions = {
   email: string
   password: string
+  role: 'user' | 'superuser'
 }
 
 type AuthTokenResult = {
@@ -22,7 +23,7 @@ const createAuthToken = async (
   pool: Pool,
   options: CreateAuthTokenOptions,
 ): Promise<AuthTokenResult | Error> => {
-  const { email, password } = options
+  const { email, password, role } = options
 
   const emailHash = hash.sha256(email)
 
@@ -61,7 +62,7 @@ const createAuthToken = async (
   }
 
   const userUID = row.uid
-  const { authToken, expiresAt } = generateAuthToken(userUID)
+  const { authToken, expiresAt } = generateAuthToken({ userUID, role })
 
   return { userUID, authToken, expiresAt }
 }

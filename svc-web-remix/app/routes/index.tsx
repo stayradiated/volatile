@@ -1,60 +1,50 @@
-import { LoaderFunction, json, redirect } from '@remix-run/node'
+import { LoaderFunction, json } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
 import { promiseHash } from 'remix-utils'
-import { isBefore, parseISO } from 'date-fns'
 
 import { Navigation } from '~/components/navigation/index'
 import { getSessionData } from '~/utils/auth.server'
-import { destroySession } from '~/utils/sessions.server'
 import { VerifyEmail } from '~/components/verify-email/index'
 import { sdk } from '~/utils/api.server'
 import { GetEmailVerifiedQuery } from '~/graphql/generated'
 
 interface LoaderData {
-  isAuthenticatedUser: boolean
-  email: string | undefined
-  query: {
+  email?: string
+  query?: {
     getEmailVerified?: GetEmailVerifiedQuery
   }
 }
 
 export const loader: LoaderFunction = async ({ request }) => {
-  const { authToken, email, expiresAt, session } = await getSessionData(request)
-  const isAuthenticatedUser = Boolean(authToken)
+  const session = await getSessionData(request)
 
-  if (
-    isAuthenticatedUser &&
-    expiresAt &&
-    isBefore(parseISO(expiresAt), new Date())
-  ) {
-    return redirect('/login', {
-      headers: {
-        'Set-Cookie': await destroySession(session),
-      },
-    })
+  if (session.role === 'guest') {
+    return json<LoaderData>({})
   }
 
-  const query = isAuthenticatedUser
-    ? await promiseHash({
-        getEmailVerified: sdk.getEmailVerified(
-          {},
-          {
-            authorization: `Bearer ${authToken}`,
-          },
-        ),
-      })
-    : {}
+  const { email, authToken } = session
 
-  return json<LoaderData>({ isAuthenticatedUser, email, query })
+  const query = await promiseHash({
+    getEmailVerified: sdk.getEmailVerified(
+      {},
+      {
+        authorization: `Bearer ${authToken}`,
+        'x-hasura-role': 'user',
+      },
+    ),
+  })
+
+  return json<LoaderData>({ email, query })
 }
 
 const Index = () => {
-  const { isAuthenticatedUser, email, query } = useLoaderData<LoaderData>()
+  const { email, query } = useLoaderData<LoaderData>()
+  const isAuthenticatedUser = typeof email === 'string'
 
   return (
     <>
       {isAuthenticatedUser && (
-        <VerifyEmail email={email} query={query.getEmailVerified!} />
+        <VerifyEmail email={email} query={query?.getEmailVerified!} />
       )}
       <Navigation isAuthenticatedUser={isAuthenticatedUser} email={email} />
     </>

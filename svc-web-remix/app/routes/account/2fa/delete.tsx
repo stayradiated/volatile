@@ -1,22 +1,26 @@
 import { useActionData } from '@remix-run/react'
 import { ActionFunction, LoaderFunction, json, redirect } from '@remix-run/node'
 import invariant from 'tiny-invariant'
-import { promiseHash } from 'remix-utils'
 import { errorBoundary } from '@stayradiated/error-boundary'
 
 import { UserFormDelete2FA } from '~/components/user-form-delete-2fa'
 import { Card } from '~/components/retro-ui'
 import { getSessionData } from '~/utils/auth.server'
 import { sdk } from '~/utils/api.server'
-import { GetUser2FaQuery } from '~/graphql/generated'
+import { loginRedirect } from '~/utils/redirect.server'
 
 type ActionData = {
   error?: string
 }
 
 export const action: ActionFunction = async ({ request }) => {
-  const { authToken } = await getSessionData(request)
-  invariant(authToken, 'Must be logged in.')
+  const session = await getSessionData(request)
+
+  if (session.role === 'guest') {
+    return loginRedirect(request, session)
+  }
+
+  const { authToken } = session
 
   const formData = await request.formData()
   const token = formData.get('token')
@@ -29,6 +33,7 @@ export const action: ActionFunction = async ({ request }) => {
       },
       {
         authorization: `Bearer ${authToken}`,
+        'x-hasura-role': 'user',
       },
     ),
   )
@@ -43,12 +48,17 @@ export const action: ActionFunction = async ({ request }) => {
 interface LoaderData {}
 
 export const loader: LoaderFunction = async ({ request }) => {
-  const { authToken } = await getSessionData(request)
-  invariant(authToken, 'Must be logged in.')
+  const session = await getSessionData(request)
+
+  if (session.role === 'guest') {
+    return loginRedirect(request, session)
+  }
+
+  const { authToken } = session
 
   const user2FA = await sdk.getUser2FA(
     {},
-    { authorization: `Bearer ${authToken}` },
+    { authorization: `Bearer ${authToken}`, 'x-hasura-role': 'user' },
   )
   if (typeof user2FA.kc_user[0].user_2fa?.uid !== 'string') {
     return redirect('/account/2fa')

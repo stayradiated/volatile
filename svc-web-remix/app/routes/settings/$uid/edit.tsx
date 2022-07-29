@@ -7,6 +7,7 @@ import { UserExchangeKeysFormEdit } from '~/components/user-exchange-keys-form-e
 import { getSessionData } from '~/utils/auth.server'
 import { sdk } from '~/utils/api.server'
 import { GetUserExchangeKeysFormEditQuery } from '~/graphql/generated'
+import { loginRedirect } from '~/utils/redirect.server'
 
 interface LoaderData {
   userExchangeKeysUID: string
@@ -14,9 +15,15 @@ interface LoaderData {
 }
 
 export const loader: LoaderFunction = async ({ request, params }) => {
-  const { authToken } = await getSessionData(request)
-  const { uid: userExchangeKeysUID } = params
+  const session = await getSessionData(request)
 
+  if (session.role === 'guest') {
+    return loginRedirect(request, session)
+  }
+
+  const { authToken } = session
+
+  const { uid: userExchangeKeysUID } = params
   invariant(userExchangeKeysUID, 'Expected params.uid')
 
   const query = await sdk.getUserExchangeKeysFormEdit(
@@ -25,6 +32,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     },
     {
       authorization: `Bearer ${authToken}`,
+      'x-hasura-role': 'user',
     },
   )
 

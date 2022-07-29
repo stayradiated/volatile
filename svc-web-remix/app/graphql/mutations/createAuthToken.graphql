@@ -5,6 +5,7 @@ mutation createAuthToken(
   $deviceName: String!
   $deviceTrusted: Boolean!
   $token2FA: String
+  $role: String!
 ) {
   create_auth_token(
     email: $email
@@ -13,6 +14,7 @@ mutation createAuthToken(
     device_name: $deviceName
     device_trusted: $deviceTrusted
     token_2fa: $token2FA
+    role: $role
   ) {
     user_uid
     auth_token

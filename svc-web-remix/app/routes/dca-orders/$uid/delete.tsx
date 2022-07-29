@@ -6,12 +6,18 @@ import { errorBoundary } from '@stayradiated/error-boundary'
 import { DCAOrderDelete } from '~/components/dca-order-delete'
 import { getSessionData } from '~/utils/auth.server'
 import { sdk } from '~/utils/api.server'
+import { loginRedirect } from '~/utils/redirect.server'
 
 import type { GetDcaOrderDeleteQuery } from '~/graphql/generated'
 
 export const action: ActionFunction = async ({ request, params }) => {
-  const { authToken } = await getSessionData(request)
-  invariant(authToken, 'Must be logged in.')
+  const session = await getSessionData(request)
+
+  if (session.role === 'guest') {
+    return loginRedirect(request, session)
+  }
+
+  const { authToken } = session
 
   const { uid: dcaOrderUID } = params
   invariant(typeof dcaOrderUID === 'string', 'Must have params.uid')
@@ -23,6 +29,7 @@ export const action: ActionFunction = async ({ request, params }) => {
       },
       {
         authorization: `Bearer ${authToken}`,
+        'x-hasura-role': 'user',
       },
     ),
   )
@@ -40,8 +47,13 @@ type LoaderData = {
 }
 
 export const loader: LoaderFunction = async ({ request, params }) => {
-  const { authToken } = await getSessionData(request)
-  invariant(authToken, 'Must be logged in.')
+  const session = await getSessionData(request)
+
+  if (session.role === 'guest') {
+    return loginRedirect(request, session)
+  }
+
+  const { authToken } = session
 
   const { uid: dcaOrderUID } = params
   invariant(typeof dcaOrderUID === 'string', 'Must have params.uid')
@@ -53,6 +65,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
       },
       {
         authorization: `Bearer ${authToken}`,
+        'x-hasura-role': 'user',
       },
     ),
   )

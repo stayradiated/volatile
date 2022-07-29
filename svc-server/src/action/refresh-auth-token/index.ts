@@ -1,6 +1,9 @@
 import { formatISO } from 'date-fns'
 
-import { MissingRequiredArgumentError } from '../../util/error.js'
+import {
+  MissingRequiredArgumentError,
+  IllegalArgumentError,
+} from '../../util/error.js'
 
 import { generateAuthToken } from '../../model/auth-token/index.js'
 import type { ActionHandlerFn } from '../../util/action-handler.js'
@@ -18,7 +21,8 @@ const refreshAuthTokenHandler: ActionHandlerFn<
   RefreshAuthTokenOutput
 > = async (context) => {
   const { session } = context
-  const { userUID } = session
+  const { userUID, role } = session
+
   if (!userUID) {
     return new MissingRequiredArgumentError({
       message: 'userUID is required',
@@ -26,7 +30,13 @@ const refreshAuthTokenHandler: ActionHandlerFn<
     })
   }
 
-  const result = generateAuthToken(userUID)
+  if (role !== 'user' && role !== 'superuser') {
+    return new IllegalArgumentError({
+      message: 'Cannot refresh tokens for this role.',
+    })
+  }
+
+  const result = generateAuthToken({ userUID, role })
   if (result instanceof Error) {
     return result
   }

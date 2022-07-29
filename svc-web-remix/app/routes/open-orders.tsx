@@ -7,37 +7,42 @@ import { OpenOrderList } from '~/components/open-order-list/index'
 import { getSessionData } from '~/utils/auth.server'
 import { sdk } from '~/utils/api.server'
 import { GetOpenOrderListQuery } from '~/graphql/generated'
+import { loginRedirect } from '~/utils/redirect.server'
 
 interface LoaderData {
-  isAuthenticatedUser: boolean
-  email: string | undefined
+  email: string
   query: GetOpenOrderListQuery
 }
 
 export const loader: LoaderFunction = async ({ request }) => {
-  const { authToken, email } = await getSessionData(request)
-  const isAuthenticatedUser = Boolean(authToken)
+  const session = await getSessionData(request)
+
+  if (session.role === 'guest') {
+    return loginRedirect(request, session)
+  }
+
+  const { authToken, email } = session
 
   const query = await sdk.getOpenOrderList(
     {},
     {
       authorization: `Bearer ${authToken}`,
+      'x-hasura-role': 'user',
     },
   )
 
   return json<LoaderData>({
-    isAuthenticatedUser,
     email,
     query,
   })
 }
 
 const OpenOrdersRoute = () => {
-  const { isAuthenticatedUser, email, query } = useLoaderData<LoaderData>()
+  const { email, query } = useLoaderData<LoaderData>()
 
   return (
     <>
-      <Navigation isAuthenticatedUser={isAuthenticatedUser} email={email} />
+      <Navigation isAuthenticatedUser email={email} />
       <Card width={1000}>
         <h2>Open Orders</h2>
         <OpenOrderList query={query} />

@@ -108,7 +108,7 @@ const resetUserPasswordHandler: ActionHandlerFn<Input, Output> = async (
     return userError
   }
 
-  const { authToken, expiresAt } = generateAuthToken(userUID)
+  const { authToken, expiresAt } = generateAuthToken({ userUID, role: 'user' })
 
   const userDeviceError = await upsertUserDevice(pool, {
     userUID,

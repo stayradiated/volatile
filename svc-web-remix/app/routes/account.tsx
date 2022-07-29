@@ -4,28 +4,30 @@ import { LoaderFunction, json } from '@remix-run/node'
 import { Card } from '~/components/retro-ui'
 import { Navigation } from '~/components/navigation'
 import { getSessionData } from '~/utils/auth.server'
+import { loginRedirect } from '~/utils/redirect.server'
 
 interface LoaderData {
-  isAuthenticatedUser: boolean
   email: string | undefined
 }
 
 export const loader: LoaderFunction = async ({ request }) => {
-  const { authToken, email } = await getSessionData(request)
-  const isAuthenticatedUser = Boolean(authToken)
+  const session = await getSessionData(request)
 
-  return json<LoaderData>({
-    isAuthenticatedUser,
-    email,
-  })
+  if (session.role === 'guest') {
+    return loginRedirect(request, session)
+  }
+
+  const { email } = session
+
+  return json<LoaderData>({ email })
 }
 
 const Account = () => {
-  const { isAuthenticatedUser, email } = useLoaderData<LoaderData>()
+  const { email } = useLoaderData<LoaderData>()
 
   return (
     <>
-      <Navigation isAuthenticatedUser={isAuthenticatedUser} email={email} />
+      <Navigation isAuthenticatedUser email={email} />
 
       <Card>
         <ul>

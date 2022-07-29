@@ -5,20 +5,24 @@ import { Card } from '../retro-ui'
 
 type Props = {
   isAuthenticatedUser: boolean
-  email: string
+  email: string | undefined
 }
 
 const Navigation = (props: Props) => {
-  const { isAuthenticatedUser, email } = props
+  const { email, isAuthenticatedUser } = props
 
   return (
     <Card>
       <Logo />
       {!isAuthenticatedUser && (
-        <>
-          <Link to="/register">Sign Up</Link>
-          <Link to="/login">Log In</Link>
-        </>
+        <ul>
+          <li>
+            <Link to="/register">Sign Up</Link>
+          </li>
+          <li>
+            <Link to="/login">Log In</Link>
+          </li>
+        </ul>
       )}
       {isAuthenticatedUser && (
         <>

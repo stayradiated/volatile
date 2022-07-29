@@ -86,8 +86,6 @@ const ExchangeTable = (props: Props) => {
     }))
   }, [userExchangeKey])
 
-  console.log(data)
-
   const table = useTable({
     columns,
     data,

@@ -2,6 +2,7 @@ import { useLoaderData } from '@remix-run/react'
 import { LoaderFunction, json } from '@remix-run/node'
 
 import { TradeList } from '~/components/trade-list/index'
+import { loginRedirect } from '~/utils/redirect.server'
 import { Card } from '~/components/retro-ui'
 import { Navigation } from '~/components/navigation'
 import { getSessionData } from '~/utils/auth.server'
@@ -19,8 +20,7 @@ import { TradeCumulativeVolume } from '~/components/trade-list/trade-cumulative-
 import { TradeSumValueByWeek } from '~/components/trade-list/trade-sum-value-by-week'
 
 interface LoaderData {
-  isAuthenticatedUser: boolean
-  email: string | undefined
+  email: string
   query: GetTradeListQuery
   tradeCumulativeSum: GetTradeCumulativeSumByDayQuery
   tradeCumulativeVolume: GetTradeCumulativeVolumeByDayQuery
@@ -32,8 +32,13 @@ interface LoaderData {
 }
 
 export const loader: LoaderFunction = async ({ request }) => {
-  const { authToken, email } = await getSessionData(request)
-  const isAuthenticatedUser = Boolean(authToken)
+  const session = await getSessionData(request)
+
+  if (session.role === 'guest') {
+    return loginRedirect(request, session)
+  }
+
+  const { email, authToken } = session
 
   const query = await sdk.getTradeList(
     {
@@ -54,6 +59,7 @@ export const loader: LoaderFunction = async ({ request }) => {
     },
     {
       authorization: `Bearer ${authToken}`,
+      'x-hasura-role': 'user',
     },
   )
 
@@ -61,17 +67,18 @@ export const loader: LoaderFunction = async ({ request }) => {
     {},
     {
       authorization: `Bearer ${authToken}`,
+      'x-hasura-role': 'user',
     },
   )
 
   const tradeAvgPrice = {
     BTC: await sdk.getTradeAvgPrice(
       { primaryCurrency: 'BTC' },
-      { authorization: `Bearer ${authToken}` },
+      { authorization: `Bearer ${authToken}`, 'x-hasura-role': 'user' },
     ),
     ETH: await sdk.getTradeAvgPrice(
       { primaryCurrency: 'BTC' },
-      { authorization: `Bearer ${authToken}` },
+      { authorization: `Bearer ${authToken}`, 'x-hasura-role': 'user' },
     ),
   }
 
@@ -79,17 +86,18 @@ export const loader: LoaderFunction = async ({ request }) => {
     {},
     {
       authorization: `Bearer ${authToken}`,
+      'x-hasura-role': 'user',
     },
   )
   const tradeCumulativeSum = await sdk.getTradeCumulativeSumByDay(
     {},
     {
       authorization: `Bearer ${authToken}`,
+      'x-hasura-role': 'user',
     },
   )
 
   return json<LoaderData>({
-    isAuthenticatedUser,
     email,
     query,
     tradeSumValueByWeek,
@@ -101,7 +109,6 @@ export const loader: LoaderFunction = async ({ request }) => {
 
 const TradesRoute = () => {
   const {
-    isAuthenticatedUser,
     email,
     query,
     tradeSumValueByWeek,
@@ -112,7 +119,7 @@ const TradesRoute = () => {
 
   return (
     <>
-      <Navigation isAuthenticatedUser={isAuthenticatedUser} email={email} />
+      <Navigation isAuthenticatedUser email={email} />
 
       {/* <Card> */}
       {/*   <h1>Trades</h1> */}

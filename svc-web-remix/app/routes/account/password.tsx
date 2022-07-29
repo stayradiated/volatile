@@ -7,6 +7,7 @@ import { UserFormEditPassword } from '~/components/user-form-edit-password'
 import { Card } from '~/components/retro-ui'
 import { getSessionData } from '~/utils/auth.server'
 import { sdk } from '~/utils/api.server'
+import { loginRedirect } from '~/utils/redirect.server'
 
 type ActionData = {
   success?: true
@@ -14,7 +15,13 @@ type ActionData = {
 }
 
 export const action: ActionFunction = async ({ request }) => {
-  const { authToken } = await getSessionData(request)
+  const session = await getSessionData(request)
+
+  if (session.role === 'guest') {
+    return loginRedirect(request, session)
+  }
+
+  const { authToken } = session
 
   const formData = await request.formData()
   const password = formData.get('password')
@@ -32,6 +39,7 @@ export const action: ActionFunction = async ({ request }) => {
       { password },
       {
         authorization: `Bearer ${authToken}`,
+        'x-hasura-role': 'user',
       },
     ),
   )

@@ -6,37 +6,42 @@ import { getSessionData } from '~/utils/auth.server'
 import { sdk } from '~/utils/api.server'
 import { GetUserExchangeKeysListQuery } from '~/graphql/generated'
 import { UserExchangeKeysList } from '~/components/user-exchange-keys-list'
+import { loginRedirect } from '~/utils/redirect.server'
 
 interface LoaderData {
-  isAuthenticatedUser: boolean
-  email: string | undefined
+  email: string
   query: GetUserExchangeKeysListQuery
 }
 
 export const loader: LoaderFunction = async ({ request }) => {
-  const { authToken, email } = await getSessionData(request)
-  const isAuthenticatedUser = Boolean(authToken)
+  const session = await getSessionData(request)
+
+  if (session.role === 'guest') {
+    return loginRedirect(request, session)
+  }
+
+  const { email, authToken } = session
 
   const query = await sdk.getUserExchangeKeysList(
     {},
     {
       authorization: `Bearer ${authToken}`,
+      'x-hasura-role': 'user',
     },
   )
 
   return json<LoaderData>({
-    isAuthenticatedUser,
     email,
     query,
   })
 }
 
 const SettingsRoute = () => {
-  const { isAuthenticatedUser, email, query } = useLoaderData<LoaderData>()
+  const { email, query } = useLoaderData<LoaderData>()
 
   return (
     <>
-      <Navigation isAuthenticatedUser={isAuthenticatedUser} email={email} />
+      <Navigation isAuthenticatedUser email={email} />
       <UserExchangeKeysList query={query} />
       <Outlet />
     </>

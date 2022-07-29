@@ -4,6 +4,7 @@ import * as z from 'zod'
 
 import { getSessionData } from '~/utils/auth.server'
 import { sdk } from '~/utils/api.server'
+import { loginRedirect } from '~/utils/redirect.server'
 
 const updateDCAOrderEnabled = makeDomainFunction(
   z.object({
@@ -22,6 +23,7 @@ const updateDCAOrderEnabled = makeDomainFunction(
     },
     {
       authorization: `Bearer ${authToken}`,
+      'x-hasura-role': 'user',
     },
   )
 
@@ -29,7 +31,14 @@ const updateDCAOrderEnabled = makeDomainFunction(
 })
 
 export const action: ActionFunction = async ({ request }) => {
-  const { authToken } = await getSessionData(request)
+  const session = await getSessionData(request)
+
+  if (session.role === 'guest') {
+    return loginRedirect(request, session)
+  }
+
+  const { authToken } = session
+
   const result = await updateDCAOrderEnabled(await inputFromForm(request), {
     authToken,
   })

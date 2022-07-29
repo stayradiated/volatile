@@ -8,6 +8,7 @@ import { GetMarketPriceQuery } from '~/graphql/generated'
 import { MarketPriceChartCalc } from '~/components/market-price-chart-calc'
 import { getSessionData } from '~/utils/auth.server'
 import { sdk } from '~/utils/api.server'
+import { loginRedirect } from '~/utils/redirect.server'
 
 interface LoaderData {
   query: GetMarketPriceQuery
@@ -16,9 +17,15 @@ interface LoaderData {
 }
 
 export const loader: LoaderFunction = async ({ request, params }) => {
-  const { authToken } = await getSessionData(request)
-  const { primary: primaryCurrency, secondary: secondaryCurrency } = params
+  const session = await getSessionData(request)
 
+  if (session.role === 'guest') {
+    return loginRedirect(request, session)
+  }
+
+  const { authToken } = session
+
+  const { primary: primaryCurrency, secondary: secondaryCurrency } = params
   invariant(primaryCurrency, 'Expected params.primary.')
   invariant(secondaryCurrency, 'Expected params.secondary.')
 
@@ -29,6 +36,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     },
     {
       authorization: `Bearer ${authToken}`,
+      'x-hasura-role': 'user',
     },
   )
 

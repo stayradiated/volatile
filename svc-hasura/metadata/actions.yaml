@@ -63,7 +63,7 @@ actions:
         - name: x-hasura-actions-secret
           value_from_env: HASURA_ACTIONS_SECRET
     permissions:
-      - role: user
+      - role: superuser
   - name: delete_user_2fa
     definition:
       kind: synchronous
@@ -72,7 +72,7 @@ actions:
         - name: x-hasura-actions-secret
           value_from_env: HASURA_ACTIONS_SECRET
     permissions:
-      - role: user
+      - role: superuser
   - name: enable_user_2fa
     definition:
       kind: synchronous
@@ -133,6 +133,7 @@ actions:
         - name: x-hasura-actions-secret
           value_from_env: HASURA_ACTIONS_SECRET
     permissions:
+      - role: superuser
       - role: user
   - name: reset_user_password
     definition:

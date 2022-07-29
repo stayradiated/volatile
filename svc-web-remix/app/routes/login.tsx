@@ -1,34 +1,21 @@
-import { ActionFunction, LoaderFunction, redirect, json } from '@remix-run/node'
-import { useActionData } from '@remix-run/react'
+import { ActionFunction, LoaderFunction, json } from '@remix-run/node'
+import { useActionData, useLoaderData } from '@remix-run/react'
 import invariant from 'tiny-invariant'
 
-import { getSession, commitSession } from '~/utils/sessions.server'
+import {
+  getSessionData,
+  setSessionData,
+  commitSession,
+} from '~/utils/auth.server'
 import { sdk } from '~/utils/api.server'
 import { LoginForm } from '~/components/login-form/index'
+import { safeRedirect } from '~/utils/redirect.server'
 
 type ActionData = {
   error?: string
 }
 
-export const loader: LoaderFunction = async ({ request }) => {
-  const session = await getSession(request.headers.get('Cookie'))
-
-  if (session.has('userUID')) {
-    // Redirect to the home page if they are already signed in.
-    return redirect('/')
-  }
-
-  const data = { error: session.get('error') }
-
-  return json(data, {
-    headers: {
-      'Set-Cookie': await commitSession(session),
-    },
-  })
-}
-
 export const action: ActionFunction = async ({ request }) => {
-  const session = await getSession(request.headers.get('Cookie'))
   const form = await request.formData()
 
   const email = form.get('email')
@@ -38,7 +25,11 @@ export const action: ActionFunction = async ({ request }) => {
   invariant(typeof password === 'string', 'Must have password.')
   invariant(typeof token2FA === 'string', 'Must have token2FA.')
 
-  console.log({ email, password })
+  const formReturn = form.get('return')
+  const returnTo =
+    typeof formReturn === 'string' && formReturn.trim().length > 0
+      ? formReturn
+      : '/'
 
   try {
     const result = await sdk.createAuthToken({
@@ -48,21 +39,21 @@ export const action: ActionFunction = async ({ request }) => {
       deviceName: 'My Device',
       deviceTrusted: false,
       token2FA,
+      role: 'user',
     })
 
-    console.log({ result })
+    const userAuthToken = result.create_auth_token?.auth_token
 
-    const userUID = result.create_auth_token?.user_uid
-    const authToken = result.create_auth_token?.auth_token
-    const expiresAt = result.create_auth_token?.expires_at
+    const session = await setSessionData({
+      request,
+      email,
+      userAuthToken,
+    })
 
-    session.set('email', email)
-    session.set('userUID', userUID)
-    session.set('authToken', authToken)
-    session.set('expiresAt', expiresAt)
+    console.log({ email, userAuthToken })
 
     // Login succeeded, send them to the home page.
-    return redirect('/', {
+    return safeRedirect(request, returnTo, {
       headers: {
         'Set-Cookie': await commitSession(session),
       },
@@ -70,17 +61,32 @@ export const action: ActionFunction = async ({ request }) => {
   } catch (error: unknown) {
     console.error(error)
 
-    return json({
+    return json<ActionData>({
       error: 'Invalid email or password.',
     })
   }
 }
 
+export const loader: LoaderFunction = async ({ request }) => {
+  const session = await getSessionData(request)
+
+  const returnTo = new URL(request.url).searchParams.get('return') ?? '/'
+
+  // Redirect to the home page if they are already signed in.
+  if (session.role !== 'guest') {
+    return safeRedirect(request, returnTo)
+  }
+
+  return json({ returnTo })
+}
+
 const Login = () => {
+  const { returnTo } = useLoaderData()
+
   const actionData = useActionData<ActionData>()
   const error = actionData?.error
 
-  return <LoginForm error={error} />
+  return <LoginForm returnTo={returnTo} error={error} />
 }
 
 export default Login

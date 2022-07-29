@@ -5,16 +5,22 @@ import { errorBoundary } from '@stayradiated/error-boundary'
 
 import { UserFormDelete } from '~/components/user-form-delete'
 import { Card } from '~/components/retro-ui'
-import { getSessionData } from '~/utils/auth.server'
-import { destroySession } from '~/utils/sessions.server'
+import { getSessionData, destroySession } from '~/utils/auth.server'
 import { sdk } from '~/utils/api.server'
+import { loginRedirect } from '~/utils/redirect.server'
 
 type ActionData = {
   error?: string
 }
 
 export const action: ActionFunction = async ({ request }) => {
-  const { email, authToken, session } = await getSessionData(request)
+  const session = await getSessionData(request)
+  if (session.role === 'guest') {
+    return loginRedirect(request, session)
+  }
+
+  const { email, authToken } = session
+
   const formData = await request.formData()
   const confirmPhrase = formData.get('confirm')
   invariant(typeof confirmPhrase === 'string', 'Must have params.confirm')
@@ -28,6 +34,7 @@ export const action: ActionFunction = async ({ request }) => {
       {},
       {
         authorization: `Bearer ${authToken}`,
+        'x-hasura-role': 'superuser',
       },
     ),
   )
@@ -37,7 +44,7 @@ export const action: ActionFunction = async ({ request }) => {
 
   return redirect('/', {
     headers: {
-      'Set-Cookie': await destroySession(session),
+      'Set-Cookie': await destroySession(session.cookie),
     },
   })
 }
@@ -47,9 +54,16 @@ interface LoaderData {
 }
 
 export const loader: LoaderFunction = async ({ request }) => {
-  const { email } = await getSessionData(request)
-  invariant(email, 'Must be logged in.')
-  return json<LoaderData>({ email })
+  const session = await getSessionData(request)
+  if (session.role === 'guest') {
+    return loginRedirect(request, session)
+  }
+
+  if (session.role === 'user') {
+    return redirect('/sudo?return=/account/delete')
+  }
+
+  return json<LoaderData>({ email: session.email })
 }
 
 const DeleteAccountRoute = () => {

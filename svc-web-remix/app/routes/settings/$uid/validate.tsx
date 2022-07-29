@@ -7,6 +7,7 @@ import { Card } from '~/components/retro-ui'
 import { UserExchangeKeysValidate } from '~/components/user-exchange-keys-validate'
 import { getSessionData } from '~/utils/auth.server'
 import { sdk } from '~/utils/api.server'
+import { loginRedirect } from '~/utils/redirect.server'
 
 type ActionData = {
   error?: string
@@ -15,8 +16,13 @@ type ActionData = {
 }
 
 export const action: ActionFunction = async ({ request, params }) => {
-  const { authToken } = await getSessionData(request)
-  invariant(authToken, 'Must be logged in')
+  const session = await getSessionData(request)
+
+  if (session.role === 'guest') {
+    return loginRedirect(request, session)
+  }
+
+  const { authToken } = session
 
   const { uid: userExchangeKeysUID } = params
   invariant(userExchangeKeysUID, 'Must have params.uid')
@@ -28,6 +34,7 @@ export const action: ActionFunction = async ({ request, params }) => {
       },
       {
         authorization: `Bearer ${authToken}`,
+        'x-hasura-role': 'user',
       },
     ),
   )

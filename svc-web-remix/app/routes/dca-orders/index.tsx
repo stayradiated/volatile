@@ -7,6 +7,7 @@ import { DCAOrderList } from '~/components/dca-order-list/index'
 import { getSessionData } from '~/utils/auth.server'
 import { sdk } from '~/utils/api.server'
 import { GetDcaOrderListQuery } from '~/graphql/generated'
+import { loginRedirect } from '~/utils/redirect.server'
 
 const updateDCAOrderEnabled = makeDomainFunction(
   z.object({
@@ -25,6 +26,7 @@ const updateDCAOrderEnabled = makeDomainFunction(
     },
     {
       authorization: `Bearer ${authToken}`,
+      'x-hasura-role': 'user',
     },
   )
 
@@ -32,7 +34,14 @@ const updateDCAOrderEnabled = makeDomainFunction(
 })
 
 export const action: ActionFunction = async ({ request }) => {
-  const { authToken } = await getSessionData(request)
+  const session = await getSessionData(request)
+
+  if (session.role === 'guest') {
+    return loginRedirect(request, session)
+  }
+
+  const { authToken } = session
+
   const formData = await request.formData()
   const action = formData.get('_action')
 
@@ -55,12 +64,19 @@ interface LoaderData {
 }
 
 export const loader: LoaderFunction = async ({ request }) => {
-  const { authToken } = await getSessionData(request)
+  const session = await getSessionData(request)
+
+  if (session.role === 'guest') {
+    return loginRedirect(request, session)
+  }
+
+  const { authToken } = session
 
   const query = await sdk.getDCAOrderList(
     {},
     {
       authorization: `Bearer ${authToken}`,
+      'x-hasura-role': 'user',
     },
   )
 

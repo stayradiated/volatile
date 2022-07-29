@@ -17,11 +17,12 @@ const FormActions = styled(Form.Item)`
 `
 
 type LoginFormProps = {
+  returnTo: string | undefined
   error: string | undefined
 }
 
 const LoginForm = (props: LoginFormProps) => {
-  const { error } = props
+  const { returnTo, error } = props
 
   return (
     <Card>
@@ -29,6 +30,7 @@ const LoginForm = (props: LoginFormProps) => {
       <Form name="login" method="post" action="/login">
         <Form.Item>
           <p>Log in to your account</p>
+          <input type="hidden" name="return" value={returnTo} />
         </Form.Item>
         {error && <Alert message={error} type="error" />}
         <Form.Item label="Email" name="email">

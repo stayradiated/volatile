@@ -2,42 +2,40 @@ import { useLoaderData } from '@remix-run/react'
 import { ActionFunction, LoaderFunction, json, redirect } from '@remix-run/node'
 
 import { Logo } from '~/components/logo'
-import { getSession, destroySession } from '~/utils/sessions.server'
+import { getSessionData, destroySession } from '~/utils/auth.server'
 import { Card, Form, PrimaryButton } from '~/components/retro-ui'
 import { Navigation } from '~/components/navigation'
-import { getSessionData } from '~/utils/auth.server'
-
-interface LoaderData {
-  isAuthenticatedUser: boolean
-  email: string | undefined
-}
-
-export const loader: LoaderFunction = async ({ request }) => {
-  const { authToken, email } = await getSessionData(request)
-  const isAuthenticatedUser = Boolean(authToken)
-
-  return json<LoaderData>({
-    isAuthenticatedUser,
-    email,
-  })
-}
+import { loginRedirect } from '~/utils/redirect.server'
 
 export const action: ActionFunction = async ({ request }) => {
-  const session = await getSession(request.headers.get('Cookie'))
-
+  const session = await getSessionData(request)
   return redirect('/login', {
     headers: {
-      'Set-Cookie': await destroySession(session),
+      'Set-Cookie': await destroySession(session.cookie),
     },
   })
 }
 
+interface LoaderData {
+  email: string
+}
+
+export const loader: LoaderFunction = async ({ request }) => {
+  const session = await getSessionData(request)
+  if (session.role === 'guest') {
+    return loginRedirect(request, session)
+  }
+
+  const { email } = session
+  return json<LoaderData>({ email })
+}
+
 const LogoutRoute = () => {
-  const { isAuthenticatedUser, email } = useLoaderData<LoaderData>()
+  const { email } = useLoaderData<LoaderData>()
 
   return (
     <>
-      <Navigation isAuthenticatedUser={isAuthenticatedUser} email={email} />
+      <Navigation isAuthenticatedUser email={email} />
 
       <Card>
         <Logo />

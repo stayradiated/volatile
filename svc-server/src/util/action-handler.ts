@@ -30,11 +30,7 @@ type ActionHandlerRequest<Input> = {
   }
 }
 
-enum SessionRole {
-  ADMIN = 'admin',
-  USER = 'user',
-  GUEST = 'guest',
-}
+type SessionRole = 'admin' | 'user' | 'superuser' | 'guest'
 
 type Session = {
   role: SessionRole
@@ -51,14 +47,19 @@ const parseSessionVariables = (
   }
 
   const role = input['x-hasura-role'] as SessionRole
-  if (!Object.values(SessionRole).includes(role)) {
+  if (
+    role !== 'user' &&
+    role !== 'superuser' &&
+    role !== 'guest' &&
+    role !== 'admin'
+  ) {
     return new IllegalArgumentError({
       message: 'session_variables has an invalid x-hasura-role.',
     })
   }
 
   const userUID = input['x-hasura-user-id']
-  if (role === SessionRole.USER && !userUID) {
+  if ((role === 'user' || role === 'superuser') && !userUID) {
     return new IllegalArgumentError({
       message: 'session_variables is missing x-hasura-user-id.',
     })
@@ -154,4 +155,5 @@ const bindActionHandler =
     return fastify.post(path, wrapActionHandler<Input, Output>(actionName, fn))
   }
 
-export { ActionHandlerFn, wrapActionHandler, bindActionHandler, SessionRole }
+export { wrapActionHandler, bindActionHandler }
+export type { ActionHandlerFn, Session, SessionRole }

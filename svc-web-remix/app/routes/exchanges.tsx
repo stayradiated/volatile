@@ -4,19 +4,22 @@ import { subHours, formatISO } from 'date-fns'
 
 import { Navigation } from '~/components/navigation'
 import { ExchangeList } from '~/components/exchange-list'
-import { getSessionData } from '~/utils/auth.server'
+import { getSessionData, NonGuestSession } from '~/utils/auth.server'
 import { sdk } from '~/utils/api.server'
 import { GetExchangeListQuery } from '~/graphql/generated'
+import { loginRedirect } from '~/utils/redirect.server'
 
 interface LoaderData {
-  isAuthenticatedUser: boolean
-  email: string | undefined
+  session: NonGuestSession
   query: GetExchangeListQuery
 }
 
 export const loader: LoaderFunction = async ({ request }) => {
-  const { authToken, email } = await getSessionData(request)
-  const isAuthenticatedUser = Boolean(authToken)
+  const session = await getSessionData(request)
+
+  if (session.role === 'guest') {
+    return loginRedirect(request, session)
+  }
 
   const currentTimestamp = new Date()
   const historicTimestamp = subHours(currentTimestamp, 24)
@@ -27,23 +30,23 @@ export const loader: LoaderFunction = async ({ request }) => {
       historicTimestamp: formatISO(historicTimestamp),
     },
     {
-      authorization: `Bearer ${authToken}`,
+      authorization: `Bearer ${session.authToken}`,
+      'x-hasura-role': 'user',
     },
   )
 
   return json<LoaderData>({
-    isAuthenticatedUser,
-    email,
+    session,
     query,
   })
 }
 
 const Exchanges = () => {
-  const { isAuthenticatedUser, email, query } = useLoaderData<LoaderData>()
+  const { session, query } = useLoaderData<LoaderData>()
 
   return (
     <>
-      <Navigation isAuthenticatedUser={isAuthenticatedUser} email={email} />
+      <Navigation isAuthenticatedUser email={session.email} />
       <ExchangeList query={query} />
     </>
   )

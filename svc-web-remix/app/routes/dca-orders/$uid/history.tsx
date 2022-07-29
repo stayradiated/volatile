@@ -7,6 +7,7 @@ import { errorBoundary } from '@stayradiated/error-boundary'
 import { DCAOrderHistoryList } from '~/components/dca-order-history-list'
 import { DCAOrderHistoryPriceChart } from '~/components/dca-order-history-price-chart'
 import { Card } from '~/components/retro-ui'
+import { loginRedirect } from '~/utils/redirect.server'
 
 import { sdk } from '~/utils/api.server'
 import {
@@ -27,8 +28,13 @@ type LoaderData = {
 }
 
 export const loader: LoaderFunction = async ({ request, params }) => {
-  const { authToken } = await getSessionData(request)
-  invariant(authToken, 'Must be logged in.')
+  const session = await getSessionData(request)
+
+  if (session.role === 'guest') {
+    return loginRedirect(request, session)
+  }
+
+  const { authToken } = session
 
   const { uid: dcaOrderUID } = params
   invariant(typeof dcaOrderUID === 'string', 'Must have params.uid')
@@ -47,6 +53,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
       },
       {
         authorization: `Bearer ${authToken}`,
+        'x-hasura-role': 'user',
       },
     ),
   )
@@ -63,6 +70,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
       },
       {
         authorization: `Bearer ${authToken}`,
+        'x-hasura-role': 'user',
       },
     ),
   )

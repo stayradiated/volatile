@@ -4,7 +4,7 @@ module.exports = {
       'http://localhost:9999/v1/graphql': {
         headers: {
           'X-Hasura-Admin-Secret': 'unlockedinfinity',
-          'X-Hasura-Role': 'user',
+          'X-Hasura-Allowed-Roles': 'guest,user,superuser',
         },
       },
     },

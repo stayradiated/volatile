@@ -141,26 +141,21 @@ const getExchange = async (
   return exchange
 }
 
-const getExchangeList = async (
-  pool: Pool,
-): Promise<Exchange[] | Error> => {
+const getExchangeList = async (pool: Pool): Promise<Exchange[] | Error> => {
   const rows = await errorBoundary(async () =>
     db
-      .select(
-        'exchange',
-        db.all,
-        {
-          columns: ['id', 'name', 'url'],
-        },
-      )
+      .select('exchange', db.all, {
+        columns: ['id', 'name', 'url'],
+      })
       .run(pool),
   )
   if (rows instanceof Error) {
     return new DBError({
       message: 'Could not get exchange list.',
-      cause: rows
+      cause: rows,
     })
   }
+
   return rows.map((row) => {
     return {
       ID: row.id,

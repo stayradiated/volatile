@@ -5,16 +5,26 @@ import { errorBoundary } from '@stayradiated/error-boundary'
 
 import { UserFormEditEmail } from '~/components/user-form-edit-email'
 import { Card } from '~/components/retro-ui'
-import { getSessionData } from '~/utils/auth.server'
-import { commitSession } from '~/utils/sessions.server'
+import {
+  getSessionData,
+  setSessionData,
+  commitSession,
+} from '~/utils/auth.server'
 import { sdk } from '~/utils/api.server'
+import { loginRedirect } from '~/utils/redirect.server'
 
 type ActionData = {
   error?: string
 }
 
 export const action: ActionFunction = async ({ request }) => {
-  const { authToken, session } = await getSessionData(request)
+  const session = await getSessionData(request)
+
+  if (session.role === 'guest') {
+    return loginRedirect(request, session)
+  }
+
+  const { authToken } = session
 
   const formData = await request.formData()
   const email = formData.get('email')
@@ -25,6 +35,7 @@ export const action: ActionFunction = async ({ request }) => {
       { email },
       {
         authorization: `Bearer ${authToken}`,
+        'x-hasura-role': 'user',
       },
     ),
   )
@@ -36,11 +47,14 @@ export const action: ActionFunction = async ({ request }) => {
     })
   }
 
-  session.set('email', email)
+  const updatedSession = await setSessionData({
+    request,
+    email,
+  })
 
   return redirect('/account/email', {
     headers: {
-      'Set-Cookie': await commitSession(session),
+      'Set-Cookie': await commitSession(updatedSession),
     },
   })
 }
@@ -50,9 +64,12 @@ interface LoaderData {
 }
 
 export const loader: LoaderFunction = async ({ request }) => {
-  const { email } = await getSessionData(request)
-  invariant(email, 'Must have email.')
+  const session = await getSessionData(request)
+  if (session.role === 'guest') {
+    return loginRedirect(request, session)
+  }
 
+  const { email } = session
   return json<LoaderData>({
     email,
   })
