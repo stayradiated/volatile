@@ -1,6 +1,6 @@
 import createFastify from 'fastify'
 
-import { PORT } from './env.js'
+import { config } from './env.js'
 
 import * as actions from './action/index.js'
 import * as cron from './cron/index.js'
@@ -65,15 +65,25 @@ const addCron = bindCronHandler(fastify)
 addCron('auto_buy', cron.autoBuyHandler)
 addCron('fetch_currency_fx', cron.fetchCurrencyFxHandler)
 addCron('fetch_market_price', cron.fetchMarketPriceHandler)
+addCron('fetch_stripe', cron.fetchStripe)
 
 const addRoute = bindHandler(fastify)
 addRoute('/webhook/stripe', webhooks.stripeHandler)
 
-void fastify.listen(PORT, '0.0.0.0')
+const start = async () => {
+  try {
+    // Make sure exchanges exist in the database
+    await Promise.all([
+      getExchangeUID(pool, EXCHANGE_DASSET),
+      getExchangeUID(pool, EXCHANGE_KIWI_COIN),
+      getExchangeUID(pool, EXCHANGE_INDEPENDENT_RESERVE),
+    ])
 
-// Make sure exchanges exist in the database
-Promise.all([
-  getExchangeUID(pool, EXCHANGE_DASSET),
-  getExchangeUID(pool, EXCHANGE_KIWI_COIN),
-  getExchangeUID(pool, EXCHANGE_INDEPENDENT_RESERVE),
-]).catch(console.error)
+    await fastify.listen({ port: config.PORT, host: '0.0.0.0' })
+  } catch (error) {
+    fastify.log.error(error)
+    process.exit(1)
+  }
+}
+
+start()

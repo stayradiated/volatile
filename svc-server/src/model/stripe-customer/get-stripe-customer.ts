@@ -4,14 +4,26 @@ import * as db from 'zapatos/db'
 import { NoEntityError } from '../../util/error.js'
 
 import type { Pool } from '../../types.js'
-import type { Customer } from './types.js'
+import type { StripeCustomer } from './types.js'
 
-const getCustomer = async (
+type GetStripeCustomerOptions = {
+  userUID?: string
+  customerID?: string
+}
+
+const getStripeCustomer = async (
   pool: Pool,
-  userUID: string,
-): Promise<Customer | Error> => {
+  options: GetStripeCustomerOptions,
+): Promise<StripeCustomer | Error> => {
+  const { userUID, customerID } = options
+
   const row = await errorBoundary(async () =>
-    db.selectOne('customer', { user_uid: userUID }).run(pool),
+    db
+      .selectOne('stripe_customer', {
+        user_uid: userUID,
+        customer_id: customerID,
+      })
+      .run(pool),
   )
   if (row instanceof Error) {
     return row
@@ -32,4 +44,4 @@ const getCustomer = async (
   }
 }
 
-export { getCustomer }
+export { getStripeCustomer }

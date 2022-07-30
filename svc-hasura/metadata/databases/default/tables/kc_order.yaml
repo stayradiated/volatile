@@ -1,6 +1,6 @@
 table:
-  schema: kc
   name: order
+  schema: kc
 object_relationships:
   - name: exchange
     using:
@@ -14,8 +14,8 @@ array_relationships:
       foreign_key_constraint_on:
         column: order_uid
         table:
-          schema: kc
           name: dca_order_history
+          schema: kc
 select_permissions:
   - role: user
     permission:

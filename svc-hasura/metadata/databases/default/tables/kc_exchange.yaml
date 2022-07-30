@@ -1,49 +1,49 @@
 table:
-  schema: kc
   name: exchange
+  schema: kc
 array_relationships:
   - name: dca_orders
     using:
       foreign_key_constraint_on:
         column: exchange_uid
         table:
-          schema: kc
           name: dca_order
+          schema: kc
   - name: orders
     using:
       foreign_key_constraint_on:
         column: exchange_uid
         table:
-          schema: kc
           name: order
+          schema: kc
   - name: primary_currencies
     using:
       foreign_key_constraint_on:
         column: exchange_uid
         table:
-          schema: kc
           name: exchange_primary_currency
+          schema: kc
   - name: secondary_currencies
     using:
       foreign_key_constraint_on:
         column: exchange_uid
         table:
-          schema: kc
           name: exchange_secondary_currency
+          schema: kc
   - name: trades
     using:
       foreign_key_constraint_on:
         column: exchange_uid
         table:
-          schema: kc
           name: trade
+          schema: kc
   - name: user_exchange_keys
     using:
       foreign_key_constraint_on:
         column: exchange_uid
         table:
-          schema: kc
           name: user_exchange_keys
+          schema: kc
 select_permissions:
   - role: guest
     permission:

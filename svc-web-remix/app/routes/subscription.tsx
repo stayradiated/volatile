@@ -39,6 +39,9 @@ const SubscriptionRoute = () => {
           <li>
             <Link to="list">Subscription List</Link>
           </li>
+          <li>
+            <Link to="checkout">Checkout</Link>
+          </li>
         </ul>
       </Card>
       <Outlet />

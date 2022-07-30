@@ -21,7 +21,9 @@ export const loader: LoaderFunction = async ({ request }) => {
   const { authToken } = session
 
   const query = await sdk.getSubscriptions(
-    {},
+    {
+      // status: 'all',
+    },
     {
       authorization: `Bearer ${authToken}`,
       'x-hasura-role': 'user',

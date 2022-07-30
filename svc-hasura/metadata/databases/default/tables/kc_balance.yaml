@@ -1,6 +1,6 @@
 table:
-  schema: kc
   name: balance
+  schema: kc
 object_relationships:
   - name: currency
     using:
@@ -18,13 +18,13 @@ computed_fields:
   - name: available_balance_fx
     definition:
       function:
-        schema: kc
         name: balance_available_balance_fx
+        schema: kc
   - name: total_balance_fx
     definition:
       function:
-        schema: kc
         name: balance_total_balance_fx
+        schema: kc
 select_permissions:
   - role: user
     permission:

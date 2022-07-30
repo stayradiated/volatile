@@ -1,13 +1,13 @@
 import { createCachedFetchFn, currencySources } from '@volatile/market-price'
 import { Kanye } from '@volatile/kanye'
 
-import { OPEN_EXCHANGE_RATES_APP_ID } from '../../env.js'
+import { config } from '../../env.js'
 
 import { CurrencyPair, USD_NZD, USD_AUD, AUD_NZD } from './config.js'
 
 const OPEN_EXCHANGE_RATES_OPTIONS = {
   config: {
-    appId: OPEN_EXCHANGE_RATES_APP_ID,
+    appId: config.OPEN_EXCHANGE_RATES_APP_ID,
   },
 }
 

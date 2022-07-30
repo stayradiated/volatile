@@ -4,7 +4,7 @@ import {
   UnexpectedError,
 } from '../../util/error.js'
 
-import { BASE_URL } from '../../env.js'
+import { config } from '../../env.js'
 
 import { sendMail } from '../../util/mail.js'
 import type { ActionHandlerFn } from '../../util/action-handler.js'
@@ -66,7 +66,7 @@ const sendUserEmailVerifyHandler: ActionHandlerFn<Input, Output> = async (
   const sendMailError = await sendMail({
     to: email,
     subject: 'Volatile: Email Verification',
-    text: `Please open this URL to verify your Volatile account: ${BASE_URL}account/verify-email/index.html?secret=${secret}`,
+    text: `Please open this URL to verify your Volatile account: ${config.BASE_URL}account/verify-email?secret=${secret}`,
   })
   if (sendMailError instanceof Error) {
     return new UnexpectedError({

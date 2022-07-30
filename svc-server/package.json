@@ -47,7 +47,6 @@
     "date-fns": "2.29.1",
     "debug": "4.3.4",
     "dotenv": "16.0.1",
-    "env-var": "7.1.1",
     "fastify": "4.3.0",
     "njwt": "1.2.0",
     "nodemailer": "6.7.7",
@@ -55,8 +54,9 @@
     "pg": "8.7.3",
     "qrcode": "1.5.1",
     "rambda": "7.1.4",
-    "stripe": "9.14.0",
-    "zapatos": "5.0.4"
+    "stripe": "9.16.0",
+    "zapatos": "6.0.1",
+    "zod": "3.17.10"
   },
   "__comment": "The following configs are managed by `npx @stayradiated/jsconfig`",
   "ava": {

@@ -11,7 +11,7 @@ import {
   MARKET_KRAKEN,
 } from '../../model/market/index.js'
 
-import { DASSET_API_KEY, DASSET_ACCOUNT_ID } from '../../env.js'
+import { config } from '../../env.js'
 
 import type { AssetSymbol, Currency } from './config.js'
 
@@ -39,8 +39,8 @@ const resolveMarketPriceMap = new Map<Market, Resolver>([
     ({ assetSymbol, currency }) =>
       createCachedFetchFn(marketPriceSources.dasset, {
         config: {
-          apiKey: DASSET_API_KEY,
-          accountId: DASSET_ACCOUNT_ID,
+          apiKey: config.DASSET_API_KEY,
+          accountId: config.DASSET_ACCOUNT_ID,
         },
         assetSymbol,
         currency,

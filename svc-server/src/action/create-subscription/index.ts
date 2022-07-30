@@ -5,7 +5,7 @@ import { MissingRequiredArgumentError } from '../../util/error.js'
 
 import { ActionHandlerFn } from '../../util/action-handler.js'
 
-import { getOrCreateCustomer } from '../../model/customer/index.js'
+import { getOrCreateStripeCustomer } from '../../model/stripe-customer/index.js'
 
 type Input = {
   price_id: string
@@ -28,7 +28,7 @@ const createSubscription: ActionHandlerFn<Input, Output> = async (context) => {
 
   const { price_id: priceId } = input
 
-  const customer = await getOrCreateCustomer(pool, userUID)
+  const customer = await getOrCreateStripeCustomer(pool, userUID)
   if (customer instanceof Error) {
     return customer
   }

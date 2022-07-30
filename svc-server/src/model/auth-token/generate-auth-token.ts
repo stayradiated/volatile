@@ -1,7 +1,7 @@
 import nJwt from 'njwt'
 import { addMilliseconds } from 'date-fns'
 
-import { JWT_SECRET } from '../../env.js'
+import { config } from '../../env.js'
 
 type GenerateAuthTokenOptions = {
   userUID: string
@@ -36,7 +36,7 @@ const generateAuthToken = (options: GenerateAuthTokenOptions): AuthToken => {
           'x-hasura-user-id': userUID,
         },
       },
-      JWT_SECRET,
+      config.JWT_SECRET,
     )
     .setExpiration(expiresAt)
     .compact()

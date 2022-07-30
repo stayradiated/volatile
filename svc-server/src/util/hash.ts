@@ -1,13 +1,15 @@
 import { createHash } from 'crypto'
 import Bcrypt from 'bcrypt'
 
-import { DIGEST_SALT, BCRYPT_SALT_ROUNDS } from '../env.js'
+import { config } from '../env.js'
 
 const sha256 = (plaintext: string): string =>
-  createHash('sha256').update(`${plaintext}${DIGEST_SALT}`).digest('base64')
+  createHash('sha256')
+    .update(`${plaintext}${config.DIGEST_SALT}`)
+    .digest('base64')
 
 const bcrypt = async (plaintext: string): Promise<string> =>
-  Bcrypt.hash(plaintext, BCRYPT_SALT_ROUNDS)
+  Bcrypt.hash(plaintext, config.BCRYPT_SALT_ROUNDS)
 
 const bcryptCompare = async (
   plaintext: string,

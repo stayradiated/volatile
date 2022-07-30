@@ -22,3 +22,11 @@
   headers:
     - name: x-hasura-actions-secret
       value_from_env: HASURA_ACTIONS_SECRET
+- name: Fetch Stripe Info
+  webhook: '{{HASURA_ACTIONS_ENDPOINT}}/cron/fetch_stripe'
+  schedule: '* * * * *'
+  include_in_metadata: true
+  payload: {}
+  headers:
+    - name: x-hasura-actions-secret
+      value_from_env: HASURA_ACTIONS_SECRET

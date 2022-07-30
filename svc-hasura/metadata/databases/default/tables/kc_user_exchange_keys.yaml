@@ -1,6 +1,6 @@
 table:
-  schema: kc
   name: user_exchange_keys
+  schema: kc
 object_relationships:
   - name: exchange
     using:
@@ -14,14 +14,14 @@ array_relationships:
       foreign_key_constraint_on:
         column: user_exchange_keys_uid
         table:
-          schema: kc
           name: dca_order
+          schema: kc
 computed_fields:
   - name: balance
     definition:
       function:
-        schema: kc
         name: user_exchange_keys_balance
+        schema: kc
 select_permissions:
   - role: user
     permission:

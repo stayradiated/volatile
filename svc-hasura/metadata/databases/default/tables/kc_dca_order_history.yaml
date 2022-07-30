@@ -1,6 +1,6 @@
 table:
-  schema: kc
   name: dca_order_history
+  schema: kc
 object_relationships:
   - name: dca_order
     using:

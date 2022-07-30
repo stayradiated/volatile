@@ -1,6 +1,6 @@
 table:
-  schema: kc
   name: type_trade_avg_price_by_window
+  schema: kc
 select_permissions:
   - role: user
     permission:

@@ -1,6 +1,6 @@
 import { format, fromUnixTime } from 'date-fns'
 
-import { GetSubscriptionsQuery } from '../../utils/graphql'
+import type { GetSubscriptionsQuery } from '~/graphql/generated'
 
 import { Button } from '../retro-ui'
 
@@ -26,12 +26,6 @@ type Props = {
 
 const SubscriptionCard = (props: Props) => {
   const { subscription } = props
-
-  const cancelSubscription = useCancelSubscription()
-
-  const handleCancel = async () => {
-    await cancelSubscription(subscription.id)
-  }
 
   const status = STATUS[subscription.status] ?? {
     name: subscription.status,
@@ -64,7 +58,7 @@ const SubscriptionCard = (props: Props) => {
             for {subscription.plan.currency.toUpperCase()} $
             {(subscription.plan.amount / 100).toFixed(2)}
           </p>
-          <Button onClick={handleCancel}>Cancel</Button>
+          <Button>Cancel</Button>
         </>
       )}
     </section>

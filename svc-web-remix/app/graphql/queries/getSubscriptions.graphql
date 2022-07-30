@@ -1,5 +1,5 @@
-query getSubscriptions {
-  query_subscriptions {
+query getSubscriptions($status: String) {
+  query_subscriptions(status: $status) {
     subscriptions {
       id
       status
@@ -10,6 +10,11 @@ query getSubscriptions {
         interval_count
         amount
         currency
+      }
+      latest_invoice{
+        payment_intent{
+          client_secret
+        }
       }
     }
   }

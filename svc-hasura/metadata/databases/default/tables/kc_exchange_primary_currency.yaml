@@ -1,6 +1,6 @@
 table:
-  schema: kc
   name: exchange_primary_currency
+  schema: kc
 object_relationships:
   - name: currency
     using:

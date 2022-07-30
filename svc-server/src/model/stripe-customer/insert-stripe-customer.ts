@@ -2,15 +2,15 @@ import * as db from 'zapatos/db'
 import { errorBoundary } from '@stayradiated/error-boundary'
 
 import type { Pool } from '../../types.js'
-import type { Customer } from './types.js'
+import type { StripeCustomer } from './types.js'
 
-const insertCustomer = async (
+const insertStripeCustomer = async (
   pool: Pool,
-  customer: Customer,
-): Promise<Customer | Error> => {
+  customer: StripeCustomer,
+): Promise<StripeCustomer | Error> => {
   const row = await errorBoundary(async () =>
     db
-      .insert('customer', {
+      .insert('stripe_customer', {
         user_uid: customer.userUID,
         customer_id: customer.customerID,
       })
@@ -23,4 +23,4 @@ const insertCustomer = async (
   return customer
 }
 
-export { insertCustomer }
+export { insertStripeCustomer }

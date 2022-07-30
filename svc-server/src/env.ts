@@ -1,54 +1,75 @@
 import { Buffer } from 'buffer'
-import env from 'env-var'
-import { UserKeys } from '@volatile/keyring'
+import * as z from 'zod'
 
-const BASE_URL = env.get('BASE_URL').required().asUrlString()
-const PORT = env.get('PORT').required().asPortNumber()
-const KEYRING = env.get('KEYRING').required().asJson() as UserKeys
-const DIGEST_SALT = env.get('DIGEST_SALT').required().asString()
-const BCRYPT_SALT_ROUNDS = env.get('BCRYPT_SALT_ROUNDS').required().asInt()
-const JWT_SECRET = Buffer.from(
-  env.get('JWT_SECRET').required().asString(),
-  'utf8',
-)
+const toNumber = (input: unknown): number => {
+  if (typeof input === 'number') {
+    return input
+  }
 
-const ACTIONS_SECRET = env.get('ACTIONS_SECRET').required().asString()
+  if (typeof input === 'bigint') {
+    return Number(input)
+  }
 
-const STRIPE_API_KEY = env.get('STRIPE_API_KEY').required().asString()
-const STRIPE_PUBLISHABLE_KEY = env
-  .get('STRIPE_PUBLISHABLE_KEY')
-  .required()
-  .asString()
-const STRIPE_WEBHOOK_SECRET = env
-  .get('STRIPE_WEBHOOK_SECRET')
-  .required()
-  .asString()
+  if (typeof input === 'string') {
+    return Number.parseFloat(input)
+  }
 
-const DASSET_API_KEY = env.get('DASSET_API_KEY').required().asString()
-const DASSET_ACCOUNT_ID = env.get('DASSET_ACCOUNT_ID').required().asString()
-
-const MAIL_SMTP_URL = env.get('MAIL_SMTP_URL').required().asUrlString()
-const MAIL_FROM = env.get('MAIL_FROM').required().asString()
-
-const OPEN_EXCHANGE_RATES_APP_ID = env
-  .get('OPEN_EXCHANGE_RATES_APP_ID')
-  .required()
-  .asString()
-
-export {
-  BASE_URL,
-  PORT,
-  KEYRING,
-  DIGEST_SALT,
-  BCRYPT_SALT_ROUNDS,
-  JWT_SECRET,
-  ACTIONS_SECRET,
-  STRIPE_API_KEY,
-  STRIPE_PUBLISHABLE_KEY,
-  STRIPE_WEBHOOK_SECRET,
-  DASSET_ACCOUNT_ID,
-  DASSET_API_KEY,
-  OPEN_EXCHANGE_RATES_APP_ID,
-  MAIL_SMTP_URL,
-  MAIL_FROM,
+  return Number.NaN
 }
+
+const toJSON = (input: unknown): Record<string, any> => {
+  if (input === null) {
+    throw new Error('Input is null.')
+  }
+
+  if (typeof input === 'object') return input
+  if (typeof input === 'string') {
+    return JSON.parse(input)
+  }
+
+  throw new Error('Invalid input')
+}
+
+const toBuffer = (input: unknown): Buffer => {
+  if (input instanceof Buffer) {
+    return input
+  }
+
+  if (typeof input === 'string') {
+    return Buffer.from(input, 'utf8')
+  }
+
+  throw new Error('Invalid input')
+}
+
+const config = z
+  .object({
+    NODE_ENV: z.string(),
+    DATABASE_URL: z.string(),
+
+    BASE_URL: z.string().url(),
+    PORT: z.preprocess(toNumber, z.number().gte(0).lte(65_535)),
+    KEYRING: z.preprocess(toJSON, z.record(z.string())),
+    DIGEST_SALT: z.string(),
+    BCRYPT_SALT_ROUNDS: z.preprocess(toNumber, z.number().int().min(10)),
+    JWT_SECRET: z.string().transform(toBuffer),
+
+    ACTIONS_SECRET: z.string().transform(toBuffer),
+
+    STRIPE_API_KEY: z.string(),
+    STRIPE_PUBLISHABLE_KEY: z.string(),
+    STRIPE_WEBHOOK_SECRET: z.string(),
+
+    DASSET_API_KEY: z.string(),
+    DASSET_ACCOUNT_ID: z.string(),
+
+    MAIL_SMTP_URL: z.string().url(),
+    MAIL_FROM: z.string(),
+
+    OPEN_EXCHANGE_RATES_APP_ID: z.string(),
+  })
+  .parse(process.env)
+
+console.dir(config, { depth: null })
+
+export { config }

@@ -1,6 +1,6 @@
 table:
-  schema: kc
   name: market_price
+  schema: kc
 object_relationships:
   - name: market
     using:

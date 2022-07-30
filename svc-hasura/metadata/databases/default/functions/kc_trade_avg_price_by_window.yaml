@@ -1,3 +1,3 @@
 function:
-  schema: kc
   name: trade_avg_price_by_window
+  schema: kc

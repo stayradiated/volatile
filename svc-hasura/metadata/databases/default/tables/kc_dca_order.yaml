@@ -1,6 +1,6 @@
 table:
-  schema: kc
   name: dca_order
+  schema: kc
 object_relationships:
   - name: exchange
     using:
@@ -26,25 +26,25 @@ array_relationships:
       foreign_key_constraint_on:
         column: dca_order_uid
         table:
-          schema: kc
           name: dca_order_history
+          schema: kc
   - name: market_prices
     using:
       manual_configuration:
-        remote_table:
-          schema: kc
-          name: market_price
-        insertion_order: null
         column_mapping:
-          secondary_currency_symbol: currency
-          primary_currency_symbol: asset_symbol
           market_uid: market_uid
+          primary_currency_symbol: asset_symbol
+          secondary_currency_symbol: currency
+        insertion_order: null
+        remote_table:
+          name: market_price
+          schema: kc
 computed_fields:
   - name: exchange_market_trading_pair
     definition:
       function:
-        schema: kc
         name: dca_order_market_trading_pair
+        schema: kc
     comment: ""
 select_permissions:
   - role: user

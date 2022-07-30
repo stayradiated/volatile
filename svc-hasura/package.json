@@ -13,6 +13,6 @@
     "hasura:prod:export": "pnpm run hasura:prod -- metadata export"
   },
   "devDependencies": {
-    "hasura-cli": "2.8.4"
+    "hasura-cli": "2.9.0"
   }
 }

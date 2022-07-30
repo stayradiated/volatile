@@ -276,80 +276,81 @@ custom_types:
     - name: SampleInput
     - name: QueryUserEmailInput
     - name: SeedTestAccountInput
+    - name: QuerySubscriptionsInput
   objects:
     - name: SampleOutput
     - name: CreateUserOutput
     - name: CreateAuthTokenOutput
       relationships:
-        - remote_table:
-            schema: kc
-            name: user
+        - field_mapping:
+            user_uid: uid
           name: user
+          remote_table:
+            name: user
+            schema: kc
           source: default
           type: object
-          field_mapping:
-            user_uid: uid
     - name: GetEmailOutput
     - name: SetUserExchangeKeysOutput
       relationships:
-        - remote_table:
-            schema: kc
-            name: user_exchange_keys
+        - field_mapping:
+            user_exchange_keys_uid: uid
           name: user_exchange_keys
+          remote_table:
+            name: user_exchange_keys
+            schema: kc
           source: default
           type: object
-          field_mapping:
-            user_exchange_keys_uid: uid
     - name: ValidateUserExchangeKeysOutput
       relationships:
-        - remote_table:
-            schema: kc
-            name: user_exchange_keys
+        - field_mapping:
+            user_exchange_keys_uid: uid
           name: user_exchange_keys
+          remote_table:
+            name: user_exchange_keys
+            schema: kc
           source: default
           type: object
-          field_mapping:
-            user_exchange_keys_uid: uid
     - name: CreateDCAOrderResult
       relationships:
-        - remote_table:
-            schema: kc
-            name: dca_order
+        - field_mapping:
+            dca_order_uid: uid
           name: dca_order
+          remote_table:
+            name: dca_order
+            schema: kc
           source: default
           type: object
-          field_mapping:
-            dca_order_uid: uid
     - name: SyncTradeListOutput
       relationships:
-        - remote_table:
-            schema: kc
-            name: user
+        - field_mapping:
+            user_uid: uid
           name: user
+          remote_table:
+            name: user
+            schema: kc
           source: default
           type: object
-          field_mapping:
-            user_uid: uid
     - name: SyncExchangeTradeListOutput
       relationships:
-        - remote_table:
-            schema: kc
-            name: user
+        - field_mapping:
+            user_uid: uid
           name: user
+          remote_table:
+            name: user
+            schema: kc
           source: default
           type: object
-          field_mapping:
-            user_uid: uid
     - name: CreateUserExchangeKeysOutput
       relationships:
-        - remote_table:
-            schema: kc
-            name: user_exchange_keys
+        - field_mapping:
+            user_exchange_keys_uid: uid
           name: user_exchange_keys
+          remote_table:
+            name: user_exchange_keys
+            schema: kc
           source: default
           type: object
-          field_mapping:
-            user_exchange_keys_uid: uid
     - name: WebhookOutput
     - name: CreateCheckoutSession
     - name: CreateCustomerPortalSession
@@ -357,85 +358,85 @@ custom_types:
     - name: UpdateUserPasswordOutput
     - name: UpdateUserOutput
       relationships:
-        - remote_table:
-            schema: kc
-            name: user
+        - field_mapping:
+            user_uid: uid
           name: user
+          remote_table:
+            name: user
+            schema: kc
           source: default
           type: object
-          field_mapping:
-            user_uid: uid
     - name: EnableUser2FAOutput
       relationships:
-        - remote_table:
-            schema: kc
-            name: user
+        - field_mapping:
+            user_uid: uid
           name: user
+          remote_table:
+            name: user
+            schema: kc
           source: default
           type: object
-          field_mapping:
-            user_uid: uid
     - name: SendUserPasswordResetOutput
     - name: ResetUserPasswordOutput
     - name: SendUserEmailVerifyOutput
     - name: VerifyUserEmailOutput
     - name: UpdateUserExchangeKeysOutput
       relationships:
-        - remote_table:
-            schema: kc
-            name: user_exchange_keys
+        - field_mapping:
+            user_exchange_keys_uid: uid
           name: user_exchange_keys
+          remote_table:
+            name: user_exchange_keys
+            schema: kc
           source: default
           type: object
-          field_mapping:
-            user_exchange_keys_uid: uid
     - name: SyncExchangeOpenOrderListOutput
       relationships:
-        - remote_table:
-            schema: kc
-            name: user
+        - field_mapping:
+            user_uid: uid
           name: user
+          remote_table:
+            name: user
+            schema: kc
           source: default
           type: object
-          field_mapping:
-            user_uid: uid
     - name: ValidateUserExchangeKeysLiveOutput
     - name: RefreshAuthTokenOutput
       relationships:
-        - remote_table:
-            schema: kc
-            name: user
+        - field_mapping:
+            user_uid: uid
           name: user
+          remote_table:
+            name: user
+            schema: kc
           source: default
           type: object
-          field_mapping:
-            user_uid: uid
     - name: ValidatUserPasswordResetOutput
     - name: QueryUserEmailOutput
     - name: SyncCurrencyFxOutput
     - name: SetupUser2FAOutput
     - name: DeleteUser2FAOutput
       relationships:
-        - remote_table:
-            schema: kc
-            name: user
+        - field_mapping:
+            user_uid: uid
           name: user
+          remote_table:
+            name: user
+            schema: kc
           source: default
           type: object
-          field_mapping:
-            user_uid: uid
     - name: DeleteUserOutput
     - name: QueryUserLimitOutput
     - name: UpdateDCAOrderOutput
       relationships:
-        - remote_table:
-            schema: kc
-            name: dca_order
+        - field_mapping:
+            dca_order_uid: uid
           name: dca_order
+          remote_table:
+            name: dca_order
+            schema: kc
           source: default
           type: object
-          field_mapping:
-            dca_order_uid: uid
     - name: QueryPricesOutput
     - name: QuerySubscriptionOutput
     - name: QuerySubscriptionsOutput
@@ -453,4 +454,21 @@ custom_types:
     - name: StripeSubscriptionItemData
     - name: StripeSubscriptionItem
     - name: SeedTestAccountOutput
+    - name: QueryIncompleteSubscriptionsOutput
+    - name: Plan
+    - name: PaymentSettings
+    - name: StatusTransitions
+    - name: Card
+    - name: PaymentMethodOptions
+    - name: Charges
+    - name: PaymentIntent
+    - name: ProrationDetails
+    - name: Recurring
+    - name: Price
+    - name: Period
+    - name: Data
+    - name: Lines
+    - name: AutomaticTax
+    - name: LatestInvoice
+    - name: Items
   scalars: []

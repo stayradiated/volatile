@@ -14,36 +14,28 @@ type Props = {
 const SubscriptionList = (props: Props) => {
   const { query } = props
 
-  const groups = (query.query_subscriptions?.subscriptions ?? []).reduce(
+  const groups = (query.query_subscriptions?.subscriptions ?? []).reduce<Record<string, Subscription[]>>(
     (groups, item) => {
-      if (item.status === 'active') {
-        groups.active.push(item)
-      } else {
-        groups.expired.push(item)
-      }
-
+      const group = groups[item.status] ?? []
+      group.push(item)
+      groups[item.status] = group
       return groups
     },
-    {
-      active: [] as Subscription[],
-      expired: [] as Subscription[],
-    },
+    {},
   )
+
+  console.log(groups)
 
   return (
     <>
-      <Card>
-        <h4>Active</h4>
-        {groups.active.map((subscription) => (
-          <SubscriptionCard key={subscription.id} subscription={subscription} />
-        ))}
-      </Card>
-      <Card>
-        <h4>Expired</h4>
-        {groups.expired.map((subscription) => (
-          <SubscriptionCard key={subscription.id} subscription={subscription} />
-        ))}
-      </Card>
+      {Object.entries(groups).map(([name, group]) => (
+        <Card key={name}>
+          <h4>{name}</h4>
+          {group.map((subscription) => (
+            <SubscriptionCard key={subscription.id} subscription={subscription} />
+          ))}
+        </Card>
+    ))}
     </>
   )
 }

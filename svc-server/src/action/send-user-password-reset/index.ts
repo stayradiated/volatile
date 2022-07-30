@@ -2,7 +2,7 @@ import { addMinutes } from 'date-fns'
 
 import type { ActionHandlerFn } from '../../util/action-handler.js'
 
-import { BASE_URL } from '../../env.js'
+import { config } from '../../env.js'
 
 import { sendMail } from '../../util/mail.js'
 import { UnexpectedError } from '../../util/error.js'
@@ -49,7 +49,7 @@ const sendUserPasswordResetHandler: ActionHandlerFn<Input, Output> = async (
   const sendMailError = await sendMail({
     to: email,
     subject: 'Volatile Password Reset',
-    text: `To reset your account password, visit this URL: ${BASE_URL}reset-password/index.html?secret=${secret}`,
+    text: `To reset your account password, visit this URL: ${config.BASE_URL}reset-password/index.html?secret=${secret}`,
   })
   if (sendMailError instanceof Error) {
     return new UnexpectedError({

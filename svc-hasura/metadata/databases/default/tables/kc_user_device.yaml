@@ -1,6 +1,6 @@
 table:
-  schema: kc
   name: user_device
+  schema: kc
 select_permissions:
   - role: user
     permission:

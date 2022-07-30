@@ -3,6 +3,7 @@
     "connectionString": "postgresql://kc:angrydroplet@localhost/kc"
   },
   "outDir": "./src",
+  "unprefixedSchema": "kc",
   "schemas": {
     "kc": {
       "include": "*",

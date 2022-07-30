@@ -4,7 +4,7 @@ import { errorBoundary } from '@stayradiated/error-boundary'
 import { formatISO, fromUnixTime } from 'date-fns'
 import { historical } from '@volatile/open-exchange-rates-api'
 
-import { OPEN_EXCHANGE_RATES_APP_ID } from '../../env.js'
+import { config } from '../../env.js'
 
 import { UnexpectedError } from '../../util/error.js'
 
@@ -67,7 +67,7 @@ const syncCurrencyFx = async (
     const date = row.i
 
     const [result, raw] = await historical({
-      config: { appId: OPEN_EXCHANGE_RATES_APP_ID },
+      config: { appId: config.OPEN_EXCHANGE_RATES_APP_ID },
       date,
       base: 'USD', // Free tier only supports USD
       symbols: [fromSymbol, toSymbol],

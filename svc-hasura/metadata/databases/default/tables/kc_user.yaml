@@ -1,57 +1,57 @@
 table:
-  schema: kc
   name: user
+  schema: kc
 object_relationships:
   - name: user_2fa
     using:
       foreign_key_constraint_on:
         column: user_uid
         table:
-          schema: kc
           name: user_2fa
+          schema: kc
 array_relationships:
   - name: dca_order_histories
     using:
       foreign_key_constraint_on:
         column: user_uid
         table:
-          schema: kc
           name: dca_order_history
+          schema: kc
   - name: dca_orders
     using:
       foreign_key_constraint_on:
         column: user_uid
         table:
-          schema: kc
           name: dca_order
+          schema: kc
   - name: orders
     using:
       foreign_key_constraint_on:
         column: user_uid
         table:
-          schema: kc
           name: order
+          schema: kc
   - name: trades
     using:
       foreign_key_constraint_on:
         column: user_uid
         table:
-          schema: kc
           name: trade
+          schema: kc
   - name: user_devices
     using:
       foreign_key_constraint_on:
         column: user_uid
         table:
-          schema: kc
           name: user_device
+          schema: kc
   - name: user_exchange_keys
     using:
       foreign_key_constraint_on:
         column: user_uid
         table:
-          schema: kc
           name: user_exchange_keys
+          schema: kc
 select_permissions:
   - role: user
     permission:

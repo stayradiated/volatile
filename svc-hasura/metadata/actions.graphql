@@ -81,7 +81,9 @@ type Query {
 }
 
 type Query {
-  query_subscriptions: QuerySubscriptionsOutput
+  query_subscriptions(
+    status: String
+  ): QuerySubscriptionsOutput
 }
 
 type Query {
@@ -209,6 +211,10 @@ input QueryUserEmailInput {
 
 input SeedTestAccountInput {
   email: String!
+}
+
+input QuerySubscriptionsInput {
+  status: String!
 }
 
 type SampleOutput {
@@ -391,43 +397,47 @@ type QueryStripeConfigOutput {
 }
 
 type StripeSubscription {
-  current_period_start: Int
-  status: String!
-  trial_start: String
-  schedule: String
-  discount: String
-  livemode: Boolean
-  created: Int
-  billing_thresholds: String
-  pending_invoice_item_interval: String
-  quantity: Int
-  start_date: Int
-  cancel_at_period_end: Boolean
-  collection_method: String
-  pending_setup_intent: String
-  transfer_data: String
-  customer: String
-  ended_at: String
-  cancel_at: String
-  application_fee_percent: String
-  trial_end: String
-  billing_cycle_anchor: Int
+  id: String
   object: String
-  id: String!
+  application: String
+  application_fee_percent: String
+  billing_cycle_anchor: Int
+  billing_thresholds: String
+  cancel_at: String
+  cancel_at_period_end: Boolean
   canceled_at: String
-  latest_invoice: String
+  collection_method: String
+  created: Int
+  currency: String
+  current_period_end: Int
+  current_period_start: Int
+  customer: String
+  days_until_due: String
+  default_payment_method: String
+  default_source: String
+  description: String
+  discount: String
+  ended_at: String
+  livemode: Boolean
   next_pending_invoice_item_invoice: String
   pause_collection: String
-  current_period_end: Int!
-  default_payment_method: String
+  pending_invoice_item_interval: String
+  pending_setup_intent: String
   pending_update: String
-  default_source: String
-  days_until_due: String
-  payment_settings: StripeSubscriptionPaymentSettings
+  quantity: Int
+  schedule: String
+  start_date: Int
+  status: String
+  test_clock: String
+  transfer_data: String
+  trial_end: String
+  trial_start: String
+  plan: Plan
+  payment_settings: PaymentSettings
+  latest_invoice: LatestInvoice
+  items: Items
   default_tax_rates: [String]
-  automatic_tax: StripeSubscriptionAutomaticTax
-  items: StripeSubscriptionItem
-  plan: StripeSubscriptionPlan!
+  automatic_tax: AutomaticTax
 }
 
 type StripeSubscriptionPaymentSettings {
@@ -517,5 +527,260 @@ type StripeSubscriptionItem {
 type SeedTestAccountOutput {
   user_uid: uuid!
   email: String!
+}
+
+type QueryIncompleteSubscriptionsOutput {
+  accessToken: String!
+}
+
+type Plan {
+  id: String
+  object: String
+  active: Boolean
+  aggregate_usage: String
+  amount: Int
+  amount_decimal: String
+  billing_scheme: String
+  created: Int
+  currency: String
+  interval: String
+  interval_count: Int
+  livemode: Boolean
+  nickname: String
+  product: String
+  tiers_mode: String
+  transform_usage: String
+  trial_period_days: String
+  usage_type: String
+}
+
+type PaymentSettings {
+  payment_method_options: String
+  payment_method_types: String
+  save_default_payment_method: String
+}
+
+type StatusTransitions {
+  finalized_at: Int
+  marked_uncollectible_at: String
+  paid_at: String
+  voided_at: String
+}
+
+type Card {
+  installments: String
+  mandate_options: String
+  network: String
+  request_three_d_secure: String
+}
+
+type PaymentMethodOptions {
+  card: Card
+}
+
+type Charges {
+  object: String
+  has_more: Boolean
+  total_count: Int
+  url: String
+  data: [String]
+}
+
+type PaymentIntent {
+  id: String
+  object: String
+  amount: Int
+  amount_capturable: Int
+  amount_received: Int
+  application: String
+  application_fee_amount: String
+  automatic_payment_methods: String
+  canceled_at: String
+  cancellation_reason: String
+  capture_method: String
+  client_secret: String
+  confirmation_method: String
+  created: Int
+  currency: String
+  customer: String
+  description: String
+  invoice: String
+  last_payment_error: String
+  livemode: Boolean
+  next_action: String
+  on_behalf_of: String
+  payment_method: String
+  processing: String
+  receipt_email: String
+  review: String
+  setup_future_usage: String
+  shipping: String
+  source: String
+  statement_descriptor: String
+  statement_descriptor_suffix: String
+  status: String
+  transfer_data: String
+  transfer_group: String
+  payment_method_types: [String]
+  payment_method_options: PaymentMethodOptions
+  charges: Charges
+}
+
+type ProrationDetails {
+  credited_items: String
+}
+
+type Recurring {
+  aggregate_usage: String
+  interval: String
+  interval_count: Int
+  trial_period_days: String
+  usage_type: String
+}
+
+type Price {
+  id: String
+  object: String
+  active: Boolean
+  billing_scheme: String
+  created: Int
+  currency: String
+  custom_unit_amount: String
+  livemode: Boolean
+  lookup_key: String
+  nickname: String
+  product: String
+  tax_behavior: String
+  tiers_mode: String
+  transform_quantity: String
+  type: String
+  unit_amount: Int
+  unit_amount_decimal: String
+  recurring: Recurring
+}
+
+type Period {
+  end: Int
+  start: Int
+}
+
+type Data {
+  id: String
+  object: String
+  amount: Int
+  amount_excluding_tax: Int
+  currency: String
+  description: String
+  discountable: Boolean
+  livemode: Boolean
+  proration: Boolean
+  quantity: Int
+  subscription: String
+  subscription_item: String
+  type: String
+  unit_amount_excluding_tax: String
+  tax_rates: [String]
+  tax_amounts: [String]
+  proration_details: ProrationDetails
+  price: Price
+  plan: Plan
+  period: Period
+  discounts: [String]
+  discount_amounts: [String]
+}
+
+type Lines {
+  object: String
+  has_more: Boolean
+  total_count: Int
+  url: String
+  data: [Data]
+}
+
+type AutomaticTax {
+  enabled: Boolean
+  status: String
+}
+
+type LatestInvoice {
+  id: String
+  object: String
+  account_country: String
+  account_name: String
+  account_tax_ids: String
+  amount_due: Int
+  amount_paid: Int
+  amount_remaining: Int
+  application: String
+  application_fee_amount: String
+  attempt_count: Int
+  attempted: Boolean
+  auto_advance: Boolean
+  billing_reason: String
+  charge: String
+  collection_method: String
+  created: Int
+  currency: String
+  custom_fields: String
+  customer: String
+  customer_address: String
+  customer_email: String
+  customer_name: String
+  customer_phone: String
+  customer_shipping: String
+  customer_tax_exempt: String
+  default_payment_method: String
+  default_source: String
+  description: String
+  discount: String
+  due_date: String
+  ending_balance: Int
+  footer: String
+  hosted_invoice_url: String
+  invoice_pdf: String
+  last_finalization_error: String
+  livemode: Boolean
+  next_payment_attempt: String
+  number: String
+  on_behalf_of: String
+  paid: Boolean
+  paid_out_of_band: Boolean
+  period_end: Int
+  period_start: Int
+  post_payment_credit_notes_amount: Int
+  pre_payment_credit_notes_amount: Int
+  quote: String
+  receipt_number: String
+  rendering_options: String
+  starting_balance: Int
+  statement_descriptor: String
+  status: String
+  subscription: String
+  subtotal: Int
+  subtotal_excluding_tax: Int
+  tax: String
+  test_clock: String
+  total: Int
+  total_excluding_tax: Int
+  transfer_data: String
+  webhooks_delivered_at: Int
+  total_tax_amounts: [String]
+  total_discount_amounts: [String]
+  status_transitions: StatusTransitions
+  payment_settings: PaymentSettings
+  payment_intent: PaymentIntent
+  lines: Lines
+  discounts: [String]
+  default_tax_rates: [String]
+  customer_tax_ids: [String]
+  automatic_tax: AutomaticTax
+}
+
+type Items {
+  object: String
+  has_more: Boolean
+  total_count: Int
+  url: String
+  data: [Data]
 }
 

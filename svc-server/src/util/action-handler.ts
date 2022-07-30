@@ -1,4 +1,5 @@
 import { inspect } from 'util'
+import { timingSafeEqual } from 'node:crypto'
 import type { FastifyInstance, RouteHandlerMethod } from 'fastify'
 import type {
   RawServerDefault,
@@ -7,7 +8,7 @@ import type {
 } from 'fastify/types/utils'
 
 import { IllegalArgumentError } from '../util/error.js'
-import { ACTIONS_SECRET } from '../env.js'
+import { config } from '../env.js'
 
 import { pool } from '../pool.js'
 import type { Pool } from '../types.js'
@@ -87,7 +88,11 @@ const wrapActionHandler =
     fn: ActionHandlerFn<Input, Output>,
   ): RouteHandler<ActionHandlerRequest<Input>> =>
   async (request, reply) => {
-    if (request.headers['x-hasura-actions-secret'] !== ACTIONS_SECRET) {
+    const secret = Buffer.from(
+      String(request.headers['x-hasura-actions-secret']),
+      'utf8',
+    )
+    if (!timingSafeEqual(secret, config.ACTIONS_SECRET)) {
       await reply.code(403).send({
         message: 'Invalid x-hasura-actions-secret',
       })

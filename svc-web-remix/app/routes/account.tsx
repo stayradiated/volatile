@@ -7,7 +7,8 @@ import { getSessionData } from '~/utils/auth.server'
 import { loginRedirect } from '~/utils/redirect.server'
 
 interface LoaderData {
-  email: string | undefined
+  userUID: string
+  email: string
 }
 
 export const loader: LoaderFunction = async ({ request }) => {
@@ -17,19 +18,20 @@ export const loader: LoaderFunction = async ({ request }) => {
     return loginRedirect(request, session)
   }
 
-  const { email } = session
+  const { userUID, email } = session
 
-  return json<LoaderData>({ email })
+  return json<LoaderData>({ userUID, email })
 }
 
 const Account = () => {
-  const { email } = useLoaderData<LoaderData>()
+  const { userUID, email } = useLoaderData<LoaderData>()
 
   return (
     <>
       <Navigation isAuthenticatedUser email={email} />
 
       <Card>
+        <pre><code>Account ID: {userUID}</code></pre>
         <ul>
           <li>
             <Link to="/account/email">Edit Email</Link>

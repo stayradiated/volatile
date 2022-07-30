@@ -1,6 +1,6 @@
 table:
-  schema: kc
   name: user_2fa
+  schema: kc
 object_relationships:
   - name: user
     using:
