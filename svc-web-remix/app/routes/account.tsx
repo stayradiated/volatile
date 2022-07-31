@@ -31,7 +31,9 @@ const Account = () => {
       <Navigation isAuthenticatedUser email={email} />
 
       <Card>
-        <pre><code>Account ID: {userUID}</code></pre>
+        <pre>
+          <code>Account ID: {userUID}</code>
+        </pre>
         <ul>
           <li>
             <Link to="/account/email">Edit Email</Link>

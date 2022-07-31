@@ -1,0 +1,9 @@
+query getCheckoutPage($subscriptionID: String!) {
+  query_stripe_config {
+    publishable_key
+  }
+  query_live_stripe_subscription(subscription_id: $subscriptionID) {
+    id
+    client_secret
+  }
+}

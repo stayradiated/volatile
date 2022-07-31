@@ -1,4 +1,5 @@
 export * from './insert-stripe-customer.js'
 export * from './get-or-create-stripe-customer.js'
-export * from './get-stripe-customer.js'
+export * from './get-stripe-customer-by-user-uid.js'
+export * from './get-stripe-customer-by-customer-id.js'
 export * from './create-stripe-customer.js'

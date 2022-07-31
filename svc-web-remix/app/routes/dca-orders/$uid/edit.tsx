@@ -51,7 +51,6 @@ export const action: ActionFunction = async ({ request, params }) => {
   const result = await updateDCAOrder(await inputFromForm(request), {
     authToken,
   })
-  console.log(result)
 
   return redirect('/dca-orders')
 }

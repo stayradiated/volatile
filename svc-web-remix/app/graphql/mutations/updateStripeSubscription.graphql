@@ -1,0 +1,17 @@
+mutation updateStripeSubscription(
+  $subscriptionID: String!,
+  $cancelAtPeriodEnd: Boolean!,
+) {
+  update_stripe_subscription(
+    subscription_id: $subscriptionID,
+    cancel_at_period_end: $cancelAtPeriodEnd
+  ) {
+    stripe_subscription {
+      id
+      status
+      cancel_at
+      canceled_at
+      cancel_at_period_end
+    }
+  }
+}

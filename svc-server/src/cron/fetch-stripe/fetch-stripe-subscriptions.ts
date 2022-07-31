@@ -5,13 +5,15 @@ import Stripe from 'stripe'
 import type { Pool } from '../../types.js'
 
 import { stripe } from '../../util/stripe.js'
-import { getStripeCustomer } from '../../model/stripe-customer/index.js'
+import { getStripeCustomerByCustomerID } from '../../model/stripe-customer/index.js'
 import { upsertStripeSubscription } from '../../model/stripe-subscription/index.js'
 
 const fetchStripeSubscriptions = async (pool: Pool) => {
   const subscriptions = await errorBoundary(async () => {
     const all: Stripe.Subscription[] = []
-    for await (const subscription of stripe.subscriptions.list()) {
+    for await (const subscription of stripe.subscriptions.list({
+      status: 'all',
+    })) {
       all.push(subscription)
     }
 
@@ -26,7 +28,9 @@ const fetchStripeSubscriptions = async (pool: Pool) => {
       subscriptions.map(async (subscription) => {
         const customerID = String(subscription.customer)
 
-        const customer = await getStripeCustomer(pool, { customerID })
+        const customer = await getStripeCustomerByCustomerID(pool, {
+          customerID,
+        })
         if (customer instanceof Error) {
           return new Error(`Missing entry for customer "${customerID}"`)
         }

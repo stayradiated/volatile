@@ -64,7 +64,35 @@ CREATE TABLE kc.stripe_subscription (
   FOREIGN KEY(price_id) REFERENCES stripe_price(id)
 );
 
+CREATE TABLE kc.stripe_payment_method (
+  id TEXT NOT NULL,
+  created_at TIMESTAMPTZ NOT NULL,
+  updated_at TIMESTAMPTZ NOT NULL,
+
+  PRIMARY KEY(id)
+);
+
+CREATE TABLE kc.stripe_invoice (
+  id TEXT NOT NULL,
+  created_at TIMESTAMPTZ NOT NULL,
+  updated_at TIMESTAMPTZ NOT NULL,
+
+  charge_id TEXT NOT NULL,
+  customer_id TEXT NOT NULL,
+
+  auto_advance BOOLEAN NOT NULL,
+  collection_method TEXT NOT NULL,
+  currency TEXT NOT NULL,
+  description TEXT,
+  hosted_invoice_url TEXT,
+
+  PRIMARY KEY(id)
+);
+
 -- migrate:down
+DROP TABLE kc.stripe_invoice;
+DROP TABLE kc.stripe_charge;
+DROP TABLE kc.stripe_payment_method;
 DROP TABLE kc.stripe_subscription;
 DROP TABLE kc.stripe_price;
 DROP TABLE kc.stripe_product;

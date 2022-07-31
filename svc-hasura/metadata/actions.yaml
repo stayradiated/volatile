@@ -1,13 +1,4 @@
 actions:
-  - name: cancel_subscription
-    definition:
-      kind: synchronous
-      handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/cancel_subscription'
-      headers:
-        - name: x-hasura-actions-secret
-          value_from_env: HASURA_ACTIONS_SECRET
-    permissions:
-      - role: user
   - name: create_auth_token
     definition:
       kind: synchronous
@@ -27,10 +18,10 @@ actions:
           value_from_env: HASURA_ACTIONS_SECRET
     permissions:
       - role: user
-  - name: create_subscription
+  - name: create_stripe_subscription
     definition:
       kind: synchronous
-      handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/create_subscription'
+      handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/create_stripe_subscription'
       headers:
         - name: x-hasura-actions-secret
           value_from_env: HASURA_ACTIONS_SECRET
@@ -82,28 +73,20 @@ actions:
           value_from_env: HASURA_ACTIONS_SECRET
     permissions:
       - role: user
-  - name: query_prices
+  - name: query_live_stripe_subscription
     definition:
       kind: ""
-      handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/query_prices'
+      handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/query_live_stripe_subscription'
       headers:
         - name: x-hasura-actions-secret
           value_from_env: HASURA_ACTIONS_SECRET
     permissions:
       - role: user
+    comment: Query information about a Stripe Subscription (direct from Stripe)
   - name: query_stripe_config
     definition:
       kind: ""
       handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/query_stripe_config'
-      headers:
-        - name: x-hasura-actions-secret
-          value_from_env: HASURA_ACTIONS_SECRET
-    permissions:
-      - role: user
-  - name: query_subscriptions
-    definition:
-      kind: ""
-      handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/query_subscriptions'
       headers:
         - name: x-hasura-actions-secret
           value_from_env: HASURA_ACTIONS_SECRET
@@ -209,6 +192,15 @@ actions:
     definition:
       kind: synchronous
       handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/update_dca_order'
+      headers:
+        - name: x-hasura-actions-secret
+          value_from_env: HASURA_ACTIONS_SECRET
+    permissions:
+      - role: user
+  - name: update_stripe_subscription
+    definition:
+      kind: synchronous
+      handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/update_stripe_subscription'
       headers:
         - name: x-hasura-actions-secret
           value_from_env: HASURA_ACTIONS_SECRET
@@ -471,4 +463,46 @@ custom_types:
     - name: AutomaticTax
     - name: LatestInvoice
     - name: Items
+    - name: QueryStripeSubscriptionOutput
+    - name: QueryLiveStripeSubscriptionOutput
+    - name: ResumeSubscriptionOutput
+      relationships:
+        - field_mapping:
+            subscription_id: id
+          name: stripe_subscription
+          remote_table:
+            name: stripe_subscription
+            schema: kc
+          source: default
+          type: object
+    - name: CancelStripeSubscriptionOutput
+      relationships:
+        - field_mapping:
+            subscription_id: id
+          name: stripe_subscription
+          remote_table:
+            name: stripe_subscription
+            schema: kc
+          source: default
+          type: object
+    - name: CreateStripeSubscription
+      relationships:
+        - field_mapping:
+            subscription_id: id
+          name: stripe_subscription
+          remote_table:
+            name: stripe_subscription
+            schema: kc
+          source: default
+          type: object
+    - name: UpdateSubscriptionOutput
+      relationships:
+        - field_mapping:
+            subscription_id: id
+          name: stripe_subscription
+          remote_table:
+            name: stripe_subscription
+            schema: kc
+          source: default
+          type: object
   scalars: []

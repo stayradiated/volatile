@@ -17,26 +17,28 @@ import {
 } from './model/exchange/index.js'
 import { pool } from './pool.js'
 
+// Log queries
+import './test-util/db-debug.js'
+
 const fastify = createFastify({ logger: true })
 
 const addAction = bindActionHandler(fastify)
 
-addAction('cancel_subscription', actions.cancelSubscription)
 addAction('create_auth_token', actions.createAuthTokenHandler)
 addAction('create_dca_order', actions.createDCAOrderHandler)
-addAction('create_subscription', actions.createSubscription)
+addAction('create_stripe_subscription', actions.createStripeSubscription)
 addAction('create_user', actions.createUserHandler)
 addAction('create_user_exchange_keys', actions.createUserExchangeKeysHandler)
 addAction('delete_user', actions.deleteUserHandler)
 addAction('delete_user_2fa', actions.deleteUser2FAHandler)
 addAction('enable_user_2fa', actions.enableUser2FAHandler)
-addAction('query_prices', actions.queryPrices)
+addAction('query_live_stripe_subscription', actions.queryLiveStripeSubscription)
 addAction('query_stripe_config', actions.queryStripeConfig)
-addAction('query_subscriptions', actions.querySubscriptions)
 addAction('query_user_email', actions.queryUserEmailHandler)
 addAction('query_user_limit', actions.queryUserLimitHandler)
 addAction('refresh_auth_token', actions.refreshAuthTokenHandler)
 addAction('reset_user_password', actions.resetUserPasswordHandler)
+addAction('seed_test_account', actions.seedTestAccount)
 addAction('send_user_email_verify', actions.sendUserEmailVerifyHandler)
 addAction('send_user_password_reset', actions.sendUserPasswordResetHandler)
 addAction('setup_user_2fa', actions.setupUser2FAHandler)
@@ -47,6 +49,7 @@ addAction(
 )
 addAction('sync_exchange_trade_list', actions.syncExchangeTradeListHandler)
 addAction('update_dca_order', actions.updateDCAOrderHandler)
+addAction('update_stripe_subscription', actions.updateStripeSubscriptionHandler)
 addAction('update_user', actions.updateUserHandler)
 addAction('update_user_exchange_keys', actions.updateUserExchangeKeysHandler)
 addAction(
@@ -59,7 +62,6 @@ addAction(
 )
 addAction('validate_user_password_reset', actions.validateUserPasswordReset)
 addAction('verify_user_email', actions.verifyUserEmailHandler)
-addAction('seed_test_account', actions.seedTestAccount)
 
 const addCron = bindCronHandler(fastify)
 addCron('auto_buy', cron.autoBuyHandler)

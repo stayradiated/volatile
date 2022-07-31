@@ -47,8 +47,8 @@ const stripeHandler: HandlerFn<Input, Output> = async (context) => {
         createdAt: fromUnixTime(subscription['created']),
         updatedAt: new Date(),
         customerID: String(subscription['customer']),
-        priceID: subscription['items']['data'][0]!['price']['id'],
-        quantity: subscription['items']['data'][0]!['quantity' ]?? 0,
+        priceID: subscription['items'].data[0]!.price.id,
+        quantity: subscription['items'].data[0]!.quantity ?? 0,
         cancelAt: subscription['cancel_at']
           ? fromUnixTime(subscription['cancel_at'])
           : undefined,
@@ -58,7 +58,7 @@ const stripeHandler: HandlerFn<Input, Output> = async (context) => {
         cancelAtPeriodEnd: subscription['cancel_at_period_end'],
         currentPeriodEnd: fromUnixTime(subscription['current_period_end']),
         currentPeriodStart: fromUnixTime(subscription['current_period_start']),
-        description: subscription['description' ]?? undefined,
+        description: subscription['description'] ?? undefined,
         status: subscription['status'],
       })
       if (error instanceof Error) {

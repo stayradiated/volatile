@@ -3,25 +3,32 @@ import { useActionData, useTransition } from '@remix-run/react'
 import * as z from 'zod'
 import { makeDomainFunction, inputFromForm } from 'remix-domains'
 
-import { getSessionData, setSessionData, commitSession } from '~/utils/auth.server'
+import {
+  getSessionData,
+  setSessionData,
+  commitSession,
+} from '~/utils/auth.server'
 import { RegisterForm } from '~/components/register-form/index'
 import { sdk } from '~/utils/api.server'
 
 const createUser = makeDomainFunction(
   z.object({
     email: z.string().email(),
-    password: z.string()
+    password: z.string(),
   }),
 )(async (input) => {
   const { email, password } = input
 
-  await sdk.createUser({
-    email,
-    password,
-  }, {
-    'x-hasura-role': 'guest',
-  })
-  
+  await sdk.createUser(
+    {
+      email,
+      password,
+    },
+    {
+      'x-hasura-role': 'guest',
+    },
+  )
+
   const result = await sdk.createAuthToken({
     email,
     password,
@@ -35,18 +42,21 @@ const createUser = makeDomainFunction(
   const userUID = result.create_auth_token?.user_uid
   const authToken = result.create_auth_token?.auth_token
 
-  await sdk.sendUserEmailVerify({}, {
-    'authorization': `Bearer ${authToken}`,
-    'x-hasura-role': 'user'
-  })
+  await sdk.sendUserEmailVerify(
+    {},
+    {
+      authorization: `Bearer ${authToken}`,
+      'x-hasura-role': 'user',
+    },
+  )
 
   return { email, userUID, authToken }
 })
 
-export const action : ActionFunction = async ({ request }) => {
+export const action: ActionFunction = async ({ request }) => {
   const session = await getSessionData(request)
 
-  // already logged in, cannot sign up again...
+  // Already logged in, cannot sign up again...
   if (session.role !== 'guest') {
     return redirect('/')
   }
@@ -69,17 +79,16 @@ export const action : ActionFunction = async ({ request }) => {
   })
 }
 
-export const loader : LoaderFunction = async ({ request }) => {
+export const loader: LoaderFunction = async ({ request }) => {
   const session = await getSessionData(request)
 
-  // already logged in, cannot sign up again...
+  // Already logged in, cannot sign up again...
   if (session.role !== 'guest') {
     return redirect('/')
   }
 
   return null
 }
-
 
 const RegisterRoute = () => {
   const actionData = useActionData()

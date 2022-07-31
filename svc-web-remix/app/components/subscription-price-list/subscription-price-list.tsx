@@ -13,19 +13,26 @@ type Props = {
 const SubscriptionPriceList = (props: Props) => {
   const { query } = props
 
+  const products = query.kc_stripe_product
+
   return (
     <>
-    <Form method="post">
-      {(query.query_prices || []).map((price) => {
-        return (
-          <Price key={price.id} price={price} />
-        )
-      })}
+      <Form method="post">
+        {products.map((product) => {
+          return (
+            <>
+              <strong>{product.name}</strong>
+              {product.stripe_prices.map((price) => {
+                return <Price key={price.id} price={price} />
+              })}
+            </>
+          )
+        })}
 
-      <PrimaryButton type='submit' name='_action' value='createSubscription'>
-        Create Subscription
-      </PrimaryButton>
-    </Form>
+        <PrimaryButton type="submit" name="_action" value="createSubscription">
+          Create Subscription
+        </PrimaryButton>
+      </Form>
     </>
   )
 }

@@ -62,6 +62,7 @@ const updateDCAOrder = async (
       .update(
         'dca_order',
         {
+          updated_at: new Date(),
           enabled_at: enabledAt,
         },
         {

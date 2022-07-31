@@ -51,7 +51,6 @@ export const action: ActionFunction = async ({ request }) => {
   const result = await createDCAOrder(await inputFromForm(request), {
     authToken,
   })
-  console.log(result)
 
   return redirect('/dca-orders')
 }

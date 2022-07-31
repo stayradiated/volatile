@@ -40,8 +40,6 @@ export const loader: LoaderFunction = async ({ request }) => {
 const Account = () => {
   const { query } = useLoaderData<LoaderData>()
 
-  console.log(query)
-
   const has2FA = query.getUser2FA.kc_user[0].user_2fa?.uid
 
   if (has2FA) {

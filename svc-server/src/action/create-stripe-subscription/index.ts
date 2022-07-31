@@ -16,7 +16,9 @@ type Output = {
   client_secret: string
 }
 
-const createSubscription: ActionHandlerFn<Input, Output> = async (context) => {
+const createStripeSubscription: ActionHandlerFn<Input, Output> = async (
+  context,
+) => {
   const { pool, input, session } = context
   const { userUID } = session
   if (!userUID) {
@@ -66,4 +68,4 @@ const createSubscription: ActionHandlerFn<Input, Output> = async (context) => {
   }
 }
 
-export { createSubscription }
+export { createStripeSubscription }

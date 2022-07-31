@@ -12,7 +12,7 @@ type Props = {
 const StripeContainer = (props: Props) => {
   const { children, query } = props
 
-  const stripePromise = useMemo(() => {
+  const stripePromise = useMemo(async () => {
     return loadStripe(query.query_stripe_config.publishable_key)
   }, [query])
 

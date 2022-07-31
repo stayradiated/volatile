@@ -50,8 +50,6 @@ export const action: ActionFunction = async ({ request }) => {
       userAuthToken,
     })
 
-    console.log({ email, userAuthToken })
-
     // Login succeeded, send them to the home page.
     return safeRedirect(request, returnTo, {
       headers: {

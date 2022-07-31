@@ -1,10 +1,15 @@
 query getPrices {
-  query_prices {
+  kc_stripe_product(where: { active: { _eq: true } }) {
     id
-    type
-    interval
-    interval_count
-    currency
-    unit_amount
+    active
+    name
+    stripe_prices(where: { active: { _eq: true } }) {
+      id
+      type
+      recurring_interval
+      recurring_interval_count
+      unit_amount
+      currency
+    }
   }
 }

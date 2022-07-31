@@ -33,7 +33,6 @@ export const action: ActionFunction = async ({ request }) => {
     typeof formReturn === 'string' && formReturn.trim().length > 0
       ? formReturn
       : '/'
-  console.log({ returnTo })
 
   try {
     const result = await sdk.createAuthToken({

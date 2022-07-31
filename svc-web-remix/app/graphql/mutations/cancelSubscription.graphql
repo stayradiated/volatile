@@ -1,8 +1,0 @@
-mutation CancelSubscription($subscriptionID: String!) {
-  cancel_subscription(subscription_id: $subscriptionID) {
-    subscription {
-      id
-      status
-    }
-  }
-}

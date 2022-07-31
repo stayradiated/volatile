@@ -74,8 +74,6 @@ const EditRoute = () => {
   const actionData = useActionData<ActionData>()
   const { error, isValid, validationMessage } = actionData ?? {}
 
-  console.log({ actionData })
-
   return (
     <Card width={400}>
       <UserExchangeKeysValidate

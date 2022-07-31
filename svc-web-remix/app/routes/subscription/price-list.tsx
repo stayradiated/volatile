@@ -1,8 +1,9 @@
 import { useLoaderData } from '@remix-run/react'
-import { ActionFunction, LoaderFunction, json } from '@remix-run/node'
+import { ActionFunction, LoaderFunction, json, redirect } from '@remix-run/node'
 import { makeDomainFunction, inputFromForm } from 'remix-domains'
 import * as z from 'zod'
 
+import { Navigation } from '~/components/navigation'
 import { Card } from '~/components/retro-ui'
 import { GetPricesQuery } from '~/graphql/generated'
 import { SubscriptionPriceList } from '~/components/subscription-price-list'
@@ -12,20 +13,23 @@ import { loginRedirect } from '~/utils/redirect.server'
 
 const createSubscription = makeDomainFunction(
   z.object({
-    priceId: z.string()
+    priceId: z.string(),
   }),
   z.object({
-  authToken: z.string()
+    authToken: z.string(),
   }),
 )(async (input, environment) => {
   const { priceId } = input
   const { authToken } = environment
 
-  return sdk.createSubscription({
-    priceId
-  },{
-  authorization: `Bearer ${authToken}`
-  })
+  return sdk.createStripeSubscription(
+    {
+      priceId,
+    },
+    {
+      authorization: `Bearer ${authToken}`,
+    },
+  )
 })
 
 export const action: ActionFunction = async ({ request }) => {
@@ -37,11 +41,18 @@ export const action: ActionFunction = async ({ request }) => {
 
   const { authToken } = session
 
-  const result = await createSubscription(await inputFromForm(request), { authToken })
+  const result = await createSubscription(await inputFromForm(request), {
+    authToken,
+  })
 
-  console.log(result)
+  if (!result.success) {
+    console.error(result)
+    return json({ error: 'Could not create subscription.' })
+  }
 
-  return result
+  const { subscription_id: id } = result.data.create_stripe_subscription
+
+  return redirect(`/subscription/checkout?id=${id}`)
 }
 
 interface LoaderData {
@@ -55,7 +66,7 @@ export const loader: LoaderFunction = async ({ request }) => {
     return loginRedirect(request, session)
   }
 
-  const { authToken } = session
+  const { email, authToken } = session
 
   const query = await sdk.getPrices(
     {},
@@ -66,15 +77,17 @@ export const loader: LoaderFunction = async ({ request }) => {
   )
 
   return json<LoaderData>({
+    email,
     query,
   })
 }
 
 const SubscriptionRoute = () => {
-  const { query } = useLoaderData<LoaderData>()
+  const { email, query } = useLoaderData<LoaderData>()
 
   return (
     <>
+      <Navigation isAuthenticatedUser email={email} />
       <Card>
         <SubscriptionPriceList query={query} />
       </Card>

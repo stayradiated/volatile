@@ -1,10 +1,4 @@
 type Mutation {
-  cancel_subscription(
-    subscription_id: String!
-  ): CancelSubscriptionOutput
-}
-
-type Mutation {
   create_auth_token(
     email: String!
     password: String!
@@ -34,9 +28,9 @@ type Mutation {
 }
 
 type Mutation {
-  create_subscription(
+  create_stripe_subscription(
     price_id: String
-  ): CreateSubscription
+  ): CreateStripeSubscription!
 }
 
 type Mutation {
@@ -73,17 +67,13 @@ type Mutation {
 }
 
 type Query {
-  query_prices: [PriceOutput!]!
+  query_live_stripe_subscription(
+    subscription_id: String!
+  ): QueryLiveStripeSubscriptionOutput!
 }
 
 type Query {
   query_stripe_config: QueryStripeConfigOutput!
-}
-
-type Query {
-  query_subscriptions(
-    status: String
-  ): QuerySubscriptionsOutput
 }
 
 type Query {
@@ -158,6 +148,13 @@ type Mutation {
     dca_order_uid: uuid!
     enabled: Boolean!
   ): UpdateDCAOrderOutput!
+}
+
+type Mutation {
+  update_stripe_subscription(
+    subscription_id: String!
+    cancel_at_period_end: Boolean!
+  ): UpdateSubscriptionOutput!
 }
 
 type Mutation {
@@ -782,5 +779,32 @@ type Items {
   total_count: Int
   url: String
   data: [Data]
+}
+
+type QueryStripeSubscriptionOutput {
+  id: String!
+  client_secret: String!
+}
+
+type QueryLiveStripeSubscriptionOutput {
+  id: String!
+  client_secret: String!
+}
+
+type ResumeSubscriptionOutput {
+  subscription_id: String!
+}
+
+type CancelStripeSubscriptionOutput {
+  subscription_id: String!
+}
+
+type CreateStripeSubscription {
+  subscription_id: String!
+  client_secret: String!
+}
+
+type UpdateSubscriptionOutput {
+  subscription_id: String!
 }
 

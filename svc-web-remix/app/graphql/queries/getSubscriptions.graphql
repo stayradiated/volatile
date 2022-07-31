@@ -1,20 +1,21 @@
-query getSubscriptions($status: String) {
-  query_subscriptions(status: $status) {
-    subscriptions {
-      id
-      status
-      created
-      current_period_end
-      plan {
-        interval
-        interval_count
-        amount
-        currency
-      }
-      latest_invoice{
-        payment_intent{
-          client_secret
-        }
+query getSubscriptions {
+  kc_stripe_subscription( order_by:{ current_period_start:desc }) {
+    id
+    status
+    current_period_start
+    current_period_end
+    cancel_at
+    canceled_at
+    cancel_at_period_end
+
+    stripe_price {
+      recurring_interval
+      recurring_interval_count
+      unit_amount
+      currency
+
+      stripe_product {
+        name
       }
     }
   }
