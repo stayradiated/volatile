@@ -25,3 +25,4 @@ select_permissions:
         stripe_customer:
           user_uid:
             _eq: X-Hasura-User-Id
+      allow_aggregations: true

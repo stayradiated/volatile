@@ -1,13 +1,7 @@
 import { format, parseISO } from 'date-fns'
-import { Link, Form } from '@remix-run/react'
 
-import type { GetSubscriptionsQuery } from '~/graphql/generated'
-
-import { PrimaryButton } from '~/components/retro-ui'
-
-type Subscription = NonNullable<
-  GetSubscriptionsQuery['kc_stripe_subscription'][number]
->
+import { UpdateSubscriptionButton } from './update-subscription-button'
+import { StripeSubscriptionFragment } from '~/graphql/generated'
 
 type Status = {
   name: string
@@ -23,7 +17,7 @@ const STATUS: Record<string, Status> = {
 }
 
 type Props = {
-  subscription: Subscription
+  subscription: StripeSubscriptionFragment
 }
 
 const SubscriptionCard = (props: Props) => {
@@ -39,6 +33,9 @@ const SubscriptionCard = (props: Props) => {
       <hr />
 
       <h4>{subscription.stripe_price.stripe_product.name}</h4>
+
+      {status.isActive && <p>You have an active subscription :)</p>}
+
       <ul>
         <li>Status: {status.name}</li>
         <li>
@@ -71,42 +68,30 @@ const SubscriptionCard = (props: Props) => {
         </li>
       </ul>
 
-      {subscription.cancel_at && (
+      {subscription.cancel_at_period_end && (
         <>
           <strong>
             Your subscription will end on{' '}
             {format(parseISO(subscription.cancel_at), 'MMM dd, yyyy')}.
           </strong>{' '}
-          <em>
-            You chose to cancel your subscription on{' '}
-            {format(parseISO(subscription.canceled_at), 'MMM dd, yyyy')}.
-          </em>
-          <Form method="post">
-            <input
-              type="hidden"
-              name="subscriptionID"
-              value={subscription.id}
-            />
-            <PrimaryButton name="_action" value="resumeStripeSubscription">
-              Uncancel
-            </PrimaryButton>
-          </Form>
+          {subscription.canceled_at && (
+            <em>
+              You chose to cancel your subscription on{' '}
+              {format(parseISO(subscription.canceled_at), 'MMM dd, yyyy')}.
+            </em>
+          )}
+          <UpdateSubscriptionButton
+            subscriptionID={subscription.id}
+            cancelAtPeriodEnd={false}
+          />
         </>
       )}
 
-      {!subscription.canceled_at && status.isActive && (
-        <>
-          <Form method="post">
-            <input
-              type="hidden"
-              name="subscriptionID"
-              value={subscription.id}
-            />
-            <PrimaryButton name="_action" value="cancelStripeSubscription">
-              Cancel
-            </PrimaryButton>
-          </Form>
-        </>
+      {!subscription.cancel_at && status.isActive && (
+        <UpdateSubscriptionButton
+          subscriptionID={subscription.id}
+          cancelAtPeriodEnd={true}
+        />
       )}
     </section>
   )

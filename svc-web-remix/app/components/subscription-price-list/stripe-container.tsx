@@ -2,19 +2,17 @@ import { useMemo } from 'react'
 import { Elements } from '@stripe/react-stripe-js'
 import { loadStripe } from '@stripe/stripe-js'
 
-import type { GetStripeConfigQuery } from '~/graphql/generated'
-
 type Props = {
   children?: React.ReactNode
-  query: GetStripeConfigQuery
+  publishableKey: string
 }
 
 const StripeContainer = (props: Props) => {
-  const { children, query } = props
+  const { children, publishableKey } = props
 
   const stripePromise = useMemo(async () => {
-    return loadStripe(query.query_stripe_config.publishable_key)
-  }, [query])
+    return loadStripe(publishableKey)
+  }, [publishableKey])
 
   return <Elements stripe={stripePromise}>{children}</Elements>
 }

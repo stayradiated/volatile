@@ -24,7 +24,7 @@ const StripeForm = (props: Props) => {
   if (!stripe || !elements) {
     // Stripe.js has not loaded yet. Make sure to disable
     // form submission until Stripe.js has loaded.
-    return null
+    return <p>Loading...</p>
   }
 
   // When the subscribe-form is submitted we do a few things:

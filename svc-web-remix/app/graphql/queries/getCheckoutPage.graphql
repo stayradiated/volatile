@@ -6,4 +6,7 @@ query getCheckoutPage($subscriptionID: String!) {
     id
     client_secret
   }
+  kc_stripe_subscription_by_pk(id: $subscriptionID) {
+    ...stripeSubscription
+  }
 }

@@ -18,6 +18,18 @@ module.exports = {
         'typescript-operations',
         'typescript-graphql-request',
       ],
-    }
+      config: {
+        scalars: {
+          'numeric': 'number',
+          'smallint': 'number',
+          'timestamp': 'string',
+          'timestamptz': 'string',
+          'uuid': 'string'
+        }
+      }
+    },
+    './app/graphql/schema.json': {
+      plugins: ['introspection'],
+    },
   },
 }

@@ -22,11 +22,11 @@ export type Scalars = {
   Float: number
   bpchar: any
   jsonb: any
-  numeric: any
-  smallint: any
-  timestamp: any
-  timestamptz: any
-  uuid: any
+  numeric: number
+  smallint: number
+  timestamp: string
+  timestamptz: string
+  uuid: string
 }
 
 /** Boolean expression to compare columns of type "Boolean". All fields are combined with logical 'AND'. */
@@ -10250,12 +10250,12 @@ export type Value_Fx_Kc_Trade_Args = {
 
 export type DcaOrderHistoryPriceChart_Kc_Dca_Order_HistoryFragment = {
   __typename?: 'kc_dca_order_history'
-  created_at: any
+  created_at: string
   created_order: boolean
-  market_price: any
-  market_offset: any
-  value: any
-  available_balance: any
+  market_price: number
+  market_offset: number
+  value: number
+  available_balance: number
 }
 
 export type CreateAuthTokenMutationVariables = Exact<{
@@ -10275,7 +10275,7 @@ export type CreateAuthTokenMutation = {
         __typename?: 'CreateAuthTokenOutput'
         user_uid: string
         auth_token: string
-        expires_at: any
+        expires_at: string
       }
     | undefined
 }
@@ -10301,19 +10301,19 @@ export type CreateDcaOrderMutation = {
         dca_order?:
           | {
               __typename?: 'kc_dca_order'
-              uid: any
-              user_exchange_keys_uid: any
-              enabled_at?: any | undefined
-              market_uid: any
-              start_at: any
-              market_offset: any
-              daily_average: any
+              uid: string
+              user_exchange_keys_uid: string
+              enabled_at?: string | undefined
+              market_uid: string
+              start_at: string
+              market_offset: number
+              daily_average: number
               interval_ms: number
-              min_value?: any | undefined
-              max_value?: any | undefined
+              min_value?: number | undefined
+              max_value?: number | undefined
               exchange: {
                 __typename?: 'kc_exchange'
-                uid: any
+                uid: string
                 id: string
                 name: string
               }
@@ -10363,10 +10363,10 @@ export type CreateUserExchangeKeysMutation = {
         user_exchange_keys?:
           | {
               __typename?: 'kc_user_exchange_keys'
-              uid: any
+              uid: string
               description: string
-              invalidated_at?: any | undefined
-              exchange: { __typename?: 'kc_exchange'; uid: any }
+              invalidated_at?: string | undefined
+              exchange: { __typename?: 'kc_exchange'; uid: string }
               dca_orders_aggregate: {
                 __typename?: 'kc_dca_order_aggregate'
                 aggregate?:
@@ -10389,7 +10389,10 @@ export type DeleteDcaOrderMutationVariables = Exact<{
 export type DeleteDcaOrderMutation = {
   __typename?: 'mutation_root'
   delete_kc_dca_order_by_pk?:
-    | { __typename?: 'kc_dca_order'; uid: any }
+    | {
+        __typename?: 'kc_dca_order'
+        uid: string
+      }
     | undefined
 }
 
@@ -10397,7 +10400,9 @@ export type DeleteUserMutationVariables = Exact<Record<string, never>>
 
 export type DeleteUserMutation = {
   __typename?: 'mutation_root'
-  delete_user?: { __typename?: 'DeleteUserOutput'; user_uid: any } | undefined
+  delete_user?:
+    | { __typename?: 'DeleteUserOutput'; user_uid: string }
+    | undefined
 }
 
 export type DeleteUser2FaMutationVariables = Exact<{
@@ -10412,13 +10417,13 @@ export type DeleteUser2FaMutation = {
         user?:
           | {
               __typename?: 'kc_user'
-              uid: any
+              uid: string
               user_2fa?:
                 | {
                     __typename?: 'kc_user_2fa'
-                    created_at: any
+                    created_at: string
                     name: string
-                    uid: any
+                    uid: string
                   }
                 | undefined
             }
@@ -10436,7 +10441,7 @@ export type DeleteUserDeviceMutation = {
   delete_kc_user_device_by_pk?:
     | {
         __typename?: 'kc_user_device'
-        uid: any
+        uid: string
       }
     | undefined
 }
@@ -10450,7 +10455,7 @@ export type DeleteUserExchangeKeysMutation = {
   delete_kc_user_exchange_keys_by_pk?:
     | {
         __typename?: 'kc_user_exchange_keys'
-        uid: any
+        uid: string
       }
     | undefined
 }
@@ -10469,13 +10474,13 @@ export type EnableUser2FaMutation = {
         user?:
           | {
               __typename?: 'kc_user'
-              uid: any
+              uid: string
               user_2fa?:
                 | {
                     __typename?: 'kc_user_2fa'
-                    created_at: any
+                    created_at: string
                     name: string
-                    uid: any
+                    uid: string
                   }
                 | undefined
             }
@@ -10497,9 +10502,9 @@ export type UseResetUserPasswordMutation = {
   __typename?: 'mutation_root'
   reset_user_password: {
     __typename?: 'ResetUserPasswordOutput'
-    user_uid: any
+    user_uid: string
     auth_token: string
-    expires_at: any
+    expires_at: string
   }
 }
 
@@ -10509,7 +10514,7 @@ export type SendUserEmailVerifyMutation = {
   __typename?: 'mutation_root'
   send_user_email_verify: {
     __typename?: 'SendUserEmailVerifyOutput'
-    user_uid: any
+    user_uid: string
   }
 }
 
@@ -10535,17 +10540,17 @@ export type UpdateDcaOrderMutation = {
   update_kc_dca_order_by_pk?:
     | {
         __typename?: 'kc_dca_order'
-        uid: any
-        enabled_at?: any | undefined
-        daily_average: any
+        uid: string
+        enabled_at?: string | undefined
+        daily_average: number
         interval_ms: number
-        market_offset: any
-        market_uid: any
-        max_value?: any | undefined
-        min_value?: any | undefined
-        start_at: any
-        updated_at: any
-        user_exchange_keys_uid: any
+        market_offset: number
+        market_uid: string
+        max_value?: number | undefined
+        min_value?: number | undefined
+        start_at: string
+        updated_at: string
+        user_exchange_keys_uid: string
       }
     | undefined
 }
@@ -10562,8 +10567,8 @@ export type UpdateDcaOrderEnabledMutation = {
     dca_order?:
       | {
           __typename?: 'kc_dca_order'
-          uid: any
-          enabled_at?: any | undefined
+          uid: string
+          enabled_at?: string | undefined
         }
       | undefined
   }
@@ -10583,8 +10588,8 @@ export type UpdateStripeSubscriptionMutation = {
           __typename?: 'kc_stripe_subscription'
           id: string
           status: string
-          cancel_at?: any | undefined
-          canceled_at?: any | undefined
+          cancel_at?: string | undefined
+          canceled_at?: string | undefined
           cancel_at_period_end: boolean
         }
       | undefined
@@ -10598,7 +10603,7 @@ export type UpdateUserMutationVariables = Exact<{
 
 export type UpdateUserMutation = {
   __typename?: 'mutation_root'
-  update_user: { __typename?: 'UpdateUserOutput'; user_uid: any }
+  update_user: { __typename?: 'UpdateUserOutput'; user_uid: string }
 }
 
 export type UpdateUserDeviceMutationVariables = Exact<{
@@ -10611,7 +10616,7 @@ export type UpdateUserDeviceMutation = {
   update_kc_user_device_by_pk?:
     | {
         __typename?: 'kc_user_device'
-        uid: any
+        uid: string
         name: string
       }
     | undefined
@@ -10631,10 +10636,10 @@ export type UpdateUserExchangeKeysMutation = {
         user_exchange_keys?:
           | {
               __typename?: 'kc_user_exchange_keys'
-              uid: any
+              uid: string
               description: string
-              invalidated_at?: any | undefined
-              exchange: { __typename?: 'kc_exchange'; uid: any }
+              invalidated_at?: string | undefined
+              exchange: { __typename?: 'kc_exchange'; uid: string }
               dca_orders_aggregate: {
                 __typename?: 'kc_dca_order_aggregate'
                 aggregate?:
@@ -10718,6 +10723,26 @@ export type GetCheckoutPageQuery = {
     id: string
     client_secret: string
   }
+  kc_stripe_subscription_by_pk?:
+    | {
+        __typename?: 'kc_stripe_subscription'
+        id: string
+        status: string
+        cancel_at?: string | undefined
+        canceled_at?: string | undefined
+        cancel_at_period_end: boolean
+        current_period_start: string
+        current_period_end: string
+        stripe_price: {
+          __typename?: 'kc_stripe_price'
+          unit_amount?: number | undefined
+          currency: any
+          recurring_interval?: string | undefined
+          recurring_interval_count?: number | undefined
+          stripe_product: { __typename?: 'kc_stripe_product'; name: string }
+        }
+      }
+    | undefined
 }
 
 export type GetDcaOrderFormCreateQueryVariables = Exact<Record<string, never>>
@@ -10726,7 +10751,7 @@ export type GetDcaOrderFormCreateQuery = {
   __typename?: 'query_root'
   kc_market: Array<{
     __typename?: 'kc_market'
-    uid: any
+    uid: string
     name: string
     market_prices: Array<{
       __typename?: 'kc_market_price'
@@ -10736,13 +10761,13 @@ export type GetDcaOrderFormCreateQuery = {
   }>
   kc_user_exchange_keys: Array<{
     __typename?: 'kc_user_exchange_keys'
-    uid: any
+    uid: string
     description: string
-    exchange_uid: any
+    exchange_uid: string
   }>
   kc_exchange: Array<{
     __typename?: 'kc_exchange'
-    uid: any
+    uid: string
     name: string
     primary_currencies: Array<{
       __typename?: 'kc_exchange_primary_currency'
@@ -10765,7 +10790,7 @@ export type GetDcaOrderFormEditQuery = {
   __typename?: 'query_root'
   kc_market: Array<{
     __typename?: 'kc_market'
-    uid: any
+    uid: string
     name: string
     market_prices: Array<{
       __typename?: 'kc_market_price'
@@ -10775,23 +10800,23 @@ export type GetDcaOrderFormEditQuery = {
   }>
   kc_user_exchange_keys: Array<{
     __typename?: 'kc_user_exchange_keys'
-    uid: any
-    exchange_uid: any
+    uid: string
+    exchange_uid: string
     description: string
   }>
   kc_dca_order_by_pk?:
     | {
         __typename?: 'kc_dca_order'
-        uid: any
-        user_exchange_keys_uid: any
-        exchange_uid: any
-        market_uid: any
-        start_at: any
-        market_offset: any
-        daily_average: any
+        uid: string
+        user_exchange_keys_uid: string
+        exchange_uid: string
+        market_uid: string
+        start_at: string
+        market_offset: number
+        daily_average: number
         interval_ms: number
-        min_value?: any | undefined
-        max_value?: any | undefined
+        min_value?: number | undefined
+        max_value?: number | undefined
         primary_currency: {
           __typename?: 'kc_currency'
           symbol: string
@@ -10802,7 +10827,7 @@ export type GetDcaOrderFormEditQuery = {
           symbol: string
           name: string
         }
-        exchange: { __typename?: 'kc_exchange'; uid: any; name: string }
+        exchange: { __typename?: 'kc_exchange'; uid: string; name: string }
       }
     | undefined
 }
@@ -10818,23 +10843,23 @@ export type GetDcaOrderHistoryListQuery = {
   kc_dca_order_by_pk?:
     | {
         __typename?: 'kc_dca_order'
-        uid: any
-        exchange: { __typename?: 'kc_exchange'; uid: any; name: string }
+        uid: string
+        exchange: { __typename?: 'kc_exchange'; uid: string; name: string }
         primary_currency: { __typename?: 'kc_currency'; symbol: string }
         secondary_currency: { __typename?: 'kc_currency'; symbol: string }
       }
     | undefined
   kc_dca_order_history: Array<{
     __typename?: 'kc_dca_order_history'
-    uid: any
-    created_at: any
-    market_price: any
-    market_offset: any
-    target_value: any
-    available_balance: any
+    uid: string
+    created_at: string
+    market_price: number
+    market_offset: number
+    target_value: number
+    available_balance: number
     created_order: boolean
     description: string
-    value: any
+    value: number
   }>
 }
 
@@ -10849,24 +10874,24 @@ export type GetDcaOrderHistoryPriceChartQuery = {
   kc_dca_order_by_pk?:
     | {
         __typename?: 'kc_dca_order'
-        uid: any
+        uid: string
         exchange_market_trading_pair?:
           | Array<{
               __typename?: 'kc_market_trading_pair'
-              market_uid: any
+              market_uid: string
               primary_currency_symbol: string
               secondary_currency_symbol: string
               market_prices: Array<{
                 __typename?: 'kc_market_price'
-                price: any
-                timestamp: any
+                price: number
+                timestamp: string
               }>
             }>
           | undefined
         market_prices: Array<{
           __typename?: 'kc_market_price'
-          price: any
-          timestamp: any
+          price: number
+          timestamp: string
         }>
       }
     | undefined
@@ -10878,15 +10903,20 @@ export type GetDcaOrderListQuery = {
   __typename?: 'query_root'
   kc_dca_order: Array<{
     __typename?: 'kc_dca_order'
-    uid: any
-    enabled_at?: any | undefined
-    daily_average: any
-    start_at: any
-    market_offset: any
+    uid: string
+    enabled_at?: string | undefined
+    daily_average: number
+    start_at: string
+    market_offset: number
     interval_ms: number
-    min_value?: any | undefined
-    max_value?: any | undefined
-    exchange: { __typename?: 'kc_exchange'; uid: any; id: string; name: string }
+    min_value?: number | undefined
+    max_value?: number | undefined
+    exchange: {
+      __typename?: 'kc_exchange'
+      uid: string
+      id: string
+      name: string
+    }
     primary_currency: { __typename?: 'kc_currency'; symbol: string }
     secondary_currency: { __typename?: 'kc_currency'; symbol: string }
   }>
@@ -10901,14 +10931,14 @@ export type GetDcaOrderDeleteQuery = {
   kc_dca_order_by_pk?:
     | {
         __typename?: 'kc_dca_order'
-        uid: any
-        enabled_at?: any | undefined
-        daily_average: any
-        start_at: any
-        market_offset: any
-        min_value?: any | undefined
-        max_value?: any | undefined
-        exchange: { __typename?: 'kc_exchange'; uid: any; name: string }
+        uid: string
+        enabled_at?: string | undefined
+        daily_average: number
+        start_at: string
+        market_offset: number
+        min_value?: number | undefined
+        max_value?: number | undefined
+        exchange: { __typename?: 'kc_exchange'; uid: string; name: string }
         primary_currency: { __typename?: 'kc_currency'; symbol: string }
         secondary_currency: { __typename?: 'kc_currency'; symbol: string }
       }
@@ -10919,7 +10949,11 @@ export type GetEmailVerifiedQueryVariables = Exact<Record<string, never>>
 
 export type GetEmailVerifiedQuery = {
   __typename?: 'query_root'
-  kc_user: Array<{ __typename?: 'kc_user'; uid: any; email_verified: boolean }>
+  kc_user: Array<{
+    __typename?: 'kc_user'
+    uid: string
+    email_verified: boolean
+  }>
 }
 
 export type GetExchangeKeysFormCreateQueryVariables = Exact<
@@ -10930,7 +10964,7 @@ export type GetExchangeKeysFormCreateQuery = {
   __typename?: 'query_root'
   kc_exchange: Array<{
     __typename?: 'kc_exchange'
-    uid: any
+    uid: string
     id: string
     name: string
   }>
@@ -10945,27 +10979,27 @@ export type GetExchangeListQuery = {
   __typename?: 'query_root'
   kc_user_exchange_keys: Array<{
     __typename?: 'kc_user_exchange_keys'
-    uid: any
+    uid: string
     exchange: {
       __typename?: 'kc_exchange'
-      uid: any
+      uid: string
       name: string
       url: string
     }
     balance_latest?:
       | Array<{
           __typename?: 'kc_balance'
-          available_balance: any
-          total_balance: any
+          available_balance: number
+          total_balance: number
           currency_symbol: string
-          total_balance_nzd?: any | undefined
+          total_balance_nzd?: number | undefined
         }>
       | undefined
     balance_historic?:
       | Array<{
           __typename?: 'kc_balance'
           currency_symbol: string
-          total_balance_nzd?: any | undefined
+          total_balance_nzd?: number | undefined
         }>
       | undefined
   }>
@@ -10982,48 +11016,48 @@ export type GetMarketPriceQuery = {
     __typename?: 'kc_market'
     market_prices: Array<{
       __typename?: 'kc_market_price'
-      price: any
-      timestamp: any
+      price: number
+      timestamp: string
     }>
   }>
   kiwi_coin: Array<{
     __typename?: 'kc_market'
     market_prices: Array<{
       __typename?: 'kc_market_price'
-      price: any
-      timestamp: any
+      price: number
+      timestamp: string
     }>
   }>
   dasset: Array<{
     __typename?: 'kc_market'
     market_prices: Array<{
       __typename?: 'kc_market_price'
-      price: any
-      timestamp: any
+      price: number
+      timestamp: string
     }>
   }>
   kraken: Array<{
     __typename?: 'kc_market'
     market_prices: Array<{
       __typename?: 'kc_market_price'
-      price: any
-      timestamp: any
+      price: number
+      timestamp: string
     }>
   }>
   independent_reserve_aud: Array<{
     __typename?: 'kc_market'
     market_prices: Array<{
       __typename?: 'kc_market_price'
-      price: any
-      timestamp: any
+      price: number
+      timestamp: string
     }>
   }>
   independent_reserve_nzd: Array<{
     __typename?: 'kc_market'
     market_prices: Array<{
       __typename?: 'kc_market_price'
-      price: any
-      timestamp: any
+      price: number
+      timestamp: string
     }>
   }>
 }
@@ -11034,19 +11068,19 @@ export type GetOpenOrderListQuery = {
   __typename?: 'query_root'
   kc_order: Array<{
     __typename?: 'kc_order'
-    uid: any
-    opened_at: any
-    value: any
-    volume: any
-    price: any
+    uid: string
+    opened_at: string
+    value: number
+    volume: number
+    price: number
     primary_currency: string
     secondary_currency: string
     type: string
-    exchange: { __typename?: 'kc_exchange'; uid: any; name: string }
+    exchange: { __typename?: 'kc_exchange'; uid: string; name: string }
     dca_order_histories: Array<{
       __typename?: 'kc_dca_order_history'
-      uid: any
-      dca_order_uid: any
+      uid: string
+      dca_order_uid: string
     }>
   }>
 }
@@ -11072,6 +11106,76 @@ export type GetPricesQuery = {
   }>
 }
 
+export type StripeSubscriptionFragment = {
+  __typename?: 'kc_stripe_subscription'
+  id: string
+  status: string
+  cancel_at?: string | undefined
+  canceled_at?: string | undefined
+  cancel_at_period_end: boolean
+  current_period_start: string
+  current_period_end: string
+  stripe_price: {
+    __typename?: 'kc_stripe_price'
+    unit_amount?: number | undefined
+    currency: any
+    recurring_interval?: string | undefined
+    recurring_interval_count?: number | undefined
+    stripe_product: { __typename?: 'kc_stripe_product'; name: string }
+  }
+}
+
+export type GetSubscriptionStatusQueryVariables = Exact<Record<string, never>>
+
+export type GetSubscriptionStatusQuery = {
+  __typename?: 'query_root'
+  active_stripe_subscription: Array<{
+    __typename?: 'kc_stripe_subscription'
+    id: string
+    status: string
+    cancel_at?: string | undefined
+    canceled_at?: string | undefined
+    cancel_at_period_end: boolean
+    current_period_start: string
+    current_period_end: string
+    stripe_price: {
+      __typename?: 'kc_stripe_price'
+      unit_amount?: number | undefined
+      currency: any
+      recurring_interval?: string | undefined
+      recurring_interval_count?: number | undefined
+      stripe_product: { __typename?: 'kc_stripe_product'; name: string }
+    }
+  }>
+  incomplete_stripe_subscription: Array<{
+    __typename?: 'kc_stripe_subscription'
+    id: string
+    status: string
+    cancel_at?: string | undefined
+    canceled_at?: string | undefined
+    cancel_at_period_end: boolean
+    current_period_start: string
+    current_period_end: string
+    stripe_price: {
+      __typename?: 'kc_stripe_price'
+      unit_amount?: number | undefined
+      currency: any
+      recurring_interval?: string | undefined
+      recurring_interval_count?: number | undefined
+      stripe_product: { __typename?: 'kc_stripe_product'; name: string }
+    }
+  }>
+  kc_stripe_subscription_aggregate: {
+    __typename?: 'kc_stripe_subscription_aggregate'
+    aggregate?:
+      | {
+          __typename?: 'kc_stripe_subscription_aggregate_fields'
+          count: number
+        }
+      | undefined
+  }
+}
+
 export type GetSubscriptionsQueryVariables = Exact<Record<string, never>>
 
 export type GetSubscriptionsQuery = {
@@ -11080,10 +11184,10 @@ export type GetSubscriptionsQuery = {
     __typename?: 'kc_stripe_subscription'
     id: string
     status: string
-    current_period_start: any
-    current_period_end: any
-    cancel_at?: any | undefined
-    canceled_at?: any | undefined
+    current_period_start: string
+    current_period_end: string
+    cancel_at?: string | undefined
+    canceled_at?: string | undefined
     cancel_at_period_end: boolean
     stripe_price: {
       __typename?: 'kc_stripe_price'
@@ -11104,9 +11208,9 @@ export type GetTradeAvgPriceQuery = {
   __typename?: 'query_root'
   kc_trade_avg_price_by_window: Array<{
     __typename?: 'kc_type_trade_avg_price_by_window'
-    timestamp?: any | undefined
-    price?: any | undefined
-    avg_price?: any | undefined
+    timestamp?: string | undefined
+    price?: number | undefined
+    avg_price?: number | undefined
   }>
 }
 
@@ -11118,9 +11222,9 @@ export type GetTradeCumulativeSumByDayQuery = {
   __typename?: 'query_root'
   kc_trade_avg_price_by_window: Array<{
     __typename?: 'kc_type_trade_avg_price_by_window'
-    timestamp?: any | undefined
+    timestamp?: string | undefined
     primary_currency?: string | undefined
-    total_value?: any | undefined
+    total_value?: number | undefined
   }>
 }
 
@@ -11132,9 +11236,9 @@ export type GetTradeCumulativeVolumeByDayQuery = {
   __typename?: 'query_root'
   kc_trade_avg_price_by_window: Array<{
     __typename?: 'kc_type_trade_avg_price_by_window'
-    timestamp?: any | undefined
+    timestamp?: string | undefined
     primary_currency?: string | undefined
-    volume?: any | undefined
+    volume?: number | undefined
   }>
 }
 
@@ -11155,21 +11259,21 @@ export type GetTradeListQuery = {
           sum?:
             | {
                 __typename?: 'kc_trade_sum_fields'
-                value?: any | undefined
-                volume?: any | undefined
-                fee?: any | undefined
+                value?: number | undefined
+                volume?: number | undefined
+                fee?: number | undefined
               }
             | undefined
           min?:
             | {
                 __typename?: 'kc_trade_min_fields'
-                timestamp?: any | undefined
+                timestamp?: string | undefined
               }
             | undefined
           max?:
             | {
                 __typename?: 'kc_trade_max_fields'
-                timestamp?: any | undefined
+                timestamp?: string | undefined
               }
             | undefined
         }
@@ -11177,17 +11281,17 @@ export type GetTradeListQuery = {
   }
   kc_trade: Array<{
     __typename?: 'kc_trade'
-    uid: any
-    timestamp: any
-    value: any
-    volume: any
+    uid: string
+    timestamp: string
+    value: number
+    volume: number
     primary_currency: string
     secondary_currency: string
     type: string
-    price?: any | undefined
-    total_value?: any | undefined
-    fee?: any | undefined
-    exchange: { __typename?: 'kc_exchange'; uid: any; id: string }
+    price?: number | undefined
+    total_value?: number | undefined
+    fee?: number | undefined
+    exchange: { __typename?: 'kc_exchange'; uid: string; id: string }
   }>
 }
 
@@ -11197,9 +11301,9 @@ export type GetTradeSumValueByWeekQuery = {
   __typename?: 'query_root'
   kc_trade_sum_by_window: Array<{
     __typename?: 'kc_type_trade_sum_by_window'
-    timestamp?: any | undefined
+    timestamp?: string | undefined
     primary_currency?: string | undefined
-    total_value?: any | undefined
+    total_value?: number | undefined
   }>
 }
 
@@ -11209,13 +11313,13 @@ export type GetUser2FaQuery = {
   __typename?: 'query_root'
   kc_user: Array<{
     __typename?: 'kc_user'
-    uid: any
+    uid: string
     user_2fa?:
       | {
           __typename?: 'kc_user_2fa'
-          created_at: any
+          created_at: string
           name: string
-          uid: any
+          uid: string
         }
       | undefined
   }>
@@ -11230,7 +11334,7 @@ export type GetUserDeviceByUidQuery = {
   kc_user_device_by_pk?:
     | {
         __typename?: 'kc_user_device'
-        uid: any
+        uid: string
         name: string
       }
     | undefined
@@ -11242,10 +11346,10 @@ export type GetUserDeviceListQuery = {
   __typename?: 'query_root'
   kc_user_device: Array<{
     __typename?: 'kc_user_device'
-    uid: any
+    uid: string
     name: string
-    created_at: any
-    accessed_at: any
+    created_at: string
+    accessed_at: string
   }>
 }
 
@@ -11258,7 +11362,7 @@ export type GetUserExchangeKeysByUidQuery = {
   kc_user_exchange_keys_by_pk?:
     | {
         __typename?: 'kc_user_exchange_keys'
-        uid: any
+        uid: string
         description: string
       }
     | undefined
@@ -11273,11 +11377,11 @@ export type GetUserExchangeKeysFormEditQuery = {
   kc_user_exchange_keys_by_pk?:
     | {
         __typename?: 'kc_user_exchange_keys'
-        uid: any
+        uid: string
         description: string
         exchange: {
           __typename?: 'kc_exchange'
-          uid: any
+          uid: string
           id: string
           name: string
         }
@@ -11291,10 +11395,10 @@ export type GetUserExchangeKeysListQuery = {
   __typename?: 'query_root'
   kc_user_exchange_keys: Array<{
     __typename?: 'kc_user_exchange_keys'
-    uid: any
+    uid: string
     description: string
-    updated_at: any
-    exchange: { __typename?: 'kc_exchange'; uid: any; name: string }
+    updated_at: string
+    exchange: { __typename?: 'kc_exchange'; uid: string; name: string }
     dca_orders_aggregate: {
       __typename?: 'kc_dca_order_aggregate'
       aggregate?:
@@ -11328,6 +11432,26 @@ export const DcaOrderHistoryPriceChart_Kc_Dca_Order_HistoryFragmentDoc = gql`
     market_offset
     value
     available_balance
+  }
+`
+export const StripeSubscriptionFragmentDoc = gql`
+  fragment stripeSubscription on kc_stripe_subscription {
+    id
+    status
+    cancel_at
+    canceled_at
+    cancel_at_period_end
+    current_period_start
+    current_period_end
+    stripe_price {
+      unit_amount
+      currency
+      recurring_interval
+      recurring_interval_count
+      stripe_product {
+        name
+      }
+    }
   }
 `
 export const CreateAuthTokenDocument = gql`
@@ -11678,7 +11802,11 @@ export const GetCheckoutPageDocument = gql`
       id
       client_secret
     }
+    kc_stripe_subscription_by_pk(id: $subscriptionID) {
+      ...stripeSubscription
+    }
   }
+  ${StripeSubscriptionFragmentDoc}
 `
 export const GetDcaOrderFormCreateDocument = gql`
   query getDCAOrderFormCreate {
@@ -12046,6 +12174,30 @@ export const GetPricesDocument = gql`
       }
     }
   }
+`
+export const GetSubscriptionStatusDocument = gql`
+  query getSubscriptionStatus {
+    active_stripe_subscription: kc_stripe_subscription(
+      where: { status: { _eq: "active" } }
+      limit: 1
+      order_by: { current_period_start: desc }
+    ) {
+      ...stripeSubscription
+    }
+    incomplete_stripe_subscription: kc_stripe_subscription(
+      where: { status: { _eq: "incomplete" } }
+      limit: 1
+      order_by: { current_period_start: desc }
+    ) {
+      ...stripeSubscription
+    }
+    kc_stripe_subscription_aggregate {
+      aggregate {
+        count
+      }
+    }
+  }
+  ${StripeSubscriptionFragmentDoc}
 `
 export const GetSubscriptionsDocument = gql`
   query getSubscriptions {
@@ -12806,6 +12958,21 @@ export function getSdk(
             ...wrappedRequestHeaders,
           }),
         'getPrices',
+        'query',
+      )
+    },
+    async getSubscriptionStatus(
+      variables?: GetSubscriptionStatusQueryVariables,
+      requestHeaders?: Dom.RequestInit['headers'],
+    ): Promise<GetSubscriptionStatusQuery> {
+      return withWrapper(
+        async (wrappedRequestHeaders) =>
+          client.request<GetSubscriptionStatusQuery>(
+            GetSubscriptionStatusDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders },
+          ),
+        'getSubscriptionStatus',
         'query',
       )
     },

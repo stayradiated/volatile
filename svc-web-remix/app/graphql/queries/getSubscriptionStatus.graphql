@@ -1,0 +1,32 @@
+fragment stripeSubscription on kc_stripe_subscription {
+  id
+  status
+  cancel_at
+  canceled_at
+  cancel_at_period_end
+  current_period_start
+  current_period_end
+  stripe_price {
+    unit_amount
+    currency
+    recurring_interval
+    recurring_interval_count
+    stripe_product {
+      name
+    }
+  }
+}
+
+query getSubscriptionStatus {
+  active_stripe_subscription: kc_stripe_subscription(where: {status: {_eq: "active"}}, limit: 1, order_by: {current_period_start: desc}) {
+    ...stripeSubscription
+  }
+  incomplete_stripe_subscription: kc_stripe_subscription(where: {status: {_eq: "incomplete"}}, limit: 1, order_by: {current_period_start: desc}) {
+    ...stripeSubscription
+  }
+  kc_stripe_subscription_aggregate {
+    aggregate {
+      count
+    }
+  }
+}
