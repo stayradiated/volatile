@@ -1,4 +1,3 @@
 packages:
   - '*/'
-  - '!svc-web/'
-  - '!svc-admin/'
+  - '!_scratch/'
