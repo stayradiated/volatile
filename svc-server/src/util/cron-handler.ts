@@ -1,39 +1,13 @@
-import { timingSafeEqual } from 'node:crypto'
-import type { FastifyInstance, RouteHandlerMethod } from 'fastify'
-import type {
-  RawServerDefault,
-  RawRequestDefaultExpression,
-  RawReplyDefaultExpression,
-} from 'fastify/types/utils'
-import { parseISO } from 'date-fns'
+import { Task, TaskList } from 'graphile-worker'
 
 import { UnexpectedError, CronError } from '../util/error.js'
-import { config } from '../env.js'
 
 import { pool } from '../pool.js'
 import type { Pool } from '../types.js'
 
-type RouteHandler<RouteGeneric> = RouteHandlerMethod<
-  RawServerDefault,
-  RawRequestDefaultExpression,
-  RawReplyDefaultExpression,
-  RouteGeneric
->
-
-type CronHandlerRequest<Payload> = {
-  Body: {
-    scheduled_time?: string
-    payload?: Payload
-    name?: string
-    id?: string
-  }
-}
-
 type Context<Input> = {
   pool: Pool
   input: Input
-  scheduledTime: Date
-  headers: RawRequestDefaultExpression['headers']
 }
 
 type CronHandlerFn<Input, Output> = (
@@ -41,85 +15,53 @@ type CronHandlerFn<Input, Output> = (
 ) => Promise<Output | Error>
 
 const wrapCronHandler =
-  <Input, Output>(
-    path: string,
-    fn: CronHandlerFn<Input, Output>,
-  ): RouteHandler<CronHandlerRequest<Input>> =>
-  async (request, reply) => {
-    const secret = Buffer.from(
-      String(request.headers['x-hasura-actions-secret']),
-      'utf8',
-    )
-    if (!timingSafeEqual(secret, config.ACTIONS_SECRET)) {
-      await reply.code(403).send({
-        message: 'Invalid x-hasura-actions-secret',
-      })
-      return
-    }
-
-    if (typeof request.body !== 'object' || request.body === null) {
-      await reply.code(401).send({
-        message: `Invalid request body`,
-      })
-      return
-    }
-
-    const { scheduled_time: scheduledTime, payload: input } = request.body
-    if (typeof scheduledTime !== 'string') {
-      await reply.code(401).send({
-        message: `Invalid request body: missing scheduled_time`,
-      })
-      return
-    }
-
-    if (typeof input !== 'object' || input === null) {
-      await reply.code(401).send({
-        message: `Invalid request body: missing payload`,
-      })
-      return
-    }
-
+  <Input, Output>(name: string, fn: CronHandlerFn<Input, Output>): Task =>
+  async (input, helpers) => {
     try {
       const context: Context<Input> = {
         pool,
-        scheduledTime: parseISO(scheduledTime),
-        input,
-        headers: request.headers,
+        input: input as Input,
       }
+
       const output = await fn(context)
+
       if (output instanceof Error) {
         const cronError = new CronError({
-          message: `Error returned by cron handler for "${path}"`,
+          message: `Error returned by cron handler for "${name}"`,
           cause: output,
-          context: {
-            path,
-            input,
-          },
+          context: { name, input },
         })
-        await reply.code(400).send(cronError.toObject({ omitting: false }))
+
+        helpers.logger.error(
+          JSON.stringify(cronError.toObject({ omitting: false })),
+        )
         return
       }
 
-      await reply.send(output)
+      helpers.logger.info(JSON.stringify(output))
       return
     } catch (error: unknown) {
       const unexpectedError = new UnexpectedError({
-        message: `Unexpected error thrown while executing cron hrndler for "${path}"`,
+        message: `Unexpected error thrown while executing cron hrndler for "${name}"`,
         cause: error as Error,
         context: {
-          path,
+          name,
           input,
         },
       })
-      await reply.code(500).send(unexpectedError.toObject({ omitting: false }))
+      helpers.logger.error(
+        JSON.stringify(unexpectedError.toObject({ omitting: false })),
+      )
     }
   }
 
-const bindCronHandler =
-  (fastify: FastifyInstance) =>
-  <Input, Output>(pathName: string, fn: CronHandlerFn<Input, Output>) => {
-    const path = `/cron/${pathName}`
-    return fastify.post(path, wrapCronHandler<Input, Output>(path, fn))
-  }
+const bindCronHandlers = (
+  record: Record<string, CronHandlerFn<any, any>>,
+): TaskList => {
+  return Object.entries(record).reduce<TaskList>((object, [key, value]) => {
+    object[key] = wrapCronHandler(key, value)
+    return object
+  }, {})
+}
 
-export { CronHandlerFn, wrapCronHandler, bindCronHandler }
+export { CronHandlerFn, wrapCronHandler, bindCronHandlers }

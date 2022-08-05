@@ -70,6 +70,4 @@ const config = z
   })
   .parse(process.env)
 
-console.dir(config, { depth: null })
-
 export { config }

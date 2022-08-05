@@ -6,6 +6,7 @@ import { marketPriceInstanceList } from './instance.js'
 import { fetchMarketPrice } from './fetch-market-price.js'
 
 type Input = Record<string, unknown>
+
 type Output = {
   message: string
 }

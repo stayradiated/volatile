@@ -35,7 +35,7 @@
   "dependencies": {
     "@northscaler/better-error": "0.1.0-dev.10",
     "@stayradiated/error-boundary": "2.1.0",
-    "@types/nodemailer": "6.4.4",
+    "@types/nodemailer": "6.4.5",
     "@volatile/dasset-api": "workspace:1.0.1",
     "@volatile/independent-reserve-api": "workspace:1.0.1",
     "@volatile/kanye": "workspace:1.0.1",
@@ -48,6 +48,7 @@
     "debug": "4.3.4",
     "dotenv": "16.0.1",
     "fastify": "4.3.0",
+    "graphile-worker": "0.13.0",
     "njwt": "1.2.0",
     "nodemailer": "6.7.7",
     "otplib": "12.0.1",

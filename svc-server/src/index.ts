@@ -3,11 +3,11 @@ import createFastify from 'fastify'
 import { config } from './env.js'
 
 import * as actions from './action/index.js'
-import * as cron from './cron/index.js'
 import * as webhooks from './webhooks/index.js'
 import { bindActionHandler } from './util/action-handler.js'
-import { bindCronHandler } from './util/cron-handler.js'
 import { bindHandler } from './util/handler.js'
+
+import { startWorker } from './worker.js'
 
 import {
   getExchangeUID,
@@ -63,17 +63,22 @@ addAction(
 addAction('validate_user_password_reset', actions.validateUserPasswordReset)
 addAction('verify_user_email', actions.verifyUserEmailHandler)
 
-const addCron = bindCronHandler(fastify)
-addCron('auto_buy', cron.autoBuyHandler)
-addCron('fetch_currency_fx', cron.fetchCurrencyFxHandler)
-addCron('fetch_market_price', cron.fetchMarketPriceHandler)
-addCron('fetch_stripe', cron.fetchStripe)
-
 const addRoute = bindHandler(fastify)
 addRoute('/webhook/stripe', webhooks.stripeHandler)
 
 const start = async () => {
   try {
+    const runner = await startWorker({
+      connectionString: config.DATABASE_URL,
+      enabledCronTasks: {
+        autoBuy: false,
+        fetchCurrencyFx: false,
+        fetchMarketPrice: false,
+        fetchStripe: true,
+      },
+    })
+    runner.promise.catch(console.error)
+
     // Make sure exchanges exist in the database
     await Promise.all([
       getExchangeUID(pool, EXCHANGE_DASSET),
