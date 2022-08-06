@@ -10,6 +10,7 @@ services:
       - .env
     volumes:
       - pgdata:/var/lib/postgresql/data
+      - ../svc-server:/app
 
   hasura:
     image: hasura/graphql-engine:v2.9.0.cli-migrations-v3
