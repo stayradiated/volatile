@@ -4,6 +4,7 @@ import { config } from './env.js'
 
 import * as actions from './action/index.js'
 import * as webhooks from './webhooks/index.js'
+import * as cron from './cron/index.js'
 import { bindActionHandler } from './util/action-handler.js'
 import { bindHandler } from './util/handler.js'
 
@@ -70,12 +71,27 @@ const start = async () => {
   try {
     const runner = await startWorker({
       connectionString: config.DATABASE_URL,
-      enabledCronTasks: {
-        autoBuy: false,
-        fetchCurrencyFx: false,
-        fetchMarketPrice: false,
-        fetchStripe: true,
-      },
+      jobs: [{
+        active: false,
+        name: 'autoBuy',
+        pattern: '* * * * *',
+        handler: cron.autoBuyHandler,
+      }, {
+        active: false,
+        name: 'fetchCurrencyFx',
+        pattern: '0 * * * *',
+        handler: cron.fetchCurrencyFxHandler,
+      }, {
+        active: false,
+        name: 'fetchMarketPrice',
+        pattern: '* * * * *',
+        handler: cron.fetchMarketPriceHandler,
+      }, {
+        active: true,
+        name: 'fetchStripe',
+        pattern: '* * * * *',
+        handler: cron.fetchStripeHandler,
+      }],
     })
     runner.promise.catch(console.error)
 

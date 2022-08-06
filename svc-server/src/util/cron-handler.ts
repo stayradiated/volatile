@@ -1,4 +1,4 @@
-import { Task, TaskList } from 'graphile-worker'
+import { Task } from 'graphile-worker'
 
 import { UnexpectedError, CronError } from '../util/error.js'
 
@@ -23,6 +23,8 @@ const wrapCronHandler =
         input: input as Input,
       }
 
+      // insert row into table
+
       const output = await fn(context)
 
       if (output instanceof Error) {
@@ -39,6 +41,9 @@ const wrapCronHandler =
       }
 
       helpers.logger.info(JSON.stringify(output))
+
+      // update row with success
+
       return
     } catch (error: unknown) {
       const unexpectedError = new UnexpectedError({
@@ -52,16 +57,8 @@ const wrapCronHandler =
       helpers.logger.error(
         JSON.stringify(unexpectedError.toObject({ omitting: false })),
       )
+      // update row with error
     }
   }
 
-const bindCronHandlers = (
-  record: Record<string, CronHandlerFn<any, any>>,
-): TaskList => {
-  return Object.entries(record).reduce<TaskList>((object, [key, value]) => {
-    object[key] = wrapCronHandler(key, value)
-    return object
-  }, {})
-}
-
-export { CronHandlerFn, wrapCronHandler, bindCronHandlers }
+export { CronHandlerFn, wrapCronHandler }

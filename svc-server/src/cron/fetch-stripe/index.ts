@@ -11,7 +11,7 @@ type Output = {
   message: string
 }
 
-const fetchStripe: CronHandlerFn<Input, Output> = async (context) => {
+const fetchStripeHandler: CronHandlerFn<Input, Output> = async (context) => {
   const { pool } = context
 
   const messages = await errorListBoundary(async () => [
@@ -29,4 +29,4 @@ const fetchStripe: CronHandlerFn<Input, Output> = async (context) => {
   }
 }
 
-export { fetchStripe }
+export { fetchStripeHandler }
