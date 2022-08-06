@@ -70,7 +70,7 @@ export const loader: LoaderFunction = async ({ request }) => {
     {},
     { authorization: `Bearer ${authToken}`, 'x-hasura-role': 'user' },
   )
-  if (typeof user2FA.kc_user[0].user_2fa?.uid === 'string') {
+  if (typeof user2FA.user[0].user_2fa?.uid === 'string') {
     return redirect('/account/2fa')
   }
 

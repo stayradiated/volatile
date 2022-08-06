@@ -1,0 +1,18 @@
+table:
+  name: currency
+  schema: public
+select_permissions:
+  - role: guest
+    permission:
+      columns:
+        - name
+        - symbol
+      filter: {}
+  - role: user
+    permission:
+      columns:
+        - symbol
+        - created_at
+        - updated_at
+        - name
+      filter: {}

@@ -26,7 +26,7 @@ const UserExchangeKeysFormEdit = (props: Props) => {
     validationResult?.isValid &&
     JSON.stringify(state.keys) === JSON.stringify(lastValidatedKeys)
 
-  const userExchangeKeys = query.kc_user_exchange_keys_by_pk
+  const userExchangeKeys = query.user_exchange_keys_by_pk
 
   const handleReplaceKeys = () => {
     setReplaceKeys(true)

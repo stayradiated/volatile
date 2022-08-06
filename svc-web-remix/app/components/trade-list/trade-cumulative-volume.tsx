@@ -11,7 +11,7 @@ const TradeCumulativeVolume = (props: Props) => {
   const { query } = props
 
   const charts = useMemo((): ChartConfig[] => {
-    const rows = query.kc_trade_avg_price_by_window ?? []
+    const rows = query.trade_avg_price_by_window ?? []
     const btc = rows.filter((row) => row.primary_currency === 'BTC')
     const eth = rows.filter((row) => row.primary_currency === 'ETH')
 

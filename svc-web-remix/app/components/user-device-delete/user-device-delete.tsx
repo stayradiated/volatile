@@ -11,7 +11,7 @@ type Props = {
 const UserDeviceDelete = (props: Props) => {
   const { userDeviceUID, query } = props
 
-  const name = query.kc_user_device_by_pk?.name
+  const name = query.user_device_by_pk?.name
 
   return (
     <>

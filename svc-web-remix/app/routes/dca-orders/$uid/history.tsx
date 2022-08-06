@@ -95,12 +95,12 @@ const DCAOrderHistoryRoute = () => {
     lte: parseISO(dateRangeISO.lte),
   }
 
-  const dcaOrder = query.getDCAOrderHistoryList.kc_dca_order_by_pk!
+  const dcaOrder = query.getDCAOrderHistoryList.dca_order_by_pk!
   const exchange = dcaOrder.exchange.name
   const tradingPair = `${dcaOrder.primary_currency.symbol}-${dcaOrder.secondary_currency.symbol}`
 
   const dcaOrderHistoryList =
-    query.getDCAOrderHistoryList.kc_dca_order_history ?? []
+    query.getDCAOrderHistoryList.dca_order_history ?? []
 
   return (
     <Card width={1200}>

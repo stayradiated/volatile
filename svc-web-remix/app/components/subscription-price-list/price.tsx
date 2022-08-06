@@ -9,7 +9,7 @@ const Container = styled.div`
 `
 
 type Price = NonNullable<
-  GetPricesQuery['kc_stripe_product'][number]['stripe_prices']
+  GetPricesQuery['stripe_product'][number]['stripe_prices']
 >[number]
 
 type Props = {

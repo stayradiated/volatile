@@ -10,7 +10,7 @@ type Props = {
 const DCAOrderDelete = (props: Props) => {
   const { query } = props
 
-  const dcaOrder = query.kc_dca_order_by_pk!
+  const dcaOrder = query.dca_order_by_pk!
 
   return (
     <Card>

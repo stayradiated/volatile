@@ -13,7 +13,7 @@ type Props = {
 const SubscriptionPriceList = (props: Props) => {
   const { query } = props
 
-  const products = query.kc_stripe_product
+  const products = query.stripe_product
 
   return (
     <>

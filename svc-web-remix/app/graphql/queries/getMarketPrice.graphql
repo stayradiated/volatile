@@ -2,7 +2,7 @@ query getMarketPrice (
   $primaryCurrency: String!
   $secondaryCurrency: String!
 ) {
-  binance_us: kc_market(where: { id: { _eq: "binance.us" }}) {
+  binance_us: market(where: { id: { _eq: "binance.us" }}) {
     market_prices(where:{
       asset_symbol:{ _eq: $primaryCurrency },
       currency:{ _eq: $secondaryCurrency }
@@ -13,7 +13,7 @@ query getMarketPrice (
       timestamp
     }
   }
-  kiwi_coin: kc_market(where:{ id: { _eq: "kiwi-coin.com"  }}) {
+  kiwi_coin: market(where:{ id: { _eq: "kiwi-coin.com"  }}) {
     market_prices(where: {
       asset_symbol:{ _eq: $primaryCurrency },
       currency:{ _eq: $secondaryCurrency }
@@ -24,7 +24,7 @@ query getMarketPrice (
       timestamp
     }
   }
-  dasset: kc_market(where:{ id: { _eq: "dassetx.com"  }}) {
+  dasset: market(where:{ id: { _eq: "dassetx.com"  }}) {
     market_prices(where: {
       asset_symbol:{ _eq: $primaryCurrency },
       currency:{ _eq: $secondaryCurrency }
@@ -35,7 +35,7 @@ query getMarketPrice (
       timestamp
     }
   }
-  kraken: kc_market(where:{ id: { _eq: "kraken.com"  }}) {
+  kraken: market(where:{ id: { _eq: "kraken.com"  }}) {
     market_prices(where: {
       asset_symbol:{ _eq: $primaryCurrency },
       currency:{ _eq: $secondaryCurrency }
@@ -46,7 +46,7 @@ query getMarketPrice (
       timestamp
     }
   }
-  independent_reserve_aud: kc_market(where:{ id: { _eq: "independentreserve.com"  }}) {
+  independent_reserve_aud: market(where:{ id: { _eq: "independentreserve.com"  }}) {
     market_prices(where: {
       source_currency: { _eq: "AUD" },
       asset_symbol:{ _eq: $primaryCurrency },
@@ -58,7 +58,7 @@ query getMarketPrice (
       timestamp
     }
   }
-  independent_reserve_nzd: kc_market(where:{ id: { _eq: "independentreserve.com"  }}) {
+  independent_reserve_nzd: market(where:{ id: { _eq: "independentreserve.com"  }}) {
     market_prices(where: {
       source_currency: { _eq: "NZD" },
       asset_symbol:{ _eq: $primaryCurrency },

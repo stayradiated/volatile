@@ -48,7 +48,7 @@ export const action: ActionFunction = async ({ request, params }) => {
   }
 
   const { is_valid: isValid, validation_message: validationMessage } =
-    result.validate_user_exchange_keys!
+    result.action_validate_user_exchange_keys!
 
   return json<ActionData>({
     isValid,

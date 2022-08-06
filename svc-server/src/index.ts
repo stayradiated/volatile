@@ -25,44 +25,35 @@ const fastify = createFastify({ logger: true })
 
 const addAction = bindActionHandler(fastify)
 
-addAction('create_auth_token', actions.createAuthTokenHandler)
-addAction('create_dca_order', actions.createDCAOrderHandler)
-addAction('create_stripe_subscription', actions.createStripeSubscription)
-addAction('create_user', actions.createUserHandler)
-addAction('create_user_exchange_keys', actions.createUserExchangeKeysHandler)
-addAction('delete_user', actions.deleteUserHandler)
-addAction('delete_user_2fa', actions.deleteUser2FAHandler)
-addAction('enable_user_2fa', actions.enableUser2FAHandler)
-addAction('query_live_stripe_subscription', actions.queryLiveStripeSubscription)
-addAction('query_stripe_config', actions.queryStripeConfig)
-addAction('query_user_email', actions.queryUserEmailHandler)
-addAction('query_user_limit', actions.queryUserLimitHandler)
-addAction('refresh_auth_token', actions.refreshAuthTokenHandler)
-addAction('reset_user_password', actions.resetUserPasswordHandler)
-addAction('seed_test_account', actions.seedTestAccount)
-addAction('send_user_email_verify', actions.sendUserEmailVerifyHandler)
-addAction('send_user_password_reset', actions.sendUserPasswordResetHandler)
-addAction('setup_user_2fa', actions.setupUser2FAHandler)
-addAction('sync_currency_fx', actions.syncCurrencyFxHandler)
-addAction(
-  'sync_exchange_open_order_list',
-  actions.syncExchangeOpenOrderListHandler,
-)
-addAction('sync_exchange_trade_list', actions.syncExchangeTradeListHandler)
-addAction('update_dca_order', actions.updateDCAOrderHandler)
-addAction('update_stripe_subscription', actions.updateStripeSubscriptionHandler)
-addAction('update_user', actions.updateUserHandler)
-addAction('update_user_exchange_keys', actions.updateUserExchangeKeysHandler)
-addAction(
-  'validate_user_exchange_keys',
-  actions.validateUserExchangeKeysHandler,
-)
-addAction(
-  'validate_user_exchange_keys_live',
-  actions.validateUserExchangeKeysLiveHandler,
-)
-addAction('validate_user_password_reset', actions.validateUserPasswordReset)
-addAction('verify_user_email', actions.verifyUserEmailHandler)
+addAction('action_create_auth_token', actions.createAuthTokenHandler)
+addAction('action_create_dca_order', actions.createDCAOrderHandler)
+addAction('action_create_stripe_subscription', actions.createStripeSubscription)
+addAction('action_create_user', actions.createUserHandler)
+addAction('action_create_user_exchange_keys', actions.createUserExchangeKeysHandler)
+addAction('action_delete_user', actions.deleteUserHandler)
+addAction('action_delete_user_2fa', actions.deleteUser2FAHandler)
+addAction('action_enable_user_2fa', actions.enableUser2FAHandler)
+addAction('action_query_live_stripe_subscription', actions.queryLiveStripeSubscription)
+addAction('action_query_stripe_config', actions.queryStripeConfig)
+addAction('action_query_user_email', actions.queryUserEmailHandler)
+addAction('action_query_user_limit', actions.queryUserLimitHandler)
+addAction('action_refresh_auth_token', actions.refreshAuthTokenHandler)
+addAction('action_reset_user_password', actions.resetUserPasswordHandler)
+addAction('action_seed_test_account', actions.seedTestAccount)
+addAction('action_send_user_email_verify', actions.sendUserEmailVerifyHandler)
+addAction('action_send_user_password_reset', actions.sendUserPasswordResetHandler)
+addAction('action_setup_user_2fa', actions.setupUser2FAHandler)
+addAction('action_sync_currency_fx', actions.syncCurrencyFxHandler)
+addAction('action_sync_exchange_open_order_list', actions.syncExchangeOpenOrderListHandler)
+addAction('action_sync_exchange_trade_list', actions.syncExchangeTradeListHandler)
+addAction('action_update_dca_order', actions.updateDCAOrderHandler)
+addAction('action_update_stripe_subscription', actions.updateStripeSubscriptionHandler)
+addAction('action_update_user', actions.updateUserHandler)
+addAction('action_update_user_exchange_keys', actions.updateUserExchangeKeysHandler)
+addAction('action_validate_user_exchange_keys', actions.validateUserExchangeKeysHandler)
+addAction('action_validate_user_exchange_keys_live', actions.validateUserExchangeKeysLiveHandler)
+addAction('action_validate_user_password_reset', actions.validateUserPasswordReset)
+addAction('action_verify_user_email', actions.verifyUserEmailHandler)
 
 const addRoute = bindHandler(fastify)
 addRoute('/webhook/stripe', webhooks.stripeHandler)
@@ -71,27 +62,32 @@ const start = async () => {
   try {
     const runner = await startWorker({
       connectionString: config.DATABASE_URL,
-      jobs: [{
-        active: false,
-        name: 'autoBuy',
-        pattern: '* * * * *',
-        handler: cron.autoBuyHandler,
-      }, {
-        active: false,
-        name: 'fetchCurrencyFx',
-        pattern: '0 * * * *',
-        handler: cron.fetchCurrencyFxHandler,
-      }, {
-        active: false,
-        name: 'fetchMarketPrice',
-        pattern: '* * * * *',
-        handler: cron.fetchMarketPriceHandler,
-      }, {
-        active: true,
-        name: 'fetchStripe',
-        pattern: '* * * * *',
-        handler: cron.fetchStripeHandler,
-      }],
+      jobs: [
+        {
+          active: false,
+          name: 'autoBuy',
+          pattern: '* * * * *',
+          handler: cron.autoBuyHandler,
+        },
+        {
+          active: false,
+          name: 'fetchCurrencyFx',
+          pattern: '0 * * * *',
+          handler: cron.fetchCurrencyFxHandler,
+        },
+        {
+          active: false,
+          name: 'fetchMarketPrice',
+          pattern: '* * * * *',
+          handler: cron.fetchMarketPriceHandler,
+        },
+        {
+          active: true,
+          name: 'fetchStripe',
+          pattern: '* * * * *',
+          handler: cron.fetchStripeHandler,
+        },
+      ],
     })
     runner.promise.catch(console.error)
 

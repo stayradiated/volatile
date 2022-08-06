@@ -7,7 +7,7 @@ import { Card, Table, Dropdown } from '../retro-ui'
 
 import type { GetUserExchangeKeysListQuery } from '~/graphql/generated'
 
-type UserExchangeKeys = GetUserExchangeKeysListQuery['kc_user_exchange_keys'][0]
+type UserExchangeKeys = GetUserExchangeKeysListQuery['user_exchange_keys'][0]
 
 type Props = {
   query: GetUserExchangeKeysListQuery
@@ -59,7 +59,7 @@ const UserExchangeKeysList = (props: Props) => {
 
   const table = useTable({
     columns,
-    data: query.kc_user_exchange_keys ?? [],
+    data: query.user_exchange_keys ?? [],
   })
 
   return (

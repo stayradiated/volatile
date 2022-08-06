@@ -1,5 +1,5 @@
 query getDCAOrderDelete($dcaOrderUID: uuid!) {
-  kc_dca_order_by_pk(uid: $dcaOrderUID) {
+  dca_order_by_pk(uid: $dcaOrderUID) {
     uid
     exchange {
       uid

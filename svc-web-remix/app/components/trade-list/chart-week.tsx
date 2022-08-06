@@ -33,8 +33,8 @@ const formatUnixTimeAsDate = formatUnixTime('PP')
 const formatUnixTimeAsDateTime = formatUnixTime('PPpp')
 
 const QUERY = gql`
-  query getTradeSumValueByWeek($filters: kc_type_trade_sum_by_window_bool_exp) {
-    kc_trade_sum_by_window(
+  query getTradeSumValueByWeek($filters: type_trade_sum_by_window_bool_exp) {
+    trade_sum_by_window(
       args: { group_by: "week", currency: "NZD" }
       where: $filters
     ) {
@@ -71,7 +71,7 @@ const ChartWeek = (props: Props) => {
   }
 
   const chartData = [
-    ...[...data.kc_trade_sum_by_window]
+    ...[...data.trade_sum_by_window]
       .map((row) => {
         const key = `${row.primary_currency}-NZD`
         return {

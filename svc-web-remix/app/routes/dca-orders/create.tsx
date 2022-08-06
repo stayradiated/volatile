@@ -18,11 +18,7 @@ const createDCAOrder = makeDomainFunction(
     primaryCurrency: z.string(),
     secondaryCurrency: z.string(),
     marketUID: z.string().uuid(),
-    startAt: z.preprocess((d: unknown) => {
-      if (typeof d === 'string') {
-        return parseISO(d)
-      }
-    }, z.date()),
+    startAt: z.string(),
     marketOffset: z.number(),
     dailyAverage: z.number(),
     intervalMs: z.number().int(),

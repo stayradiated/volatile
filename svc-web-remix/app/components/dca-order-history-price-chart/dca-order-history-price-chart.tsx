@@ -4,12 +4,12 @@ import { Chart, ChartConfig, formatDataForChart } from '../chart'
 
 import type {
   GetDcaOrderHistoryPriceChartQuery,
-  DcaOrderHistoryPriceChart_Kc_Dca_Order_HistoryFragment,
+  DcaOrderHistoryPriceChart_Dca_Order_HistoryFragment,
 } from '~/graphql/generated'
 
 type Props = {
   query: GetDcaOrderHistoryPriceChartQuery
-  dcaOrderHistoryList: DcaOrderHistoryPriceChart_Kc_Dca_Order_HistoryFragment[]
+  dcaOrderHistoryList: DcaOrderHistoryPriceChart_Dca_Order_HistoryFragment[]
   dateRange: { lte: Date; gt: Date }
 }
 
@@ -50,7 +50,7 @@ const DCAOrderHistoryPriceChart = (props: Props) => {
         type: 'line',
         options: { color: 'rgba(75, 75, 75,0.5)' },
         data: formatDataForChart({
-          data: query.kc_dca_order_by_pk?.market_prices ?? [],
+          data: query.dca_order_by_pk?.market_prices ?? [],
           getValue: (row) => row.price,
           getTime: (row) => row.timestamp,
         }),
@@ -64,7 +64,7 @@ const DCAOrderHistoryPriceChart = (props: Props) => {
         },
         data: formatDataForChart({
           data:
-            query.kc_dca_order_by_pk?.exchange_market_trading_pair?.[0]
+            query.dca_order_by_pk?.exchange_market_trading_pair?.[0]
               ?.market_prices ?? [],
           getValue: (row) => row.price,
           getTime: (row) => row.timestamp,

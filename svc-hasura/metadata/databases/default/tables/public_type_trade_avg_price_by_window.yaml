@@ -1,0 +1,18 @@
+table:
+  name: type_trade_avg_price_by_window
+  schema: public
+select_permissions:
+  - role: user
+    permission:
+      columns:
+        - avg_price
+        - price
+        - total_value
+        - volume
+        - primary_currency
+        - timestamp
+        - user_uid
+      filter:
+        user_uid:
+          _eq: X-Hasura-User-Id
+      limit: 100

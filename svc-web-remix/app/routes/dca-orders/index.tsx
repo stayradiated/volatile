@@ -30,7 +30,7 @@ const updateDCAOrderEnabled = makeDomainFunction(
     },
   )
 
-  return result.update_dca_order.dca_order
+  return result.action_update_dca_order.dca_order
 })
 
 export const action: ActionFunction = async ({ request }) => {

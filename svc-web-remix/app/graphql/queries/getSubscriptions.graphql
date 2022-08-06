@@ -1,5 +1,5 @@
 query getSubscriptions {
-  kc_stripe_subscription( order_by:{ current_period_start:desc }) {
+  stripe_subscription( order_by:{ current_period_start:desc }) {
     id
     status
     current_period_start

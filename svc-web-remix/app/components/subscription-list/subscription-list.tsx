@@ -3,7 +3,7 @@ import { Card } from '../retro-ui'
 import { SubscriptionCard } from './subscription-card'
 import type { GetSubscriptionsQuery } from '~/graphql/generated'
 
-type Subscription = GetSubscriptionsQuery['kc_stripe_subscription'][number]
+type Subscription = GetSubscriptionsQuery['stripe_subscription'][number]
 
 type Props = {
   query: GetSubscriptionsQuery
@@ -12,7 +12,7 @@ type Props = {
 const SubscriptionList = (props: Props) => {
   const { query } = props
 
-  const groups = query.kc_stripe_subscription.reduce<
+  const groups = query.stripe_subscription.reduce<
     Record<string, Subscription[]>
   >((groups, item) => {
     const group = groups[item.status] ?? []

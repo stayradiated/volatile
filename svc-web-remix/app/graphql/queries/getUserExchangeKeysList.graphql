@@ -1,5 +1,5 @@
 query getUserExchangeKeysList {
-  kc_user_exchange_keys {
+  user_exchange_keys {
     uid
     description
     updated_at

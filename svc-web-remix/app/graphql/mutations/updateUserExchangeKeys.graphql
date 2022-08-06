@@ -3,7 +3,7 @@ mutation updateUserExchangeKeys(
   $description: String
   $keys: jsonb
 ) {
-  update_user_exchange_keys(
+  action_update_user_exchange_keys(
     user_exchange_keys_uid: $userExchangeKeysUID
     description: $description
     keys: $keys

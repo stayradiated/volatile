@@ -1,9 +1,9 @@
 query getTradeList(
-  $filters: kc_trade_bool_exp!
+  $filters: trade_bool_exp!
   $offset: Int!
   $limit: Int!
 ) {
-  kc_trade_aggregate(where: $filters) {
+  trade_aggregate(where: $filters) {
     aggregate {
       count
       sum {
@@ -19,7 +19,7 @@ query getTradeList(
       }
     }
   }
-  kc_trade(
+  trade(
     where: $filters
     order_by: { timestamp: desc }
     limit: $limit

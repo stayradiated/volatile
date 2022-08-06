@@ -92,7 +92,7 @@ const SubscriptionRoute = () => {
               <li>
                 <Link to="price-list">Subscribe!</Link>
               </li>
-              {(query.kc_stripe_subscription_aggregate.aggregate?.count ?? 0) >
+              {(query.stripe_subscription_aggregate.aggregate?.count ?? 0) >
                 0 && (
                 <li>
                   <Link to="list">Your Previous Subscriptions</Link>

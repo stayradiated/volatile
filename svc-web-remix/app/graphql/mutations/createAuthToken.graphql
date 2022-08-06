@@ -7,7 +7,7 @@ mutation createAuthToken(
   $token2FA: String
   $role: String!
 ) {
-  create_auth_token(
+  action_create_auth_token(
     email: $email
     password: $password
     device_id: $deviceID

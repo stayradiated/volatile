@@ -11,8 +11,8 @@ type Props = {
 const UserFormSetup2FA = (props: Props) => {
   const { query, error } = props
 
-  const qrcode = query.setup_user_2fa?.qrcode ?? ''
-  const secret = query.setup_user_2fa?.secret ?? ''
+  const qrcode = query.action_setup_user_2fa?.qrcode ?? ''
+  const secret = query.action_setup_user_2fa?.secret ?? ''
 
   return (
     <div>

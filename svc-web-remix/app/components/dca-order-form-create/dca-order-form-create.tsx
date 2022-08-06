@@ -5,13 +5,13 @@ import { Form, PrimaryButton, Input, DateInput } from '../retro-ui'
 
 import { GetDcaOrderFormCreateQuery } from '~/graphql/generated'
 
-type Exchange = GetDcaOrderFormCreateQuery['kc_exchange'][0]
-type UserExchangeKeys = GetDcaOrderFormCreateQuery['kc_user_exchange_keys'][0]
-type Market = GetDcaOrderFormCreateQuery['kc_market'][0]
+type Exchange = GetDcaOrderFormCreateQuery['exchange'][0]
+type UserExchangeKeys = GetDcaOrderFormCreateQuery['user_exchange_keys'][0]
+type Market = GetDcaOrderFormCreateQuery['market'][0]
 type PrimaryCurrency =
-  GetDcaOrderFormCreateQuery['kc_exchange'][0]['primary_currencies'][0]
+  GetDcaOrderFormCreateQuery['exchange'][0]['primary_currencies'][0]
 type SecondaryCurrency =
-  GetDcaOrderFormCreateQuery['kc_exchange'][0]['secondary_currencies'][0]
+  GetDcaOrderFormCreateQuery['exchange'][0]['secondary_currencies'][0]
 
 type Props = {
   query: GetDcaOrderFormCreateQuery
@@ -30,9 +30,9 @@ const DCAOrderFormCreate = (props: Props) => {
     },
   }
 
-  const exchangeOptions = query.kc_exchange ?? []
+  const exchangeOptions = query.exchange ?? []
 
-  const marketOptions = (query.kc_market ?? []).filter((item) =>
+  const marketOptions = (query.market ?? []).filter((item) =>
     item.market_prices.some(
       (price) =>
         price.asset_symbol === state.primaryCurrency?.symbol &&
@@ -40,12 +40,12 @@ const DCAOrderFormCreate = (props: Props) => {
     ),
   )
 
-  const userExchangeKeysOptions = (query.kc_user_exchange_keys ?? []).filter(
+  const userExchangeKeysOptions = (query.user_exchange_keys ?? []).filter(
     (_item) => true, // Item.exchange_uid === state.exchange?.uid
   )
 
-  const primaryCurrencyOptions = query.kc_exchange[0]?.primary_currencies
-  const secondaryCurrencyOptions = query.kc_exchange[0]?.secondary_currencies
+  const primaryCurrencyOptions = query.exchange[0]?.primary_currencies
+  const secondaryCurrencyOptions = query.exchange[0]?.secondary_currencies
 
   return (
     <div>

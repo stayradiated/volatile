@@ -1,261 +1,261 @@
 actions:
-  - name: create_auth_token
+  - name: action_create_auth_token
     definition:
       kind: synchronous
-      handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/create_auth_token'
+      handler: '{{HASURA_ACTIONS_ENDPOINT}}'
       headers:
         - name: x-hasura-actions-secret
           value_from_env: HASURA_ACTIONS_SECRET
     permissions:
       - role: user
       - role: guest
-  - name: create_dca_order
+  - name: action_create_dca_order
     definition:
       kind: synchronous
-      handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/create_dca_order'
+      handler: '{{HASURA_ACTIONS_ENDPOINT}}'
       headers:
         - name: x-hasura-actions-secret
           value_from_env: HASURA_ACTIONS_SECRET
     permissions:
       - role: user
-  - name: create_stripe_subscription
+  - name: action_create_stripe_subscription
     definition:
       kind: synchronous
-      handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/create_stripe_subscription'
+      handler: '{{HASURA_ACTIONS_ENDPOINT}}'
       headers:
         - name: x-hasura-actions-secret
           value_from_env: HASURA_ACTIONS_SECRET
     permissions:
       - role: user
-  - name: create_user
+  - name: action_create_user
     definition:
       kind: synchronous
-      handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/create_user'
+      handler: '{{HASURA_ACTIONS_ENDPOINT}}'
       headers:
         - name: x-hasura-actions-secret
           value_from_env: HASURA_ACTIONS_SECRET
     permissions:
       - role: user
       - role: guest
-  - name: create_user_exchange_keys
+  - name: action_create_user_exchange_keys
     definition:
       kind: synchronous
-      handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/create_user_exchange_keys'
+      handler: '{{HASURA_ACTIONS_ENDPOINT}}'
       headers:
         - name: x-hasura-actions-secret
           value_from_env: HASURA_ACTIONS_SECRET
     permissions:
       - role: user
-  - name: delete_user
+  - name: action_delete_user
     definition:
       kind: synchronous
-      handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/delete_user'
+      handler: '{{HASURA_ACTIONS_ENDPOINT}}'
       headers:
         - name: x-hasura-actions-secret
           value_from_env: HASURA_ACTIONS_SECRET
     permissions:
       - role: superuser
-  - name: delete_user_2fa
+  - name: action_delete_user_2fa
     definition:
       kind: synchronous
-      handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/delete_user_2fa'
+      handler: '{{HASURA_ACTIONS_ENDPOINT}}'
       headers:
         - name: x-hasura-actions-secret
           value_from_env: HASURA_ACTIONS_SECRET
     permissions:
       - role: superuser
-  - name: enable_user_2fa
+  - name: action_enable_user_2fa
     definition:
       kind: synchronous
-      handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/enable_user_2fa'
+      handler: '{{HASURA_ACTIONS_ENDPOINT}}'
       headers:
         - name: x-hasura-actions-secret
           value_from_env: HASURA_ACTIONS_SECRET
     permissions:
       - role: user
-  - name: query_live_stripe_subscription
+  - name: action_query_live_stripe_subscription
     definition:
       kind: ""
-      handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/query_live_stripe_subscription'
+      handler: '{{HASURA_ACTIONS_ENDPOINT}}'
       headers:
         - name: x-hasura-actions-secret
           value_from_env: HASURA_ACTIONS_SECRET
     permissions:
       - role: user
     comment: Query information about a Stripe Subscription (direct from Stripe)
-  - name: query_stripe_config
+  - name: action_query_stripe_config
     definition:
       kind: ""
-      handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/query_stripe_config'
+      handler: '{{HASURA_ACTIONS_ENDPOINT}}'
       headers:
         - name: x-hasura-actions-secret
           value_from_env: HASURA_ACTIONS_SECRET
     permissions:
       - role: user
-  - name: query_user_email
+  - name: action_query_user_email
     definition:
       kind: ""
-      handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/query_user_email'
+      handler: '{{HASURA_ACTIONS_ENDPOINT}}'
       headers:
         - name: x-hasura-actions-secret
           value_from_env: HASURA_ACTIONS_SECRET
-  - name: query_user_limit
+  - name: action_query_user_limit
     definition:
       kind: ""
-      handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/query_user_limit'
+      handler: '{{HASURA_ACTIONS_ENDPOINT}}'
       headers:
         - name: x-hasura-actions-secret
           value_from_env: HASURA_ACTIONS_SECRET
     permissions:
       - role: user
-  - name: refresh_auth_token
+  - name: action_refresh_auth_token
     definition:
       kind: synchronous
-      handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/refresh_auth_token'
+      handler: '{{HASURA_ACTIONS_ENDPOINT}}'
       headers:
         - name: x-hasura-actions-secret
           value_from_env: HASURA_ACTIONS_SECRET
     permissions:
       - role: superuser
       - role: user
-  - name: reset_user_password
+  - name: action_reset_user_password
     definition:
       kind: synchronous
-      handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/reset_user_password'
+      handler: '{{HASURA_ACTIONS_ENDPOINT}}'
       headers:
         - name: x-hasura-actions-secret
           value_from_env: HASURA_ACTIONS_SECRET
     permissions:
       - role: user
       - role: guest
-  - name: seed_test_account
+  - name: action_seed_test_account
     definition:
       kind: synchronous
-      handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/seed_test_account'
+      handler: '{{HASURA_ACTIONS_ENDPOINT}}'
       headers:
         - name: x-hasura-actions-secret
           value_from_env: HASURA_ACTIONS_SECRET
-  - name: send_user_email_verify
+  - name: action_send_user_email_verify
     definition:
       kind: synchronous
-      handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/send_user_email_verify'
+      handler: '{{HASURA_ACTIONS_ENDPOINT}}'
       headers:
         - name: x-hasura-actions-secret
           value_from_env: HASURA_ACTIONS_SECRET
     permissions:
       - role: user
-  - name: send_user_password_reset
+  - name: action_send_user_password_reset
     definition:
       kind: synchronous
-      handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/send_user_password_reset'
+      handler: '{{HASURA_ACTIONS_ENDPOINT}}'
       headers:
         - name: x-hasura-actions-secret
           value_from_env: HASURA_ACTIONS_SECRET
     permissions:
       - role: user
       - role: guest
-  - name: setup_user_2fa
+  - name: action_setup_user_2fa
     definition:
       kind: ""
-      handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/setup_user_2fa'
+      handler: '{{HASURA_ACTIONS_ENDPOINT}}'
       headers:
         - name: x-hasura-actions-secret
           value_from_env: HASURA_ACTIONS_SECRET
     permissions:
       - role: user
-  - name: sync_currency_fx
+  - name: action_sync_currency_fx
     definition:
       kind: synchronous
-      handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/sync_currency_fx'
+      handler: '{{HASURA_ACTIONS_ENDPOINT}}'
       headers:
         - name: x-hasura-actions-secret
           value_from_env: HASURA_ACTIONS_SECRET
-  - name: sync_exchange_open_order_list
+  - name: action_sync_exchange_open_order_list
     definition:
       kind: synchronous
-      handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/sync_exchange_open_order_list'
-      headers:
-        - name: x-hasura-actions-secret
-          value_from_env: HASURA_ACTIONS_SECRET
-    permissions:
-      - role: user
-  - name: sync_exchange_trade_list
-    definition:
-      kind: synchronous
-      handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/sync_exchange_trade_list'
+      handler: '{{HASURA_ACTIONS_ENDPOINT}}'
       headers:
         - name: x-hasura-actions-secret
           value_from_env: HASURA_ACTIONS_SECRET
     permissions:
       - role: user
-  - name: update_dca_order
+  - name: action_sync_exchange_trade_list
     definition:
       kind: synchronous
-      handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/update_dca_order'
+      handler: '{{HASURA_ACTIONS_ENDPOINT}}'
       headers:
         - name: x-hasura-actions-secret
           value_from_env: HASURA_ACTIONS_SECRET
     permissions:
       - role: user
-  - name: update_stripe_subscription
+  - name: action_update_dca_order
     definition:
       kind: synchronous
-      handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/update_stripe_subscription'
+      handler: '{{HASURA_ACTIONS_ENDPOINT}}'
       headers:
         - name: x-hasura-actions-secret
           value_from_env: HASURA_ACTIONS_SECRET
     permissions:
       - role: user
-  - name: update_user
+  - name: action_update_stripe_subscription
     definition:
       kind: synchronous
-      handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/update_user'
+      handler: '{{HASURA_ACTIONS_ENDPOINT}}'
       headers:
         - name: x-hasura-actions-secret
           value_from_env: HASURA_ACTIONS_SECRET
     permissions:
       - role: user
-  - name: update_user_exchange_keys
+  - name: action_update_user
     definition:
       kind: synchronous
-      handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/update_user_exchange_keys'
+      handler: '{{HASURA_ACTIONS_ENDPOINT}}'
       headers:
         - name: x-hasura-actions-secret
           value_from_env: HASURA_ACTIONS_SECRET
     permissions:
       - role: user
-  - name: validate_user_exchange_keys
+  - name: action_update_user_exchange_keys
     definition:
       kind: synchronous
-      handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/validate_user_exchange_keys'
+      handler: '{{HASURA_ACTIONS_ENDPOINT}}'
       headers:
         - name: x-hasura-actions-secret
           value_from_env: HASURA_ACTIONS_SECRET
     permissions:
       - role: user
-  - name: validate_user_exchange_keys_live
+  - name: action_validate_user_exchange_keys
     definition:
       kind: synchronous
-      handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/validate_user_exchange_keys_live'
+      handler: '{{HASURA_ACTIONS_ENDPOINT}}'
       headers:
         - name: x-hasura-actions-secret
           value_from_env: HASURA_ACTIONS_SECRET
     permissions:
       - role: user
-  - name: validate_user_password_reset
+  - name: action_validate_user_exchange_keys_live
     definition:
       kind: synchronous
-      handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/validate_user_password_reset'
+      handler: '{{HASURA_ACTIONS_ENDPOINT}}'
+      headers:
+        - name: x-hasura-actions-secret
+          value_from_env: HASURA_ACTIONS_SECRET
+    permissions:
+      - role: user
+  - name: action_validate_user_password_reset
+    definition:
+      kind: synchronous
+      handler: '{{HASURA_ACTIONS_ENDPOINT}}'
       headers:
         - name: x-hasura-actions-secret
           value_from_env: HASURA_ACTIONS_SECRET
     permissions:
       - role: user
       - role: guest
-  - name: verify_user_email
+  - name: action_verify_user_email
     definition:
       kind: synchronous
-      handler: '{{HASURA_ACTIONS_ENDPOINT}}/action/verify_user_email'
+      handler: '{{HASURA_ACTIONS_ENDPOINT}}'
       headers:
         - name: x-hasura-actions-secret
           value_from_env: HASURA_ACTIONS_SECRET
@@ -279,7 +279,7 @@ custom_types:
           name: user
           remote_table:
             name: user
-            schema: kc
+            schema: public
           source: default
           type: object
     - name: GetEmailOutput
@@ -290,7 +290,7 @@ custom_types:
           name: user_exchange_keys
           remote_table:
             name: user_exchange_keys
-            schema: kc
+            schema: public
           source: default
           type: object
     - name: ValidateUserExchangeKeysOutput
@@ -300,7 +300,7 @@ custom_types:
           name: user_exchange_keys
           remote_table:
             name: user_exchange_keys
-            schema: kc
+            schema: public
           source: default
           type: object
     - name: CreateDCAOrderResult
@@ -310,7 +310,7 @@ custom_types:
           name: dca_order
           remote_table:
             name: dca_order
-            schema: kc
+            schema: public
           source: default
           type: object
     - name: SyncTradeListOutput
@@ -320,7 +320,7 @@ custom_types:
           name: user
           remote_table:
             name: user
-            schema: kc
+            schema: public
           source: default
           type: object
     - name: SyncExchangeTradeListOutput
@@ -330,7 +330,7 @@ custom_types:
           name: user
           remote_table:
             name: user
-            schema: kc
+            schema: public
           source: default
           type: object
     - name: CreateUserExchangeKeysOutput
@@ -340,7 +340,7 @@ custom_types:
           name: user_exchange_keys
           remote_table:
             name: user_exchange_keys
-            schema: kc
+            schema: public
           source: default
           type: object
     - name: WebhookOutput
@@ -355,7 +355,7 @@ custom_types:
           name: user
           remote_table:
             name: user
-            schema: kc
+            schema: public
           source: default
           type: object
     - name: EnableUser2FAOutput
@@ -365,7 +365,7 @@ custom_types:
           name: user
           remote_table:
             name: user
-            schema: kc
+            schema: public
           source: default
           type: object
     - name: SendUserPasswordResetOutput
@@ -379,7 +379,7 @@ custom_types:
           name: user_exchange_keys
           remote_table:
             name: user_exchange_keys
-            schema: kc
+            schema: public
           source: default
           type: object
     - name: SyncExchangeOpenOrderListOutput
@@ -389,7 +389,7 @@ custom_types:
           name: user
           remote_table:
             name: user
-            schema: kc
+            schema: public
           source: default
           type: object
     - name: ValidateUserExchangeKeysLiveOutput
@@ -400,7 +400,7 @@ custom_types:
           name: user
           remote_table:
             name: user
-            schema: kc
+            schema: public
           source: default
           type: object
     - name: ValidatUserPasswordResetOutput
@@ -414,7 +414,7 @@ custom_types:
           name: user
           remote_table:
             name: user
-            schema: kc
+            schema: public
           source: default
           type: object
     - name: DeleteUserOutput
@@ -426,7 +426,7 @@ custom_types:
           name: dca_order
           remote_table:
             name: dca_order
-            schema: kc
+            schema: public
           source: default
           type: object
     - name: QueryPricesOutput
@@ -472,7 +472,7 @@ custom_types:
           name: stripe_subscription
           remote_table:
             name: stripe_subscription
-            schema: kc
+            schema: public
           source: default
           type: object
     - name: CancelStripeSubscriptionOutput
@@ -482,7 +482,7 @@ custom_types:
           name: stripe_subscription
           remote_table:
             name: stripe_subscription
-            schema: kc
+            schema: public
           source: default
           type: object
     - name: CreateStripeSubscription
@@ -492,7 +492,7 @@ custom_types:
           name: stripe_subscription
           remote_table:
             name: stripe_subscription
-            schema: kc
+            schema: public
           source: default
           type: object
     - name: UpdateSubscriptionOutput
@@ -502,7 +502,7 @@ custom_types:
           name: stripe_subscription
           remote_table:
             name: stripe_subscription
-            schema: kc
+            schema: public
           source: default
           type: object
   scalars: []

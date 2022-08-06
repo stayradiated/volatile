@@ -1,5 +1,5 @@
 query getDCAOrderFormCreate {
-  kc_market {
+  market {
     uid
     name
     market_prices(
@@ -10,12 +10,12 @@ query getDCAOrderFormCreate {
       currency
     }
   }
-  kc_user_exchange_keys {
+  user_exchange_keys {
     uid
     description
     exchange_uid
   }
-  kc_exchange {
+  exchange {
     uid
     name
     primary_currencies {

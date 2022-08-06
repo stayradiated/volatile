@@ -1,5 +1,5 @@
 mutation deleteUser {
-  delete_user {
+  action_delete_user {
     user_uid
   }
 }

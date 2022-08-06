@@ -3,7 +3,7 @@ query getDCAOrderHistoryPriceChart(
   $gt: timestamptz!
   $lte: timestamptz!
 ) {
-  kc_dca_order_by_pk(uid: $dcaOrderUID) {
+  dca_order_by_pk(uid: $dcaOrderUID) {
     uid
     exchange_market_trading_pair {
       market_uid

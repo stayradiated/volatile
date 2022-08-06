@@ -50,12 +50,13 @@ export const action: ActionFunction = async ({ request }) => {
     return json({ error: 'Could not create subscription.' })
   }
 
-  const { subscription_id: id } = result.data.create_stripe_subscription
+  const { subscription_id: id } = result.data.action_create_stripe_subscription
 
   return redirect(`/subscription/checkout?id=${id}`)
 }
 
 interface LoaderData {
+  email: string,
   query: GetPricesQuery
 }
 

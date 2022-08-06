@@ -1,8 +1,8 @@
 mutation updateDCAOrder(
   $dcaOrderUID: uuid!
-  $values: kc_dca_order_set_input!
+  $values: dca_order_set_input!
 ) {
-  update_kc_dca_order_by_pk(
+  update_dca_order_by_pk(
     pk_columns: { uid: $dcaOrderUID }
     _set: $values
   ) {

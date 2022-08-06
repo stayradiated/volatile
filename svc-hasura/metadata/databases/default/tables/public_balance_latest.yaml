@@ -1,0 +1,62 @@
+table:
+  name: balance_latest
+  schema: public
+object_relationships:
+- name: currency
+  using:
+    manual_configuration:
+      column_mapping:
+        currency_symbol: symbol
+      insertion_order: null
+      remote_table:
+        name: currency
+        schema: public
+- name: exchange
+  using:
+    manual_configuration:
+      column_mapping:
+        exchange_uid: uid
+      insertion_order: null
+      remote_table:
+        name: exchange
+        schema: public
+- name: user_exchange_keys
+  using:
+    manual_configuration:
+      column_mapping:
+        user_exchange_keys_uid: uid
+      insertion_order: null
+      remote_table:
+        name: user_exchange_keys
+        schema: public
+computed_fields:
+- definition:
+    function:
+      name: balance_latest_available_balance_fx
+      schema: public
+  name: available_balance_fx
+- definition:
+    function:
+      name: balance_latest_total_balance_fx
+      schema: public
+  name: total_balance_fx
+select_permissions:
+- permission:
+    columns:
+    - uid
+    - created_at
+    - updated_at
+    - user_uid
+    - exchange_uid
+    - user_exchange_keys_uid
+    - currency_symbol
+    - total_balance
+    - available_balance
+    computed_fields:
+    - available_balance_fx
+    - total_balance_fx
+    filter:
+      user_uid:
+        _eq: X-Hasura-User-Id
+    limit: 100
+  role: user

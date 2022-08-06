@@ -24,7 +24,8 @@ module.exports = {
           'smallint': 'number',
           'timestamp': 'string',
           'timestamptz': 'string',
-          'uuid': 'string'
+          'uuid': 'string',
+          'bpchar': 'string'
         }
       }
     },

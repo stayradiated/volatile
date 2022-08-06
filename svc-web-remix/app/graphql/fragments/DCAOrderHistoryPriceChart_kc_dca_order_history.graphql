@@ -1,4 +1,4 @@
-fragment DCAOrderHistoryPriceChart_kc_dca_order_history on kc_dca_order_history {
+fragment DCAOrderHistoryPriceChart_dca_order_history on dca_order_history {
   created_at
   created_order
   market_price

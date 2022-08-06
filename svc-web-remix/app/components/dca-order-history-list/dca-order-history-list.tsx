@@ -7,7 +7,7 @@ import { formatCurrency } from '~/components/format'
 
 import { GetDcaOrderHistoryListQuery } from '~/graphql/generated'
 
-type DCAOrderHistory = GetDcaOrderHistoryListQuery['kc_dca_order_history'][0]
+type DCAOrderHistory = GetDcaOrderHistoryListQuery['dca_order_history'][0]
 
 type Props = {
   query: GetDcaOrderHistoryListQuery
@@ -63,7 +63,7 @@ const DCAOrderHistoryList = (props: Props) => {
     return columns
   }, [])
 
-  const dcaOrderHistoryList = query.kc_dca_order_history ?? []
+  const dcaOrderHistoryList = query.dca_order_history ?? []
 
   const table = useTable({ columns, data: dcaOrderHistoryList })
 

@@ -10,7 +10,7 @@ mutation createDCAOrder(
   $minValue: Float
   $maxValue: Float
 ) {
-  create_dca_order(
+  action_create_dca_order(
     user_exchange_keys_uid: $userExchangeKeysUID
     market_uid: $marketUID
     start_at: $startAt

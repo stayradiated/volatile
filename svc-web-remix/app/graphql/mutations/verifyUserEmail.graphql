@@ -1,5 +1,5 @@
 mutation verifyUserEmail($emailVerifySecret: String!) {
-  verify_user_email(email_verify_secret: $emailVerifySecret) {
+  action_verify_user_email(email_verify_secret: $emailVerifySecret) {
     email
   }
 }

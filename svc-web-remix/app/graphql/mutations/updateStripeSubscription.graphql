@@ -2,7 +2,7 @@ mutation updateStripeSubscription(
   $subscriptionID: String!,
   $cancelAtPeriodEnd: Boolean!,
 ) {
-  update_stripe_subscription(
+  action_update_stripe_subscription(
     subscription_id: $subscriptionID,
     cancel_at_period_end: $cancelAtPeriodEnd
   ) {

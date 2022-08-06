@@ -1,5 +1,5 @@
 query getExchangeKeysFormCreate {
-  kc_exchange {
+  exchange {
     uid
     id
     name

@@ -1,4 +1,3 @@
-import { inspect } from 'util'
 import { timingSafeEqual } from 'node:crypto'
 import type { FastifyInstance, RouteHandlerMethod } from 'fastify'
 import type {
@@ -82,11 +81,10 @@ type ActionHandlerFn<Input, Output> = (
   context: Context<Input>,
 ) => Promise<Output | Error>
 
-const wrapActionHandler =
-  <Input, Output>(
-    actionName: string,
-    fn: ActionHandlerFn<Input, Output>,
-  ): RouteHandler<ActionHandlerRequest<Input>> =>
+const createActionHandler =
+  (
+    actions: Record<string, ActionHandlerFn<any, any>>
+  ): RouteHandler<ActionHandlerRequest<unknown>> =>
   async (request, reply) => {
     const secret = Buffer.from(
       String(request.headers['x-hasura-actions-secret']),
@@ -115,11 +113,12 @@ const wrapActionHandler =
       return
     }
 
-    if (action?.name !== actionName) {
+    const actionName = action?.name ?? ''
+    const actionFn = actions[actionName]
+
+    if (!actionFn) {
       await reply.code(404).send({
-        message: `Action name mismatch, expecting ${inspect(
-          actionName,
-        )}, received: ${inspect(action?.name)}`,
+        message: `Unsupported action name received: "${actionName}"`,
       })
       return
     }
@@ -132,12 +131,12 @@ const wrapActionHandler =
     }
 
     try {
-      const context: Context<Input> = {
+      const context: Context<unknown> = {
         pool,
         input,
         session,
       }
-      const output = await fn(context)
+      const output = await actionFn(context)
       if (output instanceof Error) {
         console.error(output)
         await reply.code(400).send({ message: output.message })
@@ -154,11 +153,15 @@ const wrapActionHandler =
   }
 
 const bindActionHandler =
-  (fastify: FastifyInstance) =>
-  <Input, Output>(actionName: string, fn: ActionHandlerFn<Input, Output>) => {
-    const path = `/action/${actionName}`
-    return fastify.post(path, wrapActionHandler<Input, Output>(actionName, fn))
-  }
+  (fastify: FastifyInstance) => {
+  const actions: Record<string, ActionHandlerFn<any, any>> = {}
 
-export { wrapActionHandler, bindActionHandler }
+  fastify.post('/action', createActionHandler(actions))
+
+  return <Input, Output>(actionName: string, fn: ActionHandlerFn<Input, Output>) => {
+    actions[actionName] = fn
+  }
+}
+
+export { bindActionHandler }
 export type { ActionHandlerFn, Session, SessionRole }

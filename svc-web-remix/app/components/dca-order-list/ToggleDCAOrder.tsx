@@ -4,7 +4,7 @@ import { PrimaryButton } from '~/components/retro-ui'
 
 type Props = {
   dcaOrderUID: string
-  enabledAt: Date | undefined
+  enabledAt: string | undefined
 }
 
 const ToggleDCAOrder = (props: Props) => {

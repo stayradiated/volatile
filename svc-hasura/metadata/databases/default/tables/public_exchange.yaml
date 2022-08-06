@@ -1,0 +1,67 @@
+table:
+  name: exchange
+  schema: public
+array_relationships:
+  - name: dca_orders
+    using:
+      foreign_key_constraint_on:
+        column: exchange_uid
+        table:
+          name: dca_order
+          schema: public
+  - name: orders
+    using:
+      foreign_key_constraint_on:
+        column: exchange_uid
+        table:
+          name: order
+          schema: public
+  - name: primary_currencies
+    using:
+      foreign_key_constraint_on:
+        column: exchange_uid
+        table:
+          name: exchange_primary_currency
+          schema: public
+  - name: secondary_currencies
+    using:
+      foreign_key_constraint_on:
+        column: exchange_uid
+        table:
+          name: exchange_secondary_currency
+          schema: public
+  - name: trades
+    using:
+      foreign_key_constraint_on:
+        column: exchange_uid
+        table:
+          name: trade
+          schema: public
+  - name: user_exchange_keys
+    using:
+      foreign_key_constraint_on:
+        column: exchange_uid
+        table:
+          name: user_exchange_keys
+          schema: public
+select_permissions:
+  - role: guest
+    permission:
+      columns:
+        - created_at
+        - id
+        - name
+        - uid
+        - updated_at
+        - url
+      filter: {}
+  - role: user
+    permission:
+      columns:
+        - created_at
+        - id
+        - name
+        - uid
+        - updated_at
+        - url
+      filter: {}

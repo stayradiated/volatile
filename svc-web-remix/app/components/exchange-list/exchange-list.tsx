@@ -10,7 +10,7 @@ type Props = {
 const ExchangeList = (props: Props) => {
   const { query } = props
 
-  const userExchangeKeys = query.kc_user_exchange_keys ?? []
+  const userExchangeKeys = query.user_exchange_keys ?? []
 
   return (
     <Card width={1000}>

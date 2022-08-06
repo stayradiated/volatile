@@ -3,7 +3,7 @@ mutation createUserExchangeKeys(
   $exchangeUID: uuid!
   $keys: jsonb!
 ) {
-  create_user_exchange_keys(
+  action_create_user_exchange_keys(
     description: $description
     exchange_uid: $exchangeUID
     keys: $keys

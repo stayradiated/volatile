@@ -1,5 +1,5 @@
 type Mutation {
-  create_auth_token(
+  action_create_auth_token(
     email: String!
     password: String!
     device_id: String!
@@ -11,7 +11,7 @@ type Mutation {
 }
 
 type Mutation {
-  create_dca_order(
+  action_create_dca_order(
     user_exchange_keys_uid: uuid!
     market_uid: uuid!
     primary_currency: String!
@@ -28,20 +28,20 @@ type Mutation {
 }
 
 type Mutation {
-  create_stripe_subscription(
+  action_create_stripe_subscription(
     price_id: String
   ): CreateStripeSubscription!
 }
 
 type Mutation {
-  create_user(
+  action_create_user(
     email: String!
     password: String!
   ): CreateUserOutput
 }
 
 type Mutation {
-  create_user_exchange_keys(
+  action_create_user_exchange_keys(
     exchange_uid: uuid!
     keys: jsonb!
     description: String!
@@ -49,17 +49,17 @@ type Mutation {
 }
 
 type Mutation {
-  delete_user: DeleteUserOutput
+  action_delete_user: DeleteUserOutput
 }
 
 type Mutation {
-  delete_user_2fa(
+  action_delete_user_2fa(
     token: String!
   ): DeleteUser2FAOutput
 }
 
 type Mutation {
-  enable_user_2fa(
+  action_enable_user_2fa(
     name: String!
     secret: String!
     token: String!
@@ -67,31 +67,31 @@ type Mutation {
 }
 
 type Query {
-  query_live_stripe_subscription(
+  action_query_live_stripe_subscription(
     subscription_id: String!
   ): QueryLiveStripeSubscriptionOutput!
 }
 
 type Query {
-  query_stripe_config: QueryStripeConfigOutput!
+  action_query_stripe_config: QueryStripeConfigOutput!
 }
 
 type Query {
-  query_user_email(
+  action_query_user_email(
     user_uid: uuid!
   ): QueryUserEmailOutput
 }
 
 type Query {
-  query_user_limit: QueryUserLimitOutput
+  action_query_user_limit: QueryUserLimitOutput
 }
 
 type Mutation {
-  refresh_auth_token: RefreshAuthTokenOutput
+  action_refresh_auth_token: RefreshAuthTokenOutput
 }
 
 type Mutation {
-  reset_user_password(
+  action_reset_user_password(
     password_reset_secret: String!
     new_password: String!
     device_id: String!
@@ -102,27 +102,27 @@ type Mutation {
 }
 
 type Mutation {
-  seed_test_account(
+  action_seed_test_account(
     email: String!
   ): SeedTestAccountOutput!
 }
 
 type Mutation {
-  send_user_email_verify: SendUserEmailVerifyOutput!
+  action_send_user_email_verify: SendUserEmailVerifyOutput!
 }
 
 type Mutation {
-  send_user_password_reset(
+  action_send_user_password_reset(
     email: String!
   ): SendUserPasswordResetOutput!
 }
 
 type Query {
-  setup_user_2fa: SetupUser2FAOutput
+  action_setup_user_2fa: SetupUser2FAOutput
 }
 
 type Mutation {
-  sync_currency_fx(
+  action_sync_currency_fx(
     start_date: timestamptz!
     end_date: timestamptz!
     from_symbol: String!
@@ -131,41 +131,41 @@ type Mutation {
 }
 
 type Mutation {
-  sync_exchange_open_order_list(
+  action_sync_exchange_open_order_list(
     user_exchange_keys_uid: uuid!
   ): SyncExchangeOpenOrderListOutput
 }
 
 type Mutation {
-  sync_exchange_trade_list(
+  action_sync_exchange_trade_list(
     user_exchange_keys_uid: uuid!
     force_sync: Boolean
   ): SyncExchangeTradeListOutput
 }
 
 type Mutation {
-  update_dca_order(
+  action_update_dca_order(
     dca_order_uid: uuid!
     enabled: Boolean!
   ): UpdateDCAOrderOutput!
 }
 
 type Mutation {
-  update_stripe_subscription(
+  action_update_stripe_subscription(
     subscription_id: String!
     cancel_at_period_end: Boolean!
   ): UpdateSubscriptionOutput!
 }
 
 type Mutation {
-  update_user(
+  action_update_user(
     email: String
     password: String
   ): UpdateUserOutput!
 }
 
 type Mutation {
-  update_user_exchange_keys(
+  action_update_user_exchange_keys(
     user_exchange_keys_uid: uuid!
     keys: jsonb
     description: String
@@ -173,26 +173,26 @@ type Mutation {
 }
 
 type Mutation {
-  validate_user_exchange_keys(
+  action_validate_user_exchange_keys(
     user_exchange_keys_uid: uuid!
   ): ValidateUserExchangeKeysOutput
 }
 
 type Mutation {
-  validate_user_exchange_keys_live(
+  action_validate_user_exchange_keys_live(
     exchange_uid: uuid!
     keys: jsonb!
   ): ValidateUserExchangeKeysLiveOutput
 }
 
 type Mutation {
-  validate_user_password_reset(
+  action_validate_user_password_reset(
     password_reset_secret: String!
   ): ValidatUserPasswordResetOutput!
 }
 
 type Mutation {
-  verify_user_email(
+  action_verify_user_email(
     email_verify_secret: String!
   ): VerifyUserEmailOutput!
 }

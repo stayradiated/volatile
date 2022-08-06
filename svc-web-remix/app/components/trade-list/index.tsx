@@ -9,7 +9,7 @@ import { formatCurrency } from '~/components/format'
 // Import { TradeChart } from './chart'
 // Import { ChartWeek } from './chart-week'
 
-type Trade = GetTradeListQuery['kc_trade'][0]
+type Trade = GetTradeListQuery['trade'][0]
 
 const columns: Array<Column<Trade>> = [
   {
@@ -64,10 +64,10 @@ const TradeList = (props: TradeListProps) => {
 
   const table = useTable<Trade>({
     columns,
-    data: query.kc_trade ?? [],
+    data: query.trade ?? [],
   })
 
-  const agg = query.kc_trade_aggregate?.aggregate
+  const agg = query.trade_aggregate?.aggregate
 
   return (
     <Card width={1200}>

@@ -11,7 +11,7 @@ const TradeSumValueByWeek = (props: Props) => {
   const { query } = props
 
   const charts = useMemo((): ChartConfig[] => {
-    const rows = query.kc_trade_sum_by_window ?? []
+    const rows = query.trade_sum_by_window ?? []
 
     const sum: Record<string, number> = {}
     for (const row of rows) {

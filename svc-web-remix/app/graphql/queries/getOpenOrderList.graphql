@@ -1,5 +1,5 @@
 query getOpenOrderList {
-  kc_order(where: { closed_at: { _is_null: true } }) {
+  order(where: { closed_at: { _is_null: true } }) {
     uid
     exchange {
       uid

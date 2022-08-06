@@ -2,7 +2,7 @@ query getExchangeList(
   $currentTimestamp: timestamptz
   $historicTimestamp: timestamptz
 ) {
-  kc_user_exchange_keys(order_by: { created_at: asc }) {
+  user_exchange_keys(order_by: { created_at: asc }) {
     uid
 
     exchange {

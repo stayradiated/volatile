@@ -2,7 +2,7 @@ import * as db from 'zapatos/db'
 import * as s from 'zapatos/schema'
 import { errorBoundary } from '@stayradiated/error-boundary'
 
-import { IllegalArgumentError } from '../../util/error.js'
+import { IllegalArgumentError, DBError } from '../../util/error.js'
 
 import { keyring } from '../../util/keyring.js'
 import * as hash from '../../util/hash.js'
@@ -60,11 +60,20 @@ const updateUser = async (
     fields.email_verified = emailVerified
   }
 
-  const error = await errorBoundary(async () =>
-    db.update('user', fields, { uid: userUID }).run(pool),
+  const updatedRows = await errorBoundary(async () =>
+    db.update('user', fields, { uid: userUID }, {returning: ['uid']}).run(pool),
   )
-  if (error instanceof Error) {
-    return error
+  if (updatedRows instanceof Error) {
+    return updatedRows
+  }
+  if (updatedRows.length < 1) {
+    return new DBError({
+      message: 'Could not find a user with that UID.',
+      context: {
+        userUID,
+        fields,
+      }
+    })
   }
 
   return undefined

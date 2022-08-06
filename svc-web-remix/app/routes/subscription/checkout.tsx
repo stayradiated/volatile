@@ -46,9 +46,9 @@ export const loader: LoaderFunction = async ({ request }) => {
 const SubscriptionRoute = () => {
   const { query } = useLoaderData<LoaderData>()
 
-  const clientSecret = query.query_live_stripe_subscription.client_secret
-  const publishableKey = query.query_stripe_config.publishable_key
-  const subscription = query.kc_stripe_subscription_by_pk
+  const clientSecret = query.action_query_live_stripe_subscription.client_secret
+  const publishableKey = query.action_query_stripe_config.publishable_key
+  const subscription = query.stripe_subscription_by_pk
 
   if (!subscription) {
     return <p>Error: could not find that subscription.</p>

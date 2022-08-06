@@ -42,7 +42,7 @@ export const action: ActionFunction = async ({ request }) => {
       role: 'user',
     })
 
-    const userAuthToken = result.create_auth_token?.auth_token
+    const userAuthToken = result.action_create_auth_token?.auth_token
 
     const session = await setSessionData({
       request,

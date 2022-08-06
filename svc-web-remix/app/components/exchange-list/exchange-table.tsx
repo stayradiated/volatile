@@ -5,7 +5,7 @@ import { Table } from '~/components/retro-ui'
 import { formatCurrency } from '~/components/format'
 import type { GetExchangeListQuery as Query } from '~/graphql/generated'
 
-type UserExchangeKey = Query['kc_user_exchange_keys'][0]
+type UserExchangeKey = Query['user_exchange_keys'][0]
 type LatestBalance = NonNullable<UserExchangeKey['balance_latest']>[0]
 type HistoricBalance = NonNullable<UserExchangeKey['balance_historic']>[0]
 

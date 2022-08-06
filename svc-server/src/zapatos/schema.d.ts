@@ -15,7 +15,7 @@ declare module 'zapatos/schema' {
   export interface schemaVersionCanary extends db.SchemaVersionCanary { version: 104 }
 
 
-  /* === schema: kc === */
+  /* === schema: public === */
 
   /* --- enums --- */
   /* (none) */
@@ -309,6 +309,269 @@ declare module 'zapatos/schema' {
     available_balance?: number | db.Parameter<number> | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
     }
     export type UniqueIndex = 'balance_pkey';
+    export type Column = keyof Selectable;
+    export type OnlyCols<T extends readonly Column[]> = Pick<Selectable, T[number]>;
+    export type SQLExpression = Table | db.ColumnNames<Updatable | (keyof Updatable)[]> | db.ColumnValues<Updatable> | Whereable | Column | db.ParentColumn | db.GenericSQLExpression;
+    export type SQL = SQLExpression | SQLExpression[];
+  }
+
+  /**
+   * **cron_history**
+   * - Table in database
+   */
+  export namespace cron_history {
+    export type Table = 'cron_history';
+    export interface Selectable {
+      /**
+      * **cron_history.uid**
+      * - `uuid` in database
+      * - `NOT NULL`, no default
+      */
+    uid: string;
+      /**
+      * **cron_history.created_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+    created_at: Date;
+      /**
+      * **cron_history.updated_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+    updated_at: Date;
+      /**
+      * **cron_history.completed_at**
+      * - `timestamptz` in database
+      * - Nullable, no default
+      */
+    completed_at: Date | null;
+      /**
+      * **cron_history.task_id**
+      * - `text` in database
+      * - `NOT NULL`, no default
+      */
+    task_id: string;
+      /**
+      * **cron_history.input**
+      * - `jsonb` in database
+      * - `NOT NULL`, default: `'{}'::jsonb`
+      */
+    input: db.JSONValue;
+      /**
+      * **cron_history.state**
+      * - `text` in database
+      * - `NOT NULL`, default: `'PENDING'::text`
+      */
+    state: string;
+      /**
+      * **cron_history.output**
+      * - `jsonb` in database
+      * - Nullable, no default
+      */
+    output: db.JSONValue | null;
+    }
+    export interface JSONSelectable {
+      /**
+      * **cron_history.uid**
+      * - `uuid` in database
+      * - `NOT NULL`, no default
+      */
+    uid: string;
+      /**
+      * **cron_history.created_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+    created_at: db.TimestampTzString;
+      /**
+      * **cron_history.updated_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+    updated_at: db.TimestampTzString;
+      /**
+      * **cron_history.completed_at**
+      * - `timestamptz` in database
+      * - Nullable, no default
+      */
+    completed_at: db.TimestampTzString | null;
+      /**
+      * **cron_history.task_id**
+      * - `text` in database
+      * - `NOT NULL`, no default
+      */
+    task_id: string;
+      /**
+      * **cron_history.input**
+      * - `jsonb` in database
+      * - `NOT NULL`, default: `'{}'::jsonb`
+      */
+    input: db.JSONValue;
+      /**
+      * **cron_history.state**
+      * - `text` in database
+      * - `NOT NULL`, default: `'PENDING'::text`
+      */
+    state: string;
+      /**
+      * **cron_history.output**
+      * - `jsonb` in database
+      * - Nullable, no default
+      */
+    output: db.JSONValue | null;
+    }
+    export interface Whereable {
+      /**
+      * **cron_history.uid**
+      * - `uuid` in database
+      * - `NOT NULL`, no default
+      */
+    uid?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **cron_history.created_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+    created_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **cron_history.updated_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+    updated_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **cron_history.completed_at**
+      * - `timestamptz` in database
+      * - Nullable, no default
+      */
+    completed_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **cron_history.task_id**
+      * - `text` in database
+      * - `NOT NULL`, no default
+      */
+    task_id?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **cron_history.input**
+      * - `jsonb` in database
+      * - `NOT NULL`, default: `'{}'::jsonb`
+      */
+    input?: db.JSONValue | db.Parameter<db.JSONValue> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, db.JSONValue | db.Parameter<db.JSONValue> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **cron_history.state**
+      * - `text` in database
+      * - `NOT NULL`, default: `'PENDING'::text`
+      */
+    state?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **cron_history.output**
+      * - `jsonb` in database
+      * - Nullable, no default
+      */
+    output?: db.JSONValue | db.Parameter<db.JSONValue> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, db.JSONValue | db.Parameter<db.JSONValue> | db.SQLFragment | db.ParentColumn>;
+    }
+    export interface Insertable {
+      /**
+      * **cron_history.uid**
+      * - `uuid` in database
+      * - `NOT NULL`, no default
+      */
+    uid: string | db.Parameter<string> | db.SQLFragment;
+      /**
+      * **cron_history.created_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+    created_at: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment;
+      /**
+      * **cron_history.updated_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+    updated_at: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment;
+      /**
+      * **cron_history.completed_at**
+      * - `timestamptz` in database
+      * - Nullable, no default
+      */
+    completed_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment;
+      /**
+      * **cron_history.task_id**
+      * - `text` in database
+      * - `NOT NULL`, no default
+      */
+    task_id: string | db.Parameter<string> | db.SQLFragment;
+      /**
+      * **cron_history.input**
+      * - `jsonb` in database
+      * - `NOT NULL`, default: `'{}'::jsonb`
+      */
+    input?: db.JSONValue | db.Parameter<db.JSONValue> | db.DefaultType | db.SQLFragment;
+      /**
+      * **cron_history.state**
+      * - `text` in database
+      * - `NOT NULL`, default: `'PENDING'::text`
+      */
+    state?: string | db.Parameter<string> | db.DefaultType | db.SQLFragment;
+      /**
+      * **cron_history.output**
+      * - `jsonb` in database
+      * - Nullable, no default
+      */
+    output?: db.JSONValue | db.Parameter<db.JSONValue> | null | db.DefaultType | db.SQLFragment;
+    }
+    export interface Updatable {
+      /**
+      * **cron_history.uid**
+      * - `uuid` in database
+      * - `NOT NULL`, no default
+      */
+    uid?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+      /**
+      * **cron_history.created_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+    created_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment>;
+      /**
+      * **cron_history.updated_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+    updated_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment>;
+      /**
+      * **cron_history.completed_at**
+      * - `timestamptz` in database
+      * - Nullable, no default
+      */
+    completed_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment>;
+      /**
+      * **cron_history.task_id**
+      * - `text` in database
+      * - `NOT NULL`, no default
+      */
+    task_id?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+      /**
+      * **cron_history.input**
+      * - `jsonb` in database
+      * - `NOT NULL`, default: `'{}'::jsonb`
+      */
+    input?: db.JSONValue | db.Parameter<db.JSONValue> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, db.JSONValue | db.Parameter<db.JSONValue> | db.DefaultType | db.SQLFragment>;
+      /**
+      * **cron_history.state**
+      * - `text` in database
+      * - `NOT NULL`, default: `'PENDING'::text`
+      */
+    state?: string | db.Parameter<string> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.DefaultType | db.SQLFragment>;
+      /**
+      * **cron_history.output**
+      * - `jsonb` in database
+      * - Nullable, no default
+      */
+    output?: db.JSONValue | db.Parameter<db.JSONValue> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, db.JSONValue | db.Parameter<db.JSONValue> | null | db.DefaultType | db.SQLFragment>;
+    }
+    export type UniqueIndex = 'cron_history_pkey';
     export type Column = keyof Selectable;
     export type OnlyCols<T extends readonly Column[]> = Pick<Selectable, T[number]>;
     export type SQLExpression = Table | db.ColumnNames<Updatable | (keyof Updatable)[]> | db.ColumnValues<Updatable> | Whereable | Column | db.ParentColumn | db.GenericSQLExpression;
@@ -3562,59 +3825,6 @@ declare module 'zapatos/schema' {
   }
 
   /**
-   * **schema_migrations**
-   * - Table in database
-   */
-  export namespace schema_migrations {
-    export type Table = 'schema_migrations';
-    export interface Selectable {
-      /**
-      * **schema_migrations.version**
-      * - `varchar` in database
-      * - `NOT NULL`, no default
-      */
-    version: string;
-    }
-    export interface JSONSelectable {
-      /**
-      * **schema_migrations.version**
-      * - `varchar` in database
-      * - `NOT NULL`, no default
-      */
-    version: string;
-    }
-    export interface Whereable {
-      /**
-      * **schema_migrations.version**
-      * - `varchar` in database
-      * - `NOT NULL`, no default
-      */
-    version?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
-    }
-    export interface Insertable {
-      /**
-      * **schema_migrations.version**
-      * - `varchar` in database
-      * - `NOT NULL`, no default
-      */
-    version: string | db.Parameter<string> | db.SQLFragment;
-    }
-    export interface Updatable {
-      /**
-      * **schema_migrations.version**
-      * - `varchar` in database
-      * - `NOT NULL`, no default
-      */
-    version?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
-    }
-    export type UniqueIndex = 'schema_migrations_pkey';
-    export type Column = keyof Selectable;
-    export type OnlyCols<T extends readonly Column[]> = Pick<Selectable, T[number]>;
-    export type SQLExpression = Table | db.ColumnNames<Updatable | (keyof Updatable)[]> | db.ColumnValues<Updatable> | Whereable | Column | db.ParentColumn | db.GenericSQLExpression;
-    export type SQL = SQLExpression | SQLExpression[];
-  }
-
-  /**
    * **stripe_customer**
    * - Table in database
    */
@@ -3691,6 +3901,442 @@ declare module 'zapatos/schema' {
     customer_id?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
     }
     export type UniqueIndex = 'customer_pkey' | 'unique_customer_id';
+    export type Column = keyof Selectable;
+    export type OnlyCols<T extends readonly Column[]> = Pick<Selectable, T[number]>;
+    export type SQLExpression = Table | db.ColumnNames<Updatable | (keyof Updatable)[]> | db.ColumnValues<Updatable> | Whereable | Column | db.ParentColumn | db.GenericSQLExpression;
+    export type SQL = SQLExpression | SQLExpression[];
+  }
+
+  /**
+   * **stripe_invoice**
+   * - Table in database
+   */
+  export namespace stripe_invoice {
+    export type Table = 'stripe_invoice';
+    export interface Selectable {
+      /**
+      * **stripe_invoice.id**
+      * - `text` in database
+      * - `NOT NULL`, no default
+      */
+    id: string;
+      /**
+      * **stripe_invoice.created_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+    created_at: Date;
+      /**
+      * **stripe_invoice.updated_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+    updated_at: Date;
+      /**
+      * **stripe_invoice.charge_id**
+      * - `text` in database
+      * - `NOT NULL`, no default
+      */
+    charge_id: string;
+      /**
+      * **stripe_invoice.customer_id**
+      * - `text` in database
+      * - `NOT NULL`, no default
+      */
+    customer_id: string;
+      /**
+      * **stripe_invoice.auto_advance**
+      * - `bool` in database
+      * - `NOT NULL`, no default
+      */
+    auto_advance: boolean;
+      /**
+      * **stripe_invoice.collection_method**
+      * - `text` in database
+      * - `NOT NULL`, no default
+      */
+    collection_method: string;
+      /**
+      * **stripe_invoice.currency**
+      * - `text` in database
+      * - `NOT NULL`, no default
+      */
+    currency: string;
+      /**
+      * **stripe_invoice.description**
+      * - `text` in database
+      * - Nullable, no default
+      */
+    description: string | null;
+      /**
+      * **stripe_invoice.hosted_invoice_url**
+      * - `text` in database
+      * - Nullable, no default
+      */
+    hosted_invoice_url: string | null;
+    }
+    export interface JSONSelectable {
+      /**
+      * **stripe_invoice.id**
+      * - `text` in database
+      * - `NOT NULL`, no default
+      */
+    id: string;
+      /**
+      * **stripe_invoice.created_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+    created_at: db.TimestampTzString;
+      /**
+      * **stripe_invoice.updated_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+    updated_at: db.TimestampTzString;
+      /**
+      * **stripe_invoice.charge_id**
+      * - `text` in database
+      * - `NOT NULL`, no default
+      */
+    charge_id: string;
+      /**
+      * **stripe_invoice.customer_id**
+      * - `text` in database
+      * - `NOT NULL`, no default
+      */
+    customer_id: string;
+      /**
+      * **stripe_invoice.auto_advance**
+      * - `bool` in database
+      * - `NOT NULL`, no default
+      */
+    auto_advance: boolean;
+      /**
+      * **stripe_invoice.collection_method**
+      * - `text` in database
+      * - `NOT NULL`, no default
+      */
+    collection_method: string;
+      /**
+      * **stripe_invoice.currency**
+      * - `text` in database
+      * - `NOT NULL`, no default
+      */
+    currency: string;
+      /**
+      * **stripe_invoice.description**
+      * - `text` in database
+      * - Nullable, no default
+      */
+    description: string | null;
+      /**
+      * **stripe_invoice.hosted_invoice_url**
+      * - `text` in database
+      * - Nullable, no default
+      */
+    hosted_invoice_url: string | null;
+    }
+    export interface Whereable {
+      /**
+      * **stripe_invoice.id**
+      * - `text` in database
+      * - `NOT NULL`, no default
+      */
+    id?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **stripe_invoice.created_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+    created_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **stripe_invoice.updated_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+    updated_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **stripe_invoice.charge_id**
+      * - `text` in database
+      * - `NOT NULL`, no default
+      */
+    charge_id?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **stripe_invoice.customer_id**
+      * - `text` in database
+      * - `NOT NULL`, no default
+      */
+    customer_id?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **stripe_invoice.auto_advance**
+      * - `bool` in database
+      * - `NOT NULL`, no default
+      */
+    auto_advance?: boolean | db.Parameter<boolean> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, boolean | db.Parameter<boolean> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **stripe_invoice.collection_method**
+      * - `text` in database
+      * - `NOT NULL`, no default
+      */
+    collection_method?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **stripe_invoice.currency**
+      * - `text` in database
+      * - `NOT NULL`, no default
+      */
+    currency?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **stripe_invoice.description**
+      * - `text` in database
+      * - Nullable, no default
+      */
+    description?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **stripe_invoice.hosted_invoice_url**
+      * - `text` in database
+      * - Nullable, no default
+      */
+    hosted_invoice_url?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+    }
+    export interface Insertable {
+      /**
+      * **stripe_invoice.id**
+      * - `text` in database
+      * - `NOT NULL`, no default
+      */
+    id: string | db.Parameter<string> | db.SQLFragment;
+      /**
+      * **stripe_invoice.created_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+    created_at: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment;
+      /**
+      * **stripe_invoice.updated_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+    updated_at: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment;
+      /**
+      * **stripe_invoice.charge_id**
+      * - `text` in database
+      * - `NOT NULL`, no default
+      */
+    charge_id: string | db.Parameter<string> | db.SQLFragment;
+      /**
+      * **stripe_invoice.customer_id**
+      * - `text` in database
+      * - `NOT NULL`, no default
+      */
+    customer_id: string | db.Parameter<string> | db.SQLFragment;
+      /**
+      * **stripe_invoice.auto_advance**
+      * - `bool` in database
+      * - `NOT NULL`, no default
+      */
+    auto_advance: boolean | db.Parameter<boolean> | db.SQLFragment;
+      /**
+      * **stripe_invoice.collection_method**
+      * - `text` in database
+      * - `NOT NULL`, no default
+      */
+    collection_method: string | db.Parameter<string> | db.SQLFragment;
+      /**
+      * **stripe_invoice.currency**
+      * - `text` in database
+      * - `NOT NULL`, no default
+      */
+    currency: string | db.Parameter<string> | db.SQLFragment;
+      /**
+      * **stripe_invoice.description**
+      * - `text` in database
+      * - Nullable, no default
+      */
+    description?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment;
+      /**
+      * **stripe_invoice.hosted_invoice_url**
+      * - `text` in database
+      * - Nullable, no default
+      */
+    hosted_invoice_url?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment;
+    }
+    export interface Updatable {
+      /**
+      * **stripe_invoice.id**
+      * - `text` in database
+      * - `NOT NULL`, no default
+      */
+    id?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+      /**
+      * **stripe_invoice.created_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+    created_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment>;
+      /**
+      * **stripe_invoice.updated_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+    updated_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment>;
+      /**
+      * **stripe_invoice.charge_id**
+      * - `text` in database
+      * - `NOT NULL`, no default
+      */
+    charge_id?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+      /**
+      * **stripe_invoice.customer_id**
+      * - `text` in database
+      * - `NOT NULL`, no default
+      */
+    customer_id?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+      /**
+      * **stripe_invoice.auto_advance**
+      * - `bool` in database
+      * - `NOT NULL`, no default
+      */
+    auto_advance?: boolean | db.Parameter<boolean> | db.SQLFragment | db.SQLFragment<any, boolean | db.Parameter<boolean> | db.SQLFragment>;
+      /**
+      * **stripe_invoice.collection_method**
+      * - `text` in database
+      * - `NOT NULL`, no default
+      */
+    collection_method?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+      /**
+      * **stripe_invoice.currency**
+      * - `text` in database
+      * - `NOT NULL`, no default
+      */
+    currency?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+      /**
+      * **stripe_invoice.description**
+      * - `text` in database
+      * - Nullable, no default
+      */
+    description?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment>;
+      /**
+      * **stripe_invoice.hosted_invoice_url**
+      * - `text` in database
+      * - Nullable, no default
+      */
+    hosted_invoice_url?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment>;
+    }
+    export type UniqueIndex = 'stripe_invoice_pkey';
+    export type Column = keyof Selectable;
+    export type OnlyCols<T extends readonly Column[]> = Pick<Selectable, T[number]>;
+    export type SQLExpression = Table | db.ColumnNames<Updatable | (keyof Updatable)[]> | db.ColumnValues<Updatable> | Whereable | Column | db.ParentColumn | db.GenericSQLExpression;
+    export type SQL = SQLExpression | SQLExpression[];
+  }
+
+  /**
+   * **stripe_payment_method**
+   * - Table in database
+   */
+  export namespace stripe_payment_method {
+    export type Table = 'stripe_payment_method';
+    export interface Selectable {
+      /**
+      * **stripe_payment_method.id**
+      * - `text` in database
+      * - `NOT NULL`, no default
+      */
+    id: string;
+      /**
+      * **stripe_payment_method.created_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+    created_at: Date;
+      /**
+      * **stripe_payment_method.updated_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+    updated_at: Date;
+    }
+    export interface JSONSelectable {
+      /**
+      * **stripe_payment_method.id**
+      * - `text` in database
+      * - `NOT NULL`, no default
+      */
+    id: string;
+      /**
+      * **stripe_payment_method.created_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+    created_at: db.TimestampTzString;
+      /**
+      * **stripe_payment_method.updated_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+    updated_at: db.TimestampTzString;
+    }
+    export interface Whereable {
+      /**
+      * **stripe_payment_method.id**
+      * - `text` in database
+      * - `NOT NULL`, no default
+      */
+    id?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **stripe_payment_method.created_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+    created_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **stripe_payment_method.updated_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+    updated_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
+    }
+    export interface Insertable {
+      /**
+      * **stripe_payment_method.id**
+      * - `text` in database
+      * - `NOT NULL`, no default
+      */
+    id: string | db.Parameter<string> | db.SQLFragment;
+      /**
+      * **stripe_payment_method.created_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+    created_at: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment;
+      /**
+      * **stripe_payment_method.updated_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+    updated_at: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment;
+    }
+    export interface Updatable {
+      /**
+      * **stripe_payment_method.id**
+      * - `text` in database
+      * - `NOT NULL`, no default
+      */
+    id?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+      /**
+      * **stripe_payment_method.created_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+    created_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment>;
+      /**
+      * **stripe_payment_method.updated_at**
+      * - `timestamptz` in database
+      * - `NOT NULL`, no default
+      */
+    updated_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment>;
+    }
+    export type UniqueIndex = 'stripe_payment_method_pkey';
     export type Column = keyof Selectable;
     export type OnlyCols<T extends readonly Column[]> = Pick<Selectable, T[number]>;
     export type SQLExpression = Table | db.ColumnNames<Updatable | (keyof Updatable)[]> | db.ColumnValues<Updatable> | Whereable | Column | db.ParentColumn | db.GenericSQLExpression;
@@ -7598,49 +8244,50 @@ declare module 'zapatos/schema' {
 
   /* --- aggregate types --- */
 
-  export namespace kc {  
-    export type Table = balance.Table | currency.Table | currency_fx.Table | dca_order.Table | dca_order_history.Table | exchange.Table | exchange_primary_currency.Table | exchange_secondary_currency.Table | market.Table | market_price.Table | market_trading_pair.Table | order.Table | request.Table | schema_migrations.Table | stripe_customer.Table | stripe_price.Table | stripe_product.Table | stripe_subscription.Table | trade.Table | type_trade_avg_price_by_window.Table | type_trade_sum_by_window.Table | user.Table | user_2fa.Table | user_device.Table | user_email_verify.Table | user_exchange_keys.Table | user_exchange_request.Table | user_password_reset.Table;
-    export type Selectable = balance.Selectable | currency.Selectable | currency_fx.Selectable | dca_order.Selectable | dca_order_history.Selectable | exchange.Selectable | exchange_primary_currency.Selectable | exchange_secondary_currency.Selectable | market.Selectable | market_price.Selectable | market_trading_pair.Selectable | order.Selectable | request.Selectable | schema_migrations.Selectable | stripe_customer.Selectable | stripe_price.Selectable | stripe_product.Selectable | stripe_subscription.Selectable | trade.Selectable | type_trade_avg_price_by_window.Selectable | type_trade_sum_by_window.Selectable | user.Selectable | user_2fa.Selectable | user_device.Selectable | user_email_verify.Selectable | user_exchange_keys.Selectable | user_exchange_request.Selectable | user_password_reset.Selectable;
-    export type JSONSelectable = balance.JSONSelectable | currency.JSONSelectable | currency_fx.JSONSelectable | dca_order.JSONSelectable | dca_order_history.JSONSelectable | exchange.JSONSelectable | exchange_primary_currency.JSONSelectable | exchange_secondary_currency.JSONSelectable | market.JSONSelectable | market_price.JSONSelectable | market_trading_pair.JSONSelectable | order.JSONSelectable | request.JSONSelectable | schema_migrations.JSONSelectable | stripe_customer.JSONSelectable | stripe_price.JSONSelectable | stripe_product.JSONSelectable | stripe_subscription.JSONSelectable | trade.JSONSelectable | type_trade_avg_price_by_window.JSONSelectable | type_trade_sum_by_window.JSONSelectable | user.JSONSelectable | user_2fa.JSONSelectable | user_device.JSONSelectable | user_email_verify.JSONSelectable | user_exchange_keys.JSONSelectable | user_exchange_request.JSONSelectable | user_password_reset.JSONSelectable;
-    export type Whereable = balance.Whereable | currency.Whereable | currency_fx.Whereable | dca_order.Whereable | dca_order_history.Whereable | exchange.Whereable | exchange_primary_currency.Whereable | exchange_secondary_currency.Whereable | market.Whereable | market_price.Whereable | market_trading_pair.Whereable | order.Whereable | request.Whereable | schema_migrations.Whereable | stripe_customer.Whereable | stripe_price.Whereable | stripe_product.Whereable | stripe_subscription.Whereable | trade.Whereable | type_trade_avg_price_by_window.Whereable | type_trade_sum_by_window.Whereable | user.Whereable | user_2fa.Whereable | user_device.Whereable | user_email_verify.Whereable | user_exchange_keys.Whereable | user_exchange_request.Whereable | user_password_reset.Whereable;
-    export type Insertable = balance.Insertable | currency.Insertable | currency_fx.Insertable | dca_order.Insertable | dca_order_history.Insertable | exchange.Insertable | exchange_primary_currency.Insertable | exchange_secondary_currency.Insertable | market.Insertable | market_price.Insertable | market_trading_pair.Insertable | order.Insertable | request.Insertable | schema_migrations.Insertable | stripe_customer.Insertable | stripe_price.Insertable | stripe_product.Insertable | stripe_subscription.Insertable | trade.Insertable | type_trade_avg_price_by_window.Insertable | type_trade_sum_by_window.Insertable | user.Insertable | user_2fa.Insertable | user_device.Insertable | user_email_verify.Insertable | user_exchange_keys.Insertable | user_exchange_request.Insertable | user_password_reset.Insertable;
-    export type Updatable = balance.Updatable | currency.Updatable | currency_fx.Updatable | dca_order.Updatable | dca_order_history.Updatable | exchange.Updatable | exchange_primary_currency.Updatable | exchange_secondary_currency.Updatable | market.Updatable | market_price.Updatable | market_trading_pair.Updatable | order.Updatable | request.Updatable | schema_migrations.Updatable | stripe_customer.Updatable | stripe_price.Updatable | stripe_product.Updatable | stripe_subscription.Updatable | trade.Updatable | type_trade_avg_price_by_window.Updatable | type_trade_sum_by_window.Updatable | user.Updatable | user_2fa.Updatable | user_device.Updatable | user_email_verify.Updatable | user_exchange_keys.Updatable | user_exchange_request.Updatable | user_password_reset.Updatable;
-    export type UniqueIndex = balance.UniqueIndex | currency.UniqueIndex | currency_fx.UniqueIndex | dca_order.UniqueIndex | dca_order_history.UniqueIndex | exchange.UniqueIndex | exchange_primary_currency.UniqueIndex | exchange_secondary_currency.UniqueIndex | market.UniqueIndex | market_price.UniqueIndex | market_trading_pair.UniqueIndex | order.UniqueIndex | request.UniqueIndex | schema_migrations.UniqueIndex | stripe_customer.UniqueIndex | stripe_price.UniqueIndex | stripe_product.UniqueIndex | stripe_subscription.UniqueIndex | trade.UniqueIndex | type_trade_avg_price_by_window.UniqueIndex | type_trade_sum_by_window.UniqueIndex | user.UniqueIndex | user_2fa.UniqueIndex | user_device.UniqueIndex | user_email_verify.UniqueIndex | user_exchange_keys.UniqueIndex | user_exchange_request.UniqueIndex | user_password_reset.UniqueIndex;
-    export type Column = balance.Column | currency.Column | currency_fx.Column | dca_order.Column | dca_order_history.Column | exchange.Column | exchange_primary_currency.Column | exchange_secondary_currency.Column | market.Column | market_price.Column | market_trading_pair.Column | order.Column | request.Column | schema_migrations.Column | stripe_customer.Column | stripe_price.Column | stripe_product.Column | stripe_subscription.Column | trade.Column | type_trade_avg_price_by_window.Column | type_trade_sum_by_window.Column | user.Column | user_2fa.Column | user_device.Column | user_email_verify.Column | user_exchange_keys.Column | user_exchange_request.Column | user_password_reset.Column;
+  export namespace public {  
+    export type Table = balance.Table | cron_history.Table | currency.Table | currency_fx.Table | dca_order.Table | dca_order_history.Table | exchange.Table | exchange_primary_currency.Table | exchange_secondary_currency.Table | market.Table | market_price.Table | market_trading_pair.Table | order.Table | request.Table | stripe_customer.Table | stripe_invoice.Table | stripe_payment_method.Table | stripe_price.Table | stripe_product.Table | stripe_subscription.Table | trade.Table | type_trade_avg_price_by_window.Table | type_trade_sum_by_window.Table | user.Table | user_2fa.Table | user_device.Table | user_email_verify.Table | user_exchange_keys.Table | user_exchange_request.Table | user_password_reset.Table;
+    export type Selectable = balance.Selectable | cron_history.Selectable | currency.Selectable | currency_fx.Selectable | dca_order.Selectable | dca_order_history.Selectable | exchange.Selectable | exchange_primary_currency.Selectable | exchange_secondary_currency.Selectable | market.Selectable | market_price.Selectable | market_trading_pair.Selectable | order.Selectable | request.Selectable | stripe_customer.Selectable | stripe_invoice.Selectable | stripe_payment_method.Selectable | stripe_price.Selectable | stripe_product.Selectable | stripe_subscription.Selectable | trade.Selectable | type_trade_avg_price_by_window.Selectable | type_trade_sum_by_window.Selectable | user.Selectable | user_2fa.Selectable | user_device.Selectable | user_email_verify.Selectable | user_exchange_keys.Selectable | user_exchange_request.Selectable | user_password_reset.Selectable;
+    export type JSONSelectable = balance.JSONSelectable | cron_history.JSONSelectable | currency.JSONSelectable | currency_fx.JSONSelectable | dca_order.JSONSelectable | dca_order_history.JSONSelectable | exchange.JSONSelectable | exchange_primary_currency.JSONSelectable | exchange_secondary_currency.JSONSelectable | market.JSONSelectable | market_price.JSONSelectable | market_trading_pair.JSONSelectable | order.JSONSelectable | request.JSONSelectable | stripe_customer.JSONSelectable | stripe_invoice.JSONSelectable | stripe_payment_method.JSONSelectable | stripe_price.JSONSelectable | stripe_product.JSONSelectable | stripe_subscription.JSONSelectable | trade.JSONSelectable | type_trade_avg_price_by_window.JSONSelectable | type_trade_sum_by_window.JSONSelectable | user.JSONSelectable | user_2fa.JSONSelectable | user_device.JSONSelectable | user_email_verify.JSONSelectable | user_exchange_keys.JSONSelectable | user_exchange_request.JSONSelectable | user_password_reset.JSONSelectable;
+    export type Whereable = balance.Whereable | cron_history.Whereable | currency.Whereable | currency_fx.Whereable | dca_order.Whereable | dca_order_history.Whereable | exchange.Whereable | exchange_primary_currency.Whereable | exchange_secondary_currency.Whereable | market.Whereable | market_price.Whereable | market_trading_pair.Whereable | order.Whereable | request.Whereable | stripe_customer.Whereable | stripe_invoice.Whereable | stripe_payment_method.Whereable | stripe_price.Whereable | stripe_product.Whereable | stripe_subscription.Whereable | trade.Whereable | type_trade_avg_price_by_window.Whereable | type_trade_sum_by_window.Whereable | user.Whereable | user_2fa.Whereable | user_device.Whereable | user_email_verify.Whereable | user_exchange_keys.Whereable | user_exchange_request.Whereable | user_password_reset.Whereable;
+    export type Insertable = balance.Insertable | cron_history.Insertable | currency.Insertable | currency_fx.Insertable | dca_order.Insertable | dca_order_history.Insertable | exchange.Insertable | exchange_primary_currency.Insertable | exchange_secondary_currency.Insertable | market.Insertable | market_price.Insertable | market_trading_pair.Insertable | order.Insertable | request.Insertable | stripe_customer.Insertable | stripe_invoice.Insertable | stripe_payment_method.Insertable | stripe_price.Insertable | stripe_product.Insertable | stripe_subscription.Insertable | trade.Insertable | type_trade_avg_price_by_window.Insertable | type_trade_sum_by_window.Insertable | user.Insertable | user_2fa.Insertable | user_device.Insertable | user_email_verify.Insertable | user_exchange_keys.Insertable | user_exchange_request.Insertable | user_password_reset.Insertable;
+    export type Updatable = balance.Updatable | cron_history.Updatable | currency.Updatable | currency_fx.Updatable | dca_order.Updatable | dca_order_history.Updatable | exchange.Updatable | exchange_primary_currency.Updatable | exchange_secondary_currency.Updatable | market.Updatable | market_price.Updatable | market_trading_pair.Updatable | order.Updatable | request.Updatable | stripe_customer.Updatable | stripe_invoice.Updatable | stripe_payment_method.Updatable | stripe_price.Updatable | stripe_product.Updatable | stripe_subscription.Updatable | trade.Updatable | type_trade_avg_price_by_window.Updatable | type_trade_sum_by_window.Updatable | user.Updatable | user_2fa.Updatable | user_device.Updatable | user_email_verify.Updatable | user_exchange_keys.Updatable | user_exchange_request.Updatable | user_password_reset.Updatable;
+    export type UniqueIndex = balance.UniqueIndex | cron_history.UniqueIndex | currency.UniqueIndex | currency_fx.UniqueIndex | dca_order.UniqueIndex | dca_order_history.UniqueIndex | exchange.UniqueIndex | exchange_primary_currency.UniqueIndex | exchange_secondary_currency.UniqueIndex | market.UniqueIndex | market_price.UniqueIndex | market_trading_pair.UniqueIndex | order.UniqueIndex | request.UniqueIndex | stripe_customer.UniqueIndex | stripe_invoice.UniqueIndex | stripe_payment_method.UniqueIndex | stripe_price.UniqueIndex | stripe_product.UniqueIndex | stripe_subscription.UniqueIndex | trade.UniqueIndex | type_trade_avg_price_by_window.UniqueIndex | type_trade_sum_by_window.UniqueIndex | user.UniqueIndex | user_2fa.UniqueIndex | user_device.UniqueIndex | user_email_verify.UniqueIndex | user_exchange_keys.UniqueIndex | user_exchange_request.UniqueIndex | user_password_reset.UniqueIndex;
+    export type Column = balance.Column | cron_history.Column | currency.Column | currency_fx.Column | dca_order.Column | dca_order_history.Column | exchange.Column | exchange_primary_currency.Column | exchange_secondary_currency.Column | market.Column | market_price.Column | market_trading_pair.Column | order.Column | request.Column | stripe_customer.Column | stripe_invoice.Column | stripe_payment_method.Column | stripe_price.Column | stripe_product.Column | stripe_subscription.Column | trade.Column | type_trade_avg_price_by_window.Column | type_trade_sum_by_window.Column | user.Column | user_2fa.Column | user_device.Column | user_email_verify.Column | user_exchange_keys.Column | user_exchange_request.Column | user_password_reset.Column;
   
-    export type AllBaseTables = [balance.Table, currency.Table, currency_fx.Table, dca_order.Table, dca_order_history.Table, exchange.Table, exchange_primary_currency.Table, exchange_secondary_currency.Table, market.Table, market_price.Table, market_trading_pair.Table, order.Table, request.Table, schema_migrations.Table, stripe_customer.Table, stripe_price.Table, stripe_product.Table, stripe_subscription.Table, trade.Table, type_trade_avg_price_by_window.Table, type_trade_sum_by_window.Table, user.Table, user_2fa.Table, user_device.Table, user_email_verify.Table, user_exchange_keys.Table, user_exchange_request.Table, user_password_reset.Table];
+    export type AllBaseTables = [balance.Table, cron_history.Table, currency.Table, currency_fx.Table, dca_order.Table, dca_order_history.Table, exchange.Table, exchange_primary_currency.Table, exchange_secondary_currency.Table, market.Table, market_price.Table, market_trading_pair.Table, order.Table, request.Table, stripe_customer.Table, stripe_invoice.Table, stripe_payment_method.Table, stripe_price.Table, stripe_product.Table, stripe_subscription.Table, trade.Table, type_trade_avg_price_by_window.Table, type_trade_sum_by_window.Table, user.Table, user_2fa.Table, user_device.Table, user_email_verify.Table, user_exchange_keys.Table, user_exchange_request.Table, user_password_reset.Table];
     export type AllForeignTables = [];
     export type AllViews = [];
     export type AllMaterializedViews = [];
-    export type AllTablesAndViews = [balance.Table, currency.Table, currency_fx.Table, dca_order.Table, dca_order_history.Table, exchange.Table, exchange_primary_currency.Table, exchange_secondary_currency.Table, market.Table, market_price.Table, market_trading_pair.Table, order.Table, request.Table, schema_migrations.Table, stripe_customer.Table, stripe_price.Table, stripe_product.Table, stripe_subscription.Table, trade.Table, type_trade_avg_price_by_window.Table, type_trade_sum_by_window.Table, user.Table, user_2fa.Table, user_device.Table, user_email_verify.Table, user_exchange_keys.Table, user_exchange_request.Table, user_password_reset.Table];
+    export type AllTablesAndViews = [balance.Table, cron_history.Table, currency.Table, currency_fx.Table, dca_order.Table, dca_order_history.Table, exchange.Table, exchange_primary_currency.Table, exchange_secondary_currency.Table, market.Table, market_price.Table, market_trading_pair.Table, order.Table, request.Table, stripe_customer.Table, stripe_invoice.Table, stripe_payment_method.Table, stripe_price.Table, stripe_product.Table, stripe_subscription.Table, trade.Table, type_trade_avg_price_by_window.Table, type_trade_sum_by_window.Table, user.Table, user_2fa.Table, user_device.Table, user_email_verify.Table, user_exchange_keys.Table, user_exchange_request.Table, user_password_reset.Table];
   }
 
 
 
   /* === global aggregate types === */
 
-  export type Schema = 'kc';
-  export type Table = kc.Table;
-  export type Selectable = kc.Selectable;
-  export type JSONSelectable = kc.JSONSelectable;
-  export type Whereable = kc.Whereable;
-  export type Insertable = kc.Insertable;
-  export type Updatable = kc.Updatable;
-  export type UniqueIndex = kc.UniqueIndex;
-  export type Column = kc.Column;
+  export type Schema = 'public';
+  export type Table = public.Table;
+  export type Selectable = public.Selectable;
+  export type JSONSelectable = public.JSONSelectable;
+  export type Whereable = public.Whereable;
+  export type Insertable = public.Insertable;
+  export type Updatable = public.Updatable;
+  export type UniqueIndex = public.UniqueIndex;
+  export type Column = public.Column;
 
-  export type AllSchemas = ['kc'];
-  export type AllBaseTables = [...kc.AllBaseTables];
-  export type AllForeignTables = [...kc.AllForeignTables];
-  export type AllViews = [...kc.AllViews];
-  export type AllMaterializedViews = [...kc.AllMaterializedViews];
-  export type AllTablesAndViews = [...kc.AllTablesAndViews];
+  export type AllSchemas = ['public'];
+  export type AllBaseTables = [...public.AllBaseTables];
+  export type AllForeignTables = [...public.AllForeignTables];
+  export type AllViews = [...public.AllViews];
+  export type AllMaterializedViews = [...public.AllMaterializedViews];
+  export type AllTablesAndViews = [...public.AllTablesAndViews];
 
 
   /* === lookups === */
 
   export type SelectableForTable<T extends Table> = {
     "balance": balance.Selectable;
+    "cron_history": cron_history.Selectable;
     "currency": currency.Selectable;
     "currency_fx": currency_fx.Selectable;
     "dca_order": dca_order.Selectable;
@@ -7653,8 +8300,9 @@ declare module 'zapatos/schema' {
     "market_trading_pair": market_trading_pair.Selectable;
     "order": order.Selectable;
     "request": request.Selectable;
-    "schema_migrations": schema_migrations.Selectable;
     "stripe_customer": stripe_customer.Selectable;
+    "stripe_invoice": stripe_invoice.Selectable;
+    "stripe_payment_method": stripe_payment_method.Selectable;
     "stripe_price": stripe_price.Selectable;
     "stripe_product": stripe_product.Selectable;
     "stripe_subscription": stripe_subscription.Selectable;
@@ -7672,6 +8320,7 @@ declare module 'zapatos/schema' {
 
   export type JSONSelectableForTable<T extends Table> = {
     "balance": balance.JSONSelectable;
+    "cron_history": cron_history.JSONSelectable;
     "currency": currency.JSONSelectable;
     "currency_fx": currency_fx.JSONSelectable;
     "dca_order": dca_order.JSONSelectable;
@@ -7684,8 +8333,9 @@ declare module 'zapatos/schema' {
     "market_trading_pair": market_trading_pair.JSONSelectable;
     "order": order.JSONSelectable;
     "request": request.JSONSelectable;
-    "schema_migrations": schema_migrations.JSONSelectable;
     "stripe_customer": stripe_customer.JSONSelectable;
+    "stripe_invoice": stripe_invoice.JSONSelectable;
+    "stripe_payment_method": stripe_payment_method.JSONSelectable;
     "stripe_price": stripe_price.JSONSelectable;
     "stripe_product": stripe_product.JSONSelectable;
     "stripe_subscription": stripe_subscription.JSONSelectable;
@@ -7703,6 +8353,7 @@ declare module 'zapatos/schema' {
 
   export type WhereableForTable<T extends Table> = {
     "balance": balance.Whereable;
+    "cron_history": cron_history.Whereable;
     "currency": currency.Whereable;
     "currency_fx": currency_fx.Whereable;
     "dca_order": dca_order.Whereable;
@@ -7715,8 +8366,9 @@ declare module 'zapatos/schema' {
     "market_trading_pair": market_trading_pair.Whereable;
     "order": order.Whereable;
     "request": request.Whereable;
-    "schema_migrations": schema_migrations.Whereable;
     "stripe_customer": stripe_customer.Whereable;
+    "stripe_invoice": stripe_invoice.Whereable;
+    "stripe_payment_method": stripe_payment_method.Whereable;
     "stripe_price": stripe_price.Whereable;
     "stripe_product": stripe_product.Whereable;
     "stripe_subscription": stripe_subscription.Whereable;
@@ -7734,6 +8386,7 @@ declare module 'zapatos/schema' {
 
   export type InsertableForTable<T extends Table> = {
     "balance": balance.Insertable;
+    "cron_history": cron_history.Insertable;
     "currency": currency.Insertable;
     "currency_fx": currency_fx.Insertable;
     "dca_order": dca_order.Insertable;
@@ -7746,8 +8399,9 @@ declare module 'zapatos/schema' {
     "market_trading_pair": market_trading_pair.Insertable;
     "order": order.Insertable;
     "request": request.Insertable;
-    "schema_migrations": schema_migrations.Insertable;
     "stripe_customer": stripe_customer.Insertable;
+    "stripe_invoice": stripe_invoice.Insertable;
+    "stripe_payment_method": stripe_payment_method.Insertable;
     "stripe_price": stripe_price.Insertable;
     "stripe_product": stripe_product.Insertable;
     "stripe_subscription": stripe_subscription.Insertable;
@@ -7765,6 +8419,7 @@ declare module 'zapatos/schema' {
 
   export type UpdatableForTable<T extends Table> = {
     "balance": balance.Updatable;
+    "cron_history": cron_history.Updatable;
     "currency": currency.Updatable;
     "currency_fx": currency_fx.Updatable;
     "dca_order": dca_order.Updatable;
@@ -7777,8 +8432,9 @@ declare module 'zapatos/schema' {
     "market_trading_pair": market_trading_pair.Updatable;
     "order": order.Updatable;
     "request": request.Updatable;
-    "schema_migrations": schema_migrations.Updatable;
     "stripe_customer": stripe_customer.Updatable;
+    "stripe_invoice": stripe_invoice.Updatable;
+    "stripe_payment_method": stripe_payment_method.Updatable;
     "stripe_price": stripe_price.Updatable;
     "stripe_product": stripe_product.Updatable;
     "stripe_subscription": stripe_subscription.Updatable;
@@ -7796,6 +8452,7 @@ declare module 'zapatos/schema' {
 
   export type UniqueIndexForTable<T extends Table> = {
     "balance": balance.UniqueIndex;
+    "cron_history": cron_history.UniqueIndex;
     "currency": currency.UniqueIndex;
     "currency_fx": currency_fx.UniqueIndex;
     "dca_order": dca_order.UniqueIndex;
@@ -7808,8 +8465,9 @@ declare module 'zapatos/schema' {
     "market_trading_pair": market_trading_pair.UniqueIndex;
     "order": order.UniqueIndex;
     "request": request.UniqueIndex;
-    "schema_migrations": schema_migrations.UniqueIndex;
     "stripe_customer": stripe_customer.UniqueIndex;
+    "stripe_invoice": stripe_invoice.UniqueIndex;
+    "stripe_payment_method": stripe_payment_method.UniqueIndex;
     "stripe_price": stripe_price.UniqueIndex;
     "stripe_product": stripe_product.UniqueIndex;
     "stripe_subscription": stripe_subscription.UniqueIndex;
@@ -7827,6 +8485,7 @@ declare module 'zapatos/schema' {
 
   export type ColumnForTable<T extends Table> = {
     "balance": balance.Column;
+    "cron_history": cron_history.Column;
     "currency": currency.Column;
     "currency_fx": currency_fx.Column;
     "dca_order": dca_order.Column;
@@ -7839,8 +8498,9 @@ declare module 'zapatos/schema' {
     "market_trading_pair": market_trading_pair.Column;
     "order": order.Column;
     "request": request.Column;
-    "schema_migrations": schema_migrations.Column;
     "stripe_customer": stripe_customer.Column;
+    "stripe_invoice": stripe_invoice.Column;
+    "stripe_payment_method": stripe_payment_method.Column;
     "stripe_price": stripe_price.Column;
     "stripe_product": stripe_product.Column;
     "stripe_subscription": stripe_subscription.Column;
@@ -7858,6 +8518,7 @@ declare module 'zapatos/schema' {
 
   export type SQLForTable<T extends Table> = {
     "balance": balance.SQL;
+    "cron_history": cron_history.SQL;
     "currency": currency.SQL;
     "currency_fx": currency_fx.SQL;
     "dca_order": dca_order.SQL;
@@ -7870,8 +8531,9 @@ declare module 'zapatos/schema' {
     "market_trading_pair": market_trading_pair.SQL;
     "order": order.SQL;
     "request": request.SQL;
-    "schema_migrations": schema_migrations.SQL;
     "stripe_customer": stripe_customer.SQL;
+    "stripe_invoice": stripe_invoice.SQL;
+    "stripe_payment_method": stripe_payment_method.SQL;
     "stripe_price": stripe_price.SQL;
     "stripe_product": stripe_product.SQL;
     "stripe_subscription": stripe_subscription.SQL;

@@ -1,4 +1,4 @@
-fragment stripeSubscription on kc_stripe_subscription {
+fragment stripeSubscription on stripe_subscription {
   id
   status
   cancel_at
@@ -18,13 +18,13 @@ fragment stripeSubscription on kc_stripe_subscription {
 }
 
 query getSubscriptionStatus {
-  active_stripe_subscription: kc_stripe_subscription(where: {status: {_eq: "active"}}, limit: 1, order_by: {current_period_start: desc}) {
+  active_stripe_subscription: stripe_subscription(where: {status: {_eq: "active"}}, limit: 1, order_by: {current_period_start: desc}) {
     ...stripeSubscription
   }
-  incomplete_stripe_subscription: kc_stripe_subscription(where: {status: {_eq: "incomplete"}}, limit: 1, order_by: {current_period_start: desc}) {
+  incomplete_stripe_subscription: stripe_subscription(where: {status: {_eq: "incomplete"}}, limit: 1, order_by: {current_period_start: desc}) {
     ...stripeSubscription
   }
-  kc_stripe_subscription_aggregate {
+  stripe_subscription_aggregate {
     aggregate {
       count
     }

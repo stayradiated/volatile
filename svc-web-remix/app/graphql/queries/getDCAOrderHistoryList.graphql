@@ -3,7 +3,7 @@ query getDCAOrderHistoryList(
   $gt: timestamptz!
   $lte: timestamptz!
 ) {
-  kc_dca_order_by_pk(uid: $dcaOrderUID) {
+  dca_order_by_pk(uid: $dcaOrderUID) {
     uid
     exchange {
       uid
@@ -17,14 +17,14 @@ query getDCAOrderHistoryList(
     }
   }
 
-  kc_dca_order_history(
+  dca_order_history(
     where: {
       dca_order_uid: { _eq: $dcaOrderUID }
       created_at: { _lte: $lte, _gt: $gt }
     }
     order_by: { created_at: desc }
   ) {
-    ...DCAOrderHistoryPriceChart_kc_dca_order_history
+    ...DCAOrderHistoryPriceChart_dca_order_history
 
     uid
     created_at

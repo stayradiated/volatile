@@ -7,7 +7,7 @@ import { formatCurrency } from '~/components/format'
 
 import type { GetOpenOrderListQuery } from '~/graphql/generated'
 
-type Order = GetOpenOrderListQuery['kc_order'][0]
+type Order = GetOpenOrderListQuery['order'][0]
 
 const columns: Array<Column<Order>> = [
   {
@@ -73,7 +73,7 @@ const OpenOrderList = (props: Props) => {
 
   const table = useTable({
     columns,
-    data: query.kc_order ?? [],
+    data: query.order ?? [],
   })
 
   return (

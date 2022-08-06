@@ -1,5 +1,5 @@
 query getUserDeviceList {
-  kc_user_device(order_by: { accessed_at: desc }) {
+  user_device(order_by: { accessed_at: desc }) {
     uid
     name
     created_at

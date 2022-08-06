@@ -14,7 +14,7 @@ import {
 import { GetTradeListQuery } from '../../utils/graphql'
 import { formatCurrency } from '../../utils/format'
 
-type Trade = GetTradeListQuery['kc_trade'][0]
+type Trade = GetTradeListQuery['trade'][0]
 
 const formatUnixTime =
   (formatString: string) =>

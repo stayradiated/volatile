@@ -6,7 +6,7 @@ import { Table, Dropdown } from '../retro-ui'
 
 import type { GetUserDeviceListQuery } from '~/graphql/generated'
 
-type Device = GetUserDeviceListQuery['kc_user_device'][0]
+type Device = GetUserDeviceListQuery['user_device'][0]
 
 type Props = {
   query: GetUserDeviceListQuery
@@ -54,7 +54,7 @@ const UserDeviceList = (props: Props) => {
 
   const table = useTable({
     columns,
-    data: query.kc_user_device ?? [],
+    data: query.user_device ?? [],
   })
 
   return <Table table={table} />

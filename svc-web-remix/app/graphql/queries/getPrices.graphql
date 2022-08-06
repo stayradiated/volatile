@@ -1,5 +1,5 @@
 query getPrices {
-  kc_stripe_product(where: { active: { _eq: true } }) {
+  stripe_product(where: { active: { _eq: true } }) {
     id
     active
     name

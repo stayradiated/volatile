@@ -1,0 +1,3 @@
+table:
+  name: secondary_currency
+  schema: public

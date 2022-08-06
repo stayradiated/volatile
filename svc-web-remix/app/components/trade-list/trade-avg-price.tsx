@@ -12,7 +12,7 @@ const TradeAvgPrice = (props: Props) => {
   const { primaryCurrency, query } = props
 
   const charts = useMemo((): ChartConfig[] => {
-    const rows = query?.kc_trade_avg_price_by_window ?? []
+    const rows = query?.trade_avg_price_by_window ?? []
     return [
       {
         type: 'area',

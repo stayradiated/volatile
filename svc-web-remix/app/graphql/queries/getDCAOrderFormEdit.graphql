@@ -1,5 +1,5 @@
 query getDCAOrderFormEdit($dcaOrderUID: uuid!) {
-  kc_market {
+  market {
     uid
     name
     market_prices(
@@ -10,12 +10,12 @@ query getDCAOrderFormEdit($dcaOrderUID: uuid!) {
       currency
     }
   }
-  kc_user_exchange_keys {
+  user_exchange_keys {
     uid
     exchange_uid
     description
   }
-  kc_dca_order_by_pk(uid: $dcaOrderUID) {
+  dca_order_by_pk(uid: $dcaOrderUID) {
     uid
     user_exchange_keys_uid
     exchange_uid

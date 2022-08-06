@@ -18,7 +18,7 @@ export const action: ActionFunction = async ({ request, params }) => {
   const { authToken } = session
 
   const { uid: userExchangeKeysUID } = params
-  invariant(userExchangeKeysUID, 'Expected params.uid')
+  invariant(typeof userExchangeKeysUID === 'string', 'Expected params.uid')
 
   sdk.deleteUserExchangeKeys(
     {

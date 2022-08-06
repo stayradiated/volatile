@@ -1,5 +1,5 @@
 query getEmailVerified {
-  kc_user {
+  user {
     uid
     email_verified
   }

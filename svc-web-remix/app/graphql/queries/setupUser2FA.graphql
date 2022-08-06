@@ -1,5 +1,5 @@
 query setupUser2FA {
-  setup_user_2fa {
+  action_setup_user_2fa {
     qrcode
     secret
   }

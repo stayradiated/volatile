@@ -1,0 +1,3 @@
+table:
+  name: user_totp
+  schema: public

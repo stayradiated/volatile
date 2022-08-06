@@ -9,7 +9,7 @@ import { formatCurrency } from '~/components/format'
 
 import type { GetDcaOrderListQuery } from '~/graphql/generated'
 
-type DCAOrder = GetDcaOrderListQuery['kc_dca_order'][0]
+type DCAOrder = GetDcaOrderListQuery['dca_order'][0]
 
 type Props = {
   query: GetDcaOrderListQuery
@@ -24,7 +24,7 @@ const DCAOrderList = (props: Props) => {
         Header: 'Status',
         accessor: 'enabled_at',
         Cell({ row, value }) {
-          const enabledAt = value
+          const enabledAt = value ?? undefined
           const dcaOrderUID = row.original.uid
           return (
             <ToggleDCAOrder dcaOrderUID={dcaOrderUID} enabledAt={enabledAt} />
@@ -106,7 +106,7 @@ const DCAOrderList = (props: Props) => {
 
   const tableData = useMemo(
     () =>
-      (query.kc_dca_order ?? []).map((row) => ({
+      (query.dca_order ?? []).map((row) => ({
         ...row,
         [Table.DISABLED]: !row.enabled_at,
       })),

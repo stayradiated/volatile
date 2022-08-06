@@ -1,5 +1,5 @@
 query getUser2FA {
-  kc_user {
+  user {
     uid
     user_2fa {
       created_at

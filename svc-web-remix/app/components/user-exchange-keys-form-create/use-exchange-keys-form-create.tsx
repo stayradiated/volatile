@@ -7,7 +7,7 @@ import { KeysInput } from '../user-exchange-keys-input'
 
 import type { GetExchangeKeysFormCreateQuery } from '~/graphql/generated'
 
-type Exchange = GetExchangeKeysFormCreateQuery['kc_exchange'][0]
+type Exchange = GetExchangeKeysFormCreateQuery['exchange'][0]
 
 type Props = {
   query: GetExchangeKeysFormCreateQuery
@@ -20,7 +20,7 @@ const UserExchangeKeysFormCreate = (props: Props) => {
 
   const keysAreValid = false
 
-  const options = query.kc_exchange ?? []
+  const options = query.exchange ?? []
 
   return (
     <div>

@@ -44,7 +44,7 @@ export const action: ActionFunction = async ({ request }) => {
       role: 'superuser',
     })
 
-    const superuserAuthToken = result.create_auth_token?.auth_token
+    const superuserAuthToken = result.action_create_auth_token?.auth_token
 
     const remixSession = await setSessionData({
       request,

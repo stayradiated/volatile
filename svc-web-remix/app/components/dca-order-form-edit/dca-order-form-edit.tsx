@@ -5,8 +5,8 @@ import { Form, Input, DateInput, PrimaryButton } from '../retro-ui/index'
 
 import type { GetDcaOrderFormEditQuery } from '~/graphql/generated'
 
-type UserExchangeKeys = GetDcaOrderFormEditQuery['kc_user_exchange_keys'][0]
-type Market = GetDcaOrderFormEditQuery['kc_market'][0]
+type UserExchangeKeys = GetDcaOrderFormEditQuery['user_exchange_keys'][0]
+type Market = GetDcaOrderFormEditQuery['market'][0]
 
 type Props = {
   query: GetDcaOrderFormEditQuery
@@ -15,9 +15,9 @@ type Props = {
 const DCAOrderFormEdit = (props: Props) => {
   const { query } = props
 
-  const dcaOrder = query.kc_dca_order_by_pk
+  const dcaOrder = query.dca_order_by_pk
 
-  const marketOptions = (query.kc_market ?? []).filter((item) =>
+  const marketOptions = (query.market ?? []).filter((item) =>
     item.market_prices.some(
       (price) =>
         price.asset_symbol === dcaOrder?.primary_currency.symbol &&
@@ -25,7 +25,7 @@ const DCAOrderFormEdit = (props: Props) => {
     ),
   )
 
-  const userExchangeKeysOptions = (query.kc_user_exchange_keys ?? []).filter(
+  const userExchangeKeysOptions = (query.user_exchange_keys ?? []).filter(
     (item) => item.exchange_uid === dcaOrder?.exchange.uid,
   )
   return (

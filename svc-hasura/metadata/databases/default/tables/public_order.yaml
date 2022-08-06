@@ -1,0 +1,41 @@
+table:
+  name: order
+  schema: public
+object_relationships:
+  - name: exchange
+    using:
+      foreign_key_constraint_on: exchange_uid
+  - name: user
+    using:
+      foreign_key_constraint_on: user_uid
+array_relationships:
+  - name: dca_order_histories
+    using:
+      foreign_key_constraint_on:
+        column: order_uid
+        table:
+          name: dca_order_history
+          schema: public
+select_permissions:
+  - role: user
+    permission:
+      columns:
+        - closed_at
+        - created_at
+        - exchange_uid
+        - opened_at
+        - order_id
+        - price
+        - primary_currency
+        - secondary_currency
+        - type
+        - uid
+        - updated_at
+        - user_uid
+        - value
+        - volume
+      filter:
+        user_uid:
+          _eq: X-Hasura-User-Id
+      limit: 100
+      allow_aggregations: true
