@@ -56,7 +56,7 @@ export const action: ActionFunction = async ({ request }) => {
 }
 
 interface LoaderData {
-  email: string,
+  email: string
   query: GetPricesQuery
 }
 

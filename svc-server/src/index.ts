@@ -25,6 +25,7 @@ const fastify = createFastify({ logger: true })
 
 const addAction = bindActionHandler(fastify)
 
+addAction('action_create_admin_auth_token', actions.createAdminAuthTokenHandler)
 addAction('action_create_auth_token', actions.createAuthTokenHandler)
 addAction('action_create_dca_order', actions.createDCAOrderHandler)
 addAction('action_create_stripe_subscription', actions.createStripeSubscription)

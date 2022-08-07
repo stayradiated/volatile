@@ -1,4 +1,11 @@
 actions:
+  - name: action_create_admin_auth_token
+    definition:
+      kind: synchronous
+      handler: '{{HASURA_ACTIONS_ENDPOINT}}'
+      headers:
+        - name: x-hasura-actions-secret
+          value_from_env: HASURA_ACTIONS_SECRET
   - name: action_create_auth_token
     definition:
       kind: synchronous
@@ -505,4 +512,5 @@ custom_types:
             schema: public
           source: default
           type: object
+    - name: CreateAdminAuthTokenOutput
   scalars: []

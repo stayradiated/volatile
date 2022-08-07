@@ -5,7 +5,7 @@ import { config } from '../../env.js'
 
 type GenerateAuthTokenOptions = {
   userUID: string
-  role: 'user' | 'superuser'
+  role: 'user' | 'superuser' | 'admin'
 }
 
 type AuthToken = {
@@ -23,7 +23,9 @@ const generateAuthToken = (options: GenerateAuthTokenOptions): AuthToken => {
 
   const expiresAt = addMilliseconds(new Date(), maxAgeMs)
 
-  const allowedRoles = role === 'superuser' ? ['user', 'superuser'] : ['user']
+  const allowedRoles = role === 'user'
+    ? ['user']
+    : ['user', role]
 
   const authToken = nJwt
     .create(

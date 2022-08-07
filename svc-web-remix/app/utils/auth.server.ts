@@ -94,23 +94,39 @@ type SuperuserSession = BaseSession & {
   readonly authToken: string
 }
 
+type AdminSession = BaseSession & {
+  readonly role: 'admin'
+  readonly userUID: string
+  readonly email: string
+  readonly authToken: string
+}
+
 type GuestSession = BaseSession & {
   readonly role: 'guest'
 }
 
-type NonGuestSession = UserSession | SuperuserSession
-type Session = GuestSession | UserSession | SuperuserSession
+type Session = GuestSession | UserSession | SuperuserSession | AdminSession
+type NonGuestSession = Omit<Session, 'GuestSession'>
 
 const getSessionData = async (request: Request): Promise<Session> => {
   const cookie = await getSession(request.headers.get('cookie'))
-
-  // Console.log(session.data)
 
   const guestSession: GuestSession = { role: 'guest', cookie }
 
   const email = cookie.get('e')
   if (typeof email !== 'string') {
     return guestSession
+  }
+
+  const adminAuthToken = readAuthToken(cookie.get('a'))
+  if (!(adminAuthToken instanceof Error)) {
+    return {
+      role: adminAuthToken.role as 'admin',
+      email,
+      userUID: adminAuthToken.userUID,
+      authToken: adminAuthToken.authToken,
+      cookie,
+    }
   }
 
   const superuserAuthToken = readAuthToken(cookie.get('s'))
@@ -143,10 +159,12 @@ type SetSessionDataOptions = {
   email?: string
   userAuthToken?: string
   superuserAuthToken?: string
+  adminAuthToken?: string
 }
 
 const setSessionData = async (options: SetSessionDataOptions) => {
-  const { request, email, userAuthToken, superuserAuthToken } = options
+  const { request, email, userAuthToken, superuserAuthToken, adminAuthToken } =
+    options
 
   const cookie = await getSession(request.headers.get('Cookie'))
 
@@ -160,6 +178,10 @@ const setSessionData = async (options: SetSessionDataOptions) => {
 
   if (typeof superuserAuthToken === 'string') {
     cookie.set('s', superuserAuthToken)
+  }
+
+  if (typeof adminAuthToken === 'string') {
+    cookie.set('s', adminAuthToken)
   }
 
   return cookie

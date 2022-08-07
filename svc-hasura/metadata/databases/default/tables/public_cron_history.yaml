@@ -1,0 +1,3 @@
+table:
+  name: cron_history
+  schema: public

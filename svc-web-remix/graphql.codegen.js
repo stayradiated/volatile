@@ -4,12 +4,12 @@ module.exports = {
       'http://localhost:9999/v1/graphql': {
         headers: {
           'X-Hasura-Admin-Secret': 'unlockedinfinity',
-          'X-Hasura-Allowed-Roles': 'guest,user,superuser',
+          'X-Hasura-Allowed-Roles': 'guest,user,superuser,admin',
         },
       },
     },
   ],
-  documents: ['./app/graphql/**/*.graphql'],
+  documents: ['./app/**/*.graphql', './app/routes/**/*.tsx'],
   overwrite: true,
   generates: {
     './app/graphql/generated.ts': {

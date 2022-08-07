@@ -1,4 +1,10 @@
 type Mutation {
+  action_create_admin_auth_token(
+    user_uid: uuid!
+  ): CreateAdminAuthTokenOutput
+}
+
+type Mutation {
   action_create_auth_token(
     email: String!
     password: String!
@@ -806,5 +812,11 @@ type CreateStripeSubscription {
 
 type UpdateSubscriptionOutput {
   subscription_id: String!
+}
+
+type CreateAdminAuthTokenOutput {
+  user_uid: String!
+  auth_token: String!
+  expires_at: timestamptz!
 }
 
