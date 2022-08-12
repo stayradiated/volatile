@@ -2,14 +2,11 @@ import { Link } from '@remix-run/react'
 import { useLoaderData, Outlet } from '@remix-run/react'
 import { LoaderFunction, json } from '@remix-run/node'
 
-import { Card } from '~/components/retro-ui'
-import { Navigation } from '~/components/navigation'
+import { Page } from '~/components/ui'
 import { getSessionData } from '~/utils/auth.server'
 import { loginRedirect } from '~/utils/redirect.server'
 
-interface LoaderData {
-  email: string
-}
+interface LoaderData {}
 
 export const loader: LoaderFunction = async ({ request }) => {
   const session = await getSessionData(request)
@@ -18,31 +15,22 @@ export const loader: LoaderFunction = async ({ request }) => {
     return loginRedirect(request, session)
   }
 
-  const { email } = session
-
-  return json<LoaderData>({
-    email,
-  })
+  return json<LoaderData>({})
 }
 
 const MarketPriceRoute = () => {
-  const { email } = useLoaderData<LoaderData>()
-
   return (
-    <>
-      <Navigation isAuthenticatedUser email={email} />
-      <Card>
-        <ul>
-          <li>
-            <Link to="BTC-NZD">BTC-NZD</Link>
-          </li>
-          <li>
-            <Link to="ETH-NZD">ETH-NZD</Link>
-          </li>
-        </ul>
-      </Card>
+    <Page title="Market Price">
+      <ul>
+        <li>
+          <Link to="BTC-NZD">BTC-NZD</Link>
+        </li>
+        <li>
+          <Link to="ETH-NZD">ETH-NZD</Link>
+        </li>
+      </ul>
       <Outlet />
-    </>
+    </Page>
   )
 }
 

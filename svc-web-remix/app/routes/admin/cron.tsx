@@ -69,17 +69,21 @@ const CronRoute = () => {
 
   return (
     <>
-      {' '}
       <Card width={1200}>
         <ul>
           <li>
-            <Link to=".">Show All</Link>
+            <Link to="/admin">Admin Panel</Link>
           </li>
-          {taskIDs.map((taskID) => (
-            <li>
-              <Link to={`.?taskID=${taskID}`}>{taskID}</Link>
-            </li>
-          ))}
+          <li>
+            Filter By Task ID: (<Link to=".">Show All</Link>)
+            <ul>
+              {taskIDs.map((taskID) => (
+                <li>
+                  <Link to={`.?taskID=${taskID}`}>{taskID}</Link>
+                </li>
+              ))}
+            </ul>
+          </li>
         </ul>
         {cronHistoryList.map((item) => (
           <h2>

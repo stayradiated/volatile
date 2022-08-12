@@ -2,7 +2,7 @@ version: '3.9'
 
 services:
   postgres:
-    image: postgres:14.4-alpine
+    image: postgres:14.5-alpine
     restart: on-failure
     ports: 
       - "127.0.0.1:5432:5432"
@@ -13,7 +13,7 @@ services:
       - ../svc-server:/app
 
   hasura:
-    image: hasura/graphql-engine:v2.9.0.cli-migrations-v3
+    image: hasura/graphql-engine:v2.10.0.cli-migrations-v3
     ports:
       - "127.0.0.1:9999:8080"
     extra_hosts:

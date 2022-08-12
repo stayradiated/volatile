@@ -3,8 +3,8 @@ import { useMemo } from 'react'
 import { useTable, Column } from 'react-table'
 import { parseISO, differenceInHours } from 'date-fns'
 
-import { Card, Table, Dropdown } from '../retro-ui'
 import { ToggleDCAOrder } from './ToggleDCAOrder'
+import { Card, Table, Dropdown } from '~/components/retro-ui'
 import { formatCurrency } from '~/components/format'
 
 import type { GetDcaOrderListQuery } from '~/graphql/generated'

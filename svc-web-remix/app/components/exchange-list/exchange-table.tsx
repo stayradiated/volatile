@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
-import { useTable, Column } from 'react-table'
+import styled from 'styled-components'
+import { fromPairs } from 'rambda'
 
-import { Table } from '~/components/retro-ui'
 import { formatCurrency } from '~/components/format'
 import type { GetExchangeListQuery as Query } from '~/graphql/generated'
 
@@ -17,63 +17,23 @@ type Props = {
   userExchangeKey: UserExchangeKey
 }
 
+const CurrencyRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+`
+
+const Card = styled.div``
+
 const ExchangeTable = (props: Props) => {
   const { userExchangeKey } = props
 
-  const columns = useMemo(() => {
-    const columns: Array<Column<Row>> = [
-      {
-        Header: 'Currency',
-        accessor: 'currency_symbol',
-        Footer: 'Total',
-      },
-      {
-        Header: 'Available Balance',
-        accessor: 'available_balance',
-        Footer: '-.--',
-      },
-      {
-        Header: 'Total Balance',
-        accessor: 'total_balance',
-        Footer: '-.--',
-      },
-      {
-        Header: 'Total Balance (NZD)',
-        accessor: 'total_balance_nzd',
-        Cell: ({ value }) => <>{formatCurrency(value ?? undefined)}</>,
-        Footer({ rows }) {
-          const total = rows.reduce(
-            (sum, row) => row.values.total_balance_nzd + sum,
-            0,
-          )
-          return <>{formatCurrency(total)}</>
-        },
-      },
-      {
-        id: 'change',
-        Header: '24 Hour Change',
-        accessor(row): number {
-          return (
-            (row.total_balance_nzd ?? 0) -
-            (row.historic?.total_balance_nzd ?? 0)
-          )
-        },
-        Cell: ({ value }: { value: number }) => <>{formatCurrency(value)}</>,
-        Footer({ rows }) {
-          const total = rows.reduce((sum, row) => row.values.change + sum, 0)
-          return <>{formatCurrency(total)}</>
-        },
-      },
-    ]
-    return columns
-  }, [])
-
-  const data: Row[] = useMemo(() => {
+  const rows: Row[] = useMemo(() => {
     if (!userExchangeKey) {
       return []
     }
 
-    const historic = Object.fromEntries(
+    const historic = fromPairs(
       userExchangeKey.balance_historic!.map((row) => [
         row.currency_symbol,
         row,
@@ -86,16 +46,39 @@ const ExchangeTable = (props: Props) => {
     }))
   }, [userExchangeKey])
 
-  const table = useTable({
-    columns,
-    data,
-  })
+  const totalBalanceNZD = rows.reduce(
+    (sum, row) => (row.total_balance_nzd ?? 0) + sum,
+    0,
+  )
+  const totalChange = rows.reduce(
+    (sum, row) =>
+      (row.total_balance_nzd ?? 0) -
+      (row.historic?.total_balance_nzd ?? 0) +
+      sum,
+    0,
+  )
 
   return (
-    <>
-      <h2>{userExchangeKey.exchange.name} </h2>
-      <Table table={table} />
-    </>
+    <Card>
+      {rows.map((row) => {
+        return (
+          <CurrencyRow key={row.currency_symbol}>
+            <span>{row.currency_symbol}</span>
+            <span>{row.available_balance}</span>
+            <span>{row.total_balance}</span>
+            <span>{formatCurrency(row.total_balance_nzd ?? undefined)}</span>
+            <span>
+              {formatCurrency(
+                (row.total_balance_nzd ?? 0) -
+                  (row.historic?.total_balance_nzd ?? 0),
+              )}
+            </span>
+          </CurrencyRow>
+        )
+      })}
+      {formatCurrency(totalBalanceNZD)}
+      {formatCurrency(totalChange)}
+    </Card>
   )
 }
 

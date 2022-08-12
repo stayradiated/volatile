@@ -2,15 +2,14 @@ import { useLoaderData } from '@remix-run/react'
 import { LoaderFunction, json } from '@remix-run/node'
 import { subHours, formatISO } from 'date-fns'
 
-import { Navigation } from '~/components/navigation'
+import { Page } from '~/components/ui'
 import { ExchangeList } from '~/components/exchange-list'
-import { getSessionData, NonGuestSession } from '~/utils/auth.server'
+import { getSessionData } from '~/utils/auth.server'
 import { sdk } from '~/utils/api.server'
 import { GetExchangeListQuery } from '~/graphql/generated'
 import { loginRedirect } from '~/utils/redirect.server'
 
 interface LoaderData {
-  session: NonGuestSession
   query: GetExchangeListQuery
 }
 
@@ -36,19 +35,17 @@ export const loader: LoaderFunction = async ({ request }) => {
   )
 
   return json<LoaderData>({
-    session,
     query,
   })
 }
 
 const Exchanges = () => {
-  const { session, query } = useLoaderData<LoaderData>()
+  const { query } = useLoaderData<LoaderData>()
 
   return (
-    <>
-      <Navigation isAuthenticatedUser email={session.email} />
+    <Page title="Exchanges">
       <ExchangeList query={query} />
-    </>
+    </Page>
   )
 }
 

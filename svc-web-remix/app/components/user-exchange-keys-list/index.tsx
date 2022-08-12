@@ -1,9 +1,10 @@
 import { Link } from '@remix-run/react'
 import { useMemo } from 'react'
 import { useTable, Column } from 'react-table'
-import { parseISO, format } from 'date-fns'
+import { parseISO } from 'date-fns'
+import { formatToTimeZone } from 'date-fns-timezone'
 
-import { Card, Table, Dropdown } from '../retro-ui'
+import { Table, Dropdown } from '../retro-ui'
 
 import type { GetUserExchangeKeysListQuery } from '~/graphql/generated'
 
@@ -16,6 +17,8 @@ type Props = {
 const UserExchangeKeysList = (props: Props) => {
   const { query } = props
 
+  const timeZone = query.user[0].timezone
+
   const columns = useMemo(() => {
     const columns: Array<Column<UserExchangeKeys>> = [
       { Header: 'Exchange', accessor: (row) => row.exchange.name },
@@ -25,7 +28,7 @@ const UserExchangeKeysList = (props: Props) => {
         accessor: 'updated_at',
         Cell(props) {
           const { value } = props
-          return <>{format(parseISO(value), 'PPpp')}</>
+          return <>{formatToTimeZone(parseISO(value), 'PPpp', { timeZone })}</>
         },
       },
       {
@@ -64,11 +67,9 @@ const UserExchangeKeysList = (props: Props) => {
 
   return (
     <>
-      <Card width={1000}>
-        <h2>☰ Exchange API List</h2>
-        <Table table={table} />
-        <Link to="/settings/create">Add API Keys</Link>
-      </Card>
+      <Table table={table} />
+      <Link to="/settings/create">Add API Keys</Link>
+
       {/* <UserExchangeKeysModalDelete */}
       {/*   isOpen={Boolean(deleteState)} */}
       {/*   userExchangeKeysUID={deleteState ?? ''} */}

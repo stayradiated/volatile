@@ -58,6 +58,7 @@ select_permissions:
       columns:
         - created_at
         - email_verified
+        - timezone
         - uid
         - updated_at
       filter:

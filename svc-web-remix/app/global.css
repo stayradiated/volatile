@@ -29,8 +29,8 @@
 }
 
 body {
-  background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAxSURBVHgBjcxJCgAwCATBnvz/z0kugoJb3waxBNwfliTCDtekY18+v3dCp+yFShmFB/v4Fwq49YcTAAAAAElFTkSuQmCC');
-  image-rendering: pixelated;
+  /* background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAxSURBVHgBjcxJCgAwCATBnvz/z0kugoJb3waxBNwfliTCDtekY18+v3dCp+yFShmFB/v4Fwq49YcTAAAAAElFTkSuQmCC'); */
+  /* image-rendering: pixelated; */
 }
 
 body, input, button {

@@ -13,12 +13,14 @@ const ExchangeList = (props: Props) => {
   const userExchangeKeys = query.user_exchange_keys ?? []
 
   return (
-    <Card width={1000}>
-      <h2>Exchanges</h2>
+    <>
       {userExchangeKeys.map((userExchangeKey) => (
-        <ExchangeTable userExchangeKey={userExchangeKey} />
+        <div key={userExchangeKey.uid}>
+          <h2>{userExchangeKey.exchange.name} </h2>
+          <ExchangeTable userExchangeKey={userExchangeKey} />
+        </div>
       ))}
-    </Card>
+    </>
   )
 }
 

@@ -1,13 +1,11 @@
-import { useLoaderData, Outlet } from '@remix-run/react'
+import { Outlet } from '@remix-run/react'
 import { LoaderFunction, json } from '@remix-run/node'
 
-import { Navigation } from '~/components/navigation'
+import { Page } from '~/components/ui'
 import { getSessionData } from '~/utils/auth.server'
 import { loginRedirect } from '~/utils/redirect.server'
 
-interface LoaderData {
-  email: string
-}
+interface LoaderData {}
 
 export const loader: LoaderFunction = async ({ request }) => {
   const session = await getSessionData(request)
@@ -16,21 +14,14 @@ export const loader: LoaderFunction = async ({ request }) => {
     return loginRedirect(request, session)
   }
 
-  const { email } = session
-
-  return json<LoaderData>({
-    email,
-  })
+  return json<LoaderData>({})
 }
 
 const DCAOrdersRoute = () => {
-  const { email } = useLoaderData<LoaderData>()
-
   return (
-    <>
-      <Navigation isAuthenticatedUser email={email} />
+    <Page title="DCA Orders">
       <Outlet />
-    </>
+    </Page>
   )
 }
 

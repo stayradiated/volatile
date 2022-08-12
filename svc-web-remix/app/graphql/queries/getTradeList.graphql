@@ -3,6 +3,10 @@ query getTradeList(
   $offset: Int!
   $limit: Int!
 ) {
+  user {
+    uid
+    timezone
+  }
   trade_aggregate(where: $filters) {
     aggregate {
       count

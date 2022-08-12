@@ -1,7 +1,7 @@
 import { useLoaderData, Outlet } from '@remix-run/react'
 import { LoaderFunction, json } from '@remix-run/node'
 
-import { Navigation } from '~/components/navigation'
+import { Page } from '~/components/ui'
 import { getSessionData } from '~/utils/auth.server'
 import { sdk } from '~/utils/api.server'
 import { GetUserExchangeKeysListQuery } from '~/graphql/generated'
@@ -9,7 +9,6 @@ import { UserExchangeKeysList } from '~/components/user-exchange-keys-list'
 import { loginRedirect } from '~/utils/redirect.server'
 
 interface LoaderData {
-  email: string
   query: GetUserExchangeKeysListQuery
 }
 
@@ -20,7 +19,7 @@ export const loader: LoaderFunction = async ({ request }) => {
     return loginRedirect(request, session)
   }
 
-  const { email, authToken } = session
+  const { authToken } = session
 
   const query = await sdk.getUserExchangeKeysList(
     {},
@@ -31,20 +30,19 @@ export const loader: LoaderFunction = async ({ request }) => {
   )
 
   return json<LoaderData>({
-    email,
     query,
   })
 }
 
 const SettingsRoute = () => {
-  const { email, query } = useLoaderData<LoaderData>()
+  const { query } = useLoaderData<LoaderData>()
 
   return (
-    <>
-      <Navigation isAuthenticatedUser email={email} />
+    <Page title="Settings">
+      <h2>☰ Exchange API List</h2>
       <UserExchangeKeysList query={query} />
       <Outlet />
-    </>
+    </Page>
   )
 }
 

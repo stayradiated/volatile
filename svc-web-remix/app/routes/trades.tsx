@@ -1,10 +1,9 @@
 import { useLoaderData } from '@remix-run/react'
 import { LoaderFunction, json } from '@remix-run/node'
 
-import { TradeList } from '~/components/trade-list/index'
+import { TradeList } from '~/components/trade-list'
 import { loginRedirect } from '~/utils/redirect.server'
-import { Card } from '~/components/retro-ui'
-import { Navigation } from '~/components/navigation'
+import { Page } from '~/components/ui'
 import { getSessionData } from '~/utils/auth.server'
 import { sdk } from '~/utils/api.server'
 import {
@@ -14,10 +13,10 @@ import {
   GetTradeCumulativeSumByDayQuery,
   GetTradeCumulativeVolumeByDayQuery,
 } from '~/graphql/generated'
-import { TradeAvgPrice } from '~/components/trade-list/trade-avg-price'
-import { TradeCumulativeSum } from '~/components/trade-list/trade-cumulative-sum'
-import { TradeCumulativeVolume } from '~/components/trade-list/trade-cumulative-volume'
-import { TradeSumValueByWeek } from '~/components/trade-list/trade-sum-value-by-week'
+// Import { TradeAvgPrice } from '~/components/trade-list/trade-avg-price'
+// import { TradeCumulativeSum } from '~/components/trade-list/trade-cumulative-sum'
+// import { TradeCumulativeVolume } from '~/components/trade-list/trade-cumulative-volume'
+// import { TradeSumValueByWeek } from '~/components/trade-list/trade-sum-value-by-week'
 
 interface LoaderData {
   email: string
@@ -108,40 +107,12 @@ export const loader: LoaderFunction = async ({ request }) => {
 }
 
 const TradesRoute = () => {
-  const {
-    email,
-    query,
-    tradeSumValueByWeek,
-    tradeAvgPrice,
-    tradeCumulativeSum,
-    tradeCumulativeVolume,
-  } = useLoaderData<LoaderData>()
+  const { query } = useLoaderData<LoaderData>()
 
   return (
-    <>
-      <Navigation isAuthenticatedUser email={email} />
-
-      {/* <Card> */}
-      {/*   <h1>Trades</h1> */}
-      {/*  */}
-      {/*   <SelectExchange onChange={} /> */}
-      {/*   <SelectAsset onChange={} /> */}
-      {/*   <SelectCurrency onChange={} /> */}
-      {/*  */}
-      {/*   <DateInput value={} onChange={} /> */}
-      {/*   <DateInput value={} onChange={} /> */}
-      {/* </Card> */}
-
-      <Card width={1200}>
-        <TradeSumValueByWeek query={tradeSumValueByWeek} />
-        <TradeAvgPrice primaryCurrency="BTC" query={tradeAvgPrice.BTC} />
-        <TradeAvgPrice primaryCurrency="ETH" query={tradeAvgPrice.ETH} />
-        <TradeCumulativeSum query={tradeCumulativeSum} />
-        <TradeCumulativeVolume query={tradeCumulativeVolume} />
-      </Card>
-
+    <Page title="Trades">
       <TradeList query={query} />
-    </>
+    </Page>
   )
 }
 

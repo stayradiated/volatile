@@ -16,7 +16,7 @@ const StyledTable = styled.table`
 const Tr = styled.tr`
   line-height: 40px;
 
-  &[aria-disabled] {
+  &[aria-disabled='true'] {
     text-decoration: line-through;
   }
 `

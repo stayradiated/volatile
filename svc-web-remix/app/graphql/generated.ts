@@ -546,6 +546,14 @@ export enum Balance_Update_Column {
   UserUid = 'user_uid',
 }
 
+export type Balance_Updates = {
+  /** Increments the numeric columns with given value of the filtered values */
+  _inc?: InputMaybe<Balance_Inc_Input>
+  /** Sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Balance_Set_Input>
+  where: Balance_Bool_Exp
+}
+
 export type Balance_User_Exchange_Keys_Args = {
   timestamp_at?: InputMaybe<Scalars['timestamptz']>
 }
@@ -818,6 +826,22 @@ export enum Cron_History_Update_Column {
   UpdatedAt = 'updated_at',
 }
 
+export type Cron_History_Updates = {
+  /** Append existing jsonb value of filtered columns with new jsonb value */
+  _append?: InputMaybe<Cron_History_Append_Input>
+  /** Delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
+  _delete_at_path?: InputMaybe<Cron_History_Delete_At_Path_Input>
+  /** Delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
+  _delete_elem?: InputMaybe<Cron_History_Delete_Elem_Input>
+  /** Delete key/value pair or string element. key/value pairs are matched based on their key value */
+  _delete_key?: InputMaybe<Cron_History_Delete_Key_Input>
+  /** Prepend existing jsonb value of filtered columns with new jsonb value */
+  _prepend?: InputMaybe<Cron_History_Prepend_Input>
+  /** Sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Cron_History_Set_Input>
+  where: Cron_History_Bool_Exp
+}
+
 /** Columns and relationships of "currency" */
 export type Currency = {
   __typename?: 'currency'
@@ -957,6 +981,12 @@ export enum Currency_Update_Column {
   Symbol = 'symbol',
   /** Column name */
   UpdatedAt = 'updated_at',
+}
+
+export type Currency_Updates = {
+  /** Sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Currency_Set_Input>
+  where: Currency_Bool_Exp
 }
 
 /** Columns and relationships of "dca_order" */
@@ -1291,7 +1321,7 @@ export type Dca_Order_History_Bool_Exp = {
 export enum Dca_Order_History_Constraint {
   /** Unique or primary key constraint on columns "uid" */
   DcaOrderHistoryPkey = 'dca_order_history_pkey',
-  /** Unique or primary key constraint on columns "order_uid", "dca_order_uid" */
+  /** Unique or primary key constraint on columns "dca_order_uid", "order_uid" */
   UniqueDcaOrder = 'unique_dca_order',
 }
 
@@ -1604,6 +1634,14 @@ export enum Dca_Order_History_Update_Column {
   UserUid = 'user_uid',
   /** Column name */
   Value = 'value',
+}
+
+export type Dca_Order_History_Updates = {
+  /** Increments the numeric columns with given value of the filtered values */
+  _inc?: InputMaybe<Dca_Order_History_Inc_Input>
+  /** Sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Dca_Order_History_Set_Input>
+  where: Dca_Order_History_Bool_Exp
 }
 
 /** Aggregate var_pop on columns */
@@ -2067,6 +2105,14 @@ export enum Dca_Order_Update_Column {
   UserExchangeKeysUid = 'user_exchange_keys_uid',
   /** Column name */
   UserUid = 'user_uid',
+}
+
+export type Dca_Order_Updates = {
+  /** Increments the numeric columns with given value of the filtered values */
+  _inc?: InputMaybe<Dca_Order_Inc_Input>
+  /** Sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Dca_Order_Set_Input>
+  where: Dca_Order_Bool_Exp
 }
 
 /** Aggregate var_pop on columns */
@@ -2592,6 +2638,12 @@ export enum Exchange_Primary_Currency_Update_Column {
   UpdatedAt = 'updated_at',
 }
 
+export type Exchange_Primary_Currency_Updates = {
+  /** Sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Exchange_Primary_Currency_Set_Input>
+  where: Exchange_Primary_Currency_Bool_Exp
+}
+
 /** Columns and relationships of "exchange_secondary_currency" */
 export type Exchange_Secondary_Currency = {
   __typename?: 'exchange_secondary_currency'
@@ -2767,6 +2819,12 @@ export enum Exchange_Secondary_Currency_Update_Column {
   UpdatedAt = 'updated_at',
 }
 
+export type Exchange_Secondary_Currency_Updates = {
+  /** Sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Exchange_Secondary_Currency_Set_Input>
+  where: Exchange_Secondary_Currency_Bool_Exp
+}
+
 /** Select columns of table "exchange" */
 export enum Exchange_Select_Column {
   /** Column name */
@@ -2812,6 +2870,12 @@ export enum Exchange_Update_Column {
   UpdatedAt = 'updated_at',
   /** Column name */
   Url = 'url',
+}
+
+export type Exchange_Updates = {
+  /** Sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Exchange_Set_Input>
+  where: Exchange_Bool_Exp
 }
 
 export type Fee_Fx_Trade_Args = {
@@ -3112,7 +3176,7 @@ export type Market_Price_Bool_Exp = {
 
 /** Unique or primary key constraints on table "market_price" */
 export enum Market_Price_Constraint {
-  /** Unique or primary key constraint on columns "asset_symbol", "currency", "source_currency", "timestamp", "market_uid" */
+  /** Unique or primary key constraint on columns "source_currency", "timestamp", "asset_symbol", "currency", "market_uid" */
   MarketPricePkey = 'market_price_pkey',
 }
 
@@ -3342,6 +3406,14 @@ export enum Market_Price_Update_Column {
   Timestamp = 'timestamp',
 }
 
+export type Market_Price_Updates = {
+  /** Increments the numeric columns with given value of the filtered values */
+  _inc?: InputMaybe<Market_Price_Inc_Input>
+  /** Sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Market_Price_Set_Input>
+  where: Market_Price_Bool_Exp
+}
+
 /** Aggregate var_pop on columns */
 export type Market_Price_Var_Pop_Fields = {
   __typename?: 'market_price_var_pop_fields'
@@ -3566,6 +3638,12 @@ export type Market_Trading_Pair_Set_Input = {
   secondary_currency_symbol?: InputMaybe<Scalars['String']>
 }
 
+export type Market_Trading_Pair_Updates = {
+  /** Sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Market_Trading_Pair_Set_Input>
+  where: Market_Trading_Pair_Bool_Exp
+}
+
 /** Update columns of table "market" */
 export enum Market_Update_Column {
   /** Column name */
@@ -3578,6 +3656,12 @@ export enum Market_Update_Column {
   Uid = 'uid',
   /** Column name */
   UpdatedAt = 'updated_at',
+}
+
+export type Market_Updates = {
+  /** Sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Market_Set_Input>
+  where: Market_Bool_Exp
 }
 
 /** Mutation root */
@@ -3806,14 +3890,20 @@ export type Mutation_Root = {
   update_balance?: Maybe<Balance_Mutation_Response>
   /** Update single row of the table: "balance" */
   update_balance_by_pk?: Maybe<Balance>
+  /** Update multiples rows of table: "balance" */
+  update_balance_many?: Maybe<Array<Maybe<Balance_Mutation_Response>>>
   /** Update data of the table: "cron_history" */
   update_cron_history?: Maybe<Cron_History_Mutation_Response>
   /** Update single row of the table: "cron_history" */
   update_cron_history_by_pk?: Maybe<Cron_History>
+  /** Update multiples rows of table: "cron_history" */
+  update_cron_history_many?: Maybe<Array<Maybe<Cron_History_Mutation_Response>>>
   /** Update data of the table: "currency" */
   update_currency?: Maybe<Currency_Mutation_Response>
   /** Update single row of the table: "currency" */
   update_currency_by_pk?: Maybe<Currency>
+  /** Update multiples rows of table: "currency" */
+  update_currency_many?: Maybe<Array<Maybe<Currency_Mutation_Response>>>
   /** Update data of the table: "dca_order" */
   update_dca_order?: Maybe<Dca_Order_Mutation_Response>
   /** Update single row of the table: "dca_order" */
@@ -3822,80 +3912,148 @@ export type Mutation_Root = {
   update_dca_order_history?: Maybe<Dca_Order_History_Mutation_Response>
   /** Update single row of the table: "dca_order_history" */
   update_dca_order_history_by_pk?: Maybe<Dca_Order_History>
+  /** Update multiples rows of table: "dca_order_history" */
+  update_dca_order_history_many?: Maybe<
+    Array<Maybe<Dca_Order_History_Mutation_Response>>
+  >
+  /** Update multiples rows of table: "dca_order" */
+  update_dca_order_many?: Maybe<Array<Maybe<Dca_Order_Mutation_Response>>>
   /** Update data of the table: "exchange" */
   update_exchange?: Maybe<Exchange_Mutation_Response>
   /** Update single row of the table: "exchange" */
   update_exchange_by_pk?: Maybe<Exchange>
+  /** Update multiples rows of table: "exchange" */
+  update_exchange_many?: Maybe<Array<Maybe<Exchange_Mutation_Response>>>
   /** Update data of the table: "exchange_primary_currency" */
   update_exchange_primary_currency?: Maybe<Exchange_Primary_Currency_Mutation_Response>
   /** Update single row of the table: "exchange_primary_currency" */
   update_exchange_primary_currency_by_pk?: Maybe<Exchange_Primary_Currency>
+  /** Update multiples rows of table: "exchange_primary_currency" */
+  update_exchange_primary_currency_many?: Maybe<
+    Array<Maybe<Exchange_Primary_Currency_Mutation_Response>>
+  >
   /** Update data of the table: "exchange_secondary_currency" */
   update_exchange_secondary_currency?: Maybe<Exchange_Secondary_Currency_Mutation_Response>
   /** Update single row of the table: "exchange_secondary_currency" */
   update_exchange_secondary_currency_by_pk?: Maybe<Exchange_Secondary_Currency>
+  /** Update multiples rows of table: "exchange_secondary_currency" */
+  update_exchange_secondary_currency_many?: Maybe<
+    Array<Maybe<Exchange_Secondary_Currency_Mutation_Response>>
+  >
   /** Update data of the table: "market" */
   update_market?: Maybe<Market_Mutation_Response>
   /** Update single row of the table: "market" */
   update_market_by_pk?: Maybe<Market>
+  /** Update multiples rows of table: "market" */
+  update_market_many?: Maybe<Array<Maybe<Market_Mutation_Response>>>
   /** Update data of the table: "market_price" */
   update_market_price?: Maybe<Market_Price_Mutation_Response>
   /** Update single row of the table: "market_price" */
   update_market_price_by_pk?: Maybe<Market_Price>
+  /** Update multiples rows of table: "market_price" */
+  update_market_price_many?: Maybe<Array<Maybe<Market_Price_Mutation_Response>>>
   /** Update data of the table: "market_trading_pair" */
   update_market_trading_pair?: Maybe<Market_Trading_Pair_Mutation_Response>
+  /** Update multiples rows of table: "market_trading_pair" */
+  update_market_trading_pair_many?: Maybe<
+    Array<Maybe<Market_Trading_Pair_Mutation_Response>>
+  >
   /** Update data of the table: "order" */
   update_order?: Maybe<Order_Mutation_Response>
   /** Update single row of the table: "order" */
   update_order_by_pk?: Maybe<Order>
+  /** Update multiples rows of table: "order" */
+  update_order_many?: Maybe<Array<Maybe<Order_Mutation_Response>>>
   /** Update data of the table: "stripe_customer" */
   update_stripe_customer?: Maybe<Stripe_Customer_Mutation_Response>
   /** Update single row of the table: "stripe_customer" */
   update_stripe_customer_by_pk?: Maybe<Stripe_Customer>
+  /** Update multiples rows of table: "stripe_customer" */
+  update_stripe_customer_many?: Maybe<
+    Array<Maybe<Stripe_Customer_Mutation_Response>>
+  >
   /** Update data of the table: "stripe_price" */
   update_stripe_price?: Maybe<Stripe_Price_Mutation_Response>
   /** Update single row of the table: "stripe_price" */
   update_stripe_price_by_pk?: Maybe<Stripe_Price>
+  /** Update multiples rows of table: "stripe_price" */
+  update_stripe_price_many?: Maybe<Array<Maybe<Stripe_Price_Mutation_Response>>>
   /** Update data of the table: "stripe_product" */
   update_stripe_product?: Maybe<Stripe_Product_Mutation_Response>
   /** Update single row of the table: "stripe_product" */
   update_stripe_product_by_pk?: Maybe<Stripe_Product>
+  /** Update multiples rows of table: "stripe_product" */
+  update_stripe_product_many?: Maybe<
+    Array<Maybe<Stripe_Product_Mutation_Response>>
+  >
   /** Update data of the table: "stripe_subscription" */
   update_stripe_subscription?: Maybe<Stripe_Subscription_Mutation_Response>
   /** Update single row of the table: "stripe_subscription" */
   update_stripe_subscription_by_pk?: Maybe<Stripe_Subscription>
+  /** Update multiples rows of table: "stripe_subscription" */
+  update_stripe_subscription_many?: Maybe<
+    Array<Maybe<Stripe_Subscription_Mutation_Response>>
+  >
   /** Update data of the table: "trade" */
   update_trade?: Maybe<Trade_Mutation_Response>
   /** Update single row of the table: "trade" */
   update_trade_by_pk?: Maybe<Trade>
+  /** Update multiples rows of table: "trade" */
+  update_trade_many?: Maybe<Array<Maybe<Trade_Mutation_Response>>>
   /** Update data of the table: "type_trade_avg_price_by_window" */
   update_type_trade_avg_price_by_window?: Maybe<Type_Trade_Avg_Price_By_Window_Mutation_Response>
+  /** Update multiples rows of table: "type_trade_avg_price_by_window" */
+  update_type_trade_avg_price_by_window_many?: Maybe<
+    Array<Maybe<Type_Trade_Avg_Price_By_Window_Mutation_Response>>
+  >
   /** Update data of the table: "type_trade_sum_by_window" */
   update_type_trade_sum_by_window?: Maybe<Type_Trade_Sum_By_Window_Mutation_Response>
+  /** Update multiples rows of table: "type_trade_sum_by_window" */
+  update_type_trade_sum_by_window_many?: Maybe<
+    Array<Maybe<Type_Trade_Sum_By_Window_Mutation_Response>>
+  >
   /** Update data of the table: "user" */
   update_user?: Maybe<User_Mutation_Response>
   /** Update data of the table: "user_2fa" */
   update_user_2fa?: Maybe<User_2fa_Mutation_Response>
   /** Update single row of the table: "user_2fa" */
   update_user_2fa_by_pk?: Maybe<User_2fa>
+  /** Update multiples rows of table: "user_2fa" */
+  update_user_2fa_many?: Maybe<Array<Maybe<User_2fa_Mutation_Response>>>
   /** Update single row of the table: "user" */
   update_user_by_pk?: Maybe<User>
   /** Update data of the table: "user_device" */
   update_user_device?: Maybe<User_Device_Mutation_Response>
   /** Update single row of the table: "user_device" */
   update_user_device_by_pk?: Maybe<User_Device>
+  /** Update multiples rows of table: "user_device" */
+  update_user_device_many?: Maybe<Array<Maybe<User_Device_Mutation_Response>>>
   /** Update data of the table: "user_email_verify" */
   update_user_email_verify?: Maybe<User_Email_Verify_Mutation_Response>
   /** Update single row of the table: "user_email_verify" */
   update_user_email_verify_by_pk?: Maybe<User_Email_Verify>
+  /** Update multiples rows of table: "user_email_verify" */
+  update_user_email_verify_many?: Maybe<
+    Array<Maybe<User_Email_Verify_Mutation_Response>>
+  >
   /** Update data of the table: "user_exchange_keys" */
   update_user_exchange_keys?: Maybe<User_Exchange_Keys_Mutation_Response>
   /** Update single row of the table: "user_exchange_keys" */
   update_user_exchange_keys_by_pk?: Maybe<User_Exchange_Keys>
+  /** Update multiples rows of table: "user_exchange_keys" */
+  update_user_exchange_keys_many?: Maybe<
+    Array<Maybe<User_Exchange_Keys_Mutation_Response>>
+  >
+  /** Update multiples rows of table: "user" */
+  update_user_many?: Maybe<Array<Maybe<User_Mutation_Response>>>
   /** Update data of the table: "user_password_reset" */
   update_user_password_reset?: Maybe<User_Password_Reset_Mutation_Response>
   /** Update single row of the table: "user_password_reset" */
   update_user_password_reset_by_pk?: Maybe<User_Password_Reset>
+  /** Update multiples rows of table: "user_password_reset" */
+  update_user_password_reset_many?: Maybe<
+    Array<Maybe<User_Password_Reset_Mutation_Response>>
+  >
 }
 
 /** Mutation root */
@@ -4595,6 +4753,11 @@ export type Mutation_RootUpdate_Balance_By_PkArgs = {
 }
 
 /** Mutation root */
+export type Mutation_RootUpdate_Balance_ManyArgs = {
+  updates: Balance_Updates[]
+}
+
+/** Mutation root */
 export type Mutation_RootUpdate_Cron_HistoryArgs = {
   _append?: InputMaybe<Cron_History_Append_Input>
   _delete_at_path?: InputMaybe<Cron_History_Delete_At_Path_Input>
@@ -4617,6 +4780,11 @@ export type Mutation_RootUpdate_Cron_History_By_PkArgs = {
 }
 
 /** Mutation root */
+export type Mutation_RootUpdate_Cron_History_ManyArgs = {
+  updates: Cron_History_Updates[]
+}
+
+/** Mutation root */
 export type Mutation_RootUpdate_CurrencyArgs = {
   _set?: InputMaybe<Currency_Set_Input>
   where: Currency_Bool_Exp
@@ -4626,6 +4794,11 @@ export type Mutation_RootUpdate_CurrencyArgs = {
 export type Mutation_RootUpdate_Currency_By_PkArgs = {
   _set?: InputMaybe<Currency_Set_Input>
   pk_columns: Currency_Pk_Columns_Input
+}
+
+/** Mutation root */
+export type Mutation_RootUpdate_Currency_ManyArgs = {
+  updates: Currency_Updates[]
 }
 
 /** Mutation root */
@@ -4657,6 +4830,16 @@ export type Mutation_RootUpdate_Dca_Order_History_By_PkArgs = {
 }
 
 /** Mutation root */
+export type Mutation_RootUpdate_Dca_Order_History_ManyArgs = {
+  updates: Dca_Order_History_Updates[]
+}
+
+/** Mutation root */
+export type Mutation_RootUpdate_Dca_Order_ManyArgs = {
+  updates: Dca_Order_Updates[]
+}
+
+/** Mutation root */
 export type Mutation_RootUpdate_ExchangeArgs = {
   _set?: InputMaybe<Exchange_Set_Input>
   where: Exchange_Bool_Exp
@@ -4666,6 +4849,11 @@ export type Mutation_RootUpdate_ExchangeArgs = {
 export type Mutation_RootUpdate_Exchange_By_PkArgs = {
   _set?: InputMaybe<Exchange_Set_Input>
   pk_columns: Exchange_Pk_Columns_Input
+}
+
+/** Mutation root */
+export type Mutation_RootUpdate_Exchange_ManyArgs = {
+  updates: Exchange_Updates[]
 }
 
 /** Mutation root */
@@ -4681,6 +4869,11 @@ export type Mutation_RootUpdate_Exchange_Primary_Currency_By_PkArgs = {
 }
 
 /** Mutation root */
+export type Mutation_RootUpdate_Exchange_Primary_Currency_ManyArgs = {
+  updates: Exchange_Primary_Currency_Updates[]
+}
+
+/** Mutation root */
 export type Mutation_RootUpdate_Exchange_Secondary_CurrencyArgs = {
   _set?: InputMaybe<Exchange_Secondary_Currency_Set_Input>
   where: Exchange_Secondary_Currency_Bool_Exp
@@ -4693,6 +4886,11 @@ export type Mutation_RootUpdate_Exchange_Secondary_Currency_By_PkArgs = {
 }
 
 /** Mutation root */
+export type Mutation_RootUpdate_Exchange_Secondary_Currency_ManyArgs = {
+  updates: Exchange_Secondary_Currency_Updates[]
+}
+
+/** Mutation root */
 export type Mutation_RootUpdate_MarketArgs = {
   _set?: InputMaybe<Market_Set_Input>
   where: Market_Bool_Exp
@@ -4702,6 +4900,11 @@ export type Mutation_RootUpdate_MarketArgs = {
 export type Mutation_RootUpdate_Market_By_PkArgs = {
   _set?: InputMaybe<Market_Set_Input>
   pk_columns: Market_Pk_Columns_Input
+}
+
+/** Mutation root */
+export type Mutation_RootUpdate_Market_ManyArgs = {
+  updates: Market_Updates[]
 }
 
 /** Mutation root */
@@ -4719,9 +4922,19 @@ export type Mutation_RootUpdate_Market_Price_By_PkArgs = {
 }
 
 /** Mutation root */
+export type Mutation_RootUpdate_Market_Price_ManyArgs = {
+  updates: Market_Price_Updates[]
+}
+
+/** Mutation root */
 export type Mutation_RootUpdate_Market_Trading_PairArgs = {
   _set?: InputMaybe<Market_Trading_Pair_Set_Input>
   where: Market_Trading_Pair_Bool_Exp
+}
+
+/** Mutation root */
+export type Mutation_RootUpdate_Market_Trading_Pair_ManyArgs = {
+  updates: Market_Trading_Pair_Updates[]
 }
 
 /** Mutation root */
@@ -4739,6 +4952,11 @@ export type Mutation_RootUpdate_Order_By_PkArgs = {
 }
 
 /** Mutation root */
+export type Mutation_RootUpdate_Order_ManyArgs = {
+  updates: Order_Updates[]
+}
+
+/** Mutation root */
 export type Mutation_RootUpdate_Stripe_CustomerArgs = {
   _set?: InputMaybe<Stripe_Customer_Set_Input>
   where: Stripe_Customer_Bool_Exp
@@ -4748,6 +4966,11 @@ export type Mutation_RootUpdate_Stripe_CustomerArgs = {
 export type Mutation_RootUpdate_Stripe_Customer_By_PkArgs = {
   _set?: InputMaybe<Stripe_Customer_Set_Input>
   pk_columns: Stripe_Customer_Pk_Columns_Input
+}
+
+/** Mutation root */
+export type Mutation_RootUpdate_Stripe_Customer_ManyArgs = {
+  updates: Stripe_Customer_Updates[]
 }
 
 /** Mutation root */
@@ -4765,6 +4988,11 @@ export type Mutation_RootUpdate_Stripe_Price_By_PkArgs = {
 }
 
 /** Mutation root */
+export type Mutation_RootUpdate_Stripe_Price_ManyArgs = {
+  updates: Stripe_Price_Updates[]
+}
+
+/** Mutation root */
 export type Mutation_RootUpdate_Stripe_ProductArgs = {
   _set?: InputMaybe<Stripe_Product_Set_Input>
   where: Stripe_Product_Bool_Exp
@@ -4774,6 +5002,11 @@ export type Mutation_RootUpdate_Stripe_ProductArgs = {
 export type Mutation_RootUpdate_Stripe_Product_By_PkArgs = {
   _set?: InputMaybe<Stripe_Product_Set_Input>
   pk_columns: Stripe_Product_Pk_Columns_Input
+}
+
+/** Mutation root */
+export type Mutation_RootUpdate_Stripe_Product_ManyArgs = {
+  updates: Stripe_Product_Updates[]
 }
 
 /** Mutation root */
@@ -4791,6 +5024,11 @@ export type Mutation_RootUpdate_Stripe_Subscription_By_PkArgs = {
 }
 
 /** Mutation root */
+export type Mutation_RootUpdate_Stripe_Subscription_ManyArgs = {
+  updates: Stripe_Subscription_Updates[]
+}
+
+/** Mutation root */
 export type Mutation_RootUpdate_TradeArgs = {
   _inc?: InputMaybe<Trade_Inc_Input>
   _set?: InputMaybe<Trade_Set_Input>
@@ -4805,6 +5043,11 @@ export type Mutation_RootUpdate_Trade_By_PkArgs = {
 }
 
 /** Mutation root */
+export type Mutation_RootUpdate_Trade_ManyArgs = {
+  updates: Trade_Updates[]
+}
+
+/** Mutation root */
 export type Mutation_RootUpdate_Type_Trade_Avg_Price_By_WindowArgs = {
   _inc?: InputMaybe<Type_Trade_Avg_Price_By_Window_Inc_Input>
   _set?: InputMaybe<Type_Trade_Avg_Price_By_Window_Set_Input>
@@ -4812,10 +5055,20 @@ export type Mutation_RootUpdate_Type_Trade_Avg_Price_By_WindowArgs = {
 }
 
 /** Mutation root */
+export type Mutation_RootUpdate_Type_Trade_Avg_Price_By_Window_ManyArgs = {
+  updates: Type_Trade_Avg_Price_By_Window_Updates[]
+}
+
+/** Mutation root */
 export type Mutation_RootUpdate_Type_Trade_Sum_By_WindowArgs = {
   _inc?: InputMaybe<Type_Trade_Sum_By_Window_Inc_Input>
   _set?: InputMaybe<Type_Trade_Sum_By_Window_Set_Input>
   where: Type_Trade_Sum_By_Window_Bool_Exp
+}
+
+/** Mutation root */
+export type Mutation_RootUpdate_Type_Trade_Sum_By_Window_ManyArgs = {
+  updates: Type_Trade_Sum_By_Window_Updates[]
 }
 
 /** Mutation root */
@@ -4840,6 +5093,11 @@ export type Mutation_RootUpdate_User_2fa_By_PkArgs = {
 }
 
 /** Mutation root */
+export type Mutation_RootUpdate_User_2fa_ManyArgs = {
+  updates: User_2fa_Updates[]
+}
+
+/** Mutation root */
 export type Mutation_RootUpdate_User_By_PkArgs = {
   _inc?: InputMaybe<User_Inc_Input>
   _set?: InputMaybe<User_Set_Input>
@@ -4859,6 +5117,11 @@ export type Mutation_RootUpdate_User_Device_By_PkArgs = {
 }
 
 /** Mutation root */
+export type Mutation_RootUpdate_User_Device_ManyArgs = {
+  updates: User_Device_Updates[]
+}
+
+/** Mutation root */
 export type Mutation_RootUpdate_User_Email_VerifyArgs = {
   _set?: InputMaybe<User_Email_Verify_Set_Input>
   where: User_Email_Verify_Bool_Exp
@@ -4868,6 +5131,11 @@ export type Mutation_RootUpdate_User_Email_VerifyArgs = {
 export type Mutation_RootUpdate_User_Email_Verify_By_PkArgs = {
   _set?: InputMaybe<User_Email_Verify_Set_Input>
   pk_columns: User_Email_Verify_Pk_Columns_Input
+}
+
+/** Mutation root */
+export type Mutation_RootUpdate_User_Email_Verify_ManyArgs = {
+  updates: User_Email_Verify_Updates[]
 }
 
 /** Mutation root */
@@ -4885,6 +5153,16 @@ export type Mutation_RootUpdate_User_Exchange_Keys_By_PkArgs = {
 }
 
 /** Mutation root */
+export type Mutation_RootUpdate_User_Exchange_Keys_ManyArgs = {
+  updates: User_Exchange_Keys_Updates[]
+}
+
+/** Mutation root */
+export type Mutation_RootUpdate_User_ManyArgs = {
+  updates: User_Updates[]
+}
+
+/** Mutation root */
 export type Mutation_RootUpdate_User_Password_ResetArgs = {
   _set?: InputMaybe<User_Password_Reset_Set_Input>
   where: User_Password_Reset_Bool_Exp
@@ -4894,6 +5172,11 @@ export type Mutation_RootUpdate_User_Password_ResetArgs = {
 export type Mutation_RootUpdate_User_Password_Reset_By_PkArgs = {
   _set?: InputMaybe<User_Password_Reset_Set_Input>
   pk_columns: User_Password_Reset_Pk_Columns_Input
+}
+
+/** Mutation root */
+export type Mutation_RootUpdate_User_Password_Reset_ManyArgs = {
+  updates: User_Password_Reset_Updates[]
 }
 
 /** Boolean expression to compare columns of type "numeric". All fields are combined with logical 'AND'. */
@@ -5359,6 +5642,14 @@ export enum Order_Update_Column {
   Value = 'value',
   /** Column name */
   Volume = 'volume',
+}
+
+export type Order_Updates = {
+  /** Increments the numeric columns with given value of the filtered values */
+  _inc?: InputMaybe<Order_Inc_Input>
+  /** Sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Order_Set_Input>
+  where: Order_Bool_Exp
 }
 
 /** Aggregate var_pop on columns */
@@ -6291,6 +6582,12 @@ export enum Stripe_Customer_Update_Column {
   UserUid = 'user_uid',
 }
 
+export type Stripe_Customer_Updates = {
+  /** Sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Stripe_Customer_Set_Input>
+  where: Stripe_Customer_Bool_Exp
+}
+
 /** Columns and relationships of "stripe_price" */
 export type Stripe_Price = {
   __typename?: 'stripe_price'
@@ -6705,6 +7002,14 @@ export enum Stripe_Price_Update_Column {
   UpdatedAt = 'updated_at',
 }
 
+export type Stripe_Price_Updates = {
+  /** Increments the numeric columns with given value of the filtered values */
+  _inc?: InputMaybe<Stripe_Price_Inc_Input>
+  /** Sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Stripe_Price_Set_Input>
+  where: Stripe_Price_Bool_Exp
+}
+
 /** Aggregate var_pop on columns */
 export type Stripe_Price_Var_Pop_Fields = {
   __typename?: 'stripe_price_var_pop_fields'
@@ -6928,6 +7233,12 @@ export enum Stripe_Product_Update_Column {
   Name = 'name',
   /** Column name */
   UpdatedAt = 'updated_at',
+}
+
+export type Stripe_Product_Updates = {
+  /** Sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Stripe_Product_Set_Input>
+  where: Stripe_Product_Bool_Exp
 }
 
 /** Columns and relationships of "stripe_subscription" */
@@ -7291,6 +7602,14 @@ export enum Stripe_Subscription_Update_Column {
   Status = 'status',
   /** Column name */
   UpdatedAt = 'updated_at',
+}
+
+export type Stripe_Subscription_Updates = {
+  /** Increments the numeric columns with given value of the filtered values */
+  _inc?: InputMaybe<Stripe_Subscription_Inc_Input>
+  /** Sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Stripe_Subscription_Set_Input>
+  where: Stripe_Subscription_Bool_Exp
 }
 
 /** Aggregate var_pop on columns */
@@ -8550,6 +8869,14 @@ export enum Trade_Update_Column {
   Volume = 'volume',
 }
 
+export type Trade_Updates = {
+  /** Increments the numeric columns with given value of the filtered values */
+  _inc?: InputMaybe<Trade_Inc_Input>
+  /** Sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Trade_Set_Input>
+  where: Trade_Bool_Exp
+}
+
 /** Aggregate var_pop on columns */
 export type Trade_Var_Pop_Fields = {
   __typename?: 'trade_var_pop_fields'
@@ -8798,6 +9125,14 @@ export type Type_Trade_Avg_Price_By_Window_Sum_Fields = {
   volume?: Maybe<Scalars['numeric']>
 }
 
+export type Type_Trade_Avg_Price_By_Window_Updates = {
+  /** Increments the numeric columns with given value of the filtered values */
+  _inc?: InputMaybe<Type_Trade_Avg_Price_By_Window_Inc_Input>
+  /** Sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Type_Trade_Avg_Price_By_Window_Set_Input>
+  where: Type_Trade_Avg_Price_By_Window_Bool_Exp
+}
+
 /** Aggregate var_pop on columns */
 export type Type_Trade_Avg_Price_By_Window_Var_Pop_Fields = {
   __typename?: 'type_trade_avg_price_by_window_var_pop_fields'
@@ -9001,6 +9336,14 @@ export type Type_Trade_Sum_By_Window_Sum_Fields = {
   volume?: Maybe<Scalars['numeric']>
 }
 
+export type Type_Trade_Sum_By_Window_Updates = {
+  /** Increments the numeric columns with given value of the filtered values */
+  _inc?: InputMaybe<Type_Trade_Sum_By_Window_Inc_Input>
+  /** Sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Type_Trade_Sum_By_Window_Set_Input>
+  where: Type_Trade_Sum_By_Window_Bool_Exp
+}
+
 /** Aggregate var_pop on columns */
 export type Type_Trade_Sum_By_Window_Var_Pop_Fields = {
   __typename?: 'type_trade_sum_by_window_var_pop_fields'
@@ -9046,6 +9389,7 @@ export type User = {
   /** An aggregate relationship */
   orders_aggregate: Order_Aggregate
   password_hash: Scalars['String']
+  timezone: Scalars['String']
   /** An array relationship */
   trades: Trade[]
   /** An aggregate relationship */
@@ -9396,6 +9740,14 @@ export enum User_2fa_Update_Column {
   UserUid = 'user_uid',
 }
 
+export type User_2fa_Updates = {
+  /** Increments the numeric columns with given value of the filtered values */
+  _inc?: InputMaybe<User_2fa_Inc_Input>
+  /** Sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<User_2fa_Set_Input>
+  where: User_2fa_Bool_Exp
+}
+
 /** Aggregate var_pop on columns */
 export type User_2fa_Var_Pop_Fields = {
   __typename?: 'user_2fa_var_pop_fields'
@@ -9463,6 +9815,7 @@ export type User_Bool_Exp = {
   email_verified?: InputMaybe<Boolean_Comparison_Exp>
   orders?: InputMaybe<Order_Bool_Exp>
   password_hash?: InputMaybe<String_Comparison_Exp>
+  timezone?: InputMaybe<String_Comparison_Exp>
   trades?: InputMaybe<Trade_Bool_Exp>
   uid?: InputMaybe<Uuid_Comparison_Exp>
   updated_at?: InputMaybe<Timestamptz_Comparison_Exp>
@@ -9693,6 +10046,12 @@ export enum User_Device_Update_Column {
   UserUid = 'user_uid',
 }
 
+export type User_Device_Updates = {
+  /** Sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<User_Device_Set_Input>
+  where: User_Device_Bool_Exp
+}
+
 /** Columns and relationships of "user_email_verify" */
 export type User_Email_Verify = {
   __typename?: 'user_email_verify'
@@ -9840,6 +10199,12 @@ export enum User_Email_Verify_Update_Column {
   UpdatedAt = 'updated_at',
   /** Column name */
   UserUid = 'user_uid',
+}
+
+export type User_Email_Verify_Updates = {
+  /** Sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<User_Email_Verify_Set_Input>
+  where: User_Email_Verify_Bool_Exp
 }
 
 /** Columns and relationships of "user_exchange_keys" */
@@ -10214,6 +10579,14 @@ export enum User_Exchange_Keys_Update_Column {
   UserUid = 'user_uid',
 }
 
+export type User_Exchange_Keys_Updates = {
+  /** Increments the numeric columns with given value of the filtered values */
+  _inc?: InputMaybe<User_Exchange_Keys_Inc_Input>
+  /** Sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<User_Exchange_Keys_Set_Input>
+  where: User_Exchange_Keys_Bool_Exp
+}
+
 /** Aggregate var_pop on columns */
 export type User_Exchange_Keys_Var_Pop_Fields = {
   __typename?: 'user_exchange_keys_var_pop_fields'
@@ -10263,6 +10636,7 @@ export type User_Insert_Input = {
   email_verified?: InputMaybe<Scalars['Boolean']>
   orders?: InputMaybe<Order_Arr_Rel_Insert_Input>
   password_hash?: InputMaybe<Scalars['String']>
+  timezone?: InputMaybe<Scalars['String']>
   trades?: InputMaybe<Trade_Arr_Rel_Insert_Input>
   uid?: InputMaybe<Scalars['uuid']>
   updated_at?: InputMaybe<Scalars['timestamptz']>
@@ -10279,6 +10653,7 @@ export type User_Max_Fields = {
   email_hash?: Maybe<Scalars['String']>
   email_keyring_id?: Maybe<Scalars['smallint']>
   password_hash?: Maybe<Scalars['String']>
+  timezone?: Maybe<Scalars['String']>
   uid?: Maybe<Scalars['uuid']>
   updated_at?: Maybe<Scalars['timestamptz']>
 }
@@ -10291,6 +10666,7 @@ export type User_Min_Fields = {
   email_hash?: Maybe<Scalars['String']>
   email_keyring_id?: Maybe<Scalars['smallint']>
   password_hash?: Maybe<Scalars['String']>
+  timezone?: Maybe<Scalars['String']>
   uid?: Maybe<Scalars['uuid']>
   updated_at?: Maybe<Scalars['timestamptz']>
 }
@@ -10329,6 +10705,7 @@ export type User_Order_By = {
   email_verified?: InputMaybe<Order_By>
   orders_aggregate?: InputMaybe<Order_Aggregate_Order_By>
   password_hash?: InputMaybe<Order_By>
+  timezone?: InputMaybe<Order_By>
   trades_aggregate?: InputMaybe<Trade_Aggregate_Order_By>
   uid?: InputMaybe<Order_By>
   updated_at?: InputMaybe<Order_By>
@@ -10495,6 +10872,12 @@ export enum User_Password_Reset_Update_Column {
   UserUid = 'user_uid',
 }
 
+export type User_Password_Reset_Updates = {
+  /** Sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<User_Password_Reset_Set_Input>
+  where: User_Password_Reset_Bool_Exp
+}
+
 /** Primary key columns input for table: user */
 export type User_Pk_Columns_Input = {
   uid: Scalars['uuid']
@@ -10515,6 +10898,8 @@ export enum User_Select_Column {
   /** Column name */
   PasswordHash = 'password_hash',
   /** Column name */
+  Timezone = 'timezone',
+  /** Column name */
   Uid = 'uid',
   /** Column name */
   UpdatedAt = 'updated_at',
@@ -10528,6 +10913,7 @@ export type User_Set_Input = {
   email_keyring_id?: InputMaybe<Scalars['smallint']>
   email_verified?: InputMaybe<Scalars['Boolean']>
   password_hash?: InputMaybe<Scalars['String']>
+  timezone?: InputMaybe<Scalars['String']>
   uid?: InputMaybe<Scalars['uuid']>
   updated_at?: InputMaybe<Scalars['timestamptz']>
 }
@@ -10571,9 +10957,19 @@ export enum User_Update_Column {
   /** Column name */
   PasswordHash = 'password_hash',
   /** Column name */
+  Timezone = 'timezone',
+  /** Column name */
   Uid = 'uid',
   /** Column name */
   UpdatedAt = 'updated_at',
+}
+
+export type User_Updates = {
+  /** Increments the numeric columns with given value of the filtered values */
+  _inc?: InputMaybe<User_Inc_Input>
+  /** Sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<User_Set_Input>
+  where: User_Bool_Exp
 }
 
 /** Aggregate var_pop on columns */
@@ -11667,6 +12063,7 @@ export type GetTradeListQueryVariables = Exact<{
 
 export type GetTradeListQuery = {
   __typename?: 'query_root'
+  user: Array<{ __typename?: 'user'; uid: string; timezone: string }>
   trade_aggregate: {
     __typename?: 'trade_aggregate'
     aggregate?:
@@ -11810,6 +12207,7 @@ export type GetUserExchangeKeysListQueryVariables = Exact<Record<string, never>>
 
 export type GetUserExchangeKeysListQuery = {
   __typename?: 'query_root'
+  user: Array<{ __typename?: 'user'; timezone: string }>
   user_exchange_keys: Array<{
     __typename?: 'user_exchange_keys'
     uid: string
@@ -12755,6 +13153,10 @@ export const GetTradeCumulativeVolumeByDayDocument = gql`
 `
 export const GetTradeListDocument = gql`
   query getTradeList($filters: trade_bool_exp!, $offset: Int!, $limit: Int!) {
+    user {
+      uid
+      timezone
+    }
     trade_aggregate(where: $filters) {
       aggregate {
         count
@@ -12859,6 +13261,9 @@ export const GetUserExchangeKeysFormEditDocument = gql`
 `
 export const GetUserExchangeKeysListDocument = gql`
   query getUserExchangeKeysList {
+    user {
+      timezone
+    }
     user_exchange_keys {
       uid
       description

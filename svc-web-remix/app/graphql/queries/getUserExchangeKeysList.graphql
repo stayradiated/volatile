@@ -1,4 +1,7 @@
 query getUserExchangeKeysList {
+  user {
+    timezone
+  }
   user_exchange_keys {
     uid
     description

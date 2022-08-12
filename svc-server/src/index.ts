@@ -85,7 +85,7 @@ const start = async () => {
         {
           active: true,
           name: 'fetchStripe',
-          pattern: '* * * * *',
+          pattern: '0 * * * *',
           handler: cron.fetchStripeHandler,
         },
       ],

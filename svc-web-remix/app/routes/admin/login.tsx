@@ -1,5 +1,4 @@
 import { ActionFunction, LoaderFunction, json } from '@remix-run/node'
-import { Form } from '@remix-run/react'
 import invariant from 'tiny-invariant'
 
 import {
@@ -9,7 +8,7 @@ import {
 } from '~/utils/auth.server'
 import { sdk } from '~/utils/api.server'
 import { safeRedirect, loginRedirect } from '~/utils/redirect.server'
-import { Card } from '~/components/retro-ui'
+import { Card, Form, Input, PrimaryButton } from '~/components/retro-ui'
 
 type ActionData = {
   error?: string
@@ -72,9 +71,13 @@ export const loader: LoaderFunction = async ({ request }) => {
 const Login = () => {
   return (
     <Card>
-      <Form method="post">
-        <input type="password" name="password" />
-        <input type="submit" value="Login" />
+      <Form name="AdminLoginForm" method="post">
+        <Form.Item label="Admin Password">
+          <Input type="password" name="password" />
+        </Form.Item>
+        <Form.Item>
+          <PrimaryButton>Login</PrimaryButton>
+        </Form.Item>
       </Form>
     </Card>
   )

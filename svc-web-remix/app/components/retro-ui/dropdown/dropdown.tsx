@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import { useFloating, shift, offset } from '@floating-ui/react-dom'
+import { useFloating } from '@floating-ui/react-dom'
 import styled from 'styled-components'
+import { ClientOnly } from 'remix-utils'
 
 import { PrimaryButton } from '../button'
 import { DropdownItem } from './dropdown-item'
@@ -30,8 +31,7 @@ const Dropdown = (props: Props) => {
   const [isOpen, setIsOpen] = useState(false)
 
   const { x, y, reference, floating, strategy } = useFloating({
-    placement: 'bottom-start',
-    middleware: [shift(), offset({ mainAxis: -41 })],
+    placement: 'left-end',
   })
 
   const handleTargetClick = () => {
@@ -59,17 +59,21 @@ const Dropdown = (props: Props) => {
       <div ref={reference}>
         <PrimaryButton onClick={handleTargetClick}>...</PrimaryButton>
       </div>
-      <Container
-        ref={floating}
-        style={{
-          display: isOpen ? 'block' : 'none',
-          position: strategy,
-          top: y ?? '',
-          left: x ?? '',
-        }}
-      >
-        {children}
-      </Container>
+      <ClientOnly>
+        {() => (
+          <Container
+            ref={floating}
+            style={{
+              display: isOpen ? 'block' : 'none',
+              position: strategy,
+              top: y ?? '',
+              left: x ?? '',
+            }}
+          >
+            {children}
+          </Container>
+        )}
+      </ClientOnly>
     </>
   )
 }
