@@ -18,7 +18,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v3
         with:
-          images: stayradiated/volatile
+          images: volatile/server
           tags: |
             type=schedule
             type=ref,event=branch

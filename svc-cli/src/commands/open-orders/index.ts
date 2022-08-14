@@ -16,7 +16,7 @@ export const builder = {}
 
 const QUERY_GET_OPEN_ORDERS = /* GraphQL */ `
   query getOpenOrders {
-    kc_order(where: { closed_at: { _is_null: true } }) {
+    order(where: { closed_at: { _is_null: true } }) {
       exchange {
         id
       }
@@ -47,7 +47,7 @@ export const handler = createHandler(async (config) => {
     return result
   }
 
-  const rowData = result.data.kc_order.map<RowData>((order) => ({
+  const rowData = result.data.order.map<RowData>((order) => ({
     exchangeID: order.exchange.id,
     openedAt: parseISO(order.opened_at),
     value: order.value,

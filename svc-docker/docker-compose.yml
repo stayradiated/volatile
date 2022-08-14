@@ -2,29 +2,71 @@ version: '3.1'
 
 services:
   postgres:
-    image: postgres:14.4-alpine
-    restart: always
+    image: postgres:14.5-alpine
+    restart: unless-stopped
     ports: 
+      # expose postgres port for local connections
       - "127.0.0.1:5432:5432"
     env_file:
       - env_postgres
     volumes:
       - pgdata:/var/lib/postgresql/data
 
-  volatile:
-    image: stayradiated/volatile:latest
+  caddy:
+    image: caddy:2.5.2-alpine
+    restart: unless-stopped
     ports:
-      - "127.0.0.1:7947:7947"
-      - "80:7949"
-      - "443:7950"
-    restart: always
-    env_file: 
-      - env_volatile
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - web
+      - hasura
+      - server
+
+  web:
+    restart: unless-stopped
+    # image: volatile/web:latest
+    build:
+      context: ../
+      dockerfile: ./svc-docker/Dockerfile.web
+    ports:
+      - "3000:3000"
+    env_file:
+      - env_web
+    depends_on:
+      - hasura
+
+  hasura:
+    restart: unless-stopped
+    # image: volatile/hasura:latest
+    build:
+      context: ../
+      dockerfile: ./svc-docker/Dockerfile.hasura
+    ports:
+      - "9999:9999"
+    env_file:
+      - env_hasura
     depends_on:
       - postgres
-    volumes:
-      - ./fullchain.pem:/ssl_certificate.crt
-      - ./privkey.pem:/ssl_certificate_key.key
+      - server
+
+  server:
+    restart: unless-stopped
+    # image: volatile/server:latest
+    build:
+      context: ../
+      dockerfile: ./svc-docker/Dockerfile.server
+    ports:
+      - "7946:7946"
+    env_file: 
+      - env_server
+    depends_on:
+      - postgres
 
 volumes:
   pgdata:
+  caddy_data:
+  caddy_config:

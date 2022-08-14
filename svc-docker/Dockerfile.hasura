@@ -1,0 +1,11 @@
+FROM hasura/graphql-engine:v2.11.0-beta.1.cli-migrations-v3
+
+COPY ./svc-hasura/metadata /hasura-metadata
+
+RUN set -e \
+; groupadd --system appuser \
+; useradd --create-home --no-log-init --system --gid=appuser appuser
+
+USER appuser
+
+CMD graphql-engine serve --server-port 9999

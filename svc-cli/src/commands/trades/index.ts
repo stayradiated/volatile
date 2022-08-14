@@ -25,12 +25,12 @@ export const builder = (yargs: Argv) =>
 
 const QUERY_GET_TRADES = /* GraphQL */ `
   query getTrades($assetSymbol: String!, $limit: Int!, $offset: Int!) {
-    kc_trade_aggregate {
+    trade_aggregate {
       aggregate {
         count
       }
     }
-    kc_trade(
+    trade(
       where: { primary_currency: { _eq: $assetSymbol } }
       order_by: { timestamp: asc }
       limit: $limit
@@ -69,17 +69,17 @@ export const handler = createHandler<Options>(async (config, argv) => {
       assetSymbol: asset,
     },
     headers: authHeaders,
-    getTotal: (result) => result.kc_trade_aggregate.aggregate?.count ?? 0,
+    getTotal: (result) => result.trade_aggregate.aggregate?.count ?? 0,
     merge: (a, b) => ({
-      kc_trade_aggregate: a.kc_trade_aggregate,
-      kc_trade: [...a.kc_trade, ...b.kc_trade],
+      trade_aggregate: a.trade_aggregate,
+      trade: [...a.trade, ...b.trade],
     }),
   })
   if (result instanceof Error) {
     return result
   }
 
-  const rowData = result.data.kc_trade.map<RowData>((trade) => ({
+  const rowData = result.data.trade.map<RowData>((trade) => ({
     exchange: trade.exchange.id,
     tradeID: trade.trade_id,
     orderCreatedAt: trade.order ? parseISO(trade.order.created_at) : undefined,

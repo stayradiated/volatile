@@ -1,8 +1,7 @@
 *
-!/svc-docker/nginx.conf
-!/svc-docker/entrypoint.sh
-!/svc-hasura/metadata
-!/svc-server/dist/ncc
-!/svc-server/db/migrations
-!/svc-web/dist/
-!/svc-admin/dist/
+!/svc-docker/entrypoint.server.sh
+!/svc-hasura/metadata/
+!/svc-server/dist/
+!/svc-server/migrations/
+!/svc-web-remix/dist/
+!/svc-web-remix/public/

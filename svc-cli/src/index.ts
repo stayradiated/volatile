@@ -6,7 +6,7 @@ import { commands } from './commands/index.js'
 
 void (async function () {
   await yargs(hideBin(process.argv))
-    .scriptName('kiwi-coin')
+    .scriptName('volatile')
     .strict()
     .option('config', {
       alias: 'c',

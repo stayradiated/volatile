@@ -7,7 +7,8 @@ export type GetAuthTokenMutationVariables = Types.Exact<{
   deviceName: Types.Scalars['String'];
   deviceTrusted: Types.Scalars['Boolean'];
   token2FA?: Types.InputMaybe<Types.Scalars['String']>;
+  role: Types.Scalars['String'];
 }>;
 
 
-export type GetAuthTokenMutation = { __typename?: 'mutation_root', create_auth_token?: { __typename?: 'CreateAuthTokenOutput', auth_token: string } | null | undefined };
+export type GetAuthTokenMutation = { __typename?: 'mutation_root', action_create_auth_token?: { __typename?: 'CreateAuthTokenOutput', auth_token: string } | null };

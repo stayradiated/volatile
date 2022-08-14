@@ -26,7 +26,7 @@ export const builder = (yargs: Argv) =>
 
 const QUERY_GET_MARKET_PRICE = /* GraphQL */ `
   query getMarketPrice($assetSymbol: String!, $timestamp: timestamptz!) {
-    kc_market_price(
+    market_price(
       distinct_on: [market_uid, asset_symbol, currency]
       where: {
         asset_symbol: { _eq: $assetSymbol }
@@ -73,7 +73,7 @@ export const handler = createHandler<Options>(async (config, argv) => {
     return result
   }
 
-  const rowData = result.data.kc_market_price
+  const rowData = result.data.market_price
     .map<RowData | undefined>((marketPrice) => ({
       marketName: marketPrice.market.name,
       timestamp: parseISO(marketPrice.timestamp),

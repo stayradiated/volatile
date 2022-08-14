@@ -6,4 +6,4 @@ export type GetMarketPriceQueryVariables = Types.Exact<{
 }>;
 
 
-export type GetMarketPriceQuery = { __typename?: 'query_root', kc_market_price: Array<{ __typename?: 'kc_market_price', timestamp: string, asset_symbol: string, source_price: number, source_currency: string, fx_rate: number, price: number, currency: string, market: { __typename?: 'kc_market', name: string } }> };
+export type GetMarketPriceQuery = { __typename?: 'query_root', market_price: Array<{ __typename?: 'market_price', timestamp: string, asset_symbol: string, source_price: number, source_currency: string, fx_rate: number, price: number, currency: string, market: { __typename?: 'market', name: string } }> };

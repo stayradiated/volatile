@@ -12,7 +12,7 @@ export const builder = {}
 
 const QUERY_GET_DCA_ORDERS = /* GraphQL */ `
   query getDCAOrders {
-    kc_dca_order {
+    dca_order {
       exchange {
         id
       }
@@ -64,7 +64,7 @@ export const handler = createHandler(async (config) => {
     return result
   }
 
-  const dcaOrders = result.data.kc_dca_order
+  const dcaOrders = result.data.dca_order
 
   console.dir(dcaOrders, { depth: null })
   return undefined

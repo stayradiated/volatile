@@ -20,14 +20,16 @@ const QUERY_CREATE_AUTH_TOKEN = /* GraphQL */ `
     $deviceName: String!
     $deviceTrusted: Boolean!
     $token2FA: String
+    $role: String!
   ) {
-    create_auth_token(
+    action_create_auth_token(
       email: $email
       password: $password
       device_id: $deviceId
       device_name: $deviceName
       device_trusted: $deviceTrusted
       token_2fa: $token2FA
+      role: $role
     ) {
       auth_token
     }
@@ -52,13 +54,14 @@ const getAuthToken = async (
       deviceName: 'kc-cli',
       deviceTrusted: false,
       token2FA,
+      role: 'user',
     },
   })
   if (result instanceof Error) {
     return result
   }
 
-  const authToken = result.data.create_auth_token?.auth_token
+  const authToken = result.data.action_create_auth_token?.auth_token
   if (!authToken) {
     return new Error('Failed to get auth token from server')
   }

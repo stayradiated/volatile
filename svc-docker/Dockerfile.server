@@ -1,0 +1,13 @@
+FROM node:16.16.0-alpine as node
+
+RUN set -e \
+; npm install --verbose --location=global graphile-migrate@1.4.0
+
+WORKDIR /server
+RUN graphile-migrate init
+
+COPY ./svc-docker/entrypoint.server.sh ./
+COPY ./svc-server/dist/ ./
+COPY ./svc-server/migrations ./migrations
+
+ENTRYPOINT ./entrypoint.server.sh
