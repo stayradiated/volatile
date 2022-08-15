@@ -1,5 +1,5 @@
-import crypto from 'crypto'
-import { Buffer } from 'buffer'
+import crypto from 'node:crypto'
+import { Buffer } from 'node:buffer'
 import { errorBoundary } from '@stayradiated/error-boundary'
 
 type Algorithm = string

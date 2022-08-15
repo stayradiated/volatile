@@ -107,15 +107,12 @@ jobs:
         with:
           images: stayradiated/volatile
           flavor: |
+            latest=false
             prefix=server-,onlatest=true
           tags: |
-            type=schedule
-            type=ref,event=branch
-            type=ref,event=pr
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
             type=semver,pattern={{major}}
-            type=sha
 
       -
         # https://github.com/docker/setup-qemu-action
@@ -205,15 +202,12 @@ jobs:
         with:
           images: stayradiated/volatile
           flavor: |
+            latest=false
             prefix=web-,onlatest=true
           tags: |
-            type=schedule
-            type=ref,event=branch
-            type=ref,event=pr
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
             type=semver,pattern={{major}}
-            type=sha
 
       -
         # https://github.com/docker/setup-qemu-action
@@ -263,13 +257,9 @@ jobs:
           flavor: |
             prefix=hasura-,onlatest=true
           tags: |
-            type=schedule
-            type=ref,event=branch
-            type=ref,event=pr
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
             type=semver,pattern={{major}}
-            type=sha
 
       -
         # https://github.com/docker/setup-qemu-action
