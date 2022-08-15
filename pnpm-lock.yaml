@@ -158,6 +158,7 @@ importers:
   lib-keyring:
     specifiers:
       '@stayradiated/error-boundary': 2.1.0
+      '@types/node': 18.7.3
       ava: 4.3.1
       del-cli: 5.0.0
       eslint-plugin-fp: 2.3.0
@@ -166,6 +167,7 @@ importers:
     dependencies:
       '@stayradiated/error-boundary': 2.1.0
     devDependencies:
+      '@types/node': 18.7.3
       ava: 4.3.1
       del-cli: 5.0.0
       eslint-plugin-fp: 2.3.0
@@ -177,6 +179,7 @@ importers:
       '@northscaler/better-error': 0.1.0-dev.10
       '@stayradiated/error-boundary': 2.1.0
       '@types/debug': 4.1.7
+      '@types/node': 18.7.3
       '@types/sinon': 10.0.13
       '@volatile/dasset-api': workspace:1.0.1
       '@volatile/independent-reserve-api': workspace:1.0.1
@@ -201,6 +204,7 @@ importers:
       date-fns: 2.29.1
     devDependencies:
       '@types/debug': 4.1.7
+      '@types/node': 18.7.3
       '@types/sinon': 10.0.13
       ava: 4.3.1
       del-cli: 5.0.0
