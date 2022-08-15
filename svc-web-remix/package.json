@@ -6,8 +6,7 @@
   "sideEffects": false,
   "scripts": {
     "build:tsc": "tsc --noEmit",
-    "build": "NODE_OPTIONS='--require @lukalabs/esbuild-inject-plugin' remix build",
-    "build:ncc": "ncc build ./build/index.js",
+    "build": "NODE_OPTIONS='--require @lukalabs/esbuild-inject-plugin' remix build && ncc build ./build/index.js",
     "dev": "NODE_OPTIONS='--require=@lukalabs/esbuild-inject-plugin' remix dev",
     "start": "remix-serve build",
     "tidy": "xo --fix --plugin=react ./app",
@@ -50,6 +49,7 @@
     "@lukalabs/esbuild-styled-components": "1.0.0",
     "@remix-run/dev": "1.6.8",
     "@remix-run/eslint-config": "1.6.8",
+    "@types/node": "18.7.3",
     "@types/qs": "6.9.7",
     "@types/react": "18.0.17",
     "@types/react-dom": "18.0.6",

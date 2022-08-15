@@ -6,19 +6,108 @@ on:
       - 'v*.*.*'
 
 jobs:
-  build:
+  pnpm:
     runs-on: ubuntu-latest
     steps:
       - 
+        # https://github.com/actions/checkout
         name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
+
+      - 
+        # https://github.com/actions/setup-node
+        name: Setup NodeJS
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+
+      - 
+        # https://github.com/pnpm/action-setup
+        name: Install PNPM
+        uses: pnpm/action-setup@v2.2.2
+        with:
+          version: 7.9.0
+          run_install: false
 
       -
+        name: Get pnpm store directory
+        id: pnpm-cache
+        run: |
+          echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
+
+      -
+        # https://github.com/actions/cache
+        uses: actions/cache@v3
+        name: Setup pnpm cache
+        with:
+          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      -
+        name: Install dependencies
+        run: pnpm install
+
+  server:
+    needs:
+      - pnpm
+    runs-on: ubuntu-latest
+    steps:
+      - 
+        # https://github.com/actions/checkout
+        name: Checkout
+        uses: actions/checkout@v3
+
+      - 
+        # https://github.com/actions/setup-node
+        name: Setup NodeJS
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+
+      - 
+        # https://github.com/pnpm/action-setup
+        name: Install PNPM
+        uses: pnpm/action-setup@v2.2.2
+        with:
+          version: 7.9.0
+          run_install: false
+
+      -
+        name: Get pnpm store directory
+        id: pnpm-cache
+        run: |
+          echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
+
+      -
+        # https://github.com/actions/cache
+        uses: actions/cache@v3
+        name: Setup pnpm cache
+        with:
+          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      -
+        name: Install dependencies
+        run: pnpm install
+
+      - 
+        name: Compile Typescript Packages
+        run: |
+          pnpm run build:server
+
+      -
+        # https://github.com/docker/metadata-action
         name: Docker meta
         id: meta
-        uses: docker/metadata-action@v3
+        uses: docker/metadata-action@v4
         with:
-          images: volatile/server
+          images: stayradiated/volatile
+          flavor: |
+            prefix=server-,onlatest=true
           tags: |
             type=schedule
             type=ref,event=branch
@@ -28,66 +117,198 @@ jobs:
             type=semver,pattern={{major}}
             type=sha
 
-      - 
-        name: Setup NodeJS
-        uses: actions/setup-node@v2
-        with:
-          node-version: '16'
-
-      - 
-        name: Cache pnpm modules
-        uses: actions/cache@v2
-        env:
-          cache-name: cache-pnpm-modules
-        with:
-          path: ~/.pnpm-store
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ matrix.node-version }}-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-${{ matrix.node-version }}-
-
-      - 
-        name: Install PNPM
-        uses: pnpm/action-setup@v2.0.1
-        with:
-          version: 6.7.6
-          run_install: true
-
-      - 
-        name: Compile Typescript Packages
-        run: |
-          pnpm -r --workspace-concurrency=1 build
-          
-          # hack to fix issue with ncc mixing CJS/ESM code
-          sed -i -e '/"type": "module"/d' ./svc-server/package.json
-          pnpm -r --workspace-concurrency=1 build:ncc
-
       -
+        # https://github.com/docker/setup-qemu-action
         name: Set up QEMU
-        uses: docker/setup-qemu-action@v1
+        uses: docker/setup-qemu-action@v2
 
       -
+        # https://github.com/docker/setup-buildx-action
         name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
+        uses: docker/setup-buildx-action@v2
 
       -
+        # https://github.com/docker/login-action
         name: Login to DockerHub
-        uses: docker/login-action@v1 
+        uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       -
+        # https://github.com/docker/build-push-action
         name: Build and Push Docker Image
         id: docker_build
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v3
         with:
-          file: svc-docker/Dockerfile
+          file: svc-docker/Dockerfile.server
           context: .
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
+  web:
+    needs:
+      - pnpm
+    runs-on: ubuntu-latest
+    steps:
       - 
+        # https://github.com/actions/checkout
+        name: Checkout
+        uses: actions/checkout@v3
+
+      - 
+        # https://github.com/actions/setup-node
+        name: Setup NodeJS
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+
+      - 
+        # https://github.com/pnpm/action-setup
+        name: Install PNPM
+        uses: pnpm/action-setup@v2.2.2
+        with:
+          version: 7.9.0
+          run_install: false
+
+      -
+        name: Get pnpm store directory
+        id: pnpm-cache
+        run: |
+          echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
+
+      -
+        # https://github.com/actions/cache
+        uses: actions/cache@v3
+        name: Setup pnpm cache
+        with:
+          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      -
+        name: Install dependencies
+        run: pnpm install
+
+      - 
+        name: Compile Typescript Packages
+        run: |
+          pnpm run build:web
+
+      -
+        # https://github.com/docker/metadata-action
+        name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: stayradiated/volatile
+          flavor: |
+            prefix=web-,onlatest=true
+          tags: |
+            type=schedule
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern={{major}}
+            type=sha
+
+      -
+        # https://github.com/docker/setup-qemu-action
+        name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+
+      -
+        # https://github.com/docker/setup-buildx-action
+        name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      -
+        # https://github.com/docker/login-action
+        name: Login to DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      -
+        # https://github.com/docker/build-push-action
+        name: Build and Push Docker Image
+        id: docker_build
+        uses: docker/build-push-action@v3
+        with:
+          file: svc-docker/Dockerfile.web
+          context: .
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+
+  hasura:
+    runs-on: ubuntu-latest
+    steps:
+      - 
+        # https://github.com/actions/checkout
+        name: Checkout
+        uses: actions/checkout@v3
+
+      -
+        # https://github.com/docker/metadata-action
+        name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: stayradiated/volatile
+          flavor: |
+            prefix=hasura-,onlatest=true
+          tags: |
+            type=schedule
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern={{major}}
+            type=sha
+
+      -
+        # https://github.com/docker/setup-qemu-action
+        name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+
+      -
+        # https://github.com/docker/setup-buildx-action
+        name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      -
+        # https://github.com/docker/login-action
+        name: Login to DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      -
+        # https://github.com/docker/build-push-action
+        name: Build and Push Docker Image
+        id: docker_build
+        uses: docker/build-push-action@v3
+        with:
+          file: svc-docker/Dockerfile.hasura
+          context: .
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+
+  release:
+    needs:
+      - server
+      - web
+      - hasura
+    steps:
+      - 
+        # https://github.com/softprops/action-gh-release
         name: Release
         uses: softprops/action-gh-release@v1
         env:

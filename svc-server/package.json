@@ -10,9 +10,9 @@
     "pretest": "./bin/dbmate -e DATABASE_URL_TEST drop && ./bin/dbmate -e DATABASE_URL_TEST --no-dump-schema up",
     "test": "pnpm pretest && NODE_ENV=test ava --node-arguments='--require dotenv/config'",
     "tidy": "xo --fix --ignore ./src/zapatos",
-    "build": "tsc --noEmit",
+    "build:tsc": "tsc --noEmit",
     "build:zapatos": "zapatos",
-    "build:ncc": "mv package.json package.json.tmp; del-cli dist && ncc build --no-source-map-register --transpile-only ./src/index.ts; mv package.json.tmp package.json",
+    "build": "mv package.json package.json.tmp; del-cli dist && ncc build --no-source-map-register --transpile-only ./src/index.ts; mv package.json.tmp package.json",
     "start": "NODE_ENV=production node --require 'dotenv/config' ./dist/index.js"
   },
   "devDependencies": {
