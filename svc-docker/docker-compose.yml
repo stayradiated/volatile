@@ -28,10 +28,10 @@ services:
 
   web:
     restart: unless-stopped
-    # image: volatile/web:latest
-    build:
-      context: ../
-      dockerfile: ./svc-docker/Dockerfile.web
+    image: stayradiated/volatile:web-latest
+    # build:
+    #   context: ../
+    #   dockerfile: ./svc-docker/Dockerfile.web
     ports:
       - "3000:3000"
     env_file:
@@ -41,10 +41,10 @@ services:
 
   hasura:
     restart: unless-stopped
-    # image: volatile/hasura:latest
-    build:
-      context: ../
-      dockerfile: ./svc-docker/Dockerfile.hasura
+    image: stayradiated/volatile:hasura-latest
+    # build:
+    #   context: ../
+    #   dockerfile: ./svc-docker/Dockerfile.hasura
     ports:
       - "9999:9999"
     env_file:
@@ -55,10 +55,10 @@ services:
 
   server:
     restart: unless-stopped
-    # image: volatile/server:latest
-    build:
-      context: ../
-      dockerfile: ./svc-docker/Dockerfile.server
+    image: stayradiated/volatile:server-latest
+    # build:
+    #   context: ../
+    #   dockerfile: ./svc-docker/Dockerfile.server
     ports:
       - "7946:7946"
     env_file: 
