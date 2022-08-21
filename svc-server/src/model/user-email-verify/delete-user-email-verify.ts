@@ -5,10 +5,10 @@ import type { Pool } from '../../types.js'
 
 const deleteUserEmailVerify = async (
   pool: Pool,
-  userEmailVerifyUID: string,
+  userEmailVerifyUid: string,
 ): Promise<void | Error> => {
   const error = await errorBoundary(async () =>
-    db.deletes('user_email_verify', { uid: userEmailVerifyUID }).run(pool),
+    db.deletes('user_email_verify', { uid: userEmailVerifyUid }).run(pool),
   )
   if (error instanceof Error) {
     return error

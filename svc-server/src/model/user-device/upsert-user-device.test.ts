@@ -13,26 +13,26 @@ import {
 
 test('can insert a user device', async (t) => {
   const { pool, make } = t.context
-  const userUID = await make.user()
+  const userUid = await make.user()
 
   const input: UpsertUserDevicesOptions = {
-    userUID,
+    userUid,
     accessedAt: new Date(),
     name: 'Test Device',
     trusted: true,
     deviceID: 'my randomly generated device id',
   }
 
-  const userDeviceUID = await throwIfError<string>(
+  const userDeviceUid = await throwIfError<string>(
     upsertUserDevice(pool, input),
   )
-  t.is(typeof userDeviceUID, 'string')
+  t.is(typeof userDeviceUid, 'string')
 
   const deviceIDHash = hash.sha256(input.deviceID)
 
   const row = await db
     .selectExactlyOne('user_device', {
-      user_uid: userUID,
+      user_uid: userUid,
       device_id_hash: deviceIDHash,
     })
     .run(pool)
@@ -48,13 +48,13 @@ test('can insert a user device', async (t) => {
 
 test('can update a user device', async (t) => {
   const { pool, make } = t.context
-  const userUID = await make.user()
+  const userUid = await make.user()
 
   const deviceID = 'loudspeakerman'
 
-  const userDeviceAUID = await throwIfError<string>(
+  const userDeviceAUid = await throwIfError<string>(
     upsertUserDevice(pool, {
-      userUID,
+      userUid,
       accessedAt: parseISO('2000-01-01'),
       name: 'Test Device A',
       trusted: false,
@@ -62,9 +62,9 @@ test('can update a user device', async (t) => {
     }),
   )
 
-  const userDeviceBUID = await throwIfError<string>(
+  const userDeviceBUid = await throwIfError<string>(
     upsertUserDevice(pool, {
-      userUID,
+      userUid,
       accessedAt: parseISO('2020-02-02'),
       name: 'Test Device B',
       trusted: true,
@@ -72,13 +72,13 @@ test('can update a user device', async (t) => {
     }),
   )
 
-  t.is(userDeviceAUID, userDeviceBUID)
+  t.is(userDeviceAUid, userDeviceBUid)
 
   const deviceIDHash = hash.sha256(deviceID)
 
   const row = await db
     .selectExactlyOne('user_device', {
-      user_uid: userUID,
+      user_uid: userUid,
       device_id_hash: deviceIDHash,
     })
     .run(pool)

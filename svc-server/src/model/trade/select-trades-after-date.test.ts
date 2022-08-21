@@ -10,16 +10,16 @@ import type { Trade } from './types.js'
 test('select trades made after specified date', async (t) => {
   const { pool, make } = t.context
 
-  const userUID = await make.user()
-  const exchangeUID = await make.exchange()
+  const userUid = await make.user()
+  const exchangeUid = await make.exchange()
 
   const afterDate = parseISO('2021-01-05')
 
   await throwIfError<Trade>(
     insertTrade(pool, {
-      userUID,
-      exchangeUID,
-      orderUID: undefined,
+      userUid,
+      exchangeUid,
+      orderUid: undefined,
       tradeID: 'test-trade-id-1',
       primaryCurrency: 'BTC',
       secondaryCurrency: 'NZD',
@@ -35,9 +35,9 @@ test('select trades made after specified date', async (t) => {
 
   const trade = await throwIfError<Trade>(
     insertTrade(pool, {
-      userUID,
-      exchangeUID,
-      orderUID: undefined,
+      userUid,
+      exchangeUid,
+      orderUid: undefined,
       tradeID: 'test-trade-id-2',
       primaryCurrency: 'BTC',
       secondaryCurrency: 'NZD',
@@ -53,8 +53,8 @@ test('select trades made after specified date', async (t) => {
 
   const trades = await throwIfError<Trade[]>(
     selectTradesAfterDate(pool, {
-      userUID,
-      exchangeUID,
+      userUid,
+      exchangeUid,
       primaryCurrency: 'BTC',
       secondaryCurrency: 'NZD',
       type: 'BUY',
@@ -63,5 +63,5 @@ test('select trades made after specified date', async (t) => {
   )
 
   t.is(1, trades.length)
-  t.is(trade.UID, trades[0]!.UID)
+  t.is(trade.uid, trades[0]!.uid)
 })

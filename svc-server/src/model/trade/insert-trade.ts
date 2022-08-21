@@ -1,4 +1,4 @@
-import { randomUUID } from 'crypto'
+import { randomUUID } from 'node:crypto'
 import * as db from 'zapatos/db'
 import type { Except } from 'type-fest'
 import { errorBoundary } from '@stayradiated/error-boundary'
@@ -6,7 +6,7 @@ import { errorBoundary } from '@stayradiated/error-boundary'
 import type { Pool } from '../../types.js'
 import type { Trade } from './types.js'
 
-type InsertTradeOptions = Except<Trade, 'UID'>
+type InsertTradeOptions = Except<Trade, 'uid'>
 
 const insertTrade = async (
   pool: Pool,
@@ -21,9 +21,9 @@ const insertTrade = async (
           created_at: new Date(),
           updated_at: new Date(),
           timestamp: trade.timestamp,
-          user_uid: trade.userUID,
-          exchange_uid: trade.exchangeUID,
-          order_uid: trade.orderUID,
+          user_uid: trade.userUid,
+          exchange_uid: trade.exchangeUid,
+          order_uid: trade.orderUid,
           trade_id: trade.tradeID,
           type: trade.type,
           primary_currency: trade.primaryCurrency,
@@ -46,7 +46,7 @@ const insertTrade = async (
 
   return {
     ...trade,
-    UID: row.uid,
+    uid: row.uid,
   }
 }
 

@@ -1,8 +1,8 @@
 type UserExchangeRequest = {
-  UID: string
-  userUID: string
-  exchangeUID: string
-  userExchangeKeysUID: string | undefined
+  uid: string
+  userUid: string
+  exchangeUid: string
+  userExchangeKeysUid: string | undefined
   method: string
   url: string
   requestAt: Date

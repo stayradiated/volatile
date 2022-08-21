@@ -8,16 +8,16 @@ import { updateOrder } from './update-order.js'
 
 test('updatedOrder', async (t) => {
   const { pool, make } = t.context
-  const orderUID = await make.order()
+  const orderUid = await make.order()
 
   const input = {
-    UID: orderUID,
+    uid: orderUid,
     closedAt: new Date(),
   }
 
   await throwIfError(updateOrder(pool, input))
 
-  const row = await db.selectExactlyOne('order', { uid: orderUID }).run(pool)
+  const row = await db.selectExactlyOne('order', { uid: orderUid }).run(pool)
 
   t.is(input.closedAt.valueOf(), parseISO(row.closed_at!).valueOf())
 })

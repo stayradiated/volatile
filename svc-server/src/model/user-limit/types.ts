@@ -1,5 +1,5 @@
 type UserLimit = Record<string, number> & {
-  maxEnabledDCAOrderCount: number
+  maxEnabledDcaOrderCount: number
 }
 
 export type { UserLimit }

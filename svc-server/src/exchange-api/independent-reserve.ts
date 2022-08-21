@@ -1,13 +1,13 @@
 import * as ir from '@volatile/independent-reserve-api'
-import { parseISO } from 'date-fns'
 
+import { parseISO } from 'date-fns'
 import { ExchangeError } from '../util/error.js'
 import { EXCHANGE_INDEPENDENT_RESERVE } from '../model/exchange/index.js'
 import { insertUserExchangeRequest } from '../model/user-exchange-request/index.js'
 
 import type {
-  ExchangeAPI,
-  UserExchangeAPI,
+  ExchangeApi,
+  UserExchangeApi,
   ConfigOptions,
   LogRequestFn,
 } from './types.js'
@@ -22,7 +22,7 @@ const formatCurrency = (currency: string): string => {
   return currency
 }
 
-const independentReserve: ExchangeAPI<ir.Config> = {
+const independentReserve: ExchangeApi<ir.Config> = {
   exchange: EXCHANGE_INDEPENDENT_RESERVE,
   getLowestAskPrice:
     ({ logRequest }) =>
@@ -78,7 +78,7 @@ const independentReserve: ExchangeAPI<ir.Config> = {
       }
 
       return openOrders.Data.map((order) => ({
-        orderID: order.OrderGuid,
+        orderId: order.OrderGuid,
         primaryCurrency: formatCurrency(order.PrimaryCurrencyCode),
         secondaryCurrency: formatCurrency(order.SecondaryCurrencyCode),
         price: order.Price,
@@ -110,7 +110,7 @@ const independentReserve: ExchangeAPI<ir.Config> = {
         hasNextPage: pageIndex < results.TotalPages,
         items: results.Data.map((trade) => ({
           tradeID: trade.TradeGuid,
-          orderID: trade.OrderGuid,
+          orderId: trade.OrderGuid,
           timestamp: parseISO(trade.TradeTimestampUtc),
           primaryCurrency: formatCurrency(trade.PrimaryCurrencyCode),
           secondaryCurrency: formatCurrency(trade.SecondaryCurrencyCode),
@@ -145,7 +145,7 @@ const independentReserve: ExchangeAPI<ir.Config> = {
       }
 
       return {
-        orderID: order.OrderGuid,
+        orderId: order.OrderGuid,
       }
     },
   cancelOrder:
@@ -153,7 +153,7 @@ const independentReserve: ExchangeAPI<ir.Config> = {
     async (options) => {
       const [error, request] = await ir.cancelOrder({
         config,
-        orderGuid: options.orderID,
+        orderGuid: options.orderId,
       })
       if (request) {
         await logRequest(request)
@@ -167,10 +167,10 @@ const independentReserve: ExchangeAPI<ir.Config> = {
     },
 }
 
-const getIndependentReserveExchangeAPI = (
+const getIndependentReserveExchangeApi = (
   options: ConfigOptions<Record<string, string>>,
-): UserExchangeAPI | Error => {
-  const { pool, config, userUID, exchangeUID, userExchangeKeysUID } = options
+): UserExchangeApi | Error => {
+  const { pool, config, userUid, exchangeUid, userExchangeKeysUid } = options
 
   if (!ir.isValidConfig(config)) {
     return new ExchangeError({
@@ -181,9 +181,9 @@ const getIndependentReserveExchangeAPI = (
   const logRequest: LogRequestFn = async (request) => {
     return insertUserExchangeRequest(pool, {
       ...request.redacted(),
-      userUID,
-      exchangeUID,
-      userExchangeKeysUID,
+      userUid,
+      exchangeUid,
+      userExchangeKeysUid,
     })
   }
 
@@ -200,4 +200,4 @@ const getIndependentReserveExchangeAPI = (
   }
 }
 
-export { independentReserve, getIndependentReserveExchangeAPI }
+export { independentReserve, getIndependentReserveExchangeApi }

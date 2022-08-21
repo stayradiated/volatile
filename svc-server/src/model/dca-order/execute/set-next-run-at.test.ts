@@ -3,19 +3,19 @@ import { parseISO } from 'date-fns'
 
 import { test } from '../../../test-util/ava.js'
 
-import setNextRunAt from './setNextRunAt.js'
+import setNextRunAt from './set-next-run-at.js'
 
-const CRON_JOB_DEFAULTS = {
+const cronJobDefaults = {
   intervalMs: 1000 * 60,
   lastRunAt: undefined,
   nextRunAt: undefined,
 }
 
-test('(lastRunAt=null, nextRunAt=null) set nextRunAt', async (t) => {
+test.serial('(lastRunAt=null, nextRunAt=null) set nextRunAt', async (t) => {
   const { pool, make } = t.context
 
-  const dcaOrderUID = await make.dcaOrder({
-    ...CRON_JOB_DEFAULTS,
+  const dcaOrderUid = await make.dcaOrder({
+    ...cronJobDefaults,
     lastRunAt: undefined,
     nextRunAt: undefined,
   })
@@ -23,19 +23,19 @@ test('(lastRunAt=null, nextRunAt=null) set nextRunAt', async (t) => {
   await setNextRunAt(pool)
 
   const updatedJob = await db
-    .selectExactlyOne('dca_order', { uid: dcaOrderUID })
+    .selectExactlyOne('dca_order', { uid: dcaOrderUid })
     .run(pool)
 
   t.is(typeof updatedJob.next_run_at, 'string')
 })
 
-test('(lastRunAt=null, nextRunAt=now) nothing', async (t) => {
+test.serial('(lastRunAt=null, nextRunAt=now) nothing', async (t) => {
   const { pool, make } = t.context
 
   const nextRunAt = new Date()
 
-  const dcaOrderUID = await make.dcaOrder({
-    ...CRON_JOB_DEFAULTS,
+  const dcaOrderUid = await make.dcaOrder({
+    ...cronJobDefaults,
     lastRunAt: undefined,
     nextRunAt,
   })
@@ -43,20 +43,20 @@ test('(lastRunAt=null, nextRunAt=now) nothing', async (t) => {
   await setNextRunAt(pool)
 
   const updatedJob = await db
-    .selectExactlyOne('dca_order', { uid: dcaOrderUID })
+    .selectExactlyOne('dca_order', { uid: dcaOrderUid })
     .run(pool)
 
   t.is(typeof updatedJob.next_run_at, 'string')
   t.is(parseISO(updatedJob.next_run_at!).valueOf(), nextRunAt.valueOf())
 })
 
-test('(lastRunAt=x, nextRunAt=x) set nextRunAt', async (t) => {
+test.serial('(lastRunAt=x, nextRunAt=x) set nextRunAt', async (t) => {
   const { pool, make } = t.context
 
   const x = new Date()
 
-  const dcaOrderUID = await make.dcaOrder({
-    ...CRON_JOB_DEFAULTS,
+  const dcaOrderUid = await make.dcaOrder({
+    ...cronJobDefaults,
     lastRunAt: x,
     nextRunAt: x,
   })
@@ -64,7 +64,7 @@ test('(lastRunAt=x, nextRunAt=x) set nextRunAt', async (t) => {
   await setNextRunAt(pool)
 
   const updatedJob = await db
-    .selectExactlyOne('dca_order', { uid: dcaOrderUID })
+    .selectExactlyOne('dca_order', { uid: dcaOrderUid })
     .run(pool)
 
   t.is(typeof updatedJob.last_run_at, 'string')
@@ -74,15 +74,15 @@ test('(lastRunAt=x, nextRunAt=x) set nextRunAt', async (t) => {
   t.not(parseISO(updatedJob.next_run_at!).valueOf(), x.valueOf())
 })
 
-test('(lastRunAt=x+1, nextRunAt=x) set nextRunAt', async (t) => {
+test.serial('(lastRunAt=x+1, nextRunAt=x) set nextRunAt', async (t) => {
   const { pool, make } = t.context
 
   const x = new Date()
   const y = new Date()
   y.setFullYear(x.getFullYear() + 1)
 
-  const dcaOrderUID = await make.dcaOrder({
-    ...CRON_JOB_DEFAULTS,
+  const dcaOrderUid = await make.dcaOrder({
+    ...cronJobDefaults,
     lastRunAt: y,
     nextRunAt: x,
   })
@@ -90,7 +90,7 @@ test('(lastRunAt=x+1, nextRunAt=x) set nextRunAt', async (t) => {
   await setNextRunAt(pool)
 
   const updatedJob = await db
-    .selectExactlyOne('dca_order', { uid: dcaOrderUID })
+    .selectExactlyOne('dca_order', { uid: dcaOrderUid })
     .run(pool)
 
   t.is(typeof updatedJob.last_run_at, 'string')

@@ -6,7 +6,7 @@ export type GetAuthTokenMutationVariables = Types.Exact<{
   deviceId: Types.Scalars['String'];
   deviceName: Types.Scalars['String'];
   deviceTrusted: Types.Scalars['Boolean'];
-  token2FA?: Types.InputMaybe<Types.Scalars['String']>;
+  token2Fa?: Types.InputMaybe<Types.Scalars['String']>;
   role: Types.Scalars['String'];
 }>;
 

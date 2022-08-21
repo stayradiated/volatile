@@ -1,4 +1,4 @@
-import { randomUUID } from 'crypto'
+import { randomUUID } from 'node:crypto'
 import * as db from 'zapatos/db'
 import * as s from 'zapatos/schema'
 import { errorBoundary } from '@stayradiated/error-boundary'
@@ -9,7 +9,7 @@ import { DBError } from '../../util/error.js'
 import type { Pool } from '../../types.js'
 import type { Order } from './types.js'
 
-type UpsertOrderOptions = SetOptional<Order, 'UID'>
+type UpsertOrderOptions = SetOptional<Order, 'uid'>
 
 const upsertOrder = async (
   pool: Pool,
@@ -18,12 +18,12 @@ const upsertOrder = async (
   const now = new Date()
 
   const value: s.order.Insertable = {
-    uid: order.UID ?? randomUUID(),
+    uid: order.uid ?? randomUUID(),
     created_at: now,
     updated_at: now,
-    user_uid: order.userUID,
-    exchange_uid: order.exchangeUID,
-    order_id: order.orderID,
+    user_uid: order.userUid,
+    exchange_uid: order.exchangeUid,
+    order_id: order.orderId,
     primary_currency: order.primaryCurrency,
     secondary_currency: order.secondaryCurrency,
     volume: order.volume,

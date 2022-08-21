@@ -1,4 +1,4 @@
-import { randomUUID } from 'crypto'
+import { randomUUID } from 'node:crypto'
 import * as db from 'zapatos/db'
 import type * as s from 'zapatos/schema'
 import { errorBoundary } from '@stayradiated/error-boundary'
@@ -7,7 +7,7 @@ import type { Pool } from '../../types.js'
 
 import type { CronHistory } from './types.js'
 
-type InsertCronHistoryOptions = Omit<CronHistory, 'UID'>
+type InsertCronHistoryOptions = Omit<CronHistory, 'uid'>
 
 const insertCronHistory = async (
   pool: Pool,
@@ -18,7 +18,7 @@ const insertCronHistory = async (
     created_at: options.createdAt,
     updated_at: options.updatedAt,
     completed_at: options.completedAt,
-    task_id: options.taskID,
+    task_id: options.taskId,
     state: options.state,
     input: JSON.stringify(options.input),
     output: JSON.stringify(options.output),
@@ -37,7 +37,7 @@ const insertCronHistory = async (
 
   return {
     ...options,
-    UID: row.uid,
+    uid: row.uid,
   }
 }
 

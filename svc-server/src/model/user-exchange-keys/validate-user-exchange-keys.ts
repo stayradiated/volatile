@@ -1,16 +1,16 @@
 import type { Pool } from '../../types.js'
-import { getUserExchangeAPIByKeysUID } from '../../model/user-exchange-keys/index.js'
+import { getUserExchangeApiByKeysUid } from '../../model/user-exchange-keys/index.js'
 
 type ValidateUserExchangekeysResultValid = {
   isValid: true
   validationMessage: undefined
-  userExchangeKeysUID: string
+  userExchangeKeysUid: string
 }
 
 type ValidateUserExchangekeysResultInvalid = {
   isValid: false
   validationMessage: string
-  userExchangeKeysUID: string
+  userExchangeKeysUid: string
 }
 
 type ValidateUserExchangekeysResult =
@@ -19,33 +19,33 @@ type ValidateUserExchangekeysResult =
 
 const validateUserExchangeKeys = async (
   pool: Pool,
-  userExchangeKeysUID: string,
+  userExchangeKeysUid: string,
 ): Promise<ValidateUserExchangekeysResult | Error> => {
-  const userExchangeAPI = await getUserExchangeAPIByKeysUID(
+  const userExchangeApi = await getUserExchangeApiByKeysUid(
     pool,
-    userExchangeKeysUID,
+    userExchangeKeysUid,
   )
-  if (userExchangeAPI instanceof Error) {
+  if (userExchangeApi instanceof Error) {
     return {
       isValid: false,
-      validationMessage: userExchangeAPI.message,
-      userExchangeKeysUID,
+      validationMessage: userExchangeApi.message,
+      userExchangeKeysUid,
     }
   }
 
-  const balance = await userExchangeAPI.getBalance()
+  const balance = await userExchangeApi.getBalance()
   if (balance instanceof Error) {
     return {
       isValid: false,
       validationMessage: balance.message,
-      userExchangeKeysUID,
+      userExchangeKeysUid,
     }
   }
 
   return {
     isValid: true,
     validationMessage: undefined,
-    userExchangeKeysUID,
+    userExchangeKeysUid,
   }
 }
 

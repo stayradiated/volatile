@@ -2,23 +2,23 @@ import { throwIfError } from '@stayradiated/error-boundary'
 
 import { test } from '../../test-util/ava.js'
 
-import { insertDCAOrder, InsertDCAOrderOptions } from './insert-dca-order.js'
-import type { DCAOrder } from './types.js'
+import { insertDcaOrder, InsertDcaOrderOptions } from './insert-dca-order.js'
+import type { DcaOrder } from './types.js'
 
-test('insertDCAOrder', async (t) => {
+test('insertDcaOrder', async (t) => {
   const { pool, make } = t.context
-  const userUID = await make.user()
-  const exchangeUID = await make.exchange()
-  const marketUID = await make.market()
-  const userExchangeKeysUID = await make.userExchangeKeys()
+  const userUid = await make.user()
+  const exchangeUid = await make.exchange()
+  const marketUid = await make.market()
+  const userExchangeKeysUid = await make.userExchangeKeys()
   const primaryCurrencySymbol = await make.primaryCurrency()
   const secondaryCurrencySymbol = await make.secondaryCurrency()
 
-  const input: InsertDCAOrderOptions = {
-    userUID,
-    exchangeUID,
-    userExchangeKeysUID,
-    marketUID,
+  const input: InsertDcaOrderOptions = {
+    userUid,
+    exchangeUid,
+    userExchangeKeysUid,
+    marketUid,
     primaryCurrency: primaryCurrencySymbol,
     secondaryCurrency: secondaryCurrencySymbol,
     startAt: new Date(),
@@ -34,26 +34,26 @@ test('insertDCAOrder', async (t) => {
     lastRunAt: undefined,
   }
 
-  const dcaOrder = await throwIfError<DCAOrder>(insertDCAOrder(pool, input))
+  const dcaOrder = await throwIfError<DcaOrder>(insertDcaOrder(pool, input))
 
   t.like(dcaOrder, input)
-  t.is(typeof dcaOrder.UID, 'string')
+  t.is(typeof dcaOrder.uid, 'string')
 })
 
-test('insertDCAOrder (no min/max)', async (t) => {
+test('insertDcaOrder (no min/max)', async (t) => {
   const { pool, make } = t.context
-  const userUID = await make.user()
-  const exchangeUID = await make.exchange()
-  const marketUID = await make.market()
-  const userExchangeKeysUID = await make.userExchangeKeys()
+  const userUid = await make.user()
+  const exchangeUid = await make.exchange()
+  const marketUid = await make.market()
+  const userExchangeKeysUid = await make.userExchangeKeys()
   const primaryCurrencySymbol = await make.primaryCurrency()
   const secondaryCurrencySymbol = await make.secondaryCurrency()
 
-  const input: InsertDCAOrderOptions = {
-    userUID,
-    exchangeUID,
-    userExchangeKeysUID,
-    marketUID,
+  const input: InsertDcaOrderOptions = {
+    userUid,
+    exchangeUid,
+    userExchangeKeysUid,
+    marketUid,
     primaryCurrency: primaryCurrencySymbol,
     secondaryCurrency: secondaryCurrencySymbol,
     startAt: new Date(),
@@ -69,8 +69,8 @@ test('insertDCAOrder (no min/max)', async (t) => {
     lastRunAt: undefined,
   }
 
-  const dcaOrder = await throwIfError<DCAOrder>(insertDCAOrder(pool, input))
+  const dcaOrder = await throwIfError<DcaOrder>(insertDcaOrder(pool, input))
 
   t.like(dcaOrder, input)
-  t.is(typeof dcaOrder.UID, 'string')
+  t.is(typeof dcaOrder.uid, 'string')
 })

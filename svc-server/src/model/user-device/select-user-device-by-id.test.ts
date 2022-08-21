@@ -1,3 +1,4 @@
+import { randomUUID } from 'node:crypto'
 import { throwIfError, throwIfValue } from '@stayradiated/error-boundary'
 
 import { test } from '../../test-util/ava.js'
@@ -12,12 +13,12 @@ import type { UserDeviceMasked } from './types.js'
 
 test('can find a device by its device ID', async (t) => {
   const { pool, make } = t.context
-  const userUID = await make.user()
+  const userUid = await make.user()
 
-  const deviceID = 'cometorangutan'
+  const deviceID = `${randomUUID()}-orangutan`
 
   const input: UpsertUserDevicesOptions = {
-    userUID,
+    userUid,
     accessedAt: new Date(),
     name: 'Special Test Device',
     trusted: true,
@@ -37,7 +38,7 @@ test('can find a device by its device ID', async (t) => {
 
 test('should handle missing device', async (t) => {
   const { pool } = t.context
-  const deviceID = 'weddingherb'
+  const deviceID = `${randomUUID()}-weddingherb`
   const error = await throwIfValue(selectUserDeviceByID(pool, deviceID))
 
   t.is(error.message, `E_DB: Could not find user device.`)

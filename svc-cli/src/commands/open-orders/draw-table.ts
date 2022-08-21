@@ -11,7 +11,7 @@ const formatRow = (row: RowData): Row7 => {
     row.openedAt.valueOf() === 0
       ? '-'
       : format(row.openedAt, 'yyyy-LL-dd HH:mm:ss')
-  const exchange = row.exchangeID
+  const exchange = row.exchangeId
   const volume = row.volume.toFixed(8)
   const price = row.price.toFixed(2)
   const value = row.value.toFixed(2)

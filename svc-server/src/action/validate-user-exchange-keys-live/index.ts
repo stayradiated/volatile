@@ -1,7 +1,7 @@
 import { MissingRequiredArgumentError } from '../../util/error.js'
 
 import { ActionHandlerFn } from '../../util/action-handler.js'
-import { getUserExchangeAPI } from '../../exchange-api/index.js'
+import { getUserExchangeApi } from '../../exchange-api/index.js'
 import { getExchange } from '../../model/exchange/index.js'
 
 type Input = {
@@ -17,33 +17,33 @@ const validateUserExchangeKeysLiveHandler: ActionHandlerFn<
   Output
 > = async (context) => {
   const { pool, input, session } = context
-  const { exchange_uid: exchangeUID, keys } = input
-  const { userUID } = session
-  if (!userUID) {
+  const { exchange_uid: exchangeUid, keys } = input
+  const { userUid } = session
+  if (!userUid) {
     return new MissingRequiredArgumentError({
-      message: 'userUID is required',
-      context: { userUID },
+      message: 'userUid is required',
+      context: { userUid },
     })
   }
 
-  const exchange = await getExchange(pool, exchangeUID)
+  const exchange = await getExchange(pool, exchangeUid)
   if (exchange instanceof Error) {
     return exchange
   }
 
-  const userExchangeAPI = await getUserExchangeAPI({
+  const userExchangeApi = await getUserExchangeApi({
     pool,
     exchange,
     config: keys,
-    userUID,
-    exchangeUID,
-    userExchangeKeysUID: undefined,
+    userUid,
+    exchangeUid,
+    userExchangeKeysUid: undefined,
   })
-  if (userExchangeAPI instanceof Error) {
-    return userExchangeAPI
+  if (userExchangeApi instanceof Error) {
+    return userExchangeApi
   }
 
-  const balance = await userExchangeAPI.getBalance()
+  const balance = await userExchangeApi.getBalance()
   if (balance instanceof Error) {
     return {
       is_valid: false,

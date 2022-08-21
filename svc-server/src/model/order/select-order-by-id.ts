@@ -7,22 +7,22 @@ import { mapRowToOrder } from './map-row-to-order.js'
 import type { Order } from './types.js'
 
 type SelectOrderByIDOptions = {
-  userUID: string
-  exchangeUID: string
-  orderID: string
+  userUid: string
+  exchangeUid: string
+  orderId: string
 }
 
 const selectOrderByID = async (
   pool: Pool,
   options: SelectOrderByIDOptions,
 ): Promise<Order | Error> => {
-  const { userUID, exchangeUID, orderID } = options
+  const { userUid, exchangeUid, orderId } = options
   const row = await errorBoundary(async () =>
     db
       .selectExactlyOne('order', {
-        user_uid: userUID,
-        exchange_uid: exchangeUID,
-        order_id: orderID,
+        user_uid: userUid,
+        exchange_uid: exchangeUid,
+        order_id: orderId,
       })
       .run(pool),
   )

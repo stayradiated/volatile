@@ -13,16 +13,16 @@ const mapRowToUserExchangeKeys = <Keys extends Record<string, string>>(
     return new ConfigError({
       message: 'Could not decrypt User Exchange Keys.',
       cause: jsonKeys,
-      context: { userExchangeKeysUID: row.uid },
+      context: { userExchangeKeysUid: row.uid },
     })
   }
 
   const keys = JSON.parse(jsonKeys) as Keys
 
   return {
-    UID: row.uid,
-    userUID: row.user_uid,
-    exchangeUID: row.exchange_uid,
+    uid: row.uid,
+    userUid: row.user_uid,
+    exchangeUid: row.exchange_uid,
     keys,
     description: row.description,
     invalidatedAt: row.invalidated_at

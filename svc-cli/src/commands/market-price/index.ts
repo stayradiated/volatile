@@ -24,7 +24,7 @@ export const builder = (yargs: Argv) =>
     required: true,
   })
 
-const QUERY_GET_MARKET_PRICE = /* GraphQL */ `
+const getMarketPriceQuery = /* GraphQL */ `
   query getMarketPrice($assetSymbol: String!, $timestamp: timestamptz!) {
     market_price(
       distinct_on: [market_uid, asset_symbol, currency]
@@ -58,7 +58,7 @@ export const handler = createHandler<Options>(async (config, argv) => {
   const result = await graphql<GetMarketPriceQuery>({
     endpoint: config.endpoint,
     headers: authHeaders,
-    query: QUERY_GET_MARKET_PRICE,
+    query: getMarketPriceQuery,
     variables: {
       assetSymbol: asset,
       timestamp: formatISO(

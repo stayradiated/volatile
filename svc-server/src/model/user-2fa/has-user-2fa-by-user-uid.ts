@@ -3,16 +3,16 @@ import * as s from 'zapatos/schema'
 import * as db from 'zapatos/db'
 import type { Pool } from '../../types.js'
 
-const hasUser2FAByUserUID = async (
+const hasUser2FAByUserUid = async (
   pool: Pool,
-  userUID: string,
+  userUid: string,
 ): Promise<boolean | Error> => {
   const rows = await errorBoundary(async () =>
     db.sql<s.user_2fa.SQL, Array<{ exists: boolean }>>`
     SELECT EXISTS(
       SELECT 1
       FROM ${'user_2fa'}
-      WHERE ${{ user_uid: userUID }}
+      WHERE ${{ user_uid: userUid }}
     )
   `.run(pool),
   )
@@ -28,4 +28,4 @@ const hasUser2FAByUserUID = async (
   return row.exists
 }
 
-export { hasUser2FAByUserUID }
+export { hasUser2FAByUserUid }

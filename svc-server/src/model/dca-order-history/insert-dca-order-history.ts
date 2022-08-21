@@ -1,4 +1,4 @@
-import { randomUUID } from 'crypto'
+import { randomUUID } from 'node:crypto'
 import * as db from 'zapatos/db'
 import * as s from 'zapatos/schema'
 import { errorBoundary } from '@stayradiated/error-boundary'
@@ -6,22 +6,22 @@ import { Except } from 'type-fest'
 
 import { DBError } from '../../util/error.js'
 import type { Pool } from '../../types.js'
-import type { DCAOrderHistory } from './types.js'
+import type { DcaOrderHistory } from './types.js'
 
-type InsertDCAOrderHistoryOptions = Except<DCAOrderHistory, 'UID'>
+type InsertDcaOrderHistoryOptions = Except<DcaOrderHistory, 'uid'>
 
-const insertDCAOrderHistory = async (
+const insertDcaOrderHistory = async (
   pool: Pool,
-  options: InsertDCAOrderHistoryOptions,
-): Promise<DCAOrderHistory | Error> => {
+  options: InsertDcaOrderHistoryOptions,
+): Promise<DcaOrderHistory | Error> => {
   const value: s.dca_order_history.Insertable = {
     uid: randomUUID(),
     created_at: options.createdAt,
     updated_at: options.updatedAt,
-    user_uid: options.userUID,
-    dca_order_uid: options.dcaOrderUID,
-    created_order: options.orderUID !== undefined,
-    order_uid: options.orderUID,
+    user_uid: options.userUid,
+    dca_order_uid: options.dcaOrderUid,
+    created_order: options.orderUid !== undefined,
+    order_uid: options.orderUid,
     primary_currency: options.primaryCurrency,
     secondary_currency: options.secondaryCurrency,
     market_price: options.marketPrice,
@@ -45,8 +45,8 @@ const insertDCAOrderHistory = async (
 
   return {
     ...options,
-    UID: rows[0]!.uid,
+    uid: rows[0]!.uid,
   }
 }
 
-export { insertDCAOrderHistory, InsertDCAOrderHistoryOptions }
+export { insertDcaOrderHistory, InsertDcaOrderHistoryOptions }

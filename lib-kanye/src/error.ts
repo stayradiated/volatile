@@ -18,10 +18,10 @@ class NetError extends BetterError {
   }
 }
 
-class APIError extends BetterError {
+class ApiError extends BetterError {
   constructor(arg?: BetterErrorConstructorArg) {
     super(arg)
   }
 }
 
-export { NetError, APIError }
+export { NetError, ApiError }

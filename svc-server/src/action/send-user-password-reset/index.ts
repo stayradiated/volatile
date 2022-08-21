@@ -38,7 +38,7 @@ const sendUserPasswordResetHandler: ActionHandlerFn<Input, Output> = async (
   }
 
   const insertError = await insertUserPasswordReset(pool, {
-    userUID: user.UID,
+    userUid: user.uid,
     expiresAt: addMinutes(new Date(), 30),
     secret,
   })

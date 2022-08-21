@@ -27,15 +27,15 @@ const queryUserEmailHandler: ActionHandlerFn<Input, Output> = async (
 
   console.log(input)
 
-  const { user_uid: userUID } = input
+  const { user_uid: userUid } = input
 
-  const email = await getUserEmail(pool, userUID)
+  const email = await getUserEmail(pool, userUid)
   if (email instanceof Error) {
     return email
   }
 
   return {
-    user_uid: userUID,
+    user_uid: userUid,
     email,
   }
 }

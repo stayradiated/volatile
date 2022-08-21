@@ -1,5 +1,5 @@
 import { parseISO } from 'date-fns'
-import { formatToTimeZone } from 'date-fns-timezone'
+import { formatInTimeZone } from 'date-fns-tz'
 
 import styled from 'styled-components'
 import { ExchangeLogo } from './exchange-logo'
@@ -25,7 +25,7 @@ const TradeListItem = (props: TradeListItemProps) => {
   const { trade, timeZone } = props
 
   const timestamp = parseISO(trade.timestamp)
-  const date = formatToTimeZone(timestamp, 'HH:mm', { timeZone })
+  const date = formatInTimeZone(timestamp, timeZone, 'HH:mm')
 
   return (
     <Item>

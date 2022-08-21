@@ -3,7 +3,7 @@ import { parseISO } from 'date-fns'
 import { MissingRequiredArgumentError } from '../../util/error.js'
 
 import { ActionHandlerFn } from '../../util/action-handler.js'
-import { insertDCAOrder } from '../../model/dca-order/index.js'
+import { insertDcaOrder } from '../../model/dca-order/index.js'
 import { getUserExchangeKeys } from '../../model/user-exchange-keys/index.js'
 
 type Input = {
@@ -25,21 +25,21 @@ type Output = {
   dca_order_uid: string
 }
 
-const createDCAOrderHandler: ActionHandlerFn<Input, Output> = async (
+const createDcaOrderHandler: ActionHandlerFn<Input, Output> = async (
   context,
 ) => {
   const { pool, input, session } = context
-  const { userUID } = session
-  if (!userUID) {
+  const { userUid } = session
+  if (!userUid) {
     return new MissingRequiredArgumentError({
-      message: 'userUID is required',
-      context: { userUID },
+      message: 'userUid is required',
+      context: { userUid },
     })
   }
 
   const {
-    user_exchange_keys_uid: userExchangeKeysUID,
-    market_uid: marketUID,
+    user_exchange_keys_uid: userExchangeKeysUid,
+    market_uid: marketUid,
     primary_currency: primaryCurrency,
     secondary_currency: secondaryCurrency,
     start_at: startAt,
@@ -52,16 +52,16 @@ const createDCAOrderHandler: ActionHandlerFn<Input, Output> = async (
     max_value: maxValue,
   } = input
 
-  const userExchangeKeys = await getUserExchangeKeys(pool, userExchangeKeysUID)
+  const userExchangeKeys = await getUserExchangeKeys(pool, userExchangeKeysUid)
   if (userExchangeKeys instanceof Error) {
     return userExchangeKeys
   }
 
-  const dcaOrder = await insertDCAOrder(pool, {
-    userUID,
-    exchangeUID: userExchangeKeys.exchangeUID,
-    userExchangeKeysUID,
-    marketUID,
+  const dcaOrder = await insertDcaOrder(pool, {
+    userUid,
+    exchangeUid: userExchangeKeys.exchangeUid,
+    userExchangeKeysUid,
+    marketUid,
     primaryCurrency,
     secondaryCurrency,
     startAt: parseISO(startAt),
@@ -81,8 +81,8 @@ const createDCAOrderHandler: ActionHandlerFn<Input, Output> = async (
   }
 
   return {
-    dca_order_uid: dcaOrder.UID,
+    dca_order_uid: dcaOrder.uid,
   }
 }
 
-export { createDCAOrderHandler }
+export { createDcaOrderHandler }

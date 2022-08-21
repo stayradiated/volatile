@@ -10,7 +10,7 @@ export const desc = 'Print dca orders'
 
 export const builder = {}
 
-const QUERY_GET_DCA_ORDERS = /* GraphQL */ `
+const getDcaOrdersQuery = /* GraphQL */ `
   query getDCAOrders {
     dca_order {
       exchange {
@@ -57,7 +57,7 @@ export const handler = createHandler(async (config) => {
   const result = await graphql<GetDcaOrdersQuery>({
     endpoint: config.endpoint,
     headers: authHeaders,
-    query: QUERY_GET_DCA_ORDERS,
+    query: getDcaOrdersQuery,
     variables: {},
   })
   if (result instanceof Error) {

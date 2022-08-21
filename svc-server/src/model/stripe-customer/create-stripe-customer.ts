@@ -9,9 +9,9 @@ import type { StripeCustomer } from './types.js'
 
 const createStripeCustomer = async (
   pool: Pool,
-  userUID: string,
+  userUid: string,
 ): Promise<StripeCustomer | Error> => {
-  const userEmail = await getUserEmail(pool, userUID)
+  const userEmail = await getUserEmail(pool, userUid)
   if (userEmail instanceof Error) {
     return userEmail
   }
@@ -24,7 +24,7 @@ const createStripeCustomer = async (
   }
 
   const customer = await insertStripeCustomer(pool, {
-    userUID,
+    userUid,
     customerID: stripeStripeCustomer.id,
   })
   return customer

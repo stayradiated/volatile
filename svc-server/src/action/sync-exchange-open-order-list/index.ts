@@ -5,7 +5,7 @@ import { ActionHandlerFn } from '../../util/action-handler.js'
 import { syncExchangeOpenOrderList } from '../../model/order/index.js'
 import {
   getUserExchangeKeys,
-  getUserExchangeAPIByKeysUID,
+  getUserExchangeApiByKeysUid,
 } from '../../model/user-exchange-keys/index.js'
 
 type Input = {
@@ -20,42 +20,42 @@ const syncExchangeOpenOrderListHandler: ActionHandlerFn<Input, Output> = async (
   context,
 ) => {
   const { input, pool, session } = context
-  const { userUID } = session
-  if (!userUID) {
+  const { userUid } = session
+  if (!userUid) {
     return new MissingRequiredArgumentError({
-      message: 'userUID is required',
-      context: { userUID },
+      message: 'userUid is required',
+      context: { userUid },
     })
   }
 
-  const { user_exchange_keys_uid: userExchangeKeysUID } = input
+  const { user_exchange_keys_uid: userExchangeKeysUid } = input
 
-  const userExchangeKeys = await getUserExchangeKeys(pool, userExchangeKeysUID)
+  const userExchangeKeys = await getUserExchangeKeys(pool, userExchangeKeysUid)
   if (userExchangeKeys instanceof Error) {
     return userExchangeKeys
   }
 
-  const { exchangeUID } = userExchangeKeys
+  const { exchangeUid } = userExchangeKeys
 
-  const userExchangeAPI = await getUserExchangeAPIByKeysUID(
+  const userExchangeApi = await getUserExchangeApiByKeysUid(
     pool,
-    userExchangeKeysUID,
+    userExchangeKeysUid,
   )
-  if (userExchangeAPI instanceof Error) {
-    return userExchangeAPI
+  if (userExchangeApi instanceof Error) {
+    return userExchangeApi
   }
 
   const error = await syncExchangeOpenOrderList(pool, {
-    userUID,
-    exchangeUID,
-    userExchangeAPI,
+    userUid,
+    exchangeUid,
+    userExchangeApi,
   })
   if (error instanceof Error) {
     return error
   }
 
   return {
-    user_uid: userUID,
+    user_uid: userUid,
   }
 }
 

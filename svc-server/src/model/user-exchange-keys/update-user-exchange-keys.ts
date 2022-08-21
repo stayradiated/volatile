@@ -9,7 +9,7 @@ import type { Pool } from '../../types.js'
 import type { UserExchangeKeys } from './types.js'
 
 type UpdateUserExchangeKeysOptions = SetOptional<
-  Except<UserExchangeKeys, 'exchangeUID'>,
+  Except<UserExchangeKeys, 'exchangeUid'>,
   'keys' | 'description'
 >
 
@@ -51,8 +51,8 @@ const updateUserExchangeKeys = async (
           ...delta,
         },
         {
-          uid: options.UID,
-          user_uid: options.userUID,
+          uid: options.uid,
+          user_uid: options.userUid,
         },
       )
       .run(pool),

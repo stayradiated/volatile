@@ -11,21 +11,21 @@ type Output = {
 
 const deleteUserHandler: ActionHandlerFn<Input, Output> = async (context) => {
   const { pool, session } = context
-  const { userUID } = session
-  if (!userUID) {
+  const { userUid } = session
+  if (!userUid) {
     return new MissingRequiredArgumentError({
-      message: 'userUID is required',
-      context: { userUID },
+      message: 'userUid is required',
+      context: { userUid },
     })
   }
 
-  const error = await deleteUser(pool, { userUID })
+  const error = await deleteUser(pool, { userUid })
   if (error instanceof Error) {
     return error
   }
 
   return {
-    user_uid: userUID,
+    user_uid: userUid,
   }
 }
 

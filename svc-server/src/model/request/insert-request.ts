@@ -1,4 +1,4 @@
-import { randomUUID } from 'crypto'
+import { randomUUID } from 'node:crypto'
 import * as db from 'zapatos/db'
 import type * as s from 'zapatos/schema'
 import { errorBoundary } from '@stayradiated/error-boundary'
@@ -9,7 +9,7 @@ import type { Request } from './types.js'
 
 const insertRequest = async (
   pool: Pool,
-  userExchangeRequest: Except<Request, 'UID'>,
+  userExchangeRequest: Except<Request, 'uid'>,
 ): Promise<Request | Error> => {
   const insert: s.request.Insertable = {
     uid: randomUUID(),
@@ -34,7 +34,7 @@ const insertRequest = async (
 
   return {
     ...userExchangeRequest,
-    UID: row.uid,
+    uid: row.uid,
   }
 }
 

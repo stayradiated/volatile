@@ -1,10 +1,10 @@
 import type { BuySell } from '../../types.js'
 
 type Trade = {
-  UID: string
-  userUID: string
-  exchangeUID: string
-  orderUID: string | undefined
+  uid: string
+  userUid: string
+  exchangeUid: string
+  orderUid: string | undefined
   timestamp: Date
   tradeID: string
   type: BuySell

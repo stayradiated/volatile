@@ -7,15 +7,15 @@ import { mapRowToOrder } from './map-row-to-order.js'
 
 import type { Order } from './types.js'
 
-type SelectOpenOrdersForDCAOptions = {
-  dcaOrderUID: string
+type SelectOpenOrdersForDcaOptions = {
+  dcaOrderUid: string
 }
 
-const selectOpenOrdersForDCA = async (
+const selectOpenOrdersForDca = async (
   pool: Pool,
-  options: SelectOpenOrdersForDCAOptions,
+  options: SelectOpenOrdersForDcaOptions,
 ): Promise<Order[] | Error> => {
-  const { dcaOrderUID } = options
+  const { dcaOrderUid } = options
 
   const rows = await errorBoundary(async () =>
     db.sql<s.order.SQL | s.dca_order_history.SQL, s.order.Selectable[]>`
@@ -23,9 +23,10 @@ const selectOpenOrdersForDCA = async (
       FROM ${'order'}
       INNER JOIN ${'dca_order_history'}
         ON ${'dca_order_history'}.${'order_uid'} = ${'order'}.uid
-        AND ${'dca_order_history'}.${'dca_order_uid'} = ${db.param(dcaOrderUID)}
+        AND ${'dca_order_history'}.${'dca_order_uid'} = ${db.param(dcaOrderUid)}
       WHERE
         ${'order'}.${'closed_at'} IS NULL
+      ORDER BY ${'order'}.${'opened_at'} ASC;
       `.run(pool),
   )
 
@@ -38,4 +39,4 @@ const selectOpenOrdersForDCA = async (
   return orders
 }
 
-export { selectOpenOrdersForDCA }
+export { selectOpenOrdersForDca }

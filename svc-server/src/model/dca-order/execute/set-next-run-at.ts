@@ -2,7 +2,7 @@ import db from 'zapatos/db'
 
 import type { Pool } from '../../../types.js'
 
-import calculateNextRunAt from './calculateNextRunAt.js'
+import calculateNextRunAt from './calculate-next-run-at.js'
 
 const setNextRunAt = async (pool: Pool): Promise<void> => {
   const rowsToUpdate = await db
@@ -20,19 +20,21 @@ const setNextRunAt = async (pool: Pool): Promise<void> => {
     )
     .run(pool)
 
-  for (const row of rowsToUpdate) {
-    const nextRunAt = calculateNextRunAt({
-      startAt: new Date(row.start_at),
-      intervalMs: row.interval_ms,
-    })
-    await db
-      .update(
-        'dca_order',
-        { next_run_at: nextRunAt, updated_at: new Date() },
-        { uid: row.uid },
-      )
-      .run(pool)
-  }
+  await Promise.all(
+    rowsToUpdate.map(async (row) => {
+      const nextRunAt = calculateNextRunAt({
+        startAt: new Date(row.start_at),
+        intervalMs: row.interval_ms,
+      })
+      await db
+        .update(
+          'dca_order',
+          { next_run_at: nextRunAt, updated_at: new Date() },
+          { uid: row.uid },
+        )
+        .run(pool)
+    }),
+  )
 }
 
 export default setNextRunAt

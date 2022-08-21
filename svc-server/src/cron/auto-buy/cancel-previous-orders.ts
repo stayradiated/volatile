@@ -1,27 +1,27 @@
 import { errorListBoundary, MultiError } from '@stayradiated/error-boundary'
 
 import type { Pool } from '../../types.js'
-import type { UserExchangeAPI } from '../../exchange-api/index.js'
+import type { UserExchangeApi } from '../../exchange-api/index.js'
 
 import { EXCHANGE_DASSET } from '../../model/exchange/index.js'
 
-import { updateOrder, selectOpenOrdersForDCA } from '../../model/order/index.js'
+import { updateOrder, selectOpenOrdersForDca } from '../../model/order/index.js'
 
 import { mapSeries } from '../../util/map.js'
 
 type CancelPreviousOrdersOptions = {
-  dcaOrderUID: string
-  userExchangeAPI: UserExchangeAPI
+  dcaOrderUid: string
+  userExchangeApi: UserExchangeApi
 }
 
 const cancelPreviousOrders = async (
   pool: Pool,
   options: CancelPreviousOrdersOptions,
 ): Promise<void | Error> => {
-  const { dcaOrderUID, userExchangeAPI } = options
+  const { dcaOrderUid, userExchangeApi } = options
 
-  const previousOrders = await selectOpenOrdersForDCA(pool, {
-    dcaOrderUID,
+  const previousOrders = await selectOpenOrdersForDca(pool, {
+    dcaOrderUid,
   })
   if (previousOrders instanceof Error) {
     return previousOrders
@@ -29,15 +29,15 @@ const cancelPreviousOrders = async (
 
   const cancelOrderError = await errorListBoundary(async () =>
     mapSeries(previousOrders, async (order): Promise<void | Error> => {
-      const cancelOrderError = await userExchangeAPI.cancelOrder({
-        orderID: order.orderID,
+      const cancelOrderError = await userExchangeApi.cancelOrder({
+        orderId: order.orderId,
       })
       if (cancelOrderError instanceof Error) {
         return cancelOrderError
       }
 
       const updateOrderError = await updateOrder(pool, {
-        UID: order.UID,
+        uid: order.uid,
         closedAt: new Date(),
       })
       if (updateOrderError instanceof Error) {
@@ -50,7 +50,7 @@ const cancelPreviousOrders = async (
 
   if (cancelOrderError instanceof Error) {
     if (
-      userExchangeAPI.exchange === EXCHANGE_DASSET &&
+      userExchangeApi.exchange === EXCHANGE_DASSET &&
       cancelOrderError instanceof MultiError &&
       cancelOrderError.cause.length <= 2
     ) {

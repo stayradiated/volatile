@@ -4,6 +4,8 @@ import type { Config } from './types.js'
 
 const prefixUrl = 'https://openexchangerates.org/api/'
 
+const appIdKey = 'app_id'
+
 const get = async (
   config: Config,
   endpoint: string,
@@ -12,7 +14,7 @@ const get = async (
   const result = await kanye(endpoint, {
     prefixUrl,
     searchParams: {
-      app_id: config.appId,
+      [appIdKey]: config.appId,
       ...searchParameters,
     },
     redact: [config.appId],

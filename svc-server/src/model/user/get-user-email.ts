@@ -8,13 +8,13 @@ import type { Pool } from '../../types.js'
 
 const getUserEmail = async (
   pool: Pool,
-  userUID: string,
+  userUid: string,
 ): Promise<string | Error> => {
   const row = await errorBoundary(async () =>
     db
       .selectExactlyOne(
         'user',
-        { uid: userUID },
+        { uid: userUid },
         { columns: ['email_keyring_id', 'email_encrypted'] },
       )
       .run(pool),
@@ -23,7 +23,7 @@ const getUserEmail = async (
     return new DBError({
       message: 'Could not get user email',
       cause: row,
-      context: { userUID },
+      context: { userUid },
     })
   }
 

@@ -1,4 +1,4 @@
-import { randomUUID } from 'crypto'
+import { randomUUID } from 'node:crypto'
 import * as db from 'zapatos/db'
 import type * as s from 'zapatos/schema'
 import { errorBoundary } from '@stayradiated/error-boundary'
@@ -43,11 +43,11 @@ const insertUser = async (
 
   const passwordHash = await hash.bcrypt(password)
 
-  const UID = randomUUID()
+  const uid = randomUUID()
   const now = new Date()
 
   const insert: s.user.Insertable = {
-    uid: UID,
+    uid,
     created_at: now,
     updated_at: now,
     email_keyring_id: emailEncrypted.keyringId,
@@ -64,7 +64,7 @@ const insertUser = async (
     return error
   }
 
-  return { UID, emailVerified: false }
+  return { uid, emailVerified: false }
 }
 
 export { insertUser }

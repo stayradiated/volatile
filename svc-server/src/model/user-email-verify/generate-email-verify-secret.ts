@@ -1,5 +1,5 @@
-import { randomBytes } from 'crypto'
-import { promisify } from 'util'
+import { randomBytes } from 'node:crypto'
+import { promisify } from 'node:util'
 import { errorBoundary } from '@stayradiated/error-boundary'
 
 import { encodeBase64URL } from '../../util/base64-url.js'

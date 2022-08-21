@@ -1,11 +1,11 @@
 import test from 'ava'
 
-import { TEST_CONFIG } from '../test-util/env.js'
+import { testConfig } from '../test-util/env.js'
 import { getBalance } from './get-balance.js'
 
 test('invalid currency symbol', async (t) => {
   const [error] = await getBalance({
-    config: TEST_CONFIG,
+    config: testConfig,
     currencySymbol: 'ABC',
   })
   t.like(error, {

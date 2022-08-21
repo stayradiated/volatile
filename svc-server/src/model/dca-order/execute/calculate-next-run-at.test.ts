@@ -2,7 +2,7 @@ import test from 'ava'
 import tk from 'timekeeper'
 import { addMinutes, subMinutes } from 'date-fns'
 
-import calculateNextRunAt from './calculateNextRunAt.js'
+import calculateNextRunAt from './calculate-next-run-at.js'
 
 const now = new Date('2000-01-01 01:00:00 UTC')
 tk.freeze(now)
@@ -22,8 +22,12 @@ const macro = test.macro({
 
     t.deepEqual(result, addMinutes(now, nextRunAtInMin))
   },
-  title(title = '', input, expected) {
-    return `${title} startAt: ${input.startMinAgo} min ago, interval: ${input.intervalMin} min → next run in ${expected.nextRunAtInMin} min`
+  title(providedTitle, input, expected) {
+    return `${providedTitle ?? ''}startAt: ${
+      input.startMinAgo
+    } min ago, interval: ${input.intervalMin} min → next run in ${
+      expected.nextRunAtInMin
+    } min`
   },
 })
 

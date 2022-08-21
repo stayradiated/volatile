@@ -1,5 +1,5 @@
 import { format } from 'date-fns'
-import { Kanye, getResponseBodyJSON } from '@volatile/kanye'
+import { Kanye, getResponseBodyJson } from '@volatile/kanye'
 
 import type { Config } from '../util/types.js'
 import { get } from '../util/client.js'
@@ -66,7 +66,7 @@ const historical = async (
     return [raw, undefined]
   }
 
-  const result = getResponseBodyJSON<HistoricalResult>(raw)
+  const result = getResponseBodyJson<HistoricalResult>(raw)
 
   return [result, raw]
 }

@@ -1,8 +1,8 @@
-type APIErrorBody = { error: string | Record<string, unknown> }
+type ApiErrorBody = { error: string | Record<string, unknown> }
 
-const isAPIErrorBody = (
+const isApiErrorBody = (
   responseBody: unknown,
-): responseBody is APIErrorBody => {
+): responseBody is ApiErrorBody => {
   if (typeof responseBody === 'object' && responseBody !== null) {
     const responseBodyObject = responseBody as Record<string, unknown>
     return (
@@ -15,5 +15,5 @@ const isAPIErrorBody = (
   return false
 }
 
-export { isAPIErrorBody }
-export type { APIErrorBody }
+export { isApiErrorBody }
+export type { ApiErrorBody }

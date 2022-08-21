@@ -1,18 +1,18 @@
 import { createMarketSourceForCurrency } from './open-exchange-rates.js'
 
-const USD_NZD = createMarketSourceForCurrency({
+const usdNzd = createMarketSourceForCurrency({
   base: 'USD',
   symbol: 'NZD',
 })
 
-const USD_AUD = createMarketSourceForCurrency({
+const usdAud = createMarketSourceForCurrency({
   base: 'USD',
   symbol: 'AUD',
 })
 
-const AUD_NZD = createMarketSourceForCurrency({
+const audNzd = createMarketSourceForCurrency({
   base: 'AUD',
   symbol: 'NZD',
 })
 
-export { USD_NZD, USD_AUD, AUD_NZD }
+export { usdNzd, usdAud, audNzd }

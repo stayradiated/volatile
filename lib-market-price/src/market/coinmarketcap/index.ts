@@ -1,11 +1,11 @@
-import { kanye, getResponseBodyJSON, APIError } from '@volatile/kanye'
+import { kanye, getResponseBodyJson, ApiError } from '@volatile/kanye'
 import { parseISO } from 'date-fns'
 
 import { MarketPriceSource } from '../../util/market-price-source.js'
 
 const prefixUrl = 'https://pro-api.coinmarketcap.com/'
 
-type APIStatus = {
+type ApiStatus = {
   timestamp: string
   error_code: number
   error_message: string | undefined
@@ -14,7 +14,7 @@ type APIStatus = {
   notice: string | undefined
 }
 
-type APIQuote = {
+type ApiQuote = {
   price: number
   volume_24h: number
   percent_change_1h: number
@@ -27,7 +27,7 @@ type APIQuote = {
   last_updated: string
 }
 
-type APICoin = {
+type ApiCoin = {
   id: number
   name: string
   symbol: string
@@ -43,12 +43,12 @@ type APICoin = {
   cmc_rank: number
   is_fiat: number
   last_updated: string
-  quote: Record<string, APIQuote>
+  quote: Record<string, ApiQuote>
 }
 
-type APIResponse = {
-  status: APIStatus
-  data: Record<string, APICoin>
+type ApiResponse = {
+  status: ApiStatus
+  data: Record<string, ApiCoin>
 }
 
 type CoinMarketCapConfig = {
@@ -71,16 +71,16 @@ const marketSource: MarketPriceSource<CoinMarketCapConfig> = {
         convert: currency,
       },
       headers: {
-        'X-CMC_PRO_API_KEY': apiKey,
+        'X-CMC_PRO_Api_KEY': apiKey,
       },
     })
     if (raw instanceof Error) {
       return [raw]
     }
 
-    const result = getResponseBodyJSON<APIResponse>(raw)
+    const result = getResponseBodyJson<ApiResponse>(raw)
     if (result instanceof Error) {
-      const error = new APIError({
+      const error = new ApiError({
         message: 'Could not fetch market price from coinmarketcap.com',
         cause: result,
         context: {
@@ -113,4 +113,4 @@ const marketSource: MarketPriceSource<CoinMarketCapConfig> = {
 export default marketSource
 export { CoinMarketCapConfig }
 
-export * as privateAPI from './private-api.js'
+export * as privateApi from './private-api.js'

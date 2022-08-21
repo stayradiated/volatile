@@ -1,4 +1,4 @@
-import { randomUUID } from 'crypto'
+import { randomUUID } from 'node:crypto'
 import * as db from 'zapatos/db'
 import type * as s from 'zapatos/schema'
 import { errorBoundary } from '@stayradiated/error-boundary'
@@ -41,7 +41,7 @@ const MARKET_KRAKEN: Market = {
   name: 'Kraken',
 }
 
-const forceGetMarketUID = async (
+const forceGetMarketUid = async (
   pool: Pool,
   market: Market,
 ): Promise<string | Error> => {
@@ -74,7 +74,7 @@ const forceGetMarketUID = async (
 
 const localCache = new Map<Market, string>()
 
-const getMarketUID = async (
+const getMarketUid = async (
   pool: Pool,
   market: Market,
 ): Promise<string | Error> => {
@@ -82,13 +82,13 @@ const getMarketUID = async (
     return localCache.get(market)!
   }
 
-  const marketUID = await forceGetMarketUID(pool, market)
-  if (marketUID instanceof Error) {
-    return marketUID
+  const marketUid = await forceGetMarketUid(pool, market)
+  if (marketUid instanceof Error) {
+    return marketUid
   }
 
-  localCache.set(market, marketUID)
-  return marketUID
+  localCache.set(market, marketUid)
+  return marketUid
 }
 
 export {
@@ -99,6 +99,6 @@ export {
   MARKET_EASY_CRYPTO,
   MARKET_INDEPENDENT_RESERVE,
   MARKET_KRAKEN,
-  getMarketUID,
-  forceGetMarketUID,
+  getMarketUid,
+  forceGetMarketUid,
 }

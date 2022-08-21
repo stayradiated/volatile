@@ -4,18 +4,18 @@ import { subDays } from 'date-fns'
 import { test } from '../../test-util/ava.js'
 
 import { insertTrade } from '../trade/index.js'
-import { getDCAOrderTargetValue } from './get-dca-order-target-value.js'
-import { insertDCAOrder } from './insert-dca-order.js'
-import { selectDCAOrder } from './select-dca-order.js'
-import type { DCAOrder } from './types.js'
+import { getDcaOrderTargetValue } from './get-dca-order-target-value.js'
+import { insertDcaOrder } from './insert-dca-order.js'
+import { selectDcaOrder } from './select-dca-order.js'
+import type { DcaOrder } from './types.js'
 
 test('should calculate without trades', async (t) => {
   const { pool, make } = t.context
 
-  const userUID = await make.user()
-  const exchangeUID = await make.exchange()
-  const userExchangeKeysUID = await make.userExchangeKeys()
-  const marketUID = await make.market()
+  const userUid = await make.user()
+  const exchangeUid = await make.exchange()
+  const userExchangeKeysUid = await make.userExchangeKeys()
+  const marketUid = await make.market()
   const primaryCurrencySymbol = await make.primaryCurrency()
   const secondaryCurrencySymbol = await make.secondaryCurrency()
 
@@ -24,12 +24,12 @@ test('should calculate without trades', async (t) => {
   const currentTime = new Date()
   const startAt = subDays(currentTime, 1)
 
-  const dcaOrder = await throwIfError<DCAOrder>(
-    insertDCAOrder(pool, {
-      userUID,
-      exchangeUID,
-      userExchangeKeysUID,
-      marketUID,
+  const dcaOrder = await throwIfError<DcaOrder>(
+    insertDcaOrder(pool, {
+      userUid,
+      exchangeUid,
+      userExchangeKeysUid,
+      marketUid,
       primaryCurrency: primaryCurrencySymbol,
       secondaryCurrency: secondaryCurrencySymbol,
       startAt,
@@ -47,7 +47,7 @@ test('should calculate without trades', async (t) => {
   )
 
   const sum = await throwIfError<number>(
-    getDCAOrderTargetValue(pool, dcaOrder, currentTime),
+    getDcaOrderTargetValue(pool, dcaOrder, currentTime),
   )
   t.is(dailyAverage, sum)
 })
@@ -55,10 +55,10 @@ test('should calculate without trades', async (t) => {
 test('should calculate with multiple trades', async (t) => {
   const { pool, make } = t.context
 
-  const userUID = await make.user()
-  const exchangeUID = await make.exchange()
-  const userExchangeKeysUID = await make.userExchangeKeys()
-  const marketUID = await make.market()
+  const userUid = await make.user()
+  const exchangeUid = await make.exchange()
+  const userExchangeKeysUid = await make.userExchangeKeys()
+  const marketUid = await make.market()
   const primaryCurrencySymbol = await make.primaryCurrency()
   const secondaryCurrencySymbol = await make.secondaryCurrency()
 
@@ -68,12 +68,12 @@ test('should calculate with multiple trades', async (t) => {
   const currentTime = new Date()
   const startAt = subDays(currentTime, 1)
 
-  const dcaOrder = await throwIfError<DCAOrder>(
-    insertDCAOrder(pool, {
-      userUID,
-      exchangeUID,
-      userExchangeKeysUID,
-      marketUID,
+  const dcaOrder = await throwIfError<DcaOrder>(
+    insertDcaOrder(pool, {
+      userUid,
+      exchangeUid,
+      userExchangeKeysUid,
+      marketUid,
       primaryCurrency: primaryCurrencySymbol,
       secondaryCurrency: secondaryCurrencySymbol,
       startAt,
@@ -92,9 +92,9 @@ test('should calculate with multiple trades', async (t) => {
 
   await throwIfError(
     insertTrade(pool, {
-      userUID,
-      exchangeUID,
-      orderUID: undefined,
+      userUid,
+      exchangeUid,
+      orderUid: undefined,
       timestamp: new Date(),
       tradeID: 'dca-order-trade-1',
       type: 'BUY',
@@ -110,9 +110,9 @@ test('should calculate with multiple trades', async (t) => {
 
   await throwIfError(
     insertTrade(pool, {
-      userUID,
-      exchangeUID,
-      orderUID: undefined,
+      userUid,
+      exchangeUid,
+      orderUid: undefined,
       timestamp: new Date(),
       tradeID: 'dca-order-trade-2',
       type: 'BUY',
@@ -127,7 +127,7 @@ test('should calculate with multiple trades', async (t) => {
   )
 
   const sum = await throwIfError<number>(
-    getDCAOrderTargetValue(pool, dcaOrder, currentTime),
+    getDcaOrderTargetValue(pool, dcaOrder, currentTime),
   )
   t.is(dailyAverage - tradedValue, sum)
 })
@@ -139,16 +139,16 @@ test('should ignore minValue', async (t) => {
   const startAt = subDays(currentTime, 1)
   const dailyAverage = 100
 
-  const dcaOrderUID = await make.dcaOrder({
+  const dcaOrderUid = await make.dcaOrder({
     startAt,
     dailyAverage,
   })
-  const dcaOrder = await throwIfError<DCAOrder>(
-    selectDCAOrder(pool, dcaOrderUID),
+  const dcaOrder = await throwIfError<DcaOrder>(
+    selectDcaOrder(pool, dcaOrderUid),
   )
 
   const sum = await throwIfError<number>(
-    getDCAOrderTargetValue(pool, dcaOrder, currentTime),
+    getDcaOrderTargetValue(pool, dcaOrder, currentTime),
   )
   t.is(dailyAverage, sum)
 })
@@ -156,10 +156,10 @@ test('should ignore minValue', async (t) => {
 test('should cap target at maxValue', async (t) => {
   const { pool, make } = t.context
 
-  const userUID = await make.user()
-  const exchangeUID = await make.exchange()
-  const userExchangeKeysUID = await make.userExchangeKeys()
-  const marketUID = await make.market()
+  const userUid = await make.user()
+  const exchangeUid = await make.exchange()
+  const userExchangeKeysUid = await make.userExchangeKeys()
+  const marketUid = await make.market()
   const primaryCurrencySymbol = await make.primaryCurrency()
   const secondaryCurrencySymbol = await make.secondaryCurrency()
 
@@ -168,12 +168,12 @@ test('should cap target at maxValue', async (t) => {
   const currentTime = new Date()
   const startAt = subDays(currentTime, 1)
 
-  const dcaOrder = await throwIfError<DCAOrder>(
-    insertDCAOrder(pool, {
-      userUID,
-      exchangeUID,
-      userExchangeKeysUID,
-      marketUID,
+  const dcaOrder = await throwIfError<DcaOrder>(
+    insertDcaOrder(pool, {
+      userUid,
+      exchangeUid,
+      userExchangeKeysUid,
+      marketUid,
       primaryCurrency: primaryCurrencySymbol,
       secondaryCurrency: secondaryCurrencySymbol,
       startAt,
@@ -191,7 +191,7 @@ test('should cap target at maxValue', async (t) => {
   )
 
   const sum = await throwIfError<number>(
-    getDCAOrderTargetValue(pool, dcaOrder, currentTime),
+    getDcaOrderTargetValue(pool, dcaOrder, currentTime),
   )
   t.is(dailyAverage, sum)
 })

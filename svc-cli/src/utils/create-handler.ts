@@ -1,5 +1,5 @@
-import fs from 'fs/promises'
-import * as process from 'process'
+import fs from 'node:fs/promises'
+import * as process from 'node:process'
 import { errorBoundary } from '@stayradiated/error-boundary'
 import { ArgumentsCamelCase } from 'yargs'
 

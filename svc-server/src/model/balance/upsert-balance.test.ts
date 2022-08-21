@@ -9,31 +9,31 @@ import { upsertBalance } from './upsert-balance.js'
 test('should insert new balance', async (t) => {
   const { pool, make } = t.context
 
-  const userUID = await make.user()
-  const exchangeUID = await make.exchange()
-  const userExchangeKeysUID = await make.userExchangeKeys()
+  const userUid = await make.user()
+  const exchangeUid = await make.exchange()
+  const userExchangeKeysUid = await make.userExchangeKeys()
   const currencySymbol = await make.secondaryCurrency()
 
   const balance = {
     createdAt: new Date(),
     updatedAt: new Date(),
-    userUID,
-    exchangeUID,
-    userExchangeKeysUID,
+    userUid,
+    exchangeUid,
+    userExchangeKeysUid,
     currencySymbol,
     totalBalance: 123_456.78,
     availableBalance: 777.77,
   }
 
-  const balanceUID = await throwIfError<string>(upsertBalance(pool, balance))
+  const balanceUid = await throwIfError<string>(upsertBalance(pool, balance))
 
   const row = await throwIfError(
-    db.selectExactlyOne('balance', { uid: balanceUID }).run(pool),
+    db.selectExactlyOne('balance', { uid: balanceUid }).run(pool),
   )
   t.like(row, {
-    uid: balanceUID,
-    user_uid: balance.userUID,
-    exchange_uid: balance.exchangeUID,
+    uid: balanceUid,
+    user_uid: balance.userUid,
+    exchange_uid: balance.exchangeUid,
     currency_symbol: balance.currencySymbol,
     total_balance: balance.totalBalance,
     available_balance: balance.availableBalance,
@@ -45,35 +45,35 @@ test('should insert new balance', async (t) => {
 test('should update existing balance', async (t) => {
   const { pool, make } = t.context
 
-  const userUID = await make.user()
-  const exchangeUID = await make.exchange()
-  const userExchangeKeysUID = await make.userExchangeKeys()
+  const userUid = await make.user()
+  const exchangeUid = await make.exchange()
+  const userExchangeKeysUid = await make.userExchangeKeys()
   const currencySymbol = await make.secondaryCurrency()
 
   const balance = {
     createdAt: new Date(),
     updatedAt: new Date(),
-    userUID,
-    exchangeUID,
-    userExchangeKeysUID,
+    userUid,
+    exchangeUid,
+    userExchangeKeysUid,
     currencySymbol,
-    totalBalance: 123_456_789.123_456_789,
+    totalBalance: 123_456_789.123_456_78,
     availableBalance: 777.000_000_01,
   }
 
-  const existingBalanceUID = await make.balance(balance)
+  const existingBalanceUid = await make.balance(balance)
 
-  const balanceUID = await throwIfError<string>(upsertBalance(pool, balance))
+  const balanceUid = await throwIfError<string>(upsertBalance(pool, balance))
 
-  t.is(existingBalanceUID, balanceUID)
+  t.is(existingBalanceUid, balanceUid)
 
   const row = await throwIfError(
-    db.selectExactlyOne('balance', { uid: balanceUID }).run(pool),
+    db.selectExactlyOne('balance', { uid: balanceUid }).run(pool),
   )
   t.like(row, {
-    uid: balanceUID,
-    user_uid: balance.userUID,
-    exchange_uid: balance.exchangeUID,
+    uid: balanceUid,
+    user_uid: balance.userUid,
+    exchange_uid: balance.exchangeUid,
     currency_symbol: balance.currencySymbol,
     total_balance: balance.totalBalance,
     available_balance: balance.availableBalance,

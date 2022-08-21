@@ -9,7 +9,7 @@ import type { CronHistory } from './types.js'
 
 type UpdateCronHistoryOptions = Pick<
   CronHistory,
-  'UID' | 'completedAt' | 'state' | 'output'
+  'uid' | 'completedAt' | 'state' | 'output'
 >
 
 const updateCronHistory = async (
@@ -27,14 +27,14 @@ const updateCronHistory = async (
           output: JSON.stringify(options.output),
         },
         {
-          uid: options.UID,
+          uid: options.uid,
         },
       )
       .run(pool),
   )
   if (rows instanceof Error) {
     return new DBError({
-      message: 'Could not update DCA Order.',
+      message: 'Could not update Dca Order.',
       cause: rows,
       context: { ...options },
     })
@@ -43,7 +43,7 @@ const updateCronHistory = async (
   const row = rows[0]
   if (!row) {
     return new DBError({
-      message: 'Could not update DCA Order.',
+      message: 'Could not update Dca Order.',
       context: { ...options },
     })
   }

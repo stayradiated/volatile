@@ -2,33 +2,33 @@ import db, { conditions as dc } from 'zapatos/db'
 import { errorBoundary, errorListBoundary } from '@stayradiated/error-boundary'
 
 import { ModelError } from '../../util/error.js'
-import type { UserExchangeAPI } from '../../exchange-api/index.js'
+import type { UserExchangeApi } from '../../exchange-api/index.js'
 
 import type { Pool } from '../../types.js'
 import { upsertOrder } from './upsert-order.js'
 
 type SyncExchangeOpenOrderListOptions = {
-  userUID: string
-  exchangeUID: string
-  userExchangeAPI: UserExchangeAPI
+  userUid: string
+  exchangeUid: string
+  userExchangeApi: UserExchangeApi
 }
 
 const syncExchangeOpenOrderList = async (
   pool: Pool,
   options: SyncExchangeOpenOrderListOptions,
 ): Promise<void | Error> => {
-  const { userUID, exchangeUID, userExchangeAPI } = options
+  const { userUid, exchangeUid, userExchangeApi } = options
 
-  const openOrderList = await userExchangeAPI.getOpenOrders()
+  const openOrderList = await userExchangeApi.getOpenOrders()
   if (openOrderList instanceof Error) {
     return new ModelError({
       message: 'Could not get open order list while syncing open order list.',
       cause: openOrderList,
-      context: { userUID, exchangeUID },
+      context: { userUid, exchangeUid },
     })
   }
 
-  const openOrderIDList = openOrderList.map((order) => order.orderID)
+  const openOrderIDList = openOrderList.map((order) => order.orderId)
 
   const result = await errorBoundary(async () =>
     db
@@ -38,8 +38,8 @@ const syncExchangeOpenOrderList = async (
           closed_at: new Date(),
         },
         {
-          user_uid: userUID,
-          exchange_uid: exchangeUID,
+          user_uid: userUid,
+          exchange_uid: exchangeUid,
           order_id: dc.isNotIn(openOrderIDList),
           closed_at: dc.isNull,
         },
@@ -53,12 +53,12 @@ const syncExchangeOpenOrderList = async (
   const resultList = await errorListBoundary(async () =>
     Promise.all(
       openOrderList.map(async (order): Promise<void | Error> => {
-        // TODO: add userUID to unique constraint on order (exchangeUID + userUID + orderID)
+        // TODO: add userUid to unique constraint on order (exchangeUid + userUid + orderId)
         const error = await upsertOrder(pool, {
           ...order,
           value: order.price * order.volume,
-          exchangeUID,
-          userUID,
+          exchangeUid,
+          userUid,
           closedAt: undefined,
         })
         if (error instanceof Error) {

@@ -3,8 +3,8 @@ import { errorListBoundary } from '@stayradiated/error-boundary'
 import { IllegalStateError } from '../../util/error.js'
 import { log } from '../../util/debug.js'
 import {
-  DCAOrder,
-  getDCAOrderTargetValue,
+  DcaOrder,
+  getDcaOrderTargetValue,
 } from '../../model/dca-order/index.js'
 import {
   selectAvgMarketPrice,
@@ -14,41 +14,41 @@ import {
   insertOrder,
   syncExchangeOpenOrderList,
 } from '../../model/order/index.js'
-import { insertDCAOrderHistory } from '../../model/dca-order-history/index.js'
+import { insertDcaOrderHistory } from '../../model/dca-order-history/index.js'
 import { upsertBalance } from '../../model/balance/index.js'
 import { round } from '../../util/round.js'
 import { syncExchangeTradeList } from '../../model/trade/index.js'
 import { selectAllCurrencies } from '../../model/currency/index.js'
 
 import type { Pool } from '../../types.js'
-import type { UserExchangeAPI } from '../../exchange-api/index.js'
+import type { UserExchangeApi } from '../../exchange-api/index.js'
 
 import { cancelPreviousOrders } from './cancel-previous-orders.js'
 import { calculateValueToBid } from './calculate-value-to-bid.js'
 
-type ExecuteDCAOrderOptions = {
-  userExchangeAPI: UserExchangeAPI
-  dcaOrder: DCAOrder
+type ExecuteDcaOrderOptions = {
+  userExchangeApi: UserExchangeApi
+  dcaOrder: DcaOrder
 }
 
-const executeDCAOrder = async (
+const executeDcaOrder = async (
   pool: Pool,
-  options: ExecuteDCAOrderOptions,
+  options: ExecuteDcaOrderOptions,
 ): Promise<void | Error> => {
-  const { userExchangeAPI, dcaOrder } = options
+  const { userExchangeApi, dcaOrder } = options
 
-  // Must do this before calling getDCAOrderTargetValue
+  // Must do this before calling getDcaOrderTargetValue
   const tradeSyncError = await syncExchangeTradeList(pool, {
-    userExchangeKeysUID: dcaOrder.userExchangeKeysUID,
+    userExchangeKeysUid: dcaOrder.userExchangeKeysUid,
   })
   if (tradeSyncError instanceof Error) {
     return tradeSyncError
   }
 
   const openOrderSyncError = await syncExchangeOpenOrderList(pool, {
-    userUID: dcaOrder.userUID,
-    exchangeUID: dcaOrder.exchangeUID,
-    userExchangeAPI,
+    userUid: dcaOrder.userUid,
+    exchangeUid: dcaOrder.exchangeUid,
+    userExchangeApi,
   })
   if (openOrderSyncError instanceof Error) {
     return openOrderSyncError
@@ -56,19 +56,19 @@ const executeDCAOrder = async (
 
   // We cancel after sync in case to make sure we have kept track of failed errors
   const cancelPreviousOrdersError = await cancelPreviousOrders(pool, {
-    dcaOrderUID: dcaOrder.UID,
-    userExchangeAPI,
+    dcaOrderUid: dcaOrder.uid,
+    userExchangeApi,
   })
   if (cancelPreviousOrdersError instanceof Error) {
     return cancelPreviousOrdersError
   }
 
-  const targetValue = await getDCAOrderTargetValue(pool, dcaOrder, new Date())
+  const targetValue = await getDcaOrderTargetValue(pool, dcaOrder, new Date())
   if (targetValue instanceof Error) {
     return targetValue
   }
 
-  const balanceList = await userExchangeAPI.getBalance()
+  const balanceList = await userExchangeApi.getBalance()
   if (balanceList instanceof Error) {
     return balanceList
   }
@@ -90,9 +90,9 @@ const executeDCAOrder = async (
           return upsertBalance(pool, {
             createdAt: new Date(),
             updatedAt: new Date(),
-            userUID: dcaOrder.userUID,
-            exchangeUID: dcaOrder.exchangeUID,
-            userExchangeKeysUID: dcaOrder.userExchangeKeysUID,
+            userUid: dcaOrder.userUid,
+            exchangeUid: dcaOrder.exchangeUid,
+            userExchangeKeysUid: dcaOrder.userExchangeKeysUid,
             currencySymbol: balance.currency,
             totalBalance: balance.total,
             availableBalance: balance.available,
@@ -114,8 +114,8 @@ const executeDCAOrder = async (
   }
 
   const value = await calculateValueToBid(pool, {
-    dcaOrderUID: dcaOrder.UID,
-    userExchangeKeysUID: dcaOrder.userExchangeKeysUID,
+    dcaOrderUid: dcaOrder.uid,
+    userExchangeKeysUid: dcaOrder.userExchangeKeysUid,
     targetValue,
     availableBalance: balance.available,
   })
@@ -124,7 +124,7 @@ const executeDCAOrder = async (
   }
 
   const avgMarketPrice = await selectAvgMarketPrice(pool, {
-    marketUID: dcaOrder.marketUID,
+    marketUid: dcaOrder.marketUid,
     assetSymbol: dcaOrder.primaryCurrency,
     currency: dcaOrder.secondaryCurrency,
     minutes: 30,
@@ -134,7 +134,7 @@ const executeDCAOrder = async (
   }
 
   const latestMarketPrice = await selectLatestMarketPrice(pool, {
-    marketUID: dcaOrder.marketUID,
+    marketUid: dcaOrder.marketUid,
     assetSymbol: dcaOrder.primaryCurrency,
     currency: dcaOrder.secondaryCurrency,
   })
@@ -145,10 +145,10 @@ const executeDCAOrder = async (
   const marketPrice = Math.min(avgMarketPrice, latestMarketPrice)
 
   if (value <= (dcaOrder.minValue ?? 0)) {
-    const dcaOrderHistory = await insertDCAOrderHistory(pool, {
-      userUID: dcaOrder.userUID,
-      dcaOrderUID: dcaOrder.UID,
-      orderUID: undefined,
+    const dcaOrderHistory = await insertDcaOrderHistory(pool, {
+      userUid: dcaOrder.userUid,
+      dcaOrderUid: dcaOrder.uid,
+      orderUid: undefined,
       marketPrice,
       createdAt: new Date(),
       updatedAt: new Date(),
@@ -168,7 +168,7 @@ const executeDCAOrder = async (
 
     log(dcaOrderHistory)
   } else {
-    const lowestAskPrice = await userExchangeAPI.getLowestAskPrice({
+    const lowestAskPrice = await userExchangeApi.getLowestAskPrice({
       primaryCurrency: dcaOrder.primaryCurrency,
       secondaryCurrency: dcaOrder.secondaryCurrency,
     })
@@ -202,7 +202,7 @@ const executeDCAOrder = async (
       })
     }
 
-    const freshOrder = await userExchangeAPI.createOrder({
+    const freshOrder = await userExchangeApi.createOrder({
       volume,
       price: orderPrice,
       primaryCurrency: dcaOrder.primaryCurrency,
@@ -213,9 +213,9 @@ const executeDCAOrder = async (
     }
 
     const order = await insertOrder(pool, {
-      userUID: dcaOrder.userUID,
-      exchangeUID: dcaOrder.exchangeUID,
-      orderID: freshOrder.orderID,
+      userUid: dcaOrder.userUid,
+      exchangeUid: dcaOrder.exchangeUid,
+      orderId: freshOrder.orderId,
       primaryCurrency: dcaOrder.primaryCurrency,
       secondaryCurrency: dcaOrder.secondaryCurrency,
       type: 'BUY',
@@ -229,10 +229,10 @@ const executeDCAOrder = async (
       return order
     }
 
-    const dcaOrderHistory = await insertDCAOrderHistory(pool, {
-      userUID: dcaOrder.userUID,
-      dcaOrderUID: dcaOrder.UID,
-      orderUID: order.UID,
+    const dcaOrderHistory = await insertDcaOrderHistory(pool, {
+      userUid: dcaOrder.userUid,
+      dcaOrderUid: dcaOrder.uid,
+      orderUid: order.uid,
       createdAt: new Date(),
       updatedAt: new Date(),
       primaryCurrency: dcaOrder.primaryCurrency,
@@ -252,4 +252,4 @@ const executeDCAOrder = async (
   }
 }
 
-export { executeDCAOrder }
+export { executeDcaOrder }

@@ -5,7 +5,8 @@
     "build:web": "turbo run build --filter=@volatile/svc-web-remix",
     "test": "turbo run test",
     "tidy": "turbo run tidy",
-    "dev": "turbo run dev"
+    "dev": "turbo run dev",
+    "ncu": "fd --exclude=_scrap package.json | xargs -n1 ncu --upgrade --concurrency=2 --packageFile"
   },
 	"devDependencies": {
 		"turbo": "1.4.3"

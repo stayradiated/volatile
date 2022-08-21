@@ -1,7 +1,7 @@
 import { HTTPError, TimeoutError } from 'ky'
 import { errorBoundary } from '@stayradiated/error-boundary'
 
-import { APIError, NetError } from './error.js'
+import { ApiError, NetError } from './error.js'
 
 import type { Kanye } from './types.js'
 
@@ -15,10 +15,10 @@ const getResponseBodyText = (input: Kanye): string | Error => {
     }
 
     if (input.error instanceof HTTPError) {
-      return new APIError({
+      return new ApiError({
         message: `Received ${input.responseStatus ?? 'unknown'} error from ${
           input.method
-        } ${input.url}: ${input.responseBody}`,
+        } ${input.url}: ${input.responseBody ?? ''}`,
         context: input,
       })
     }
@@ -33,20 +33,20 @@ const getResponseBodyText = (input: Kanye): string | Error => {
   return input.responseBody
 }
 
-const getResponseBodyJSON = <T>(raw: Kanye): T | Error => {
+const getResponseBodyJson = <T>(raw: Kanye): T | Error => {
   const responseBodyText = getResponseBodyText(raw)
   if (responseBodyText instanceof Error) {
     return responseBodyText
   }
 
-  const responseBodyJSON = errorBoundary(
+  const responseBodyJson = errorBoundary(
     () => JSON.parse(responseBodyText) as T,
   )
-  if (responseBodyJSON instanceof Error) {
-    return responseBodyJSON
+  if (responseBodyJson instanceof Error) {
+    return responseBodyJson
   }
 
-  return responseBodyJSON
+  return responseBodyJson
 }
 
-export { getResponseBodyText, getResponseBodyJSON }
+export { getResponseBodyText, getResponseBodyJson }

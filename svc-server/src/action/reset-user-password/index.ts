@@ -15,7 +15,7 @@ import {
   untrustAllUserDevices,
 } from '../../model/user-device/index.js'
 import {
-  hasUser2FAByUserUID,
+  hasUser2FAByUserUid,
   verifyUser2FAToken,
 } from '../../model/user-2fa/index.js'
 
@@ -54,24 +54,24 @@ const resetUserPasswordHandler: ActionHandlerFn<Input, Output> = async (
     return userPasswordReset
   }
 
-  const { userUID } = userPasswordReset
+  const { userUid } = userPasswordReset
 
   const isTrustedDevice = await hasTrustedUserDeviceByDeviceID(pool, deviceID)
 
-  const requires2FA = await hasUser2FAByUserUID(pool, userUID)
+  const requires2FA = await hasUser2FAByUserUid(pool, userUid)
   const has2FAToken = typeof token2FA === 'string'
 
   if (requires2FA) {
     if (!isTrustedDevice && !has2FAToken) {
       return new AuthError({
         message: 'This user has 2FA enabled.',
-        context: { userUID, requires2FA, isTrustedDevice, has2FAToken },
+        context: { userUid, requires2FA, isTrustedDevice, has2FAToken },
       })
     }
 
     if (has2FAToken) {
       const isValidToken = await verifyUser2FAToken(pool, {
-        userUID,
+        userUid,
         token: token2FA,
       })
       if (isValidToken instanceof Error) {
@@ -81,7 +81,7 @@ const resetUserPasswordHandler: ActionHandlerFn<Input, Output> = async (
       if (!isValidToken) {
         return new AuthError({
           message: 'Invalid 2FA token.',
-          context: { userUID, isValidToken },
+          context: { userUid, isValidToken },
         })
       }
     }
@@ -89,29 +89,29 @@ const resetUserPasswordHandler: ActionHandlerFn<Input, Output> = async (
 
   const deleteUserPasswordResetResult = await deleteUserPasswordReset(
     pool,
-    userPasswordReset.UID,
+    userPasswordReset.uid,
   )
   if (deleteUserPasswordResetResult instanceof Error) {
     return deleteUserPasswordResetResult
   }
 
-  const untrustError = await untrustAllUserDevices(pool, { userUID })
+  const untrustError = await untrustAllUserDevices(pool, { userUid })
   if (untrustError instanceof Error) {
     return untrustError
   }
 
   const userError = await updateUser(pool, {
-    userUID,
+    userUid,
     password: newPassword,
   })
   if (userError instanceof Error) {
     return userError
   }
 
-  const { authToken, expiresAt } = generateAuthToken({ userUID, role: 'user' })
+  const { authToken, expiresAt } = generateAuthToken({ userUid, role: 'user' })
 
   const userDeviceError = await upsertUserDevice(pool, {
-    userUID,
+    userUid,
     accessedAt: new Date(),
     deviceID,
     name: deviceName,
@@ -122,7 +122,7 @@ const resetUserPasswordHandler: ActionHandlerFn<Input, Output> = async (
   }
 
   return {
-    user_uid: userUID,
+    user_uid: userUid,
     auth_token: authToken,
     expires_at: formatISO(expiresAt),
   }

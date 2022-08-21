@@ -4,7 +4,7 @@ import { addMilliseconds } from 'date-fns'
 import { config } from '../../env.js'
 
 type GenerateAuthTokenOptions = {
-  userUID: string
+  userUid: string
   role: 'user' | 'superuser' | 'admin'
 }
 
@@ -14,7 +14,7 @@ type AuthToken = {
 }
 
 const generateAuthToken = (options: GenerateAuthTokenOptions): AuthToken => {
-  const { userUID, role } = options
+  const { userUid, role } = options
 
   const maxAgeMs =
     role === 'superuser'
@@ -23,19 +23,17 @@ const generateAuthToken = (options: GenerateAuthTokenOptions): AuthToken => {
 
   const expiresAt = addMilliseconds(new Date(), maxAgeMs)
 
-  const allowedRoles = role === 'user'
-    ? ['user']
-    : ['user', role]
+  const allowedRoles = role === 'user' ? ['user'] : ['user', role]
 
   const authToken = nJwt
     .create(
       {
         iss: 'kc-server',
-        sub: userUID,
+        sub: userUid,
         'https://hasura.io/jwt/claims': {
           'x-hasura-allowed-roles': allowedRoles,
           'x-hasura-default-role': role,
-          'x-hasura-user-id': userUID,
+          'x-hasura-user-id': userUid,
         },
       },
       config.JWT_SECRET,

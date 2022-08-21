@@ -1,3 +1,4 @@
+import { randomUUID } from 'node:crypto'
 import { throwIfError } from '@stayradiated/error-boundary'
 import { subMinutes } from 'date-fns'
 
@@ -7,8 +8,8 @@ import { selectAvgMarketPrice } from './select-avg-market-price.js'
 
 test('selectAvgMarketPrice: should return avg price', async (t) => {
   const { pool, make } = t.context
-  const marketUID = await make.market({
-    ID: 'avg-market-avg-price.test',
+  const marketUid = await make.market({
+    ID: randomUUID().slice(0, 30),
     name: 'selectAvgMarketPrice',
   })
   const assetSymbol = 'BTC'
@@ -19,7 +20,7 @@ test('selectAvgMarketPrice: should return avg price', async (t) => {
     timestamp: subMinutes(new Date(), 2),
     assetSymbol: 'BTC',
     currency: 'AUD',
-    marketUID,
+    marketUid,
     price: 1_000_000,
   })
 
@@ -28,7 +29,7 @@ test('selectAvgMarketPrice: should return avg price', async (t) => {
     timestamp: subMinutes(new Date(), 2),
     assetSymbol: 'ETH',
     currency: 'NZD',
-    marketUID,
+    marketUid,
     price: 1,
   })
 
@@ -38,7 +39,7 @@ test('selectAvgMarketPrice: should return avg price', async (t) => {
       timestamp,
       assetSymbol,
       currency,
-      marketUID,
+      marketUid,
       price,
     })
   }
@@ -58,7 +59,7 @@ test('selectAvgMarketPrice: should return avg price', async (t) => {
 
   const avgPrice = await throwIfError<number>(
     selectAvgMarketPrice(pool, {
-      marketUID,
+      marketUid,
       assetSymbol,
       currency,
       minutes: 10,

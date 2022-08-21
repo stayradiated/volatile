@@ -21,12 +21,12 @@ const refreshAuthTokenHandler: ActionHandlerFn<
   RefreshAuthTokenOutput
 > = async (context) => {
   const { session } = context
-  const { userUID, role } = session
+  const { userUid, role } = session
 
-  if (!userUID) {
+  if (!userUid) {
     return new MissingRequiredArgumentError({
-      message: 'userUID is required',
-      context: { userUID },
+      message: 'userUid is required',
+      context: { userUid },
     })
   }
 
@@ -36,7 +36,7 @@ const refreshAuthTokenHandler: ActionHandlerFn<
     })
   }
 
-  const result = generateAuthToken({ userUID, role })
+  const result = generateAuthToken({ userUid, role })
   if (result instanceof Error) {
     return result
   }
@@ -44,7 +44,7 @@ const refreshAuthTokenHandler: ActionHandlerFn<
   const { authToken, expiresAt } = result
 
   return {
-    user_uid: userUID,
+    user_uid: userUid,
     auth_token: authToken,
     expires_at: formatISO(expiresAt),
   }

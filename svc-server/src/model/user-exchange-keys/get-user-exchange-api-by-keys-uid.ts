@@ -1,35 +1,35 @@
 import { getExchange } from '../../model/exchange/index.js'
 
 import {
-  UserExchangeAPI,
-  getUserExchangeAPI,
+  UserExchangeApi,
+  getUserExchangeApi,
 } from '../../exchange-api/index.js'
 
 import type { Pool } from '../../types.js'
 import { getUserExchangeKeys } from './get-user-exchange-keys.js'
 
-const getUserExchangeAPIByKeysUID = async (
+const getUserExchangeApiByKeysUid = async (
   pool: Pool,
-  userExchangeKeysUID: string,
-): Promise<UserExchangeAPI | Error> => {
-  const userExchangeKeys = await getUserExchangeKeys(pool, userExchangeKeysUID)
+  userExchangeKeysUid: string,
+): Promise<UserExchangeApi | Error> => {
+  const userExchangeKeys = await getUserExchangeKeys(pool, userExchangeKeysUid)
   if (userExchangeKeys instanceof Error) {
     return userExchangeKeys
   }
 
-  const exchange = await getExchange(pool, userExchangeKeys.exchangeUID)
+  const exchange = await getExchange(pool, userExchangeKeys.exchangeUid)
   if (exchange instanceof Error) {
     return exchange
   }
 
-  return getUserExchangeAPI({
+  return getUserExchangeApi({
     pool,
     exchange,
     config: userExchangeKeys.keys,
-    userUID: userExchangeKeys.userUID,
-    exchangeUID: userExchangeKeys.exchangeUID,
-    userExchangeKeysUID,
+    userUid: userExchangeKeys.userUid,
+    exchangeUid: userExchangeKeys.exchangeUid,
+    userExchangeKeysUid,
   })
 }
 
-export { getUserExchangeAPIByKeysUID }
+export { getUserExchangeApiByKeysUid }

@@ -1,6 +1,6 @@
 type MarketPrice = {
   timestamp: Date
-  marketUID: string
+  marketUid: string
   assetSymbol: string
   sourcePrice: number
   sourceCurrency: string

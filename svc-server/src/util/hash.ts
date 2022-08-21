@@ -1,4 +1,4 @@
-import { createHash } from 'crypto'
+import { createHash } from 'node:crypto'
 import Bcrypt from 'bcrypt'
 
 import { config } from '../env.js'

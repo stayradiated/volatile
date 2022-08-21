@@ -6,16 +6,16 @@ import { round } from '../../util/round.js'
 import { selectTradesAfterDate } from '../trade/index.js'
 
 import type { Pool } from '../../types.js'
-import type { DCAOrder } from './types.js'
+import type { DcaOrder } from './types.js'
 
-const getDCAOrderTargetValue = async (
+const getDcaOrderTargetValue = async (
   pool: Pool,
-  dcaOrder: DCAOrder,
+  dcaOrder: DcaOrder,
   currentTime: Date,
 ): Promise<number | Error> => {
   const {
-    userUID,
-    exchangeUID,
+    userUid,
+    exchangeUid,
     primaryCurrency,
     secondaryCurrency,
     startAt,
@@ -23,10 +23,10 @@ const getDCAOrderTargetValue = async (
     maxValue,
   } = dcaOrder
 
-  // TODO: find trades using dcaOrderUID
+  // TODO: find trades using dcaOrderUid
   const trades = await selectTradesAfterDate(pool, {
-    userUID,
-    exchangeUID,
+    userUid,
+    exchangeUid,
     primaryCurrency,
     secondaryCurrency,
     type: 'BUY',
@@ -49,7 +49,7 @@ const getDCAOrderTargetValue = async (
 
   if (typeof orderValue !== 'number' || Number.isNaN(orderValue)) {
     return new IllegalStateError({
-      message: 'Calculated DCA order target value is not a number',
+      message: 'Calculated Dca order target value is not a number',
       context: {
         minuteAverage,
         tradedValue,
@@ -61,4 +61,4 @@ const getDCAOrderTargetValue = async (
   return Math.max(0, Math.min(maxValue ?? Number.POSITIVE_INFINITY, orderValue))
 }
 
-export { getDCAOrderTargetValue }
+export { getDcaOrderTargetValue }

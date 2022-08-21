@@ -22,30 +22,30 @@ const updateStripeSubscriptionHandler: ActionHandlerFn<Input, Output> = async (
   context,
 ) => {
   const { pool, input, session } = context
-  const { userUID } = session
-  if (!userUID) {
+  const { userUid } = session
+  if (!userUid) {
     return new MissingRequiredArgumentError({
-      message: 'userUID is required',
-      context: { userUID },
+      message: 'userUid is required',
+      context: { userUid },
     })
   }
 
   const {
-    subscription_id: subscriptionID,
+    subscription_id: subscriptionId,
     cancel_at_period_end: cancelAtPeriodEnd,
   } = input
 
-  const stripeCustomer = await getOrCreateStripeCustomer(pool, userUID)
+  const stripeCustomer = await getOrCreateStripeCustomer(pool, userUid)
   if (stripeCustomer instanceof Error) {
     return stripeCustomer
   }
 
   const error = await errorBoundary(async () => {
-    const subscription = await stripe.subscriptions.update(subscriptionID, {
+    const subscription = await stripe.subscriptions.update(subscriptionId, {
       cancel_at_period_end: cancelAtPeriodEnd,
     })
     return updateStripeSubscription(pool, {
-      ID: subscriptionID,
+      ID: subscriptionId,
       cancelAt: subscription.cancel_at
         ? fromUnixTime(subscription.cancel_at)
         : undefined,
@@ -59,7 +59,7 @@ const updateStripeSubscriptionHandler: ActionHandlerFn<Input, Output> = async (
     return error
   }
 
-  return { subscription_id: subscriptionID }
+  return { subscription_id: subscriptionId }
 }
 
 export { updateStripeSubscriptionHandler }

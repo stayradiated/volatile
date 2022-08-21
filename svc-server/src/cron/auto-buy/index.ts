@@ -1,10 +1,10 @@
 import { errorListBoundary } from '@stayradiated/error-boundary'
 
-import { selectAndUpdateOverdueDCAOrders } from '../../model/dca-order/index.js'
+import { selectAndUpdateOverdueDcaOrders } from '../../model/dca-order/index.js'
 import type { CronHandlerFn } from '../../util/cron-handler.js'
 
-import { getUserExchangeAPIByKeysUID } from '../../model/user-exchange-keys/index.js'
-import { executeDCAOrder } from './execute-dca-order.js'
+import { getUserExchangeApiByKeysUid } from '../../model/user-exchange-keys/index.js'
+import { executeDcaOrder } from './execute-dca-order.js'
 
 type Input = void
 type Output = {
@@ -14,7 +14,7 @@ type Output = {
 const autoBuyHandler: CronHandlerFn<Input, Output> = async (context) => {
   const { pool } = context
 
-  const dcaOrderList = await selectAndUpdateOverdueDCAOrders(pool)
+  const dcaOrderList = await selectAndUpdateOverdueDcaOrders(pool)
   if (dcaOrderList instanceof Error) {
     return dcaOrderList
   }
@@ -22,17 +22,17 @@ const autoBuyHandler: CronHandlerFn<Input, Output> = async (context) => {
   const error = await errorListBoundary(async () =>
     Promise.all(
       dcaOrderList.map(async (dcaOrder) => {
-        const { userExchangeKeysUID } = dcaOrder
+        const { userExchangeKeysUid } = dcaOrder
 
-        const userExchangeAPI = await getUserExchangeAPIByKeysUID(
+        const userExchangeApi = await getUserExchangeApiByKeysUid(
           pool,
-          userExchangeKeysUID,
+          userExchangeKeysUid,
         )
-        if (userExchangeAPI instanceof Error) {
-          return userExchangeAPI
+        if (userExchangeApi instanceof Error) {
+          return userExchangeApi
         }
 
-        return executeDCAOrder(pool, { userExchangeAPI, dcaOrder })
+        return executeDcaOrder(pool, { userExchangeApi, dcaOrder })
       }),
     ),
   )
@@ -41,7 +41,7 @@ const autoBuyHandler: CronHandlerFn<Input, Output> = async (context) => {
   }
 
   return {
-    message: `Successfully executed ${dcaOrderList.length} DCA order(s).`,
+    message: `Successfully executed ${dcaOrderList.length} Dca order(s).`,
   }
 }
 

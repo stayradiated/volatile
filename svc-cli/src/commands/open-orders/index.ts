@@ -14,7 +14,7 @@ export const desc = 'Print open orders'
 
 export const builder = {}
 
-const QUERY_GET_OPEN_ORDERS = /* GraphQL */ `
+const getOpenOrdersQuery = /* GraphQL */ `
   query getOpenOrders {
     order(where: { closed_at: { _is_null: true } }) {
       exchange {
@@ -40,7 +40,7 @@ export const handler = createHandler(async (config) => {
   const result = await graphql<GetOpenOrdersQuery>({
     endpoint: config.endpoint,
     headers: authHeaders,
-    query: QUERY_GET_OPEN_ORDERS,
+    query: getOpenOrdersQuery,
     variables: {},
   })
   if (result instanceof Error) {
@@ -48,7 +48,7 @@ export const handler = createHandler(async (config) => {
   }
 
   const rowData = result.data.order.map<RowData>((order) => ({
-    exchangeID: order.exchange.id,
+    exchangeId: order.exchange.id,
     openedAt: parseISO(order.opened_at),
     value: order.value,
     price: order.price,

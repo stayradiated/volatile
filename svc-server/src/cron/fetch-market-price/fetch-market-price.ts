@@ -1,6 +1,6 @@
 import { errorListBoundary } from '@stayradiated/error-boundary'
 
-import { getMarketUID } from '../../model/market/index.js'
+import { getMarketUid } from '../../model/market/index.js'
 import { insertMarketPrice } from '../../model/market-price/index.js'
 import { upsertCurrencyFx } from '../../model/currency-fx/index.js'
 import { insertRequest } from '../../model/request/index.js'
@@ -21,9 +21,9 @@ const fetchMarketPrice = async (
     assetSymbol,
   } = marketPriceInstance
 
-  const marketUID = await getMarketUID(pool, market)
-  if (marketUID instanceof Error) {
-    return marketUID
+  const marketUid = await getMarketUid(pool, market)
+  if (marketUid instanceof Error) {
+    return marketUid
   }
 
   const timestamp = new Date()
@@ -67,7 +67,7 @@ const fetchMarketPrice = async (
 
   const error = await insertMarketPrice(pool, {
     timestamp,
-    marketUID,
+    marketUid,
     sourcePrice,
     sourceCurrency,
     assetSymbol,

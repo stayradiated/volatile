@@ -30,8 +30,8 @@ const selectUserEmailVerifyBySecret = async (
   }
 
   return {
-    UID: row.uid,
-    userUID: row.user_uid,
+    uid: row.uid,
+    userUid: row.user_uid,
   }
 }
 

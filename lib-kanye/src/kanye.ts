@@ -9,7 +9,10 @@ import { buildRedactFn } from './redact.js'
 import type { Kanye } from './types.js'
 
 const parseHeaders = (headers: Headers): Record<string, string> => {
-  return Object.fromEntries((headers as any).entries())
+  const typescriptHeaders = headers as unknown as {
+    entries: () => IterableIterator<[string, string]>
+  }
+  return Object.fromEntries(typescriptHeaders.entries())
 }
 
 type KanyeOptions = KyOptions & {
@@ -47,7 +50,9 @@ const kanye = async (
   const log = debug('kanye')
 
   const method = options.method ?? 'GET'
-  let url = (options.prefixUrl ?? '') + endpoint
+  let url = `${
+    typeof options.prefixUrl === 'string' ? options.prefixUrl : ''
+  }${endpoint}`
   let requestBody: string | undefined
   let requestHeaders: Record<string, string> | undefined
 

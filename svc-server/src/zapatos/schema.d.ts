@@ -341,12 +341,6 @@ declare module 'zapatos/schema' {
       */
     updated_at: Date;
       /**
-      * **cron_history.completed_at**
-      * - `timestamptz` in database
-      * - Nullable, no default
-      */
-    completed_at: Date | null;
-      /**
       * **cron_history.task_id**
       * - `text` in database
       * - `NOT NULL`, no default
@@ -364,6 +358,12 @@ declare module 'zapatos/schema' {
       * - `NOT NULL`, default: `'PENDING'::text`
       */
     state: string;
+      /**
+      * **cron_history.completed_at**
+      * - `timestamptz` in database
+      * - Nullable, no default
+      */
+    completed_at: Date | null;
       /**
       * **cron_history.output**
       * - `jsonb` in database
@@ -391,12 +391,6 @@ declare module 'zapatos/schema' {
       */
     updated_at: db.TimestampTzString;
       /**
-      * **cron_history.completed_at**
-      * - `timestamptz` in database
-      * - Nullable, no default
-      */
-    completed_at: db.TimestampTzString | null;
-      /**
       * **cron_history.task_id**
       * - `text` in database
       * - `NOT NULL`, no default
@@ -414,6 +408,12 @@ declare module 'zapatos/schema' {
       * - `NOT NULL`, default: `'PENDING'::text`
       */
     state: string;
+      /**
+      * **cron_history.completed_at**
+      * - `timestamptz` in database
+      * - Nullable, no default
+      */
+    completed_at: db.TimestampTzString | null;
       /**
       * **cron_history.output**
       * - `jsonb` in database
@@ -441,12 +441,6 @@ declare module 'zapatos/schema' {
       */
     updated_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
       /**
-      * **cron_history.completed_at**
-      * - `timestamptz` in database
-      * - Nullable, no default
-      */
-    completed_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
-      /**
       * **cron_history.task_id**
       * - `text` in database
       * - `NOT NULL`, no default
@@ -464,6 +458,12 @@ declare module 'zapatos/schema' {
       * - `NOT NULL`, default: `'PENDING'::text`
       */
     state?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **cron_history.completed_at**
+      * - `timestamptz` in database
+      * - Nullable, no default
+      */
+    completed_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
       /**
       * **cron_history.output**
       * - `jsonb` in database
@@ -491,12 +491,6 @@ declare module 'zapatos/schema' {
       */
     updated_at: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment;
       /**
-      * **cron_history.completed_at**
-      * - `timestamptz` in database
-      * - Nullable, no default
-      */
-    completed_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment;
-      /**
       * **cron_history.task_id**
       * - `text` in database
       * - `NOT NULL`, no default
@@ -514,6 +508,12 @@ declare module 'zapatos/schema' {
       * - `NOT NULL`, default: `'PENDING'::text`
       */
     state?: string | db.Parameter<string> | db.DefaultType | db.SQLFragment;
+      /**
+      * **cron_history.completed_at**
+      * - `timestamptz` in database
+      * - Nullable, no default
+      */
+    completed_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment;
       /**
       * **cron_history.output**
       * - `jsonb` in database
@@ -541,12 +541,6 @@ declare module 'zapatos/schema' {
       */
     updated_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment>;
       /**
-      * **cron_history.completed_at**
-      * - `timestamptz` in database
-      * - Nullable, no default
-      */
-    completed_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment>;
-      /**
       * **cron_history.task_id**
       * - `text` in database
       * - `NOT NULL`, no default
@@ -564,6 +558,12 @@ declare module 'zapatos/schema' {
       * - `NOT NULL`, default: `'PENDING'::text`
       */
     state?: string | db.Parameter<string> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.DefaultType | db.SQLFragment>;
+      /**
+      * **cron_history.completed_at**
+      * - `timestamptz` in database
+      * - Nullable, no default
+      */
+    completed_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment>;
       /**
       * **cron_history.output**
       * - `jsonb` in database

@@ -1,3 +1,4 @@
+import { Buffer } from 'node:buffer'
 import { timingSafeEqual } from 'node:crypto'
 import type { FastifyInstance, RouteHandlerMethod } from 'fastify'
 import type {
@@ -34,7 +35,7 @@ type SessionRole = 'admin' | 'user' | 'superuser' | 'guest'
 
 type Session = {
   role: SessionRole
-  userUID: string | undefined
+  userUid: string | undefined
 }
 
 const parseSessionVariables = (
@@ -58,8 +59,8 @@ const parseSessionVariables = (
     })
   }
 
-  const userUID = input['x-hasura-user-id']
-  if ((role === 'user' || role === 'superuser') && !userUID) {
+  const userUid = input['x-hasura-user-id']
+  if ((role === 'user' || role === 'superuser') && !userUid) {
     return new IllegalArgumentError({
       message: 'session_variables is missing x-hasura-user-id.',
     })
@@ -67,7 +68,7 @@ const parseSessionVariables = (
 
   return {
     role,
-    userUID,
+    userUid,
   }
 }
 
@@ -83,7 +84,7 @@ type ActionHandlerFn<Input, Output> = (
 
 const createActionHandler =
   (
-    actions: Record<string, ActionHandlerFn<any, any>>
+    actions: Record<string, ActionHandlerFn<unknown, unknown>>,
   ): RouteHandler<ActionHandlerRequest<unknown>> =>
   async (request, reply) => {
     const secret = Buffer.from(
@@ -152,13 +153,15 @@ const createActionHandler =
     }
   }
 
-const bindActionHandler =
-  (fastify: FastifyInstance) => {
+const bindActionHandler = (fastify: FastifyInstance) => {
   const actions: Record<string, ActionHandlerFn<any, any>> = {}
 
   fastify.post('/action', createActionHandler(actions))
 
-  return <Input, Output>(actionName: string, fn: ActionHandlerFn<Input, Output>) => {
+  return <Input, Output>(
+    actionName: string,
+    fn: ActionHandlerFn<Input, Output>,
+  ) => {
     actions[actionName] = fn
   }
 }

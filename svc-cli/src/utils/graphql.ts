@@ -1,4 +1,4 @@
-import { kanye, getResponseBodyJSON } from '@volatile/kanye'
+import { kanye, getResponseBodyJson } from '@volatile/kanye'
 
 type GraphqlOptions<Variables> = {
   endpoint: string
@@ -7,7 +7,7 @@ type GraphqlOptions<Variables> = {
   variables: Variables
 }
 
-type GraphQLResult<Data> = {
+type GraphqlResult<Data> = {
   data: Data
   errors?: Array<{
     message: string
@@ -17,7 +17,7 @@ type GraphQLResult<Data> = {
 
 const graphql = async <Data, Variables = Record<string, unknown>>(
   options: GraphqlOptions<Variables>,
-): Promise<GraphQLResult<Data> | Error> => {
+): Promise<GraphqlResult<Data> | Error> => {
   const { endpoint, headers, query, variables } = options
 
   const raw = await kanye(endpoint, {
@@ -29,7 +29,7 @@ const graphql = async <Data, Variables = Record<string, unknown>>(
     return raw
   }
 
-  const result = getResponseBodyJSON<GraphQLResult<Data>>(raw)
+  const result = getResponseBodyJson<GraphqlResult<Data>>(raw)
   if (result instanceof Error) {
     return result
   }
@@ -54,7 +54,7 @@ type GraphqlPaginateOptions<Data> = {
 
 const graphqlPaginate = async <Data>(
   options: GraphqlPaginateOptions<Data>,
-): Promise<GraphQLResult<Data> | Error> => {
+): Promise<GraphqlResult<Data> | Error> => {
   const {
     endpoint,
     query,
@@ -100,4 +100,4 @@ const graphqlPaginate = async <Data>(
   return result
 }
 
-export { graphql, graphqlPaginate, GraphQLResult }
+export { graphql, graphqlPaginate, GraphqlResult }

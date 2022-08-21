@@ -1,5 +1,5 @@
 type StripeCustomer = {
-  userUID: string
+  userUid: string
   customerID: string
 }
 

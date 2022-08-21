@@ -21,7 +21,7 @@ const createUserHandler: ActionHandlerFn<Input, Output> = async (context) => {
   }
 
   return {
-    user_uid: result.UID,
+    user_uid: result.uid,
   }
 }
 

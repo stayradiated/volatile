@@ -1,7 +1,7 @@
 type RowData = {
   date: Date
   exchange: string
-  tradeID: string
+  tradeId: string
   orderCreatedAt: Date | undefined
   assetSymbol: string
   price: number

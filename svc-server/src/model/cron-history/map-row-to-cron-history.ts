@@ -3,14 +3,10 @@ import { parseISO } from 'date-fns'
 
 import type { CronHistory, CronHistoryState } from './types.js'
 
-const validCronHistoryStates: CronHistoryState[] = [
-  'PENDING',
-  'SUCCESS',
-  'ERROR',
-]
+const validCronHistoryStates = new Set<string>(['PENDING', 'SUCCESS', 'ERROR'])
 
 const isCronHistoryState = (state: string): state is CronHistoryState => {
-  return validCronHistoryStates.includes(state as CronHistoryState)
+  return validCronHistoryStates.has(state)
 }
 
 const mapRowToCronHistory = (
@@ -22,11 +18,11 @@ const mapRowToCronHistory = (
   }
 
   return {
-    UID: row.uid,
+    uid: row.uid,
     createdAt: parseISO(row.created_at),
     updatedAt: parseISO(row.updated_at),
     completedAt: row.completed_at ? parseISO(row.completed_at) : undefined,
-    taskID: row.task_id,
+    taskId: row.task_id,
     state,
     input: row.input,
     output: row.output,

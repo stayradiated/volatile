@@ -6,7 +6,7 @@ import { DBError } from '../../util/error.js'
 import type { Pool } from '../../types.js'
 
 type SelectAvgMarketPriceOptions = {
-  marketUID: string
+  marketUid: string
   assetSymbol: string
   currency: string
   minutes: number
@@ -16,7 +16,7 @@ const selectAvgMarketPrice = async (
   pool: Pool,
   options: SelectAvgMarketPriceOptions,
 ): Promise<number | Error> => {
-  const { marketUID, assetSymbol, currency, minutes } = options
+  const { marketUid, assetSymbol, currency, minutes } = options
 
   const rows = await errorBoundary(async () =>
     db.sql<s.market_price.SQL, Array<{ avg_price: string }>>`
@@ -31,7 +31,7 @@ const selectAvgMarketPrice = async (
       Math.round(minutes).toFixed(0),
     )} minute 15 second'::interval)
     FROM ${'market_price'} t1
-    WHERE ${{ market_uid: marketUID, asset_symbol: assetSymbol, currency }}
+    WHERE ${{ market_uid: marketUid, asset_symbol: assetSymbol, currency }}
     ORDER BY ${'timestamp'} DESC
     FETCH FIRST ROW ONLY
   `.run(pool),
@@ -52,7 +52,7 @@ const selectAvgMarketPrice = async (
     return new DBError({
       message: `Could not get average market price for ${assetSymbol}/${currency}.`,
       context: {
-        marketUID,
+        marketUid,
         assetSymbol,
         currency,
         row,

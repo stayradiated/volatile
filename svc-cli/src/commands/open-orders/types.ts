@@ -1,5 +1,5 @@
 type RowData = {
-  exchangeID: string
+  exchangeId: string
   openedAt: Date
   value: number
   price: number

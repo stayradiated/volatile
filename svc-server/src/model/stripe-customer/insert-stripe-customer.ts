@@ -11,7 +11,7 @@ const insertStripeCustomer = async (
   const row = await errorBoundary(async () =>
     db
       .insert('stripe_customer', {
-        user_uid: customer.userUID,
+        user_uid: customer.userUid,
         customer_id: customer.customerID,
       })
       .run(pool),

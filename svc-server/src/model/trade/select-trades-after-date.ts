@@ -8,8 +8,8 @@ import { mapRowToTrade } from './map-row-to-trade.js'
 import type { Trade } from './types.js'
 
 type SelectTradesAfterDateOptions = {
-  userUID: string
-  exchangeUID: string
+  userUid: string
+  exchangeUid: string
   primaryCurrency: string
   secondaryCurrency: string
   type: BuySell
@@ -21,8 +21,8 @@ const selectTradesAfterDate = async (
   options: SelectTradesAfterDateOptions,
 ): Promise<Trade[] | Error> => {
   const {
-    userUID,
-    exchangeUID,
+    userUid,
+    exchangeUid,
     primaryCurrency,
     secondaryCurrency,
     type,
@@ -32,8 +32,8 @@ const selectTradesAfterDate = async (
   const rows = await errorBoundary(async () =>
     db
       .select('trade', {
-        user_uid: userUID,
-        exchange_uid: exchangeUID,
+        user_uid: userUid,
+        exchange_uid: exchangeUid,
         primary_currency: primaryCurrency,
         secondary_currency: secondaryCurrency,
         type,

@@ -4,27 +4,27 @@ import { errorBoundary } from '@stayradiated/error-boundary'
 import { DBError } from '../../util/error.js'
 import type { Pool } from '../../types.js'
 
-import { mapRowToDCAOrder } from './map-row-to-dca-order.js'
-import type { DCAOrder } from './types.js'
+import { mapRowToDcaOrder } from './map-row-to-dca-order.js'
+import type { DcaOrder } from './types.js'
 
-const selectDCAOrder = async (
+const selectDcaOrder = async (
   pool: Pool,
-  dcaOrderUID: string,
-): Promise<DCAOrder | Error> => {
+  dcaOrderUid: string,
+): Promise<DcaOrder | Error> => {
   const row = await errorBoundary(async () =>
-    db.selectOne('dca_order', { uid: dcaOrderUID }).run(pool),
+    db.selectOne('dca_order', { uid: dcaOrderUid }).run(pool),
   )
   if (!row || row instanceof Error) {
     return new DBError({
-      message: `Could not select DCA order with UID=${dcaOrderUID}.`,
+      message: `Could not select Dca order with uid=${dcaOrderUid}.`,
       cause: row,
       context: {
-        dcaOrderUID,
+        dcaOrderUid,
       },
     })
   }
 
-  return mapRowToDCAOrder(row)
+  return mapRowToDcaOrder(row)
 }
 
-export { selectDCAOrder }
+export { selectDcaOrder }

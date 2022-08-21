@@ -1,7 +1,7 @@
 import { ActionHandlerFn } from '../../util/action-handler.js'
 import {
-  updateDCAOrder,
-  assertUserForDCAOrder,
+  updateDcaOrder,
+  assertUserForDcaOrder,
 } from '../../model/dca-order/index.js'
 import { MissingRequiredArgumentError } from '../../util/error.js'
 
@@ -13,36 +13,36 @@ type Output = {
   dca_order_uid: string
 }
 
-const updateDCAOrderHandler: ActionHandlerFn<Input, Output> = async (
+const updateDcaOrderHandler: ActionHandlerFn<Input, Output> = async (
   context,
 ) => {
   const { session, pool, input } = context
-  const { userUID } = session
-  if (!userUID) {
+  const { userUid } = session
+  if (!userUid) {
     return new MissingRequiredArgumentError({
-      message: 'userUID is required',
-      context: { userUID },
+      message: 'userUid is required',
+      context: { userUid },
     })
   }
 
-  const { dca_order_uid: dcaOrderUID, enabled } = input
+  const { dca_order_uid: dcaOrderUid, enabled } = input
 
-  const assertError = await assertUserForDCAOrder(pool, {
-    userUID,
-    dcaOrderUID,
+  const assertError = await assertUserForDcaOrder(pool, {
+    userUid,
+    dcaOrderUid,
   })
   if (assertError instanceof Error) {
     return assertError
   }
 
-  const error = await updateDCAOrder(pool, { dcaOrderUID, enabled })
+  const error = await updateDcaOrder(pool, { dcaOrderUid, enabled })
   if (error instanceof Error) {
     return error
   }
 
   return {
-    dca_order_uid: dcaOrderUID,
+    dca_order_uid: dcaOrderUid,
   }
 }
 
-export { updateDCAOrderHandler }
+export { updateDcaOrderHandler }

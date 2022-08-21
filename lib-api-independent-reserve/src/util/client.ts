@@ -1,4 +1,4 @@
-import { kanye, Kanye, getResponseBodyJSON } from '@volatile/kanye'
+import { kanye, Kanye, getResponseBodyJson } from '@volatile/kanye'
 
 import { createSignedBody } from './signature.js'
 import { withNonce } from './nonce.js'
@@ -34,6 +34,6 @@ const post = async (
   })
 }
 
-const getResponseBody = getResponseBodyJSON
+const getResponseBody = getResponseBodyJson
 
 export { get, post, getResponseBody }

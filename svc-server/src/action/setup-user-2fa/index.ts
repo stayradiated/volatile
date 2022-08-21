@@ -7,7 +7,7 @@ import {
 import { authenticator } from '../../util/otplib.js'
 
 import type { ActionHandlerFn } from '../../util/action-handler.js'
-import { hasUser2FAByUserUID } from '../../model/user-2fa/index.js'
+import { hasUser2FAByUserUid } from '../../model/user-2fa/index.js'
 
 type Input = Record<string, unknown>
 
@@ -18,24 +18,24 @@ type Output = {
 
 const setupUser2FAHandler: ActionHandlerFn<Input, Output> = async (context) => {
   const { pool, session } = context
-  const { userUID } = session
-  if (!userUID) {
+  const { userUid } = session
+  if (!userUid) {
     return new MissingRequiredArgumentError({
-      message: 'userUID is required',
-      context: { userUID },
+      message: 'userUid is required',
+      context: { userUid },
     })
   }
 
-  const alreadyHas2FAEnabled = await hasUser2FAByUserUID(pool, userUID)
+  const alreadyHas2FAEnabled = await hasUser2FAByUserUid(pool, userUid)
   if (alreadyHas2FAEnabled) {
     return new IllegalStateError({
       message: 'This user already has 2FA enabled.',
-      context: { userUID, alreadyHas2FAEnabled },
+      context: { userUid, alreadyHas2FAEnabled },
     })
   }
 
   const secret = authenticator.generateSecret(20)
-  const accountName = userUID
+  const accountName = userUid
   const issuer = 'volatile.co.nz'
   const keyURI = authenticator.keyuri(accountName, issuer, secret)
   const qrcode = await QR.toDataURL(keyURI)

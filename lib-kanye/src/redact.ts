@@ -3,7 +3,10 @@ import escapeStringRegexp from 'escape-string-regexp'
 import type { KanyeRedactFn, KanyeRedacted } from './types.js'
 
 const buildRedactRegExp = (redact: string[]) => {
-  return new RegExp(redact.map(escapeStringRegexp).join('|'), 'g')
+  return new RegExp(
+    redact.map((query) => escapeStringRegexp(query)).join('|'),
+    'g',
+  )
 }
 
 const redactString = (regExp: RegExp, input: string): string => {

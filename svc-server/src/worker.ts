@@ -1,5 +1,4 @@
 import { run, parseCronItems, CronItem, TaskList } from 'graphile-worker'
-
 import { wrapCronHandler, CronHandlerFn } from './util/cron-handler.js'
 
 type CronJob<Input, Output> = {
@@ -15,10 +14,12 @@ type StartWorkerOptions = {
 }
 
 const createTaskList = (jobs: Array<CronJob<any, any>>): TaskList => {
-  return jobs.reduce<TaskList>((object, job) => {
-    object[job.name] = wrapCronHandler(job.name, job.handler)
-    return object
-  }, {})
+  const taskList: TaskList = {}
+  for (const job of jobs) {
+    taskList[job.name] = wrapCronHandler(job.name, job.handler)
+  }
+
+  return taskList
 }
 
 const startWorker = async (options: StartWorkerOptions) => {

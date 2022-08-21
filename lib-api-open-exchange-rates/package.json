@@ -26,14 +26,13 @@
   "dependencies": {
     "@northscaler/better-error": "0.1.0-dev.10",
     "@volatile/kanye": "workspace:1.0.1",
-    "date-fns": "2.29.1"
+    "date-fns": "2.29.2"
   },
   "devDependencies": {
     "@types/debug": "4.1.7",
-    "@types/node": "18.7.3",
+    "@types/node": "18.7.8",
     "ava": "4.3.1",
     "del-cli": "5.0.0",
-    "eslint-plugin-fp": "2.3.0",
     "nock": "13.2.9",
     "typescript": "4.7.4",
     "xo": "0.51.0"
@@ -51,12 +50,6 @@
     "space": true,
     "semicolon": false,
     "prettier": true,
-    "plugins": [
-      "fp"
-    ],
-    "extends": [
-      "plugin:fp/recommended"
-    ],
     "rules": {
       "ava/assertion-arguments": "off",
       "ava/no-ignored-test-files": [
@@ -69,12 +62,7 @@
             "ts"
           ]
         }
-      ],
-      "unicorn/prefer-node-protocol": "off",
-      "fp/no-unused-expression": "off",
-      "fp/no-nil": "off",
-      "fp/no-loops": "off",
-      "fp/no-mutation": "off"
+      ]
     }
   },
   "prettier": {

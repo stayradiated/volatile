@@ -1,3 +1,4 @@
+import { randomUUID } from 'node:crypto'
 import { addMinutes, subMinutes } from 'date-fns'
 import { throwIfError, throwIfValue } from '@stayradiated/error-boundary'
 
@@ -9,14 +10,14 @@ import type { UserPasswordResetMasked } from './types.js'
 
 test('should get valid password reset', async (t) => {
   const { pool, make } = t.context
-  const userUID = await make.user()
+  const userUid = await make.user()
 
-  const secret = 'shortcactus'
+  const secret = `${randomUUID()}-shortcactus`
 
-  const { UID: userPasswordResetUID } =
+  const { uid: userPasswordResetUid } =
     await throwIfError<UserPasswordResetMasked>(
       insertUserPasswordReset(pool, {
-        userUID,
+        userUid,
         expiresAt: addMinutes(new Date(), 5),
         secret,
       }),
@@ -26,13 +27,13 @@ test('should get valid password reset', async (t) => {
     selectUserPasswordResetBySecret(pool, secret),
   )
 
-  t.is(userPasswordResetUID, result.UID)
+  t.is(userPasswordResetUid, result.uid)
 })
 
 test('should fail for invalid password reset secret.', async (t) => {
   const { pool } = t.context
 
-  const secret = 'airplanelocked'
+  const secret = `${randomUUID()}-airplanelocked`
 
   const error = await throwIfValue(
     selectUserPasswordResetBySecret(pool, secret),
@@ -43,13 +44,13 @@ test('should fail for invalid password reset secret.', async (t) => {
 
 test('should fail for expired password reset', async (t) => {
   const { pool, make } = t.context
-  const userUID = await make.user()
+  const userUid = await make.user()
 
-  const secret = 'doughnutrazor'
+  const secret = `${randomUUID()}-doughnutrazor`
 
   await throwIfError<UserPasswordResetMasked>(
     insertUserPasswordReset(pool, {
-      userUID,
+      userUid,
       expiresAt: subMinutes(new Date(), 5),
       secret,
     }),

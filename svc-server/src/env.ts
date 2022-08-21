@@ -1,4 +1,5 @@
-import { Buffer } from 'buffer'
+import { Buffer } from 'node:buffer'
+import process from 'node:process'
 import * as z from 'zod'
 
 const toNumber = (input: unknown): number => {
@@ -24,7 +25,7 @@ const toJSON = (input: unknown): Record<string, any> => {
 
   if (typeof input === 'object') return input
   if (typeof input === 'string') {
-    return JSON.parse(input)
+    return JSON.parse(input) as Record<string, any>
   }
 
   throw new Error('Invalid input')

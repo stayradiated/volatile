@@ -1,10 +1,7 @@
-# volatile.co.nz {
-localhost:443 {
-  handle_path /hasura/* {
-    reverse_proxy hasura:9999
-  }
+:80 {
+        handle_path /hasura/* {
+                reverse_proxy hasura:9999
+        }
 
-  reverse_proxy web:3000
-
-  tls internal
+        reverse_proxy web:3000
 }

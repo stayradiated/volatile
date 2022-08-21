@@ -7,8 +7,8 @@ import { DBError, IllegalStateError } from '../../util/error.js'
 import type { Pool } from '../../types.js'
 
 type CalculateValueToBidOptions = {
-  dcaOrderUID: string
-  userExchangeKeysUID: string
+  dcaOrderUid: string
+  userExchangeKeysUid: string
   targetValue: number
   availableBalance: number
 }
@@ -22,7 +22,7 @@ const calculateValueToBid = async (
   pool: Pool,
   options: CalculateValueToBidOptions,
 ): Promise<number | Error> => {
-  const { dcaOrderUID, userExchangeKeysUID, targetValue, availableBalance } =
+  const { dcaOrderUid, userExchangeKeysUid, targetValue, availableBalance } =
     options
 
   const rows = await errorBoundary(async () =>
@@ -41,9 +41,9 @@ const calculateValueToBid = async (
   WHERE
         ${'order'}.${'closed_at'} IS NULL
     AND ${'dca_order'}.${'user_exchange_keys_uid'} = ${db.param(
-      userExchangeKeysUID,
+      userExchangeKeysUid,
     )}
-    AND ${'dca_order'}.${'uid'} != ${db.param(dcaOrderUID)}
+    AND ${'dca_order'}.${'uid'} != ${db.param(dcaOrderUid)}
   `.run(pool),
   )
   if (rows instanceof Error) {
@@ -51,8 +51,8 @@ const calculateValueToBid = async (
       message: 'Could not query dca orders for calculateValueToBid.',
       cause: rows,
       context: {
-        dcaOrderUID,
-        userExchangeKeysUID,
+        dcaOrderUid,
+        userExchangeKeysUid,
       },
     })
   }

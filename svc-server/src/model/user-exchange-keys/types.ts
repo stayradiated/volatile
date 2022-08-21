@@ -1,9 +1,9 @@
 type UserExchangeKeys<
   Keys extends Record<string, string> = Record<string, string>,
 > = {
-  UID: string
-  userUID: string
-  exchangeUID: string
+  uid: string
+  userUid: string
+  exchangeUid: string
   keys: Keys
   description: string
   invalidatedAt: Date | undefined

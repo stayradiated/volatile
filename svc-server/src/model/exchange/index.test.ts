@@ -1,52 +1,52 @@
-import { inspect } from 'util'
+import { inspect } from 'node:util'
 
 import { test } from '../../test-util/ava.js'
 
 import {
   EXCHANGE_KIWI_COIN,
-  forceGetExchangeUID,
+  forceGetExchangeUid,
   forceGetExchange,
   getExchange,
-  getExchangeUID,
+  getExchangeUid,
 } from './index.js'
 
-test('forceGetExchangeUID: serial', async (t) => {
+test('forceGetExchangeUid: serial', async (t) => {
   const { pool } = t.context
-  const uuidA = await forceGetExchangeUID(pool, EXCHANGE_KIWI_COIN)
-  const uuidB = await forceGetExchangeUID(pool, EXCHANGE_KIWI_COIN)
+  const uuidA = await forceGetExchangeUid(pool, EXCHANGE_KIWI_COIN)
+  const uuidB = await forceGetExchangeUid(pool, EXCHANGE_KIWI_COIN)
   t.is(uuidA, uuidB)
 })
 
-test('forceGetExchangeUID: concurrent', async (t) => {
+test('forceGetExchangeUid: concurrent', async (t) => {
   const { pool } = t.context
   const [uuidA, uuidB] = await Promise.all([
-    forceGetExchangeUID(pool, EXCHANGE_KIWI_COIN),
-    forceGetExchangeUID(pool, EXCHANGE_KIWI_COIN),
+    forceGetExchangeUid(pool, EXCHANGE_KIWI_COIN),
+    forceGetExchangeUid(pool, EXCHANGE_KIWI_COIN),
   ])
   t.is(uuidA, uuidB)
 })
 
 test('forceGetExchange', async (t) => {
   const { pool } = t.context
-  const exchangeUID = await getExchangeUID(pool, EXCHANGE_KIWI_COIN)
-  if (exchangeUID instanceof Error) {
-    t.fail(inspect(exchangeUID))
+  const exchangeUid = await getExchangeUid(pool, EXCHANGE_KIWI_COIN)
+  if (exchangeUid instanceof Error) {
+    t.fail(inspect(exchangeUid))
     return
   }
 
-  const exchange = await forceGetExchange(pool, exchangeUID)
+  const exchange = await forceGetExchange(pool, exchangeUid)
   t.is(exchange, EXCHANGE_KIWI_COIN)
 })
 
-test('getExchangeUID + getExchange', async (t) => {
+test('getExchangeUid + getExchange', async (t) => {
   const { pool } = t.context
-  const exchangeUID = await getExchangeUID(pool, EXCHANGE_KIWI_COIN)
-  if (exchangeUID instanceof Error) {
-    t.fail(inspect(exchangeUID))
+  const exchangeUid = await getExchangeUid(pool, EXCHANGE_KIWI_COIN)
+  if (exchangeUid instanceof Error) {
+    t.fail(inspect(exchangeUid))
     return
   }
 
-  const exchange = await getExchange(pool, exchangeUID)
+  const exchange = await getExchange(pool, exchangeUid)
   if (exchange instanceof Error) {
     t.fail(inspect(exchange))
     return

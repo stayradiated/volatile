@@ -4,20 +4,20 @@ import { errorBoundary } from '@stayradiated/error-boundary'
 import type { Pool } from '../../types.js'
 
 type DeleteUserOptions = {
-  userUID: string
+  userUid: string
 }
 
 const deleteUser = async (
   pool: Pool,
   options: DeleteUserOptions,
 ): Promise<string[] | Error> => {
-  const { userUID } = options
+  const { userUid } = options
 
   const rows = await errorBoundary(async () =>
     db
       .deletes(
         'user',
-        { uid: userUID },
+        { uid: userUid },
         {
           returning: ['uid'],
         },

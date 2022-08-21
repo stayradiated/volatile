@@ -28,8 +28,8 @@ const validateUserPasswordReset: ActionHandlerFn<Input, Output> = async (
     }
   }
 
-  const { userUID } = userPasswordReset
-  const email = await getUserEmail(pool, userUID)
+  const { userUid } = userPasswordReset
+  const email = await getUserEmail(pool, userUid)
   if (email instanceof Error) {
     return email
   }

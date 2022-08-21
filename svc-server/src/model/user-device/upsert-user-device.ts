@@ -1,4 +1,4 @@
-import { randomUUID } from 'crypto'
+import { randomUUID } from 'node:crypto'
 import * as db from 'zapatos/db'
 import { errorBoundary } from '@stayradiated/error-boundary'
 import type { Except } from 'type-fest'
@@ -10,13 +10,13 @@ import * as hash from '../../util/hash.js'
 import type { Pool } from '../../types.js'
 import type { UserDevice } from './types.js'
 
-type UpsertUserDevicesOptions = Except<UserDevice, 'UID'>
+type UpsertUserDevicesOptions = Except<UserDevice, 'uid'>
 
 const upsertUserDevice = async (
   pool: Pool,
   options: UpsertUserDevicesOptions,
 ): Promise<string | Error> => {
-  const UID = randomUUID()
+  const uid = randomUUID()
   const now = new Date()
 
   const deviceIDHash = hash.sha256(options.deviceID)
@@ -26,11 +26,11 @@ const upsertUserDevice = async (
       .upsert(
         'user_device',
         {
-          uid: UID,
+          uid,
           created_at: now,
           updated_at: now,
           accessed_at: options.accessedAt,
-          user_uid: options.userUID,
+          user_uid: options.userUid,
           name: options.name,
           device_id_hash: deviceIDHash,
           trusted: options.trusted,

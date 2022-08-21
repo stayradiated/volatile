@@ -1,4 +1,4 @@
-import { randomUUID } from 'crypto'
+import { randomUUID } from 'node:crypto'
 import * as db from 'zapatos/db'
 import { errorBoundary } from '@stayradiated/error-boundary'
 import type { Except } from 'type-fest'
@@ -8,13 +8,13 @@ import { keyring } from '../../util/keyring.js'
 import type { Pool } from '../../types.js'
 import type { User2FA } from './types.js'
 
-type InsertUser2FAOptions = Except<User2FA, 'UID'>
+type InsertUser2FAOptions = Except<User2FA, 'uid'>
 
 const insertUser2FA = async (
   pool: Pool,
   options: InsertUser2FAOptions,
 ): Promise<void | Error> => {
-  const UID = randomUUID()
+  const uid = randomUUID()
   const now = new Date()
 
   const secret = keyring.encrypt(options.secret)
@@ -25,10 +25,10 @@ const insertUser2FA = async (
   const error = await errorBoundary(async () =>
     db
       .insert('user_2fa', {
-        uid: UID,
+        uid,
         created_at: now,
         updated_at: now,
-        user_uid: options.userUID,
+        user_uid: options.userUid,
         name: options.name,
         secret_encrypted: secret.encrypted,
         secret_keyring_id: secret.keyringId,

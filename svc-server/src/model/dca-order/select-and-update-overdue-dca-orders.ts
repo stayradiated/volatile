@@ -3,23 +3,23 @@ import { errorBoundary } from '@stayradiated/error-boundary'
 
 import type { Pool } from '../../types.js'
 
-import type { DCAOrder } from './types.js'
+import type { DcaOrder } from './types.js'
 
 import { execute } from './execute/index.js'
-import { mapRowToDCAOrder } from './map-row-to-dca-order.js'
+import { mapRowToDcaOrder } from './map-row-to-dca-order.js'
 
-const selectAndUpdateOverdueDCAOrders = async (
+const selectAndUpdateOverdueDcaOrders = async (
   pool: Pool,
-): Promise<DCAOrder[] | Error> => {
-  const dcaOrderUIDList = await execute(pool)
-  if (dcaOrderUIDList instanceof Error) {
-    return dcaOrderUIDList
+): Promise<DcaOrder[] | Error> => {
+  const dcaOrderuidList = await execute(pool)
+  if (dcaOrderuidList instanceof Error) {
+    return dcaOrderuidList
   }
 
   const rows = await errorBoundary(async () =>
     db
       .select('dca_order', {
-        uid: dc.isIn(dcaOrderUIDList),
+        uid: dc.isIn(dcaOrderuidList),
       })
       .run(pool),
   )
@@ -27,7 +27,7 @@ const selectAndUpdateOverdueDCAOrders = async (
     return rows
   }
 
-  return rows.map(mapRowToDCAOrder)
+  return rows.map((row) => mapRowToDcaOrder(row))
 }
 
-export { selectAndUpdateOverdueDCAOrders }
+export { selectAndUpdateOverdueDcaOrders }

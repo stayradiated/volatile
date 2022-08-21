@@ -1,4 +1,4 @@
-import { kanye, getResponseBodyJSON, APIError } from '@volatile/kanye'
+import { kanye, getResponseBodyJson, ApiError } from '@volatile/kanye'
 
 import { MarketPriceSource } from '../../util/market-price-source.js'
 
@@ -9,7 +9,7 @@ type Options = {
   currency: string
 }
 
-type APIResponse = {
+type ApiResponse = {
   result: Record<
     string,
     {
@@ -60,9 +60,9 @@ const marketSource: MarketPriceSource<Options> = {
       return [raw]
     }
 
-    const result = getResponseBodyJSON<APIResponse>(raw)
+    const result = getResponseBodyJson<ApiResponse>(raw)
     if (result instanceof Error) {
-      const error = new APIError({
+      const error = new ApiError({
         message: `Could not fetch average price from ${prefixUrl}`,
         cause: result,
         context: {
@@ -75,7 +75,7 @@ const marketSource: MarketPriceSource<Options> = {
 
     const ticker = Object.values(result.result)[0]
     if (!ticker) {
-      const error = new APIError({
+      const error = new ApiError({
         message: `Could not parse response price from ${prefixUrl}`,
         context: {
           assetSymbol,

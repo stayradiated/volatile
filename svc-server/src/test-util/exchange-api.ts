@@ -2,7 +2,7 @@
 import sinon from 'sinon'
 
 import type { Exchange } from '../model/exchange/index.js'
-import type { UserExchangeAPI } from '../exchange-api/index.js'
+import type { UserExchangeApi } from '../exchange-api/index.js'
 
 const EXCHANGE_MOCK: Exchange = {
   ID: 'mock',
@@ -10,25 +10,25 @@ const EXCHANGE_MOCK: Exchange = {
   url: 'https://mock-exchange',
 }
 
-type GetLowestAskPriceArg = Parameters<UserExchangeAPI['getLowestAskPrice']>
-type GetLowestAskPriceResult = ReturnType<UserExchangeAPI['getLowestAskPrice']>
+type GetLowestAskPriceArg = Parameters<UserExchangeApi['getLowestAskPrice']>
+type GetLowestAskPriceResult = ReturnType<UserExchangeApi['getLowestAskPrice']>
 
-type GetBalanceArg = Parameters<UserExchangeAPI['getBalance']>
-type GetBalanceResult = ReturnType<UserExchangeAPI['getBalance']>
+type GetBalanceArg = Parameters<UserExchangeApi['getBalance']>
+type GetBalanceResult = ReturnType<UserExchangeApi['getBalance']>
 
-type GetOpenOrdersArg = Parameters<UserExchangeAPI['getOpenOrders']>
-type GetOpenOrdersResult = ReturnType<UserExchangeAPI['getOpenOrders']>
+type GetOpenOrdersArg = Parameters<UserExchangeApi['getOpenOrders']>
+type GetOpenOrdersResult = ReturnType<UserExchangeApi['getOpenOrders']>
 
-type GetTradesArg = Parameters<UserExchangeAPI['getTrades']>
-type GetTradesResult = ReturnType<UserExchangeAPI['getTrades']>
+type GetTradesArg = Parameters<UserExchangeApi['getTrades']>
+type GetTradesResult = ReturnType<UserExchangeApi['getTrades']>
 
-type CreateOrderArg = Parameters<UserExchangeAPI['createOrder']>
-type CreateOrderResult = ReturnType<UserExchangeAPI['createOrder']>
+type CreateOrderArg = Parameters<UserExchangeApi['createOrder']>
+type CreateOrderResult = ReturnType<UserExchangeApi['createOrder']>
 
-type CancelOrderArgs = Parameters<UserExchangeAPI['cancelOrder']>
-type CancelOrderResult = ReturnType<UserExchangeAPI['cancelOrder']>
+type CancelOrderArgs = Parameters<UserExchangeApi['cancelOrder']>
+type CancelOrderResult = ReturnType<UserExchangeApi['cancelOrder']>
 
-const mockUserExchangeAPI = (exchange: Exchange = EXCHANGE_MOCK) => ({
+const mockUserExchangeApi = (exchange: Exchange = EXCHANGE_MOCK) => ({
   exchange,
   getLowestAskPrice: sinon.stub<
     GetLowestAskPriceArg,
@@ -41,4 +41,4 @@ const mockUserExchangeAPI = (exchange: Exchange = EXCHANGE_MOCK) => ({
   cancelOrder: sinon.stub<CancelOrderArgs, CancelOrderResult>(),
 })
 
-export { EXCHANGE_MOCK, mockUserExchangeAPI }
+export { EXCHANGE_MOCK, mockUserExchangeApi }

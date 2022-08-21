@@ -38,8 +38,8 @@ const selectUserPasswordResetBySecret = async (
   }
 
   return {
-    UID: row.uid,
-    userUID: row.user_uid,
+    uid: row.uid,
+    userUid: row.user_uid,
     expiresAt: parseISO(row.expires_at),
   }
 }

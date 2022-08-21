@@ -1,14 +1,14 @@
 import * as s from 'zapatos/schema'
 import { parseISO } from 'date-fns'
 
-import type { DCAOrder } from './types.js'
+import type { DcaOrder } from './types.js'
 
-const mapRowToDCAOrder = (row: s.dca_order.JSONSelectable): DCAOrder => ({
-  UID: row.uid,
-  userUID: row.user_uid,
-  exchangeUID: row.exchange_uid,
-  userExchangeKeysUID: row.user_exchange_keys_uid,
-  marketUID: row.market_uid,
+const mapRowToDcaOrder = (row: s.dca_order.JSONSelectable): DcaOrder => ({
+  uid: row.uid,
+  userUid: row.user_uid,
+  exchangeUid: row.exchange_uid,
+  userExchangeKeysUid: row.user_exchange_keys_uid,
+  marketUid: row.market_uid,
   primaryCurrency: row.primary_currency_symbol,
   secondaryCurrency: row.secondary_currency_symbol,
   startAt: parseISO(row.start_at),
@@ -24,4 +24,4 @@ const mapRowToDCAOrder = (row: s.dca_order.JSONSelectable): DCAOrder => ({
   lastRunAt: row.last_run_at ? parseISO(row.last_run_at) : undefined,
 })
 
-export { mapRowToDCAOrder }
+export { mapRowToDcaOrder }

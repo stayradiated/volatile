@@ -1,10 +1,10 @@
 import { errorListBoundary } from '@stayradiated/error-boundary'
 
-import type { UserExchangeAPI } from '../../exchange-api/index.js'
+import type { UserExchangeApi } from '../../exchange-api/index.js'
 
 import {
   getUserExchangeKeys,
-  getUserExchangeAPIByKeysUID,
+  getUserExchangeApiByKeysUid,
 } from '../user-exchange-keys/index.js'
 import { upsertTrade } from '../trade/upsert-trade.js'
 import { selectOrderByID } from '../order/index.js'
@@ -16,19 +16,19 @@ const PAGE_SIZE = 25
 type SyncPageLoopOptions = {
   pageIndex: number
   pool: Pool
-  userExchangeAPI: UserExchangeAPI
-  userUID: string
-  exchangeUID: string
+  userExchangeApi: UserExchangeApi
+  userUid: string
+  exchangeUid: string
   forceSync: boolean
 }
 
 const syncPageLoop = async (
   options: SyncPageLoopOptions,
 ): Promise<void | Error> => {
-  const { pageIndex, pool, userExchangeAPI, userUID, exchangeUID, forceSync } =
+  const { pageIndex, pool, userExchangeApi, userUid, exchangeUid, forceSync } =
     options
 
-  const trades = await userExchangeAPI.getTrades({
+  const trades = await userExchangeApi.getTrades({
     pageSize: PAGE_SIZE,
     pageIndex,
   })
@@ -40,18 +40,18 @@ const syncPageLoop = async (
     Promise.all(
       trades.items.map(async (trade): Promise<void | Error> => {
         const maybeOrder = await selectOrderByID(pool, {
-          userUID,
-          exchangeUID,
-          orderID: trade.orderID,
+          userUid,
+          exchangeUid,
+          orderId: trade.orderId,
         })
 
-        const orderUID =
-          maybeOrder instanceof Error ? undefined : maybeOrder.UID
+        const orderUid =
+          maybeOrder instanceof Error ? undefined : maybeOrder.uid
 
         const upsertTradeError = await upsertTrade(pool, {
-          userUID,
-          exchangeUID,
-          orderUID,
+          userUid,
+          exchangeUid,
+          orderUid,
           timestamp: trade.timestamp,
           tradeID: trade.tradeID,
           type: trade.type,
@@ -88,7 +88,7 @@ const syncPageLoop = async (
 }
 
 type SyncExchangeTradeListOptions = {
-  userExchangeKeysUID: string
+  userExchangeKeysUid: string
   forceSync?: boolean
 }
 
@@ -96,27 +96,27 @@ const syncExchangeTradeList = async (
   pool: Pool,
   options: SyncExchangeTradeListOptions,
 ): Promise<void | Error> => {
-  const { userExchangeKeysUID, forceSync = false } = options
+  const { userExchangeKeysUid, forceSync = false } = options
 
-  const userExchangeKeys = await getUserExchangeKeys(pool, userExchangeKeysUID)
+  const userExchangeKeys = await getUserExchangeKeys(pool, userExchangeKeysUid)
   if (userExchangeKeys instanceof Error) {
     return userExchangeKeys
   }
 
-  const userExchangeAPI = await getUserExchangeAPIByKeysUID(
+  const userExchangeApi = await getUserExchangeApiByKeysUid(
     pool,
-    userExchangeKeysUID,
+    userExchangeKeysUid,
   )
-  if (userExchangeAPI instanceof Error) {
-    return userExchangeAPI
+  if (userExchangeApi instanceof Error) {
+    return userExchangeApi
   }
 
   const error = await syncPageLoop({
     pool,
-    userExchangeAPI,
+    userExchangeApi,
     pageIndex: 1,
-    userUID: userExchangeKeys.userUID,
-    exchangeUID: userExchangeKeys.exchangeUID,
+    userUid: userExchangeKeys.userUid,
+    exchangeUid: userExchangeKeys.exchangeUid,
     forceSync,
   })
 

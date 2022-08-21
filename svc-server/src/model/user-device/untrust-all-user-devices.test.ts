@@ -7,16 +7,16 @@ import { untrustAllUserDevices } from './untrust-all-user-devices.js'
 test('should untrust all user devices', async (t) => {
   const { pool, make } = t.context
 
-  const userUID = await make.user()
+  const userUid = await make.user()
 
-  const untrustedDeviceUID = await make.userDevice({ trusted: false })
-  const trustedDeviceUID = await make.userDevice({ trusted: true })
+  const untrustedDeviceUid = await make.userDevice({ trusted: false })
+  const trustedDeviceUid = await make.userDevice({ trusted: true })
 
-  const deviceUIDs = await throwIfError<string[]>(
-    untrustAllUserDevices(pool, { userUID }),
+  const deviceuids = await throwIfError<string[]>(
+    untrustAllUserDevices(pool, { userUid }),
   )
 
-  t.true(deviceUIDs.includes(trustedDeviceUID))
-  t.false(deviceUIDs.includes(untrustedDeviceUID))
-  t.is(deviceUIDs.length, 1)
+  t.true(deviceuids.includes(trustedDeviceUid))
+  t.false(deviceuids.includes(untrustedDeviceUid))
+  t.is(deviceuids.length, 1)
 })

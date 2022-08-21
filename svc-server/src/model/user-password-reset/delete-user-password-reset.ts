@@ -8,7 +8,7 @@ import { purgeExpiredUserPasswordReset } from './purge-expired-user-password-res
 
 const deleteUserPasswordReset = async (
   pool: Pool,
-  userPasswordResetUID: string,
+  userPasswordResetUid: string,
 ): Promise<true | Error> => {
   const purgeError = await purgeExpiredUserPasswordReset(pool)
   if (purgeError instanceof Error) {
@@ -18,7 +18,7 @@ const deleteUserPasswordReset = async (
   const error = await errorBoundary(async () =>
     db
       .deletes('user_password_reset', {
-        uid: userPasswordResetUID,
+        uid: userPasswordResetUid,
       })
       .run(pool),
   )
@@ -26,7 +26,7 @@ const deleteUserPasswordReset = async (
     return new DBError({
       message: 'Could not delete User Password Reset',
       cause: error,
-      context: { userPasswordResetUID },
+      context: { userPasswordResetUid },
     })
   }
 

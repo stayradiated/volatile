@@ -17,10 +17,10 @@ const createAdminAuthTokenHandler: ActionHandlerFn<
   CreateAdminAuthTokenInput,
   CreateAdminAuthTokenOutput
 > = async (context) => {
-  const { input } = context 
-  const { user_uid: userUID } = input
-  
-  const result = await createAdminAuthToken({ userUID })
+  const { input } = context
+  const { user_uid: userUid } = input
+
+  const result = await createAdminAuthToken({ userUid })
   if (result instanceof Error) {
     return result
   }
@@ -28,7 +28,7 @@ const createAdminAuthTokenHandler: ActionHandlerFn<
   const { authToken, expiresAt } = result
 
   return {
-    user_uid: userUID,
+    user_uid: userUid,
     auth_token: authToken,
     expires_at: formatISO(expiresAt),
   }

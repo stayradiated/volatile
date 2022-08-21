@@ -1,5 +1,5 @@
 type User = {
-  UID: string
+  uid: string
   emailVerified: boolean
 }
 

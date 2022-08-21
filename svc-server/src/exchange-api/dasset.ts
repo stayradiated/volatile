@@ -1,18 +1,18 @@
 import * as d from '@volatile/dasset-api'
-import { parseISO } from 'date-fns'
 
+import { parseISO } from 'date-fns'
 import { ExchangeError } from '../util/error.js'
 import { EXCHANGE_DASSET } from '../model/exchange/index.js'
 import { insertUserExchangeRequest } from '../model/user-exchange-request/index.js'
 
 import type {
-  ExchangeAPI,
-  UserExchangeAPI,
+  ExchangeApi,
+  UserExchangeApi,
   ConfigOptions,
   LogRequestFn,
 } from './types.js'
 
-const dasset: ExchangeAPI<d.Config> = {
+const dasset: ExchangeApi<d.Config> = {
   exchange: EXCHANGE_DASSET,
   getLowestAskPrice:
     ({ config, logRequest }) =>
@@ -78,7 +78,7 @@ const dasset: ExchangeAPI<d.Config> = {
       }
 
       return openOrders.results.map((order) => ({
-        orderID: order.id,
+        orderId: order.id,
         primaryCurrency: order.baseSymbol,
         secondaryCurrency: order.quoteSymbol,
         price: order.details.price ?? 0,
@@ -121,7 +121,7 @@ const dasset: ExchangeAPI<d.Config> = {
           )
           .map((trade) => ({
             tradeID: trade.id,
-            orderID: trade.id,
+            orderId: trade.id,
             primaryCurrency: trade.baseSymbol,
             secondaryCurrency: trade.quoteSymbol,
             price: trade.details.price ?? 0,
@@ -160,14 +160,14 @@ const dasset: ExchangeAPI<d.Config> = {
       }
 
       return {
-        orderID: order.order.orderId,
+        orderId: order.order.orderId,
       }
     },
   cancelOrder:
     ({ config, logRequest }) =>
     async (options) => {
-      const { orderID } = options
-      const [error, request] = await d.cancelOrder({ config, orderID })
+      const { orderId } = options
+      const [error, request] = await d.cancelOrder({ config, orderId })
       if (request) {
         await logRequest(request)
       }
@@ -176,7 +176,7 @@ const dasset: ExchangeAPI<d.Config> = {
         return new ExchangeError({
           message: 'Failed to cancel order on dassetx.com',
           cause: error,
-          context: { orderID },
+          context: { orderId },
         })
       }
 
@@ -184,10 +184,10 @@ const dasset: ExchangeAPI<d.Config> = {
     },
 }
 
-const getDassetExchangeAPI = (
+const getDassetExchangeApi = (
   options: ConfigOptions<Record<string, string>>,
-): UserExchangeAPI | Error => {
-  const { pool, config, userUID, exchangeUID, userExchangeKeysUID } = options
+): UserExchangeApi | Error => {
+  const { pool, config, userUid, exchangeUid, userExchangeKeysUid } = options
 
   if (!d.isValidConfig(config)) {
     return new ExchangeError({
@@ -198,9 +198,9 @@ const getDassetExchangeAPI = (
   const logRequest: LogRequestFn = async (request) => {
     return insertUserExchangeRequest(pool, {
       ...request.redacted(),
-      userUID,
-      exchangeUID,
-      userExchangeKeysUID,
+      userUid,
+      exchangeUid,
+      userExchangeKeysUid,
     })
   }
 
@@ -217,4 +217,4 @@ const getDassetExchangeAPI = (
   }
 }
 
-export { dasset, getDassetExchangeAPI }
+export { dasset, getDassetExchangeApi }

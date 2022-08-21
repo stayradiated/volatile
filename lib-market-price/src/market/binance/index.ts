@@ -1,4 +1,4 @@
-import { kanye, getResponseBodyJSON, APIError } from '@volatile/kanye'
+import { kanye, getResponseBodyJson, ApiError } from '@volatile/kanye'
 
 import { MarketPriceSource } from '../../util/market-price-source.js'
 
@@ -9,7 +9,7 @@ type Options = {
   currency: string
 }
 
-type APIResponse = {
+type ApiResponse = {
   price: string
   symbol: string
 }
@@ -47,9 +47,9 @@ const marketSource: MarketPriceSource<Options> = {
       return [raw, undefined]
     }
 
-    const result = getResponseBodyJSON<APIResponse>(raw)
+    const result = getResponseBodyJson<ApiResponse>(raw)
     if (result instanceof Error) {
-      const error = new APIError({
+      const error = new ApiError({
         message: 'Could not fetch ticker price from binance.us.',
         cause: result,
         context: {

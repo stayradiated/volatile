@@ -15,18 +15,18 @@ const createUserExchangeKeysHandler: ActionHandlerFn<Input, Output> = async (
   context,
 ) => {
   const { pool, input, session } = context
-  const { exchange_uid: exchangeUID, keys, description } = input
-  const { userUID } = session
-  if (!userUID) {
+  const { exchange_uid: exchangeUid, keys, description } = input
+  const { userUid } = session
+  if (!userUid) {
     return new MissingRequiredArgumentError({
-      message: 'userUID is required',
-      context: { userUID },
+      message: 'userUid is required',
+      context: { userUid },
     })
   }
 
   const result = await insertUserExchangeKeys(pool, {
-    userUID,
-    exchangeUID,
+    userUid,
+    exchangeUid,
     keys,
     description,
     invalidatedAt: undefined,
@@ -36,7 +36,7 @@ const createUserExchangeKeysHandler: ActionHandlerFn<Input, Output> = async (
   }
 
   return {
-    user_exchange_keys_uid: result.UID,
+    user_exchange_keys_uid: result.uid,
   }
 }
 

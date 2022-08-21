@@ -1,3 +1,4 @@
+import { randomUUID } from 'node:crypto'
 import * as db from 'zapatos/db'
 import { throwIfError } from '@stayradiated/error-boundary'
 
@@ -10,24 +11,24 @@ import { updateUser } from './update-user.js'
 
 test('updateUser: should update password', async (t) => {
   const { pool, make } = t.context
-  const userUID = await make.user()
+  const userUid = await make.user()
 
   const password = 'eagle_tamale'
-  await throwIfError(updateUser(pool, { userUID, password }))
+  await throwIfError(updateUser(pool, { userUid, password }))
 
-  const user = await db.selectExactlyOne('user', { uid: userUID }).run(pool)
+  const user = await db.selectExactlyOne('user', { uid: userUid }).run(pool)
   const output = await hash.bcryptCompare(password, user.password_hash)
   t.true(output)
 })
 
 test('updateUser: should update email', async (t) => {
   const { pool, make } = t.context
-  const userUID = await make.user()
+  const userUid = await make.user()
 
-  const email = 'scorpion_prince@example.com'
-  await throwIfError(updateUser(pool, { userUID, email }))
+  const email = `${randomUUID()}@scorpion_prince`
+  await throwIfError(updateUser(pool, { userUid, email }))
 
-  const user = await db.selectExactlyOne('user', { uid: userUID }).run(pool)
+  const user = await db.selectExactlyOne('user', { uid: userUid }).run(pool)
 
   const emailHash = hash.sha256(email)
   t.is(emailHash, user.email_hash)
@@ -41,12 +42,12 @@ test('updateUser: should update email', async (t) => {
 
 test('updateUser: should check that email is unique', async (t) => {
   const { pool, make } = t.context
-  const userUID = await make.user()
+  const userUid = await make.user()
 
-  const email = 'goat_violin@example.com'
+  const email = `${randomUUID()}@goat_violin`
 
   await throwIfError(insertUser(pool, { email, password: '' }))
-  const error = await updateUser(pool, { userUID, email })
+  const error = await updateUser(pool, { userUid, email })
   if (!(error instanceof Error)) {
     t.fail(`Expected updateUser to fail, but it didn't!`)
     return

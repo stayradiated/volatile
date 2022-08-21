@@ -1,10 +1,10 @@
 import type { BuySell } from '../../types.js'
 
 type Order = {
-  UID: string
-  userUID: string
-  exchangeUID: string
-  orderID: string
+  uid: string
+  userUid: string
+  exchangeUid: string
+  orderId: string
   primaryCurrency: string
   secondaryCurrency: string
   price: number

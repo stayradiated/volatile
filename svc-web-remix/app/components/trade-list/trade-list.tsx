@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { toPairs, groupBy } from 'rambda'
 import { parseISO } from 'date-fns'
-import { formatToTimeZone } from 'date-fns-timezone'
+import { formatInTimeZone } from 'date-fns-tz'
 
 import { TradeListItem } from './trade-list-item'
 import { GetTradeListQuery } from '~/graphql/generated'
@@ -30,7 +30,7 @@ const TradeList = (props: TradeListProps) => {
   const tradesGrouped = toPairs(
     groupBy((trade) => {
       const timestamp = parseISO(trade.timestamp)
-      const date = formatToTimeZone(timestamp, 'YYYY-MM-DD', { timeZone })
+      const date = formatInTimeZone(timestamp, timeZone, 'yyyy-MM-dd')
       return date
     }, query.trade),
   )

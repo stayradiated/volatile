@@ -8,10 +8,10 @@ import { insertUser2FA, InsertUser2FAOptions } from './insert-user-2fa.js'
 
 test('can insert user 2FA', async (t) => {
   const { pool, make } = t.context
-  const userUID = await make.user()
+  const userUid = await make.user()
 
   const input: InsertUser2FAOptions = {
-    userUID,
+    userUid,
     name: 'Test',
     secret: 'HF2VYCQ7EYBBAS2H',
   }
@@ -19,7 +19,7 @@ test('can insert user 2FA', async (t) => {
   await throwIfError<void>(insertUser2FA(pool, input))
 
   const row = await db
-    .selectExactlyOne('user_2fa', { user_uid: userUID })
+    .selectExactlyOne('user_2fa', { user_uid: userUid })
     .run(pool)
 
   t.like(row, { name: input.name })

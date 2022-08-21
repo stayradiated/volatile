@@ -34,7 +34,7 @@ const selectUserByEmail = async (
   }
 
   return {
-    UID: row.uid,
+    uid: row.uid,
     emailVerified: row.email_verified,
   }
 }

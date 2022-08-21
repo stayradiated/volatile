@@ -1,20 +1,20 @@
-import { randomUUID } from 'crypto'
+import { randomUUID } from 'node:crypto'
 import { throwIfError } from '@stayradiated/error-boundary'
 import { formatISO } from 'date-fns'
 
-import { getExchangeUID, EXCHANGE_KIWI_COIN } from '../model/exchange/index.js'
+import { getExchangeUid } from '../model/exchange/index.js'
 import {
-  getMarketUID,
+  getMarketUid,
   MARKET_KIWI_COIN,
   Market,
 } from '../model/market/index.js'
 import { upsertBalance, Balance } from '../model/balance/index.js'
 import { upsertCurrency, Currency } from '../model/currency/index.js'
 import { insertMarketPrice, MarketPrice } from '../model/market-price/index.js'
-import { insertDCAOrder, DCAOrder } from '../model/dca-order/index.js'
+import { insertDcaOrder, DcaOrder } from '../model/dca-order/index.js'
 import {
-  insertDCAOrderHistory,
-  DCAOrderHistory,
+  insertDcaOrderHistory,
+  DcaOrderHistory,
 } from '../model/dca-order-history/index.js'
 import { insertOrder, Order, InsertOrderOptions } from '../model/order/index.js'
 import { insertTrade, Trade } from '../model/trade/index.js'
@@ -31,10 +31,10 @@ type MakeInstanceFn<T = void> = (options?: Partial<T>) => Promise<string>
 
 type MakeInstance = {
   user: MakeInstanceFn
-  userUID?: string
+  userUid?: string
 
   balance: MakeInstanceFn<Balance>
-  balanceUID?: string
+  balanceUid?: string
 
   primaryCurrency: MakeInstanceFn<Currency>
   primaryCurrencySymbol?: string
@@ -43,31 +43,31 @@ type MakeInstance = {
   secondaryCurrencySymbol?: string
 
   exchange: MakeInstanceFn
-  exchangeUID?: string
+  exchangeUid?: string
 
   userExchangeKeys: MakeInstanceFn
-  userExchangeKeysUID?: string
+  userExchangeKeysUid?: string
 
   market: MakeInstanceFn<Market>
-  marketUID?: string
+  marketUid?: string
 
   marketPrice: MakeInstanceFn<MarketPrice>
-  marketPriceUID?: string
+  marketPriceUid?: string
 
-  dcaOrder: MakeInstanceFn<DCAOrder>
-  dcaOrderUID?: string
+  dcaOrder: MakeInstanceFn<DcaOrder>
+  dcaOrderUid?: string
 
-  dcaOrderHistory: MakeInstanceFn<DCAOrderHistory>
-  dcaOrderHistoryUID?: string
+  dcaOrderHistory: MakeInstanceFn<DcaOrderHistory>
+  dcaOrderHistoryUid?: string
 
   order: MakeInstanceFn<InsertOrderOptions>
-  orderUID?: string
+  orderUid?: string
 
   trade: MakeInstanceFn
-  tradeUID?: string
+  tradeUid?: string
 
   userDevice: MakeInstanceFn<UserDevice>
-  userDeviceUID?: string
+  userDeviceUid?: string
 }
 
 type MakeFn<T = void> = (instance: MakeInstance) => MakeInstanceFn<T>
@@ -82,29 +82,29 @@ const makeUser: MakeFn = (make) => async () => {
     }),
   )
 
-  make.userUID = user.UID
+  make.userUid = user.uid
 
-  return user.UID
+  return user.uid
 }
 
 const makeBalance: MakeFn<Balance> = (make) => async (options) => {
   const {
-    userUID = await make.user(),
-    exchangeUID = await make.exchange(),
-    userExchangeKeysUID = await make.userExchangeKeys(),
+    userUid = await make.user(),
+    exchangeUid = await make.exchange(),
+    userExchangeKeysUid = await make.userExchangeKeys(),
     secondaryCurrencySymbol = await make.primaryCurrency(),
   } = make
 
   const totalBalance = Math.floor(Math.random() * 100_000_000) / 100
   const availableBalance = totalBalance / 3
 
-  const balanceUID = await throwIfError<string>(
+  const balanceUid = await throwIfError<string>(
     upsertBalance(pool, {
       createdAt: new Date(),
       updatedAt: new Date(),
-      userUID,
-      exchangeUID,
-      userExchangeKeysUID,
+      userUid,
+      exchangeUid,
+      userExchangeKeysUid,
       currencySymbol: secondaryCurrencySymbol,
       totalBalance,
       availableBalance,
@@ -112,7 +112,7 @@ const makeBalance: MakeFn<Balance> = (make) => async (options) => {
     }),
   )
 
-  return balanceUID
+  return balanceUid
 }
 
 const makePrimaryCurrency: MakeFn<Currency> = (make) => async (options) => {
@@ -132,32 +132,36 @@ const makeSecondaryCurrency: MakeFn<Currency> = (make) => async (options) => {
 }
 
 const makeExchange: MakeFn = (make) => async () => {
-  const exchangeUID = await throwIfError<string>(
-    getExchangeUID(pool, EXCHANGE_KIWI_COIN),
+  const exchangeUid = await throwIfError<string>(
+    getExchangeUid(pool, {
+      ID: randomUUID().slice(0, 32),
+      name: 'Test Exchange',
+      url: 'test-exchange.co.nz',
+    }),
   )
 
-  make.exchangeUID = exchangeUID
+  make.exchangeUid = exchangeUid
 
-  return exchangeUID
+  return exchangeUid
 }
 
 const makeUserExchangeKeys: MakeFn = (make) => async () => {
-  const { userUID = await make.user(), exchangeUID = await make.exchange() } =
+  const { userUid = await make.user(), exchangeUid = await make.exchange() } =
     make
 
   const userExchangeKeys = await throwIfError<UserExchangeKeys>(
     insertUserExchangeKeys(pool, {
-      userUID,
-      exchangeUID,
+      userUid,
+      exchangeUid,
       keys: { a: '1', b: '2', c: '3' },
       description: 'description',
       invalidatedAt: undefined,
     }),
   )
 
-  make.userExchangeKeysUID = userExchangeKeys.UID
+  make.userExchangeKeysUid = userExchangeKeys.uid
 
-  return userExchangeKeys.UID
+  return userExchangeKeys.uid
 }
 
 const makeMarket: MakeFn<Market> =
@@ -168,15 +172,15 @@ const makeMarket: MakeFn<Market> =
       name: options.name ?? MARKET_KIWI_COIN.name,
     }
 
-    const marketUID = await throwIfError<string>(getMarketUID(pool, market))
+    const marketUid = await throwIfError<string>(getMarketUid(pool, market))
 
-    make.marketUID = marketUID
+    make.marketUid = marketUid
 
-    return marketUID
+    return marketUid
   }
 
 const makeMarketPrice: MakeFn<MarketPrice> = (make) => async (options) => {
-  const { marketUID = await make.market() } = make
+  const { marketUid = await make.market() } = make
 
   const sourcePrice = round(2, Math.random() * 1_000_000)
   const fxRate = round(6, Math.random() * 3)
@@ -186,7 +190,7 @@ const makeMarketPrice: MakeFn<MarketPrice> = (make) => async (options) => {
   await throwIfError(
     insertMarketPrice(pool, {
       timestamp,
-      marketUID,
+      marketUid,
       assetSymbol: 'BTC',
       sourceCurrency: 'USD',
       sourcePrice,
@@ -197,27 +201,27 @@ const makeMarketPrice: MakeFn<MarketPrice> = (make) => async (options) => {
     }),
   )
 
-  make.marketPriceUID = formatISO(timestamp)
+  make.marketPriceUid = formatISO(timestamp)
 
   return formatISO(timestamp)
 }
 
-const makeDCAOrder: MakeFn<DCAOrder> = (make) => async (options) => {
+const makeDcaOrder: MakeFn<DcaOrder> = (make) => async (options) => {
   const {
-    userUID = await make.user(),
-    exchangeUID = await make.exchange(),
-    userExchangeKeysUID = await make.userExchangeKeys(),
-    marketUID = await make.market(),
+    userUid = await make.user(),
+    exchangeUid = await make.exchange(),
+    userExchangeKeysUid = await make.userExchangeKeys(),
+    marketUid = await make.market(),
     primaryCurrencySymbol = await make.primaryCurrency(),
     secondaryCurrencySymbol = await make.secondaryCurrency(),
   } = make
 
-  const dcaOrder = await throwIfError<DCAOrder>(
-    insertDCAOrder(pool, {
-      userUID,
-      exchangeUID,
-      userExchangeKeysUID,
-      marketUID,
+  const dcaOrder = await throwIfError<DcaOrder>(
+    insertDcaOrder(pool, {
+      userUid,
+      exchangeUid,
+      userExchangeKeysUid,
+      marketUid,
       primaryCurrency: primaryCurrencySymbol,
       secondaryCurrency: secondaryCurrencySymbol,
       startAt: new Date(),
@@ -235,16 +239,16 @@ const makeDCAOrder: MakeFn<DCAOrder> = (make) => async (options) => {
     }),
   )
 
-  make.dcaOrderUID = dcaOrder.UID
+  make.dcaOrderUid = dcaOrder.uid
 
-  return dcaOrder.UID
+  return dcaOrder.uid
 }
 
 const makeTrade: MakeFn = (make) => async () => {
   const {
-    userUID = await make.user(),
-    exchangeUID = await make.exchange(),
-    orderUID = await make.order(),
+    userUid = await make.user(),
+    exchangeUid = await make.exchange(),
+    orderUid = await make.order(),
   } = make
 
   const volume = round(6, Math.random())
@@ -255,9 +259,9 @@ const makeTrade: MakeFn = (make) => async () => {
 
   const trade = await throwIfError<Trade>(
     insertTrade(pool, {
-      userUID,
-      exchangeUID,
-      orderUID,
+      userUid,
+      exchangeUid,
+      orderUid,
       tradeID: randomUUID(),
       primaryCurrency: 'BTC',
       secondaryCurrency: 'NZD',
@@ -271,13 +275,13 @@ const makeTrade: MakeFn = (make) => async () => {
     }),
   )
 
-  make.tradeUID = trade.UID
+  make.tradeUid = trade.uid
 
-  return trade.UID
+  return trade.uid
 }
 
 const makeOrder: MakeFn<InsertOrderOptions> = (make) => async (options) => {
-  const { userUID = await make.user(), exchangeUID = await make.exchange() } =
+  const { userUid = await make.user(), exchangeUid = await make.exchange() } =
     make
 
   const price = round(2, Math.random() * 100_000)
@@ -286,11 +290,11 @@ const makeOrder: MakeFn<InsertOrderOptions> = (make) => async (options) => {
 
   const order = await throwIfError<Order>(
     insertOrder(pool, {
-      userUID,
-      exchangeUID,
+      userUid,
+      exchangeUid,
       primaryCurrency: 'BTC',
       secondaryCurrency: 'NZD',
-      orderID: randomUUID(),
+      orderId: randomUUID(),
       price,
       volume,
       value,
@@ -301,24 +305,24 @@ const makeOrder: MakeFn<InsertOrderOptions> = (make) => async (options) => {
     }),
   )
 
-  make.orderUID = order.UID
+  make.orderUid = order.uid
 
-  return order.UID
+  return order.uid
 }
 
-const makeDCAOrderHistory: MakeFn<DCAOrderHistory> =
+const makeDcaOrderHistory: MakeFn<DcaOrderHistory> =
   (make) => async (options) => {
     const {
-      userUID = await make.user(),
-      dcaOrderUID = await make.dcaOrder(),
-      orderUID = await make.order(),
+      userUid = await make.user(),
+      dcaOrderUid = await make.dcaOrder(),
+      orderUid = await make.order(),
     } = make
 
-    const dcaOrderHistory = await throwIfError<DCAOrderHistory>(
-      insertDCAOrderHistory(pool, {
-        userUID,
-        dcaOrderUID,
-        orderUID,
+    const dcaOrderHistory = await throwIfError<DcaOrderHistory>(
+      insertDcaOrderHistory(pool, {
+        userUid,
+        dcaOrderUid,
+        orderUid,
         createdAt: new Date(),
         updatedAt: new Date(),
         primaryCurrency: 'BTC',
@@ -333,18 +337,18 @@ const makeDCAOrderHistory: MakeFn<DCAOrderHistory> =
       }),
     )
 
-    make.dcaOrderHistoryUID = dcaOrderHistory.UID
+    make.dcaOrderHistoryUid = dcaOrderHistory.uid
 
-    return dcaOrderHistory.UID
+    return dcaOrderHistory.uid
   }
 
 const makeUserDevice: MakeFn<UserDevice> = (make) => async (options) => {
-  const { userUID = await make.user() } = make
+  const { userUid = await make.user() } = make
 
-  const userDeviceUID = await throwIfError<string>(
+  const userDeviceUid = await throwIfError<string>(
     upsertUserDevice(pool, {
       accessedAt: new Date(),
-      userUID,
+      userUid,
       name: 'Device Name',
       deviceID: randomUUID(),
       trusted: Boolean(Math.random() > 0.5),
@@ -352,7 +356,7 @@ const makeUserDevice: MakeFn<UserDevice> = (make) => async (options) => {
     }),
   )
 
-  return userDeviceUID
+  return userDeviceUid
 }
 
 const createMakeInstance = () => {
@@ -366,8 +370,8 @@ const createMakeInstance = () => {
   instance.userExchangeKeys = makeUserExchangeKeys(instance)
   instance.market = makeMarket(instance)
   instance.marketPrice = makeMarketPrice(instance)
-  instance.dcaOrder = makeDCAOrder(instance)
-  instance.dcaOrderHistory = makeDCAOrderHistory(instance)
+  instance.dcaOrder = makeDcaOrder(instance)
+  instance.dcaOrderHistory = makeDcaOrderHistory(instance)
   instance.order = makeOrder(instance)
   instance.trade = makeTrade(instance)
   instance.userDevice = makeUserDevice(instance)

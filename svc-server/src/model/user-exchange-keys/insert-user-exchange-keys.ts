@@ -1,4 +1,4 @@
-import { randomUUID } from 'crypto'
+import { randomUUID } from 'node:crypto'
 import * as db from 'zapatos/db'
 import type * as s from 'zapatos/schema'
 import { errorBoundary } from '@stayradiated/error-boundary'
@@ -11,7 +11,7 @@ import type { UserExchangeKeys } from './types.js'
 
 const insertUserExchangeKeys = async (
   pool: Pool,
-  userExchangeKeys: Except<UserExchangeKeys, 'UID'>,
+  userExchangeKeys: Except<UserExchangeKeys, 'uid'>,
 ): Promise<UserExchangeKeys | Error> => {
   const keysJSONString = JSON.stringify(userExchangeKeys.keys)
   const keys = keyring.encrypt(keysJSONString)
@@ -23,8 +23,8 @@ const insertUserExchangeKeys = async (
 
   const insert: s.user_exchange_keys.Insertable = {
     uid: randomUUID(),
-    user_uid: userExchangeKeys.userUID,
-    exchange_uid: userExchangeKeys.exchangeUID,
+    user_uid: userExchangeKeys.userUid,
+    exchange_uid: userExchangeKeys.exchangeUid,
     created_at: new Date(),
     updated_at: new Date(),
     keys_keyring_id: keys.keyringId,
@@ -43,7 +43,7 @@ const insertUserExchangeKeys = async (
 
   return {
     ...userExchangeKeys,
-    UID: row.uid,
+    uid: row.uid,
   }
 }
 

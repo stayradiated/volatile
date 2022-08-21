@@ -1,4 +1,4 @@
-import { randomUUID } from 'crypto'
+import { randomUUID } from 'node:crypto'
 import { throwIfError, throwIfValue } from '@stayradiated/error-boundary'
 
 import { authenticator } from '../../util/otplib.js'
@@ -11,15 +11,15 @@ import { upsertUserDevice } from '../../model/user-device/index.js'
 
 import { createAuthTokenHandler, CreateAuthTokenOutput } from './index.js'
 
-const GUEST_SESSION: Session = { role: 'guest', userUID: undefined }
+const GUEST_SESSION: Session = { role: 'guest', userUid: undefined }
 
 test('should login with email/password', async (t) => {
   const { pool } = t.context
 
-  const email = 'pandaskateboard@example.com'
-  const password = 'pandaskateboard'
+  const email = `${randomUUID()}@polodog.com`
+  const password = 'polodog'
 
-  const { UID: userUID } = await throwIfError<User>(
+  const { uid: userUid } = await throwIfError<User>(
     insertUser(pool, { email, password }),
   )
 
@@ -41,14 +41,14 @@ test('should login with email/password', async (t) => {
     }),
   )
 
-  t.is(userUID, result.user_uid)
+  t.is(userUid, result.user_uid)
   t.is('string', typeof result.auth_token)
 })
 
 test('should fail if email does not exist', async (t) => {
   const { pool } = t.context
 
-  const email = 'pandaskateboard@example.com'
+  const email = `${randomUUID()}@pandaskateboard`
   const password = 'pandaskateboard'
 
   const input = {
@@ -75,7 +75,7 @@ test('should fail if email does not exist', async (t) => {
 test('should fail if password is incorrect', async (t) => {
   const { pool } = t.context
 
-  const email = 'swanskier@example.com'
+  const email = `${randomUUID()}@swanskier`
   const password = 'swanskier'
 
   await throwIfError<User>(insertUser(pool, { email, password }))
@@ -104,9 +104,9 @@ test('should fail if password is incorrect', async (t) => {
 test('should fail if 2FA token is required.', async (t) => {
   const { pool } = t.context
 
-  const email = 'rosetteschool@example.com'
+  const email = `${randomUUID()}@rosetteschool`
   const password = 'rosetteschool'
-  const { UID: userUID } = await throwIfError<User>(
+  const { uid: userUid } = await throwIfError<User>(
     insertUser(pool, { email, password }),
   )
 
@@ -114,7 +114,7 @@ test('should fail if 2FA token is required.', async (t) => {
 
   await throwIfError(
     insertUser2FA(pool, {
-      userUID,
+      userUid,
       name: 'Test 2FA Token',
       secret,
     }),
@@ -143,9 +143,9 @@ test('should fail if 2FA token is required.', async (t) => {
 test('should login with email/password/token_2fa', async (t) => {
   const { pool } = t.context
 
-  const email = 'keyboardavocado@example.com'
+  const email = `${randomUUID()}@keyboardavocado`
   const password = 'keyboardavocado'
-  const { UID: userUID } = await throwIfError<User>(
+  const { uid: userUid } = await throwIfError<User>(
     insertUser(pool, { email, password }),
   )
 
@@ -153,7 +153,7 @@ test('should login with email/password/token_2fa', async (t) => {
 
   await throwIfError(
     insertUser2FA(pool, {
-      userUID,
+      userUid,
       name: 'Test 2FA Token',
       secret,
     }),
@@ -176,18 +176,18 @@ test('should login with email/password/token_2fa', async (t) => {
     }),
   )
 
-  t.is(userUID, result.user_uid)
+  t.is(userUid, result.user_uid)
   t.is('string', typeof result.auth_token)
 })
 
 test('should fail if 2FA is required and device is not trusted', async (t) => {
   const { pool } = t.context
 
-  const email = 'speedboatvolcano@example.com'
+  const email = `${randomUUID()}@speedboatvolcano`
   const password = 'speedboatvolcano'
   const deviceID = randomUUID()
 
-  const { UID: userUID } = await throwIfError<User>(
+  const { uid: userUid } = await throwIfError<User>(
     insertUser(pool, { email, password }),
   )
 
@@ -195,7 +195,7 @@ test('should fail if 2FA is required and device is not trusted', async (t) => {
 
   await throwIfError(
     insertUser2FA(pool, {
-      userUID,
+      userUid,
       name: 'Test 2FA Token',
       secret,
     }),
@@ -203,7 +203,7 @@ test('should fail if 2FA is required and device is not trusted', async (t) => {
 
   await throwIfError(
     upsertUserDevice(pool, {
-      userUID,
+      userUid,
       accessedAt: new Date(),
       deviceID,
       name: 'not a trusted device',
@@ -235,11 +235,11 @@ test('should fail if 2FA is required and device is not trusted', async (t) => {
 test('should skip 2FA when using a trusted device', async (t) => {
   const { pool } = t.context
 
-  const email = 'strawberrybus@example.com'
+  const email = `${randomUUID()}@strawberrybus`
   const password = 'strawberrybus'
   const deviceID = randomUUID()
 
-  const { UID: userUID } = await throwIfError<User>(
+  const { uid: userUid } = await throwIfError<User>(
     insertUser(pool, { email, password }),
   )
 
@@ -247,7 +247,7 @@ test('should skip 2FA when using a trusted device', async (t) => {
 
   await throwIfError(
     insertUser2FA(pool, {
-      userUID,
+      userUid,
       name: 'Test 2FA Token',
       secret,
     }),
@@ -255,7 +255,7 @@ test('should skip 2FA when using a trusted device', async (t) => {
 
   await throwIfError(
     upsertUserDevice(pool, {
-      userUID,
+      userUid,
       accessedAt: new Date(),
       deviceID,
       name: 'not important',
@@ -282,6 +282,6 @@ test('should skip 2FA when using a trusted device', async (t) => {
     }),
   )
 
-  t.is(userUID, result.user_uid)
+  t.is(userUid, result.user_uid)
   t.is('string', typeof result.auth_token)
 })

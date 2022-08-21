@@ -23,6 +23,7 @@ test('should parse response', async (t) => {
       200,
       JSON.stringify([
         {
+          /* eslint-disable @typescript-eslint/naming-convention */
           transaction_id: 12_345,
           order_id: 98_765,
           datetime: 1_631_710_068,
@@ -31,6 +32,7 @@ test('should parse response', async (t) => {
           price: 30_000,
           income: 0.5,
           fee: 0.4,
+          /* eslint-enable @typescript-eslint/naming-convention */
         },
       ]),
     )

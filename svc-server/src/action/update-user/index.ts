@@ -12,11 +12,11 @@ type Output = {
 
 const updateUserHandler: ActionHandlerFn<Input, Output> = async (context) => {
   const { session, pool, input } = context
-  const { userUID } = session
-  if (!userUID) {
+  const { userUid } = session
+  if (!userUid) {
     return new MissingRequiredArgumentError({
-      message: 'userUID is required',
-      context: { userUID },
+      message: 'userUid is required',
+      context: { userUid },
     })
   }
 
@@ -25,13 +25,13 @@ const updateUserHandler: ActionHandlerFn<Input, Output> = async (context) => {
   const email =
     typeof rawEmail === 'string' ? rawEmail.trim().toLowerCase() : undefined
 
-  const error = await updateUser(pool, { userUID, email, password })
+  const error = await updateUser(pool, { userUid, email, password })
   if (error instanceof Error) {
     return error
   }
 
   return {
-    user_uid: userUID,
+    user_uid: userUid,
   }
 }
 

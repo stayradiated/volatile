@@ -1,20 +1,20 @@
 import db from 'zapatos/db'
 import { throwIfError } from '@stayradiated/error-boundary'
 
-import { test, mockUserExchangeAPI } from '../../test-util/index.js'
+import { test, mockUserExchangeApi } from '../../test-util/index.js'
 
 import { syncExchangeOpenOrderList } from './sync-exchange-open-order-list.js'
 
 test('sync open orders for user/exchange', async (t) => {
   const { pool, make } = t.context
 
-  const userUID = await make.user()
-  const exchangeUID = await make.exchange()
+  const userUid = await make.user()
+  const exchangeUid = await make.exchange()
   const primaryCurrency = await make.primaryCurrency()
   const secondaryCurrency = await make.secondaryCurrency()
 
   await make.order({
-    orderID: 'order-a',
+    orderId: 'order-a',
     type: 'BUY',
     price: 900,
     volume: 6,
@@ -22,11 +22,11 @@ test('sync open orders for user/exchange', async (t) => {
     closedAt: undefined,
   })
 
-  const userExchangeAPI = mockUserExchangeAPI()
+  const userExchangeApi = mockUserExchangeApi()
 
-  userExchangeAPI.getOpenOrders.resolves([
+  userExchangeApi.getOpenOrders.resolves([
     {
-      orderID: 'order-b',
+      orderId: 'order-b',
       type: 'BUY',
       primaryCurrency,
       secondaryCurrency,
@@ -38,9 +38,9 @@ test('sync open orders for user/exchange', async (t) => {
 
   await throwIfError(
     syncExchangeOpenOrderList(pool, {
-      userUID,
-      exchangeUID,
-      userExchangeAPI,
+      userUid,
+      exchangeUid,
+      userExchangeApi,
     }),
   )
 
@@ -48,8 +48,8 @@ test('sync open orders for user/exchange', async (t) => {
     .select(
       'order',
       {
-        user_uid: userUID,
-        exchange_uid: exchangeUID,
+        user_uid: userUid,
+        exchange_uid: exchangeUid,
       },
       {
         order: { by: 'opened_at', direction: 'ASC' },
@@ -65,8 +65,8 @@ test('sync open orders for user/exchange', async (t) => {
     volume: 6,
     value: 5400,
     order_id: 'order-a',
-    user_uid: userUID,
-    exchange_uid: exchangeUID,
+    user_uid: userUid,
+    exchange_uid: exchangeUid,
     primary_currency: primaryCurrency,
     secondary_currency: secondaryCurrency,
   })
@@ -78,8 +78,8 @@ test('sync open orders for user/exchange', async (t) => {
     volume: 5,
     value: 5000,
     order_id: 'order-b',
-    user_uid: userUID,
-    exchange_uid: exchangeUID,
+    user_uid: userUid,
+    exchange_uid: exchangeUid,
     closed_at: null,
     primary_currency: primaryCurrency,
     secondary_currency: secondaryCurrency,

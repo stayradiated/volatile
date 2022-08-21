@@ -6,9 +6,9 @@ import type { UserDeviceMasked } from './types.js'
 const mapRowToUserDevice = (
   row: s.user_device.JSONSelectable,
 ): UserDeviceMasked => ({
-  UID: row.uid,
+  uid: row.uid,
   accessedAt: parseISO(row.accessed_at),
-  userUID: row.user_uid,
+  userUid: row.user_uid,
   name: row.name,
   trusted: row.trusted,
 })

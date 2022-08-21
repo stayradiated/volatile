@@ -8,13 +8,13 @@ import type { User } from './types.js'
 
 const selectUser = async (
   pool: Pool,
-  userUID: string,
+  userUid: string,
 ): Promise<User | Error> => {
   const row = await errorBoundary(async () =>
     db
       .selectOne(
         'user',
-        { uid: userUID },
+        { uid: userUid },
         {
           columns: ['uid', 'email_verified'],
         },
@@ -25,12 +25,12 @@ const selectUser = async (
     return new DBError({
       message: 'Could not find user.',
       cause: row,
-      context: { userUID },
+      context: { userUid },
     })
   }
 
   return {
-    UID: row.uid,
+    uid: row.uid,
     emailVerified: row.email_verified,
   }
 }

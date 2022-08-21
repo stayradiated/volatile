@@ -23,9 +23,9 @@ export const builder = (yargs: Argv) =>
     required: true,
   })
 
-const QUERY_GET_TRADES = /* GraphQL */ `
+const getTradesQuery = /* GraphQL */ `
   query getTrades($assetSymbol: String!, $limit: Int!, $offset: Int!) {
-    trade_aggregate {
+    tradeAggregate: trade_aggregate {
       aggregate {
         count
       }
@@ -64,14 +64,14 @@ export const handler = createHandler<Options>(async (config, argv) => {
 
   const result = await graphqlPaginate<GetTradesQuery>({
     endpoint: config.endpoint,
-    query: QUERY_GET_TRADES,
+    query: getTradesQuery,
     variables: {
       assetSymbol: asset,
     },
     headers: authHeaders,
-    getTotal: (result) => result.trade_aggregate.aggregate?.count ?? 0,
+    getTotal: (result) => result.tradeAggregate.aggregate?.count ?? 0,
     merge: (a, b) => ({
-      trade_aggregate: a.trade_aggregate,
+      tradeAggregate: a.tradeAggregate,
       trade: [...a.trade, ...b.trade],
     }),
   })
@@ -81,7 +81,7 @@ export const handler = createHandler<Options>(async (config, argv) => {
 
   const rowData = result.data.trade.map<RowData>((trade) => ({
     exchange: trade.exchange.id,
-    tradeID: trade.trade_id,
+    tradeId: trade.trade_id,
     orderCreatedAt: trade.order ? parseISO(trade.order.created_at) : undefined,
     date: parseISO(trade.timestamp),
     price: trade.price,

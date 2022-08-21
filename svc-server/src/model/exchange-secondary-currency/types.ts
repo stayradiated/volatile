@@ -1,5 +1,5 @@
 type ExchangeSecondaryCurrency = {
-  exchangeUID: string
+  exchangeUid: string
   symbol: string
 }
 

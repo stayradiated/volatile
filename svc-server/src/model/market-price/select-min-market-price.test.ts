@@ -7,7 +7,7 @@ import { selectMinMarketPrice } from './select-min-market-price.js'
 
 test('selectMinMarketPrice: should return min price', async (t) => {
   const { pool, make } = t.context
-  const marketUID = await make.market({
+  const marketUid = await make.market({
     ID: 'avg-market-min-price.test',
     name: 'selectMinMarketPrice',
   })
@@ -19,7 +19,7 @@ test('selectMinMarketPrice: should return min price', async (t) => {
     timestamp: subMinutes(new Date(), 2),
     assetSymbol: 'BTC',
     currency: 'AUD',
-    marketUID,
+    marketUid,
     price: 1_000_000,
   })
 
@@ -28,7 +28,7 @@ test('selectMinMarketPrice: should return min price', async (t) => {
     timestamp: subMinutes(new Date(), 2),
     assetSymbol: 'ETH',
     currency: 'NZD',
-    marketUID,
+    marketUid,
     price: 1,
   })
 
@@ -38,7 +38,7 @@ test('selectMinMarketPrice: should return min price', async (t) => {
       timestamp,
       assetSymbol,
       currency,
-      marketUID,
+      marketUid,
       price,
     })
   }
@@ -58,7 +58,7 @@ test('selectMinMarketPrice: should return min price', async (t) => {
 
   const minPrice = await throwIfError<number>(
     selectMinMarketPrice(pool, {
-      marketUID,
+      marketUid,
       assetSymbol,
       currency,
       minutes: 10,

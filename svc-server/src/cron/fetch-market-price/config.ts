@@ -34,28 +34,28 @@ const ETH_AUD: TradingPair = [ETH, AUD]
 const ETH_NZD: TradingPair = [ETH, NZD]
 const ETH_USD: TradingPair = [ETH, USD]
 
-const USD_NZD: CurrencyPair = [USD, NZD]
-const USD_AUD: CurrencyPair = [USD, AUD]
-const AUD_NZD: CurrencyPair = [AUD, NZD]
+const usdNzd: CurrencyPair = [USD, NZD]
+const usdAud: CurrencyPair = [USD, AUD]
+const audNzd: CurrencyPair = [AUD, NZD]
 
 const marketPriceConfigList: MarketPriceConfig[] = [
-  { market: MARKET_BINANCE_US, pair: BTC_USD, convert: USD_AUD },
-  { market: MARKET_BINANCE_US, pair: BTC_USD, convert: USD_NZD },
-  { market: MARKET_BINANCE_US, pair: ETH_USD, convert: USD_AUD },
-  { market: MARKET_BINANCE_US, pair: ETH_USD, convert: USD_NZD },
+  { market: MARKET_BINANCE_US, pair: BTC_USD, convert: usdAud },
+  { market: MARKET_BINANCE_US, pair: BTC_USD, convert: usdNzd },
+  { market: MARKET_BINANCE_US, pair: ETH_USD, convert: usdAud },
+  { market: MARKET_BINANCE_US, pair: ETH_USD, convert: usdNzd },
   { market: MARKET_DASSET, pair: BTC_NZD },
   { market: MARKET_DASSET, pair: ETH_NZD },
   { market: MARKET_EASY_CRYPTO, pair: BTC_NZD },
   { market: MARKET_EASY_CRYPTO, pair: ETH_NZD },
   { market: MARKET_INDEPENDENT_RESERVE, pair: BTC_AUD },
-  { market: MARKET_INDEPENDENT_RESERVE, pair: BTC_AUD, convert: AUD_NZD },
+  { market: MARKET_INDEPENDENT_RESERVE, pair: BTC_AUD, convert: audNzd },
   { market: MARKET_INDEPENDENT_RESERVE, pair: BTC_NZD },
   { market: MARKET_INDEPENDENT_RESERVE, pair: ETH_AUD },
-  { market: MARKET_INDEPENDENT_RESERVE, pair: ETH_AUD, convert: AUD_NZD },
+  { market: MARKET_INDEPENDENT_RESERVE, pair: ETH_AUD, convert: audNzd },
   { market: MARKET_INDEPENDENT_RESERVE, pair: ETH_NZD },
   { market: MARKET_KIWI_COIN, pair: BTC_NZD },
-  { market: MARKET_KRAKEN, pair: BTC_USD, convert: USD_NZD },
-  { market: MARKET_KRAKEN, pair: BTC_USD, convert: USD_AUD },
+  { market: MARKET_KRAKEN, pair: BTC_USD, convert: usdNzd },
+  { market: MARKET_KRAKEN, pair: BTC_USD, convert: usdAud },
 ]
 
 export {
@@ -70,9 +70,9 @@ export {
   BTC_USD,
   ETH_AUD,
   ETH_NZD,
-  USD_NZD,
-  USD_AUD,
-  AUD_NZD,
+  usdNzd,
+  usdAud,
+  audNzd,
 }
 
 export type {

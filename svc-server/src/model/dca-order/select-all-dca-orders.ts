@@ -3,31 +3,31 @@ import type * as s from 'zapatos/schema'
 import { errorBoundary } from '@stayradiated/error-boundary'
 
 import type { Pool } from '../../types.js'
-import { mapRowToDCAOrder } from './map-row-to-dca-order.js'
-import type { DCAOrder } from './types.js'
+import { mapRowToDcaOrder } from './map-row-to-dca-order.js'
+import type { DcaOrder } from './types.js'
 
-type SelectAllDCAOrdersOptions = {
-  exchangeUID?: string
-  marketUID?: string
-  userUID?: string
+type SelectAllDcaOrdersOptions = {
+  exchangeUid?: string
+  marketUid?: string
+  userUid?: string
   enabled?: boolean
 }
 
-const selectAllDCAOrders = async (
+const selectAllDcaOrders = async (
   pool: Pool,
-  options: SelectAllDCAOrdersOptions,
-): Promise<DCAOrder[] | Error> => {
+  options: SelectAllDcaOrdersOptions,
+): Promise<DcaOrder[] | Error> => {
   const where: s.dca_order.Whereable = {}
-  if (options.userUID) {
-    where.user_uid = options.userUID
+  if (options.userUid) {
+    where.user_uid = options.userUid
   }
 
-  if (options.exchangeUID) {
-    where.exchange_uid = options.exchangeUID
+  if (options.exchangeUid) {
+    where.exchange_uid = options.exchangeUid
   }
 
-  if (options.marketUID) {
-    where.market_uid = options.marketUID
+  if (options.marketUid) {
+    where.market_uid = options.marketUid
   }
 
   if (options.enabled) {
@@ -41,7 +41,7 @@ const selectAllDCAOrders = async (
     return rows
   }
 
-  return rows.map((row) => mapRowToDCAOrder(row))
+  return rows.map((row) => mapRowToDcaOrder(row))
 }
 
-export { selectAllDCAOrders }
+export { selectAllDcaOrders }

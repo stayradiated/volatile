@@ -24,10 +24,9 @@
   },
   "homepage": "https://github.com/stayradiated/volatile#readme",
   "devDependencies": {
-    "@types/node": "18.7.3",
+    "@types/node": "18.7.8",
     "ava": "4.3.1",
     "del-cli": "5.0.0",
-    "eslint-plugin-fp": "2.3.0",
     "typescript": "4.7.4",
     "xo": "0.51.0"
   },
@@ -39,13 +38,8 @@
     "space": true,
     "semicolon": false,
     "prettier": true,
-    "plugins": [
-      "fp"
-    ],
-    "extends": [
-      "plugin:fp/recommended"
-    ],
     "rules": {
+      "@typescript-eslint/naming-convention": "off",
       "ava/assertion-arguments": "off",
       "ava/no-ignored-test-files": [
         "error",
@@ -57,12 +51,7 @@
             "ts"
           ]
         }
-      ],
-      "unicorn/prefer-node-protocol": "off",
-      "fp/no-unused-expression": "off",
-      "fp/no-nil": "off",
-      "fp/no-loops": "off",
-      "fp/no-mutation": "off"
+      ]
     }
   },
   "prettier": {

@@ -10,7 +10,7 @@ import type { Pool } from '../../types.js'
 import { hasUserByEmailHash } from './has-user-by-email-hash.js'
 
 type UpdateUserOptions = {
-  userUID: string
+  userUid: string
   email?: string
   password?: string
   emailVerified?: boolean
@@ -20,7 +20,7 @@ const updateUser = async (
   pool: Pool,
   options: UpdateUserOptions,
 ): Promise<void | Error> => {
-  const { userUID, email, password, emailVerified } = options
+  const { userUid, email, password, emailVerified } = options
 
   const fields: s.user.Updatable = {
     updated_at: new Date(),
@@ -36,7 +36,7 @@ const updateUser = async (
     if (emailIsAlreadyUsed) {
       return new IllegalArgumentError({
         message: 'Could not create user, email already exists in DB.',
-        context: { userUID, emailHash },
+        context: { userUid, emailHash },
       })
     }
 
@@ -61,18 +61,21 @@ const updateUser = async (
   }
 
   const updatedRows = await errorBoundary(async () =>
-    db.update('user', fields, { uid: userUID }, {returning: ['uid']}).run(pool),
+    db
+      .update('user', fields, { uid: userUid }, { returning: ['uid'] })
+      .run(pool),
   )
   if (updatedRows instanceof Error) {
     return updatedRows
   }
-  if (updatedRows.length < 1) {
+
+  if (updatedRows.length === 0) {
     return new DBError({
-      message: 'Could not find a user with that UID.',
+      message: 'Could not find a user with that uid.',
       context: {
-        userUID,
+        userUid,
         fields,
-      }
+      },
     })
   }
 

@@ -1,14 +1,14 @@
 type CronHistoryState = 'PENDING' | 'SUCCESS' | 'ERROR'
 
 type CronHistory = {
-  UID: string
+  uid: string
   createdAt: Date
   updatedAt: Date
   completedAt: Date | undefined
-  taskID: string
+  taskId: string
   input: unknown
   state: CronHistoryState
-  output: unknown | undefined
+  output: unknown
 }
 
 export type { CronHistory, CronHistoryState }

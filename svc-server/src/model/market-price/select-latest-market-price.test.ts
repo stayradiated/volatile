@@ -5,9 +5,9 @@ import { test } from '../../test-util/ava.js'
 
 import { selectLatestMarketPrice } from './select-latest-market-price.js'
 
-test('selectOpenOrdersForDCA: should return open orders', async (t) => {
+test('selectOpenOrdersForDca: should return open orders', async (t) => {
   const { pool, make } = t.context
-  const marketUID = await make.market()
+  const marketUid = await make.market()
   const assetSymbol = 'BTC'
   const currency = 'NZD'
 
@@ -16,7 +16,7 @@ test('selectOpenOrdersForDCA: should return open orders', async (t) => {
     timestamp: subMinutes(new Date(), 2),
     assetSymbol: 'BTC',
     currency: 'AUD',
-    marketUID,
+    marketUid,
     price: 1_000_000,
   })
 
@@ -25,7 +25,7 @@ test('selectOpenOrdersForDCA: should return open orders', async (t) => {
     timestamp: subMinutes(new Date(), 2),
     assetSymbol: 'ETH',
     currency: 'NZD',
-    marketUID,
+    marketUid,
     price: 1,
   })
 
@@ -35,7 +35,7 @@ test('selectOpenOrdersForDCA: should return open orders', async (t) => {
       timestamp,
       assetSymbol,
       currency,
-      marketUID,
+      marketUid,
       price,
     })
   }
@@ -55,7 +55,7 @@ test('selectOpenOrdersForDCA: should return open orders', async (t) => {
 
   const latestPrice = await throwIfError<number>(
     selectLatestMarketPrice(pool, {
-      marketUID,
+      marketUid,
       assetSymbol,
       currency,
     }),

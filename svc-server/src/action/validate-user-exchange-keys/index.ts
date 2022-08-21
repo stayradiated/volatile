@@ -15,16 +15,16 @@ const validateUserExchangeKeysHandler: ActionHandlerFn<Input, Output> = async (
   context,
 ) => {
   const { pool, input, session } = context
-  const { user_exchange_keys_uid: userExchangeKeysUID } = input
-  const { userUID } = session
-  if (!userUID) {
+  const { user_exchange_keys_uid: userExchangeKeysUid } = input
+  const { userUid } = session
+  if (!userUid) {
     return new MissingRequiredArgumentError({
-      message: 'userUID is required',
-      context: { userUID },
+      message: 'userUid is required',
+      context: { userUid },
     })
   }
 
-  const result = await validateUserExchangeKeys(pool, userExchangeKeysUID)
+  const result = await validateUserExchangeKeys(pool, userExchangeKeysUid)
   if (result instanceof Error) {
     return result
   }
@@ -32,7 +32,7 @@ const validateUserExchangeKeysHandler: ActionHandlerFn<Input, Output> = async (
   return {
     is_valid: result.isValid,
     validation_message: result.validationMessage,
-    user_exchange_keys_uid: result.userExchangeKeysUID,
+    user_exchange_keys_uid: result.userExchangeKeysUid,
   }
 }
 

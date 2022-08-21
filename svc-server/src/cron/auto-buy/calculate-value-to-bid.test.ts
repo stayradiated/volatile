@@ -5,15 +5,15 @@ import { calculateValueToBid } from './calculate-value-to-bid.js'
 test('no other orders', async (t) => {
   const { pool, make } = t.context
 
-  const userExchangeKeysUID = await make.userExchangeKeys()
-  const dcaOrderUID = await make.dcaOrder({ maxValue: undefined })
+  const userExchangeKeysUid = await make.userExchangeKeys()
+  const dcaOrderUid = await make.dcaOrder({ maxValue: undefined })
 
   const targetValue = 200
   const availableBalance = 200
 
   const result = await calculateValueToBid(pool, {
-    dcaOrderUID,
-    userExchangeKeysUID,
+    dcaOrderUid,
+    userExchangeKeysUid,
     targetValue,
     availableBalance,
   })
@@ -24,8 +24,8 @@ test('no other orders', async (t) => {
 test('sharing with 3 other orders for $50', async (t) => {
   const { pool, make } = t.context
 
-  const userExchangeKeysUID = await make.userExchangeKeys()
-  const dcaOrderUID = await make.dcaOrder({ maxValue: undefined })
+  const userExchangeKeysUid = await make.userExchangeKeys()
+  const dcaOrderUid = await make.dcaOrder({ maxValue: undefined })
 
   await make.dcaOrder()
   await make.order({ closedAt: undefined, value: 50 })
@@ -41,8 +41,8 @@ test('sharing with 3 other orders for $50', async (t) => {
   const availableBalance = 300
 
   const result = await calculateValueToBid(pool, {
-    dcaOrderUID,
-    userExchangeKeysUID,
+    dcaOrderUid,
+    userExchangeKeysUid,
     targetValue,
     availableBalance,
   })

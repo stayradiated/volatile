@@ -1,8 +1,8 @@
 import { Except } from 'type-fest'
 
 type UserEmailVerify = {
-  UID: string
-  userUID: string
+  uid: string
+  userUid: string
   secret: string
 }
 

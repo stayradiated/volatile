@@ -6,7 +6,7 @@ import { DBError } from '../../util/error.js'
 import type { Pool } from '../../types.js'
 
 type GetMarketPriceOptions = {
-  marketUID: string
+  marketUid: string
   assetSymbol: string
   currency: string
 }
@@ -15,14 +15,14 @@ const getMarketPrice = async (
   pool: Pool,
   options: GetMarketPriceOptions,
 ): Promise<number | Error> => {
-  const { marketUID, assetSymbol, currency } = options
+  const { marketUid, assetSymbol, currency } = options
 
   const rows = await errorBoundary(async () =>
     db.sql<s.market_price.SQL, s.market_price.Selectable[]>`
     SELECT ${'price'}
     FROM ${'market_price'} 
     WHERE ${{
-      market_uid: marketUID,
+      market_uid: marketUid,
       asset_symbol: assetSymbol,
       currency,
     }}

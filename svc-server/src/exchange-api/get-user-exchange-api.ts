@@ -7,30 +7,30 @@ import {
 } from '../model/exchange/index.js'
 
 import type { Pool } from '../types.js'
-import { getDassetExchangeAPI } from './dasset.js'
-import { getKiwiCoinExchangeAPI } from './kiwi-coin.js'
-import { getIndependentReserveExchangeAPI } from './independent-reserve.js'
+import { getDassetExchangeApi } from './dasset.js'
+import { getKiwiCoinExchangeApi } from './kiwi-coin.js'
+import { getIndependentReserveExchangeApi } from './independent-reserve.js'
 
-import type { UserExchangeAPI } from './types.js'
+import type { UserExchangeApi } from './types.js'
 
-const getUserExchangeAPI = async (options: {
+const getUserExchangeApi = async (options: {
   pool: Pool
   exchange: Exchange
   config: Record<string, string>
-  userUID: string
-  exchangeUID: string
-  userExchangeKeysUID: string | undefined
-}): Promise<UserExchangeAPI | Error> => {
+  userUid: string
+  exchangeUid: string
+  userExchangeKeysUid: string | undefined
+}): Promise<UserExchangeApi | Error> => {
   const { exchange } = options
 
-  const userExchangeAPI = await (async () => {
+  const userExchangeApi = await (async () => {
     switch (exchange) {
       case EXCHANGE_DASSET:
-        return getDassetExchangeAPI(options)
+        return getDassetExchangeApi(options)
       case EXCHANGE_KIWI_COIN:
-        return getKiwiCoinExchangeAPI(options)
+        return getKiwiCoinExchangeApi(options)
       case EXCHANGE_INDEPENDENT_RESERVE:
-        return getIndependentReserveExchangeAPI(options)
+        return getIndependentReserveExchangeApi(options)
       default:
         return new IllegalStateError({
           message: 'Unexpected exchange.',
@@ -38,17 +38,17 @@ const getUserExchangeAPI = async (options: {
         })
     }
   })()
-  if (userExchangeAPI instanceof Error) {
+  if (userExchangeApi instanceof Error) {
     return new ConfigError({
       message: 'Could not read User Exchange Keys.',
-      cause: userExchangeAPI,
+      cause: userExchangeApi,
       context: {
         exchange,
       },
     })
   }
 
-  return userExchangeAPI
+  return userExchangeApi
 }
 
-export { getUserExchangeAPI }
+export { getUserExchangeApi }

@@ -25,15 +25,15 @@ const sendUserEmailVerifyHandler: ActionHandlerFn<Input, Output> = async (
   context,
 ) => {
   const { pool, session } = context
-  const { userUID } = session
-  if (!userUID) {
+  const { userUid } = session
+  if (!userUid) {
     return new MissingRequiredArgumentError({
-      message: 'userUID is required.',
-      context: { userUID },
+      message: 'userUid is required.',
+      context: { userUid },
     })
   }
 
-  const user = await selectUser(pool, userUID)
+  const user = await selectUser(pool, userUid)
   if (user instanceof Error) {
     return user
   }
@@ -41,11 +41,11 @@ const sendUserEmailVerifyHandler: ActionHandlerFn<Input, Output> = async (
   if (user.emailVerified) {
     return new IllegalStateError({
       message: 'User has already verified their email address.',
-      context: { userUID },
+      context: { userUid },
     })
   }
 
-  const email = await getUserEmail(pool, user.UID)
+  const email = await getUserEmail(pool, user.uid)
   if (email instanceof Error) {
     return email
   }
@@ -56,7 +56,7 @@ const sendUserEmailVerifyHandler: ActionHandlerFn<Input, Output> = async (
   }
 
   const insertError = await upsertUserEmailVerify(pool, {
-    userUID,
+    userUid,
     secret,
   })
   if (insertError instanceof Error) {
@@ -77,7 +77,7 @@ const sendUserEmailVerifyHandler: ActionHandlerFn<Input, Output> = async (
   }
 
   return {
-    user_uid: userUID,
+    user_uid: userUid,
   }
 }
 

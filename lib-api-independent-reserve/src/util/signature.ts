@@ -1,4 +1,5 @@
-import { createHmac } from 'crypto'
+import { createHmac } from 'node:crypto'
+import { ConditionalExcept } from 'type-fest'
 
 import type { Config } from './types.js'
 
@@ -27,18 +28,26 @@ const createSignature = (options: CreateSignatureOptions): string => {
   return signature
 }
 
-type PickKeysMatching<T, V> = Pick<
-  T,
-  { [K in keyof T]-?: T[K] extends V ? K : never }[keyof T]
->
+type NonNullValues<P> = ConditionalExcept<P, undefined>
 
-const filterNullKeys = <P>(input: P): PickKeysMatching<P, string | number> =>
-  Object.fromEntries(
-    Object.entries(input).filter((pair) => {
-      const value = pair[1]
-      return typeof value !== 'undefined' && value !== null
-    }) as Array<[string, string | number]>,
-  ) as unknown as PickKeysMatching<P, string | number>
+const filterNonNullValues = <
+  P extends Record<string, undefined | boolean | number | string>,
+  Q extends NonNullValues<P>,
+>(
+  input: P,
+): Q => {
+  const output: Record<string, boolean | number | string> = {}
+  for (const key in input) {
+    if (Object.hasOwnProperty.call(input, key)) {
+      const value = input[key]
+      if (typeof value !== 'undefined' && value !== null) {
+        output[key] = value
+      }
+    }
+  }
+
+  return output as unknown as Q
+}
 
 type CreateSignedBodyOptions<P> = {
   config: Config
@@ -53,17 +62,23 @@ type SignedBody<P> = P & {
   signature: string
 }
 
-const createSignedBody = <P>(
+const createSignedBody = <
+  P extends Record<string, undefined | string | number>,
+>(
   options: CreateSignedBodyOptions<P>,
-): SignedBody<PickKeysMatching<P, string | number>> => {
+): SignedBody<NonNullValues<P>> => {
   const { config, endpoint, parameters, nonce } = options
   const { apiKey } = config
 
-  const validParameters = filterNullKeys(parameters)
+  const validParameters = filterNonNullValues(parameters)
 
-  const args: string[] = Object.entries(validParameters).map(
-    ([key, value]) => `${key}=${value}`,
-  )
+  const args: string[] = []
+  for (const key in validParameters) {
+    if (Object.hasOwnProperty.call(validParameters, key)) {
+      const value = validParameters[key]
+      args.push(`${key}=${String(value)}`)
+    }
+  }
 
   const url = 'https://api.independentreserve.com/' + endpoint
 

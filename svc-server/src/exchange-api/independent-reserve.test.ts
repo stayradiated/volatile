@@ -1,21 +1,21 @@
 import anyTest, { TestFn } from 'ava'
-import { throwIfError } from '@stayradiated/error-boundary'
-import nock from 'nock'
-import { parseISO } from 'date-fns'
 
+import { parseISO } from 'date-fns'
+import nock from 'nock'
+import { throwIfError } from '@stayradiated/error-boundary'
 import { pool } from '../pool.js'
 import type { Pool } from '../types.js'
 import { createMakeInstance, MakeInstance } from '../test-util/make.js'
-import { getIndependentReserveExchangeAPI } from './independent-reserve.js'
+import { getIndependentReserveExchangeApi } from './independent-reserve.js'
 
-import type { UserExchangeAPI } from './types.js'
+import type { UserExchangeApi } from './types.js'
 
 nock.disableNetConnect()
 
 const test = anyTest as TestFn<{
   pool: Pool
   make: MakeInstance
-  api: UserExchangeAPI
+  api: UserExchangeApi
 }>
 
 test.beforeEach(async (t) => {
@@ -23,16 +23,16 @@ test.beforeEach(async (t) => {
   t.context.make = createMakeInstance()
 
   const { make } = t.context
-  const userUID = await make.user()
-  const exchangeUID = await make.exchange()
+  const userUid = await make.user()
+  const exchangeUid = await make.exchange()
 
   t.context.api = throwIfError(
-    getIndependentReserveExchangeAPI({
+    getIndependentReserveExchangeApi({
       pool,
-      config: { apiKey: 'API_KEY', apiSecret: 'API_SECRET' },
-      userUID,
-      exchangeUID,
-      userExchangeKeysUID: undefined,
+      config: { apiKey: 'Api_KEY', apiSecret: 'Api_SECRET' },
+      userUid,
+      exchangeUid,
+      userExchangeKeysUid: undefined,
     }),
   )
 })
@@ -89,6 +89,7 @@ test('getBalance', async (t) => {
   nock('https://api.independentreserve.com')
     .post('/Private/GetAccounts', () => true)
     .reply(200, [
+      /* eslint-disabel @typescript-eslint/naming-convention */
       {
         AccountGuid: '66dcac65-bf07-4e68-ad46-838f51100424',
         AccountStatus: 'Active',
@@ -166,7 +167,7 @@ test('getOpenOrders', async (t) => {
 
   t.deepEqual(openOrders, [
     {
-      orderID: 'dd015a29-8f73-4469-a5fa-ea91544dfcda',
+      orderId: 'dd015a29-8f73-4469-a5fa-ea91544dfcda',
       primaryCurrency: 'BTC',
       secondaryCurrency: 'USD',
       price: 466.36,
@@ -175,7 +176,7 @@ test('getOpenOrders', async (t) => {
       openedAt: parseISO('2014-05-05T09:35:22.4032405Z'),
     },
     {
-      orderID: '58f9da9d-a12e-4362-afa8-f5c252ba1725',
+      orderId: '58f9da9d-a12e-4362-afa8-f5c252ba1725',
       primaryCurrency: 'BTC',
       secondaryCurrency: 'USD',
       price: 455.48,
@@ -234,7 +235,7 @@ test('getTrades', async (t) => {
     items: [
       {
         tradeID: '593e609d-041a-4f46-a41d-2cb8e908973f',
-        orderID: '8bf851a3-76d2-439c-945a-93367541d467',
+        orderId: '8bf851a3-76d2-439c-945a-93367541d467',
         timestamp: parseISO('2014-12-16T03:44:19.2187707Z'),
         primaryCurrency: 'BTC',
         secondaryCurrency: 'USD',
@@ -245,7 +246,7 @@ test('getTrades', async (t) => {
       },
       {
         tradeID: '13c1e71c-bfb4-452c-b13e-e03535f98b09',
-        orderID: '1ce88acf-6013-4867-b58d-77f0e41ec475',
+        orderId: '1ce88acf-6013-4867-b58d-77f0e41ec475',
         timestamp: parseISO('2014-12-11T11:37:42.2089564Z'),
         primaryCurrency: 'BTC',
         secondaryCurrency: 'USD',
@@ -286,7 +287,7 @@ test('createOrder', async (t) => {
   )
 
   t.deepEqual(order, {
-    orderID: '719c495c-a39e-4884-93ac-280b37245037',
+    orderId: '719c495c-a39e-4884-93ac-280b37245037',
   })
 })
 
@@ -310,7 +311,7 @@ test('cancelOrder', async (t) => {
 
   const order = await throwIfError(
     api.cancelOrder({
-      orderID: '719c495c-a39e-4884-93ac-280b37245037',
+      orderId: '719c495c-a39e-4884-93ac-280b37245037',
     }),
   )
 

@@ -6,7 +6,7 @@ import { DBError } from '../../util/error.js'
 import type { Pool } from '../../types.js'
 
 type SelectLatestMarketPriceOptions = {
-  marketUID: string
+  marketUid: string
   assetSymbol: string
   currency: string
 }
@@ -15,13 +15,13 @@ const selectLatestMarketPrice = async (
   pool: Pool,
   options: SelectLatestMarketPriceOptions,
 ): Promise<number | Error> => {
-  const { marketUID, assetSymbol, currency } = options
+  const { marketUid, assetSymbol, currency } = options
 
   const rows = await errorBoundary(async () =>
     db.sql<s.market_price.SQL, Array<{ latest_price: string }>>`
     SELECT ${'price'} as latest_price
     FROM ${'market_price'}
-    WHERE ${{ market_uid: marketUID, asset_symbol: assetSymbol, currency }}
+    WHERE ${{ market_uid: marketUid, asset_symbol: assetSymbol, currency }}
     ORDER BY ${'timestamp'} DESC
     FETCH FIRST ROW ONLY
   `.run(pool),
@@ -42,7 +42,7 @@ const selectLatestMarketPrice = async (
     return new DBError({
       message: `Could not get latest market price for ${assetSymbol}/${currency}.`,
       context: {
-        marketUID,
+        marketUid,
         assetSymbol,
         currency,
         row,

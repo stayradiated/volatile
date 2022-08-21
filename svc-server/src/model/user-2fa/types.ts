@@ -1,6 +1,6 @@
 type User2FA = {
-  UID: string
-  userUID: string
+  uid: string
+  userUid: string
   name: string
   secret: string
 }

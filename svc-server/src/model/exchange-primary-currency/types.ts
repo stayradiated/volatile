@@ -1,5 +1,5 @@
 type ExchangePrimaryCurrency = {
-  exchangeUID: string
+  exchangeUid: string
   symbol: string
 }
 

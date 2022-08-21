@@ -14,7 +14,7 @@ type CreateAuthTokenOptions = {
 }
 
 type AuthTokenResult = {
-  userUID: string
+  userUid: string
   authToken: string
   expiresAt: Date
 }
@@ -61,10 +61,10 @@ const createAuthToken = async (
     })
   }
 
-  const userUID = row.uid
-  const { authToken, expiresAt } = generateAuthToken({ userUID, role })
+  const userUid = row.uid
+  const { authToken, expiresAt } = generateAuthToken({ userUid, role })
 
-  return { userUID, authToken, expiresAt }
+  return { userUid, authToken, expiresAt }
 }
 
 export { createAuthToken }

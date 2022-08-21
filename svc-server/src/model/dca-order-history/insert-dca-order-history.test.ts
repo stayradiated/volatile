@@ -1,23 +1,23 @@
-import { inspect } from 'util'
+import { inspect } from 'node:util'
 import * as db from 'zapatos/db'
 
 import { test } from '../../test-util/ava.js'
 
 import {
-  insertDCAOrderHistory,
-  InsertDCAOrderHistoryOptions,
+  insertDcaOrderHistory,
+  InsertDcaOrderHistoryOptions,
 } from './insert-dca-order-history.js'
 
-test('insertDCAOrderHistory', async (t) => {
+test('insertDcaOrderHistory', async (t) => {
   const { pool, make } = t.context
-  const userUID = await make.user()
-  const dcaOrderUID = await make.dcaOrder()
-  const orderUID = await make.order()
+  const userUid = await make.user()
+  const dcaOrderUid = await make.dcaOrder()
+  const orderUid = await make.order()
 
-  const input: InsertDCAOrderHistoryOptions = {
-    userUID,
-    dcaOrderUID,
-    orderUID,
+  const input: InsertDcaOrderHistoryOptions = {
+    userUid,
+    dcaOrderUid,
+    orderUid,
     createdAt: new Date(),
     updatedAt: new Date(),
     primaryCurrency: 'BTC',
@@ -30,23 +30,23 @@ test('insertDCAOrderHistory', async (t) => {
     description: 'test entry',
   }
 
-  const result = await insertDCAOrderHistory(pool, input)
+  const result = await insertDcaOrderHistory(pool, input)
   if (result instanceof Error) {
     t.fail(inspect(result))
     return
   }
 
   t.like(result, input)
-  t.is('string', typeof result.UID)
+  t.is('string', typeof result.uid)
 
   const row = await db
-    .selectExactlyOne('dca_order_history', { uid: result.UID })
+    .selectExactlyOne('dca_order_history', { uid: result.uid })
     .run(pool)
 
   t.like(row, {
-    user_uid: input.userUID,
-    dca_order_uid: input.dcaOrderUID,
-    order_uid: input.orderUID,
+    user_uid: input.userUid,
+    dca_order_uid: input.dcaOrderUid,
+    order_uid: input.orderUid,
     primary_currency: input.primaryCurrency,
     secondary_currency: input.secondaryCurrency,
     market_price: input.marketPrice,

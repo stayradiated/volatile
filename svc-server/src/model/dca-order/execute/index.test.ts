@@ -19,17 +19,17 @@ test.serial('(lastRunAt=NULL, nextRunAt=NULL) set nextRunAt', async (t) => {
   const { pool, make } = t.context
   const now = new Date()
 
-  const dcaOrderUID = await make.dcaOrder({
+  const dcaOrderUid = await make.dcaOrder({
     ...CRON_JOB_DEFAULTS,
     lastRunAt: undefined,
     nextRunAt: undefined,
   })
 
   const jobs = await throwIfError<string[]>(execute(pool))
-  t.false(jobs.includes(dcaOrderUID))
+  t.false(jobs.includes(dcaOrderUid))
 
   const updatedJob = await db
-    .selectExactlyOne('dca_order', { uid: dcaOrderUID })
+    .selectExactlyOne('dca_order', { uid: dcaOrderUid })
     .run(pool)
 
   t.is(updatedJob.last_run_at, null)
@@ -42,17 +42,17 @@ test.serial('(lastRunAt=PAST,nextRunAt=PAST) do nothing', async (t) => {
   const { pool, make } = t.context
   const now = new Date()
 
-  const dcaOrderUID = await make.dcaOrder({
+  const dcaOrderUid = await make.dcaOrder({
     ...CRON_JOB_DEFAULTS,
     lastRunAt: PAST,
     nextRunAt: PAST,
   })
 
   const jobs = await throwIfError<string[]>(execute(pool))
-  t.false(jobs.includes(dcaOrderUID))
+  t.false(jobs.includes(dcaOrderUid))
 
   const updatedJob = await db
-    .selectExactlyOne('dca_order', { uid: dcaOrderUID })
+    .selectExactlyOne('dca_order', { uid: dcaOrderUid })
     .run(pool)
 
   t.is(typeof updatedJob.last_run_at, 'string')
@@ -66,17 +66,17 @@ test.serial('(lastRunAt=DISTANT_PAST,nextRunAt=PAST) fire once', async (t) => {
   const { pool, make } = t.context
   const now = new Date()
 
-  const dcaOrderUID = await make.dcaOrder({
+  const dcaOrderUid = await make.dcaOrder({
     ...CRON_JOB_DEFAULTS,
     lastRunAt: DISTANT_PAST,
     nextRunAt: PAST,
   })
 
   const jobs = await throwIfError<string[]>(execute(pool))
-  t.true(jobs.includes(dcaOrderUID))
+  t.true(jobs.includes(dcaOrderUid))
 
   const updatedJob = await db
-    .selectExactlyOne('dca_order', { uid: dcaOrderUID })
+    .selectExactlyOne('dca_order', { uid: dcaOrderUid })
     .run(pool)
 
   t.is(typeof updatedJob.last_run_at, 'string')

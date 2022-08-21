@@ -17,19 +17,19 @@ const syncExchangeTradeListHandler: ActionHandlerFn<Input, Output> = async (
   context,
 ) => {
   const { input, pool, session } = context
-  const { userUID } = session
-  if (!userUID) {
+  const { userUid } = session
+  if (!userUid) {
     return new MissingRequiredArgumentError({
-      message: 'userUID is required',
-      context: { userUID },
+      message: 'userUid is required',
+      context: { userUid },
     })
   }
 
-  const { user_exchange_keys_uid: userExchangeKeysUID, force_sync: forceSync } =
+  const { user_exchange_keys_uid: userExchangeKeysUid, force_sync: forceSync } =
     input
 
   const error = await syncExchangeTradeList(pool, {
-    userExchangeKeysUID,
+    userExchangeKeysUid,
     forceSync,
   })
   if (error instanceof Error) {
@@ -37,7 +37,7 @@ const syncExchangeTradeListHandler: ActionHandlerFn<Input, Output> = async (
   }
 
   return {
-    user_uid: userUID,
+    user_uid: userUid,
   }
 }
 

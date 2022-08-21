@@ -8,14 +8,14 @@ import type { Trade } from './types.js'
 
 test('insertTrade', async (t) => {
   const { pool, make } = t.context
-  const userUID = await make.user()
-  const exchangeUID = await make.exchange()
-  const orderUID = await make.order()
+  const userUid = await make.user()
+  const exchangeUid = await make.exchange()
+  const orderUid = await make.order()
 
   const input: InsertTradeOptions = {
-    userUID,
-    exchangeUID,
-    orderUID,
+    userUid,
+    exchangeUid,
+    orderUid,
     timestamp: new Date(),
     tradeID: 'insert-trade.test',
     type: 'BUY',
@@ -31,14 +31,14 @@ test('insertTrade', async (t) => {
   const output = await throwIfError<Trade>(insertTrade(pool, input))
 
   t.like(output, input)
-  t.is('string', typeof output.UID)
+  t.is('string', typeof output.uid)
 
-  const row = await db.selectExactlyOne('trade', { uid: output.UID }).run(pool)
+  const row = await db.selectExactlyOne('trade', { uid: output.uid }).run(pool)
   t.like(row, {
-    uid: output.UID,
-    user_uid: input.userUID,
-    exchange_uid: input.exchangeUID,
-    order_uid: input.orderUID,
+    uid: output.uid,
+    user_uid: input.userUid,
+    exchange_uid: input.exchangeUid,
+    order_uid: input.orderUid,
     trade_id: input.tradeID,
     type: input.type,
     primary_currency: input.primaryCurrency,

@@ -11,7 +11,7 @@ type CreateOrderOptions = {
 }
 
 type CreateOrderResult = {
-  orderID: string
+  orderId: string
 }
 
 type CreateOrderFn = (
@@ -19,7 +19,7 @@ type CreateOrderFn = (
 ) => Promise<CreateOrderResult | Error>
 
 type CancelOrderOptions = {
-  orderID: string
+  orderId: string
 }
 
 type CancelOrderFn = (options: CancelOrderOptions) => Promise<void | Error>
@@ -45,7 +45,7 @@ type GetLowestAskPriceFn = (
 /* GET OPEN ORDERS */
 
 type GetOpenOrdersResult = Array<{
-  orderID: string
+  orderId: string
   primaryCurrency: string
   secondaryCurrency: string
   price: number
@@ -63,7 +63,7 @@ type GetTradesResult = {
   hasNextPage: boolean
   items: Array<{
     tradeID: string
-    orderID: string
+    orderId: string
     timestamp: Date
     primaryCurrency: string
     secondaryCurrency: string
@@ -81,17 +81,17 @@ type GetTradesOptions = {
 
 type GetTrades = (options: GetTradesOptions) => Promise<GetTradesResult | Error>
 
-/* EXCHANGE API */
+/* EXCHANGE Api */
 
 type ConfigOptions<Config> = {
   pool: Pool
   config: Config
-  userUID: string
-  exchangeUID: string
-  userExchangeKeysUID: string | undefined
+  userUid: string
+  exchangeUid: string
+  userExchangeKeysUid: string | undefined
 }
 
-type LogRequestFn = (raw: Kanye) => Promise<unknown | Error>
+type LogRequestFn<T = unknown> = (raw: Kanye) => Promise<T | Error>
 
 type Context<Config> = {
   config: Config
@@ -100,7 +100,7 @@ type Context<Config> = {
 
 type WithContext<Config, Fn> = (options: Context<Config>) => Fn
 
-type ExchangeAPI<Config> = {
+type ExchangeApi<Config> = {
   exchange: Exchange
   getLowestAskPrice: WithContext<Config, GetLowestAskPriceFn>
   getBalance: WithContext<Config, GetBalanceFn>
@@ -110,7 +110,7 @@ type ExchangeAPI<Config> = {
   cancelOrder: WithContext<Config, CancelOrderFn>
 }
 
-type UserExchangeAPI = {
+type UserExchangeApi = {
   exchange: Exchange
   getLowestAskPrice: GetLowestAskPriceFn
   getBalance: GetBalanceFn
@@ -120,4 +120,4 @@ type UserExchangeAPI = {
   cancelOrder: CancelOrderFn
 }
 
-export type { ExchangeAPI, UserExchangeAPI, ConfigOptions, LogRequestFn }
+export type { ExchangeApi, UserExchangeApi, ConfigOptions, LogRequestFn }

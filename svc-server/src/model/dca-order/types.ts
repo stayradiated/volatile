@@ -1,9 +1,9 @@
-type DCAOrder = {
-  UID: string
-  userUID: string
-  exchangeUID: string
-  userExchangeKeysUID: string
-  marketUID: string
+type DcaOrder = {
+  uid: string
+  userUid: string
+  exchangeUid: string
+  userExchangeKeysUid: string
+  marketUid: string
   primaryCurrency: string
   secondaryCurrency: string
   startAt: Date
@@ -19,4 +19,4 @@ type DCAOrder = {
   lastRunAt: Date | undefined
 }
 
-export { DCAOrder }
+export { DcaOrder }

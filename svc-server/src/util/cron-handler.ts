@@ -20,7 +20,7 @@ type CronHandlerFn<Input, Output> = (
 ) => Promise<Output | Error>
 
 const wrapCronHandler =
-  <Input, Output>(taskID: string, fn: CronHandlerFn<Input, Output>): Task =>
+  <Input, Output>(taskId: string, fn: CronHandlerFn<Input, Output>): Task =>
   async (input, helpers) => {
     const context: Context<Input> = {
       pool,
@@ -29,7 +29,7 @@ const wrapCronHandler =
 
     // Insert row into table
     const row = await insertCronHistory(pool, {
-      taskID,
+      taskId,
       createdAt: new Date(),
       updatedAt: new Date(),
       completedAt: undefined,
@@ -46,13 +46,13 @@ const wrapCronHandler =
 
       if (output instanceof Error) {
         const cronError = new CronError({
-          message: `Error returned by cron handler for "${taskID}"`,
+          message: `Error returned by cron handler for "${taskId}"`,
           cause: output,
-          context: { taskID, input },
+          context: { taskId, input },
         })
 
         const cronHistoryError = await updateCronHistory(pool, {
-          UID: row.UID,
+          uid: row.uid,
           completedAt: new Date(),
           state: 'ERROR',
           output: cronError.toObject({ omitting: false }),
@@ -65,7 +65,7 @@ const wrapCronHandler =
       }
 
       const error = await updateCronHistory(pool, {
-        UID: row.UID,
+        uid: row.uid,
         completedAt: new Date(),
         state: 'SUCCESS',
         output,
@@ -77,15 +77,15 @@ const wrapCronHandler =
       return
     } catch (error: unknown) {
       const unexpectedError = new UnexpectedError({
-        message: `Unexpected error thrown while executing cron hrndler for "${taskID}"`,
+        message: `Unexpected error thrown while executing cron hrndler for "${taskId}"`,
         cause: error as Error,
         context: {
-          taskID,
+          taskId,
           input,
         },
       })
       const cronHistoryError = await updateCronHistory(pool, {
-        UID: row.UID,
+        uid: row.uid,
         completedAt: new Date(),
         state: 'ERROR',
         output: unexpectedError.toObject({ omitting: false }),

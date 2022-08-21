@@ -1,9 +1,9 @@
 import type { Except } from 'type-fest'
 
 type UserDevice = {
-  UID: string
+  uid: string
   accessedAt: Date
-  userUID: string
+  userUid: string
   name: string
   deviceID: string
   trusted: boolean

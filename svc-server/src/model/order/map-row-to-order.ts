@@ -15,10 +15,10 @@ const mapToDateTime = (input: string | Date): Date => {
 const mapRowToOrder = (
   row: s.order.Selectable | s.order.JSONSelectable,
 ): Order => ({
-  UID: row.uid,
-  userUID: row.user_uid,
-  exchangeUID: row.exchange_uid,
-  orderID: row.order_id,
+  uid: row.uid,
+  userUid: row.user_uid,
+  exchangeUid: row.exchange_uid,
+  orderId: row.order_id,
   primaryCurrency: row.primary_currency,
   secondaryCurrency: row.secondary_currency,
   price: row.price,

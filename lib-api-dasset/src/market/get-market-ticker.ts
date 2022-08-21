@@ -1,4 +1,4 @@
-import { kanye, Kanye, APIError } from '@volatile/kanye'
+import { kanye, Kanye, ApiError } from '@volatile/kanye'
 
 import { requestOptions, getResponseBody } from '../util/client.js'
 import { buildHeaders } from '../util/build-headers.js'
@@ -38,7 +38,7 @@ const getMarketTicker = async (
 
   const result = getResponseBody<[GetMarketTickerResult]>(raw)
   if (result instanceof Error) {
-    const error = new APIError({
+    const error = new ApiError({
       message: 'Could not get market ticker from dasset.com',
       cause: result,
       context: {

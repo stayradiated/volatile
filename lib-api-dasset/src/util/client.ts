@@ -1,4 +1,4 @@
-import { Kanye, getResponseBodyJSON, APIError } from '@volatile/kanye'
+import { Kanye, getResponseBodyJson, ApiError } from '@volatile/kanye'
 
 import { Config } from './types.js'
 
@@ -11,16 +11,16 @@ const requestOptions = (config: Config) => ({
   redact: [config.accountId, config.apiKey],
 })
 
-type DassetAPIError = {
+type DassetApiError = {
   status: number
   type: string
   code: number
   message: string
 }
 
-const isDassetAPIError = (
+const isDassetApiError = (
   responseBody: unknown,
-): responseBody is DassetAPIError => {
+): responseBody is DassetApiError => {
   if (typeof responseBody === 'object' && responseBody !== null) {
     const responseBodyObject = responseBody as Record<string, unknown>
     return (
@@ -35,10 +35,10 @@ const isDassetAPIError = (
 }
 
 const getResponseBody = <T>(raw: Kanye): T | Error => {
-  const responseBody = getResponseBodyJSON<T>(raw)
+  const responseBody = getResponseBodyJson<T>(raw)
   if (responseBody instanceof Error) {
-    if (isDassetAPIError(responseBody)) {
-      return new APIError({
+    if (isDassetApiError(responseBody)) {
+      return new ApiError({
         message: responseBody.message,
         context: responseBody,
       })

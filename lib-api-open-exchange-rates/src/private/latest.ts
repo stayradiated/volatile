@@ -1,4 +1,4 @@
-import { Kanye, getResponseBodyJSON } from '@volatile/kanye'
+import { Kanye, getResponseBodyJson } from '@volatile/kanye'
 
 import type { Config } from '../util/types.js'
 import { get } from '../util/client.js'
@@ -63,7 +63,7 @@ const latest = async (
     return [raw, undefined]
   }
 
-  const result = getResponseBodyJSON<LatestResult>(raw)
+  const result = getResponseBodyJson<LatestResult>(raw)
 
   return [result, raw]
 }

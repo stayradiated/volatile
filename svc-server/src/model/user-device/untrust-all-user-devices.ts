@@ -4,14 +4,14 @@ import { errorBoundary } from '@stayradiated/error-boundary'
 import type { Pool } from '../../types.js'
 
 type UntrustAllUserDevicesOptions = {
-  userUID: string
+  userUid: string
 }
 
 const untrustAllUserDevices = async (
   pool: Pool,
   options: UntrustAllUserDevicesOptions,
 ): Promise<string[] | Error> => {
-  const { userUID } = options
+  const { userUid } = options
 
   const rows = await errorBoundary(async () =>
     db
@@ -22,7 +22,7 @@ const untrustAllUserDevices = async (
           trusted: false,
         },
         {
-          user_uid: userUID,
+          user_uid: userUid,
           trusted: true,
         },
         {

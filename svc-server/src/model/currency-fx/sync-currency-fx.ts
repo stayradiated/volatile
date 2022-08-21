@@ -1,6 +1,6 @@
 import * as db from 'zapatos/db'
 import * as s from 'zapatos/schema'
-import { errorBoundary } from '@stayradiated/error-boundary'
+import { errorBoundary, errorListBoundary } from '@stayradiated/error-boundary'
 import { formatISO, fromUnixTime } from 'date-fns'
 import { historical } from '@volatile/open-exchange-rates-api'
 
@@ -63,52 +63,62 @@ const syncCurrencyFx = async (
     return rows
   }
 
-  for (const row of rows) {
-    const date = row.i
+  const error = await errorListBoundary(async () =>
+    Promise.all(
+      rows.map(async (row): Promise<void | Error> => {
+        const date = row.i
 
-    const [result, raw] = await historical({
-      config: { appId: config.OPEN_EXCHANGE_RATES_APP_ID },
-      date,
-      base: 'USD', // Free tier only supports USD
-      symbols: [fromSymbol, toSymbol],
-    })
-    if (raw) {
-      const insertRequestError = await insertRequest(pool, raw.redacted())
-      if (insertRequestError instanceof Error) {
-        return insertRequestError
-      }
-    }
+        const [result, raw] = await historical({
+          config: { appId: config.OPEN_EXCHANGE_RATES_APP_ID },
+          date,
+          base: 'USD', // Free tier only supports USD
+          symbols: [fromSymbol, toSymbol],
+        })
+        if (raw) {
+          const insertRequestError = await insertRequest(pool, raw.redacted())
+          if (insertRequestError instanceof Error) {
+            return insertRequestError
+          }
+        }
 
-    if (result instanceof Error) {
-      return result
-    }
+        if (result instanceof Error) {
+          return result
+        }
 
-    const toRate = result.rates[toSymbol] ?? Number.NaN
-    const fromRate = result.rates[fromSymbol] ?? Number.NaN
-    const fxRate = toRate / fromRate
+        const toRate = result.rates[toSymbol] ?? Number.NaN
+        const fromRate = result.rates[fromSymbol] ?? Number.NaN
+        const fxRate = toRate / fromRate
 
-    if (typeof fxRate !== 'number' || Number.isNaN(fxRate)) {
-      return new UnexpectedError({
-        message: `Could not get ${fromSymbol}→${toSymbol} rate`,
-        context: {
+        if (typeof fxRate !== 'number' || Number.isNaN(fxRate)) {
+          return new UnexpectedError({
+            message: `Could not get ${fromSymbol}→${toSymbol} rate`,
+            context: {
+              fromSymbol,
+              fromRate,
+              toSymbol,
+              toRate,
+              fxRate,
+            },
+          })
+        }
+
+        const upsertResult = await upsertCurrencyFx(pool, {
+          timestamp: fromUnixTime(result.timestamp),
           fromSymbol,
-          fromRate,
           toSymbol,
-          toRate,
           fxRate,
-        },
-      })
-    }
+        })
+        if (upsertResult instanceof Error) {
+          return upsertResult
+        }
 
-    const upsertResult = await upsertCurrencyFx(pool, {
-      timestamp: fromUnixTime(result.timestamp),
-      fromSymbol,
-      toSymbol,
-      fxRate,
-    })
-    if (upsertResult instanceof Error) {
-      return upsertResult
-    }
+        return undefined
+      }),
+    ),
+  )
+
+  if (error instanceof Error) {
+    return error
   }
 
   return { count: rows.length }

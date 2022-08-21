@@ -216,18 +216,7 @@ const hmacDigest = (signingKey: Buffer, message: Buffer): Buffer => {
 }
 
 const verifySignature = (expected: Buffer, actual: Buffer): boolean => {
-  if (expected.length !== actual.length) {
-    return false
-  }
-
-  // eslint-disable-next-line unicorn/no-array-reduce
-  const diff = expected.reduce((accum, expectedElement, index) => {
-    const actualElement = actual[index] ?? 0
-    accum |= expectedElement ^ actualElement
-    return accum
-  }, 0)
-
-  return diff === 0
+  return crypto.timingSafeEqual(expected, actual)
 }
 
 export { createKeyring, Keyring, UserKeys, Algorithm, EncryptResult }

@@ -1,7 +1,7 @@
-import { kanye, Kanye, getResponseBodyJSON, APIError } from '@volatile/kanye'
+import { kanye, Kanye, getResponseBodyJson, ApiError } from '@volatile/kanye'
 
 import { createSignedBody } from './signature.js'
-import { isAPIErrorBody } from './is-api-error-body.js'
+import { isApiErrorBody } from './is-api-error-body.js'
 import { serial } from './serial.js'
 import type { Config } from './types.js'
 
@@ -39,19 +39,19 @@ const post = async (
 }
 
 const getResponseBody = <T>(input: Kanye): T | Error => {
-  const responseBodyJSON = getResponseBodyJSON<T>(input)
+  const responseBodyJson = getResponseBodyJson<T>(input)
 
-  if (isAPIErrorBody(responseBodyJSON)) {
-    return new APIError({
+  if (isApiErrorBody(responseBodyJson)) {
+    return new ApiError({
       message: `Received error from ${input.method} ${input.url}`,
       context: {
         ...input,
-        responseBodyJSON,
+        responseBodyJson,
       },
     })
   }
 
-  return responseBodyJSON
+  return responseBodyJson
 }
 
 export { get, post, getResponseBody }

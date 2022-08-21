@@ -1,4 +1,16 @@
-# kc-server
+# volatile/server
+
+```bash
+# start hasura/postgres
+docker compose up
+
+# start server
+pnpm run start
+
+# start web client
+../web
+pnpm run dev
+```
 
 ## Hasura
 

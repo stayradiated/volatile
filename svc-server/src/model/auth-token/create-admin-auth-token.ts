@@ -1,21 +1,23 @@
 import { generateAuthToken } from './generate-auth-token.js'
 
 type CreateAdminAuthTokenOptions = {
-  userUID: string
+  userUid: string
 }
 
 type AuthTokenResult = {
-  userUID: string
+  userUid: string
   authToken: string
   expiresAt: Date
 }
 
-const createAdminAuthToken = async (options: CreateAdminAuthTokenOptions): Promise<AuthTokenResult | Error> => {
-  const { userUID } = options
+const createAdminAuthToken = async (
+  options: CreateAdminAuthTokenOptions,
+): Promise<AuthTokenResult | Error> => {
+  const { userUid } = options
   const role = 'admin'
-  const { authToken, expiresAt } = generateAuthToken({ userUID, role })
+  const { authToken, expiresAt } = generateAuthToken({ userUid, role })
 
-  return { userUID, authToken, expiresAt }
+  return { userUid, authToken, expiresAt }
 }
 
 export { createAdminAuthToken }

@@ -3,10 +3,10 @@ import type { UserLimit } from './types.js'
 
 const getUserLimit = async (
   _pool: Pool,
-  _userUID: string,
+  _userUid: string,
 ): Promise<UserLimit | Error> => {
   return {
-    maxEnabledDCAOrderCount: 5,
+    maxEnabledDcaOrderCount: 5,
   }
 }
 

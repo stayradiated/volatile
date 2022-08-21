@@ -3,7 +3,7 @@ import { Kanye } from '@volatile/kanye'
 
 import { config } from '../../env.js'
 
-import { CurrencyPair, USD_NZD, USD_AUD, AUD_NZD } from './config.js'
+import { CurrencyPair, usdNzd, usdAud, audNzd } from './config.js'
 
 const OPEN_EXCHANGE_RATES_OPTIONS = {
   config: {
@@ -15,16 +15,16 @@ type Resolver = () => Promise<[number | Error, Kanye?]>
 
 const resolveCurrencyMap = new Map<CurrencyPair, Resolver>([
   [
-    USD_NZD,
-    createCachedFetchFn(currencySources.USD_NZD, OPEN_EXCHANGE_RATES_OPTIONS),
+    usdNzd,
+    createCachedFetchFn(currencySources.usdNzd, OPEN_EXCHANGE_RATES_OPTIONS),
   ],
   [
-    USD_AUD,
-    createCachedFetchFn(currencySources.USD_AUD, OPEN_EXCHANGE_RATES_OPTIONS),
+    usdAud,
+    createCachedFetchFn(currencySources.usdAud, OPEN_EXCHANGE_RATES_OPTIONS),
   ],
   [
-    AUD_NZD,
-    createCachedFetchFn(currencySources.AUD_NZD, OPEN_EXCHANGE_RATES_OPTIONS),
+    audNzd,
+    createCachedFetchFn(currencySources.audNzd, OPEN_EXCHANGE_RATES_OPTIONS),
   ],
 ])
 

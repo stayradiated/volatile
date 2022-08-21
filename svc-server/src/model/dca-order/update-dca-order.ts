@@ -6,50 +6,50 @@ import type { Pool } from '../../types.js'
 
 import { getUserLimit } from '../user-limit/index.js'
 
-import { selectDCAOrder } from './select-dca-order.js'
-import { selectAllDCAOrders } from './select-all-dca-orders.js'
-import { mapRowToDCAOrder } from './map-row-to-dca-order.js'
-import type { DCAOrder } from './types.js'
+import { selectDcaOrder } from './select-dca-order.js'
+import { selectAllDcaOrders } from './select-all-dca-orders.js'
+import { mapRowToDcaOrder } from './map-row-to-dca-order.js'
+import type { DcaOrder } from './types.js'
 
-type UpdateDCAOrderOptions = {
-  dcaOrderUID: string
+type UpdateDcaOrderOptions = {
+  dcaOrderUid: string
   enabled: boolean
 }
 
-const updateDCAOrder = async (
+const updateDcaOrder = async (
   pool: Pool,
-  options: UpdateDCAOrderOptions,
-): Promise<DCAOrder | Error> => {
-  const { dcaOrderUID, enabled } = options
+  options: UpdateDcaOrderOptions,
+): Promise<DcaOrder | Error> => {
+  const { dcaOrderUid, enabled } = options
 
-  const dcaOrder = await selectDCAOrder(pool, dcaOrderUID)
+  const dcaOrder = await selectDcaOrder(pool, dcaOrderUid)
   if (dcaOrder instanceof Error) {
     return dcaOrder
   }
 
   if (enabled) {
-    const userLimit = await getUserLimit(pool, dcaOrder.userUID)
+    const userLimit = await getUserLimit(pool, dcaOrder.userUid)
     if (userLimit instanceof Error) {
       return userLimit
     }
 
-    const enabledDCAOrders = await selectAllDCAOrders(pool, {
-      userUID: dcaOrder.userUID,
+    const enabledDcaOrders = await selectAllDcaOrders(pool, {
+      userUid: dcaOrder.userUid,
       enabled: true,
     })
-    if (enabledDCAOrders instanceof Error) {
-      return enabledDCAOrders
+    if (enabledDcaOrders instanceof Error) {
+      return enabledDcaOrders
     }
 
-    const { maxEnabledDCAOrderCount } = userLimit
-    const enabledDCAOrdersCount = enabledDCAOrders.length
+    const { maxEnabledDcaOrderCount } = userLimit
+    const enabledDcaOrdersCount = enabledDcaOrders.length
 
-    if (enabledDCAOrdersCount >= maxEnabledDCAOrderCount) {
+    if (enabledDcaOrdersCount >= maxEnabledDcaOrderCount) {
       return new UserLimitError({
-        message: 'You have reached the maximum number of DCAOrders',
+        message: 'You have reached the maximum number of DcaOrders',
         context: {
-          enabledDCAOrdersCount,
-          maxEnabledDCAOrderCount,
+          enabledDcaOrdersCount,
+          maxEnabledDcaOrderCount,
         },
       })
     }
@@ -66,28 +66,28 @@ const updateDCAOrder = async (
           enabled_at: enabledAt,
         },
         {
-          uid: dcaOrderUID,
+          uid: dcaOrderUid,
         },
       )
       .run(pool),
   )
   if (rows instanceof Error) {
     return new DBError({
-      message: 'Could not update DCA Order.',
+      message: 'Could not update Dca Order.',
       cause: rows,
-      context: { dcaOrderUID, enabled },
+      context: { dcaOrderUid, enabled },
     })
   }
 
   const row = rows[0]
   if (!row) {
     return new DBError({
-      message: 'Could not update DCA Order.',
-      context: { dcaOrderUID, enabled },
+      message: 'Could not update Dca Order.',
+      context: { dcaOrderUid, enabled },
     })
   }
 
-  return mapRowToDCAOrder(row)
+  return mapRowToDcaOrder(row)
 }
 
-export { updateDCAOrder }
+export { updateDcaOrder }

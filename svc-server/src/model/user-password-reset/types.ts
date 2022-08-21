@@ -1,9 +1,9 @@
 import type { Except } from 'type-fest'
 
 type UserPasswordReset = {
-  UID: string
+  uid: string
   expiresAt: Date
-  userUID: string
+  userUid: string
   secret: string
 }
 

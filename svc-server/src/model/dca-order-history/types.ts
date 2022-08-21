@@ -1,8 +1,8 @@
-type DCAOrderHistory = {
-  UID: string
-  userUID: string
-  dcaOrderUID: string
-  orderUID: string | undefined
+type DcaOrderHistory = {
+  uid: string
+  userUid: string
+  dcaOrderUid: string
+  orderUid: string | undefined
   createdAt: Date
   updatedAt: Date
   primaryCurrency: string
@@ -15,4 +15,4 @@ type DCAOrderHistory = {
   description: string
 }
 
-export { DCAOrderHistory }
+export { DcaOrderHistory }

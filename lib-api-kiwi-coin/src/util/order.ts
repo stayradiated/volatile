@@ -2,7 +2,7 @@ import { Prism, formatWarnings } from '@zwolf/prism'
 
 import { toFloat, toBuySell, toDate } from './transforms.js'
 
-type APIResponse = {
+type ApiResponse = {
   price: string
   amount: string
   type: 0 | 1
@@ -17,7 +17,7 @@ type Order = {
   datetime: Date
 }
 
-const toOrder = ($: Prism<APIResponse>): Order => ({
+const toOrder = ($: Prism<ApiResponse>): Order => ({
   id: $.get<number>('id').value ?? -1,
   price: $.get<string>('price').transform(toFloat).value ?? -1,
   amount: $.get<string>('amount').transform(toFloat).value ?? -1,
@@ -25,7 +25,7 @@ const toOrder = ($: Prism<APIResponse>): Order => ({
   datetime: $.get<string>('datetime').transform(toDate).value ?? new Date(0),
 })
 
-const parseOrder = (data: APIResponse): Order | Error => {
+const parseOrder = (data: ApiResponse): Order | Error => {
   const $ = new Prism(data)
 
   const result = $.transform(toOrder).value!
@@ -37,9 +37,9 @@ const parseOrder = (data: APIResponse): Order | Error => {
   return result
 }
 
-const parseOrderList = (data: APIResponse[]): Order[] | Error => {
-  const $ = new Prism<APIResponse[]>(data)
-  const result = $.toArray().map(($item: Prism<APIResponse>): Order => {
+const parseOrderList = (data: ApiResponse[]): Order[] | Error => {
+  const $ = new Prism<ApiResponse[]>(data)
+  const result = $.toArray().map(($item: Prism<ApiResponse>): Order => {
     return $item.transform(toOrder).value!
   })
 

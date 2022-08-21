@@ -1,5 +1,5 @@
 import { format } from 'date-fns'
-import { Kanye, getResponseBodyJSON } from '@volatile/kanye'
+import { Kanye, getResponseBodyJson } from '@volatile/kanye'
 
 import type { Config } from '../util/types.js'
 import { get } from '../util/client.js'
@@ -71,7 +71,7 @@ const timeseries = async (
     return [raw, undefined]
   }
 
-  const result = getResponseBodyJSON<TimeSeriesResult>(raw)
+  const result = getResponseBodyJson<TimeSeriesResult>(raw)
 
   return [result, raw]
 }

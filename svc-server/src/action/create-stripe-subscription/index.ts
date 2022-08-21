@@ -20,17 +20,17 @@ const createStripeSubscription: ActionHandlerFn<Input, Output> = async (
   context,
 ) => {
   const { pool, input, session } = context
-  const { userUID } = session
-  if (!userUID) {
+  const { userUid } = session
+  if (!userUid) {
     return new MissingRequiredArgumentError({
-      message: 'userUID is required',
-      context: { userUID },
+      message: 'userUid is required',
+      context: { userUid },
     })
   }
 
   const { price_id: priceId } = input
 
-  const customer = await getOrCreateStripeCustomer(pool, userUID)
+  const customer = await getOrCreateStripeCustomer(pool, userUid)
   if (customer instanceof Error) {
     return customer
   }

@@ -15,7 +15,7 @@ const upsertExchangeSecondaryCurrency = async (
       .upsert(
         'exchange_secondary_currency',
         {
-          exchange_uid: exchangeSecondaryCurrency.exchangeUID,
+          exchange_uid: exchangeSecondaryCurrency.exchangeUid,
           symbol: exchangeSecondaryCurrency.symbol,
           created_at: now,
           updated_at: now,

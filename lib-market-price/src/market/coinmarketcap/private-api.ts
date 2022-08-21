@@ -1,4 +1,4 @@
-import { kanye, getResponseBodyJSON } from '@volatile/kanye'
+import { kanye, getResponseBodyJson } from '@volatile/kanye'
 
 const prefixUrl = 'https://api.coinmarketcap.com/'
 
@@ -112,7 +112,7 @@ export enum Coin {
   BITS = 9023,
 }
 
-type APIStatus = {
+type ApiStatus = {
   timestamp: string
   error_code: number
   error_message: string
@@ -126,16 +126,16 @@ export type ChartOptions = {
   convertId: Coin
 }
 
-type APIChartPoint = {
+type ApiChartPoint = {
   v: [number, number, number, number]
   c: [number, number, number]
 }
 
-type APIChartResponse = {
+type ApiChartResponse = {
   data: {
-    points: Record<string, APIChartPoint>
+    points: Record<string, ApiChartPoint>
   }
-  status: APIStatus
+  status: ApiStatus
 }
 
 export type ChartResult = Array<{ date: Date; price: number }>
@@ -157,7 +157,7 @@ export const chart = async (
     return raw
   }
 
-  const result = getResponseBodyJSON<APIChartResponse>(raw)
+  const result = getResponseBodyJson<ApiChartResponse>(raw)
   if (result instanceof Error) {
     return result
   }

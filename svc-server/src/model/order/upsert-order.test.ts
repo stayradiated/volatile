@@ -8,13 +8,13 @@ import { upsertOrder, UpsertOrderOptions } from './upsert-order.js'
 
 test('upsertOrder', async (t) => {
   const { pool, make } = t.context
-  const userUID = await make.user()
-  const exchangeUID = await make.exchange()
+  const userUid = await make.user()
+  const exchangeUid = await make.exchange()
 
   const original: UpsertOrderOptions = {
-    userUID,
-    exchangeUID,
-    orderID: 'upsert-order',
+    userUid,
+    exchangeUid,
+    orderId: 'upsert-order',
     primaryCurrency: 'BTC',
     secondaryCurrency: 'NZD',
     price: 50_000,
@@ -25,37 +25,35 @@ test('upsertOrder', async (t) => {
     closedAt: undefined,
   }
 
-  const rowUID = await throwIfError<string>(upsertOrder(pool, original))
-  t.is('string', typeof rowUID)
+  const rowUid = await throwIfError<string>(upsertOrder(pool, original))
+  t.is('string', typeof rowUid)
 
-  {
-    const row = await db.selectExactlyOne('order', { uid: rowUID }).run(pool)
-    t.like(row, {
-      order_id: original.orderID,
-      uid: rowUID,
-      type: original.type,
-      price: original.price,
-      volume: original.volume,
-      value: original.value,
-      primary_currency: original.primaryCurrency,
-      secondary_currency: original.secondaryCurrency,
-      user_uid: original.userUID,
-      closed_at: null,
-      exchange_uid: original.exchangeUID,
-    })
-    t.is(
-      original.openedAt.valueOf(),
-      parseISO(row.opened_at).valueOf(),
-      'original.opened_at',
-    )
-    t.is('string', typeof row.created_at)
-    t.is('string', typeof row.updated_at)
-  }
+  const rowV1 = await db.selectExactlyOne('order', { uid: rowUid }).run(pool)
+  t.like(rowV1, {
+    order_id: original.orderId,
+    uid: rowUid,
+    type: original.type,
+    price: original.price,
+    volume: original.volume,
+    value: original.value,
+    primary_currency: original.primaryCurrency,
+    secondary_currency: original.secondaryCurrency,
+    user_uid: original.userUid,
+    closed_at: null,
+    exchange_uid: original.exchangeUid,
+  })
+  t.is(
+    original.openedAt.valueOf(),
+    parseISO(rowV1.opened_at).valueOf(),
+    'original.opened_at',
+  )
+  t.is('string', typeof rowV1.created_at)
+  t.is('string', typeof rowV1.updated_at)
 
   const mutate: UpsertOrderOptions = {
-    userUID,
-    exchangeUID,
-    orderID: 'upsert-order',
+    userUid,
+    exchangeUid,
+    orderId: 'upsert-order',
 
     primaryCurrency: 'ETH',
     secondaryCurrency: 'NZD',
@@ -67,33 +65,31 @@ test('upsertOrder', async (t) => {
     closedAt: new Date(),
   }
 
-  const mutateUID = await throwIfError<string>(upsertOrder(pool, mutate))
-  t.is(rowUID, mutateUID)
+  const mutateUid = await throwIfError<string>(upsertOrder(pool, mutate))
+  t.is(rowUid, mutateUid)
 
-  {
-    const row = await db.selectExactlyOne('order', { uid: rowUID }).run(pool)
-    t.like(row, {
-      uid: rowUID,
-      user_uid: original.userUID,
-      exchange_uid: original.exchangeUID,
+  const rowV2 = await db.selectExactlyOne('order', { uid: rowUid }).run(pool)
+  t.like(rowV2, {
+    uid: rowUid,
+    user_uid: original.userUid,
+    exchange_uid: original.exchangeUid,
 
-      order_id: original.orderID,
-      type: mutate.type,
-      price: mutate.price,
-      volume: mutate.volume,
-      value: mutate.value,
-      primary_currency: mutate.primaryCurrency,
-      secondary_currency: mutate.secondaryCurrency,
-    })
-    t.is(
-      mutate.openedAt.valueOf(),
-      parseISO(row.opened_at).valueOf(),
-      'mutate.opened_at',
-    )
-    t.is(
-      mutate.closedAt!.valueOf(),
-      parseISO(row.closed_at!).valueOf(),
-      'mutate.closed_at',
-    )
-  }
+    order_id: original.orderId,
+    type: mutate.type,
+    price: mutate.price,
+    volume: mutate.volume,
+    value: mutate.value,
+    primary_currency: mutate.primaryCurrency,
+    secondary_currency: mutate.secondaryCurrency,
+  })
+  t.is(
+    mutate.openedAt.valueOf(),
+    parseISO(rowV2.opened_at).valueOf(),
+    'mutate.opened_at',
+  )
+  t.is(
+    mutate.closedAt!.valueOf(),
+    parseISO(rowV2.closed_at!).valueOf(),
+    'mutate.closed_at',
+  )
 })

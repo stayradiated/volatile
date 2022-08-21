@@ -21,6 +21,7 @@ test('should return true', async (t) => {
     .reply(
       200,
       JSON.stringify({
+        /* eslint-disable @typescript-eslint/naming-convention */
         nzd_available: '10.10',
         nzd_reserved: '20.20',
         nzd_balance: '30.30',
@@ -29,6 +30,7 @@ test('should return true', async (t) => {
         btc_balance: '0.005',
         fee: '0.8',
         mmfee: '0.4',
+        /* eslint-enable @typescript-eslint/naming-convention */
       }),
     )
 

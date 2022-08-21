@@ -1,3 +1,5 @@
+import { Buffer } from 'node:buffer'
+
 const ENC: Record<string, string> = {
   '+': '-',
   '/': '_',

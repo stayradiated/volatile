@@ -1,4 +1,4 @@
-import { randomUUID } from 'crypto'
+import { randomUUID } from 'node:crypto'
 import * as db from 'zapatos/db'
 import * as s from 'zapatos/schema'
 import { errorBoundary } from '@stayradiated/error-boundary'
@@ -9,7 +9,7 @@ import { DBError } from '../../util/error.js'
 import type { Pool } from '../../types.js'
 import type { Order } from './types.js'
 
-type InsertOrderOptions = Except<Order, 'UID'>
+type InsertOrderOptions = Except<Order, 'uid'>
 
 const insertOrder = async (
   pool: Pool,
@@ -21,9 +21,9 @@ const insertOrder = async (
     uid: randomUUID(),
     created_at: now,
     updated_at: now,
-    user_uid: options.userUID,
-    exchange_uid: options.exchangeUID,
-    order_id: options.orderID,
+    user_uid: options.userUid,
+    exchange_uid: options.exchangeUid,
+    order_id: options.orderId,
     primary_currency: options.primaryCurrency,
     secondary_currency: options.secondaryCurrency,
     price: options.price,
@@ -47,7 +47,7 @@ const insertOrder = async (
 
   return {
     ...options,
-    UID: rows[0]!.uid,
+    uid: rows[0]!.uid,
   }
 }
 

@@ -1,4 +1,4 @@
-import { randomUUID } from 'crypto'
+import { randomUUID } from 'node:crypto'
 import * as db from 'zapatos/db'
 import { errorBoundary } from '@stayradiated/error-boundary'
 import type * as s from 'zapatos/schema'
@@ -31,7 +31,7 @@ const EXCHANGE_INDEPENDENT_RESERVE: Exchange = {
   url: 'https://independentreserve.com',
 }
 
-const forceGetExchangeUID = async (
+const forceGetExchangeUid = async (
   pool: Pool,
   exchange: Exchange,
 ): Promise<string | Error> => {
@@ -65,14 +65,14 @@ const forceGetExchangeUID = async (
 
 const forceGetExchange = async (
   pool: Pool,
-  exchangeUID: string,
+  exchangeUid: string,
 ): Promise<Exchange | Error> => {
   const row = await errorBoundary(async () =>
     db
       .selectExactlyOne(
         'exchange',
         {
-          uid: exchangeUID,
+          uid: exchangeUid,
         },
         {
           columns: ['id'],
@@ -84,7 +84,7 @@ const forceGetExchange = async (
     return new DBError({
       message: 'Could not find exchange.',
       cause: row,
-      context: { exchangeUID },
+      context: { exchangeUid },
     })
   }
 
@@ -103,41 +103,41 @@ const forceGetExchange = async (
   }
 }
 
-const globalUIDCache = new Map<Exchange, string>()
+const globaluidCache = new Map<Exchange, string>()
 
-const getExchangeUID = async (
+const getExchangeUid = async (
   pool: Pool,
   exchange: Exchange,
 ): Promise<string | Error> => {
-  if (globalUIDCache.has(exchange)) {
-    return globalUIDCache.get(exchange)!
+  if (globaluidCache.has(exchange)) {
+    return globaluidCache.get(exchange)!
   }
 
-  const exchangeUID = await forceGetExchangeUID(pool, exchange)
-  if (exchangeUID instanceof Error) {
-    return exchangeUID
+  const exchangeUid = await forceGetExchangeUid(pool, exchange)
+  if (exchangeUid instanceof Error) {
+    return exchangeUid
   }
 
-  globalUIDCache.set(exchange, exchangeUID)
-  return exchangeUID
+  globaluidCache.set(exchange, exchangeUid)
+  return exchangeUid
 }
 
 const getExchange = async (
   pool: Pool,
-  exchangeUID: string,
+  exchangeUid: string,
 ): Promise<Exchange | Error> => {
-  for (const entry of globalUIDCache.entries()) {
-    if (entry[1] === exchangeUID) {
+  for (const entry of globaluidCache.entries()) {
+    if (entry[1] === exchangeUid) {
       return entry[0]
     }
   }
 
-  const exchange = await forceGetExchange(pool, exchangeUID)
+  const exchange = await forceGetExchange(pool, exchangeUid)
   if (exchange instanceof Error) {
     return exchange
   }
 
-  globalUIDCache.set(exchange, exchangeUID)
+  globaluidCache.set(exchange, exchangeUid)
   return exchange
 }
 
@@ -170,9 +170,9 @@ export {
   EXCHANGE_KIWI_COIN,
   EXCHANGE_DASSET,
   EXCHANGE_INDEPENDENT_RESERVE,
-  forceGetExchangeUID,
+  forceGetExchangeUid,
   forceGetExchange,
-  getExchangeUID,
+  getExchangeUid,
   getExchange,
   getExchangeList,
 }

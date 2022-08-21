@@ -14,7 +14,7 @@ const selectAllCurrencies = async (pool: Pool): Promise<Currency[] | Error> => {
     return rows
   }
 
-  return rows.map(mapRowToCurrency)
+  return rows.map((row) => mapRowToCurrency(row))
 }
 
 export { selectAllCurrencies }

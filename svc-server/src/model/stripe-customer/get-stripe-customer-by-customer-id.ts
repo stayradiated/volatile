@@ -37,7 +37,7 @@ const getStripeCustomerByCustomerID = async (
   }
 
   return {
-    userUID: row.user_uid,
+    userUid: row.user_uid,
     customerID: row.customer_id,
   }
 }

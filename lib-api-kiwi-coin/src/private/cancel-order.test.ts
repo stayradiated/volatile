@@ -17,32 +17,32 @@ type RequestBody = {
 }
 
 test('should return true', async (t) => {
-  const orderID = 12_345
+  const orderId = 12_345
 
   nock('https://kiwi-coin.com')
     .post(
       '/api/cancel_order',
-      (body: RequestBody) => body.id === String(orderID),
+      (body: RequestBody) => body.id === String(orderId),
     )
     .reply(200, JSON.stringify(true))
 
-  const [result] = await cancelOrder({ config, orderID })
+  const [result] = await cancelOrder({ config, orderId })
   throwIfError(result)
 
   t.is(result, true)
 })
 
 test('should return API error', async (t) => {
-  const orderID = 98_765
+  const orderId = 98_765
 
   nock('https://kiwi-coin.com')
     .post(
       '/api/cancel_order',
-      (body: RequestBody) => body.id === String(orderID),
+      (body: RequestBody) => body.id === String(orderId),
     )
     .reply(200, JSON.stringify({ error: 'Unauthorized' }))
 
-  const [result] = await cancelOrder({ config, orderID })
+  const [result] = await cancelOrder({ config, orderId })
 
   const error = throwIfValue(result)
 

@@ -1,5 +1,5 @@
 type Request = {
-  UID: string
+  uid: string
   method: string
   url: string
   requestAt: Date

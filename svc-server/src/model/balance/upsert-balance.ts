@@ -1,4 +1,4 @@
-import { randomUUID } from 'crypto'
+import { randomUUID } from 'node:crypto'
 import db from 'zapatos/db'
 import { errorBoundary } from '@stayradiated/error-boundary'
 import type { Except } from 'type-fest'
@@ -6,7 +6,7 @@ import type { Except } from 'type-fest'
 import type { Pool } from '../../types.js'
 import type { Balance } from './types.js'
 
-type UpsertBalanceOptions = Except<Balance, 'UID'>
+type UpsertBalanceOptions = Except<Balance, 'uid'>
 
 const equalNumber = (a: number, b: number) => a.toFixed(8) === b.toFixed(8)
 
@@ -19,9 +19,9 @@ const upsertBalance = async (
       .selectOne(
         'balance',
         {
-          user_uid: balance.userUID,
-          exchange_uid: balance.exchangeUID,
-          user_exchange_keys_uid: balance.userExchangeKeysUID,
+          user_uid: balance.userUid,
+          exchange_uid: balance.exchangeUid,
+          user_exchange_keys_uid: balance.userExchangeKeysUid,
           currency_symbol: balance.currencySymbol,
         },
         {
@@ -43,19 +43,19 @@ const upsertBalance = async (
     !equalNumber(previousBalance.total_balance, balance.totalBalance) ||
     !equalNumber(previousBalance.available_balance, balance.availableBalance)
 
-  const balanceUID = balanceHasChanged ? randomUUID() : previousBalance.uid
+  const balanceUid = balanceHasChanged ? randomUUID() : previousBalance.uid
 
   const error = await errorBoundary(async () =>
     db
       .upsert(
         'balance',
         {
-          uid: balanceUID,
+          uid: balanceUid,
           created_at: balance.createdAt,
           updated_at: balance.updatedAt,
-          user_uid: balance.userUID,
-          exchange_uid: balance.exchangeUID,
-          user_exchange_keys_uid: balance.userExchangeKeysUID,
+          user_uid: balance.userUid,
+          exchange_uid: balance.exchangeUid,
+          user_exchange_keys_uid: balance.userExchangeKeysUid,
           currency_symbol: balance.currencySymbol,
           total_balance: balance.totalBalance,
           available_balance: balance.availableBalance,
@@ -72,7 +72,7 @@ const upsertBalance = async (
     return error
   }
 
-  return balanceUID
+  return balanceUid
 }
 
 export { upsertBalance }

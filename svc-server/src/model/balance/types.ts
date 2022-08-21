@@ -1,10 +1,10 @@
 type Balance = {
-  UID: string
+  uid: string
   createdAt: Date
   updatedAt: Date
-  userUID: string
-  exchangeUID: string
-  userExchangeKeysUID: string
+  userUid: string
+  exchangeUid: string
+  userExchangeKeysUid: string
   currencySymbol: string
   totalBalance: number
   availableBalance: number

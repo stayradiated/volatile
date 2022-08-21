@@ -2,7 +2,7 @@ import { Link } from '@remix-run/react'
 import { useMemo } from 'react'
 import { useTable, Column } from 'react-table'
 import { parseISO } from 'date-fns'
-import { formatToTimeZone } from 'date-fns-timezone'
+import { formatInTimeZone } from 'date-fns-tz'
 
 import { Table, Dropdown } from '../retro-ui'
 
@@ -28,7 +28,7 @@ const UserExchangeKeysList = (props: Props) => {
         accessor: 'updated_at',
         Cell(props) {
           const { value } = props
-          return <>{formatToTimeZone(parseISO(value), 'PPpp', { timeZone })}</>
+          return <>{formatInTimeZone(parseISO(value), timeZone, 'PPpp')}</>
         },
       },
       {

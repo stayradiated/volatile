@@ -16,21 +16,21 @@ const updateUserExchangeKeysHandler: ActionHandlerFn<Input, Output> = async (
 ) => {
   const { pool, input, session } = context
   const {
-    user_exchange_keys_uid: userExchangeKeysUID,
+    user_exchange_keys_uid: userExchangeKeysUid,
     keys,
     description,
   } = input
-  const { userUID } = session
-  if (!userUID) {
+  const { userUid } = session
+  if (!userUid) {
     return new MissingRequiredArgumentError({
-      message: 'userUID is required',
-      context: { userUID },
+      message: 'userUid is required',
+      context: { userUid },
     })
   }
 
   const error = await updateUserExchangeKeys(pool, {
-    UID: userExchangeKeysUID,
-    userUID,
+    uid: userExchangeKeysUid,
+    userUid,
     keys,
     description,
     invalidatedAt: undefined,
@@ -40,7 +40,7 @@ const updateUserExchangeKeysHandler: ActionHandlerFn<Input, Output> = async (
   }
 
   return {
-    user_exchange_keys_uid: userExchangeKeysUID,
+    user_exchange_keys_uid: userExchangeKeysUid,
   }
 }
 

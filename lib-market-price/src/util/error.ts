@@ -1,4 +1,4 @@
-/* eslint-disable fp/no-class, @typescript-eslint/no-useless-constructor */
+/* eslint-disable @typescript-eslint/no-useless-constructor */
 
 import {
   BetterError,

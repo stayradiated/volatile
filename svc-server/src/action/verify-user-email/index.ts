@@ -27,19 +27,19 @@ const verifyUserEmailHandler: ActionHandlerFn<Input, Output> = async (
     return userEmailVerify
   }
 
-  const { userUID } = userEmailVerify
+  const { userUid } = userEmailVerify
 
-  const userError = await updateUser(pool, { userUID, emailVerified: true })
+  const userError = await updateUser(pool, { userUid, emailVerified: true })
   if (userError instanceof Error) {
     return userError
   }
 
-  const deleteError = await deleteUserEmailVerify(pool, userEmailVerify.UID)
+  const deleteError = await deleteUserEmailVerify(pool, userEmailVerify.uid)
   if (deleteError instanceof Error) {
     return deleteError
   }
 
-  const email = await getUserEmail(pool, userUID)
+  const email = await getUserEmail(pool, userUid)
   if (email instanceof Error) {
     return email
   }

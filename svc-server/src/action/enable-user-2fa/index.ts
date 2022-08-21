@@ -9,7 +9,7 @@ import { authenticator } from '../../util/otplib.js'
 
 import type { ActionHandlerFn } from '../../util/action-handler.js'
 import {
-  hasUser2FAByUserUID,
+  hasUser2FAByUserUid,
   insertUser2FA,
 } from '../../model/user-2fa/index.js'
 
@@ -27,19 +27,19 @@ const enableUser2FAHandler: ActionHandlerFn<Input, Output> = async (
   context,
 ) => {
   const { pool, input, session } = context
-  const { userUID } = session
-  if (!userUID) {
+  const { userUid } = session
+  if (!userUid) {
     return new MissingRequiredArgumentError({
-      message: 'userUID is required',
-      context: { userUID },
+      message: 'userUid is required',
+      context: { userUid },
     })
   }
 
-  const alreadyHas2FAEnabled = await hasUser2FAByUserUID(pool, userUID)
+  const alreadyHas2FAEnabled = await hasUser2FAByUserUid(pool, userUid)
   if (alreadyHas2FAEnabled) {
     return new IllegalStateError({
       message: 'This user already has 2FA enabled.',
-      context: { userUID, alreadyHas2FAEnabled },
+      context: { userUid, alreadyHas2FAEnabled },
     })
   }
 
@@ -53,12 +53,12 @@ const enableUser2FAHandler: ActionHandlerFn<Input, Output> = async (
   if (!isValid) {
     return new IllegalArgumentError({
       message: 'Token is not valid for secret.',
-      context: { userUID, token, isValid },
+      context: { userUid, token, isValid },
     })
   }
 
   const error = await insertUser2FA(pool, {
-    userUID,
+    userUid,
     name,
     secret,
   })
@@ -67,7 +67,7 @@ const enableUser2FAHandler: ActionHandlerFn<Input, Output> = async (
   }
 
   return {
-    user_uid: userUID,
+    user_uid: userUid,
   }
 }
 

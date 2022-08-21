@@ -1,22 +1,22 @@
-import { inspect } from 'util'
+import { inspect } from 'node:util'
 
 import { test } from '../../test-util/ava.js'
 
-import { selectAllDCAOrders } from './select-all-dca-orders.js'
-import { insertDCAOrder, InsertDCAOrderOptions } from './insert-dca-order.js'
+import { selectAllDcaOrders } from './select-all-dca-orders.js'
+import { insertDcaOrder, InsertDcaOrderOptions } from './insert-dca-order.js'
 
 test('dcaOrder', async (t) => {
   const { pool, make } = t.context
-  const userUID = await make.user()
-  const exchangeUID = await make.exchange()
-  const userExchangeKeysUID = await make.userExchangeKeys()
-  const marketUID = await make.market()
+  const userUid = await make.user()
+  const exchangeUid = await make.exchange()
+  const userExchangeKeysUid = await make.userExchangeKeys()
+  const marketUid = await make.market()
 
-  const input: InsertDCAOrderOptions = {
-    userUID,
-    exchangeUID,
-    userExchangeKeysUID,
-    marketUID,
+  const input: InsertDcaOrderOptions = {
+    userUid,
+    exchangeUid,
+    userExchangeKeysUid,
+    marketUid,
     primaryCurrency: 'BTC',
     secondaryCurrency: 'NZD',
     startAt: new Date(),
@@ -32,10 +32,10 @@ test('dcaOrder', async (t) => {
     lastRunAt: undefined,
   }
 
-  await insertDCAOrder(pool, input)
+  await insertDcaOrder(pool, input)
 
-  const dcaOrderList = await selectAllDCAOrders(pool, {
-    userUID,
+  const dcaOrderList = await selectAllDcaOrders(pool, {
+    userUid,
     enabled: true,
   })
   if (dcaOrderList instanceof Error) {

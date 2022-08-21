@@ -6,20 +6,20 @@ import { NoEntityError } from '../../util/error.js'
 import type { Pool } from '../../types.js'
 import type { StripeCustomer } from './types.js'
 
-type GetStripeCustomerByUserUIDOptions = {
-  userUID: string
+type GetStripeCustomerByUseruidOptions = {
+  userUid: string
 }
 
-const getStripeCustomerByUserUID = async (
+const getStripeCustomerByUserUid = async (
   pool: Pool,
-  options: GetStripeCustomerByUserUIDOptions,
+  options: GetStripeCustomerByUseruidOptions,
 ): Promise<StripeCustomer | Error> => {
-  const { userUID } = options
+  const { userUid } = options
 
   const row = await errorBoundary(async () =>
     db
       .selectOne('stripe_customer', {
-        user_uid: userUID,
+        user_uid: userUid,
       })
       .run(pool),
   )
@@ -29,17 +29,17 @@ const getStripeCustomerByUserUID = async (
 
   if (!row) {
     return new NoEntityError({
-      message: `User "${userUID}" does not have a customer.`,
+      message: `User "${userUid}" does not have a customer.`,
       context: {
-        userUID,
+        userUid,
       },
     })
   }
 
   return {
-    userUID: row.user_uid,
+    userUid: row.user_uid,
     customerID: row.customer_id,
   }
 }
 
-export { getStripeCustomerByUserUID }
+export { getStripeCustomerByUserUid }

@@ -1,4 +1,4 @@
-import { kanye, getResponseBodyJSON, APIError } from '@volatile/kanye'
+import { kanye, getResponseBodyJson, ApiError } from '@volatile/kanye'
 
 import { MarketPriceSource } from '../../util/market-price-source.js'
 
@@ -9,7 +9,7 @@ type Options = {
   currency: string
 }
 
-type APIResponse = {
+type ApiResponse = {
   symbol: string
   ask: string
   bid: string
@@ -45,9 +45,9 @@ const marketSource: MarketPriceSource<Options> = {
       return [raw]
     }
 
-    const result = getResponseBodyJSON<APIResponse>(raw)
+    const result = getResponseBodyJson<ApiResponse>(raw)
     if (result instanceof Error) {
-      const error = new APIError({
+      const error = new ApiError({
         message: 'Could not ticker price from easycrypto.ai',
         cause: result,
         context: {

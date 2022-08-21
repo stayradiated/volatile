@@ -8,7 +8,7 @@ const mapSeries = async <Input, Output>(
 ): Promise<Array<Output | Error>> => {
   const result = []
   for (const value of input) {
-    // eslint-disable-next-line no-await-in-loop, fp/no-mutating-methods
+    // eslint-disable-next-line no-await-in-loop
     result.push(await errorBoundary(async () => mapFn(value)))
   }
 

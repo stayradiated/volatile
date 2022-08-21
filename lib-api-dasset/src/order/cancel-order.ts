@@ -1,4 +1,4 @@
-import { kanye, Kanye, APIError } from '@volatile/kanye'
+import { kanye, Kanye, ApiError } from '@volatile/kanye'
 
 import { requestOptions, getResponseBody } from '../util/client.js'
 import { buildHeaders } from '../util/build-headers.js'
@@ -6,7 +6,7 @@ import type { Config } from '../util/types.js'
 
 type CancelOrderOptions = {
   config: Config
-  orderID: string
+  orderId: string
 }
 
 type CancelOrderResult = {
@@ -16,14 +16,14 @@ type CancelOrderResult = {
 const cancelOrder = async (
   options: CancelOrderOptions,
 ): Promise<[CancelOrderResult | Error, Kanye?]> => {
-  const { config, orderID } = options
+  const { config, orderId } = options
 
   const headers = buildHeaders(config)
   if (headers instanceof Error) {
     return [headers, undefined]
   }
 
-  const raw = await kanye(`orders/${orderID}`, {
+  const raw = await kanye(`orders/${orderId}`, {
     ...requestOptions(config),
     method: 'DELETE',
     headers,
@@ -44,11 +44,11 @@ const cancelOrder = async (
       ]
     }
 
-    const error = new APIError({
+    const error = new ApiError({
       message: 'Could not cancel order on dasset.com',
       cause: result,
       context: {
-        orderID,
+        orderId,
       },
     })
     return [error, raw]

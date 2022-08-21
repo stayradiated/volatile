@@ -4,33 +4,33 @@ import { errorBoundary } from '@stayradiated/error-boundary'
 import type { Pool } from '../../types.js'
 import { PermissionError } from '../../util/error.js'
 
-type AssertUserForDCAOrderOptions = {
-  userUID: string
-  dcaOrderUID: string
+type AssertUserForDcaOrderOptions = {
+  userUid: string
+  dcaOrderUid: string
 }
 
-const assertUserForDCAOrder = async (
+const assertUserForDcaOrder = async (
   pool: Pool,
-  options: AssertUserForDCAOrderOptions,
+  options: AssertUserForDcaOrderOptions,
 ): Promise<true | Error> => {
-  const { dcaOrderUID, userUID } = options
+  const { dcaOrderUid, userUid } = options
 
   const dcaOrder = await errorBoundary(async () =>
     db
       .selectExactlyOne('dca_order', {
-        uid: dcaOrderUID,
-        user_uid: userUID,
+        uid: dcaOrderUid,
+        user_uid: userUid,
       })
       .run(pool),
   )
   if (dcaOrder instanceof Error) {
     return new PermissionError({
-      message: 'User does not have access to DCA Order.',
-      context: { dcaOrderUID, userUID },
+      message: 'User does not have access to Dca Order.',
+      context: { dcaOrderUid, userUid },
     })
   }
 
   return true
 }
 
-export { assertUserForDCAOrder }
+export { assertUserForDcaOrder }

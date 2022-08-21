@@ -4,24 +4,24 @@ import { errorBoundary } from '@stayradiated/error-boundary'
 import type { Pool } from '../../types.js'
 
 type SelectOrderByIDOptions = {
-  userUID: string
-  exchangeUID: string
-  orderID: string
+  userUid: string
+  exchangeUid: string
+  orderId: string
 }
 
 const hasOrderByID = async (
   pool: Pool,
   options: SelectOrderByIDOptions,
 ): Promise<boolean | Error> => {
-  const { userUID, exchangeUID, orderID } = options
+  const { userUid, exchangeUid, orderId } = options
   const rows = await errorBoundary(async () =>
     db
       .select(
         'order',
         {
-          user_uid: userUID,
-          exchange_uid: exchangeUID,
-          order_id: orderID,
+          user_uid: userUid,
+          exchange_uid: exchangeUid,
+          order_id: orderId,
         },
         {
           columns: ['uid'],

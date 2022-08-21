@@ -5,13 +5,13 @@ import { EXCHANGE_KIWI_COIN } from '../model/exchange/index.js'
 import { insertUserExchangeRequest } from '../model/user-exchange-request/index.js'
 
 import type {
-  ExchangeAPI,
-  UserExchangeAPI,
+  ExchangeApi,
+  UserExchangeApi,
   ConfigOptions,
   LogRequestFn,
 } from './types.js'
 
-const kiwiCoin: ExchangeAPI<kc.Config> = {
+const kiwiCoin: ExchangeApi<kc.Config> = {
   exchange: EXCHANGE_KIWI_COIN,
   getLowestAskPrice:
     ({ logRequest }) =>
@@ -79,7 +79,7 @@ const kiwiCoin: ExchangeAPI<kc.Config> = {
       }
 
       return openOrders.map((order) => ({
-        orderID: String(order.id),
+        orderId: String(order.id),
         primaryCurrency: 'BTC',
         secondaryCurrency: 'NZD',
         price: order.price,
@@ -112,7 +112,7 @@ const kiwiCoin: ExchangeAPI<kc.Config> = {
         hasNextPage: !getAll,
         items: allTrades.map((trade) => ({
           tradeID: String(trade.transactionId),
-          orderID: String(trade.orderId),
+          orderId: String(trade.orderId),
           timestamp: trade.datetime,
           primaryCurrency: 'BTC',
           secondaryCurrency: 'NZD',
@@ -145,16 +145,16 @@ const kiwiCoin: ExchangeAPI<kc.Config> = {
       }
 
       return {
-        orderID: String(order.id),
+        orderId: String(order.id),
       }
     },
   cancelOrder:
     ({ config, logRequest }) =>
     async (options) => {
-      const { orderID } = options
+      const { orderId } = options
       const [error, request] = await kc.cancelOrder({
         config,
-        orderID: Number.parseInt(orderID, 10),
+        orderId: Number.parseInt(orderId, 10),
       })
       if (request) {
         await logRequest(request)
@@ -164,7 +164,7 @@ const kiwiCoin: ExchangeAPI<kc.Config> = {
         return new ExchangeError({
           message: 'Failed to cancel order on kiwi-coin.com',
           cause: error,
-          context: { orderID },
+          context: { orderId },
         })
       }
 
@@ -172,10 +172,10 @@ const kiwiCoin: ExchangeAPI<kc.Config> = {
     },
 }
 
-const getKiwiCoinExchangeAPI = (
+const getKiwiCoinExchangeApi = (
   options: ConfigOptions<Record<string, string>>,
-): UserExchangeAPI | Error => {
-  const { pool, config, userUID, exchangeUID, userExchangeKeysUID } = options
+): UserExchangeApi | Error => {
+  const { pool, config, userUid, exchangeUid, userExchangeKeysUid } = options
 
   if (!kc.isValidConfig(config)) {
     return new ExchangeError({
@@ -186,9 +186,9 @@ const getKiwiCoinExchangeAPI = (
   const logRequest: LogRequestFn = async (request) => {
     return insertUserExchangeRequest(pool, {
       ...request.redacted(),
-      userUID,
-      exchangeUID,
-      userExchangeKeysUID,
+      userUid,
+      exchangeUid,
+      userExchangeKeysUid,
     })
   }
 
@@ -205,4 +205,4 @@ const getKiwiCoinExchangeAPI = (
   }
 }
 
-export { kiwiCoin, getKiwiCoinExchangeAPI }
+export { kiwiCoin, getKiwiCoinExchangeApi }

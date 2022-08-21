@@ -6,7 +6,7 @@ import {
 
 import type { ActionHandlerFn } from '../../util/action-handler.js'
 import {
-  hasUser2FAByUserUID,
+  hasUser2FAByUserUid,
   verifyUser2FAToken,
   deleteUser2FA,
 } from '../../model/user-2fa/index.js'
@@ -23,26 +23,26 @@ const deleteUser2FAHandler: ActionHandlerFn<Input, Output> = async (
   context,
 ) => {
   const { pool, input, session } = context
-  const { userUID } = session
-  if (!userUID) {
+  const { userUid } = session
+  if (!userUid) {
     return new MissingRequiredArgumentError({
-      message: 'userUID is required',
-      context: { userUID },
+      message: 'userUid is required',
+      context: { userUid },
     })
   }
 
-  const has2FAEnabled = await hasUser2FAByUserUID(pool, userUID)
+  const has2FAEnabled = await hasUser2FAByUserUid(pool, userUid)
   if (!has2FAEnabled) {
     return new IllegalStateError({
       message: 'This user does not have 2FA enabled.',
-      context: { userUID, has2FAEnabled },
+      context: { userUid, has2FAEnabled },
     })
   }
 
   const { token } = input
 
   const isValidToken = await verifyUser2FAToken(pool, {
-    userUID,
+    userUid,
     token,
   })
   if (isValidToken instanceof Error) {
@@ -52,17 +52,17 @@ const deleteUser2FAHandler: ActionHandlerFn<Input, Output> = async (
   if (!isValidToken) {
     return new IllegalArgumentError({
       message: 'Token is not valid for secret.',
-      context: { userUID, token, isValidToken },
+      context: { userUid, token, isValidToken },
     })
   }
 
-  const error = await deleteUser2FA(pool, { userUID })
+  const error = await deleteUser2FA(pool, { userUid })
   if (error instanceof Error) {
     return error
   }
 
   return {
-    user_uid: userUID,
+    user_uid: userUid,
   }
 }
 
