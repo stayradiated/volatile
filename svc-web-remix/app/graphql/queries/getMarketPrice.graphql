@@ -2,69 +2,69 @@ query getMarketPrice (
   $primaryCurrency: String!
   $secondaryCurrency: String!
 ) {
-  binance_us: market(where: { id: { _eq: "binance.us" }}) {
-    market_prices(where:{
-      asset_symbol:{ _eq: $primaryCurrency },
+  binanceUs: market(where: { id: { _eq: "binance.us" }}) {
+    marketPrices(where:{
+      assetSymbol:{ _eq: $primaryCurrency },
       currency:{ _eq: $secondaryCurrency }
-    }, order_by: {
-      timestamp: desc
+    }, orderBy: {
+      timestamp: DESC
     }){
       price
       timestamp
     }
   }
-  kiwi_coin: market(where:{ id: { _eq: "kiwi-coin.com"  }}) {
-    market_prices(where: {
-      asset_symbol:{ _eq: $primaryCurrency },
+  kiwiCoin: market(where:{ id: { _eq: "kiwi-coin.com"  }}) {
+    marketPrices(where: {
+      assetSymbol:{ _eq: $primaryCurrency },
       currency:{ _eq: $secondaryCurrency }
-    }, order_by: {
-      timestamp: desc
+    }, orderBy: {
+      timestamp: DESC
     }){
       price
       timestamp
     }
   }
   dasset: market(where:{ id: { _eq: "dassetx.com"  }}) {
-    market_prices(where: {
-      asset_symbol:{ _eq: $primaryCurrency },
+    marketPrices(where: {
+      assetSymbol:{ _eq: $primaryCurrency },
       currency:{ _eq: $secondaryCurrency }
-    }, order_by: {
-      timestamp: desc
+    }, orderBy: {
+      timestamp: DESC
     }){
       price
       timestamp
     }
   }
   kraken: market(where:{ id: { _eq: "kraken.com"  }}) {
-    market_prices(where: {
-      asset_symbol:{ _eq: $primaryCurrency },
+    marketPrices(where: {
+      assetSymbol:{ _eq: $primaryCurrency },
       currency:{ _eq: $secondaryCurrency }
-    }, order_by: {
-      timestamp: desc
+    }, orderBy: {
+      timestamp: DESC
     }){
       price
       timestamp
     }
   }
-  independent_reserve_aud: market(where:{ id: { _eq: "independentreserve.com"  }}) {
-    market_prices(where: {
-      source_currency: { _eq: "AUD" },
-      asset_symbol:{ _eq: $primaryCurrency },
+  independentReserveAud: market(where:{ id: { _eq: "independentreserve.com"  }}) {
+    marketPrices(where: {
+      sourceCurrency: { _eq: "AUD" },
+      assetSymbol:{ _eq: $primaryCurrency },
       currency:{ _eq: $secondaryCurrency }
-    }, order_by: {
-      timestamp: desc
+    }, orderBy: {
+      timestamp: DESC
     }){
       price
       timestamp
     }
   }
-  independent_reserve_nzd: market(where:{ id: { _eq: "independentreserve.com"  }}) {
-    market_prices(where: {
-      source_currency: { _eq: "NZD" },
-      asset_symbol:{ _eq: $primaryCurrency },
+  independentReserveNzd: market(where:{ id: { _eq: "independentreserve.com"  }}) {
+    marketPrices(where: {
+      sourceCurrency: { _eq: "NZD" },
+      assetSymbol:{ _eq: $primaryCurrency },
       currency:{ _eq: $secondaryCurrency }
-    }, order_by: {
-      timestamp: desc
+    }, orderBy: {
+      timestamp: DESC
     }){
       price
       timestamp

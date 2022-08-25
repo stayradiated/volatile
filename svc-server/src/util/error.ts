@@ -1,112 +1,42 @@
-/* eslint-disable @typescript-eslint/no-useless-constructor */
+import { BetterError } from '@volatile/lib-error'
 
-import {
-  BetterError,
-  BetterErrorConstructorArg,
-} from '@northscaler/better-error'
+class UnexpectedError extends BetterError {}
+class CronError extends BetterError {}
 
-class UnexpectedError extends BetterError {
-  constructor(arg?: BetterErrorConstructorArg) {
-    super(arg)
-  }
-}
+class ModelError extends BetterError {}
 
-class CronError extends BetterError {
-  constructor(arg?: BetterErrorConstructorArg) {
-    super(arg)
-  }
-}
+class ConfigError extends BetterError {}
 
-class ModelError extends BetterError {
-  constructor(arg?: BetterErrorConstructorArg) {
-    super(arg)
-  }
-}
+class ExchangeError extends BetterError {}
 
-class ConfigError extends BetterError {
-  constructor(arg?: BetterErrorConstructorArg) {
-    super(arg)
-  }
-}
+class DbError extends BetterError {}
 
-class ExchangeError extends BetterError {
-  constructor(arg?: BetterErrorConstructorArg) {
-    super(arg)
-  }
-}
+class NoEntityError extends BetterError {}
 
-class DBError extends BetterError {
-  constructor(arg?: BetterErrorConstructorArg) {
-    super(arg)
-  }
-}
+class AuthError extends BetterError {}
 
-class NoEntityError extends BetterError {
-  constructor(arg?: BetterErrorConstructorArg) {
-    super(arg)
-  }
-}
+class UserLimitError extends BetterError {}
 
-class AuthError extends BetterError {
-  constructor(arg?: BetterErrorConstructorArg) {
-    super(arg)
-  }
-}
+class PermissionError extends BetterError {}
 
-class UserLimitError extends BetterError {
-  constructor(arg?: BetterErrorConstructorArg) {
-    super(arg)
-  }
-}
+class AlreadyInitializedError extends BetterError {}
 
-class PermissionError extends BetterError {
-  constructor(arg?: BetterErrorConstructorArg) {
-    super(arg)
-  }
-}
+class NotInitializedError extends BetterError {}
 
-class AlreadyInitializedError extends BetterError {
-  constructor(arg?: BetterErrorConstructorArg) {
-    super(arg)
-  }
-}
+class IllegalArgumentError extends BetterError {}
 
-class NotInitializedError extends BetterError {
-  constructor(arg?: BetterErrorConstructorArg) {
-    super(arg)
-  }
-}
+class IllegalArgumentTypeError extends BetterError {}
 
-class IllegalArgumentError extends BetterError {
-  constructor(arg?: BetterErrorConstructorArg) {
-    super(arg)
-  }
-}
+class MissingRequiredArgumentError extends BetterError {}
 
-class IllegalArgumentTypeError extends BetterError {
-  constructor(arg?: BetterErrorConstructorArg) {
-    super(arg)
-  }
-}
-
-class MissingRequiredArgumentError extends BetterError {
-  constructor(arg?: BetterErrorConstructorArg) {
-    super(arg)
-  }
-}
-
-class IllegalStateError extends BetterError {
-  constructor(arg?: BetterErrorConstructorArg) {
-    super(arg)
-  }
-}
+class IllegalStateError extends BetterError {}
 
 export {
   AlreadyInitializedError,
   AuthError,
   ConfigError,
   CronError,
-  DBError,
+  DbError,
   NoEntityError,
   ExchangeError,
   UserLimitError,

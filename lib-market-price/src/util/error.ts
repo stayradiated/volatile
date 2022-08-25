@@ -3,7 +3,7 @@
 import {
   BetterError,
   BetterErrorConstructorArg,
-} from '@northscaler/better-error'
+} from '@volatile/lib-error'
 
 class IllegalStateError extends BetterError {
   constructor(arg: BetterErrorConstructorArg) {

@@ -5,32 +5,32 @@ import { Form, Input, DateInput, PrimaryButton } from '../retro-ui/index'
 
 import type { GetDcaOrderFormEditQuery } from '~/graphql/generated'
 
-type UserExchangeKeys = GetDcaOrderFormEditQuery['user_exchange_keys'][0]
-type Market = GetDcaOrderFormEditQuery['market'][0]
+type UserExchangeKeys = GetDcaOrderFormEditQuery['userExchangeKeys'][number]
+type Market = GetDcaOrderFormEditQuery['market'][number]
 
 type Props = {
   query: GetDcaOrderFormEditQuery
 }
 
-const DCAOrderFormEdit = (props: Props) => {
+const DcaOrderFormEdit = (props: Props) => {
   const { query } = props
 
-  const dcaOrder = query.dca_order_by_pk
+  const dcaOrder = query.dcaOrderByPk
 
   const marketOptions = (query.market ?? []).filter((item) =>
-    item.market_prices.some(
+    item.marketPrices.some(
       (price) =>
-        price.asset_symbol === dcaOrder?.primary_currency.symbol &&
-        price.currency === dcaOrder?.secondary_currency.symbol,
+        price.assetSymbol === dcaOrder?.primaryCurrency.symbol &&
+        price.currency === dcaOrder?.secondaryCurrency.symbol,
     ),
   )
 
-  const userExchangeKeysOptions = (query.user_exchange_keys ?? []).filter(
-    (item) => item.exchange_uid === dcaOrder?.exchange.uid,
+  const userExchangeKeysOptions = (query.userExchangeKeys ?? []).filter(
+    (item) => item.exchangeUid === dcaOrder?.exchange.uid,
   )
   return (
     <>
-      <h2>~ Edit DCA Order</h2>
+      <h2>~ Edit Dca Order</h2>
       <Form name="dcaOrderFormEdit">
         <Form.Item label="Exchange">
           <Input disabled value={dcaOrder?.exchange.name ?? ''} />
@@ -45,13 +45,13 @@ const DCAOrderFormEdit = (props: Props) => {
         <Form.Item label="Asset">
           <Input
             disabled
-            value={`${dcaOrder?.primary_currency.symbol} | ${dcaOrder?.primary_currency.name}`}
+            value={`${dcaOrder?.primaryCurrency.symbol} | ${dcaOrder?.primaryCurrency.name}`}
           />
         </Form.Item>
         <Form.Item label="Currency">
           <Input
             disabled
-            value={`${dcaOrder?.secondary_currency.symbol} | ${dcaOrder?.secondary_currency.name}`}
+            value={`${dcaOrder?.secondaryCurrency.symbol} | ${dcaOrder?.secondaryCurrency.name}`}
           />
         </Form.Item>
         <Form.Item label="Market" name="market">
@@ -88,4 +88,4 @@ const DCAOrderFormEdit = (props: Props) => {
   )
 }
 
-export { DCAOrderFormEdit }
+export { DcaOrderFormEdit }

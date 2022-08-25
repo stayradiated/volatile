@@ -1,7 +1,8 @@
-import { Kanye } from '@volatile/kanye'
+import type { Kanye } from '@volatile/kanye'
 
 import { post, getResponseBody } from '../util/client.js'
-import { parseOrderList, Order } from '../util/order.js'
+import type { Order } from '../util/order.js'
+import { parseOrderList } from '../util/order.js'
 import type { Config } from '../util/types.js'
 
 type GetOpenOrderListOptions = { config: Config }

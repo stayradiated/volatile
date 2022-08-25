@@ -5,30 +5,9 @@ import { getSessionData } from '~/utils/auth.server'
 import { sdk } from '~/utils/api.server'
 import { safeRedirect } from '~/utils/redirect.server'
 import { Card } from '~/components/retro-ui'
-import { AdminExchangeQuery } from '~/graphql/generated'
+import { GetAdminExchangeListQuery } from '~/graphql/generated'
 
-void (
-  /* GraphQL */ `
-    query getAdminExchangeList {
-      exchange {
-        created_at
-        updated_at
-        uid
-        id
-        name
-        url
-        primary_currencies {
-          symbol
-        }
-        secondary_currencies {
-          symbol
-        }
-      }
-    }
-  `
-)
-
-type Exchange = AdminExchangeQuery['exchange'][number]
+type Exchange = GetAdminExchangeListQuery['exchange'][number]
 
 type LoaderData = {
   exchangeList: Exchange[]
@@ -60,7 +39,7 @@ const ExchangeRoute = () => {
       <ul>
         {exchangeList.map((exchange) => (
           <li>
-            {exchange.uid} | {exchange.created_at} | {exchange.name}
+            {exchange.uid} | {exchange.createdAt} | {exchange.name}
           </li>
         ))}
       </ul>

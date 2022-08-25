@@ -1,4 +1,5 @@
-import { Kanye, ApiError } from '@volatile/kanye'
+import type { Kanye } from '@volatile/kanye'
+import { ApiError } from '@volatile/kanye'
 
 import { post, getResponseBody } from '../util/client.js'
 import type { Config } from '../util/types.js'

@@ -1,7 +1,7 @@
 import * as db from 'zapatos/db'
 import { errorBoundary } from '@stayradiated/error-boundary'
 
-import { DBError } from '../../util/error.js'
+import { DbError } from '../../util/error.js'
 import * as hash from '../../util/hash.js'
 
 import type { Pool } from '../../types.js'
@@ -10,23 +10,23 @@ import type { UserDeviceMasked } from './types.js'
 
 const selectUserDeviceByID = async (
   pool: Pool,
-  deviceID: string,
+  deviceId: string,
 ): Promise<UserDeviceMasked | Error> => {
-  const deviceIDHash = hash.sha256(deviceID)
+  const deviceIdHash = hash.sha256(deviceId)
 
   const row = await errorBoundary(async () =>
     db
       .selectOne('user_device', {
-        device_id_hash: deviceIDHash,
+        device_id_hash: deviceIdHash,
       })
       .run(pool),
   )
   if (row instanceof Error || !row) {
-    return new DBError({
+    return new DbError({
       message: 'Could not find user device.',
       cause: row,
       context: {
-        deviceIDHash,
+        deviceIdHash,
       },
     })
   }

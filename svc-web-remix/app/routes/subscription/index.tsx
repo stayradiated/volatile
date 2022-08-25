@@ -68,8 +68,8 @@ export const loader: LoaderFunction = async ({ request }) => {
 const SubscriptionRoute = () => {
   const { email, query } = useLoaderData<LoaderData>()
 
-  const activeSubscription = query.active_stripe_subscription[0]
-  const incompleteSubscription = query.incomplete_stripe_subscription[0]
+  const activeSubscription = query.activeStripeSubscription[0]
+  const incompleteSubscription = query.incompleteStripeSubscription[0]
 
   return (
     <>
@@ -92,7 +92,7 @@ const SubscriptionRoute = () => {
               <li>
                 <Link to="price-list">Subscribe!</Link>
               </li>
-              {(query.stripe_subscription_aggregate.aggregate?.count ?? 0) >
+              {(query.stripeSubscriptionAggregate.aggregate?.count ?? 0) >
                 0 && (
                 <li>
                   <Link to="list">Your Previous Subscriptions</Link>

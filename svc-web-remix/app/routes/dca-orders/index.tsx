@@ -3,25 +3,25 @@ import { ActionFunction, LoaderFunction, json, redirect } from '@remix-run/node'
 import { makeDomainFunction, inputFromFormData } from 'remix-domains'
 import * as z from 'zod'
 
-import { DCAOrderList } from '~/components/dca-order-list/index'
+import { DcaOrderList } from '~/components/dca-order-list/index'
 import { getSessionData } from '~/utils/auth.server'
 import { sdk } from '~/utils/api.server'
 import { GetDcaOrderListQuery } from '~/graphql/generated'
 import { loginRedirect } from '~/utils/redirect.server'
 
-const updateDCAOrderEnabled = makeDomainFunction(
+const updateDcaOrderEnabled = makeDomainFunction(
   z.object({
-    dcaOrderUID: z.string().uuid(),
+    dcaOrderUid: z.string().uuid(),
     enabled: z.preprocess((x) => x === 'true', z.boolean()),
   }),
   z.object({ authToken: z.string() }),
 )(async (userInput, environment) => {
-  const { dcaOrderUID, enabled } = userInput
+  const { dcaOrderUid, enabled } = userInput
   const { authToken } = environment
 
-  const result = await sdk.updateDCAOrderEnabled(
+  const result = await sdk.updateDcaOrderEnabled(
     {
-      dcaOrderUID,
+      dcaOrderUid,
       enabled,
     },
     {
@@ -30,7 +30,7 @@ const updateDCAOrderEnabled = makeDomainFunction(
     },
   )
 
-  return result.action_update_dca_order.dca_order
+  return result.actionUpdateDcaOrder.dcaOrder
 })
 
 export const action: ActionFunction = async ({ request }) => {
@@ -45,8 +45,8 @@ export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData()
   const action = formData.get('_action')
 
-  if (action === 'updateDCAOrderEnabled') {
-    const result = await updateDCAOrderEnabled(inputFromFormData(formData), {
+  if (action === 'updateDcaOrderEnabled') {
+    const result = await updateDcaOrderEnabled(inputFromFormData(formData), {
       authToken,
     })
     if (!result.success) {
@@ -72,7 +72,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 
   const { authToken } = session
 
-  const query = await sdk.getDCAOrderList(
+  const query = await sdk.getDcaOrderList(
     {},
     {
       authorization: `Bearer ${authToken}`,
@@ -85,14 +85,14 @@ export const loader: LoaderFunction = async ({ request }) => {
   })
 }
 
-const DCAOrdersRoute = () => {
+const DcaOrdersRoute = () => {
   const { query } = useLoaderData<LoaderData>()
 
   return (
     <>
-      <DCAOrderList query={query} />
+      <DcaOrderList query={query} />
     </>
   )
 }
 
-export default DCAOrdersRoute
+export default DcaOrdersRoute

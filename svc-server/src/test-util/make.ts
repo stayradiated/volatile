@@ -350,7 +350,7 @@ const makeUserDevice: MakeFn<UserDevice> = (make) => async (options) => {
       accessedAt: new Date(),
       userUid,
       name: 'Device Name',
-      deviceID: randomUUID(),
+      deviceId: randomUUID(),
       trusted: Boolean(Math.random() > 0.5),
       ...options,
     }),

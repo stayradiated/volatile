@@ -3,7 +3,7 @@ import * as s from 'zapatos/schema'
 import * as db from 'zapatos/db'
 import type { Pool } from '../../types.js'
 
-const hasUser2FAByUserUid = async (
+const hasUser2FaByUserUid = async (
   pool: Pool,
   userUid: string,
 ): Promise<boolean | Error> => {
@@ -28,4 +28,4 @@ const hasUser2FAByUserUid = async (
   return row.exists
 }
 
-export { hasUser2FAByUserUid }
+export { hasUser2FaByUserUid }

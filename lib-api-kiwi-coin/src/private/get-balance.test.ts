@@ -1,6 +1,9 @@
 import test from 'ava'
 import nock from 'nock'
-import { throwIfError, throwIfValue } from '@stayradiated/error-boundary'
+import {
+  throwIfErrorSync,
+  throwIfValueSync,
+} from '@stayradiated/error-boundary'
 
 import { getBalance } from './get-balance.js'
 
@@ -35,7 +38,7 @@ test('should return true', async (t) => {
     )
 
   const [balance] = await getBalance({ config })
-  throwIfError(balance)
+  throwIfErrorSync(balance)
 
   t.deepEqual(balance, {
     nzd: {
@@ -61,7 +64,7 @@ test('should detect invalid response', async (t) => {
     .reply(200, JSON.stringify({}))
 
   const [balance] = await getBalance({ config })
-  const error = throwIfValue(balance)
+  const error = throwIfValueSync(balance)
 
   t.is(
     stripPath(error.message),

@@ -3,7 +3,7 @@ import * as db from 'zapatos/db'
 import { errorBoundary } from '@stayradiated/error-boundary'
 import type * as s from 'zapatos/schema'
 
-import { DBError, IllegalStateError } from '../../util/error.js'
+import { DbError, IllegalStateError } from '../../util/error.js'
 
 import type { Pool } from '../../types.js'
 
@@ -54,7 +54,7 @@ const forceGetExchangeUid = async (
   )
 
   if (rows instanceof Error || !rows) {
-    return new DBError({
+    return new DbError({
       message: 'Could not upsert exchange.',
       context: { exchange },
     })
@@ -81,7 +81,7 @@ const forceGetExchange = async (
       .run(pool),
   )
   if (row instanceof Error) {
-    return new DBError({
+    return new DbError({
       message: 'Could not find exchange.',
       cause: row,
       context: { exchangeUid },
@@ -150,7 +150,7 @@ const getExchangeList = async (pool: Pool): Promise<Exchange[] | Error> => {
       .run(pool),
   )
   if (rows instanceof Error) {
-    return new DBError({
+    return new DbError({
       message: 'Could not get exchange list.',
       cause: rows,
     })

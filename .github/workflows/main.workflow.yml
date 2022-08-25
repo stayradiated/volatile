@@ -97,7 +97,7 @@ jobs:
       - 
         name: Compile Typescript Packages
         run: |
-          pnpm run build:server
+          pnpm run package:server
 
       -
         # https://github.com/docker/metadata-action
@@ -191,7 +191,7 @@ jobs:
       - 
         name: Compile Typescript Packages
         run: |
-          pnpm run build:web
+          pnpm run package:web
 
       -
         # https://github.com/docker/metadata-action

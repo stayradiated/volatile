@@ -1,5 +1,5 @@
 import * as z from 'zod'
-import { errorBoundary } from '@stayradiated/error-boundary'
+import { errorBoundarySync } from '@stayradiated/error-boundary'
 import { Session as RemixSession } from '@remix-run/node'
 import { fromUnixTime, isBefore } from 'date-fns'
 import { createCookieSessionStorage } from '@remix-run/node'
@@ -35,7 +35,7 @@ const jwtSchema = z.object({
 type JWT = z.infer<typeof jwtSchema>
 
 const parseJWT = (input: string): JWT | Error => {
-  return errorBoundary(() => {
+  return errorBoundarySync(() => {
     const [_header, payload, _signature] = input.split('.')
     const data = JSON.parse(Buffer.from(payload, 'base64').toString('utf8'))
     return jwtSchema.parse(data)
@@ -44,7 +44,7 @@ const parseJWT = (input: string): JWT | Error => {
 
 type AuthTokenInfo = {
   role: string
-  userUID: string
+  userUid: string
   authToken: string
   expiresAt: Date
 }
@@ -59,7 +59,7 @@ const readAuthToken = (input: unknown): AuthTokenInfo | Error => {
     return jwt
   }
 
-  const userUID = jwt['https://hasura.io/jwt/claims']['x-hasura-user-id']
+  const userUid = jwt['https://hasura.io/jwt/claims']['x-hasura-user-id']
   const role = jwt['https://hasura.io/jwt/claims']['x-hasura-default-role']
   const expiresAt = fromUnixTime(jwt.exp)
 
@@ -69,7 +69,7 @@ const readAuthToken = (input: unknown): AuthTokenInfo | Error => {
 
   return {
     role,
-    userUID,
+    userUid,
     authToken: input,
     expiresAt,
   }
@@ -82,21 +82,21 @@ type BaseSession = {
 
 type UserSession = BaseSession & {
   readonly role: 'user'
-  readonly userUID: string
+  readonly userUid: string
   readonly email: string
   readonly authToken: string
 }
 
 type SuperuserSession = BaseSession & {
   readonly role: 'superuser'
-  readonly userUID: string
+  readonly userUid: string
   readonly email: string
   readonly authToken: string
 }
 
 type AdminSession = BaseSession & {
   readonly role: 'admin'
-  readonly userUID: string
+  readonly userUid: string
   readonly email: string
   readonly authToken: string
 }
@@ -123,7 +123,7 @@ const getSessionData = async (request: Request): Promise<Session> => {
     return {
       role: adminAuthToken.role as 'admin',
       email,
-      userUID: adminAuthToken.userUID,
+      userUid: adminAuthToken.userUid,
       authToken: adminAuthToken.authToken,
       cookie,
     }
@@ -134,7 +134,7 @@ const getSessionData = async (request: Request): Promise<Session> => {
     return {
       role: superuserAuthToken.role as 'superuser',
       email,
-      userUID: superuserAuthToken.userUID,
+      userUid: superuserAuthToken.userUid,
       authToken: superuserAuthToken.authToken,
       cookie,
     }
@@ -145,7 +145,7 @@ const getSessionData = async (request: Request): Promise<Session> => {
     return {
       role: userAuthToken.role as 'user',
       email,
-      userUID: userAuthToken.userUID,
+      userUid: userAuthToken.userUid,
       authToken: userAuthToken.authToken,
       cookie,
     }

@@ -2,7 +2,7 @@ import anyTest, { TestFn } from 'ava'
 
 import { parseISO } from 'date-fns'
 import nock from 'nock'
-import { throwIfError } from '@stayradiated/error-boundary'
+import { throwIfError, throwIfErrorSync } from '@stayradiated/error-boundary'
 import { pool } from '../pool.js'
 import type { Pool } from '../types.js'
 import { createMakeInstance, MakeInstance } from '../test-util/make.js'
@@ -26,7 +26,7 @@ test.beforeEach(async (t) => {
   const userUid = await make.user()
   const exchangeUid = await make.exchange()
 
-  t.context.api = throwIfError(
+  t.context.api = throwIfErrorSync(
     getIndependentReserveExchangeApi({
       pool,
       config: { apiKey: 'Api_KEY', apiSecret: 'Api_SECRET' },

@@ -2,7 +2,7 @@ table:
   name: dca_order_history
   schema: public
 object_relationships:
-  - name: dca_order
+  - name: dcaOrder
     using:
       foreign_key_constraint_on: dca_order_uid
   - name: order

@@ -2,14 +2,14 @@ table:
   name: market
   schema: public
 array_relationships:
-  - name: dca_orders
+  - name: dcaOrders
     using:
       foreign_key_constraint_on:
         column: market_uid
         table:
           name: dca_order
           schema: public
-  - name: market_prices
+  - name: marketPrices
     using:
       foreign_key_constraint_on:
         column: market_uid

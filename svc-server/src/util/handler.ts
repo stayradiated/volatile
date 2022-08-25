@@ -8,7 +8,7 @@ import type {
   RawRequestDefaultExpression,
   RawReplyDefaultExpression,
 } from 'fastify/types/utils'
-import { errorBoundary } from '@stayradiated/error-boundary'
+import { errorBoundarySync } from '@stayradiated/error-boundary'
 
 import { pool } from '../pool.js'
 import type { Pool } from '../types.js'
@@ -58,7 +58,7 @@ const bindHandler =
           'application/json',
           { parseAs: 'buffer' },
           (_request, body, done) => {
-            const error = errorBoundary(() => {
+            const error = errorBoundarySync(() => {
               const newBody = { raw: body }
               done(null, newBody)
             })

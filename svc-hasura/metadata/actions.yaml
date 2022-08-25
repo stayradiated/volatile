@@ -1,40 +1,12 @@
 actions:
-  - name: action_create_admin_auth_token
+  - name: actionCreateAdminAuthToken
     definition:
       kind: synchronous
       handler: '{{HASURA_ACTIONS_ENDPOINT}}'
       headers:
         - name: x-hasura-actions-secret
           value_from_env: HASURA_ACTIONS_SECRET
-  - name: action_create_auth_token
-    definition:
-      kind: synchronous
-      handler: '{{HASURA_ACTIONS_ENDPOINT}}'
-      headers:
-        - name: x-hasura-actions-secret
-          value_from_env: HASURA_ACTIONS_SECRET
-    permissions:
-      - role: user
-      - role: guest
-  - name: action_create_dca_order
-    definition:
-      kind: synchronous
-      handler: '{{HASURA_ACTIONS_ENDPOINT}}'
-      headers:
-        - name: x-hasura-actions-secret
-          value_from_env: HASURA_ACTIONS_SECRET
-    permissions:
-      - role: user
-  - name: action_create_stripe_subscription
-    definition:
-      kind: synchronous
-      handler: '{{HASURA_ACTIONS_ENDPOINT}}'
-      headers:
-        - name: x-hasura-actions-secret
-          value_from_env: HASURA_ACTIONS_SECRET
-    permissions:
-      - role: user
-  - name: action_create_user
+  - name: actionCreateAuthToken
     definition:
       kind: synchronous
       handler: '{{HASURA_ACTIONS_ENDPOINT}}'
@@ -44,7 +16,7 @@ actions:
     permissions:
       - role: user
       - role: guest
-  - name: action_create_user_exchange_keys
+  - name: actionCreateDcaOrder
     definition:
       kind: synchronous
       handler: '{{HASURA_ACTIONS_ENDPOINT}}'
@@ -53,25 +25,7 @@ actions:
           value_from_env: HASURA_ACTIONS_SECRET
     permissions:
       - role: user
-  - name: action_delete_user
-    definition:
-      kind: synchronous
-      handler: '{{HASURA_ACTIONS_ENDPOINT}}'
-      headers:
-        - name: x-hasura-actions-secret
-          value_from_env: HASURA_ACTIONS_SECRET
-    permissions:
-      - role: superuser
-  - name: action_delete_user_2fa
-    definition:
-      kind: synchronous
-      handler: '{{HASURA_ACTIONS_ENDPOINT}}'
-      headers:
-        - name: x-hasura-actions-secret
-          value_from_env: HASURA_ACTIONS_SECRET
-    permissions:
-      - role: superuser
-  - name: action_enable_user_2fa
+  - name: actionCreateStripeSubscription
     definition:
       kind: synchronous
       handler: '{{HASURA_ACTIONS_ENDPOINT}}'
@@ -80,7 +34,53 @@ actions:
           value_from_env: HASURA_ACTIONS_SECRET
     permissions:
       - role: user
-  - name: action_query_live_stripe_subscription
+  - name: actionCreateUser
+    definition:
+      kind: synchronous
+      handler: '{{HASURA_ACTIONS_ENDPOINT}}'
+      headers:
+        - name: x-hasura-actions-secret
+          value_from_env: HASURA_ACTIONS_SECRET
+    permissions:
+      - role: user
+      - role: guest
+  - name: actionCreateUserExchangeKeys
+    definition:
+      kind: synchronous
+      handler: '{{HASURA_ACTIONS_ENDPOINT}}'
+      headers:
+        - name: x-hasura-actions-secret
+          value_from_env: HASURA_ACTIONS_SECRET
+    permissions:
+      - role: user
+  - name: actionDeleteUser
+    definition:
+      kind: synchronous
+      handler: '{{HASURA_ACTIONS_ENDPOINT}}'
+      headers:
+        - name: x-hasura-actions-secret
+          value_from_env: HASURA_ACTIONS_SECRET
+    permissions:
+      - role: superuser
+  - name: actionDeleteUser2fa
+    definition:
+      kind: synchronous
+      handler: '{{HASURA_ACTIONS_ENDPOINT}}'
+      headers:
+        - name: x-hasura-actions-secret
+          value_from_env: HASURA_ACTIONS_SECRET
+    permissions:
+      - role: superuser
+  - name: actionEnableUser2fa
+    definition:
+      kind: synchronous
+      handler: '{{HASURA_ACTIONS_ENDPOINT}}'
+      headers:
+        - name: x-hasura-actions-secret
+          value_from_env: HASURA_ACTIONS_SECRET
+    permissions:
+      - role: user
+  - name: actionQueryLiveStripeSubscription
     definition:
       kind: ""
       handler: '{{HASURA_ACTIONS_ENDPOINT}}'
@@ -90,7 +90,7 @@ actions:
     permissions:
       - role: user
     comment: Query information about a Stripe Subscription (direct from Stripe)
-  - name: action_query_stripe_config
+  - name: actionQueryStripeConfig
     definition:
       kind: ""
       handler: '{{HASURA_ACTIONS_ENDPOINT}}'
@@ -99,14 +99,14 @@ actions:
           value_from_env: HASURA_ACTIONS_SECRET
     permissions:
       - role: user
-  - name: action_query_user_email
+  - name: actionQueryUserEmail
     definition:
       kind: ""
       handler: '{{HASURA_ACTIONS_ENDPOINT}}'
       headers:
         - name: x-hasura-actions-secret
           value_from_env: HASURA_ACTIONS_SECRET
-  - name: action_query_user_limit
+  - name: actionQueryUserLimit
     definition:
       kind: ""
       handler: '{{HASURA_ACTIONS_ENDPOINT}}'
@@ -115,7 +115,7 @@ actions:
           value_from_env: HASURA_ACTIONS_SECRET
     permissions:
       - role: user
-  - name: action_refresh_auth_token
+  - name: actionRefreshAuthToken
     definition:
       kind: synchronous
       handler: '{{HASURA_ACTIONS_ENDPOINT}}'
@@ -125,7 +125,7 @@ actions:
     permissions:
       - role: superuser
       - role: user
-  - name: action_reset_user_password
+  - name: actionResetUserPassword
     definition:
       kind: synchronous
       handler: '{{HASURA_ACTIONS_ENDPOINT}}'
@@ -135,14 +135,14 @@ actions:
     permissions:
       - role: user
       - role: guest
-  - name: action_seed_test_account
+  - name: actionSeedTestAccount
     definition:
       kind: synchronous
       handler: '{{HASURA_ACTIONS_ENDPOINT}}'
       headers:
         - name: x-hasura-actions-secret
           value_from_env: HASURA_ACTIONS_SECRET
-  - name: action_send_user_email_verify
+  - name: actionSendUserEmailVerify
     definition:
       kind: synchronous
       handler: '{{HASURA_ACTIONS_ENDPOINT}}'
@@ -151,7 +151,7 @@ actions:
           value_from_env: HASURA_ACTIONS_SECRET
     permissions:
       - role: user
-  - name: action_send_user_password_reset
+  - name: actionSendUserPasswordReset
     definition:
       kind: synchronous
       handler: '{{HASURA_ACTIONS_ENDPOINT}}'
@@ -161,7 +161,7 @@ actions:
     permissions:
       - role: user
       - role: guest
-  - name: action_setup_user_2fa
+  - name: actionSetupUser2fa
     definition:
       kind: ""
       handler: '{{HASURA_ACTIONS_ENDPOINT}}'
@@ -170,23 +170,14 @@ actions:
           value_from_env: HASURA_ACTIONS_SECRET
     permissions:
       - role: user
-  - name: action_sync_currency_fx
+  - name: actionSyncCurrencyFx
     definition:
       kind: synchronous
       handler: '{{HASURA_ACTIONS_ENDPOINT}}'
       headers:
         - name: x-hasura-actions-secret
           value_from_env: HASURA_ACTIONS_SECRET
-  - name: action_sync_exchange_open_order_list
-    definition:
-      kind: synchronous
-      handler: '{{HASURA_ACTIONS_ENDPOINT}}'
-      headers:
-        - name: x-hasura-actions-secret
-          value_from_env: HASURA_ACTIONS_SECRET
-    permissions:
-      - role: user
-  - name: action_sync_exchange_trade_list
+  - name: actionSyncExchangeOpenOrderList
     definition:
       kind: synchronous
       handler: '{{HASURA_ACTIONS_ENDPOINT}}'
@@ -195,7 +186,7 @@ actions:
           value_from_env: HASURA_ACTIONS_SECRET
     permissions:
       - role: user
-  - name: action_update_dca_order
+  - name: actionSyncExchangeTradeList
     definition:
       kind: synchronous
       handler: '{{HASURA_ACTIONS_ENDPOINT}}'
@@ -204,7 +195,7 @@ actions:
           value_from_env: HASURA_ACTIONS_SECRET
     permissions:
       - role: user
-  - name: action_update_stripe_subscription
+  - name: actionUpdateDcaOrder
     definition:
       kind: synchronous
       handler: '{{HASURA_ACTIONS_ENDPOINT}}'
@@ -213,7 +204,7 @@ actions:
           value_from_env: HASURA_ACTIONS_SECRET
     permissions:
       - role: user
-  - name: action_update_user
+  - name: actionUpdateStripeSubscription
     definition:
       kind: synchronous
       handler: '{{HASURA_ACTIONS_ENDPOINT}}'
@@ -222,7 +213,7 @@ actions:
           value_from_env: HASURA_ACTIONS_SECRET
     permissions:
       - role: user
-  - name: action_update_user_exchange_keys
+  - name: actionUpdateUser
     definition:
       kind: synchronous
       handler: '{{HASURA_ACTIONS_ENDPOINT}}'
@@ -231,7 +222,7 @@ actions:
           value_from_env: HASURA_ACTIONS_SECRET
     permissions:
       - role: user
-  - name: action_validate_user_exchange_keys
+  - name: actionUpdateUserExchangeKeys
     definition:
       kind: synchronous
       handler: '{{HASURA_ACTIONS_ENDPOINT}}'
@@ -240,7 +231,7 @@ actions:
           value_from_env: HASURA_ACTIONS_SECRET
     permissions:
       - role: user
-  - name: action_validate_user_exchange_keys_live
+  - name: actionValidateUserExchangeKeys
     definition:
       kind: synchronous
       handler: '{{HASURA_ACTIONS_ENDPOINT}}'
@@ -249,7 +240,16 @@ actions:
           value_from_env: HASURA_ACTIONS_SECRET
     permissions:
       - role: user
-  - name: action_validate_user_password_reset
+  - name: actionValidateUserExchangeKeysLive
+    definition:
+      kind: synchronous
+      handler: '{{HASURA_ACTIONS_ENDPOINT}}'
+      headers:
+        - name: x-hasura-actions-secret
+          value_from_env: HASURA_ACTIONS_SECRET
+    permissions:
+      - role: user
+  - name: actionValidateUserPasswordReset
     definition:
       kind: synchronous
       handler: '{{HASURA_ACTIONS_ENDPOINT}}'
@@ -259,7 +259,7 @@ actions:
     permissions:
       - role: user
       - role: guest
-  - name: action_verify_user_email
+  - name: actionVerifyUserEmail
     definition:
       kind: synchronous
       handler: '{{HASURA_ACTIONS_ENDPOINT}}'
@@ -282,7 +282,7 @@ custom_types:
     - name: CreateAuthTokenOutput
       relationships:
         - field_mapping:
-            user_uid: uid
+            userUid: uid
           name: user
           remote_table:
             name: user
@@ -293,8 +293,8 @@ custom_types:
     - name: SetUserExchangeKeysOutput
       relationships:
         - field_mapping:
-            user_exchange_keys_uid: uid
-          name: user_exchange_keys
+            userExchangeKeysUid: uid
+          name: userExchangeKeys
           remote_table:
             name: user_exchange_keys
             schema: public
@@ -303,18 +303,18 @@ custom_types:
     - name: ValidateUserExchangeKeysOutput
       relationships:
         - field_mapping:
-            user_exchange_keys_uid: uid
-          name: user_exchange_keys
+            userExchangeKeysUid: uid
+          name: userExchangeKeys
           remote_table:
             name: user_exchange_keys
             schema: public
           source: default
           type: object
-    - name: CreateDCAOrderResult
+    - name: CreateDcaOrderResult
       relationships:
         - field_mapping:
-            dca_order_uid: uid
-          name: dca_order
+            dcaOrderUid: uid
+          name: dcaOrder
           remote_table:
             name: dca_order
             schema: public
@@ -323,7 +323,7 @@ custom_types:
     - name: SyncTradeListOutput
       relationships:
         - field_mapping:
-            user_uid: uid
+            userUid: uid
           name: user
           remote_table:
             name: user
@@ -333,7 +333,7 @@ custom_types:
     - name: SyncExchangeTradeListOutput
       relationships:
         - field_mapping:
-            user_uid: uid
+            userUid: uid
           name: user
           remote_table:
             name: user
@@ -343,8 +343,8 @@ custom_types:
     - name: CreateUserExchangeKeysOutput
       relationships:
         - field_mapping:
-            user_exchange_keys_uid: uid
-          name: user_exchange_keys
+            userExchangeKeysUid: uid
+          name: userExchangeKeys
           remote_table:
             name: user_exchange_keys
             schema: public
@@ -358,7 +358,7 @@ custom_types:
     - name: UpdateUserOutput
       relationships:
         - field_mapping:
-            user_uid: uid
+            userUid: uid
           name: user
           remote_table:
             name: user
@@ -368,7 +368,7 @@ custom_types:
     - name: EnableUser2FAOutput
       relationships:
         - field_mapping:
-            user_uid: uid
+            userUid: uid
           name: user
           remote_table:
             name: user
@@ -382,8 +382,8 @@ custom_types:
     - name: UpdateUserExchangeKeysOutput
       relationships:
         - field_mapping:
-            user_exchange_keys_uid: uid
-          name: user_exchange_keys
+            userExchangeKeysUid: uid
+          name: userExchangeKeys
           remote_table:
             name: user_exchange_keys
             schema: public
@@ -392,7 +392,7 @@ custom_types:
     - name: SyncExchangeOpenOrderListOutput
       relationships:
         - field_mapping:
-            user_uid: uid
+            userUid: uid
           name: user
           remote_table:
             name: user
@@ -403,7 +403,7 @@ custom_types:
     - name: RefreshAuthTokenOutput
       relationships:
         - field_mapping:
-            user_uid: uid
+            userUid: uid
           name: user
           remote_table:
             name: user
@@ -417,7 +417,7 @@ custom_types:
     - name: DeleteUser2FAOutput
       relationships:
         - field_mapping:
-            user_uid: uid
+            userUid: uid
           name: user
           remote_table:
             name: user
@@ -426,11 +426,11 @@ custom_types:
           type: object
     - name: DeleteUserOutput
     - name: QueryUserLimitOutput
-    - name: UpdateDCAOrderOutput
+    - name: UpdateDcaOrderOutput
       relationships:
         - field_mapping:
-            dca_order_uid: uid
-          name: dca_order
+            dcaOrderUid: uid
+          name: dcaOrder
           remote_table:
             name: dca_order
             schema: public
@@ -475,8 +475,8 @@ custom_types:
     - name: ResumeSubscriptionOutput
       relationships:
         - field_mapping:
-            subscription_id: id
-          name: stripe_subscription
+            subscriptionId: id
+          name: stripeSubscription
           remote_table:
             name: stripe_subscription
             schema: public
@@ -485,8 +485,8 @@ custom_types:
     - name: CancelStripeSubscriptionOutput
       relationships:
         - field_mapping:
-            subscription_id: id
-          name: stripe_subscription
+            subscriptionId: id
+          name: stripeSubscription
           remote_table:
             name: stripe_subscription
             schema: public
@@ -495,8 +495,8 @@ custom_types:
     - name: CreateStripeSubscription
       relationships:
         - field_mapping:
-            subscription_id: id
-          name: stripe_subscription
+            subscriptionId: id
+          name: stripeSubscription
           remote_table:
             name: stripe_subscription
             schema: public
@@ -505,8 +505,8 @@ custom_types:
     - name: UpdateSubscriptionOutput
       relationships:
         - field_mapping:
-            subscription_id: id
-          name: stripe_subscription
+            subscriptionId: id
+          name: stripeSubscription
           remote_table:
             name: stripe_subscription
             schema: public

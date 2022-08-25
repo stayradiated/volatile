@@ -3,26 +3,26 @@ import { useFetcher } from '@remix-run/react'
 import { PrimaryButton } from '~/components/retro-ui'
 
 type Props = {
-  dcaOrderUID: string
+  dcaOrderUid: string
   enabledAt: string | undefined
 }
 
-const ToggleDCAOrder = (props: Props) => {
-  const { dcaOrderUID, enabledAt } = props
+const ToggleDcaOrder = (props: Props) => {
+  const { dcaOrderUid, enabledAt } = props
   const fetcher = useFetcher()
 
   const isEnabled: boolean =
     fetcher.state === 'idle' ? Boolean(enabledAt) : !enabledAt
 
   return (
-    <fetcher.Form name="ToggleDCAOrder" method="post">
-      <input type="hidden" name="dcaOrderUID" value={dcaOrderUID} />
+    <fetcher.Form name="ToggleDcaOrder" method="post">
+      <input type="hidden" name="dcaOrderUid" value={dcaOrderUid} />
       <input type="hidden" name="enabled" value={String(!enabledAt)} />
-      <PrimaryButton type="submit" name="_action" value="updateDCAOrderEnabled">
+      <PrimaryButton type="submit" name="_action" value="updateDcaOrderEnabled">
         {isEnabled ? 'ACTIVE' : 'PAUSED'}
       </PrimaryButton>
     </fetcher.Form>
   )
 }
 
-export { ToggleDCAOrder }
+export { ToggleDcaOrder }

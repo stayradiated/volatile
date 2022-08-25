@@ -1,5 +1,5 @@
 import { Kanye } from '@volatile/kanye'
-import { errorListBoundary } from '@stayradiated/error-boundary'
+import { errorListBoundarySync } from '@stayradiated/error-boundary'
 
 import type { Config, PaginationOptions, PaginatedList } from './types.js'
 
@@ -76,7 +76,7 @@ const getAllPages = async <T>(
   const rawList = allPages.map((item) => item[1]).filter(Boolean) as Kanye[]
 
   // Fetch all the pages
-  const list = errorListBoundary<PaginatorState<T>>(() =>
+  const list = errorListBoundarySync<PaginatorState<T>>(() =>
     allPages.map((item) => item[0]),
   )
   if (list instanceof Error) {

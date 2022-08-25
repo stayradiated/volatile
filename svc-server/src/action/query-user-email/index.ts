@@ -1,43 +1,45 @@
+import * as z from 'zod'
 import { IllegalStateError } from '../../util/error.js'
 
 import { getUserEmail } from '../../model/user/index.js'
 
-import type { ActionHandlerFn } from '../../util/action-handler.js'
+import type { ActionHandler } from '../../util/action-handler.js'
 
-type Input = {
-  user_uid: string
+const schema = {
+  input: {
+    userUid: z.string(),
+  },
+  output: {
+    userUid: z.string(),
+    email: z.string(),
+  },
 }
+const queryUserEmailHandler: ActionHandler<typeof schema> = {
+  schema,
+  async handler(context) {
+    const { pool, input, session } = context
+    const { role } = session
+    if (role !== 'admin') {
+      return new IllegalStateError({
+        message: 'Only admin can query user email.',
+        context: { role },
+      })
+    }
 
-type Output = {
-  user_uid: string
-  email: string
-}
+    console.log(input)
 
-const queryUserEmailHandler: ActionHandlerFn<Input, Output> = async (
-  context,
-) => {
-  const { pool, input, session } = context
-  const { role } = session
-  if (role !== 'admin') {
-    return new IllegalStateError({
-      message: 'Only admin can query user email.',
-      context: { role },
-    })
-  }
+    const { userUid } = input
 
-  console.log(input)
+    const email = await getUserEmail(pool, userUid)
+    if (email instanceof Error) {
+      return email
+    }
 
-  const { user_uid: userUid } = input
-
-  const email = await getUserEmail(pool, userUid)
-  if (email instanceof Error) {
-    return email
-  }
-
-  return {
-    user_uid: userUid,
-    email,
-  }
+    return {
+      userUid,
+      email,
+    }
+  },
 }
 
 export { queryUserEmailHandler }

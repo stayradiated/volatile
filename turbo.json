@@ -3,8 +3,10 @@
   "baseBranch": "origin/main",
 	"pipeline": {
 		"build": {
-			"dependsOn": ["^build"],
-			"outputs": [".next/**"]
+			"dependsOn": ["^build"]
+		},
+		"package": {
+			"dependsOn": ["build"]
 		},
 		"test": {
 			"dependsOn": ["build"],
@@ -12,10 +14,6 @@
 			"inputs": ["src/**/*.tsx", "src/**/*.ts", "test/**/*.ts", "test/**/*.tsx"]
 		},
 		"tidy": {
-			"outputs": []
-		},
-		"deploy": {
-			"dependsOn": ["build", "test", "tidy"],
 			"outputs": []
 		}
 	}

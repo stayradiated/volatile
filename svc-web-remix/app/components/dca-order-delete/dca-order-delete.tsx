@@ -7,20 +7,20 @@ type Props = {
   query: GetDcaOrderDeleteQuery
 }
 
-const DCAOrderDelete = (props: Props) => {
+const DcaOrderDelete = (props: Props) => {
   const { query } = props
 
-  const dcaOrder = query.dca_order_by_pk!
+  const dcaOrder = query.dcaOrderByPk!
 
   return (
     <Card>
       <Form
-        name="DCAOrderDelete"
+        name="DcaOrderDelete"
         method="post"
         action={`/dca-orders/${dcaOrder.uid}/delete`}
       >
         <Form.Item>
-          <div>Are you sure you want to delete DCA Order {dcaOrder.uid}?</div>
+          <div>Are you sure you want to delete Dca Order {dcaOrder.uid}?</div>
         </Form.Item>
         <Form.Item>
           <Link to="/dca-orders">Cancel</Link>
@@ -31,4 +31,4 @@ const DCAOrderDelete = (props: Props) => {
   )
 }
 
-export { DCAOrderDelete }
+export { DcaOrderDelete }

@@ -1,21 +1,21 @@
-query getDCAOrderDelete($dcaOrderUID: uuid!) {
-  dca_order_by_pk(uid: $dcaOrderUID) {
+query getDcaOrderDelete($dcaOrderUid: uuid!) {
+  dcaOrderByPk(uid: $dcaOrderUid) {
     uid
     exchange {
       uid
       name
     }
-    enabled_at
-    daily_average
-    start_at
-    market_offset
-    primary_currency {
+    enabledAt
+    dailyAverage
+    startAt
+    marketOffset
+    primaryCurrency {
       symbol
     }
-    secondary_currency {
+    secondaryCurrency {
       symbol
     }
-    min_value
-    max_value
+    minValue
+    maxValue
   }
 }

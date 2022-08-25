@@ -1,3 +1,4 @@
+import * as z from 'zod'
 import QR from 'qrcode'
 
 import {
@@ -6,44 +7,47 @@ import {
 } from '../../util/error.js'
 import { authenticator } from '../../util/otplib.js'
 
-import type { ActionHandlerFn } from '../../util/action-handler.js'
-import { hasUser2FAByUserUid } from '../../model/user-2fa/index.js'
+import type { ActionHandler } from '../../util/action-handler.js'
+import { hasUser2FaByUserUid } from '../../model/user-2fa/index.js'
 
-type Input = Record<string, unknown>
+const schema = {
+  input: {},
+  output: {
+    qrcode: z.string(),
+    secret: z.string(),
+  },
+}
+const setupUser2FaHandler: ActionHandler<typeof schema> = {
+  schema,
+  async handler(context) {
+    const { pool, session } = context
+    const { userUid } = session
+    if (!userUid) {
+      return new MissingRequiredArgumentError({
+        message: 'userUid is required',
+        context: { userUid },
+      })
+    }
 
-type Output = {
-  qrcode: string
-  secret: string
+    const alreadyHas2FaEnabled = await hasUser2FaByUserUid(pool, userUid)
+    if (alreadyHas2FaEnabled) {
+      return new IllegalStateError({
+        message: 'This user already has 2Fa enabled.',
+        context: { userUid, alreadyHas2FaEnabled },
+      })
+    }
+
+    const secret = authenticator.generateSecret(20)
+    const accountName = userUid
+    const issuer = 'volatile.co.nz'
+    const keyURI = authenticator.keyuri(accountName, issuer, secret)
+    const qrcode = await QR.toDataURL(keyURI)
+
+    return {
+      qrcode,
+      secret,
+    }
+  },
 }
 
-const setupUser2FAHandler: ActionHandlerFn<Input, Output> = async (context) => {
-  const { pool, session } = context
-  const { userUid } = session
-  if (!userUid) {
-    return new MissingRequiredArgumentError({
-      message: 'userUid is required',
-      context: { userUid },
-    })
-  }
-
-  const alreadyHas2FAEnabled = await hasUser2FAByUserUid(pool, userUid)
-  if (alreadyHas2FAEnabled) {
-    return new IllegalStateError({
-      message: 'This user already has 2FA enabled.',
-      context: { userUid, alreadyHas2FAEnabled },
-    })
-  }
-
-  const secret = authenticator.generateSecret(20)
-  const accountName = userUid
-  const issuer = 'volatile.co.nz'
-  const keyURI = authenticator.keyuri(accountName, issuer, secret)
-  const qrcode = await QR.toDataURL(keyURI)
-
-  return {
-    qrcode,
-    secret,
-  }
-}
-
-export { setupUser2FAHandler }
+export { setupUser2FaHandler }

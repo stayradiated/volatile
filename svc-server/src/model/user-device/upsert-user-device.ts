@@ -3,7 +3,7 @@ import * as db from 'zapatos/db'
 import { errorBoundary } from '@stayradiated/error-boundary'
 import type { Except } from 'type-fest'
 
-import { DBError } from '../../util/error.js'
+import { DbError } from '../../util/error.js'
 
 import * as hash from '../../util/hash.js'
 
@@ -19,7 +19,7 @@ const upsertUserDevice = async (
   const uid = randomUUID()
   const now = new Date()
 
-  const deviceIDHash = hash.sha256(options.deviceID)
+  const deviceIdHash = hash.sha256(options.deviceId)
 
   const error = await errorBoundary(async () =>
     db
@@ -32,7 +32,7 @@ const upsertUserDevice = async (
           accessed_at: options.accessedAt,
           user_uid: options.userUid,
           name: options.name,
-          device_id_hash: deviceIDHash,
+          device_id_hash: deviceIdHash,
           trusted: options.trusted,
         },
         ['user_uid', 'device_id_hash'],
@@ -45,7 +45,7 @@ const upsertUserDevice = async (
   )
 
   if (error instanceof Error) {
-    return new DBError({
+    return new DbError({
       message: 'Could not upsert user device.',
       cause: error,
       context: { options },

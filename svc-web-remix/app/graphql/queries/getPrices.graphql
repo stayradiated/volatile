@@ -1,14 +1,14 @@
 query getPrices {
-  stripe_product(where: { active: { _eq: true } }) {
+  stripeProduct(where: { active: { _eq: true } }) {
     id
     active
     name
-    stripe_prices(where: { active: { _eq: true } }) {
+    stripePrices(where: { active: { _eq: true } }) {
       id
       type
-      recurring_interval
-      recurring_interval_count
-      unit_amount
+      recurringInterval
+      recurringIntervalCount
+      unitAmount
       currency
     }
   }

@@ -42,7 +42,7 @@ export const action: ActionFunction = async ({ request }) => {
       role: 'user',
     })
 
-    const userAuthToken = result.action_create_auth_token?.auth_token
+    const userAuthToken = result.actionCreateAuthToken?.authToken
 
     const session = await setSessionData({
       request,
@@ -60,7 +60,7 @@ export const action: ActionFunction = async ({ request }) => {
     console.error(error)
 
     return json<ActionData>({
-      error: 'Invalid email or password.',
+      error: error instanceof Error ? error.message : String(error)
     })
   }
 }

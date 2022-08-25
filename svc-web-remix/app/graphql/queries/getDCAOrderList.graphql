@@ -1,23 +1,23 @@
-query getDCAOrderList {
-  dca_order(order_by: [{exchange:{name:asc}}, {created_at: asc}]) {
+query getDcaOrderList {
+  dcaOrder(orderBy: [{exchange:{name:ASC}}, {createdAt: ASC}]) {
     uid
     exchange {
       uid
       id
       name
     }
-    enabled_at
-    daily_average
-    start_at
-    market_offset
-    interval_ms
-    primary_currency {
+    enabledAt
+    dailyAverage
+    startAt
+    marketOffset
+    intervalMs
+    primaryCurrency {
       symbol
     }
-    secondary_currency {
+    secondaryCurrency {
       symbol
     }
-    min_value
-    max_value
+    minValue
+    maxValue
   }
 }

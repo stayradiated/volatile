@@ -1,5 +1,3 @@
-import { Card } from '../retro-ui'
-
 import { ExchangeTable } from './exchange-table'
 import { GetExchangeListQuery } from '~/graphql/generated'
 
@@ -10,7 +8,7 @@ type Props = {
 const ExchangeList = (props: Props) => {
   const { query } = props
 
-  const userExchangeKeys = query.user_exchange_keys ?? []
+  const userExchangeKeys = query.userExchangeKeys ?? []
 
   return (
     <>

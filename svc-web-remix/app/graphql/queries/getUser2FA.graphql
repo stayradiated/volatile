@@ -1,8 +1,8 @@
 query getUser2FA {
   user {
     uid
-    user_2fa {
-      created_at
+    user2fa {
+      createdAt
       name
       uid
     }

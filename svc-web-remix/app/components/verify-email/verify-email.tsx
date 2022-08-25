@@ -10,7 +10,7 @@ type Props = {
 const VerifyEmail = (props: Props) => {
   const { email, query } = props
 
-  const emailVerified = query.user[0]?.email_verified ?? false
+  const emailVerified = query.user[0]?.emailVerified ?? false
 
   if (!emailVerified) {
     return (

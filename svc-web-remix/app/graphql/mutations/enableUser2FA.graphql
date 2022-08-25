@@ -1,9 +1,9 @@
 mutation enableUser2FA($name: String!, $secret: String!, $token: String!) {
-  action_enable_user_2fa(name: $name, secret: $secret, token: $token) {
+  actionEnableUser2fa(name: $name, secret: $secret, token: $token) {
     user {
       uid
-      user_2fa {
-        created_at
+      user2fa {
+        createdAt
         name
         uid
       }

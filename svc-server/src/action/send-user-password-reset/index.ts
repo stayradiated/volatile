@@ -1,6 +1,7 @@
+import * as z from 'zod'
 import { addMinutes } from 'date-fns'
 
-import type { ActionHandlerFn } from '../../util/action-handler.js'
+import type { ActionHandler } from '../../util/action-handler.js'
 
 import { config } from '../../env.js'
 
@@ -13,55 +14,56 @@ import {
   insertUserPasswordReset,
 } from '../../model/user-password-reset/index.js'
 
-type Input = {
-  email: string
+const schema = {
+  input: {
+    email: z.string(),
+  },
+  output: {
+    email: z.string(),
+  },
 }
+const sendUserPasswordResetHandler: ActionHandler<typeof schema> = {
+  schema,
+  async handler(context) {
+    const { pool, input } = context
+    const { email } = input
 
-type Output = {
-  email: string
-}
+    const user = await selectUserByEmail(pool, email)
+    if (user instanceof Error) {
+      return user
+    }
 
-const sendUserPasswordResetHandler: ActionHandlerFn<Input, Output> = async (
-  context,
-) => {
-  const { pool, input } = context
-  const { email } = input
+    const secret = await generateUserPasswordResetSecret()
+    if (secret instanceof Error) {
+      return secret
+    }
 
-  const user = await selectUserByEmail(pool, email)
-  if (user instanceof Error) {
-    return user
-  }
-
-  const secret = await generateUserPasswordResetSecret()
-  if (secret instanceof Error) {
-    return secret
-  }
-
-  const insertError = await insertUserPasswordReset(pool, {
-    userUid: user.uid,
-    expiresAt: addMinutes(new Date(), 30),
-    secret,
-  })
-  if (insertError instanceof Error) {
-    return insertError
-  }
-
-  const sendMailError = await sendMail({
-    to: email,
-    subject: 'Volatile Password Reset',
-    text: `To reset your account password, visit this URL: ${config.BASE_URL}reset-password/index.html?secret=${secret}`,
-  })
-  if (sendMailError instanceof Error) {
-    return new UnexpectedError({
-      message: 'Could not send password reset URL.',
-      cause: sendMailError,
-      context: { email },
+    const insertError = await insertUserPasswordReset(pool, {
+      userUid: user.uid,
+      expiresAt: addMinutes(new Date(), 30),
+      secret,
     })
-  }
+    if (insertError instanceof Error) {
+      return insertError
+    }
 
-  return {
-    email,
-  }
+    const sendMailError = await sendMail({
+      to: email,
+      subject: 'Volatile Password Reset',
+      text: `To reset your account password, visit this URL: ${config.BASE_URL}reset-password/${secret}`,
+    })
+    if (sendMailError instanceof Error) {
+      return new UnexpectedError({
+        message: 'Could not send password reset URL.',
+        cause: sendMailError,
+        context: { email },
+      })
+    }
+
+    return {
+      email,
+    }
+  },
 }
 
 export { sendUserPasswordResetHandler }

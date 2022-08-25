@@ -24,13 +24,13 @@ export const action: ActionFunction = async ({ request, params }) => {
 
   const { authToken } = session
 
-  const { uid: userExchangeKeysUID } = params
-  invariant(userExchangeKeysUID, 'Must have params.uid')
+  const { uid: userExchangeKeysUid } = params
+  invariant(userExchangeKeysUid, 'Must have params.uid')
 
   const result = await errorBoundary(async () =>
     sdk.validateUserExchangeKeys(
       {
-        userExchangeKeysUID,
+        userExchangeKeysUid,
       },
       {
         authorization: `Bearer ${authToken}`,
@@ -47,8 +47,7 @@ export const action: ActionFunction = async ({ request, params }) => {
     })
   }
 
-  const { is_valid: isValid, validation_message: validationMessage } =
-    result.action_validate_user_exchange_keys!
+  const { isValid, validationMessage } = result.actionValidateUserExchangeKeys!
 
   return json<ActionData>({
     isValid,
@@ -57,27 +56,27 @@ export const action: ActionFunction = async ({ request, params }) => {
 }
 
 interface LoaderData {
-  userExchangeKeysUID: string
+  userExchangeKeysUid: string
 }
 
 export const loader: LoaderFunction = async ({ params }) => {
-  const { uid: userExchangeKeysUID } = params
-  invariant(userExchangeKeysUID, 'Expected params.uid')
+  const { uid: userExchangeKeysUid } = params
+  invariant(userExchangeKeysUid, 'Expected params.uid')
 
   return json<LoaderData>({
-    userExchangeKeysUID,
+    userExchangeKeysUid,
   })
 }
 
 const EditRoute = () => {
-  const { userExchangeKeysUID } = useLoaderData<LoaderData>()
+  const { userExchangeKeysUid } = useLoaderData<LoaderData>()
   const actionData = useActionData<ActionData>()
   const { error, isValid, validationMessage } = actionData ?? {}
 
   return (
     <Card width={400}>
       <UserExchangeKeysValidate
-        userExchangeKeysUID={userExchangeKeysUID}
+        userExchangeKeysUid={userExchangeKeysUid}
         error={error}
         isValid={isValid}
         validationMessage={validationMessage}

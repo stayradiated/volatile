@@ -2,7 +2,7 @@ table:
   name: exchange
   schema: public
 array_relationships:
-  - name: dca_orders
+  - name: dcaOrders
     using:
       foreign_key_constraint_on:
         column: exchange_uid
@@ -16,14 +16,14 @@ array_relationships:
         table:
           name: order
           schema: public
-  - name: primary_currencies
+  - name: primaryCurrencies
     using:
       foreign_key_constraint_on:
         column: exchange_uid
         table:
           name: exchange_primary_currency
           schema: public
-  - name: secondary_currencies
+  - name: secondaryCurrencies
     using:
       foreign_key_constraint_on:
         column: exchange_uid
@@ -37,7 +37,7 @@ array_relationships:
         table:
           name: trade
           schema: public
-  - name: user_exchange_keys
+  - name: userExchangeKeys
     using:
       foreign_key_constraint_on:
         column: exchange_uid

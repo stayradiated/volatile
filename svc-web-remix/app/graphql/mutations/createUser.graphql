@@ -1,5 +1,5 @@
 mutation createUser($email: String!, $password: String!) {
-  action_create_user(email: $email, password: $password) {
-    user_uid
+  actionCreateUser(email: $email, password: $password) {
+    userUid
   }
 }

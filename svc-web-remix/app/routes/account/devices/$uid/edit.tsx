@@ -18,8 +18,8 @@ export const action: ActionFunction = async ({ request, params }) => {
 
   const { authToken } = session
 
-  const { uid: userDeviceUID } = params
-  invariant(userDeviceUID, 'Must have params.uid')
+  const { uid: userDeviceUid } = params
+  invariant(userDeviceUid, 'Must have params.uid')
 
   const formData = await request.formData()
   const name = formData.get('name')
@@ -27,7 +27,7 @@ export const action: ActionFunction = async ({ request, params }) => {
 
   await sdk.updateUserDevice(
     {
-      userDeviceUID,
+      userDeviceUid,
       name,
     },
     {
@@ -40,7 +40,7 @@ export const action: ActionFunction = async ({ request, params }) => {
 }
 
 interface LoaderData {
-  userDeviceUID: string
+  userDeviceUid: string
   query: GetUserDeviceByUidQuery
 }
 
@@ -53,12 +53,12 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 
   const { authToken } = session
 
-  const { uid: userDeviceUID } = params
-  invariant(userDeviceUID, 'Expected params.uid')
+  const { uid: userDeviceUid } = params
+  invariant(userDeviceUid, 'Expected params.uid')
 
-  const query = await sdk.getUserDeviceByUID(
+  const query = await sdk.getUserDeviceByUid(
     {
-      userDeviceUID,
+      userDeviceUid,
     },
     {
       authorization: `Bearer ${authToken}`,
@@ -67,17 +67,17 @@ export const loader: LoaderFunction = async ({ request, params }) => {
   )
 
   return json<LoaderData>({
-    userDeviceUID,
+    userDeviceUid,
     query,
   })
 }
 
 const EditDeviceRoute = () => {
-  const { userDeviceUID, query } = useLoaderData<LoaderData>()
+  const { userDeviceUid, query } = useLoaderData<LoaderData>()
 
   return (
     <Card width={400}>
-      <UserDeviceFormEdit userDeviceUID={userDeviceUID} query={query} />
+      <UserDeviceFormEdit userDeviceUid={userDeviceUid} query={query} />
     </Card>
   )
 }

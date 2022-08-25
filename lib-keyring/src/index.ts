@@ -1,6 +1,7 @@
 import fs from 'node:fs/promises'
 
-import { UserKeys, Algorithm, Keyring, createKeyring } from './keyring.js'
+import type { UserKeys, Algorithm, Keyring } from './keyring.js'
+import { createKeyring } from './keyring.js'
 
 type FileContents = {
   algorithm: Algorithm
@@ -19,4 +20,9 @@ const createKeyringFromFilepath = async (
 
 export { createKeyringFromFilepath }
 
-export { createKeyring, Keyring, Algorithm, UserKeys } from './keyring.js'
+export {
+  createKeyring,
+  type Keyring,
+  type Algorithm,
+  type UserKeys,
+} from './keyring.js'

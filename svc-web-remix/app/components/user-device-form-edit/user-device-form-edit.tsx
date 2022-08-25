@@ -5,22 +5,22 @@ import { Form, Input, PrimaryButton } from '../retro-ui'
 import type { GetUserDeviceByUidQuery } from '~/graphql/generated'
 
 type Props = {
-  userDeviceUID: string
+  userDeviceUid: string
   query: GetUserDeviceByUidQuery
 }
 
 const UserDeviceFormEdit = (props: Props) => {
-  const { userDeviceUID, query } = props
+  const { userDeviceUid, query } = props
 
-  const name = query.user_device_by_pk?.name
+  const name = query.userDeviceByPk?.name
 
   return (
     <>
       <h2>Edit Device</h2>
       <Form
-        name={`edit-device-${userDeviceUID}`}
+        name={`edit-device-${userDeviceUid}`}
         method="post"
-        action={`/account/devices/${userDeviceUID}/edit`}
+        action={`/account/devices/${userDeviceUid}/edit`}
       >
         <Form.Item label="Name" name="name">
           <Input defaultValue={name} />

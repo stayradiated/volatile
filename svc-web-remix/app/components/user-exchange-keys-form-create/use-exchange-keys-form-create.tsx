@@ -7,7 +7,7 @@ import { KeysInput } from '../user-exchange-keys-input'
 
 import type { GetExchangeKeysFormCreateQuery } from '~/graphql/generated'
 
-type Exchange = GetExchangeKeysFormCreateQuery['exchange'][0]
+type Exchange = GetExchangeKeysFormCreateQuery['exchange'][number]
 
 type Props = {
   query: GetExchangeKeysFormCreateQuery
@@ -36,7 +36,9 @@ const UserExchangeKeysFormCreate = (props: Props) => {
             options={options}
             getOptionLabel={(option) => option.name}
             getOptionValue={(option) => option.uid}
-            onChange={setExchange}
+            onChange={(value) => {
+              setExchange(value ?? undefined)
+            }}
           />
         </Form.Item>
 

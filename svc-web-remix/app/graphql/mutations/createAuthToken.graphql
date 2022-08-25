@@ -7,17 +7,17 @@ mutation createAuthToken(
   $token2FA: String
   $role: String!
 ) {
-  action_create_auth_token(
+  actionCreateAuthToken(
     email: $email
     password: $password
-    device_id: $deviceID
-    device_name: $deviceName
-    device_trusted: $deviceTrusted
-    token_2fa: $token2FA
+    deviceId: $deviceID
+    deviceName: $deviceName
+    deviceTrusted: $deviceTrusted
+    token2fa: $token2FA
     role: $role
   ) {
-    user_uid
-    auth_token
-    expires_at
+    userUid
+    authToken
+    expiresAt
   }
 }

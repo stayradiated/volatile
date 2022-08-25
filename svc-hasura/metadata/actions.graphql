@@ -1,71 +1,71 @@
 type Mutation {
-  action_create_admin_auth_token(
-    user_uid: uuid!
+  actionCreateAdminAuthToken(
+    userUid: uuid!
   ): CreateAdminAuthTokenOutput
 }
 
 type Mutation {
-  action_create_auth_token(
+  actionCreateAuthToken(
     email: String!
     password: String!
-    device_id: String!
-    device_name: String!
-    device_trusted: Boolean!
-    token_2fa: String
+    deviceId: String!
+    deviceName: String!
+    deviceTrusted: Boolean!
+    token2fa: String
     role: String!
   ): CreateAuthTokenOutput
 }
 
 type Mutation {
-  action_create_dca_order(
-    user_exchange_keys_uid: uuid!
-    market_uid: uuid!
-    primary_currency: String!
-    secondary_currency: String!
-    start_at: timestamp!
-    market_offset: Float!
-    daily_average: Float!
-    interval_ms: Int!
-    min_price: Float
-    max_price: Float
-    min_value: Float
-    max_value: Float
-  ): CreateDCAOrderResult
+  actionCreateDcaOrder(
+    userExchangeKeysUid: uuid!
+    marketUid: uuid!
+    primaryCurrency: String!
+    secondaryCurrency: String!
+    startAt: timestamp!
+    marketOffset: Float!
+    dailyAverage: Float!
+    intervalMs: Int!
+    minPrice: Float
+    maxPrice: Float
+    minValue: Float
+    maxValue: Float
+  ): CreateDcaOrderResult
 }
 
 type Mutation {
-  action_create_stripe_subscription(
-    price_id: String
+  actionCreateStripeSubscription(
+    priceId: String
   ): CreateStripeSubscription!
 }
 
 type Mutation {
-  action_create_user(
+  actionCreateUser(
     email: String!
     password: String!
   ): CreateUserOutput
 }
 
 type Mutation {
-  action_create_user_exchange_keys(
-    exchange_uid: uuid!
+  actionCreateUserExchangeKeys(
+    exchangeUid: uuid!
     keys: jsonb!
     description: String!
   ): CreateUserExchangeKeysOutput
 }
 
 type Mutation {
-  action_delete_user: DeleteUserOutput
+  actionDeleteUser: DeleteUserOutput
 }
 
 type Mutation {
-  action_delete_user_2fa(
+  actionDeleteUser2fa(
     token: String!
   ): DeleteUser2FAOutput
 }
 
 type Mutation {
-  action_enable_user_2fa(
+  actionEnableUser2fa(
     name: String!
     secret: String!
     token: String!
@@ -73,133 +73,133 @@ type Mutation {
 }
 
 type Query {
-  action_query_live_stripe_subscription(
-    subscription_id: String!
+  actionQueryLiveStripeSubscription(
+    subscriptionId: String!
   ): QueryLiveStripeSubscriptionOutput!
 }
 
 type Query {
-  action_query_stripe_config: QueryStripeConfigOutput!
+  actionQueryStripeConfig: QueryStripeConfigOutput!
 }
 
 type Query {
-  action_query_user_email(
-    user_uid: uuid!
+  actionQueryUserEmail(
+    userUid: uuid!
   ): QueryUserEmailOutput
 }
 
 type Query {
-  action_query_user_limit: QueryUserLimitOutput
+  actionQueryUserLimit: QueryUserLimitOutput
 }
 
 type Mutation {
-  action_refresh_auth_token: RefreshAuthTokenOutput
+  actionRefreshAuthToken: RefreshAuthTokenOutput
 }
 
 type Mutation {
-  action_reset_user_password(
-    password_reset_secret: String!
-    new_password: String!
-    device_id: String!
-    device_name: String!
-    device_trusted: Boolean!
-    token_2fa: String
+  actionResetUserPassword(
+    passwordResetSecret: String!
+    newPassword: String!
+    deviceId: String!
+    deviceName: String!
+    deviceTrusted: Boolean!
+    token2fa: String
   ): ResetUserPasswordOutput!
 }
 
 type Mutation {
-  action_seed_test_account(
+  actionSeedTestAccount(
     email: String!
   ): SeedTestAccountOutput!
 }
 
 type Mutation {
-  action_send_user_email_verify: SendUserEmailVerifyOutput!
+  actionSendUserEmailVerify: SendUserEmailVerifyOutput!
 }
 
 type Mutation {
-  action_send_user_password_reset(
+  actionSendUserPasswordReset(
     email: String!
   ): SendUserPasswordResetOutput!
 }
 
 type Query {
-  action_setup_user_2fa: SetupUser2FAOutput
+  actionSetupUser2fa: SetupUser2FAOutput
 }
 
 type Mutation {
-  action_sync_currency_fx(
-    start_date: timestamptz!
-    end_date: timestamptz!
-    from_symbol: String!
-    to_symbol: String!
+  actionSyncCurrencyFx(
+    startDate: timestamptz!
+    endDate: timestamptz!
+    fromSymbol: String!
+    toSymbol: String!
   ): SyncCurrencyFxOutput
 }
 
 type Mutation {
-  action_sync_exchange_open_order_list(
-    user_exchange_keys_uid: uuid!
+  actionSyncExchangeOpenOrderList(
+    userExchangeKeysUid: uuid!
   ): SyncExchangeOpenOrderListOutput
 }
 
 type Mutation {
-  action_sync_exchange_trade_list(
-    user_exchange_keys_uid: uuid!
-    force_sync: Boolean
+  actionSyncExchangeTradeList(
+    userExchangeKeysUid: uuid!
+    forceSync: Boolean
   ): SyncExchangeTradeListOutput
 }
 
 type Mutation {
-  action_update_dca_order(
-    dca_order_uid: uuid!
+  actionUpdateDcaOrder(
+    dcaOrderUid: uuid!
     enabled: Boolean!
-  ): UpdateDCAOrderOutput!
+  ): UpdateDcaOrderOutput!
 }
 
 type Mutation {
-  action_update_stripe_subscription(
-    subscription_id: String!
-    cancel_at_period_end: Boolean!
+  actionUpdateStripeSubscription(
+    subscriptionId: String!
+    cancelAtPeriodEnd: Boolean!
   ): UpdateSubscriptionOutput!
 }
 
 type Mutation {
-  action_update_user(
+  actionUpdateUser(
     email: String
     password: String
   ): UpdateUserOutput!
 }
 
 type Mutation {
-  action_update_user_exchange_keys(
-    user_exchange_keys_uid: uuid!
+  actionUpdateUserExchangeKeys(
+    userExchangeKeysUid: uuid!
     keys: jsonb
     description: String
   ): UpdateUserExchangeKeysOutput
 }
 
 type Mutation {
-  action_validate_user_exchange_keys(
-    user_exchange_keys_uid: uuid!
+  actionValidateUserExchangeKeys(
+    userExchangeKeysUid: uuid!
   ): ValidateUserExchangeKeysOutput
 }
 
 type Mutation {
-  action_validate_user_exchange_keys_live(
-    exchange_uid: uuid!
+  actionValidateUserExchangeKeysLive(
+    exchangeUid: uuid!
     keys: jsonb!
   ): ValidateUserExchangeKeysLiveOutput
 }
 
 type Mutation {
-  action_validate_user_password_reset(
-    password_reset_secret: String!
+  actionValidateUserPasswordReset(
+    passwordResetSecret: String!
   ): ValidatUserPasswordResetOutput!
 }
 
 type Mutation {
-  action_verify_user_email(
-    email_verify_secret: String!
+  actionVerifyUserEmail(
+    emailVerifySecret: String!
   ): VerifyUserEmailOutput!
 }
 
@@ -209,7 +209,7 @@ input SampleInput {
 }
 
 input QueryUserEmailInput {
-  user_uid: uuid!
+  userUid: uuid!
 }
 
 input SeedTestAccountInput {
@@ -225,13 +225,13 @@ type SampleOutput {
 }
 
 type CreateUserOutput {
-  user_uid: String!
+  userUid: String!
 }
 
 type CreateAuthTokenOutput {
-  user_uid: String!
-  auth_token: String!
-  expires_at: timestamptz!
+  userUid: String!
+  authToken: String!
+  expiresAt: timestamptz!
 }
 
 type GetEmailOutput {
@@ -239,29 +239,29 @@ type GetEmailOutput {
 }
 
 type SetUserExchangeKeysOutput {
-  user_exchange_keys_uid: uuid!
+  userExchangeKeysUid: uuid!
 }
 
 type ValidateUserExchangeKeysOutput {
-  user_exchange_keys_uid: uuid!
-  is_valid: Boolean!
-  validation_message: String
+  userExchangeKeysUid: uuid!
+  isValid: Boolean!
+  validationMessage: String
 }
 
-type CreateDCAOrderResult {
-  dca_order_uid: uuid!
+type CreateDcaOrderResult {
+  dcaOrderUid: uuid!
 }
 
 type SyncTradeListOutput {
-  user_uid: uuid!
+  userUid: uuid!
 }
 
 type SyncExchangeTradeListOutput {
-  user_uid: uuid!
+  userUid: uuid!
 }
 
 type CreateUserExchangeKeysOutput {
-  user_exchange_keys_uid: uuid!
+  userExchangeKeysUid: uuid!
 }
 
 type WebhookOutput {
@@ -269,27 +269,27 @@ type WebhookOutput {
 }
 
 type CreateCheckoutSession {
-  session_url: String!
+  sessionUrl: String!
 }
 
 type CreateCustomerPortalSession {
-  session_url: String!
+  sessionUrl: String!
 }
 
 type CustomerCheckoutSessionOutput {
-  session_url: String!
+  sessionUrl: String!
 }
 
 type UpdateUserPasswordOutput {
-  user_uid: uuid!
+  userUid: uuid!
 }
 
 type UpdateUserOutput {
-  user_uid: uuid!
+  userUid: uuid!
 }
 
 type EnableUser2FAOutput {
-  user_uid: uuid!
+  userUid: uuid!
 }
 
 type SendUserPasswordResetOutput {
@@ -297,13 +297,13 @@ type SendUserPasswordResetOutput {
 }
 
 type ResetUserPasswordOutput {
-  user_uid: uuid!
-  auth_token: String!
-  expires_at: timestamptz!
+  userUid: uuid!
+  authToken: String!
+  expiresAt: timestamptz!
 }
 
 type SendUserEmailVerifyOutput {
-  user_uid: uuid!
+  userUid: uuid!
 }
 
 type VerifyUserEmailOutput {
@@ -311,36 +311,36 @@ type VerifyUserEmailOutput {
 }
 
 type UpdateUserExchangeKeysOutput {
-  user_exchange_keys_uid: uuid!
+  userExchangeKeysUid: uuid!
 }
 
 type SyncExchangeOpenOrderListOutput {
-  user_uid: uuid!
+  userUid: uuid!
 }
 
 type ValidateUserExchangeKeysLiveOutput {
-  is_valid: Boolean!
-  validation_message: String
+  isValid: Boolean!
+  validationMessage: String
 }
 
 type RefreshAuthTokenOutput {
-  user_uid: String!
-  auth_token: String!
-  expires_at: timestamptz!
+  userUid: String!
+  authToken: String!
+  expiresAt: timestamptz!
 }
 
 type ValidatUserPasswordResetOutput {
-  is_valid: Boolean!
+  isValid: Boolean!
   email: String
 }
 
 type QueryUserEmailOutput {
-  user_uid: uuid!
+  userUid: uuid!
   email: String!
 }
 
 type SyncCurrencyFxOutput {
-  insert_count: Int!
+  insertCount: Int!
 }
 
 type SetupUser2FAOutput {
@@ -349,20 +349,20 @@ type SetupUser2FAOutput {
 }
 
 type DeleteUser2FAOutput {
-  user_uid: uuid!
+  userUid: uuid!
 }
 
 type DeleteUserOutput {
-  user_uid: uuid!
+  userUid: uuid!
 }
 
 type QueryUserLimitOutput {
-  user_uid: String!
-  user_limit: jsonb!
+  userUid: String!
+  userLimit: jsonb!
 }
 
-type UpdateDCAOrderOutput {
-  dca_order_uid: uuid!
+type UpdateDcaOrderOutput {
+  dcaOrderUid: uuid!
 }
 
 type QueryPricesOutput {
@@ -378,8 +378,8 @@ type QuerySubscriptionsOutput {
 }
 
 type CreateSubscription {
-  subscription_id: String!
-  client_secret: String!
+  subscriptionId: String!
+  clientSecret: String!
 }
 
 type CancelSubscriptionOutput {
@@ -388,64 +388,64 @@ type CancelSubscriptionOutput {
 
 type PriceOutput {
   interval: String
-  interval_count: Int
+  intervalCount: Int
   currency: String!
   id: String!
-  unit_amount: Int!
+  unitAmount: Int!
   type: String!
 }
 
 type QueryStripeConfigOutput {
-  publishable_key: String!
+  publishableKey: String!
 }
 
 type StripeSubscription {
   id: String
   object: String
   application: String
-  application_fee_percent: String
-  billing_cycle_anchor: Int
-  billing_thresholds: String
-  cancel_at: String
-  cancel_at_period_end: Boolean
-  canceled_at: String
-  collection_method: String
+  applicationFeePercent: String
+  billingCycleAnchor: Int
+  billingThresholds: String
+  cancelAt: String
+  cancelAtPeriodEnd: Boolean
+  canceledAt: String
+  collectionMethod: String
   created: Int
   currency: String
-  current_period_end: Int
-  current_period_start: Int
+  currentPeriodEnd: Int
+  currentPeriodStart: Int
   customer: String
-  days_until_due: String
-  default_payment_method: String
-  default_source: String
+  daysUntilDue: String
+  defaultPaymentMethod: String
+  defaultSource: String
   description: String
   discount: String
-  ended_at: String
+  endedAt: String
   livemode: Boolean
-  next_pending_invoice_item_invoice: String
-  pause_collection: String
-  pending_invoice_item_interval: String
-  pending_setup_intent: String
-  pending_update: String
+  nextPendingInvoiceItemInvoice: String
+  pauseCollection: String
+  pendingInvoiceItemInterval: String
+  pendingSetupIntent: String
+  pendingUpdate: String
   quantity: Int
   schedule: String
-  start_date: Int
+  startDate: Int
   status: String
-  test_clock: String
-  transfer_data: String
-  trial_end: String
-  trial_start: String
+  testClock: String
+  transferData: String
+  trialEnd: String
+  trialStart: String
   plan: Plan
-  payment_settings: PaymentSettings
-  latest_invoice: LatestInvoice
+  paymentSettings: PaymentSettings
+  latestInvoice: LatestInvoice
   items: Items
-  default_tax_rates: [String]
-  automatic_tax: AutomaticTax
+  defaultTaxRates: [String]
+  automaticTax: AutomaticTax
 }
 
 type StripeSubscriptionPaymentSettings {
-  payment_method_options: String
-  payment_method_types: String
+  paymentMethodOptions: String
+  paymentMethodTypes: String
 }
 
 type StripeSubscriptionAutomaticTax {
@@ -453,82 +453,82 @@ type StripeSubscriptionAutomaticTax {
 }
 
 type StripeSubscriptionMetadata {
-  lookup_key: String
+  lookupKey: String
 }
 
 type StripeSubscriptionRecurring {
-  usage_type: String
-  trial_period_days: String
+  usageType: String
+  trialPeriodDays: String
   interval: String
-  interval_count: Int
-  aggregate_usage: String
+  intervalCount: Int
+  aggregateUsage: String
 }
 
 type StripeSubscriptionPrice {
-  lookup_key: String
+  lookupKey: String
   livemode: Boolean
-  tiers_mode: String
+  tiersMode: String
   created: Int
-  billing_scheme: String
-  unit_amount_decimal: String
+  billingScheme: String
+  unitAmountDecimal: String
   active: Boolean
   currency: String
   object: String
   id: String
-  unit_amount: Int
-  transform_quantity: String
+  unitAmount: Int
+  transformQuantity: String
   nickname: String
   type: String
   product: String
-  tax_behavior: String
+  taxBehavior: String
   metadata: StripeSubscriptionMetadata
   recurring: StripeSubscriptionRecurring
 }
 
 type StripeSubscriptionPlan {
   amount: Int!
-  usage_type: String
+  usageType: String
   livemode: Boolean
-  tiers_mode: String
-  trial_period_days: String
+  tiersMode: String
+  trialPeriodDays: String
   created: Int
-  transform_usage: String
-  billing_scheme: String
+  transformUsage: String
+  billingScheme: String
   active: Boolean
   interval: String
   currency: String!
   object: String
   id: String
-  amount_decimal: String!
+  amountDecimal: String!
   nickname: String
-  interval_count: Int
+  intervalCount: Int
   product: String
-  aggregate_usage: String
+  aggregateUsage: String
   metadata: StripeSubscriptionMetadata
 }
 
 type StripeSubscriptionItemData {
   created: Int
-  billing_thresholds: String
+  billingThresholds: String
   quantity: Int
   object: String
   id: String
   subscription: String
-  tax_rates: [String]
+  taxRates: [String]
   price: StripeSubscriptionPrice
   plan: StripeSubscriptionPlan
 }
 
 type StripeSubscriptionItem {
-  has_more: Boolean
+  hasMore: Boolean
   url: String
-  total_count: Int
+  totalCount: Int
   object: String
   data: [StripeSubscriptionItemData]
 }
 
 type SeedTestAccountOutput {
-  user_uid: uuid!
+  userUid: uuid!
   email: String!
 }
 
@@ -540,41 +540,41 @@ type Plan {
   id: String
   object: String
   active: Boolean
-  aggregate_usage: String
+  aggregateUsage: String
   amount: Int
-  amount_decimal: String
-  billing_scheme: String
+  amountDecimal: String
+  billingScheme: String
   created: Int
   currency: String
   interval: String
-  interval_count: Int
+  intervalCount: Int
   livemode: Boolean
   nickname: String
   product: String
-  tiers_mode: String
-  transform_usage: String
-  trial_period_days: String
-  usage_type: String
+  tiersMode: String
+  transformUsage: String
+  trialPeriodDays: String
+  usageType: String
 }
 
 type PaymentSettings {
-  payment_method_options: String
-  payment_method_types: String
-  save_default_payment_method: String
+  paymentMethodOptions: String
+  paymentMethodTypes: String
+  saveDefaultPaymentMethod: String
 }
 
 type StatusTransitions {
-  finalized_at: Int
-  marked_uncollectible_at: String
-  paid_at: String
-  voided_at: String
+  finalizedAt: Int
+  markedUncollectibleAt: String
+  paidAt: String
+  voidedAt: String
 }
 
 type Card {
   installments: String
-  mandate_options: String
+  mandateOptions: String
   network: String
-  request_three_d_secure: String
+  requestThreeDSecure: String
 }
 
 type PaymentMethodOptions {
@@ -583,8 +583,8 @@ type PaymentMethodOptions {
 
 type Charges {
   object: String
-  has_more: Boolean
-  total_count: Int
+  hasMore: Boolean
+  totalCount: Int
   url: String
   data: [String]
 }
@@ -593,72 +593,72 @@ type PaymentIntent {
   id: String
   object: String
   amount: Int
-  amount_capturable: Int
-  amount_received: Int
+  amountCapturable: Int
+  amountReceived: Int
   application: String
-  application_fee_amount: String
-  automatic_payment_methods: String
-  canceled_at: String
-  cancellation_reason: String
-  capture_method: String
-  client_secret: String
-  confirmation_method: String
+  applicationFeeAmount: String
+  automaticPaymentMethods: String
+  canceledAt: String
+  cancellationReason: String
+  captureMethod: String
+  clientSecret: String
+  confirmationMethod: String
   created: Int
   currency: String
   customer: String
   description: String
   invoice: String
-  last_payment_error: String
+  lastPaymentError: String
   livemode: Boolean
-  next_action: String
-  on_behalf_of: String
-  payment_method: String
+  nextAction: String
+  onBehalfOf: String
+  paymentMethod: String
   processing: String
-  receipt_email: String
+  receiptEmail: String
   review: String
-  setup_future_usage: String
+  setupFutureUsage: String
   shipping: String
   source: String
-  statement_descriptor: String
-  statement_descriptor_suffix: String
+  statementDescriptor: String
+  statementDescriptorSuffix: String
   status: String
-  transfer_data: String
-  transfer_group: String
-  payment_method_types: [String]
-  payment_method_options: PaymentMethodOptions
+  transferData: String
+  transferGroup: String
+  paymentMethodTypes: [String]
+  paymentMethodOptions: PaymentMethodOptions
   charges: Charges
 }
 
 type ProrationDetails {
-  credited_items: String
+  creditedItems: String
 }
 
 type Recurring {
-  aggregate_usage: String
+  aggregateUsage: String
   interval: String
-  interval_count: Int
-  trial_period_days: String
-  usage_type: String
+  intervalCount: Int
+  trialPeriodDays: String
+  usageType: String
 }
 
 type Price {
   id: String
   object: String
   active: Boolean
-  billing_scheme: String
+  billingScheme: String
   created: Int
   currency: String
-  custom_unit_amount: String
+  customUnitAmount: String
   livemode: Boolean
-  lookup_key: String
+  lookupKey: String
   nickname: String
   product: String
-  tax_behavior: String
-  tiers_mode: String
-  transform_quantity: String
+  taxBehavior: String
+  tiersMode: String
+  transformQuantity: String
   type: String
-  unit_amount: Int
-  unit_amount_decimal: String
+  unitAmount: Int
+  unitAmountDecimal: String
   recurring: Recurring
 }
 
@@ -671,7 +671,7 @@ type Data {
   id: String
   object: String
   amount: Int
-  amount_excluding_tax: Int
+  amountExcludingTax: Int
   currency: String
   description: String
   discountable: Boolean
@@ -679,23 +679,23 @@ type Data {
   proration: Boolean
   quantity: Int
   subscription: String
-  subscription_item: String
+  subscriptionItem: String
   type: String
-  unit_amount_excluding_tax: String
-  tax_rates: [String]
-  tax_amounts: [String]
-  proration_details: ProrationDetails
+  unitAmountExcludingTax: String
+  taxRates: [String]
+  taxAmounts: [String]
+  prorationDetails: ProrationDetails
   price: Price
   plan: Plan
   period: Period
   discounts: [String]
-  discount_amounts: [String]
+  discountAmounts: [String]
 }
 
 type Lines {
   object: String
-  has_more: Boolean
-  total_count: Int
+  hasMore: Boolean
+  totalCount: Int
   url: String
   data: [Data]
 }
@@ -708,115 +708,115 @@ type AutomaticTax {
 type LatestInvoice {
   id: String
   object: String
-  account_country: String
-  account_name: String
-  account_tax_ids: String
-  amount_due: Int
-  amount_paid: Int
-  amount_remaining: Int
+  accountCountry: String
+  accountName: String
+  accountTaxIds: String
+  amountDue: Int
+  amountPaid: Int
+  amountRemaining: Int
   application: String
-  application_fee_amount: String
-  attempt_count: Int
+  applicationFeeAmount: String
+  attemptCount: Int
   attempted: Boolean
-  auto_advance: Boolean
-  billing_reason: String
+  autoAdvance: Boolean
+  billingReason: String
   charge: String
-  collection_method: String
+  collectionMethod: String
   created: Int
   currency: String
-  custom_fields: String
+  customFields: String
   customer: String
-  customer_address: String
-  customer_email: String
-  customer_name: String
-  customer_phone: String
-  customer_shipping: String
-  customer_tax_exempt: String
-  default_payment_method: String
-  default_source: String
+  customerAddress: String
+  customerEmail: String
+  customerName: String
+  customerPhone: String
+  customerShipping: String
+  customerTaxExempt: String
+  defaultPaymentMethod: String
+  defaultSource: String
   description: String
   discount: String
-  due_date: String
-  ending_balance: Int
+  dueDate: String
+  endingBalance: Int
   footer: String
-  hosted_invoice_url: String
-  invoice_pdf: String
-  last_finalization_error: String
+  hostedInvoiceUrl: String
+  invoicePdf: String
+  lastFinalizationError: String
   livemode: Boolean
-  next_payment_attempt: String
+  nextPaymentAttempt: String
   number: String
-  on_behalf_of: String
+  onBehalfOf: String
   paid: Boolean
-  paid_out_of_band: Boolean
-  period_end: Int
-  period_start: Int
-  post_payment_credit_notes_amount: Int
-  pre_payment_credit_notes_amount: Int
+  paidOutOfBand: Boolean
+  periodEnd: Int
+  periodStart: Int
+  postPaymentCreditNotesAmount: Int
+  prePaymentCreditNotesAmount: Int
   quote: String
-  receipt_number: String
-  rendering_options: String
-  starting_balance: Int
-  statement_descriptor: String
+  receiptNumber: String
+  renderingOptions: String
+  startingBalance: Int
+  statementDescriptor: String
   status: String
   subscription: String
   subtotal: Int
-  subtotal_excluding_tax: Int
+  subtotalExcludingTax: Int
   tax: String
-  test_clock: String
+  testClock: String
   total: Int
-  total_excluding_tax: Int
-  transfer_data: String
-  webhooks_delivered_at: Int
-  total_tax_amounts: [String]
-  total_discount_amounts: [String]
-  status_transitions: StatusTransitions
-  payment_settings: PaymentSettings
-  payment_intent: PaymentIntent
+  totalExcludingTax: Int
+  transferData: String
+  webhooksDeliveredAt: Int
+  totalTaxAmounts: [String]
+  totalDiscountAmounts: [String]
+  statusTransitions: StatusTransitions
+  paymentSettings: PaymentSettings
+  paymentIntent: PaymentIntent
   lines: Lines
   discounts: [String]
-  default_tax_rates: [String]
-  customer_tax_ids: [String]
-  automatic_tax: AutomaticTax
+  defaultTaxRates: [String]
+  customerTaxIds: [String]
+  automaticTax: AutomaticTax
 }
 
 type Items {
   object: String
-  has_more: Boolean
-  total_count: Int
+  hasMore: Boolean
+  totalCount: Int
   url: String
   data: [Data]
 }
 
 type QueryStripeSubscriptionOutput {
   id: String!
-  client_secret: String!
+  clientSecret: String!
 }
 
 type QueryLiveStripeSubscriptionOutput {
   id: String!
-  client_secret: String!
+  clientSecret: String!
 }
 
 type ResumeSubscriptionOutput {
-  subscription_id: String!
+  subscriptionId: String!
 }
 
 type CancelStripeSubscriptionOutput {
-  subscription_id: String!
+  subscriptionId: String!
 }
 
 type CreateStripeSubscription {
-  subscription_id: String!
-  client_secret: String!
+  subscriptionId: String!
+  clientSecret: String!
 }
 
 type UpdateSubscriptionOutput {
-  subscription_id: String!
+  subscriptionId: String!
 }
 
 type CreateAdminAuthTokenOutput {
-  user_uid: String!
-  auth_token: String!
-  expires_at: timestamptz!
+  userUid: String!
+  authToken: String!
+  expiresAt: timestamptz!
 }
 

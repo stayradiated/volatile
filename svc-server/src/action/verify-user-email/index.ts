@@ -1,52 +1,54 @@
-import type { ActionHandlerFn } from '../../util/action-handler.js'
+import * as z from 'zod'
+import type { ActionHandler } from '../../util/action-handler.js'
 import {
   selectUserEmailVerifyBySecret,
   deleteUserEmailVerify,
 } from '../../model/user-email-verify/index.js'
 import { updateUser, getUserEmail } from '../../model/user/index.js'
 
-type Input = {
-  email_verify_secret: string
+const schema = {
+  input: {
+    emailVerifySecret: z.string(),
+  },
+  output: {
+    email: z.string(),
+  },
 }
+const verifyUserEmailHandler: ActionHandler<typeof schema> = {
+  schema,
+  async handler(context) {
+    const { pool, input } = context
+    const { emailVerifySecret } = input
 
-type Output = {
-  email: string
-}
+    const userEmailVerify = await selectUserEmailVerifyBySecret(
+      pool,
+      emailVerifySecret,
+    )
+    if (userEmailVerify instanceof Error) {
+      return userEmailVerify
+    }
 
-const verifyUserEmailHandler: ActionHandlerFn<Input, Output> = async (
-  context,
-) => {
-  const { pool, input } = context
-  const { email_verify_secret: emailVerifySecret } = input
+    const { userUid } = userEmailVerify
 
-  const userEmailVerify = await selectUserEmailVerifyBySecret(
-    pool,
-    emailVerifySecret,
-  )
-  if (userEmailVerify instanceof Error) {
-    return userEmailVerify
-  }
+    const userError = await updateUser(pool, { userUid, emailVerified: true })
+    if (userError instanceof Error) {
+      return userError
+    }
 
-  const { userUid } = userEmailVerify
+    const deleteError = await deleteUserEmailVerify(pool, userEmailVerify.uid)
+    if (deleteError instanceof Error) {
+      return deleteError
+    }
 
-  const userError = await updateUser(pool, { userUid, emailVerified: true })
-  if (userError instanceof Error) {
-    return userError
-  }
+    const email = await getUserEmail(pool, userUid)
+    if (email instanceof Error) {
+      return email
+    }
 
-  const deleteError = await deleteUserEmailVerify(pool, userEmailVerify.uid)
-  if (deleteError instanceof Error) {
-    return deleteError
-  }
-
-  const email = await getUserEmail(pool, userUid)
-  if (email instanceof Error) {
-    return email
-  }
-
-  return {
-    email,
-  }
+    return {
+      email,
+    }
+  },
 }
 
 export { verifyUserEmailHandler }

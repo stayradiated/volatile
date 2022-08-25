@@ -11,9 +11,9 @@ const TradeCumulativeSum = (props: Props) => {
   const { query } = props
 
   const charts = useMemo((): ChartConfig[] => {
-    const rows = query.trade_avg_price_by_window ?? []
-    const btc = rows.filter((row) => row.primary_currency === 'BTC')
-    const eth = rows.filter((row) => row.primary_currency === 'ETH')
+    const rows = query.tradeAvgPriceByWindow ?? []
+    const btc = rows.filter((row) => row.primaryCurrency === 'BTC')
+    const eth = rows.filter((row) => row.primaryCurrency === 'ETH')
 
     return [
       {
@@ -26,8 +26,8 @@ const TradeCumulativeSum = (props: Props) => {
         data: formatDataForChart({
           interval: 'day',
           data: btc,
-          getValue: (row) => row.total_value,
-          getTime: (row) => row.timestamp,
+          getValue: (row) => row.totalValue ?? undefined,
+          getTime: (row) => row.timestamp!,
         }),
       },
       {
@@ -40,8 +40,8 @@ const TradeCumulativeSum = (props: Props) => {
         data: formatDataForChart({
           interval: 'day',
           data: eth,
-          getValue: (row) => row.total_value,
-          getTime: (row) => row.timestamp,
+          getValue: (row) => row.totalValue ?? undefined,
+          getTime: (row) => row.timestamp!,
         }),
       },
     ]

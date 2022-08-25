@@ -5,19 +5,19 @@ import { Form, PrimaryButton, Input, DateInput } from '../retro-ui'
 
 import { GetDcaOrderFormCreateQuery } from '~/graphql/generated'
 
-type Exchange = GetDcaOrderFormCreateQuery['exchange'][0]
-type UserExchangeKeys = GetDcaOrderFormCreateQuery['user_exchange_keys'][0]
-type Market = GetDcaOrderFormCreateQuery['market'][0]
+type Exchange = GetDcaOrderFormCreateQuery['exchange'][number]
+type UserExchangeKeys = GetDcaOrderFormCreateQuery['userExchangeKeys'][number]
+type Market = GetDcaOrderFormCreateQuery['market'][number]
 type PrimaryCurrency =
-  GetDcaOrderFormCreateQuery['exchange'][0]['primary_currencies'][0]
+  GetDcaOrderFormCreateQuery['exchange'][number]['primaryCurrencies'][number]
 type SecondaryCurrency =
-  GetDcaOrderFormCreateQuery['exchange'][0]['secondary_currencies'][0]
+  GetDcaOrderFormCreateQuery['exchange'][number]['secondaryCurrencies'][number]
 
 type Props = {
   query: GetDcaOrderFormCreateQuery
 }
 
-const DCAOrderFormCreate = (props: Props) => {
+const DcaOrderFormCreate = (props: Props) => {
   const { query } = props
 
   const state = {
@@ -25,31 +25,31 @@ const DCAOrderFormCreate = (props: Props) => {
     secondaryCurrency: { symbol: 'NZD' },
     exchange: {
       uid: undefined,
-      primary_currencies: [],
-      secondary_currencies: [],
+      primaryCurrencies: [],
+      secondaryCurrencies: [],
     },
   }
 
   const exchangeOptions = query.exchange ?? []
 
   const marketOptions = (query.market ?? []).filter((item) =>
-    item.market_prices.some(
+    item.marketPrices.some(
       (price) =>
-        price.asset_symbol === state.primaryCurrency?.symbol &&
+        price.assetSymbol === state.primaryCurrency?.symbol &&
         price.currency === state.secondaryCurrency?.symbol,
     ),
   )
 
-  const userExchangeKeysOptions = (query.user_exchange_keys ?? []).filter(
-    (_item) => true, // Item.exchange_uid === state.exchange?.uid
+  const userExchangeKeysOptions = (query.userExchangeKeys ?? []).filter(
+    (_item) => true, // Item.exchangeUid === state.exchange?.uid
   )
 
-  const primaryCurrencyOptions = query.exchange[0]?.primary_currencies
-  const secondaryCurrencyOptions = query.exchange[0]?.secondary_currencies
+  const primaryCurrencyOptions = query.exchange[0]?.primaryCurrencies
+  const secondaryCurrencyOptions = query.exchange[0]?.secondaryCurrencies
 
   return (
     <div>
-      <h2>+ Add DCA Order</h2>
+      <h2>+ Add Dca Order</h2>
       <Form name="dcaOrderFormCreate" method="post" action="/dca-orders/create">
         <Form.Item label="Exchange">
           <Select<Exchange>
@@ -58,7 +58,7 @@ const DCAOrderFormCreate = (props: Props) => {
             getOptionValue={(option) => option.uid}
           />
         </Form.Item>
-        <Form.Item name="userExchangeKeysUID" label="Exchange Keys">
+        <Form.Item name="userExchangeKeysUid" label="Exchange Keys">
           <Select<UserExchangeKeys>
             options={userExchangeKeysOptions}
             getOptionLabel={(option) => option.description}
@@ -80,7 +80,7 @@ const DCAOrderFormCreate = (props: Props) => {
           />
         </Form.Item>
         <Form.Item
-          name="marketUID"
+          name="marketUid"
           label={`Market Source (${state.primaryCurrency?.symbol ?? '___'}-${
             state.secondaryCurrency?.symbol ?? '____'
           })`}
@@ -111,11 +111,11 @@ const DCAOrderFormCreate = (props: Props) => {
         </Form.Item>
         <Form.Item>
           <Link to="/dca-orders">Cancel</Link>
-          <PrimaryButton type="submit">Create DCA Order</PrimaryButton>
+          <PrimaryButton type="submit">Create Dca Order</PrimaryButton>
         </Form.Item>
       </Form>
     </div>
   )
 }
 
-export { DCAOrderFormCreate }
+export { DcaOrderFormCreate }

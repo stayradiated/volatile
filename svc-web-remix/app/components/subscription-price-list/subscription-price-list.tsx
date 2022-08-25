@@ -13,7 +13,7 @@ type Props = {
 const SubscriptionPriceList = (props: Props) => {
   const { query } = props
 
-  const products = query.stripe_product
+  const products = query.stripeProduct
 
   return (
     <>
@@ -22,7 +22,7 @@ const SubscriptionPriceList = (props: Props) => {
           return (
             <>
               <strong>{product.name}</strong>
-              {product.stripe_prices.map((price) => {
+              {product.stripePrices.map((price) => {
                 return <Price key={price.id} price={price} />
               })}
             </>

@@ -1,5 +1,5 @@
-query getUserDeviceByUID($userDeviceUID: uuid!) {
-  user_device_by_pk(uid: $userDeviceUID) {
+query getUserDeviceByUid($userDeviceUid: uuid!) {
+  userDeviceByPk(uid: $userDeviceUid) {
     uid
     name
   }

@@ -32,52 +32,49 @@ const SubscriptionCard = (props: Props) => {
     <section>
       <hr />
 
-      <h4>{subscription.stripe_price.stripe_product.name}</h4>
+      <h4>{subscription.stripePrice.stripeProduct.name}</h4>
 
       {status.isActive && <p>You have an active subscription :)</p>}
 
       <ul>
         <li>Status: {status.name}</li>
         <li>
-          Interval: {subscription.stripe_price.recurring_interval_count}{' '}
-          {subscription.stripe_price.recurring_interval}
+          Interval: {subscription.stripePrice.recurringIntervalCount}{' '}
+          {subscription.stripePrice.recurringInterval}
         </li>
         <li>
           Price: $
-          {((subscription.stripe_price.unit_amount ?? 0) / 100).toFixed(2)}{' '}
-          {subscription.stripe_price.currency.toUpperCase()}
+          {((subscription.stripePrice.unitAmount ?? 0) / 100).toFixed(2)}{' '}
+          {subscription.stripePrice.currency.toUpperCase()}
         </li>
         <li>
           {' '}
           Period Start:{' '}
           {format(
-            parseISO(subscription.current_period_start),
+            parseISO(subscription.currentPeriodStart),
             'MMM dd, yyyy',
           )}{' '}
         </li>
         <li>
           {' '}
           Period End:{' '}
-          {format(
-            parseISO(subscription.current_period_end),
-            'MMM dd, yyyy',
-          )}{' '}
+          {format(parseISO(subscription.currentPeriodEnd), 'MMM dd, yyyy')}{' '}
         </li>
         <li>
           ID: <code>{subscription.id}</code>{' '}
         </li>
       </ul>
 
-      {subscription.cancel_at_period_end && (
+      {subscription.cancelAtPeriodEnd && subscription.cancelAt && (
         <>
           <strong>
             Your subscription will end on{' '}
-            {format(parseISO(subscription.cancel_at), 'MMM dd, yyyy')}.
+            {format(parseISO(subscription.cancelAt), 'MMM dd, yyyy')}.
           </strong>{' '}
-          {subscription.canceled_at && (
+          {subscription.canceledAt && (
             <em>
               You chose to cancel your subscription on{' '}
-              {format(parseISO(subscription.canceled_at), 'MMM dd, yyyy')}.
+              {format(parseISO(subscription.canceledAt), 'MMM dd, yyyy')}.
             </em>
           )}
           <UpdateSubscriptionButton
@@ -87,7 +84,7 @@ const SubscriptionCard = (props: Props) => {
         </>
       )}
 
-      {!subscription.cancel_at && status.isActive && (
+      {!subscription.cancelAt && status.isActive && (
         <UpdateSubscriptionButton
           subscriptionID={subscription.id}
           cancelAtPeriodEnd={true}

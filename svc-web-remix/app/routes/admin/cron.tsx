@@ -11,8 +11,8 @@ type LoaderData = {
   taskIDs: string[]
   cronHistoryList: Array<{
     uid: string
-    task_id: string
-    created_at: string
+    taskId: string
+    createdAt: string
     state: string
   }>
 }
@@ -39,7 +39,7 @@ export const loader: LoaderFunction = async ({ request }) => {
       {
         where: filterByTaskID
           ? {
-              task_id: { _eq: filterByTaskID },
+              taskId: { _eq: filterByTaskID },
             }
           : undefined,
       },
@@ -50,13 +50,13 @@ export const loader: LoaderFunction = async ({ request }) => {
     ),
   })
 
-  const taskIDs = query.getCronHistoryTaskIDs.cron_history_aggregate.nodes.map(
+  const taskIDs = query.getCronHistoryTaskIDs.cronHistoryAggregate.nodes.map(
     (node) => {
-      return node.task_id
+      return node.taskId
     },
   )
 
-  const cronHistoryList = query.getCronHistoryList.cron_history
+  const cronHistoryList = query.getCronHistoryList.cronHistory
 
   return json<LoaderData>({
     taskIDs,
@@ -88,7 +88,7 @@ const CronRoute = () => {
         {cronHistoryList.map((item) => (
           <h2>
             <Link to={`./${item.uid}`}>
-              {item.created_at} {item.task_id} {item.state}
+              {item.createdAt} {item.taskId} {item.state}
             </Link>
           </h2>
         ))}

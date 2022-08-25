@@ -10,7 +10,7 @@ import { GetUserExchangeKeysFormEditQuery } from '~/graphql/generated'
 import { loginRedirect } from '~/utils/redirect.server'
 
 interface LoaderData {
-  userExchangeKeysUID: string
+  userExchangeKeysUid: string
   query: GetUserExchangeKeysFormEditQuery
 }
 
@@ -23,12 +23,12 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 
   const { authToken } = session
 
-  const { uid: userExchangeKeysUID } = params
-  invariant(userExchangeKeysUID, 'Expected params.uid')
+  const { uid: userExchangeKeysUid } = params
+  invariant(userExchangeKeysUid, 'Expected params.uid')
 
   const query = await sdk.getUserExchangeKeysFormEdit(
     {
-      userExchangeKeysUID,
+      userExchangeKeysUid,
     },
     {
       authorization: `Bearer ${authToken}`,
@@ -37,18 +37,18 @@ export const loader: LoaderFunction = async ({ request, params }) => {
   )
 
   return json<LoaderData>({
-    userExchangeKeysUID,
+    userExchangeKeysUid,
     query,
   })
 }
 
 const EditRoute = () => {
-  const { query, userExchangeKeysUID } = useLoaderData<LoaderData>()
+  const { query, userExchangeKeysUid } = useLoaderData<LoaderData>()
 
   return (
     <Card width={400}>
       <UserExchangeKeysFormEdit
-        userExchangeKeysUID={userExchangeKeysUID}
+        userExchangeKeysUid={userExchangeKeysUid}
         query={query}
       />
     </Card>

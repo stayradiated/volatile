@@ -1,7 +1,7 @@
 import db from 'zapatos/db'
 import { errorBoundary } from '@stayradiated/error-boundary'
 
-import { UserLimitError, DBError } from '../../util/error.js'
+import { UserLimitError, DbError } from '../../util/error.js'
 import type { Pool } from '../../types.js'
 
 import { getUserLimit } from '../user-limit/index.js'
@@ -72,7 +72,7 @@ const updateDcaOrder = async (
       .run(pool),
   )
   if (rows instanceof Error) {
-    return new DBError({
+    return new DbError({
       message: 'Could not update Dca Order.',
       cause: rows,
       context: { dcaOrderUid, enabled },
@@ -81,7 +81,7 @@ const updateDcaOrder = async (
 
   const row = rows[0]
   if (!row) {
-    return new DBError({
+    return new DbError({
       message: 'Could not update Dca Order.',
       context: { dcaOrderUid, enabled },
     })

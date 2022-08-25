@@ -1,6 +1,9 @@
 import test from 'ava'
 import nock from 'nock'
-import { throwIfError, throwIfValue } from '@stayradiated/error-boundary'
+import {
+  throwIfErrorSync,
+  throwIfValueSync,
+} from '@stayradiated/error-boundary'
 
 import { cancelOrder } from './cancel-order.js'
 
@@ -27,7 +30,7 @@ test('should return true', async (t) => {
     .reply(200, JSON.stringify(true))
 
   const [result] = await cancelOrder({ config, orderId })
-  throwIfError(result)
+  throwIfErrorSync(result)
 
   t.is(result, true)
 })
@@ -44,7 +47,7 @@ test('should return API error', async (t) => {
 
   const [result] = await cancelOrder({ config, orderId })
 
-  const error = throwIfValue(result)
+  const error = throwIfValueSync(result)
 
   t.is(
     error.message,

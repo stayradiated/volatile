@@ -1,6 +1,6 @@
 import crypto from 'node:crypto'
 import { Buffer } from 'node:buffer'
-import { errorBoundary } from '@stayradiated/error-boundary'
+import { errorBoundarySync } from '@stayradiated/error-boundary'
 
 type Algorithm = string
 type KeySize = number
@@ -81,7 +81,7 @@ const encrypt = (
     return new Error('encrypt: message must be a string')
   }
 
-  return errorBoundary<EncryptResult>(() => {
+  return errorBoundarySync(() => {
     const key = currentKey(keys)
     const iv = crypto.randomBytes(16)
     const cipher = crypto.createCipheriv(algorithm, key.encryptionKey, iv)
@@ -102,7 +102,7 @@ const decrypt = (
   algorithm: Algorithm,
   message: string,
 ): string | Error =>
-  errorBoundary<string>(() => {
+  errorBoundarySync(() => {
     const decoded = Buffer.from(message, 'base64')
     const hmac = decoded.slice(0, 32)
     const iv = decoded.slice(32, 48)
@@ -219,4 +219,10 @@ const verifySignature = (expected: Buffer, actual: Buffer): boolean => {
   return crypto.timingSafeEqual(expected, actual)
 }
 
-export { createKeyring, Keyring, UserKeys, Algorithm, EncryptResult }
+export {
+  createKeyring,
+  type Keyring,
+  type UserKeys,
+  type Algorithm,
+  type EncryptResult,
+}

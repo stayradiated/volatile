@@ -9,7 +9,7 @@ object_relationships:
     using:
       foreign_key_constraint_on: user_uid
 array_relationships:
-  - name: dca_order_histories
+  - name: dcaOrderHistories
     using:
       foreign_key_constraint_on:
         column: order_uid

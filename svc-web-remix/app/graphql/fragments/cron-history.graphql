@@ -1,0 +1,10 @@
+fragment CronHistory on CronHistory {
+  uid
+  taskId
+  createdAt
+  updatedAt
+  completedAt
+  state
+  input
+  output
+}

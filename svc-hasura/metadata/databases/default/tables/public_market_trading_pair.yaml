@@ -12,7 +12,7 @@ object_relationships:
     using:
       foreign_key_constraint_on: market_uid
 array_relationships:
-  - name: market_prices
+  - name: marketPrices
     using:
       manual_configuration:
         column_mapping:

@@ -39,8 +39,8 @@ const createUser = makeDomainFunction(
     role: 'user',
   })
 
-  const userUID = result.action_create_auth_token?.user_uid
-  const authToken = result.action_create_auth_token?.auth_token
+  const userUid = result.actionCreateAuthToken?.userUid
+  const authToken = result.actionCreateAuthToken?.authToken
 
   await sdk.sendUserEmailVerify(
     {},
@@ -50,7 +50,7 @@ const createUser = makeDomainFunction(
     },
   )
 
-  return { email, userUID, authToken }
+  return { email, userUid, authToken }
 })
 
 export const action: ActionFunction = async ({ request }) => {

@@ -20,9 +20,9 @@ export const action: ActionFunction = async ({ request }) => {
 
   const formData = await request.formData()
   const description = formData.get('description')
-  const exchangeUID = formData.get('exchange')
+  const exchangeUid = formData.get('exchange')
   invariant(typeof description === 'string', 'Must have formData.description')
-  invariant(typeof exchangeUID === 'string', 'Must have formData.exchange')
+  invariant(typeof exchangeUid === 'string', 'Must have formData.exchange')
 
   const apiKey = formData.get('apiKey')
   const apiSecret = formData.get('apiSecret')
@@ -39,7 +39,7 @@ export const action: ActionFunction = async ({ request }) => {
   await sdk.createUserExchangeKeys(
     {
       description,
-      exchangeUID,
+      exchangeUid,
       keys,
     },
     {

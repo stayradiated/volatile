@@ -1,8 +1,8 @@
-type User2FA = {
+type User2Fa = {
   uid: string
   userUid: string
   name: string
   secret: string
 }
 
-export { User2FA }
+export { User2Fa }

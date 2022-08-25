@@ -1,0 +1,5 @@
+mutation deleteUserDevice($userDeviceUid: uuid!) {
+  deleteUserDeviceByPk(uid: $userDeviceUid) {
+    uid
+  }
+}

@@ -17,12 +17,12 @@ export const loader: LoaderFunction = async ({ request }) => {
   return json<LoaderData>({})
 }
 
-const DCAOrdersRoute = () => {
+const DcaOrdersRoute = () => {
   return (
-    <Page title="DCA Orders">
+    <Page title="Dca Orders">
       <Outlet />
     </Page>
   )
 }
 
-export default DCAOrdersRoute
+export default DcaOrdersRoute

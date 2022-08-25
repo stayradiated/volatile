@@ -4,8 +4,8 @@ import invariant from 'tiny-invariant'
 import { parseISO, formatISO, subHours } from 'date-fns'
 import { errorBoundary } from '@stayradiated/error-boundary'
 
-import { DCAOrderHistoryList } from '~/components/dca-order-history-list'
-import { DCAOrderHistoryPriceChart } from '~/components/dca-order-history-price-chart'
+import { DcaOrderHistoryList } from '~/components/dca-order-history-list'
+import { DcaOrderHistoryPriceChart } from '~/components/dca-order-history-price-chart'
 import { Card } from '~/components/retro-ui'
 import { loginRedirect } from '~/utils/redirect.server'
 
@@ -22,8 +22,8 @@ type LoaderData = {
     lte: string
   }
   query: {
-    getDCAOrderHistoryList: GetDcaOrderHistoryListQuery
-    getDCAOrderHistoryPriceChart: GetDcaOrderHistoryPriceChartQuery
+    getDcaOrderHistoryList: GetDcaOrderHistoryListQuery
+    getDcaOrderHistoryPriceChart: GetDcaOrderHistoryPriceChartQuery
   }
 }
 
@@ -36,18 +36,18 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 
   const { authToken } = session
 
-  const { uid: dcaOrderUID } = params
-  invariant(typeof dcaOrderUID === 'string', 'Must have params.uid')
+  const { uid: dcaOrderUid } = params
+  invariant(typeof dcaOrderUid === 'string', 'Must have params.uid')
 
   const dateRange = {
     gt: formatISO(subHours(new Date(), 3)),
     lte: formatISO(new Date()),
   }
 
-  const getDCAOrderHistoryList = await errorBoundary(async () =>
-    sdk.getDCAOrderHistoryList(
+  const getDcaOrderHistoryList = await errorBoundary(async () =>
+    sdk.getDcaOrderHistoryList(
       {
-        dcaOrderUID,
+        dcaOrderUid,
         gt: dateRange.gt,
         lte: dateRange.lte,
       },
@@ -57,14 +57,14 @@ export const loader: LoaderFunction = async ({ request, params }) => {
       },
     ),
   )
-  if (getDCAOrderHistoryList instanceof Error) {
-    throw getDCAOrderHistoryList
+  if (getDcaOrderHistoryList instanceof Error) {
+    throw getDcaOrderHistoryList
   }
 
-  const getDCAOrderHistoryPriceChart = await errorBoundary(async () =>
-    sdk.getDCAOrderHistoryPriceChart(
+  const getDcaOrderHistoryPriceChart = await errorBoundary(async () =>
+    sdk.getDcaOrderHistoryPriceChart(
       {
-        dcaOrderUID,
+        dcaOrderUid,
         gt: dateRange.gt,
         lte: dateRange.lte,
       },
@@ -74,19 +74,19 @@ export const loader: LoaderFunction = async ({ request, params }) => {
       },
     ),
   )
-  if (getDCAOrderHistoryPriceChart instanceof Error) {
-    throw getDCAOrderHistoryList
+  if (getDcaOrderHistoryPriceChart instanceof Error) {
+    throw getDcaOrderHistoryList
   }
 
   const query = {
-    getDCAOrderHistoryList,
-    getDCAOrderHistoryPriceChart,
+    getDcaOrderHistoryList,
+    getDcaOrderHistoryPriceChart,
   }
 
   return json<LoaderData>({ query, dateRange })
 }
 
-const DCAOrderHistoryRoute = () => {
+const DcaOrderHistoryRoute = () => {
   const loaderData = useLoaderData<LoaderData>()
   const { query, dateRange: dateRangeISO } = loaderData
 
@@ -95,26 +95,25 @@ const DCAOrderHistoryRoute = () => {
     lte: parseISO(dateRangeISO.lte),
   }
 
-  const dcaOrder = query.getDCAOrderHistoryList.dca_order_by_pk!
+  const dcaOrder = query.getDcaOrderHistoryList.dcaOrderByPk!
   const exchange = dcaOrder.exchange.name
-  const tradingPair = `${dcaOrder.primary_currency.symbol}-${dcaOrder.secondary_currency.symbol}`
+  const tradingPair = `${dcaOrder.primaryCurrency.symbol}-${dcaOrder.secondaryCurrency.symbol}`
 
-  const dcaOrderHistoryList =
-    query.getDCAOrderHistoryList.dca_order_history ?? []
+  const dcaOrderHistoryList = query.getDcaOrderHistoryList.dcaOrderHistory ?? []
 
   return (
     <Card width={1200}>
       <h2>
-        ☰ DCA Order | {exchange} | {tradingPair}
+        ☰ Dca Order | {exchange} | {tradingPair}
       </h2>
-      <DCAOrderHistoryPriceChart
-        query={query.getDCAOrderHistoryPriceChart}
+      <DcaOrderHistoryPriceChart
+        query={query.getDcaOrderHistoryPriceChart}
         dcaOrderHistoryList={dcaOrderHistoryList}
         dateRange={dateRange}
       />
-      <DCAOrderHistoryList query={query.getDCAOrderHistoryList} />
+      <DcaOrderHistoryList query={query.getDcaOrderHistoryList} />
     </Card>
   )
 }
 
-export default DCAOrderHistoryRoute
+export default DcaOrderHistoryRoute

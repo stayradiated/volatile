@@ -1,6 +1,6 @@
-mutation updateUserDevice($userDeviceUID: uuid!, $name: String) {
-  update_user_device_by_pk(
-    pk_columns: { uid: $userDeviceUID }
+mutation updateUserDevice($userDeviceUid: uuid!, $name: String) {
+  updateUserDeviceByPk(
+    pk_columns: { uid: $userDeviceUid }
     _set: { name: $name }
   ) {
     uid

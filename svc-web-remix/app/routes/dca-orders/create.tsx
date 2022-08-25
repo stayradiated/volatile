@@ -6,18 +6,18 @@ import { parseISO } from 'date-fns'
 import { makeDomainFunction, inputFromForm } from 'remix-domains'
 
 import { Card } from '~/components/retro-ui'
-import { DCAOrderFormCreate } from '~/components/dca-order-form-create'
+import { DcaOrderFormCreate } from '~/components/dca-order-form-create'
 import { GetDcaOrderFormCreateQuery } from '~/graphql/generated'
 import { getSessionData } from '~/utils/auth.server'
 import { sdk } from '~/utils/api.server'
 import { loginRedirect } from '~/utils/redirect.server'
 
-const createDCAOrder = makeDomainFunction(
+const createDcaOrder = makeDomainFunction(
   z.object({
-    userExchangeKeysUID: z.string().uuid(),
+    userExchangeKeysUid: z.string().uuid(),
     primaryCurrency: z.string(),
     secondaryCurrency: z.string(),
-    marketUID: z.string().uuid(),
+    marketUid: z.string().uuid(),
     startAt: z.string(),
     marketOffset: z.number(),
     dailyAverage: z.number(),
@@ -29,7 +29,7 @@ const createDCAOrder = makeDomainFunction(
     authToken: z.string(),
   }),
 )(async (input, environment) => {
-  await sdk.createDCAOrder(input, {
+  await sdk.createDcaOrder(input, {
     authorization: `Bearer ${environment.authToken}`,
     'x-hasura-role': 'user',
   })
@@ -44,7 +44,7 @@ export const action: ActionFunction = async ({ request }) => {
 
   const { authToken } = session
 
-  const result = await createDCAOrder(await inputFromForm(request), {
+  const result = await createDcaOrder(await inputFromForm(request), {
     authToken,
   })
 
@@ -53,7 +53,7 @@ export const action: ActionFunction = async ({ request }) => {
 
 interface LoaderData {
   query: {
-    getDCAOrderFormCreate: GetDcaOrderFormCreateQuery
+    getDcaOrderFormCreate: GetDcaOrderFormCreateQuery
   }
 }
 
@@ -66,8 +66,8 @@ export const loader: LoaderFunction = async ({ request }) => {
 
   const { authToken } = session
 
-  const getDCAOrderFormCreate = await errorBoundary(async () =>
-    sdk.getDCAOrderFormCreate(
+  const getDcaOrderFormCreate = await errorBoundary(async () =>
+    sdk.getDcaOrderFormCreate(
       {},
       {
         authorization: `Bearer ${authToken}`,
@@ -75,25 +75,25 @@ export const loader: LoaderFunction = async ({ request }) => {
       },
     ),
   )
-  if (getDCAOrderFormCreate instanceof Error) {
-    throw getDCAOrderFormCreate
+  if (getDcaOrderFormCreate instanceof Error) {
+    throw getDcaOrderFormCreate
   }
 
-  const query = { getDCAOrderFormCreate }
+  const query = { getDcaOrderFormCreate }
 
   return json<LoaderData>({
     query,
   })
 }
 
-const DCAOrderCreateRoute = () => {
+const DcaOrderCreateRoute = () => {
   const { query } = useLoaderData<LoaderData>()
 
   return (
     <Card>
-      <DCAOrderFormCreate query={query.getDCAOrderFormCreate} />
+      <DcaOrderFormCreate query={query.getDcaOrderFormCreate} />
     </Card>
   )
 }
 
-export default DCAOrderCreateRoute
+export default DcaOrderCreateRoute

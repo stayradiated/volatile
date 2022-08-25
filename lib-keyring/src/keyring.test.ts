@@ -1,6 +1,7 @@
 import test from 'ava'
 
-import { createKeyring, Keyring, EncryptResult } from './keyring.js'
+import type { Keyring, EncryptResult } from './keyring.js'
+import { createKeyring } from './keyring.js'
 
 test('raises exception when trying to use empty keyring', (t) => {
   const keyring = createKeyring({})

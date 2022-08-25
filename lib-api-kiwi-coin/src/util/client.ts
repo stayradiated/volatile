@@ -1,4 +1,5 @@
-import { kanye, Kanye, getResponseBodyJson, ApiError } from '@volatile/kanye'
+import type { Kanye } from '@volatile/kanye'
+import { kanye, getResponseBodyJson, ApiError } from '@volatile/kanye'
 
 import { createSignedBody } from './signature.js'
 import { isApiErrorBody } from './is-api-error-body.js'

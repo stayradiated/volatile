@@ -1,5 +1,5 @@
 import { createHmac } from 'node:crypto'
-import { ConditionalExcept } from 'type-fest'
+import type { ConditionalExcept } from 'type-fest'
 
 import type { Config } from './types.js'
 

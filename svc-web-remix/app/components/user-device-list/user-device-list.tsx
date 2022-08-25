@@ -6,7 +6,7 @@ import { Table, Dropdown } from '../retro-ui'
 
 import type { GetUserDeviceListQuery } from '~/graphql/generated'
 
-type Device = GetUserDeviceListQuery['user_device'][0]
+type Device = GetUserDeviceListQuery['userDevice'][number]
 
 type Props = {
   query: GetUserDeviceListQuery
@@ -23,7 +23,7 @@ const UserDeviceList = (props: Props) => {
       },
       {
         Header: 'Last Login At',
-        accessor: 'accessed_at',
+        accessor: 'accessedAt',
         Cell(props) {
           const { value } = props
           const date = parseISO(value)
@@ -34,14 +34,14 @@ const UserDeviceList = (props: Props) => {
         Header: 'Actions',
         accessor: 'uid',
         Cell(props) {
-          const { value: userDeviceUID } = props
+          const { value: userDeviceUid } = props
 
           return (
             <Dropdown>
-              <Dropdown.Item to={`/account/devices/${userDeviceUID}/edit`}>
+              <Dropdown.Item to={`/account/devices/${userDeviceUid}/edit`}>
                 Edit
               </Dropdown.Item>
-              <Dropdown.Item to={`/account/devices/${userDeviceUID}/delete`}>
+              <Dropdown.Item to={`/account/devices/${userDeviceUid}/delete`}>
                 Delete
               </Dropdown.Item>
             </Dropdown>
@@ -54,7 +54,7 @@ const UserDeviceList = (props: Props) => {
 
   const table = useTable({
     columns,
-    data: query.user_device ?? [],
+    data: query.userDevice ?? [],
   })
 
   return <Table table={table} />

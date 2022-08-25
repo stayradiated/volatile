@@ -1,6 +1,9 @@
 import test from 'ava'
 import nock from 'nock'
-import { throwIfError, throwIfValue } from '@stayradiated/error-boundary'
+import {
+  throwIfErrorSync,
+  throwIfValueSync,
+} from '@stayradiated/error-boundary'
 import { parseISO } from 'date-fns'
 
 import { createBuyOrder } from './create-buy-order.js'
@@ -40,7 +43,7 @@ test('should create buy order and return info', async (t) => {
     )
 
   const [order] = await createBuyOrder({ config, price, amount })
-  throwIfError(order)
+  throwIfErrorSync(order)
 
   t.deepEqual(order, {
     price: 65_000,
@@ -64,7 +67,7 @@ test('should return API error', async (t) => {
     .reply(401, 'Unauthorized')
 
   const [order] = await createBuyOrder({ config, price, amount })
-  const error = throwIfValue(order)
+  const error = throwIfValueSync(order)
 
   t.is(
     error.message,

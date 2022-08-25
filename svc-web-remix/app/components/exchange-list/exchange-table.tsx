@@ -5,9 +5,9 @@ import { fromPairs } from 'rambda'
 import { formatCurrency } from '~/components/format'
 import type { GetExchangeListQuery as Query } from '~/graphql/generated'
 
-type UserExchangeKey = Query['user_exchange_keys'][0]
-type LatestBalance = NonNullable<UserExchangeKey['balance_latest']>[0]
-type HistoricBalance = NonNullable<UserExchangeKey['balance_historic']>[0]
+type UserExchangeKey = Query['userExchangeKeys'][number]
+type LatestBalance = NonNullable<UserExchangeKey['balanceLatest']>[number]
+type HistoricBalance = NonNullable<UserExchangeKey['balanceHistoric']>[number]
 
 type Row = LatestBalance & {
   historic: HistoricBalance
@@ -34,27 +34,22 @@ const ExchangeTable = (props: Props) => {
     }
 
     const historic = fromPairs(
-      userExchangeKey.balance_historic!.map((row) => [
-        row.currency_symbol,
-        row,
-      ]),
+      userExchangeKey.balanceHistoric!.map((row) => [row.currencySymbol, row]),
     )
 
-    return userExchangeKey.balance_latest!.map((row) => ({
+    return userExchangeKey.balanceLatest!.map((row) => ({
       ...row,
-      historic: historic[row.currency_symbol],
+      historic: historic[row.currencySymbol],
     }))
   }, [userExchangeKey])
 
   const totalBalanceNZD = rows.reduce(
-    (sum, row) => (row.total_balance_nzd ?? 0) + sum,
+    (sum, row) => (row.totalBalanceNzd ?? 0) + sum,
     0,
   )
   const totalChange = rows.reduce(
     (sum, row) =>
-      (row.total_balance_nzd ?? 0) -
-      (row.historic?.total_balance_nzd ?? 0) +
-      sum,
+      (row.totalBalanceNzd ?? 0) - (row.historic?.totalBalanceNzd ?? 0) + sum,
     0,
   )
 
@@ -62,15 +57,15 @@ const ExchangeTable = (props: Props) => {
     <Card>
       {rows.map((row) => {
         return (
-          <CurrencyRow key={row.currency_symbol}>
-            <span>{row.currency_symbol}</span>
-            <span>{row.available_balance}</span>
-            <span>{row.total_balance}</span>
-            <span>{formatCurrency(row.total_balance_nzd ?? undefined)}</span>
+          <CurrencyRow key={row.currencySymbol}>
+            <span>{row.currencySymbol}</span>
+            <span>{row.availableBalance}</span>
+            <span>{row.totalBalance}</span>
+            <span>{formatCurrency(row.totalBalanceNzd ?? undefined)}</span>
             <span>
               {formatCurrency(
-                (row.total_balance_nzd ?? 0) -
-                  (row.historic?.total_balance_nzd ?? 0),
+                (row.totalBalanceNzd ?? 0) -
+                  (row.historic?.totalBalanceNzd ?? 0),
               )}
             </span>
           </CurrencyRow>

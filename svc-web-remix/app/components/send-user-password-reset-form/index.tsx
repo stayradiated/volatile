@@ -1,49 +1,29 @@
-import { useState } from 'react'
 import { Link } from '@remix-run/react'
+import styled from 'styled-components'
 
 import { Logo } from '../logo'
 import { Alert, Card, Form, Input, PrimaryButton } from '../retro-ui'
 
-import styles from './index.module.css'
+const FormActions = styled(Form.Item)`
+  display: flex;
+  justify-content: space-between;
+`
 
-type FormState = {
-  email: string
+type Props = {
+  state: 'idle' | 'submitting' | 'loading' | 'success'
+  email?: string
+  error?: string
 }
 
-const SendUserPasswordResetForm = () => {
-  const sendUserPasswordReset = useSendUserPasswordReset()
-  const [error, setError] = useState<Error | undefined>(undefined)
-  const [loading, setLoading] = useState(false)
-  const [success, setSuccess] = useState(false)
+const SendUserPasswordResetForm = (props: Props) => {
+  const { state, error, email } = props
 
-  const [state, setState] = useState<FormState>({
-    email: '',
-  })
-
-  const handleFormFinish = async () => {
-    const { email } = state
-
-    setError(undefined)
-    setLoading(true)
-
-    try {
-      await sendUserPasswordReset({ email })
-      setSuccess(true)
-    } catch (error) {
-      if (error instanceof Error) {
-        setError(error)
-      }
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  if (success) {
+  if (state === 'success') {
     return (
       <Card>
         <Logo />
         <p>
-          An email has been sent to <strong>{state.email}</strong>.
+          An email has been sent to <strong>{email}</strong>.
         </p>
       </Card>
     )
@@ -52,29 +32,24 @@ const SendUserPasswordResetForm = () => {
   return (
     <Card>
       <Logo />
-      <Form
-        name="login"
-        state={state}
-        onChange={setState}
-        onFinish={handleFormFinish}
-      >
+      <Form name="send-user-password-reset-password" method="post">
         <Form.Item>
           <p>Reset your account password.</p>
         </Form.Item>
-        {error && <Alert message={error.message} type="error" />}
+        {error && <Alert message={error} type="error" />}
         <Form.Item label="Email" name="email">
           <Input type="email" tabIndex={0} />
         </Form.Item>
-        <Form.Item className={styles.actions}>
+        <FormActions>
           <div>
             <Link to="/login/">log in</Link> or
             <Link to="/register/">sign up</Link>{' '}
           </div>
 
-          <PrimaryButton type="submit" disabled={loading}>
+          <PrimaryButton type="submit" disabled={state === 'submitting'}>
             Send Reset Link
           </PrimaryButton>
-        </Form.Item>
+        </FormActions>
       </Form>
     </Card>
   )

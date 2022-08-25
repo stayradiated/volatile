@@ -1,5 +1,5 @@
 mutation updateUser($email: String, $password: String) {
-  action_update_user(email: $email, password: $password) {
-    user_uid
+  actionUpdateUser(email: $email, password: $password) {
+    userUid
   }
 }

@@ -2,7 +2,7 @@ import * as db from 'zapatos/db'
 import * as s from 'zapatos/schema'
 import { errorBoundary } from '@stayradiated/error-boundary'
 
-import { IllegalArgumentError, DBError } from '../../util/error.js'
+import { IllegalArgumentError, DbError } from '../../util/error.js'
 
 import { keyring } from '../../util/keyring.js'
 import * as hash from '../../util/hash.js'
@@ -70,7 +70,7 @@ const updateUser = async (
   }
 
   if (updatedRows.length === 0) {
-    return new DBError({
+    return new DbError({
       message: 'Could not find a user with that uid.',
       context: {
         userUid,

@@ -5,10 +5,10 @@ type UserDevice = {
   accessedAt: Date
   userUid: string
   name: string
-  deviceID: string
+  deviceId: string
   trusted: boolean
 }
 
-type UserDeviceMasked = Except<UserDevice, 'deviceID'>
+type UserDeviceMasked = Except<UserDevice, 'deviceId'>
 
 export { UserDevice, UserDeviceMasked }

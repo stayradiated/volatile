@@ -1,10 +1,10 @@
 query getTradeSumValueByWeek {
-  trade_sum_by_window(
+  tradeSumByWindow(
     args: { group_by: "week", currency: "NZD" }
-    order_by: { timestamp: desc }
+    orderBy: { timestamp: DESC }
   ) {
     timestamp
-    primary_currency
-    total_value
+    primaryCurrency
+    totalValue
   }
 }

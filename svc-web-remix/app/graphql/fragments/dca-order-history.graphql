@@ -1,0 +1,8 @@
+fragment DcaOrderHistory on DcaOrderHistory {
+  createdAt
+  createdOrder
+  marketPrice
+  marketOffset
+  value
+  availableBalance
+}

@@ -8,7 +8,7 @@ import { Table, Dropdown } from '../retro-ui'
 
 import type { GetUserExchangeKeysListQuery } from '~/graphql/generated'
 
-type UserExchangeKeys = GetUserExchangeKeysListQuery['user_exchange_keys'][0]
+type UserExchangeKeys = GetUserExchangeKeysListQuery['userExchangeKeys'][number]
 
 type Props = {
   query: GetUserExchangeKeysListQuery
@@ -25,31 +25,31 @@ const UserExchangeKeysList = (props: Props) => {
       { Header: 'Keys', accessor: 'description' },
       {
         Header: 'Last Modified',
-        accessor: 'updated_at',
+        accessor: 'updatedAt',
         Cell(props) {
           const { value } = props
           return <>{formatInTimeZone(parseISO(value), timeZone, 'PPpp')}</>
         },
       },
       {
-        Header: '# DCA Orders',
-        accessor: (row) => row.dca_orders_aggregate.aggregate?.count,
+        Header: '# Dca Orders',
+        accessor: (row) => row.dcaOrdersAggregate.aggregate?.count,
       },
       {
         Header: 'Actions',
         accessor: 'uid',
         Cell(props) {
-          const userExchangeKeysUID = props.value
+          const userExchangeKeysUid = props.value
 
           return (
             <Dropdown>
-              <Dropdown.Item to={`/settings/${userExchangeKeysUID}/edit`}>
+              <Dropdown.Item to={`/settings/${userExchangeKeysUid}/edit`}>
                 Edit
               </Dropdown.Item>
-              <Dropdown.Item to={`/settings/${userExchangeKeysUID}/validate`}>
+              <Dropdown.Item to={`/settings/${userExchangeKeysUid}/validate`}>
                 Validate
               </Dropdown.Item>
-              <Dropdown.Item to={`/settings/${userExchangeKeysUID}/delete`}>
+              <Dropdown.Item to={`/settings/${userExchangeKeysUid}/delete`}>
                 Delete
               </Dropdown.Item>
             </Dropdown>
@@ -62,7 +62,7 @@ const UserExchangeKeysList = (props: Props) => {
 
   const table = useTable({
     columns,
-    data: query.user_exchange_keys ?? [],
+    data: query.userExchangeKeys ?? [],
   })
 
   return (
@@ -72,7 +72,7 @@ const UserExchangeKeysList = (props: Props) => {
 
       {/* <UserExchangeKeysModalDelete */}
       {/*   isOpen={Boolean(deleteState)} */}
-      {/*   userExchangeKeysUID={deleteState ?? ''} */}
+      {/*   userExchangeKeysUid={deleteState ?? ''} */}
       {/*   onCancel={handleCloseDeleteModal} */}
       {/*   onFinish={handleCloseDeleteModal} */}
       {/* /> */}

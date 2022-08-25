@@ -2,7 +2,7 @@ query getExchangeList(
   $currentTimestamp: timestamptz
   $historicTimestamp: timestamptz
 ) {
-  user_exchange_keys(order_by: { created_at: asc }) {
+  userExchangeKeys(orderBy: { createdAt: ASC }) {
     uid
 
     exchange {
@@ -11,22 +11,22 @@ query getExchangeList(
       url
     }
 
-    balance_latest: balance(
+    balanceLatest: balance(
       args: { timestamp_at: $currentTimestamp }
-      order_by: { currency_symbol: asc }
+      orderBy: { currencySymbol: ASC }
     ) {
-      available_balance
-      total_balance
-      total_balance_nzd: total_balance_fx(args: { currency: "NZD" })
-      currency_symbol
+      availableBalance
+      totalBalance
+      totalBalanceNzd: totalBalanceFx(args: { currency: "NZD" })
+      currencySymbol
     }
 
-    balance_historic: balance(
+    balanceHistoric: balance(
       args: { timestamp_at: $historicTimestamp }
-      order_by: { currency_symbol: asc }
+      orderBy: { currencySymbol: ASC }
     ) {
-      total_balance_nzd: total_balance_fx(args: { currency: "NZD" })
-      currency_symbol
+      totalBalanceNzd: totalBalanceFx(args: { currency: "NZD" })
+      currencySymbol
     }
   }
 }

@@ -1,88 +1,94 @@
 import { parseISO } from 'date-fns'
+import * as z from 'zod'
 
 import { MissingRequiredArgumentError } from '../../util/error.js'
 
-import { ActionHandlerFn } from '../../util/action-handler.js'
+import { ActionHandler } from '../../util/action-handler.js'
 import { insertDcaOrder } from '../../model/dca-order/index.js'
 import { getUserExchangeKeys } from '../../model/user-exchange-keys/index.js'
 
-type Input = {
-  user_exchange_keys_uid: string
-  market_uid: string
-  primary_currency: string
-  secondary_currency: string
-  start_at: string
-  market_offset: number
-  daily_average: number
-  interval_ms: number
-  min_price: number | undefined
-  max_price: number | undefined
-  min_value: number | undefined
-  max_value: number | undefined
+const schema = {
+  input: {
+    userExchangeKeysUid: z.string(),
+    marketUid: z.string(),
+    primaryCurrency: z.string(),
+    secondaryCurrency: z.string(),
+    startAt: z.string(),
+    marketOffset: z.number(),
+    dailyAverage: z.number(),
+    intervalMs: z.number(),
+    minPrice: z.optional(z.number()),
+    maxPrice: z.optional(z.number()),
+    minValue: z.optional(z.number()),
+    maxValue: z.optional(z.number()),
+  },
+  output: {
+    dcaOrderUid: z.string(),
+  },
 }
 
-type Output = {
-  dca_order_uid: string
-}
+const createDcaOrderHandler: ActionHandler<typeof schema> = {
+  schema,
+  async handler(context) {
+    const { pool, input, session } = context
+    const { userUid } = session
+    if (!userUid) {
+      return new MissingRequiredArgumentError({
+        message: 'userUid is required',
+        context: { userUid },
+      })
+    }
 
-const createDcaOrderHandler: ActionHandlerFn<Input, Output> = async (
-  context,
-) => {
-  const { pool, input, session } = context
-  const { userUid } = session
-  if (!userUid) {
-    return new MissingRequiredArgumentError({
-      message: 'userUid is required',
-      context: { userUid },
+    const {
+      userExchangeKeysUid,
+      marketUid,
+      primaryCurrency,
+      secondaryCurrency,
+      startAt,
+      marketOffset,
+      dailyAverage,
+      intervalMs,
+      minPrice,
+      maxPrice,
+      minValue,
+      maxValue,
+    } = input
+
+    const userExchangeKeys = await getUserExchangeKeys(
+      pool,
+      userExchangeKeysUid,
+    )
+    if (userExchangeKeys instanceof Error) {
+      return userExchangeKeys
+    }
+
+    const dcaOrder = await insertDcaOrder(pool, {
+      userUid,
+      exchangeUid: userExchangeKeys.exchangeUid,
+      userExchangeKeysUid,
+      marketUid,
+      primaryCurrency,
+      secondaryCurrency,
+      startAt: parseISO(startAt),
+      marketOffset,
+      dailyAverage,
+      intervalMs,
+      minPrice,
+      maxPrice,
+      minValue,
+      maxValue,
+      enabledAt: undefined,
+      nextRunAt: undefined,
+      lastRunAt: undefined,
     })
-  }
+    if (dcaOrder instanceof Error) {
+      return dcaOrder
+    }
 
-  const {
-    user_exchange_keys_uid: userExchangeKeysUid,
-    market_uid: marketUid,
-    primary_currency: primaryCurrency,
-    secondary_currency: secondaryCurrency,
-    start_at: startAt,
-    market_offset: marketOffset,
-    daily_average: dailyAverage,
-    interval_ms: intervalMs,
-    min_price: minPrice,
-    max_price: maxPrice,
-    min_value: minValue,
-    max_value: maxValue,
-  } = input
-
-  const userExchangeKeys = await getUserExchangeKeys(pool, userExchangeKeysUid)
-  if (userExchangeKeys instanceof Error) {
-    return userExchangeKeys
-  }
-
-  const dcaOrder = await insertDcaOrder(pool, {
-    userUid,
-    exchangeUid: userExchangeKeys.exchangeUid,
-    userExchangeKeysUid,
-    marketUid,
-    primaryCurrency,
-    secondaryCurrency,
-    startAt: parseISO(startAt),
-    marketOffset,
-    dailyAverage,
-    intervalMs,
-    minPrice,
-    maxPrice,
-    minValue,
-    maxValue,
-    enabledAt: undefined,
-    nextRunAt: undefined,
-    lastRunAt: undefined,
-  })
-  if (dcaOrder instanceof Error) {
-    return dcaOrder
-  }
-
-  return {
-    dca_order_uid: dcaOrder.uid,
-  }
+    return {
+      dcaOrderUid: dcaOrder.uid,
+    }
+  },
 }
 
 export { createDcaOrderHandler }

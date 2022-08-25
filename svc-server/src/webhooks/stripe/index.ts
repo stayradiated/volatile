@@ -1,5 +1,5 @@
 import { Buffer } from 'node:buffer'
-import { errorBoundary } from '@stayradiated/error-boundary'
+import { errorBoundarySync } from '@stayradiated/error-boundary'
 import { fromUnixTime } from 'date-fns'
 import { Stripe } from 'stripe'
 import { Pool } from '../../types.js'
@@ -131,7 +131,7 @@ const stripeHandler: HandlerFn<Input, Output> = async (context) => {
 
   const signature = request.headers['stripe-signature'] as string
 
-  const event = errorBoundary(() =>
+  const event = errorBoundarySync(() =>
     stripe.webhooks.constructEvent(
       request.body.raw,
       signature,

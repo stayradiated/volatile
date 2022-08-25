@@ -9,8 +9,8 @@ import { Card } from '~/components/retro-ui'
 type LoaderData = {
   userList: Array<{
     uid: string
-    created_at: string
-    email_verified: boolean
+    createdAt: string
+    emailVerified: boolean
   }>
 }
 
@@ -41,7 +41,7 @@ const UserRoute = () => {
       <ul>
         {userList.map((user) => (
           <li>
-            {user.uid} | {user.created_at} | {String(user.email_verified)}
+            {user.uid} | {user.createdAt} | {String(user.emailVerified)}
           </li>
         ))}
       </ul>

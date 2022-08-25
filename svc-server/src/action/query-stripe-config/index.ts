@@ -1,17 +1,21 @@
+import * as z from 'zod'
 import { config } from '../../env.js'
 
-import type { ActionHandlerFn } from '../../util/action-handler.js'
+import type { ActionHandler } from '../../util/action-handler.js'
 
-type Input = Record<string, never>
-
-type Output = {
-  publishable_key: string
+const schema = {
+  input: {},
+  output: {
+    publishableKey: z.string(),
+  },
 }
-
-const queryStripeConfig: ActionHandlerFn<Input, Output> = async (_context) => {
-  return {
-    publishable_key: config.STRIPE_PUBLISHABLE_KEY,
-  }
+const queryStripeConfig: ActionHandler<typeof schema> = {
+  schema,
+  async handler(_context) {
+    return {
+      publishableKey: config.STRIPE_PUBLISHABLE_KEY,
+    }
+  },
 }
 
 export { queryStripeConfig }

@@ -1,8 +1,8 @@
 query getUserDeviceList {
-  user_device(order_by: { accessed_at: desc }) {
+  userDevice(orderBy: { accessedAt: DESC }) {
     uid
     name
-    created_at
-    accessed_at
+    createdAt
+    accessedAt
   }
 }

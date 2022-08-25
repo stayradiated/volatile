@@ -1,4 +1,5 @@
-import { kanye, Kanye, getResponseBodyJson } from '@volatile/kanye'
+import type { Kanye } from '@volatile/kanye'
+import { kanye, getResponseBodyJson } from '@volatile/kanye'
 
 import { createSignedBody } from './signature.js'
 import { withNonce } from './nonce.js'

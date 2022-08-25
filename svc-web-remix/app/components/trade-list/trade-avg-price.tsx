@@ -12,7 +12,7 @@ const TradeAvgPrice = (props: Props) => {
   const { primaryCurrency, query } = props
 
   const charts = useMemo((): ChartConfig[] => {
-    const rows = query?.trade_avg_price_by_window ?? []
+    const rows = query?.tradeAvgPriceByWindow ?? []
     return [
       {
         type: 'area',
@@ -24,8 +24,8 @@ const TradeAvgPrice = (props: Props) => {
         data: formatDataForChart({
           interval: 'hour',
           data: rows,
-          getValue: (row) => row.price,
-          getTime: (row) => row.timestamp,
+          getValue: (row) => row.price ?? undefined,
+          getTime: (row) => row.timestamp!,
         }),
       },
       {
@@ -38,8 +38,8 @@ const TradeAvgPrice = (props: Props) => {
         data: formatDataForChart({
           interval: 'hour',
           data: rows,
-          getValue: (row) => row.avg_price,
-          getTime: (row) => row.timestamp,
+          getValue: (row) => row.avgPrice ?? undefined,
+          getTime: (row) => row.timestamp!,
         }),
       },
     ]

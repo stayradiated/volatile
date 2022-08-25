@@ -7,7 +7,7 @@ import { formatCurrency } from '~/components/format'
 
 import type { GetOpenOrderListQuery } from '~/graphql/generated'
 
-type Order = GetOpenOrderListQuery['order'][0]
+type Order = GetOpenOrderListQuery['order'][number]
 
 const columns: Array<Column<Order>> = [
   {
@@ -16,7 +16,7 @@ const columns: Array<Column<Order>> = [
   },
   {
     Header: 'Opened At',
-    accessor: 'opened_at',
+    accessor: 'openedAt',
     Cell(props) {
       const { value } = props
       return <>{format(parseISO(value), 'PPpp')}</>
@@ -26,8 +26,8 @@ const columns: Array<Column<Order>> = [
     Header: 'Trading Pair',
     accessor: 'uid',
     Cell(props) {
-      const { primary_currency, secondary_currency } = props.row.original
-      return <>{`${primary_currency}-${secondary_currency}`}</>
+      const { primaryCurrency, secondaryCurrency } = props.row.original
+      return <>{`${primaryCurrency}-${secondaryCurrency}`}</>
     },
   },
   {
@@ -55,8 +55,8 @@ const columns: Array<Column<Order>> = [
     },
   },
   {
-    Header: 'DCA Order?',
-    accessor: 'dca_order_histories',
+    Header: 'Dca Order?',
+    accessor: 'dcaOrderHistories',
     Cell(props) {
       const { value } = props
       return <>{value ? 'Yes' : 'No'}</>

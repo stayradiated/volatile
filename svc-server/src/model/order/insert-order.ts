@@ -4,7 +4,7 @@ import * as s from 'zapatos/schema'
 import { errorBoundary } from '@stayradiated/error-boundary'
 import { Except } from 'type-fest'
 
-import { DBError } from '../../util/error.js'
+import { DbError } from '../../util/error.js'
 
 import type { Pool } from '../../types.js'
 import type { Order } from './types.js'
@@ -38,7 +38,7 @@ const insertOrder = async (
     db.insert('order', [value], { returning: ['uid'] }).run(pool),
   )
   if (rows instanceof Error || !rows) {
-    return new DBError({
+    return new DbError({
       message: 'Could not insert row into kc.order.',
       cause: rows,
       context: { value },

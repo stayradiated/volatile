@@ -1,4 +1,5 @@
-import createLimitFunction, { LimitFunction } from 'p-limit'
+import type { LimitFunction } from 'p-limit'
+import createLimitFunction from 'p-limit'
 
 const globalStore = new Map<string, LimitFunction>()
 

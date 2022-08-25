@@ -1,5 +1,5 @@
 mutation sendUserEmailVerify {
-  action_send_user_email_verify {
-    user_uid
+  actionSendUserEmailVerify {
+    userUid
   }
 }

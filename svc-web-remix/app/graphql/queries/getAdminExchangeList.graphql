@@ -1,0 +1,16 @@
+query getAdminExchangeList {
+  exchange {
+    createdAt
+      updatedAt
+      uid
+      id
+      name
+      url
+      primaryCurrencies {
+        symbol
+      }
+    secondaryCurrencies {
+      symbol
+    }
+  }
+}

@@ -20,7 +20,7 @@ object_relationships:
       remote_table:
         name: exchange
         schema: public
-- name: user_exchange_keys
+- name: userExchangeKeys
   using:
     manual_configuration:
       column_mapping:
@@ -34,12 +34,12 @@ computed_fields:
     function:
       name: balance_latest_available_balance_fx
       schema: public
-  name: available_balance_fx
+  name: availableBalanceFx
 - definition:
     function:
       name: balance_latest_total_balance_fx
       schema: public
-  name: total_balance_fx
+  name: totalBalanceFx
 select_permissions:
 - permission:
     columns:

@@ -8,12 +8,13 @@
   "license": "GPL-3.0",
   "type": "module",
   "scripts": {
+    "dev": "ts-node-dev --exit-child --transpile-only ./src/index.ts",
     "pretest": "${npm_execpath} run migrate:test migrate",
     "test": "env-cmd --file=./.env.test ava",
     "tidy": "xo --fix --ignore ./src/zapatos",
-    "build": "del-cli ./dist && tsc",
-    "build:zapatos": "zapatos",
-    "build:ncc": "mv package.json package.json.tmp; del-cli ./dist && ncc build --no-source-map-register --transpile-only ./src/index.ts; mv package.json.tmp package.json",
+    "tsc": "del-cli ./dist && tsc",
+    "zapatos": "zapatos",
+    "package": "mv package.json package.json.tmp; del-cli ./dist && ncc build --no-source-map-register --transpile-only ./src/index.ts; mv package.json.tmp package.json",
     "start": "NODE_ENV=production node --require 'dotenv/config' ./dist/index.js",
     "migrate": "env-cmd graphile-migrate",
     "migrate:test": "env-cmd --file=./.env.test graphile-migrate"
@@ -21,30 +22,33 @@
   "devDependencies": {
     "@types/bcrypt": "5.0.0",
     "@types/debug": "4.1.7",
+    "@types/node": "18.7.13",
     "@types/nodemailer": "6.4.5",
     "@types/pg": "8.6.5",
     "@types/qrcode": "1.5.0",
     "@types/sinon": "10.0.13",
     "@vercel/ncc": "0.34.0",
-    "ava": "4.3.1",
+    "ava": "4.3.3",
     "del-cli": "5.0.0",
     "env-cmd": "10.1.0",
     "graphile-migrate": "1.4.0",
     "nock": "13.2.9",
     "sinon": "14.0.0",
     "timekeeper": "2.2.0",
-    "type-fest": "2.18.1",
+    "ts-node": "10.9.1",
+    "ts-node-dev": "2.0.0",
+    "type-fest": "2.19.0",
     "typescript": "4.7.4",
-    "xo": "0.51.0"
+    "xo": "0.52.1"
   },
   "dependencies": {
-    "@northscaler/better-error": "0.1.0-dev.10",
-    "@stayradiated/error-boundary": "2.1.0",
+    "@stayradiated/error-boundary": "3.0.0",
     "@volatile/dasset-api": "workspace:1.0.1",
     "@volatile/independent-reserve-api": "workspace:1.0.1",
     "@volatile/kanye": "workspace:1.0.1",
     "@volatile/keyring": "workspace:1.0.0",
     "@volatile/kiwi-coin-api": "workspace:1.0.1",
+    "@volatile/lib-error": "workspace:1.0.0",
     "@volatile/market-price": "workspace:1.0.0",
     "@volatile/open-exchange-rates-api": "workspace:1.0.0",
     "bcrypt": "5.0.1",
@@ -56,18 +60,21 @@
     "njwt": "1.2.0",
     "nodemailer": "6.7.8",
     "otplib": "12.0.1",
-    "pg": "8.7.3",
+    "pg": "8.8.0",
     "qrcode": "1.5.1",
     "rambda": "7.2.1",
-    "stripe": "10.3.0",
+    "stripe": "10.5.0",
     "zapatos": "6.0.1",
     "zod": "3.18.0"
   },
   "__comment": "The following configs are managed by `npx @stayradiated/jsconfig`",
   "ava": {
     "verbose": true,
-    "files": [
-      "./dist/**/*.test.js"
+    "extensions": {
+      "ts": "module"
+    },
+    "nodeArguments": [
+      "--loader=ts-node/esm"
     ]
   },
   "xo": {

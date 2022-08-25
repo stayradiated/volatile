@@ -1,39 +1,39 @@
-query getDCAOrderFormEdit($dcaOrderUID: uuid!) {
+query getDcaOrderFormEdit($dcaOrderUid: uuid!) {
   market {
     uid
     name
-    market_prices(
-      distinct_on: [asset_symbol, currency]
+    marketPrices(
+      distinctOn: [assetSymbol, currency]
       where: { timestamp: { _gt: "2022-07-01T12:00:00" } }
     ) {
-      asset_symbol
+      assetSymbol
       currency
     }
   }
-  user_exchange_keys {
+  userExchangeKeys {
     uid
-    exchange_uid
+    exchangeUid
     description
   }
-  dca_order_by_pk(uid: $dcaOrderUID) {
+  dcaOrderByPk(uid: $dcaOrderUid) {
     uid
-    user_exchange_keys_uid
-    exchange_uid
-    market_uid
-    start_at
-    market_offset
-    daily_average
-    interval_ms
-    primary_currency {
+    userExchangeKeysUid
+    exchangeUid
+    marketUid
+    startAt
+    marketOffset
+    dailyAverage
+    intervalMs
+    primaryCurrency {
       symbol
       name
     }
-    secondary_currency {
+    secondaryCurrency {
       symbol
       name
     }
-    min_value
-    max_value
+    minValue
+    maxValue
     exchange {
       uid
       name

@@ -2,7 +2,7 @@ table:
   name: stripe_customer
   schema: public
 array_relationships:
-  - name: stripe_subscriptions
+  - name: stripeSubscriptions
     using:
       foreign_key_constraint_on:
         column: customer_id

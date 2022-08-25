@@ -1,10 +1,7 @@
 import test from 'ava'
-import { throwIfError } from '@stayradiated/error-boundary'
+import { throwIfErrorSync } from '@stayradiated/error-boundary'
 
-import {
-  getTradeHistorySummary,
-  GetTradeHistorySummaryResult,
-} from './get-trade-history-summary.js'
+import { getTradeHistorySummary } from './get-trade-history-summary.js'
 
 test('should get history summary', async (t) => {
   const [resultOrError] = await getTradeHistorySummary({
@@ -12,7 +9,7 @@ test('should get history summary', async (t) => {
     secondaryCurrencyCode: 'Nzd',
     numberOfHoursInThePastToRetrieve: 1,
   })
-  const result = throwIfError<GetTradeHistorySummaryResult>(resultOrError)
+  const result = throwIfErrorSync(resultOrError)
 
   t.true(Array.isArray(result.HistorySummaryItems))
   t.is(result.NumberOfHoursInThePastToRetrieve, 1)

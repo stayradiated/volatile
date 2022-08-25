@@ -1,5 +1,5 @@
 import { HTTPError, TimeoutError } from 'ky'
-import { errorBoundary } from '@stayradiated/error-boundary'
+import { errorBoundarySync } from '@stayradiated/error-boundary'
 
 import { ApiError, NetError } from './error.js'
 
@@ -33,13 +33,14 @@ const getResponseBodyText = (input: Kanye): string | Error => {
   return input.responseBody
 }
 
+
 const getResponseBodyJson = <T>(raw: Kanye): T | Error => {
   const responseBodyText = getResponseBodyText(raw)
   if (responseBodyText instanceof Error) {
     return responseBodyText
   }
 
-  const responseBodyJson = errorBoundary(
+  const responseBodyJson = errorBoundarySync(
     () => JSON.parse(responseBodyText) as T,
   )
   if (responseBodyJson instanceof Error) {

@@ -2,10 +2,10 @@ table:
   name: stripe_subscription
   schema: public
 object_relationships:
-  - name: stripe_customer
+  - name: stripeCustomer
     using:
       foreign_key_constraint_on: customer_id
-  - name: stripe_price
+  - name: stripePrice
     using:
       foreign_key_constraint_on: price_id
 select_permissions:
@@ -22,7 +22,7 @@ select_permissions:
         - quantity
         - status
       filter:
-        stripe_customer:
+        stripeCustomer:
           user_uid:
             _eq: X-Hasura-User-Id
       allow_aggregations: true

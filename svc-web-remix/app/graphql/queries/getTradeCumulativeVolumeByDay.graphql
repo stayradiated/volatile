@@ -1,10 +1,10 @@
 query getTradeCumulativeVolumeByDay {
-  trade_avg_price_by_window(
+  tradeAvgPriceByWindow(
     args: { group_by: "day", currency: "NZD" }
-    order_by: { timestamp: desc }
+    orderBy: { timestamp: DESC }
   ) {
     timestamp
-    primary_currency
+    primaryCurrency
     volume
   }
 }

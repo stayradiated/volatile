@@ -1,9 +1,9 @@
 mutation deleteUser2FA($token: String!) {
-  action_delete_user_2fa(token: $token) {
+  actionDeleteUser2fa(token: $token) {
     user {
       uid
-      user_2fa {
-        created_at
+      user2fa {
+        createdAt
         name
         uid
       }

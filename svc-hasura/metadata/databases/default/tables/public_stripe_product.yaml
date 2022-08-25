@@ -2,7 +2,7 @@ table:
   name: stripe_product
   schema: public
 array_relationships:
-  - name: stripe_prices
+  - name: stripePrices
     using:
       foreign_key_constraint_on:
         column: product_id

@@ -1,20 +1,20 @@
 query getSubscriptions {
-  stripe_subscription( order_by:{ current_period_start:desc }) {
+  stripeSubscription( orderBy:{ currentPeriodStart:DESC }) {
     id
     status
-    current_period_start
-    current_period_end
-    cancel_at
-    canceled_at
-    cancel_at_period_end
+    currentPeriodStart
+    currentPeriodEnd
+    cancelAt
+    canceledAt
+    cancelAtPeriodEnd
 
-    stripe_price {
-      recurring_interval
-      recurring_interval_count
-      unit_amount
+    stripePrice {
+      recurringInterval
+      recurringIntervalCount
+      unitAmount
       currency
 
-      stripe_product {
+      stripeProduct {
         name
       }
     }

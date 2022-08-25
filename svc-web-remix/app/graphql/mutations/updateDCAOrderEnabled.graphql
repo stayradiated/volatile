@@ -1,8 +1,8 @@
-mutation updateDCAOrderEnabled($dcaOrderUID: uuid!, $enabled: Boolean!) {
-  action_update_dca_order(dca_order_uid: $dcaOrderUID, enabled: $enabled) {
-    dca_order {
+mutation updateDcaOrderEnabled($dcaOrderUid: uuid!, $enabled: Boolean!) {
+  actionUpdateDcaOrder(dcaOrderUid: $dcaOrderUid, enabled: $enabled) {
+    dcaOrder {
       uid
-      enabled_at
+      enabledAt
     }
   }
 }

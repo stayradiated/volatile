@@ -1,5 +1,5 @@
-query getUserExchangeKeysFormEdit($userExchangeKeysUID: uuid!) {
-  user_exchange_keys_by_pk(uid: $userExchangeKeysUID) {
+query getUserExchangeKeysFormEdit($userExchangeKeysUid: uuid!) {
+  userExchangeKeysByPk(uid: $userExchangeKeysUid) {
     uid
     description
     exchange {

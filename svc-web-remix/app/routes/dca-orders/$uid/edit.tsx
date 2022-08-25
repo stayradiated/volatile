@@ -5,7 +5,7 @@ import { errorBoundary } from '@stayradiated/error-boundary'
 import * as z from 'zod'
 import { makeDomainFunction, inputFromForm } from 'remix-domains'
 
-import { DCAOrderFormEdit } from '~/components/dca-order-form-edit'
+import { DcaOrderFormEdit } from '~/components/dca-order-form-edit'
 import { Card } from '~/components/retro-ui'
 import { getSessionData } from '~/utils/auth.server'
 import { sdk } from '~/utils/api.server'
@@ -13,20 +13,20 @@ import { loginRedirect } from '~/utils/redirect.server'
 
 import type { GetDcaOrderFormEditQuery } from '~/graphql/generated'
 
-const updateDCAOrder = makeDomainFunction(
+const updateDcaOrder = makeDomainFunction(
   z.object({
-    dcaOrderUID: z.string().uuid(),
+    dcaOrderUid: z.string().uuid(),
   }),
   z.object({
     authToken: z.string(),
   }),
 )(async (input, environment) => {
-  const { dcaOrderUID, ...values } = input
+  const { dcaOrderUid, ...values } = input
   const { authToken } = environment
 
-  await sdk.updateDCAOrder(
+  await sdk.updateDcaOrder(
     {
-      dcaOrderUID,
+      dcaOrderUid,
       values,
     },
     {
@@ -45,10 +45,10 @@ export const action: ActionFunction = async ({ request, params }) => {
 
   const { authToken } = session
 
-  const { uid: dcaOrderUID } = params
-  invariant(typeof dcaOrderUID === 'string', 'Must have params.uid')
+  const { uid: dcaOrderUid } = params
+  invariant(typeof dcaOrderUid === 'string', 'Must have params.uid')
 
-  const result = await updateDCAOrder(await inputFromForm(request), {
+  const result = await updateDcaOrder(await inputFromForm(request), {
     authToken,
   })
 
@@ -57,7 +57,7 @@ export const action: ActionFunction = async ({ request, params }) => {
 
 type LoaderData = {
   query: {
-    getDCAOrderFormEdit: GetDcaOrderFormEditQuery
+    getDcaOrderFormEdit: GetDcaOrderFormEditQuery
   }
 }
 
@@ -70,13 +70,13 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 
   const { authToken } = session
 
-  const { uid: dcaOrderUID } = params
-  invariant(typeof dcaOrderUID === 'string', 'Must have params.uid')
+  const { uid: dcaOrderUid } = params
+  invariant(typeof dcaOrderUid === 'string', 'Must have params.uid')
 
-  const getDCAOrderFormEdit = await errorBoundary(async () =>
-    sdk.getDCAOrderFormEdit(
+  const getDcaOrderFormEdit = await errorBoundary(async () =>
+    sdk.getDcaOrderFormEdit(
       {
-        dcaOrderUID,
+        dcaOrderUid,
       },
       {
         authorization: `Bearer ${authToken}`,
@@ -84,25 +84,25 @@ export const loader: LoaderFunction = async ({ request, params }) => {
       },
     ),
   )
-  if (getDCAOrderFormEdit instanceof Error) {
-    throw getDCAOrderFormEdit
+  if (getDcaOrderFormEdit instanceof Error) {
+    throw getDcaOrderFormEdit
   }
 
   const query = {
-    getDCAOrderFormEdit,
+    getDcaOrderFormEdit,
   }
 
   return json<LoaderData>({ query })
 }
 
-const DCAOrderEditRoute = () => {
+const DcaOrderEditRoute = () => {
   const { query } = useLoaderData<LoaderData>()
 
   return (
     <Card>
-      <DCAOrderFormEdit query={query.getDCAOrderFormEdit} />
+      <DcaOrderFormEdit query={query.getDcaOrderFormEdit} />
     </Card>
   )
 }
 
-export default DCAOrderEditRoute
+export default DcaOrderEditRoute

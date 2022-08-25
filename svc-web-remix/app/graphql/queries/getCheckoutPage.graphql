@@ -1,12 +1,12 @@
 query getCheckoutPage($subscriptionID: String!) {
-  action_query_stripe_config {
-    publishable_key
+  actionQueryStripeConfig {
+    publishableKey
   }
-  action_query_live_stripe_subscription(subscription_id: $subscriptionID) {
+  actionQueryLiveStripeSubscription(subscriptionId: $subscriptionID) {
     id
-    client_secret
+    clientSecret
   }
-  stripe_subscription_by_pk(id: $subscriptionID) {
-    ...stripeSubscription
+  stripeSubscriptionByPk(id: $subscriptionID) {
+    ...StripeSubscription
   }
 }

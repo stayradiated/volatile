@@ -1,6 +1,6 @@
-mutation validateUserExchangeKeys($userExchangeKeysUID: uuid!) {
-  action_validate_user_exchange_keys(user_exchange_keys_uid: $userExchangeKeysUID) {
-    is_valid
-    validation_message
+mutation validateUserExchangeKeys($userExchangeKeysUid: uuid!) {
+  actionValidateUserExchangeKeys(userExchangeKeysUid: $userExchangeKeysUid) {
+    isValid
+    validationMessage
   }
 }

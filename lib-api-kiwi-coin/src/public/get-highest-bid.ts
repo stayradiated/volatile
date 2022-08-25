@@ -1,4 +1,5 @@
-import { kanye, Kanye, getResponseBodyText, NetError } from '@volatile/kanye'
+import type { Kanye } from '@volatile/kanye'
+import { kanye, getResponseBodyText, NetError } from '@volatile/kanye'
 
 type GetHighestBidResult = number
 

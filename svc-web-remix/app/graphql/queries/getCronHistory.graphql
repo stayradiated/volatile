@@ -1,12 +1,5 @@
-query getCronHistory($cronHistoryUID: uuid!) {
-  cron_history_by_pk(uid: $cronHistoryUID) {
-    uid
-    task_id
-    created_at
-    updated_at
-    completed_at
-    state
-    input
-    output
+query getCronHistory($cronHistoryUid: uuid!) {
+  cronHistoryByPk(uid: $cronHistoryUid) {
+    ...CronHistory
   }
 }

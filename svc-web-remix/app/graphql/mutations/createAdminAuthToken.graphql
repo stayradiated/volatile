@@ -1,7 +1,7 @@
-mutation createAdminAuthToken($userUID: uuid!) {
-  action_create_admin_auth_token(user_uid: $userUID) {
-    user_uid
-    auth_token
-    expires_at
+mutation createAdminAuthToken($userUid: uuid!) {
+  actionCreateAdminAuthToken(userUid: $userUid) {
+    userUid
+    authToken
+    expiresAt
   }
 }

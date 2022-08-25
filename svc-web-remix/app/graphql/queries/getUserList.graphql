@@ -1,7 +1,7 @@
 query getUserList {
   user {
     uid
-    email_verified
-    created_at
+    emailVerified
+    createdAt
   }
 }

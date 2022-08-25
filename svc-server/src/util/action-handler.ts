@@ -6,6 +6,7 @@ import type {
   RawRequestDefaultExpression,
   RawReplyDefaultExpression,
 } from 'fastify/types/utils'
+import * as z from 'zod'
 
 import { IllegalArgumentError } from '../util/error.js'
 import { config } from '../env.js'
@@ -82,9 +83,24 @@ type ActionHandlerFn<Input, Output> = (
   context: Context<Input>,
 ) => Promise<Output | Error>
 
+type Schema<Input, Output> = {
+  input: Input
+  output: Output
+}
+
+type SchemaAny = Schema<z.ZodRawShape, z.ZodRawShape>
+
+type ActionHandler<S extends SchemaAny> = {
+  schema: S
+  handler: ActionHandlerFn<
+    z.infer<z.ZodObject<S['input']>>,
+    z.infer<z.ZodObject<S['output']>>
+  >
+}
+
 const createActionHandler =
   (
-    actions: Record<string, ActionHandlerFn<unknown, unknown>>,
+    actions: Map<string, ActionHandler<SchemaAny>>,
   ): RouteHandler<ActionHandlerRequest<unknown>> =>
   async (request, reply) => {
     const secret = Buffer.from(
@@ -115,9 +131,9 @@ const createActionHandler =
     }
 
     const actionName = action?.name ?? ''
-    const actionFn = actions[actionName]
+    const actionHandler = actions.get(actionName)
 
-    if (!actionFn) {
+    if (!actionHandler) {
       await reply.code(404).send({
         message: `Unsupported action name received: "${actionName}"`,
       })
@@ -131,20 +147,35 @@ const createActionHandler =
       return
     }
 
+    const validInput = z.object(actionHandler.schema.input).safeParse(input)
+    if (!validInput.success) {
+      await reply.code(400).send({ message: validInput.error.message })
+      return
+    }
+
+    const context: Context<Record<string, unknown>> = {
+      pool,
+      input: validInput.data,
+      session,
+    }
+
     try {
-      const context: Context<unknown> = {
-        pool,
-        input,
-        session,
-      }
-      const output = await actionFn(context)
+      const output = await actionHandler.handler(context)
       if (output instanceof Error) {
         console.error(output)
         await reply.code(400).send({ message: output.message })
         return
       }
 
-      await reply.send(output)
+      const validOutput = z
+        .object(actionHandler.schema.output)
+        .safeParse(output)
+      if (!validOutput.success) {
+        await reply.code(400).send({ message: validOutput.error.message })
+        return
+      }
+
+      await reply.send(validOutput.data)
     } catch (error: unknown) {
       console.error(error)
       const message =
@@ -154,17 +185,14 @@ const createActionHandler =
   }
 
 const bindActionHandler = (fastify: FastifyInstance) => {
-  const actions: Record<string, ActionHandlerFn<any, any>> = {}
+  const actions: Map<string, ActionHandler<any>> = new Map()
 
   fastify.post('/action', createActionHandler(actions))
 
-  return <Input, Output>(
-    actionName: string,
-    fn: ActionHandlerFn<Input, Output>,
-  ) => {
-    actions[actionName] = fn
+  return (actionName: string, handler: ActionHandler<any>) => {
+    actions.set(actionName, handler)
   }
 }
 
 export { bindActionHandler }
-export type { ActionHandlerFn, Session, SessionRole }
+export type { ActionHandler, ActionHandlerFn, Session, SessionRole }

@@ -1,3 +1,4 @@
+import * as z from "zod";
 import { formatISO } from 'date-fns'
 
 import {
@@ -6,20 +7,20 @@ import {
 } from '../../util/error.js'
 
 import { generateAuthToken } from '../../model/auth-token/index.js'
-import type { ActionHandlerFn } from '../../util/action-handler.js'
+import type { ActionHandler } from '../../util/action-handler.js'
 
-type RefreshAuthTokenInput = Record<string, unknown>
+const schema = {
+      input: {
+        
+      },
+      output: {
+        userUid: z.string(),
+        authToken: z.string(),
+        expiresAt: z.string(),
+      },
+    };
 
-type RefreshAuthTokenOutput = {
-  user_uid: string
-  auth_token: string
-  expires_at: string
-}
-
-const refreshAuthTokenHandler: ActionHandlerFn<
-  RefreshAuthTokenInput,
-  RefreshAuthTokenOutput
-> = async (context) => {
+const refreshAuthTokenHandler: ActionHandler<typeof schema> = { schema, handler: async ( context,) => {
   const { session } = context
   const { userUid, role } = session
 
@@ -44,14 +45,10 @@ const refreshAuthTokenHandler: ActionHandlerFn<
   const { authToken, expiresAt } = result
 
   return {
-    user_uid: userUid,
-    auth_token: authToken,
-    expires_at: formatISO(expiresAt),
+    userUid,
+    authToken,
+    expiresAt: formatISO(expiresAt),
   }
-}
+}}
 
-export {
-  refreshAuthTokenHandler,
-  RefreshAuthTokenInput,
-  RefreshAuthTokenOutput,
-}
+export { refreshAuthTokenHandler }

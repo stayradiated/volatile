@@ -2,7 +2,7 @@ import * as db from 'zapatos/db'
 import type * as s from 'zapatos/schema'
 import { errorBoundary } from '@stayradiated/error-boundary'
 
-import { DBError } from '../../util/error.js'
+import { DbError } from '../../util/error.js'
 import type { Pool } from '../../types.js'
 
 type SelectAvgMarketPriceOptions = {
@@ -38,7 +38,7 @@ const selectAvgMarketPrice = async (
   )
 
   if (rows instanceof Error) {
-    return new DBError({
+    return new DbError({
       message: 'Could not execute avgMarketPrice query.',
       cause: rows,
       context: options,
@@ -49,7 +49,7 @@ const selectAvgMarketPrice = async (
   const averagePrice = row ? Number.parseFloat(row.avg_price) : Number.NaN
 
   if (typeof averagePrice !== 'number' || Number.isNaN(averagePrice)) {
-    return new DBError({
+    return new DbError({
       message: `Could not get average market price for ${assetSymbol}/${currency}.`,
       context: {
         marketUid,

@@ -2,16 +2,16 @@ mutation updateStripeSubscription(
   $subscriptionID: String!,
   $cancelAtPeriodEnd: Boolean!,
 ) {
-  action_update_stripe_subscription(
-    subscription_id: $subscriptionID,
-    cancel_at_period_end: $cancelAtPeriodEnd
+  actionUpdateStripeSubscription(
+    subscriptionId: $subscriptionID,
+    cancelAtPeriodEnd: $cancelAtPeriodEnd
   ) {
-    stripe_subscription {
+    stripeSubscription {
       id
       status
-      cancel_at
-      canceled_at
-      cancel_at_period_end
+      cancelAt
+      canceledAt
+      cancelAtPeriodEnd
     }
   }
 }

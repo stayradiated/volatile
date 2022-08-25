@@ -1,5 +1,5 @@
 import test from 'ava'
-import { throwIfError } from '@stayradiated/error-boundary'
+import { throwIfErrorSync } from '@stayradiated/error-boundary'
 
 import { PaginatedFetchFn, getPage, getAllPages } from './pagination.js'
 import type { Config } from './types.js'
@@ -49,7 +49,7 @@ test('getPage: 0 pages', async (t) => {
     limit: 4,
     page: 1,
   })
-  const result = throwIfError(resultOrError)
+  const result = throwIfErrorSync(resultOrError)
   t.deepEqual(
     {
       total: 0,
@@ -71,7 +71,7 @@ test('getPage: 1 page', async (t) => {
     limit: 4,
     page: 1,
   })
-  const result = throwIfError(resultOrError)
+  const result = throwIfErrorSync(resultOrError)
   t.deepEqual(
     {
       total: 4,
@@ -93,7 +93,7 @@ test('getPage: 2 pages', async (t) => {
     limit: 4,
     page: 1,
   })
-  const resultPage1 = throwIfError(resultOrErrorPage1)
+  const resultPage1 = throwIfErrorSync(resultOrErrorPage1)
   t.deepEqual(
     {
       total: 8,
@@ -111,7 +111,7 @@ test('getPage: 2 pages', async (t) => {
     limit: 4,
     page: 2,
   })
-  const resultPage2 = throwIfError(resultOrErrorPage2)
+  const resultPage2 = throwIfErrorSync(resultOrErrorPage2)
   t.deepEqual(
     {
       total: 8,
@@ -128,6 +128,6 @@ test('getAllPages', async (t) => {
   const fetchFn = mockPaginate(range(0, 350))
 
   const [resultOrError] = await getAllPages({ config, fetchFn })
-  const result = throwIfError(resultOrError)
+  const result = throwIfErrorSync(resultOrError)
   t.deepEqual(range(0, 350), result)
 })

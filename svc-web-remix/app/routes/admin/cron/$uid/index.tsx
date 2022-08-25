@@ -6,10 +6,10 @@ import { getSessionData } from '~/utils/auth.server'
 import { sdk } from '~/utils/api.server'
 import { safeRedirect } from '~/utils/redirect.server'
 import { CronHistoryDetails } from '~/components/cron-history-details'
-import { GetCronHistoryQuery } from '~/graphql/generated'
+import { CronHistoryFragment } from '~/graphql/generated'
 
 type LoaderData = {
-  query: GetCronHistoryQuery
+  cronHistory: undefined | CronHistoryFragment
 }
 
 export const loader: LoaderFunction = async ({ request, params }) => {
@@ -19,12 +19,12 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     return safeRedirect(request, '/admin/login')
   }
 
-  const { uid: cronHistoryUID } = params
-  invariant(typeof cronHistoryUID === 'string', 'Must have params.uid')
+  const { uid: cronHistoryUid } = params
+  invariant(typeof cronHistoryUid === 'string', 'Must have params.uid')
 
   const query = await sdk.getCronHistory(
     {
-      cronHistoryUID,
+      cronHistoryUid,
     },
     {
       'x-hasura-role': 'admin',
@@ -33,19 +33,18 @@ export const loader: LoaderFunction = async ({ request, params }) => {
   )
 
   return json<LoaderData>({
-    query,
+    cronHistory: query.cronHistoryByPk ?? undefined,
   })
 }
 
 const CronRoute = () => {
-  const { query } = useLoaderData<LoaderData>()
+  const { cronHistory } = useLoaderData<LoaderData>()
 
-  const item = query.cron_history_by_pk
-  if (!item) {
+  if (!cronHistory) {
     return 'Could not find item.'
   }
 
-  return <CronHistoryDetails item={item} />
+  return <CronHistoryDetails item={cronHistory} />
 }
 
 export default CronRoute

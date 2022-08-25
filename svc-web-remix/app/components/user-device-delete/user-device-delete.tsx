@@ -4,22 +4,22 @@ import { Form, PrimaryButton } from '../retro-ui'
 import type { GetUserDeviceByUidQuery } from '~/graphql/generated'
 
 type Props = {
-  userDeviceUID: string
+  userDeviceUid: string
   query: GetUserDeviceByUidQuery
 }
 
 const UserDeviceDelete = (props: Props) => {
-  const { userDeviceUID, query } = props
+  const { userDeviceUid, query } = props
 
-  const name = query.user_device_by_pk?.name
+  const name = query.userDeviceByPk?.name
 
   return (
     <>
       <h2>Delete Device</h2>
       <Form
-        name={`edit-device-${userDeviceUID}`}
+        name={`edit-device-${userDeviceUid}`}
         method="post"
-        action={`/account/devices/${userDeviceUID}/delete`}
+        action={`/account/devices/${userDeviceUid}/delete`}
       >
         <Form.Item>
           <p>

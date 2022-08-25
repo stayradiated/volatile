@@ -1,38 +1,38 @@
-query getDCAOrderHistoryList(
-  $dcaOrderUID: uuid!
+query getDcaOrderHistoryList(
+  $dcaOrderUid: uuid!
   $gt: timestamptz!
   $lte: timestamptz!
 ) {
-  dca_order_by_pk(uid: $dcaOrderUID) {
+  dcaOrderByPk(uid: $dcaOrderUid) {
     uid
     exchange {
       uid
       name
     }
-    primary_currency {
+    primaryCurrency {
       symbol
     }
-    secondary_currency {
+    secondaryCurrency {
       symbol
     }
   }
 
-  dca_order_history(
+  dcaOrderHistory(
     where: {
-      dca_order_uid: { _eq: $dcaOrderUID }
-      created_at: { _lte: $lte, _gt: $gt }
+      dcaOrderUid: { _eq: $dcaOrderUid }
+      createdAt: { _lte: $lte, _gt: $gt }
     }
-    order_by: { created_at: desc }
+    orderBy: { createdAt: DESC }
   ) {
-    ...DCAOrderHistoryPriceChart_dca_order_history
+    ...DcaOrderHistory
 
     uid
-    created_at
-    market_price
-    market_offset
-    target_value
-    available_balance
-    created_order
+    createdAt
+    marketPrice
+    marketOffset
+    targetValue
+    availableBalance
+    createdOrder
     description
     value
   }

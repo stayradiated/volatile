@@ -20,7 +20,7 @@ test('can insert a user device', async (t) => {
     accessedAt: new Date(),
     name: 'Test Device',
     trusted: true,
-    deviceID: 'my randomly generated device id',
+    deviceId: 'my randomly generated device id',
   }
 
   const userDeviceUid = await throwIfError<string>(
@@ -28,19 +28,19 @@ test('can insert a user device', async (t) => {
   )
   t.is(typeof userDeviceUid, 'string')
 
-  const deviceIDHash = hash.sha256(input.deviceID)
+  const deviceIdHash = hash.sha256(input.deviceId)
 
   const row = await db
     .selectExactlyOne('user_device', {
       user_uid: userUid,
-      device_id_hash: deviceIDHash,
+      device_id_hash: deviceIdHash,
     })
     .run(pool)
 
   t.like(row, {
     name: input.name,
     trusted: input.trusted,
-    device_id_hash: deviceIDHash,
+    device_id_hash: deviceIdHash,
   })
 
   t.is(parseISO(row.accessed_at).valueOf(), input.accessedAt.valueOf())
@@ -50,7 +50,7 @@ test('can update a user device', async (t) => {
   const { pool, make } = t.context
   const userUid = await make.user()
 
-  const deviceID = 'loudspeakerman'
+  const deviceId = 'loudspeakerman'
 
   const userDeviceAUid = await throwIfError<string>(
     upsertUserDevice(pool, {
@@ -58,7 +58,7 @@ test('can update a user device', async (t) => {
       accessedAt: parseISO('2000-01-01'),
       name: 'Test Device A',
       trusted: false,
-      deviceID,
+      deviceId,
     }),
   )
 
@@ -68,25 +68,25 @@ test('can update a user device', async (t) => {
       accessedAt: parseISO('2020-02-02'),
       name: 'Test Device B',
       trusted: true,
-      deviceID,
+      deviceId,
     }),
   )
 
   t.is(userDeviceAUid, userDeviceBUid)
 
-  const deviceIDHash = hash.sha256(deviceID)
+  const deviceIdHash = hash.sha256(deviceId)
 
   const row = await db
     .selectExactlyOne('user_device', {
       user_uid: userUid,
-      device_id_hash: deviceIDHash,
+      device_id_hash: deviceIdHash,
     })
     .run(pool)
 
   t.like(row, {
     name: 'Test Device B',
     trusted: true,
-    device_id_hash: deviceIDHash,
+    device_id_hash: deviceIdHash,
   })
 
   t.is(parseISO(row.accessed_at).valueOf(), parseISO('2020-02-02').valueOf())

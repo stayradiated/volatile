@@ -1,11 +1,11 @@
 import test from 'ava'
-import { throwIfError } from '@stayradiated/error-boundary'
+import { throwIfErrorSync } from '@stayradiated/error-boundary'
 
-import { getFxRates, GetFxRatesResult } from './get-fx-rates.js'
+import { getFxRates } from './get-fx-rates.js'
 
 test('should get fx rates', async (t) => {
   const [resultOrError] = await getFxRates()
-  const result = throwIfError<GetFxRatesResult>(resultOrError)
+  const result = throwIfErrorSync(resultOrError)
 
   t.true(Array.isArray(result))
   for (const item of result) {

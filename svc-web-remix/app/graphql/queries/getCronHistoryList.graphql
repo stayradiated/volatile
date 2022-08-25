@@ -1,8 +1,8 @@
-query getCronHistoryList($where: cron_history_bool_exp) {
-  cron_history(limit: 10, order_by: {created_at: desc}, where: $where) {
+query getCronHistoryList($where: CronHistoryBoolExp) {
+  cronHistory(limit: 10, orderBy: {createdAt: DESC}, where: $where) {
     uid
-    task_id
-    created_at
+    taskId
+    createdAt
     state
   }
 }

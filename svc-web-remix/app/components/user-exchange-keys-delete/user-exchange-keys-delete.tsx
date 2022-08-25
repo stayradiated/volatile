@@ -9,7 +9,7 @@ type Props = {
 const UserExchangeKeysDelete = (props: Props) => {
   const { query } = props
 
-  const userExchangeKeys = query.user_exchange_keys_by_pk!
+  const userExchangeKeys = query.userExchangeKeysByPk!
 
   return (
     <Card>

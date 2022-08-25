@@ -6,13 +6,13 @@ import type { Except } from 'type-fest'
 import { keyring } from '../../util/keyring.js'
 
 import type { Pool } from '../../types.js'
-import type { User2FA } from './types.js'
+import type { User2Fa } from './types.js'
 
-type InsertUser2FAOptions = Except<User2FA, 'uid'>
+type InsertUser2FaOptions = Except<User2Fa, 'uid'>
 
-const insertUser2FA = async (
+const insertUser2Fa = async (
   pool: Pool,
-  options: InsertUser2FAOptions,
+  options: InsertUser2FaOptions,
 ): Promise<void | Error> => {
   const uid = randomUUID()
   const now = new Date()
@@ -43,4 +43,4 @@ const insertUser2FA = async (
   return undefined
 }
 
-export { insertUser2FA, InsertUser2FAOptions }
+export { insertUser2Fa, InsertUser2FaOptions }

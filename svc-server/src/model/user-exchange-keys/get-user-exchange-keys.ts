@@ -1,7 +1,7 @@
 import * as db from 'zapatos/db'
 import { errorBoundary } from '@stayradiated/error-boundary'
 
-import { DBError } from '../../util/error.js'
+import { DbError } from '../../util/error.js'
 
 import type { Pool } from '../../types.js'
 import { mapRowToUserExchangeKeys } from './map-row-to-user-exchange-keys.js'
@@ -15,7 +15,7 @@ const getUserExchangeKeys = async <Keys extends Record<string, string>>(
     db.selectOne('user_exchange_keys', { uid: userExchangeKeysUid }).run(pool),
   )
   if (row instanceof Error || !row) {
-    return new DBError({
+    return new DbError({
       message: 'Could not find User Exchange Keys.',
       cause: row,
       context: { userExchangeKeysUid },

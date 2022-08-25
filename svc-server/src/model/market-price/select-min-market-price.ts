@@ -2,7 +2,7 @@ import * as db from 'zapatos/db'
 import type * as s from 'zapatos/schema'
 import { errorBoundary } from '@stayradiated/error-boundary'
 
-import { DBError } from '../../util/error.js'
+import { DbError } from '../../util/error.js'
 import type { Pool } from '../../types.js'
 
 type SelectMinMarketPriceOptions = {
@@ -38,7 +38,7 @@ const selectMinMarketPrice = async (
   )
 
   if (rows instanceof Error) {
-    return new DBError({
+    return new DbError({
       message: 'Could not execute minMarketPrice query.',
       cause: rows,
       context: options,
@@ -49,7 +49,7 @@ const selectMinMarketPrice = async (
   const minimumPrice = row ? Number.parseFloat(row.min_price) : Number.NaN
 
   if (typeof minimumPrice !== 'number' || Number.isNaN(minimumPrice)) {
-    return new DBError({
+    return new DbError({
       message: `Could not get minimum market price for ${assetSymbol}/${currency}.`,
       context: {
         marketUid,

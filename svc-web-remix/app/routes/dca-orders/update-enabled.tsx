@@ -6,19 +6,19 @@ import { getSessionData } from '~/utils/auth.server'
 import { sdk } from '~/utils/api.server'
 import { loginRedirect } from '~/utils/redirect.server'
 
-const updateDCAOrderEnabled = makeDomainFunction(
+const updateDcaOrderEnabled = makeDomainFunction(
   z.object({
-    dcaOrderUID: z.string().uuid(),
+    dcaOrderUid: z.string().uuid(),
     enabled: z.preprocess((x) => x === 'true', z.boolean()),
   }),
   z.object({ authToken: z.string() }),
 )(async (userInput, environment) => {
-  const { dcaOrderUID, enabled } = userInput
+  const { dcaOrderUid, enabled } = userInput
   const { authToken } = environment
 
-  const result = await sdk.updateDCAOrderEnabled(
+  const result = await sdk.updateDcaOrderEnabled(
     {
-      dcaOrderUID,
+      dcaOrderUid,
       enabled,
     },
     {
@@ -27,7 +27,7 @@ const updateDCAOrderEnabled = makeDomainFunction(
     },
   )
 
-  return result.action_update_dca_order.dca_order
+  return result.actionUpdateDcaOrder.dcaOrder
 })
 
 export const action: ActionFunction = async ({ request }) => {
@@ -39,7 +39,7 @@ export const action: ActionFunction = async ({ request }) => {
 
   const { authToken } = session
 
-  const result = await updateDCAOrderEnabled(await inputFromForm(request), {
+  const result = await updateDcaOrderEnabled(await inputFromForm(request), {
     authToken,
   })
 

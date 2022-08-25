@@ -1,6 +1,9 @@
 import test from 'ava'
 import nock from 'nock'
-import { throwIfError, throwIfValue } from '@stayradiated/error-boundary'
+import {
+  throwIfErrorSync,
+  throwIfValueSync,
+} from '@stayradiated/error-boundary'
 import { fromUnixTime } from 'date-fns'
 
 import { getTradeList } from './get-trade-list.js'
@@ -38,7 +41,7 @@ test('should parse response', async (t) => {
     )
 
   const [tradeList] = await getTradeList({ config, timeframe: 'all' })
-  throwIfError(tradeList)
+  throwIfErrorSync(tradeList)
 
   t.deepEqual(tradeList, [
     {
@@ -60,7 +63,7 @@ test('should detect invalid response', async (t) => {
     .reply(200, JSON.stringify([{}]))
 
   const [tradeList] = await getTradeList({ config, timeframe: 'all' })
-  const error = throwIfValue(tradeList)
+  const error = throwIfValueSync(tradeList)
 
   t.is(
     stripPath(error.message),

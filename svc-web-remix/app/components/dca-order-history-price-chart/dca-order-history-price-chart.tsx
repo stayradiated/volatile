@@ -4,16 +4,16 @@ import { Chart, ChartConfig, formatDataForChart } from '../chart'
 
 import type {
   GetDcaOrderHistoryPriceChartQuery,
-  DcaOrderHistoryPriceChart_Dca_Order_HistoryFragment,
+  DcaOrderHistoryFragment,
 } from '~/graphql/generated'
 
 type Props = {
   query: GetDcaOrderHistoryPriceChartQuery
-  dcaOrderHistoryList: DcaOrderHistoryPriceChart_Dca_Order_HistoryFragment[]
+  dcaOrderHistoryList: DcaOrderHistoryFragment[]
   dateRange: { lte: Date; gt: Date }
 }
 
-const DCAOrderHistoryPriceChart = (props: Props) => {
+const DcaOrderHistoryPriceChart = (props: Props) => {
   const { query, dcaOrderHistoryList } = props
 
   const config = {
@@ -43,14 +43,14 @@ const DCAOrderHistoryPriceChart = (props: Props) => {
         data: formatDataForChart({
           data: dcaOrderHistoryList,
           getValue: (row) => row.value,
-          getTime: (row) => row.created_at,
+          getTime: (row) => row.createdAt,
         }),
       },
       {
         type: 'line',
         options: { color: 'rgba(75, 75, 75,0.5)' },
         data: formatDataForChart({
-          data: query.dca_order_by_pk?.market_prices ?? [],
+          data: query.dcaOrderByPk?.marketPrices ?? [],
           getValue: (row) => row.price,
           getTime: (row) => row.timestamp,
         }),
@@ -64,8 +64,8 @@ const DCAOrderHistoryPriceChart = (props: Props) => {
         },
         data: formatDataForChart({
           data:
-            query.dca_order_by_pk?.exchange_market_trading_pair?.[0]
-              ?.market_prices ?? [],
+            query.dcaOrderByPk?.exchangeMarketTradingPair?.[0]?.marketPrices ??
+            [],
           getValue: (row) => row.price,
           getTime: (row) => row.timestamp,
         }),
@@ -76,10 +76,10 @@ const DCAOrderHistoryPriceChart = (props: Props) => {
         data: formatDataForChart({
           data: dcaOrderHistoryList,
           getValue: (row) =>
-            row.created_order
+            row.createdOrder
               ? undefined
-              : row.market_price * ((100 + row.market_offset) / 100),
-          getTime: (row) => row.created_at,
+              : row.marketPrice * ((100 + row.marketOffset) / 100),
+          getTime: (row) => row.createdAt,
         }),
       },
       {
@@ -92,10 +92,10 @@ const DCAOrderHistoryPriceChart = (props: Props) => {
         data: formatDataForChart({
           data: dcaOrderHistoryList,
           getValue: (row) =>
-            row.created_order
-              ? row.market_price * ((100 + row.market_offset) / 100)
+            row.createdOrder
+              ? row.marketPrice * ((100 + row.marketOffset) / 100)
               : undefined,
-          getTime: (row) => row.created_at,
+          getTime: (row) => row.createdAt,
         }),
       },
     ],
@@ -105,4 +105,4 @@ const DCAOrderHistoryPriceChart = (props: Props) => {
   return <Chart width={1160} config={config} charts={charts} />
 }
 
-export { DCAOrderHistoryPriceChart }
+export { DcaOrderHistoryPriceChart }

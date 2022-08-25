@@ -1,8 +1,9 @@
 import test from 'ava'
 import { format } from 'date-fns'
-import { throwIfError } from '@stayradiated/error-boundary'
+import { throwIfErrorSync } from '@stayradiated/error-boundary'
 
-import { parseStats, Stats } from './stats.js'
+import type { Stats } from './stats.js'
+import { parseStats } from './stats.js'
 
 // Convert Stats object into a human readable string
 const serializeStats = (stats: Stats): string => {
@@ -40,7 +41,7 @@ var DealArray = [{"datetime":1625987654,"price":45678.9,"volume":0.01234567,"dir
 var Begin = 1623412800;
 var Period = 86400;`
 
-  const stats = throwIfError(parseStats(input))
+  const stats = throwIfErrorSync(parseStats(input))
 
   const expected = `
 2021.06.11 12345.67 98765.43 10000.00 99999.99 0.12345668

@@ -1,7 +1,7 @@
 import test from 'ava'
-import { throwIfError } from '@stayradiated/error-boundary'
+import { throwIfErrorSync } from '@stayradiated/error-boundary'
 
-import { getRecentTrades, GetRecentTradesResult } from './get-recent-trades.js'
+import { getRecentTrades } from './get-recent-trades.js'
 
 test('should get recent trades', async (t) => {
   const [resultOrError] = await getRecentTrades({
@@ -9,7 +9,7 @@ test('should get recent trades', async (t) => {
     secondaryCurrencyCode: 'Nzd',
     numberOfRecentTradesToRetrieve: 1,
   })
-  const result = throwIfError<GetRecentTradesResult>(resultOrError)
+  const result = throwIfErrorSync(resultOrError)
 
   t.is(result.PrimaryCurrencyCode, 'Xbt')
   t.is(result.SecondaryCurrencyCode, 'Nzd')

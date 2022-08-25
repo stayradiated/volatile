@@ -1,71 +1,74 @@
 import { errorBoundary } from '@stayradiated/error-boundary'
+import * as z from 'zod'
 
 import { stripe } from '../../util/stripe.js'
 import { MissingRequiredArgumentError } from '../../util/error.js'
 
-import { ActionHandlerFn } from '../../util/action-handler.js'
+import { ActionHandler } from '../../util/action-handler.js'
 
 import { getOrCreateStripeCustomer } from '../../model/stripe-customer/index.js'
 
-type Input = {
-  price_id: string
+const schema = {
+  input: {
+    priceId: z.string(),
+  },
+  output: {
+    subscriptionId: z.string(),
+    clientSecret: z.string(),
+  },
 }
 
-type Output = {
-  subscription_id: string
-  client_secret: string
-}
+const createStripeSubscription: ActionHandler<typeof schema> = {
+  schema,
+  async handler(context) {
+    const { pool, input, session } = context
+    const { userUid } = session
+    if (!userUid) {
+      return new MissingRequiredArgumentError({
+        message: 'userUid is required',
+        context: { userUid },
+      })
+    }
 
-const createStripeSubscription: ActionHandlerFn<Input, Output> = async (
-  context,
-) => {
-  const { pool, input, session } = context
-  const { userUid } = session
-  if (!userUid) {
-    return new MissingRequiredArgumentError({
-      message: 'userUid is required',
-      context: { userUid },
+    const { priceId } = input
+
+    const customer = await getOrCreateStripeCustomer(pool, userUid)
+    if (customer instanceof Error) {
+      return customer
+    }
+
+    const subscription = await errorBoundary(async () => {
+      return stripe.subscriptions.create({
+        customer: customer.customerID,
+        items: [
+          {
+            price: priceId,
+          },
+        ],
+        payment_behavior: 'default_incomplete',
+        expand: ['latest_invoice.payment_intent'],
+      })
     })
-  }
 
-  const { price_id: priceId } = input
+    if (subscription instanceof Error) {
+      return subscription
+    }
 
-  const customer = await getOrCreateStripeCustomer(pool, userUid)
-  if (customer instanceof Error) {
-    return customer
-  }
+    if (
+      !subscription.latest_invoice ||
+      typeof subscription.latest_invoice === 'string' ||
+      !subscription.latest_invoice.payment_intent ||
+      typeof subscription.latest_invoice.payment_intent === 'string' ||
+      !subscription.latest_invoice.payment_intent.client_secret
+    ) {
+      return new Error('Fail.')
+    }
 
-  const subscription = await errorBoundary(async () => {
-    return stripe.subscriptions.create({
-      customer: customer.customerID,
-      items: [
-        {
-          price: priceId,
-        },
-      ],
-      payment_behavior: 'default_incomplete',
-      expand: ['latest_invoice.payment_intent'],
-    })
-  })
-
-  if (subscription instanceof Error) {
-    return subscription
-  }
-
-  if (
-    !subscription.latest_invoice ||
-    typeof subscription.latest_invoice === 'string' ||
-    !subscription.latest_invoice.payment_intent ||
-    typeof subscription.latest_invoice.payment_intent === 'string' ||
-    !subscription.latest_invoice.payment_intent.client_secret
-  ) {
-    return new Error('Fail.')
-  }
-
-  return {
-    subscription_id: subscription.id,
-    client_secret: subscription.latest_invoice.payment_intent.client_secret,
-  }
+    return {
+      subscriptionId: subscription.id,
+      clientSecret: subscription.latest_invoice.payment_intent.client_secret,
+    }
+  },
 }
 
 export { createStripeSubscription }

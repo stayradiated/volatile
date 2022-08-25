@@ -45,13 +45,13 @@ export const loader: LoaderFunction = async ({ request }) => {
       limit: 100,
       filters: {
         timestamp: { _gte: undefined, _lte: undefined },
-        exchange_uid: {
+        exchangeUid: {
           _eq: undefined,
         },
-        primary_currency: {
+        primaryCurrency: {
           _eq: undefined,
         },
-        secondary_currency: {
+        secondaryCurrency: {
           _eq: undefined,
         },
       },

@@ -2,7 +2,7 @@ import * as db from 'zapatos/db'
 import * as s from 'zapatos/schema'
 import { errorBoundary } from '@stayradiated/error-boundary'
 
-import { DBError, IllegalStateError } from '../../util/error.js'
+import { DbError, IllegalStateError } from '../../util/error.js'
 
 import type { Pool } from '../../types.js'
 
@@ -47,7 +47,7 @@ const calculateValueToBid = async (
   `.run(pool),
   )
   if (rows instanceof Error) {
-    return new DBError({
+    return new DbError({
       message: 'Could not query dca orders for calculateValueToBid.',
       cause: rows,
       context: {

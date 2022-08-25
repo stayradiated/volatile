@@ -1,11 +1,11 @@
 query getTradeAvgPrice($primaryCurrency: String!) {
-  trade_avg_price_by_window(
+  tradeAvgPriceByWindow(
     args: { group_by: "hour", currency: "NZD" }
-    where: { primary_currency: { _eq: $primaryCurrency } }
-    order_by: { timestamp: desc }
+    where: { primaryCurrency: { _eq: $primaryCurrency } }
+    orderBy: { timestamp: DESC }
   ) {
     timestamp
     price
-    avg_price
+    avgPrice
   }
 }

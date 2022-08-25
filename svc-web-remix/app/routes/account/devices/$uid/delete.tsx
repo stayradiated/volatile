@@ -18,11 +18,12 @@ export const action: ActionFunction = async ({ request, params }) => {
 
   const { authToken } = session
 
-  const { uid: userDeviceUID } = params
+  const { uid: userDeviceUid } = params
+  invariant(typeof userDeviceUid === 'string', 'params.uid must exist')
 
   await sdk.deleteUserDevice(
     {
-      userDeviceUID,
+      userDeviceUid,
     },
     {
       authorization: `Bearer ${authToken}`,
@@ -34,9 +35,9 @@ export const action: ActionFunction = async ({ request, params }) => {
 }
 
 interface LoaderData {
-  userDeviceUID: string
+  userDeviceUid: string
   query: {
-    getUserDeviceByUID: GetUserDeviceByUidQuery
+    getUserDeviceByUid: GetUserDeviceByUidQuery
   }
 }
 
@@ -49,12 +50,12 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 
   const { authToken } = session
 
-  const { uid: userDeviceUID } = params
-  invariant(userDeviceUID, 'Expected params.uid')
+  const { uid: userDeviceUid } = params
+  invariant(userDeviceUid, 'Expected params.uid')
 
-  const getUserDeviceByUID = await sdk.getUserDeviceByUID(
+  const getUserDeviceByUid = await sdk.getUserDeviceByUid(
     {
-      userDeviceUID,
+      userDeviceUid,
     },
     {
       authorization: `Bearer ${authToken}`,
@@ -63,23 +64,23 @@ export const loader: LoaderFunction = async ({ request, params }) => {
   )
 
   const query = {
-    getUserDeviceByUID,
+    getUserDeviceByUid,
   }
 
   return json<LoaderData>({
-    userDeviceUID,
+    userDeviceUid,
     query,
   })
 }
 
 const DeleteDeviceRoute = () => {
-  const { query, userDeviceUID } = useLoaderData<LoaderData>()
+  const { query, userDeviceUid } = useLoaderData<LoaderData>()
 
   return (
     <Card width={400}>
       <UserDeviceDelete
-        userDeviceUID={userDeviceUID}
-        query={query.getUserDeviceByUID}
+        userDeviceUid={userDeviceUid}
+        query={query.getUserDeviceByUid}
       />
     </Card>
   )

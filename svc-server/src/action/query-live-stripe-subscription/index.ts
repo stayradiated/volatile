@@ -1,7 +1,7 @@
 import { errorBoundary } from '@stayradiated/error-boundary'
 import * as z from 'zod'
 
-import type { ActionHandlerFn } from '../../util/action-handler.js'
+import type { ActionHandler } from '../../util/action-handler.js'
 import { stripe } from '../../util/stripe.js'
 
 const subscriptionSchema = z.object({
@@ -12,39 +12,39 @@ const subscriptionSchema = z.object({
     }),
   }),
 })
-
-type Input = {
-  subscription_id: string
+const schema = {
+  input: {
+    subscriptionId: z.string(),
+  },
+  output: {
+    id: z.string(),
+    clientSecret: z.string(),
+  },
 }
+const queryLiveStripeSubscription: ActionHandler<typeof schema> = {
+  schema,
+  async handler(context) {
+    const { input } = context
+    const { subscriptionId } = input
 
-type Output = {
-  id: string
-  client_secret: string
-}
+    // TODO: rate limit this endpoint by userUid
 
-const queryLiveStripeSubscription: ActionHandlerFn<Input, Output> = async (
-  context,
-) => {
-  const { input } = context
-  const { subscription_id: subscriptionId } = input
+    const subscription = await errorBoundary(async () => {
+      const subscription = await stripe.subscriptions.retrieve(subscriptionId, {
+        expand: ['latest_invoice.payment_intent'],
+      })
 
-  // TODO: rate limit this endpoint by userUid
-
-  const subscription = await errorBoundary(async () => {
-    const subscription = await stripe.subscriptions.retrieve(subscriptionId, {
-      expand: ['latest_invoice.payment_intent'],
+      return subscriptionSchema.parse(subscription)
     })
+    if (subscription instanceof Error) {
+      return subscription
+    }
 
-    return subscriptionSchema.parse(subscription)
-  })
-  if (subscription instanceof Error) {
-    return subscription
-  }
-
-  return {
-    id: subscription.id,
-    client_secret: subscription.latest_invoice.payment_intent.client_secret,
-  }
+    return {
+      id: subscription.id,
+      clientSecret: subscription.latest_invoice.payment_intent.client_secret,
+    }
+  },
 }
 
 export { queryLiveStripeSubscription }

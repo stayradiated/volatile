@@ -6,10 +6,12 @@ import { test } from '../../test-util/ava.js'
 
 import { insertUser, User } from '../../model/user/index.js'
 import { Session } from '../../util/action-handler.js'
-import { insertUser2FA } from '../../model/user-2fa/index.js'
+import { insertUser2Fa } from '../../model/user-2fa/index.js'
 import { upsertUserDevice } from '../../model/user-device/index.js'
 
-import { createAuthTokenHandler, CreateAuthTokenOutput } from './index.js'
+import { createAuthTokenHandler } from './index.js'
+
+type CreateAuthTokenOutput = Exclude<Awaited<ReturnType<typeof createAuthTokenHandler.handler>>, Error>
 
 const GUEST_SESSION: Session = { role: 'guest', userUid: undefined }
 
@@ -19,30 +21,30 @@ test('should login with email/password', async (t) => {
   const email = `${randomUUID()}@polodog.com`
   const password = 'polodog'
 
-  const { uid: userUid } = await throwIfError<User>(
+  const { uid: userUid } = await throwIfError(
     insertUser(pool, { email, password }),
   )
 
   const input = {
     email,
     password,
-    device_id: 'DEVICE_ID',
-    device_name: 'DEVICE_NAME',
-    device_trusted: false,
-    token_2fa: undefined,
+    deviceId: 'DEVICE_ID',
+    deviceName: 'DEVICE_NAME',
+    deviceTrusted: false,
+    token2fa: undefined,
     role: 'user',
   }
 
   const result = await throwIfError<CreateAuthTokenOutput>(
-    createAuthTokenHandler({
+    createAuthTokenHandler.handler({
       pool,
       input,
       session: GUEST_SESSION,
     }),
   )
 
-  t.is(userUid, result.user_uid)
-  t.is('string', typeof result.auth_token)
+  t.is(userUid, result.userUid)
+  t.is('string', typeof result.authToken)
 })
 
 test('should fail if email does not exist', async (t) => {
@@ -54,15 +56,15 @@ test('should fail if email does not exist', async (t) => {
   const input = {
     email,
     password,
-    device_id: 'DEVICE_ID',
-    device_name: 'DEVICE_NAME',
-    device_trusted: false,
-    token_2fa: undefined,
+    deviceId: 'DEVICE_ID',
+    deviceName: 'DEVICE_NAME',
+    deviceTrusted: false,
+    token2fa: undefined,
     role: 'user',
   }
 
   const error = await throwIfValue(
-    createAuthTokenHandler({
+    createAuthTokenHandler.handler({
       pool,
       input,
       session: GUEST_SESSION,
@@ -83,15 +85,15 @@ test('should fail if password is incorrect', async (t) => {
   const input = {
     email,
     password: password + '_garbage',
-    device_id: 'DEVICE_ID',
-    device_name: 'DEVICE_NAME',
-    device_trusted: false,
-    token_2fa: undefined,
+    deviceId: 'DEVICE_ID',
+    deviceName: 'DEVICE_NAME',
+    deviceTrusted: false,
+    token2fa: undefined,
     role: 'user',
   }
 
   const error = await throwIfValue(
-    createAuthTokenHandler({
+    createAuthTokenHandler.handler({
       pool,
       input,
       session: GUEST_SESSION,
@@ -101,7 +103,7 @@ test('should fail if password is incorrect', async (t) => {
   t.is('E_AUTH: Invalid email or password.', error.message)
 })
 
-test('should fail if 2FA token is required.', async (t) => {
+test('should fail if 2Fa token is required.', async (t) => {
   const { pool } = t.context
 
   const email = `${randomUUID()}@rosetteschool`
@@ -113,9 +115,9 @@ test('should fail if 2FA token is required.', async (t) => {
   const secret = authenticator.generateSecret()
 
   await throwIfError(
-    insertUser2FA(pool, {
+    insertUser2Fa(pool, {
       userUid,
-      name: 'Test 2FA Token',
+      name: 'Test 2Fa Token',
       secret,
     }),
   )
@@ -123,21 +125,21 @@ test('should fail if 2FA token is required.', async (t) => {
   const input = {
     email,
     password,
-    device_id: 'DEVICE_ID',
-    device_name: 'DEVICE_NAME',
-    device_trusted: false,
-    token_2fa: undefined,
+    deviceId: 'DEVICE_ID',
+    deviceName: 'DEVICE_NAME',
+    deviceTrusted: false,
+    token2fa: undefined,
     role: 'user',
   }
   const error = await throwIfValue(
-    createAuthTokenHandler({
+    createAuthTokenHandler.handler({
       pool,
       input,
       session: GUEST_SESSION,
     }),
   )
 
-  t.is('E_AUTH: This user has 2FA enabled.', error.message)
+  t.is('E_AUTH: This user has 2Fa enabled.', error.message)
 })
 
 test('should login with email/password/token_2fa', async (t) => {
@@ -152,9 +154,9 @@ test('should login with email/password/token_2fa', async (t) => {
   const secret = authenticator.generateSecret()
 
   await throwIfError(
-    insertUser2FA(pool, {
+    insertUser2Fa(pool, {
       userUid,
-      name: 'Test 2FA Token',
+      name: 'Test 2Fa Token',
       secret,
     }),
   )
@@ -162,30 +164,30 @@ test('should login with email/password/token_2fa', async (t) => {
   const input = {
     email,
     password,
-    device_id: 'DEVICE_ID',
-    device_name: 'DEVICE_NAME',
-    device_trusted: false,
-    token_2fa: authenticator.generate(secret),
+    deviceId: 'DEVICE_ID',
+    deviceName: 'DEVICE_NAME',
+    deviceTrusted: false,
+    token2fa: authenticator.generate(secret),
     role: 'user',
   }
   const result = await throwIfError<CreateAuthTokenOutput>(
-    createAuthTokenHandler({
+    createAuthTokenHandler.handler({
       pool,
       input,
       session: GUEST_SESSION,
     }),
   )
 
-  t.is(userUid, result.user_uid)
-  t.is('string', typeof result.auth_token)
+  t.is(userUid, result.userUid)
+  t.is('string', typeof result.authToken)
 })
 
-test('should fail if 2FA is required and device is not trusted', async (t) => {
+test('should fail if 2Fa is required and device is not trusted', async (t) => {
   const { pool } = t.context
 
   const email = `${randomUUID()}@speedboatvolcano`
   const password = 'speedboatvolcano'
-  const deviceID = randomUUID()
+  const deviceId = randomUUID()
 
   const { uid: userUid } = await throwIfError<User>(
     insertUser(pool, { email, password }),
@@ -194,9 +196,9 @@ test('should fail if 2FA is required and device is not trusted', async (t) => {
   const secret = authenticator.generateSecret()
 
   await throwIfError(
-    insertUser2FA(pool, {
+    insertUser2Fa(pool, {
       userUid,
-      name: 'Test 2FA Token',
+      name: 'Test 2Fa Token',
       secret,
     }),
   )
@@ -205,7 +207,7 @@ test('should fail if 2FA is required and device is not trusted', async (t) => {
     upsertUserDevice(pool, {
       userUid,
       accessedAt: new Date(),
-      deviceID,
+      deviceId,
       name: 'not a trusted device',
       trusted: false,
     }),
@@ -214,30 +216,30 @@ test('should fail if 2FA is required and device is not trusted', async (t) => {
   const input = {
     email,
     password,
-    device_id: deviceID,
-    device_name: 'DEVICE_NAME',
-    device_trusted: true,
+    deviceId: deviceId,
+    deviceName: 'DEVICE_NAME',
+    deviceTrusted: true,
     role: 'user',
 
     // Note that we are not passing a 2fa token here
     token_2fa: undefined,
   }
   const error = await throwIfValue(
-    createAuthTokenHandler({
+    createAuthTokenHandler.handler({
       pool,
       input,
       session: GUEST_SESSION,
     }),
   )
-  t.is('E_AUTH: This user has 2FA enabled.', error.message)
+  t.is('E_AUTH: This user has 2Fa enabled.', error.message)
 })
 
-test('should skip 2FA when using a trusted device', async (t) => {
+test('should skip 2Fa when using a trusted device', async (t) => {
   const { pool } = t.context
 
   const email = `${randomUUID()}@strawberrybus`
   const password = 'strawberrybus'
-  const deviceID = randomUUID()
+  const deviceId = randomUUID()
 
   const { uid: userUid } = await throwIfError<User>(
     insertUser(pool, { email, password }),
@@ -246,9 +248,9 @@ test('should skip 2FA when using a trusted device', async (t) => {
   const secret = authenticator.generateSecret()
 
   await throwIfError(
-    insertUser2FA(pool, {
+    insertUser2Fa(pool, {
       userUid,
-      name: 'Test 2FA Token',
+      name: 'Test 2Fa Token',
       secret,
     }),
   )
@@ -257,7 +259,7 @@ test('should skip 2FA when using a trusted device', async (t) => {
     upsertUserDevice(pool, {
       userUid,
       accessedAt: new Date(),
-      deviceID,
+      deviceId,
       name: 'not important',
       trusted: true,
     }),
@@ -266,22 +268,22 @@ test('should skip 2FA when using a trusted device', async (t) => {
   const input = {
     email,
     password,
-    device_id: deviceID,
-    device_name: 'DEVICE_NAME',
-    device_trusted: true,
+    deviceId: deviceId,
+    deviceName: 'DEVICE_NAME',
+    deviceTrusted: true,
     role: 'user',
 
     // Note that we are not passing a 2fa token here
     token_2fa: undefined,
   }
   const result = await throwIfError<CreateAuthTokenOutput>(
-    createAuthTokenHandler({
+    createAuthTokenHandler.handler({
       pool,
       input,
       session: GUEST_SESSION,
     }),
   )
 
-  t.is(userUid, result.user_uid)
-  t.is('string', typeof result.auth_token)
+  t.is(userUid, result.userUid)
+  t.is('string', typeof result.authToken)
 })

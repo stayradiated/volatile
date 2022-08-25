@@ -1,30 +1,30 @@
-query getDCAOrderFormCreate {
+query getDcaOrderFormCreate {
   market {
     uid
     name
-    market_prices(
-      distinct_on: [asset_symbol, currency]
+    marketPrices(
+      distinctOn: [assetSymbol, currency]
       where: { timestamp: { _gt: "2021-12-09T12:00:00" } }
     ) {
-      asset_symbol
+      assetSymbol
       currency
     }
   }
-  user_exchange_keys {
+  userExchangeKeys {
     uid
     description
-    exchange_uid
+    exchangeUid
   }
   exchange {
     uid
     name
-    primary_currencies {
+    primaryCurrencies {
       symbol
       currency {
         name
       }
     }
-    secondary_currencies {
+    secondaryCurrencies {
       symbol
       currency {
         name

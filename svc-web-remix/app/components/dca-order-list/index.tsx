@@ -3,31 +3,31 @@ import { useMemo } from 'react'
 import { useTable, Column } from 'react-table'
 import { parseISO, differenceInHours } from 'date-fns'
 
-import { ToggleDCAOrder } from './ToggleDCAOrder'
+import { ToggleDcaOrder } from './toggle-dca-order'
 import { Card, Table, Dropdown } from '~/components/retro-ui'
 import { formatCurrency } from '~/components/format'
 
 import type { GetDcaOrderListQuery } from '~/graphql/generated'
 
-type DCAOrder = GetDcaOrderListQuery['dca_order'][0]
+type DcaOrder = GetDcaOrderListQuery['dcaOrder'][number]
 
 type Props = {
   query: GetDcaOrderListQuery
 }
 
-const DCAOrderList = (props: Props) => {
+const DcaOrderList = (props: Props) => {
   const { query } = props
 
   const columns = useMemo(() => {
-    const columns: Array<Column<DCAOrder>> = [
+    const columns: Array<Column<DcaOrder>> = [
       {
         Header: 'Status',
-        accessor: 'enabled_at',
+        accessor: 'enabledAt',
         Cell({ row, value }) {
           const enabledAt = value ?? undefined
-          const dcaOrderUID = row.original.uid
+          const dcaOrderUid = row.original.uid
           return (
-            <ToggleDCAOrder dcaOrderUID={dcaOrderUID} enabledAt={enabledAt} />
+            <ToggleDcaOrder dcaOrderUid={dcaOrderUid} enabledAt={enabledAt} />
           )
         },
       },
@@ -38,22 +38,22 @@ const DCAOrderList = (props: Props) => {
       {
         Header: 'Trading Pair',
         accessor(row) {
-          return `${row.primary_currency.symbol}-${row.secondary_currency.symbol}`
+          return `${row.primaryCurrency.symbol}-${row.secondaryCurrency.symbol}`
         },
       },
       {
         Header: 'Market Offset',
-        accessor: 'market_offset',
+        accessor: 'marketOffset',
         Cell: ({ value }) => <>{value}$</>,
       },
       {
         Header: 'Daily Average',
-        accessor: 'daily_average',
+        accessor: 'dailyAverage',
         Cell: ({ value }) => <>{formatCurrency(value)}</>,
       },
       {
         Header: 'Start At',
-        accessor: 'start_at',
+        accessor: 'startAt',
         Cell({ value }) {
           return (
             <>
@@ -66,34 +66,34 @@ const DCAOrderList = (props: Props) => {
       },
       {
         Header: 'Interval',
-        accessor: 'interval_ms',
+        accessor: 'intervalMs',
         Cell: ({ value }) => <>{value / 60 / 1000 + ' min'}</>,
       },
       {
         Header: 'Min Value',
-        accessor: 'min_value',
+        accessor: 'minValue',
         Cell: ({ value }) => <>{value ? formatCurrency(value) : '$0.00'}</>,
       },
       {
         Header: 'Max Value',
-        accessor: 'max_value',
+        accessor: 'maxValue',
         Cell: ({ value }) => <>{value ? formatCurrency(value) : '∞'}</>,
       },
       {
         Header: 'Actions',
         accessor: 'uid',
         Cell(props) {
-          const { value: dcaOrderUID } = props
+          const { value: dcaOrderUid } = props
 
           return (
             <Dropdown>
-              <Dropdown.Item to={`/dca-orders/${dcaOrderUID}/history`}>
+              <Dropdown.Item to={`/dca-orders/${dcaOrderUid}/history`}>
                 View
               </Dropdown.Item>
-              <Dropdown.Item to={`/dca-orders/${dcaOrderUID}/edit`}>
+              <Dropdown.Item to={`/dca-orders/${dcaOrderUid}/edit`}>
                 Edit
               </Dropdown.Item>
-              <Dropdown.Item to={`/dca-orders/${dcaOrderUID}/delete`}>
+              <Dropdown.Item to={`/dca-orders/${dcaOrderUid}/delete`}>
                 Delete
               </Dropdown.Item>
             </Dropdown>
@@ -106,9 +106,9 @@ const DCAOrderList = (props: Props) => {
 
   const tableData = useMemo(
     () =>
-      (query.dca_order ?? []).map((row) => ({
+      (query.dcaOrder ?? []).map((row) => ({
         ...row,
-        [Table.DISABLED]: !row.enabled_at,
+        [Table.DISABLED]: !row.enabledAt,
       })),
     [query],
   )
@@ -118,12 +118,12 @@ const DCAOrderList = (props: Props) => {
   return (
     <>
       <Card width={1000}>
-        <h2>☰ DCA Order List</h2>
+        <h2>☰ Dca Order List</h2>
         <Table table={table} />
-        <Link to="/dca-orders/create">Create DCA Order</Link>
+        <Link to="/dca-orders/create">Create Dca Order</Link>
       </Card>
     </>
   )
 }
 
-export { DCAOrderList }
+export { DcaOrderList }

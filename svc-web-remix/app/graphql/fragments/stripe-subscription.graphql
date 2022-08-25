@@ -1,0 +1,19 @@
+fragment StripeSubscription on StripeSubscription {
+  id
+  status
+  cancelAt
+  canceledAt
+  cancelAtPeriodEnd
+  currentPeriodStart
+  currentPeriodEnd
+  stripePrice {
+    unitAmount
+    currency
+    recurringInterval
+    recurringIntervalCount
+    stripeProduct {
+      name
+    }
+  }
+}
+

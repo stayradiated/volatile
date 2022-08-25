@@ -1,7 +1,7 @@
 import { errorBoundary } from '@stayradiated/error-boundary'
 import * as db from 'zapatos/db'
 
-import { DBError } from '../../util/error.js'
+import { DbError } from '../../util/error.js'
 
 import type { Pool } from '../../types.js'
 import { purgeExpiredUserPasswordReset } from './purge-expired-user-password-reset.js'
@@ -23,7 +23,7 @@ const deleteUserPasswordReset = async (
       .run(pool),
   )
   if (error instanceof Error) {
-    return new DBError({
+    return new DbError({
       message: 'Could not delete User Password Reset',
       cause: error,
       context: { userPasswordResetUid },

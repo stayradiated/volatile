@@ -8,8 +8,17 @@ const PreWrap = styled.pre`
   white-space: pre-wrap;
 `
 
+type ErrorInfo = {
+  name?: string
+  code?: string
+  info?: string
+  message?: string
+  stack?: string
+  cause?: ErrorInfo | ErrorInfo[]
+}
+
 type ErrorDetailsProps = {
-  error: Record<string, any>
+  error: ErrorInfo
 }
 
 const ErrorDetails = (props: ErrorDetailsProps) => {
@@ -18,22 +27,22 @@ const ErrorDetails = (props: ErrorDetailsProps) => {
 
   return (
     <Container>
-      {message && (
+      {typeof message === 'string' && (
         <li>
           message: <code>{message}</code>
         </li>
       )}
-      {name && (
+      {typeof name === 'string' && (
         <li>
           name: <code>{name}</code>
         </li>
       )}
-      {code && (
+      {typeof code === 'string' && (
         <li>
           code: <code>{code}</code>
         </li>
       )}
-      {info && (
+      {typeof info === 'object' && (
         <li>
           info:{' '}
           <PreWrap>
@@ -41,7 +50,7 @@ const ErrorDetails = (props: ErrorDetailsProps) => {
           </PreWrap>
         </li>
       )}
-      {stack && (
+      {typeof stack === 'string' && (
         <li>
           stack:{' '}
           <PreWrap>
@@ -49,12 +58,11 @@ const ErrorDetails = (props: ErrorDetailsProps) => {
           </PreWrap>
         </li>
       )}
-      {cause &&
-        (Array.isArray(cause) ? (
-          cause.map((c, index) => <ErrorDetails key={index} error={c} />)
-        ) : (
-          <ErrorDetails error={cause} />
-        ))}
+      {Array.isArray(cause) ? (
+        cause.map((c, index) => <ErrorDetails key={index} error={c} />)
+      ) : typeof cause === 'object' ? (
+        <ErrorDetails error={cause} />
+      ) : null}
     </Container>
   )
 }

@@ -25,7 +25,8 @@ module.exports = {
           'timestamp': 'string',
           'timestamptz': 'string',
           'uuid': 'string',
-          'bpchar': 'string'
+          'bpchar': 'string',
+          'jsonb': 'Record<string, unknown>'
         }
       }
     },

@@ -3,7 +3,7 @@ import { useLoaderData } from '@remix-run/react'
 import invariant from 'tiny-invariant'
 import { errorBoundary } from '@stayradiated/error-boundary'
 
-import { DCAOrderDelete } from '~/components/dca-order-delete'
+import { DcaOrderDelete } from '~/components/dca-order-delete'
 import { getSessionData } from '~/utils/auth.server'
 import { sdk } from '~/utils/api.server'
 import { loginRedirect } from '~/utils/redirect.server'
@@ -19,13 +19,13 @@ export const action: ActionFunction = async ({ request, params }) => {
 
   const { authToken } = session
 
-  const { uid: dcaOrderUID } = params
-  invariant(typeof dcaOrderUID === 'string', 'Must have params.uid')
+  const { uid: dcaOrderUid } = params
+  invariant(typeof dcaOrderUid === 'string', 'Must have params.uid')
 
-  const deleteDCAOrder = await errorBoundary(async () =>
-    sdk.deleteDCAOrder(
+  const deleteDcaOrder = await errorBoundary(async () =>
+    sdk.deleteDcaOrder(
       {
-        dcaOrderUID,
+        dcaOrderUid,
       },
       {
         authorization: `Bearer ${authToken}`,
@@ -33,8 +33,8 @@ export const action: ActionFunction = async ({ request, params }) => {
       },
     ),
   )
-  if (deleteDCAOrder instanceof Error) {
-    throw deleteDCAOrder
+  if (deleteDcaOrder instanceof Error) {
+    throw deleteDcaOrder
   }
 
   return redirect('/dca-orders')
@@ -42,7 +42,7 @@ export const action: ActionFunction = async ({ request, params }) => {
 
 type LoaderData = {
   query: {
-    getDCAOrderDelete: GetDcaOrderDeleteQuery
+    getDcaOrderDelete: GetDcaOrderDeleteQuery
   }
 }
 
@@ -55,13 +55,13 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 
   const { authToken } = session
 
-  const { uid: dcaOrderUID } = params
-  invariant(typeof dcaOrderUID === 'string', 'Must have params.uid')
+  const { uid: dcaOrderUid } = params
+  invariant(typeof dcaOrderUid === 'string', 'Must have params.uid')
 
-  const getDCAOrderDelete = await errorBoundary(async () =>
-    sdk.getDCAOrderDelete(
+  const getDcaOrderDelete = await errorBoundary(async () =>
+    sdk.getDcaOrderDelete(
       {
-        dcaOrderUID,
+        dcaOrderUid,
       },
       {
         authorization: `Bearer ${authToken}`,
@@ -69,21 +69,21 @@ export const loader: LoaderFunction = async ({ request, params }) => {
       },
     ),
   )
-  if (getDCAOrderDelete instanceof Error) {
-    throw getDCAOrderDelete
+  if (getDcaOrderDelete instanceof Error) {
+    throw getDcaOrderDelete
   }
 
   const query = {
-    getDCAOrderDelete,
+    getDcaOrderDelete,
   }
 
   return json<LoaderData>({ query })
 }
 
-const DCAOrderDeleteRoute = () => {
+const DcaOrderDeleteRoute = () => {
   const { query } = useLoaderData<LoaderData>()
 
-  return <DCAOrderDelete query={query.getDCAOrderDelete} />
+  return <DcaOrderDelete query={query.getDcaOrderDelete} />
 }
 
-export default DCAOrderDeleteRoute
+export default DcaOrderDeleteRoute

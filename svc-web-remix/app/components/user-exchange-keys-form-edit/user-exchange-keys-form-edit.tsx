@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { Link } from '@remix-run/react'
 
 import { Alert, Form, Input, PrimaryButton } from '../retro-ui'
@@ -6,44 +5,7 @@ import { KeysInput } from '../user-exchange-keys-input'
 
 import type { GetUserExchangeKeysFormEditQuery } from '~/graphql/generated'
 
-type Props = {
-  userExchangeKeysUID: string
-  query: GetUserExchangeKeysFormEditQuery
-}
-
-const UserExchangeKeysFormEdit = (props: Props) => {
-  const { userExchangeKeysUID, query } = props
-
-  const validationResult = undefined
-  const isValidating = false
-
-  const [replaceKeys, setReplaceKeys] = useState(false)
-  const [lastValidatedKeys, setLastValidatedKeys] = useState<
-    Record<string, string> | undefined
-  >(undefined)
-
-  const keysAreValid =
-    validationResult?.isValid &&
-    JSON.stringify(state.keys) === JSON.stringify(lastValidatedKeys)
-
-  const userExchangeKeys = query.user_exchange_keys_by_pk
-
-  const handleReplaceKeys = () => {
-    setReplaceKeys(true)
-  }
-
-  const handleFinish = async () => {
-    await updateUserExchangeKeys({
-      userExchangeKeysUID,
-      description: state.description,
-      keys: state.keys,
-    })
-
-    if (typeof onFinish === 'function') {
-      onFinish()
-    }
-  }
-
+/* ACTION
   const handleValidate = async () => {
     if (!userExchangeKeys) {
       throw new Error('Invalid state')
@@ -52,10 +14,39 @@ const UserExchangeKeysFormEdit = (props: Props) => {
     setLastValidatedKeys(state.keys)
 
     await validateUserExchangeKeysLive({
-      exchangeUID: userExchangeKeys.exchange.uid,
+      exchangeUid: userExchangeKeys.exchange.uid,
       keys: state.keys,
     })
   }
+
+await updateUserExchangeKeys({
+      userExchangeKeysUid,
+      description: state.description,
+      keys: state.keys,
+    })
+*/
+
+type Props = {
+  userExchangeKeysUid: string
+  query: GetUserExchangeKeysFormEditQuery
+}
+
+const UserExchangeKeysFormEdit = (props: Props) => {
+  const { userExchangeKeysUid, query } = props
+  const userExchangeKeys = query.userExchangeKeysByPk
+
+  const replaceKeys = false
+  const handleValidate = () => {
+    return undefined
+  }
+
+  const handleReplaceKeys = () => {
+    return undefined
+  }
+
+  const isValidating = false
+  const keysAreValid = false
+  const validationResult = { isValid: false, validationMessage: '...' }
 
   return (
     <div>
@@ -63,7 +54,7 @@ const UserExchangeKeysFormEdit = (props: Props) => {
       <Form
         name="addUserExchangeKey"
         method="post"
-        action={`/settings/${userExchangeKeysUID}/edit`}
+        action={`/settings/${userExchangeKeysUid}/edit`}
       >
         <Form.Item label="Name" name="description">
           <Input defaultValue={userExchangeKeys?.description} />
@@ -83,7 +74,7 @@ const UserExchangeKeysFormEdit = (props: Props) => {
           )}
         </Form.Item>
 
-        {validationResult?.isValid === false && (
+        {!validationResult?.isValid && (
           <Alert message={validationResult.validationMessage} type="error" />
         )}
 

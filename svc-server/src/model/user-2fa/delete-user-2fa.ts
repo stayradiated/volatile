@@ -3,13 +3,13 @@ import { errorBoundary } from '@stayradiated/error-boundary'
 
 import type { Pool } from '../../types.js'
 
-type DeleteUser2FAOptions = {
+type DeleteUser2FaOptions = {
   userUid: string
 }
 
-const deleteUser2FA = async (
+const deleteUser2Fa = async (
   pool: Pool,
-  options: DeleteUser2FAOptions,
+  options: DeleteUser2FaOptions,
 ): Promise<void | Error> => {
   const error = await errorBoundary(async () =>
     db
@@ -26,5 +26,5 @@ const deleteUser2FA = async (
   return undefined
 }
 
-export { deleteUser2FA }
-export type { DeleteUser2FAOptions }
+export { deleteUser2Fa }
+export type { DeleteUser2FaOptions }

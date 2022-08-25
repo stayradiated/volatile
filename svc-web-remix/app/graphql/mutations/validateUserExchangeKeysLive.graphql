@@ -1,6 +1,6 @@
-mutation validateUserExchangeKeysLive($exchangeUID: uuid!, $keys: jsonb!) {
-  action_validate_user_exchange_keys_live(exchange_uid: $exchangeUID, keys: $keys) {
-    is_valid
-    validation_message
+mutation validateUserExchangeKeysLive($exchangeUid: uuid!, $keys: jsonb!) {
+  actionValidateUserExchangeKeysLive(exchangeUid: $exchangeUid, keys: $keys) {
+    isValid
+    validationMessage
   }
 }

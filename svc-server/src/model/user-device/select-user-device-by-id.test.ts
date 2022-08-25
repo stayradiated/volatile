@@ -15,20 +15,20 @@ test('can find a device by its device ID', async (t) => {
   const { pool, make } = t.context
   const userUid = await make.user()
 
-  const deviceID = `${randomUUID()}-orangutan`
+  const deviceId = `${randomUUID()}-orangutan`
 
   const input: UpsertUserDevicesOptions = {
     userUid,
     accessedAt: new Date(),
     name: 'Special Test Device',
     trusted: true,
-    deviceID,
+    deviceId,
   }
 
   await throwIfError<string>(upsertUserDevice(pool, input))
 
   const userDevice = await throwIfError<UserDeviceMasked>(
-    selectUserDeviceByID(pool, deviceID),
+    selectUserDeviceByID(pool, deviceId),
   )
 
   t.is(input.accessedAt.valueOf(), userDevice.accessedAt.valueOf())
@@ -38,8 +38,8 @@ test('can find a device by its device ID', async (t) => {
 
 test('should handle missing device', async (t) => {
   const { pool } = t.context
-  const deviceID = `${randomUUID()}-weddingherb`
-  const error = await throwIfValue(selectUserDeviceByID(pool, deviceID))
+  const deviceId = `${randomUUID()}-weddingherb`
+  const error = await throwIfValue(selectUserDeviceByID(pool, deviceId))
 
   t.is(error.message, `E_DB: Could not find user device.`)
 })

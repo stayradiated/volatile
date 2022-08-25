@@ -1,5 +1,5 @@
 mutation createStripeSubscription($priceId: String!) {
-  action_create_stripe_subscription(price_id: $priceId) {
-    subscription_id
+  actionCreateStripeSubscription(priceId: $priceId) {
+    subscriptionId
   }
 }

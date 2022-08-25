@@ -1,5 +1,0 @@
-mutation deleteUserDevice($userDeviceUID: uuid!) {
-  delete_user_device_by_pk(uid: $userDeviceUID) {
-    uid
-  }
-}

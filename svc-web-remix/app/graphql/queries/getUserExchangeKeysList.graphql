@@ -2,15 +2,15 @@ query getUserExchangeKeysList {
   user {
     timezone
   }
-  user_exchange_keys {
+  userExchangeKeys {
     uid
     description
-    updated_at
+    updatedAt
     exchange {
       uid
       name
     }
-    dca_orders_aggregate {
+    dcaOrdersAggregate {
       aggregate {
         count
       }

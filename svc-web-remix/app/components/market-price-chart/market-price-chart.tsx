@@ -45,12 +45,12 @@ const MarketPriceChart = (props: Props) => {
   const { primaryCurrency, secondaryCurrency, query } = props
 
   const [visible, setVisible] = useState({
-    binance_us: true,
-    kiwi_coin: true,
+    binanceUs: true,
+    kiwiCoin: true,
     dasset: true,
     kraken: true,
-    independent_reserve_aud: true,
-    independent_reserve_nzd: true,
+    independentReserveAud: true,
+    independentReserveNzd: true,
   })
 
   const handleToggleChecked = (id: string, checked: boolean) => {
@@ -60,20 +60,20 @@ const MarketPriceChart = (props: Props) => {
   const charts = useMemo(
     (): ChartConfig[] =>
       [
-        visible.binance_us && {
+        visible.binanceUs && {
           type: 'line',
           options: { color: '#7158e2' },
           data: formatDataForChart({
-            data: query.binance_us[0]?.market_prices ?? [],
+            data: query.binanceUs[0]?.marketPrices ?? [],
             getValue: (row) => row.price,
             getTime: (row) => row.timestamp,
           }),
         },
-        visible.kiwi_coin && {
+        visible.kiwiCoin && {
           type: 'line',
           options: { color: '#3ae374' },
           data: formatDataForChart({
-            data: query.kiwi_coin[0]?.market_prices ?? [],
+            data: query.kiwiCoin[0]?.marketPrices ?? [],
             getValue: (row) => row.price,
             getTime: (row) => row.timestamp,
           }),
@@ -82,7 +82,7 @@ const MarketPriceChart = (props: Props) => {
           type: 'line',
           options: { color: '#ff9f1a' },
           data: formatDataForChart({
-            data: query.dasset[0]?.market_prices ?? [],
+            data: query.dasset[0]?.marketPrices ?? [],
             getValue: (row) => row.price,
             getTime: (row) => row.timestamp,
           }),
@@ -91,25 +91,25 @@ const MarketPriceChart = (props: Props) => {
           type: 'line',
           options: { color: '#3d3d3d' },
           data: formatDataForChart({
-            data: query.kraken[0]?.market_prices ?? [],
+            data: query.kraken[0]?.marketPrices ?? [],
             getValue: (row) => row.price,
             getTime: (row) => row.timestamp,
           }),
         },
-        visible.independent_reserve_aud && {
+        visible.independentReserveAud && {
           type: 'line',
           options: { color: '#3d3d3d' },
           data: formatDataForChart({
-            data: query.independent_reserve_aud[0]?.market_prices ?? [],
+            data: query.independentReserveAud[0]?.marketPrices ?? [],
             getValue: (row) => row.price,
             getTime: (row) => row.timestamp,
           }),
         },
-        visible.independent_reserve_nzd && {
+        visible.independentReserveNzd && {
           type: 'line',
           options: { color: '#3d3d3d' },
           data: formatDataForChart({
-            data: query.independent_reserve_nzd[0]?.market_prices ?? [],
+            data: query.independentReserveNzd[0]?.marketPrices ?? [],
             getValue: (row) => row.price,
             getTime: (row) => row.timestamp,
           }),
@@ -127,15 +127,15 @@ const MarketPriceChart = (props: Props) => {
       <Chart width={960} charts={charts} />
 
       <Toggle
-        id="binance_us"
+        id="binanceUs"
         label="Binance.US"
-        checked={visible.binance_us}
+        checked={visible.binanceUs}
         onChange={handleToggleChecked}
       />
       <Toggle
-        id="kiwi_coin"
+        id="kiwiCoin"
         label="Kiwi-Coin"
-        checked={visible.kiwi_coin}
+        checked={visible.kiwiCoin}
         onChange={handleToggleChecked}
       />
       <Toggle
@@ -151,15 +151,15 @@ const MarketPriceChart = (props: Props) => {
         onChange={handleToggleChecked}
       />
       <Toggle
-        id="independent_reserve_aud"
+        id="independentReserveAud"
         label="Independent Reserve (AUD)"
-        checked={visible.independent_reserve_aud}
+        checked={visible.independentReserveAud}
         onChange={handleToggleChecked}
       />
       <Toggle
-        id="independent_reserve_nzd"
+        id="independentReserveNzd"
         label="Independent Reserve (NZD)"
-        checked={visible.independent_reserve_nzd}
+        checked={visible.independentReserveNzd}
         onChange={handleToggleChecked}
       />
     </>

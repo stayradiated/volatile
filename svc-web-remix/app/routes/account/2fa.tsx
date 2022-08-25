@@ -40,7 +40,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 const Account = () => {
   const { query } = useLoaderData<LoaderData>()
 
-  const has2FA = query.getUser2FA.user[0].user_2fa?.uid
+  const has2FA = query.getUser2FA.user[0].user2fa?.uid
 
   if (has2FA) {
     return (

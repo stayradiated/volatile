@@ -1,4 +1,4 @@
-import { Kanye } from '@volatile/kanye'
+import type { Kanye } from '@volatile/kanye'
 import { Prism, formatWarnings } from '@zwolf/prism'
 
 import { toFloat } from '../util/transforms.js'

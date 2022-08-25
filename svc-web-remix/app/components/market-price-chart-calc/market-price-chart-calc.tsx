@@ -3,7 +3,7 @@ import { useMemo, useState } from 'react'
 import { Chart, ChartConfig, formatDataForChart } from '../chart'
 import type { GetMarketPriceQuery } from '~/graphql/generated'
 
-type Source = GetMarketPriceQuery['binance_us'][number]['market_prices']
+type Source = GetMarketPriceQuery['binanceUs'][number]['marketPrices']
 
 const calcAvg = (
   longAvg: number,
@@ -56,7 +56,7 @@ type Props = {
 
 const MarketPriceChartCalc = (props: Props) => {
   const { primaryCurrency, secondaryCurrency, query } = props
-  const source = query.binance_us[0]?.market_prices ?? []
+  const source = query.binanceUs[0]?.marketPrices ?? []
 
   const [longAvg, setLongAvg] = useState(30)
   const [minAvg, setMinAvg] = useState(3)

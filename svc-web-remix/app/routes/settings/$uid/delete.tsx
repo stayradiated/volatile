@@ -17,12 +17,12 @@ export const action: ActionFunction = async ({ request, params }) => {
 
   const { authToken } = session
 
-  const { uid: userExchangeKeysUID } = params
-  invariant(typeof userExchangeKeysUID === 'string', 'Expected params.uid')
+  const { uid: userExchangeKeysUid } = params
+  invariant(typeof userExchangeKeysUid === 'string', 'Expected params.uid')
 
   sdk.deleteUserExchangeKeys(
     {
-      userExchangeKeysUID,
+      userExchangeKeysUid,
     },
     {
       authorization: `Bearer ${authToken}`,
@@ -35,7 +35,7 @@ export const action: ActionFunction = async ({ request, params }) => {
 
 interface LoaderData {
   query: {
-    getUserExchangeKeysByUID: GetUserExchangeKeysByUidQuery
+    getUserExchangeKeysByUid: GetUserExchangeKeysByUidQuery
   }
 }
 
@@ -48,12 +48,12 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 
   const { authToken } = session
 
-  const { uid: userExchangeKeysUID } = params
-  invariant(userExchangeKeysUID, 'Expected params.uid')
+  const { uid: userExchangeKeysUid } = params
+  invariant(userExchangeKeysUid, 'Expected params.uid')
 
-  const getUserExchangeKeysByUID = await sdk.getUserExchangeKeysByUID(
+  const getUserExchangeKeysByUid = await sdk.getUserExchangeKeysByUid(
     {
-      userExchangeKeysUID,
+      userExchangeKeysUid,
     },
     {
       authorization: `Bearer ${authToken}`,
@@ -62,7 +62,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
   )
 
   const query = {
-    getUserExchangeKeysByUID,
+    getUserExchangeKeysByUid,
   }
 
   return json<LoaderData>({
@@ -73,7 +73,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 const EditRoute = () => {
   const { query } = useLoaderData<LoaderData>()
 
-  return <UserExchangeKeysDelete query={query.getUserExchangeKeysByUID} />
+  return <UserExchangeKeysDelete query={query.getUserExchangeKeysByUid} />
 }
 
 export default EditRoute

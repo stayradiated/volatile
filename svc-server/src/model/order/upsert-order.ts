@@ -4,7 +4,7 @@ import * as s from 'zapatos/schema'
 import { errorBoundary } from '@stayradiated/error-boundary'
 import type { SetOptional } from 'type-fest'
 
-import { DBError } from '../../util/error.js'
+import { DbError } from '../../util/error.js'
 
 import type { Pool } from '../../types.js'
 import type { Order } from './types.js'
@@ -52,7 +52,7 @@ const upsertOrder = async (
       .run(pool),
   )
   if (row instanceof Error) {
-    return new DBError({
+    return new DbError({
       message: 'Could not upsert order',
       cause: row,
       context: { order },

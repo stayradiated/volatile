@@ -1,8 +1,0 @@
-fragment DCAOrderHistoryPriceChart_dca_order_history on dca_order_history {
-  created_at
-  created_order
-  market_price
-  market_offset
-  value
-  available_balance
-}

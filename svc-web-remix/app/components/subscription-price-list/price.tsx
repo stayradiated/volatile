@@ -9,7 +9,7 @@ const Container = styled.div`
 `
 
 type Price = NonNullable<
-  GetPricesQuery['stripe_product'][number]['stripe_prices']
+  GetPricesQuery['stripeProduct'][number]['stripePrices']
 >[number]
 
 type Props = {
@@ -23,9 +23,9 @@ const Price = (props: Props) => {
     <Container>
       <input id={price.id} type="radio" name="priceId" value={price.id} />
       <label htmlFor={price.id}>
-        {formatCurrency((price.unit_amount ?? 0) / 100)}{' '}
-        {price.currency.toUpperCase()} / {price.recurring_interval_count}{' '}
-        {price.recurring_interval}
+        {formatCurrency((price.unitAmount ?? 0) / 100)}{' '}
+        {price.currency.toUpperCase()} / {price.recurringIntervalCount}{' '}
+        {price.recurringInterval}
       </label>
     </Container>
   )

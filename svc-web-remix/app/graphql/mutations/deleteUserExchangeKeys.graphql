@@ -1,5 +1,5 @@
-mutation deleteUserExchangeKeys($userExchangeKeysUID: uuid!) {
-  delete_user_exchange_keys_by_pk(uid: $userExchangeKeysUID) {
+mutation deleteUserExchangeKeys($userExchangeKeysUid: uuid!) {
+  deleteUserExchangeKeysByPk(uid: $userExchangeKeysUid) {
     uid
   }
 }

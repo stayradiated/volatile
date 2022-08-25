@@ -2,11 +2,11 @@ table:
   name: stripe_price
   schema: public
 object_relationships:
-  - name: stripe_product
+  - name: stripeProduct
     using:
       foreign_key_constraint_on: product_id
 array_relationships:
-  - name: stripe_subscriptions
+  - name: stripeSubscriptions
     using:
       foreign_key_constraint_on:
         column: price_id

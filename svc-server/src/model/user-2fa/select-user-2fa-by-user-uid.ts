@@ -4,19 +4,19 @@ import type { Pool } from '../../types.js'
 
 import { keyring } from '../../util/keyring.js'
 
-import { DBError } from '../../util/error.js'
-import type { User2FA } from './types.js'
+import { DbError } from '../../util/error.js'
+import type { User2Fa } from './types.js'
 
-const selectUser2FAByUserUid = async (
+const selectUser2FaByUserUid = async (
   pool: Pool,
   userUid: string,
-): Promise<User2FA | Error> => {
+): Promise<User2Fa | Error> => {
   const row = await errorBoundary(async () =>
     db.selectOne('user_2fa', { user_uid: userUid }).run(pool),
   )
   if (row instanceof Error || !row) {
-    return new DBError({
-      message: 'Could not find user 2FA.',
+    return new DbError({
+      message: 'Could not find user 2Fa.',
       cause: row,
       context: { userUid },
     })
@@ -35,4 +35,4 @@ const selectUser2FAByUserUid = async (
   }
 }
 
-export { selectUser2FAByUserUid }
+export { selectUser2FaByUserUid }

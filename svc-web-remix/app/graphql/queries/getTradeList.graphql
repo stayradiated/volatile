@@ -1,5 +1,5 @@
 query getTradeList(
-  $filters: trade_bool_exp!
+  $filters: TradeBoolExp!
   $offset: Int!
   $limit: Int!
 ) {
@@ -7,7 +7,7 @@ query getTradeList(
     uid
     timezone
   }
-  trade_aggregate(where: $filters) {
+  tradeAggregate(where: $filters) {
     aggregate {
       count
       sum {
@@ -25,7 +25,7 @@ query getTradeList(
   }
   trade(
     where: $filters
-    order_by: { timestamp: desc }
+    orderBy: { timestamp: DESC }
     limit: $limit
     offset: $offset
   ) {
@@ -37,11 +37,11 @@ query getTradeList(
     timestamp
     value
     volume
-    primary_currency
-    secondary_currency
+    primaryCurrency
+    secondaryCurrency
     type
-    price: price_fx(args: { currency: "NZD" })
-    total_value: total_value_fx(args: { currency: "NZD" })
-    fee: fee_fx(args: { currency: "NZD" })
+    price: priceFx(args: { currency: "NZD" })
+    totalValue: totalValueFx(args: { currency: "NZD" })
+    fee: feeFx(args: { currency: "NZD" })
   }
 }

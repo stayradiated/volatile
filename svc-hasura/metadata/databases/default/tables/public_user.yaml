@@ -2,7 +2,7 @@ table:
   name: user
   schema: public
 object_relationships:
-  - name: user_2fa
+  - name: user2fa
     using:
       foreign_key_constraint_on:
         column: user_uid
@@ -10,14 +10,14 @@ object_relationships:
           name: user_2fa
           schema: public
 array_relationships:
-  - name: dca_order_histories
+  - name: dcaOrderHistories
     using:
       foreign_key_constraint_on:
         column: user_uid
         table:
           name: dca_order_history
           schema: public
-  - name: dca_orders
+  - name: dcaOrders
     using:
       foreign_key_constraint_on:
         column: user_uid
@@ -38,14 +38,14 @@ array_relationships:
         table:
           name: trade
           schema: public
-  - name: user_devices
+  - name: userDevices
     using:
       foreign_key_constraint_on:
         column: user_uid
         table:
           name: user_device
           schema: public
-  - name: user_exchange_keys
+  - name: userExchangeKeys
     using:
       foreign_key_constraint_on:
         column: user_uid

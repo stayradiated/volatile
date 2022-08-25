@@ -6,7 +6,7 @@ import { ExchangeLogo } from './exchange-logo'
 import { formatCurrency } from '~/components/format'
 import { GetTradeListQuery } from '~/graphql/generated'
 
-type Trade = GetTradeListQuery['trade'][0]
+type Trade = GetTradeListQuery['trade'][number]
 
 type TradeListItemProps = {
   trade: Trade
@@ -31,9 +31,9 @@ const TradeListItem = (props: TradeListItemProps) => {
     <Item>
       <ExchangeLogo exchangeID={trade.exchange.id} />
       <span>{date}</span>
-      <span>{trade.secondary_currency}</span>
+      <span>{trade.secondaryCurrency}</span>
       <span>→</span>
-      <strong>{trade.primary_currency}</strong>
+      <strong>{trade.primaryCurrency}</strong>
       <strong>{formatCurrency(trade.value)}</strong>
     </Item>
   )

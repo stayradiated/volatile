@@ -1,6 +1,6 @@
 query getEmailVerified {
   user {
     uid
-    email_verified
+    emailVerified
   }
 }

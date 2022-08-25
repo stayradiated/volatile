@@ -1,21 +1,21 @@
 mutation createUserExchangeKeys(
   $description: String!
-  $exchangeUID: uuid!
+  $exchangeUid: uuid!
   $keys: jsonb!
 ) {
-  action_create_user_exchange_keys(
+  actionCreateUserExchangeKeys(
     description: $description
-    exchange_uid: $exchangeUID
+    exchangeUid: $exchangeUid
     keys: $keys
   ) {
-    user_exchange_keys {
+    userExchangeKeys {
       uid
       description
       exchange {
         uid
       }
-      invalidated_at
-      dca_orders_aggregate {
+      invalidatedAt
+      dcaOrdersAggregate {
         aggregate {
           count
         }

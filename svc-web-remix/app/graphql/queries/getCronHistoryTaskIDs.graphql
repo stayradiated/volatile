@@ -1,7 +1,7 @@
 query getCronHistoryTaskIDs{
-  cron_history_aggregate(distinct_on: task_id) {
+  cronHistoryAggregate(distinctOn: taskId) {
     nodes {
-      task_id
+      taskId
     }
   }
 }

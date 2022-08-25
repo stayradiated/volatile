@@ -24,66 +24,51 @@ const fastify = createFastify({ logger: true })
 
 const addAction = bindActionHandler(fastify)
 
-addAction('action_create_admin_auth_token', actions.createAdminAuthTokenHandler)
-addAction('action_create_auth_token', actions.createAuthTokenHandler)
-addAction('action_create_dca_order', actions.createDcaOrderHandler)
-addAction('action_create_stripe_subscription', actions.createStripeSubscription)
-addAction('action_create_user', actions.createUserHandler)
+addAction('actionCreateAdminAuthToken', actions.createAdminAuthTokenHandler)
+addAction('actionCreateAuthToken', actions.createAuthTokenHandler)
+addAction('actionCreateDcaOrder', actions.createDcaOrderHandler)
+addAction('actionCreateStripeSubscription', actions.createStripeSubscription)
+addAction('actionCreateUser', actions.createUserHandler)
+addAction('actionCreateUserExchangeKeys', actions.createUserExchangeKeysHandler)
+addAction('actionDeleteUser', actions.deleteUserHandler)
+addAction('actionDeleteUser2fa', actions.deleteUser2FaHandler)
+addAction('actionEnableUser2fa', actions.enableUser2FaHandler)
 addAction(
-  'action_create_user_exchange_keys',
-  actions.createUserExchangeKeysHandler,
-)
-addAction('action_delete_user', actions.deleteUserHandler)
-addAction('action_delete_user_2fa', actions.deleteUser2FAHandler)
-addAction('action_enable_user_2fa', actions.enableUser2FAHandler)
-addAction(
-  'action_query_live_stripe_subscription',
+  'actionQueryLiveStripeSubscription',
   actions.queryLiveStripeSubscription,
 )
-addAction('action_query_stripe_config', actions.queryStripeConfig)
-addAction('action_query_user_email', actions.queryUserEmailHandler)
-addAction('action_query_user_limit', actions.queryUserLimitHandler)
-addAction('action_refresh_auth_token', actions.refreshAuthTokenHandler)
-addAction('action_reset_user_password', actions.resetUserPasswordHandler)
-addAction('action_seed_test_account', actions.seedTestAccount)
-addAction('action_send_user_email_verify', actions.sendUserEmailVerifyHandler)
+addAction('actionQueryStripeConfig', actions.queryStripeConfig)
+addAction('actionQueryUserEmail', actions.queryUserEmailHandler)
+addAction('actionQueryUserLimit', actions.queryUserLimitHandler)
+addAction('actionRefreshAuthToken', actions.refreshAuthTokenHandler)
+addAction('actionResetUserPassword', actions.resetUserPasswordHandler)
+addAction('actionSeedTestAccount', actions.seedTestAccount)
+addAction('actionSendUserEmailVerify', actions.sendUserEmailVerifyHandler)
+addAction('actionSendUserPasswordReset', actions.sendUserPasswordResetHandler)
+addAction('actionSetupUser2fa', actions.setupUser2FaHandler)
+addAction('actionSyncCurrencyFx', actions.syncCurrencyFxHandler)
 addAction(
-  'action_send_user_password_reset',
-  actions.sendUserPasswordResetHandler,
-)
-addAction('action_setup_user_2fa', actions.setupUser2FAHandler)
-addAction('action_sync_currency_fx', actions.syncCurrencyFxHandler)
-addAction(
-  'action_sync_exchange_open_order_list',
+  'actionSyncExchangeOpenOrderList',
   actions.syncExchangeOpenOrderListHandler,
 )
+addAction('actionSyncExchangeTradeList', actions.syncExchangeTradeListHandler)
+addAction('actionUpdateDcaOrder', actions.updateDcaOrderHandler)
 addAction(
-  'action_sync_exchange_trade_list',
-  actions.syncExchangeTradeListHandler,
-)
-addAction('action_update_dca_order', actions.updateDcaOrderHandler)
-addAction(
-  'action_update_stripe_subscription',
+  'actionUpdateStripeSubscription',
   actions.updateStripeSubscriptionHandler,
 )
-addAction('action_update_user', actions.updateUserHandler)
+addAction('actionUpdateUser', actions.updateUserHandler)
+addAction('actionUpdateUserExchangeKeys', actions.updateUserExchangeKeysHandler)
 addAction(
-  'action_update_user_exchange_keys',
-  actions.updateUserExchangeKeysHandler,
-)
-addAction(
-  'action_validate_user_exchange_keys',
+  'actionValidateUserExchangeKeys',
   actions.validateUserExchangeKeysHandler,
 )
 addAction(
-  'action_validate_user_exchange_keys_live',
+  'actionValidateUserExchangeKeysLive',
   actions.validateUserExchangeKeysLiveHandler,
 )
-addAction(
-  'action_validate_user_password_reset',
-  actions.validateUserPasswordReset,
-)
-addAction('action_verify_user_email', actions.verifyUserEmailHandler)
+addAction('actionValidateUserPasswordReset', actions.validateUserPasswordReset)
+addAction('actionVerifyUserEmail', actions.verifyUserEmailHandler)
 
 const addRoute = bindHandler(fastify)
 addRoute('/webhook/stripe', webhooks.stripeHandler)

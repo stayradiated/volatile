@@ -44,7 +44,7 @@ const Navigation = (props: Props) => {
               <Link to="/exchanges">Exchanges</Link>
             </li>
             <li>
-              <Link to="/dca-orders">DCA Orders</Link>
+              <Link to="/dca-orders">Dca Orders</Link>
             </li>
             <li>
               <Link to="/trades">Trades</Link>

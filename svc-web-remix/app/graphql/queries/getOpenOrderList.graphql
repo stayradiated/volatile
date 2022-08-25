@@ -1,21 +1,21 @@
 query getOpenOrderList {
-  order(where: { closed_at: { _is_null: true } }) {
+  order(where: { closedAt: { _isNull: true } }) {
     uid
     exchange {
       uid
       name
     }
-    opened_at
+    openedAt
     value
     volume
     price
-    primary_currency
-    secondary_currency
+    primaryCurrency
+    secondaryCurrency
     type
 
-    dca_order_histories {
+    dcaOrderHistories {
       uid
-      dca_order_uid
+      dcaOrderUid
     }
   }
 }

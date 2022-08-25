@@ -1,11 +1,11 @@
 import test from 'ava'
-import { throwIfError } from '@stayradiated/error-boundary'
+import { throwIfErrorSync } from '@stayradiated/error-boundary'
 
-import { getDepositFees, GetDepositFeesResult } from './get-deposit-fees.js'
+import { getDepositFees } from './get-deposit-fees.js'
 
 test('should get deposit fees', async (t) => {
   const [resultOrError] = await getDepositFees()
-  const result = throwIfError<GetDepositFeesResult>(resultOrError)
+  const result = throwIfErrorSync(resultOrError)
 
   t.true(Array.isArray(result))
   const item = result[0]!

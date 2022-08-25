@@ -1,39 +1,43 @@
+import * as z from 'zod'
 import { MissingRequiredArgumentError } from '../../util/error.js'
 
-import { ActionHandlerFn } from '../../util/action-handler.js'
+import { ActionHandler } from '../../util/action-handler.js'
 import { validateUserExchangeKeys } from '../../model/user-exchange-keys/index.js'
 
-type Input = {
-  user_exchange_keys_uid: string
+const schema = {
+  input: {
+    userExchangeKeysUid: z.string(),
+  },
+  output: {
+    isValid: z.boolean(),
+    validationMessage: z.optional(z.string()),
+    userExchangeKeysUid: z.string(),
+  },
 }
-type Output = {
-  is_valid: boolean
-  validation_message: string | undefined
-  user_exchange_keys_uid: string
-}
-const validateUserExchangeKeysHandler: ActionHandlerFn<Input, Output> = async (
-  context,
-) => {
-  const { pool, input, session } = context
-  const { user_exchange_keys_uid: userExchangeKeysUid } = input
-  const { userUid } = session
-  if (!userUid) {
-    return new MissingRequiredArgumentError({
-      message: 'userUid is required',
-      context: { userUid },
-    })
-  }
+const validateUserExchangeKeysHandler: ActionHandler<typeof schema> = {
+  schema,
+  async handler(context) {
+    const { pool, input, session } = context
+    const { userExchangeKeysUid } = input
+    const { userUid } = session
+    if (!userUid) {
+      return new MissingRequiredArgumentError({
+        message: 'userUid is required',
+        context: { userUid },
+      })
+    }
 
-  const result = await validateUserExchangeKeys(pool, userExchangeKeysUid)
-  if (result instanceof Error) {
-    return result
-  }
+    const result = await validateUserExchangeKeys(pool, userExchangeKeysUid)
+    if (result instanceof Error) {
+      return result
+    }
 
-  return {
-    is_valid: result.isValid,
-    validation_message: result.validationMessage,
-    user_exchange_keys_uid: result.userExchangeKeysUid,
-  }
+    return {
+      isValid: result.isValid,
+      validationMessage: result.validationMessage,
+      userExchangeKeysUid: result.userExchangeKeysUid,
+    }
+  },
 }
 
 export { validateUserExchangeKeysHandler }

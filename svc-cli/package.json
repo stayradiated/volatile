@@ -13,28 +13,29 @@
   "scripts": {
     "test": "echo 'no files to test...'",
     "tidy": "xo --fix --ignore *.graphql.ts",
-    "build": "del-cli dist && tsc",
-    "build:ncc": "ncc build ./src/index.ts --out ./dist/ncc --external web-streams-polyfill/ponyfill/es2018 && mv ./dist/ncc/index.js ./dist/ncc/cli.js",
+    "build:tsc": "del-cli dist && tsc",
+    "package": "ncc build ./src/index.ts --out ./dist/ncc --external web-streams-polyfill/ponyfill/es2018 && mv ./dist/ncc/index.js ./dist/ncc/cli.js",
     "graphql": "graphql-codegen --config ./graphql.codegen.cjs"
   },
   "dependencies": {
-    "@stayradiated/error-boundary": "2.1.0",
-    "@volatile/kanye": "workspace:1.0.1",
+    "@stayradiated/error-boundary": "3.0.0",
+    "@volatile/kanye": "workspace:*",
     "date-fns": "2.29.2",
     "prompts": "2.4.2",
     "table": "6.8.0",
     "yargs": "17.5.1"
   },
   "devDependencies": {
+    "tsup": "6.2.2",
     "@graphql-codegen/cli": "2.11.6",
     "@graphql-codegen/introspection": "2.2.1",
     "@graphql-codegen/near-operation-file-preset": "2.4.1",
     "@graphql-codegen/typescript": "2.7.3",
     "@graphql-codegen/typescript-operations": "2.5.3",
-    "@types/node": "18.7.8",
+    "@types/node": "18.7.12",
     "@types/prompts": "2.0.14",
     "@types/yargs": "17.0.11",
-    "@vercel/ncc": "^0.34",
+    "@vercel/ncc": "0.34.0",
     "ava": "4.3.1",
     "del-cli": "5.0.0",
     "graphql": "16.6.0",
@@ -50,6 +51,7 @@
     "semicolon": false,
     "prettier": true,
     "rules": {
+      "n/file-extension-in-import": "off",
       "ava/assertion-arguments": "off",
       "ava/no-ignored-test-files": [
         "error",

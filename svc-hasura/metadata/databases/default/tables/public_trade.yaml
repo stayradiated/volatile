@@ -12,22 +12,22 @@ object_relationships:
     using:
       foreign_key_constraint_on: user_uid
 computed_fields:
-  - name: fee_fx
+  - name: feeFx
     definition:
       function:
         name: trade_fee_fx
         schema: public
-  - name: price_fx
+  - name: priceFx
     definition:
       function:
         name: trade_price_fx
         schema: public
-  - name: total_value_fx
+  - name: totalValueFx
     definition:
       function:
         name: trade_total_value_fx
         schema: public
-  - name: value_fx
+  - name: valueFx
     definition:
       function:
         name: trade_value_fx
@@ -53,10 +53,10 @@ select_permissions:
         - value
         - volume
       computed_fields:
-        - price_fx
-        - total_value_fx
-        - value_fx
-        - fee_fx
+        - priceFx
+        - totalValueFx
+        - valueFx
+        - feeFx
       filter:
         user_uid:
           _eq: X-Hasura-User-Id

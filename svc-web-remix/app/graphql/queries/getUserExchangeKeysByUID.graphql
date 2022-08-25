@@ -1,5 +1,5 @@
-query getUserExchangeKeysByUID($userExchangeKeysUID: uuid!) {
-  user_exchange_keys_by_pk(uid: $userExchangeKeysUID) {
+query getUserExchangeKeysByUid($userExchangeKeysUid: uuid!) {
+  userExchangeKeysByPk(uid: $userExchangeKeysUid) {
     uid
     description
   }

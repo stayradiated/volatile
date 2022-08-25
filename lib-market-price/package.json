@@ -31,24 +31,24 @@
   },
   "homepage": "https://github.com/stayradiated/volatile#readme",
   "dependencies": {
-    "@northscaler/better-error": "0.1.0-dev.10",
-    "@stayradiated/error-boundary": "2.1.0",
-    "@volatile/dasset-api": "workspace:1.0.1",
-    "@volatile/independent-reserve-api": "workspace:1.0.1",
-    "@volatile/kanye": "workspace:1.0.1",
-    "@volatile/kiwi-coin-api": "workspace:1.0.1",
-    "@volatile/open-exchange-rates-api": "workspace:1.0.0",
+    "@volatile/lib-error": "workspace:*",
+    "@stayradiated/error-boundary": "3.0.0",
+    "@volatile/dasset-api": "workspace:*",
+    "@volatile/independent-reserve-api": "workspace:*",
+    "@volatile/kanye": "workspace:*",
+    "@volatile/kiwi-coin-api": "workspace:*",
+    "@volatile/open-exchange-rates-api": "workspace:*",
     "date-fns": "2.29.2"
   },
   "devDependencies": {
     "@types/debug": "4.1.7",
-    "@types/node": "18.7.8",
+    "@types/node": "18.7.13",
     "@types/sinon": "10.0.13",
-    "ava": "4.3.1",
+    "ava": "4.3.3",
     "del-cli": "5.0.0",
     "sinon": "14.0.0",
     "typescript": "4.7.4",
-    "xo": "0.51.0"
+    "xo": "0.52.1"
   },
   "__comment": "The following configs are managed by `npx @stayradiated/jsconfig`",
   "ava": {

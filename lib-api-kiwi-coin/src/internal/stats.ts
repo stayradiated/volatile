@@ -147,4 +147,11 @@ const fetchStats = async (): Promise<Stats | Error> => {
   return parseStats(result)
 }
 
-export { fetchStats, parseStats, Stats, DealDirection, Deal, Price }
+export {
+  fetchStats,
+  parseStats,
+  type Stats,
+  DealDirection,
+  type Deal,
+  type Price,
+}

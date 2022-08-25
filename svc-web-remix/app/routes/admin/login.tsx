@@ -29,7 +29,7 @@ export const action: ActionFunction = async ({ request }) => {
   try {
     const result = await sdk.createAdminAuthToken(
       {
-        userUID: session.userUID,
+        userUid: session.userUid,
       },
       {
         'x-hasura-admin-secret': password,
@@ -37,7 +37,7 @@ export const action: ActionFunction = async ({ request }) => {
       },
     )
 
-    const adminAuthToken = result.action_create_admin_auth_token?.auth_token
+    const adminAuthToken = result.actionCreateAdminAuthToken?.authToken
 
     const sessionCookie = await setSessionData({
       request,

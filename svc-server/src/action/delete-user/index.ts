@@ -1,32 +1,36 @@
+import * as z from 'zod'
 import { MissingRequiredArgumentError } from '../../util/error.js'
 
-import type { ActionHandlerFn } from '../../util/action-handler.js'
+import type { ActionHandler } from '../../util/action-handler.js'
 import { deleteUser } from '../../model/user/index.js'
 
-type Input = Record<string, never>
-
-type Output = {
-  user_uid: string
+const schema = {
+  input: {},
+  output: {
+    userUid: z.string(),
+  },
 }
+const deleteUserHandler: ActionHandler<typeof schema> = {
+  schema,
+  async handler(context) {
+    const { pool, session } = context
+    const { userUid } = session
+    if (!userUid) {
+      return new MissingRequiredArgumentError({
+        message: 'userUid is required',
+        context: { userUid },
+      })
+    }
 
-const deleteUserHandler: ActionHandlerFn<Input, Output> = async (context) => {
-  const { pool, session } = context
-  const { userUid } = session
-  if (!userUid) {
-    return new MissingRequiredArgumentError({
-      message: 'userUid is required',
-      context: { userUid },
-    })
-  }
+    const error = await deleteUser(pool, { userUid })
+    if (error instanceof Error) {
+      return error
+    }
 
-  const error = await deleteUser(pool, { userUid })
-  if (error instanceof Error) {
-    return error
-  }
-
-  return {
-    user_uid: userUid,
-  }
+    return {
+      userUid,
+    }
+  },
 }
 
 export { deleteUserHandler }
