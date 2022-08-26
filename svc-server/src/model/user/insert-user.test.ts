@@ -1,5 +1,5 @@
 import { randomUUID } from 'node:crypto'
-import { throwIfError } from '@stayradiated/error-boundary'
+import { assertOk } from '@stayradiated/error-boundary'
 import * as db from 'zapatos/db'
 import type * as s from 'zapatos/schema'
 
@@ -7,7 +7,6 @@ import { test } from '../../test-util/ava.js'
 import * as hash from '../../util/hash.js'
 import { keyring } from '../../util/keyring.js'
 import { insertUser } from './insert-user.js'
-import type { User } from './types.js'
 
 test('insertUser: should create a user', async (t) => {
   const { pool } = t.context
@@ -17,12 +16,11 @@ test('insertUser: should create a user', async (t) => {
 
   const password = 'hunter2'
 
-  const userResult = await throwIfError<User>(
-    insertUser(pool, {
-      email,
-      password,
-    }),
-  )
+  const userResult = await insertUser(pool, {
+    email,
+    password,
+  })
+  assertOk(userResult)
 
   const rows = await db.sql<s.user.SQL, s.user.Selectable[]>`
     SELECT * FROM ${'user'}
@@ -55,8 +53,8 @@ test('insertUser: should enforce unique emails', async (t) => {
 
   const email = `${randomUUID()}@telescope`
 
-  await throwIfError<User>(
-    insertUser(pool, {
+  assertOk(
+    await insertUser(pool, {
       email,
       password: 'password',
     }),

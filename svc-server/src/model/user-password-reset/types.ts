@@ -9,4 +9,4 @@ type UserPasswordReset = {
 
 type UserPasswordResetMasked = Except<UserPasswordReset, 'secret'>
 
-export { UserPasswordReset, UserPasswordResetMasked }
+export type { UserPasswordReset, UserPasswordResetMasked }

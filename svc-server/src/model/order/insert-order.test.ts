@@ -1,11 +1,11 @@
 import * as db from 'zapatos/db'
-import { throwIfError } from '@stayradiated/error-boundary'
+import { assertOk } from '@stayradiated/error-boundary'
 import { parseISO } from 'date-fns'
 
 import { test } from '../../test-util/ava.js'
 
-import { insertOrder, InsertOrderOptions } from './insert-order.js'
-import type { Order } from './types.js'
+import type { InsertOrderOptions } from './insert-order.js'
+import { insertOrder } from './insert-order.js'
 
 test('insertOrder', async (t) => {
   const { pool, make } = t.context
@@ -26,7 +26,8 @@ test('insertOrder', async (t) => {
     closedAt: undefined,
   }
 
-  const result = await throwIfError<Order>(insertOrder(pool, input))
+  const result = await insertOrder(pool, input)
+  assertOk(result)
 
   t.like(result, input)
   t.is('string', typeof result.uid)

@@ -24,4 +24,4 @@ const deleteStripePrice = async (
   return undefined
 }
 
-export { deleteStripePrice, DeleteStripePriceOptions }
+export { deleteStripePrice, type DeleteStripePriceOptions }

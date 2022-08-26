@@ -1,10 +1,10 @@
 import * as db from 'zapatos/db'
-import { throwIfError } from '@stayradiated/error-boundary'
+import { assertOk } from '@stayradiated/error-boundary'
 
 import { test } from '../../test-util/ava.js'
 
-import { upsertTrade, UpsertTradeOptions } from './upsert-trade.js'
-import type { Trade } from './types.js'
+import type { UpsertTradeOptions } from './upsert-trade.js'
+import { upsertTrade } from './upsert-trade.js'
 
 test('upsertTrade', async (t) => {
   const { pool, make } = t.context
@@ -28,7 +28,8 @@ test('upsertTrade', async (t) => {
     totalValue: 88_281,
   }
 
-  const output = await throwIfError<Trade>(upsertTrade(pool, input))
+  const output = await upsertTrade(pool, input)
+  assertOk(output)
 
   t.like(output, input)
   t.is('string', typeof output.uid)

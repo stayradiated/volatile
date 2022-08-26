@@ -1,4 +1,4 @@
-import { throwIfError } from '@stayradiated/error-boundary'
+import { assertOk } from '@stayradiated/error-boundary'
 import { subDays } from 'date-fns'
 
 import { test } from '../../test-util/ava.js'
@@ -7,7 +7,6 @@ import { insertTrade } from '../trade/index.js'
 import { getDcaOrderTargetValue } from './get-dca-order-target-value.js'
 import { insertDcaOrder } from './insert-dca-order.js'
 import { selectDcaOrder } from './select-dca-order.js'
-import type { DcaOrder } from './types.js'
 
 test('should calculate without trades', async (t) => {
   const { pool, make } = t.context
@@ -24,31 +23,31 @@ test('should calculate without trades', async (t) => {
   const currentTime = new Date()
   const startAt = subDays(currentTime, 1)
 
-  const dcaOrder = await throwIfError<DcaOrder>(
-    insertDcaOrder(pool, {
-      userUid,
-      exchangeUid,
-      userExchangeKeysUid,
-      marketUid,
-      primaryCurrency: primaryCurrencySymbol,
-      secondaryCurrency: secondaryCurrencySymbol,
-      startAt,
-      marketOffset: 0,
-      dailyAverage,
-      intervalMs: 1000 * 60 * 5,
-      minPrice: undefined,
-      maxPrice: undefined,
-      minValue: undefined,
-      maxValue: undefined,
-      enabledAt: undefined,
-      nextRunAt: undefined,
-      lastRunAt: undefined,
-    }),
-  )
+  const dcaOrder = await insertDcaOrder(pool, {
+    userUid,
+    exchangeUid,
+    userExchangeKeysUid,
+    marketUid,
+    primaryCurrency: primaryCurrencySymbol,
+    secondaryCurrency: secondaryCurrencySymbol,
+    startAt,
+    marketOffset: 0,
+    dailyAverage,
+    intervalMs: 1000 * 60 * 5,
+    minPrice: undefined,
+    maxPrice: undefined,
+    minValue: undefined,
+    maxValue: undefined,
+    enabledAt: undefined,
+    nextRunAt: undefined,
+    lastRunAt: undefined,
+  })
 
-  const sum = await throwIfError<number>(
-    getDcaOrderTargetValue(pool, dcaOrder, currentTime),
-  )
+  assertOk(dcaOrder)
+
+  const sum = await getDcaOrderTargetValue(pool, dcaOrder, currentTime)
+
+  assertOk(sum)
   t.is(dailyAverage, sum)
 })
 
@@ -68,30 +67,30 @@ test('should calculate with multiple trades', async (t) => {
   const currentTime = new Date()
   const startAt = subDays(currentTime, 1)
 
-  const dcaOrder = await throwIfError<DcaOrder>(
-    insertDcaOrder(pool, {
-      userUid,
-      exchangeUid,
-      userExchangeKeysUid,
-      marketUid,
-      primaryCurrency: primaryCurrencySymbol,
-      secondaryCurrency: secondaryCurrencySymbol,
-      startAt,
-      marketOffset: 0,
-      dailyAverage,
-      intervalMs: 1000 * 60 * 5,
-      minPrice: undefined,
-      maxPrice: undefined,
-      minValue: undefined,
-      maxValue: undefined,
-      enabledAt: undefined,
-      nextRunAt: undefined,
-      lastRunAt: undefined,
-    }),
-  )
+  const dcaOrder = await insertDcaOrder(pool, {
+    userUid,
+    exchangeUid,
+    userExchangeKeysUid,
+    marketUid,
+    primaryCurrency: primaryCurrencySymbol,
+    secondaryCurrency: secondaryCurrencySymbol,
+    startAt,
+    marketOffset: 0,
+    dailyAverage,
+    intervalMs: 1000 * 60 * 5,
+    minPrice: undefined,
+    maxPrice: undefined,
+    minValue: undefined,
+    maxValue: undefined,
+    enabledAt: undefined,
+    nextRunAt: undefined,
+    lastRunAt: undefined,
+  })
 
-  await throwIfError(
-    insertTrade(pool, {
+  assertOk(dcaOrder)
+
+  assertOk(
+    await insertTrade(pool, {
       userUid,
       exchangeUid,
       orderUid: undefined,
@@ -108,8 +107,8 @@ test('should calculate with multiple trades', async (t) => {
     }),
   )
 
-  await throwIfError(
-    insertTrade(pool, {
+  assertOk(
+    await insertTrade(pool, {
       userUid,
       exchangeUid,
       orderUid: undefined,
@@ -126,9 +125,9 @@ test('should calculate with multiple trades', async (t) => {
     }),
   )
 
-  const sum = await throwIfError<number>(
-    getDcaOrderTargetValue(pool, dcaOrder, currentTime),
-  )
+  const sum = await getDcaOrderTargetValue(pool, dcaOrder, currentTime)
+
+  assertOk(sum)
   t.is(dailyAverage - tradedValue, sum)
 })
 
@@ -143,13 +142,13 @@ test('should ignore minValue', async (t) => {
     startAt,
     dailyAverage,
   })
-  const dcaOrder = await throwIfError<DcaOrder>(
-    selectDcaOrder(pool, dcaOrderUid),
-  )
+  const dcaOrder = await selectDcaOrder(pool, dcaOrderUid)
 
-  const sum = await throwIfError<number>(
-    getDcaOrderTargetValue(pool, dcaOrder, currentTime),
-  )
+  assertOk(dcaOrder)
+
+  const sum = await getDcaOrderTargetValue(pool, dcaOrder, currentTime)
+
+  assertOk(sum)
   t.is(dailyAverage, sum)
 })
 
@@ -168,30 +167,30 @@ test('should cap target at maxValue', async (t) => {
   const currentTime = new Date()
   const startAt = subDays(currentTime, 1)
 
-  const dcaOrder = await throwIfError<DcaOrder>(
-    insertDcaOrder(pool, {
-      userUid,
-      exchangeUid,
-      userExchangeKeysUid,
-      marketUid,
-      primaryCurrency: primaryCurrencySymbol,
-      secondaryCurrency: secondaryCurrencySymbol,
-      startAt,
-      marketOffset: 0,
-      dailyAverage,
-      intervalMs: 1000 * 60 * 5,
-      minPrice: undefined,
-      maxPrice: undefined,
-      minValue: undefined,
-      maxValue: undefined,
-      enabledAt: undefined,
-      nextRunAt: undefined,
-      lastRunAt: undefined,
-    }),
-  )
+  const dcaOrder = await insertDcaOrder(pool, {
+    userUid,
+    exchangeUid,
+    userExchangeKeysUid,
+    marketUid,
+    primaryCurrency: primaryCurrencySymbol,
+    secondaryCurrency: secondaryCurrencySymbol,
+    startAt,
+    marketOffset: 0,
+    dailyAverage,
+    intervalMs: 1000 * 60 * 5,
+    minPrice: undefined,
+    maxPrice: undefined,
+    minValue: undefined,
+    maxValue: undefined,
+    enabledAt: undefined,
+    nextRunAt: undefined,
+    lastRunAt: undefined,
+  })
 
-  const sum = await throwIfError<number>(
-    getDcaOrderTargetValue(pool, dcaOrder, currentTime),
-  )
+  assertOk(dcaOrder)
+
+  const sum = await getDcaOrderTargetValue(pool, dcaOrder, currentTime)
+
+  assertOk(sum)
   t.is(dailyAverage, sum)
 })

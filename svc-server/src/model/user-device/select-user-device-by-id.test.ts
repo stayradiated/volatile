@@ -1,15 +1,11 @@
 import { randomUUID } from 'node:crypto'
-import { throwIfError, throwIfValue } from '@stayradiated/error-boundary'
+import { assertOk, assertError } from '@stayradiated/error-boundary'
 
 import { test } from '../../test-util/ava.js'
 
 import { selectUserDeviceByID } from './select-user-device-by-id.js'
-import {
-  upsertUserDevice,
-  UpsertUserDevicesOptions,
-} from './upsert-user-device.js'
-
-import type { UserDeviceMasked } from './types.js'
+import type { UpsertUserDevicesOptions } from './upsert-user-device.js'
+import { upsertUserDevice } from './upsert-user-device.js'
 
 test('can find a device by its device ID', async (t) => {
   const { pool, make } = t.context
@@ -25,11 +21,10 @@ test('can find a device by its device ID', async (t) => {
     deviceId,
   }
 
-  await throwIfError<string>(upsertUserDevice(pool, input))
+  assertOk(await upsertUserDevice(pool, input))
 
-  const userDevice = await throwIfError<UserDeviceMasked>(
-    selectUserDeviceByID(pool, deviceId),
-  )
+  const userDevice = await selectUserDeviceByID(pool, deviceId)
+  assertOk(userDevice)
 
   t.is(input.accessedAt.valueOf(), userDevice.accessedAt.valueOf())
   t.is(input.name, userDevice.name)
@@ -39,7 +34,8 @@ test('can find a device by its device ID', async (t) => {
 test('should handle missing device', async (t) => {
   const { pool } = t.context
   const deviceId = `${randomUUID()}-weddingherb`
-  const error = await throwIfValue(selectUserDeviceByID(pool, deviceId))
+  const error = await selectUserDeviceByID(pool, deviceId)
+  assertError(error)
 
   t.is(error.message, `E_DB: Could not find user device.`)
 })

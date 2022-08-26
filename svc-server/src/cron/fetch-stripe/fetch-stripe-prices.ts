@@ -1,6 +1,6 @@
 import { errorBoundary, errorListBoundary } from '@stayradiated/error-boundary'
 import { fromUnixTime } from 'date-fns'
-import Stripe from 'stripe'
+import type Stripe from 'stripe'
 
 import type { Pool } from '../../types.js'
 

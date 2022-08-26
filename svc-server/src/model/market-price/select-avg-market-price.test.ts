@@ -1,5 +1,5 @@
 import { randomUUID } from 'node:crypto'
-import { throwIfError } from '@stayradiated/error-boundary'
+import { assertOk } from '@stayradiated/error-boundary'
 import { subMinutes } from 'date-fns'
 
 import { test } from '../../test-util/ava.js'
@@ -57,14 +57,13 @@ test('selectAvgMarketPrice: should return avg price', async (t) => {
   await makeMarketPrice(12, 200)
   await makeMarketPrice(13, 300)
 
-  const avgPrice = await throwIfError<number>(
-    selectAvgMarketPrice(pool, {
-      marketUid,
-      assetSymbol,
-      currency,
-      minutes: 10,
-    }),
-  )
+  const avgPrice = await selectAvgMarketPrice(pool, {
+    marketUid,
+    assetSymbol,
+    currency,
+    minutes: 10,
+  })
+  assertOk(avgPrice)
 
   t.is(avgPrice, 15)
 })

@@ -1,5 +1,5 @@
 import { errorBoundary } from '@stayradiated/error-boundary'
-import * as s from 'zapatos/schema'
+import type * as s from 'zapatos/schema'
 import * as db from 'zapatos/db'
 import type { Pool } from '../../types.js'
 

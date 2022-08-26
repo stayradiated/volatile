@@ -1,8 +1,10 @@
-import anyTest, { TestFn } from 'ava'
+import type { TestFn } from 'ava'
+import anyTest from 'ava'
 
 import { pool } from '../pool.js'
 import type { Pool } from '../types.js'
-import { createMakeInstance, MakeInstance } from './make.js'
+import type { MakeInstance } from './make.js'
+import { createMakeInstance } from './make.js'
 
 type DefaultContext = {
   pool: Pool

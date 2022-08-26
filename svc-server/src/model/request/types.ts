@@ -12,4 +12,4 @@ type Request = {
   responseBodyAt: Date | undefined
 }
 
-export { Request }
+export type { Request }

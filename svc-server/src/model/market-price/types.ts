@@ -9,4 +9,4 @@ type MarketPrice = {
   currency: string
 }
 
-export { MarketPrice }
+export type { MarketPrice }

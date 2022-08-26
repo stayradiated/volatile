@@ -3,7 +3,7 @@ import * as z from 'zod'
 
 import { MissingRequiredArgumentError } from '../../util/error.js'
 
-import { ActionHandler } from '../../util/action-handler.js'
+import type { ActionHandler } from '../../util/action-handler.js'
 import { insertDcaOrder } from '../../model/dca-order/index.js'
 import { getUserExchangeKeys } from '../../model/user-exchange-keys/index.js'
 

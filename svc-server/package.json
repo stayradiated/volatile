@@ -38,11 +38,11 @@
     "ts-node": "10.9.1",
     "ts-node-dev": "2.0.0",
     "type-fest": "2.19.0",
-    "typescript": "4.7.4",
-    "xo": "0.52.1"
+    "typescript": "4.8.2",
+    "xo": "0.52.2"
   },
   "dependencies": {
-    "@stayradiated/error-boundary": "3.0.0",
+    "@stayradiated/error-boundary": "4.0.0",
     "@volatile/dasset-api": "workspace:1.0.1",
     "@volatile/independent-reserve-api": "workspace:1.0.1",
     "@volatile/kanye": "workspace:1.0.1",
@@ -55,7 +55,7 @@
     "date-fns": "2.29.2",
     "debug": "4.3.4",
     "dotenv": "16.0.1",
-    "fastify": "4.5.2",
+    "fastify": "4.5.3",
     "graphile-worker": "0.13.0",
     "njwt": "1.2.0",
     "nodemailer": "6.7.8",
@@ -75,7 +75,8 @@
     },
     "nodeArguments": [
       "--loader=ts-node/esm"
-    ]
+    ],
+    "files": ["./src/**/*.test.ts"]
   },
   "xo": {
     "space": true,
@@ -84,18 +85,7 @@
     "rules": {
       "@typescript-eslint/naming-convention": "off",
       "n/file-extension-in-import": "off",
-      "ava/assertion-arguments": "off",
-      "ava/no-ignored-test-files": [
-        "error",
-        {
-          "files": [
-            "**/src/**/*.test.ts"
-          ],
-          "extensions": [
-            "ts"
-          ]
-        }
-      ]
+      "ava/assertion-arguments": "off"
     }
   },
   "prettier": {

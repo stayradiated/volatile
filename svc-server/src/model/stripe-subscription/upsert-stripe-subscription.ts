@@ -60,4 +60,4 @@ const upsertStripeSubscription = async (
   }
 }
 
-export { upsertStripeSubscription, UpsertStripeSubscriptionOptions }
+export { upsertStripeSubscription, type UpsertStripeSubscriptionOptions }

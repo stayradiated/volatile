@@ -47,4 +47,4 @@ const upsertUserEmailVerify = async (
   }
 }
 
-export { upsertUserEmailVerify, UpsertUserEmailVerifyOptions }
+export { upsertUserEmailVerify, type UpsertUserEmailVerifyOptions }

@@ -1,4 +1,4 @@
-import { throwIfError, throwIfValue } from '@stayradiated/error-boundary'
+import { assertOk, assertError } from '@stayradiated/error-boundary'
 
 import { test } from '../../test-util/ava.js'
 
@@ -10,11 +10,12 @@ test('should delete a user', async (t) => {
 
   const userUid = await make.user()
 
-  const deletedUseruidS = await throwIfError<string[]>(
-    deleteUser(pool, { userUid }),
-  )
-  t.deepEqual(deletedUseruidS, [userUid])
+  const deletedUserUidList = await deleteUser(pool, { userUid })
+  assertOk(deletedUserUidList)
 
-  const user = await throwIfValue(selectUser(pool, userUid))
+  t.deepEqual(deletedUserUidList, [userUid])
+
+  const user = await selectUser(pool, userUid)
+  assertError(user)
   t.is(user.message, 'E_DB: Could not find user.')
 })

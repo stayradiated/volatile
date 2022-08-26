@@ -61,4 +61,4 @@ const upsertStripePrice = async (
   }
 }
 
-export { upsertStripePrice, UpsertStripePriceOptions }
+export { upsertStripePrice, type UpsertStripePriceOptions }

@@ -50,4 +50,4 @@ const insertTrade = async (
   }
 }
 
-export { insertTrade, InsertTradeOptions }
+export { insertTrade, type InsertTradeOptions }

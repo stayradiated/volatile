@@ -11,4 +11,4 @@ type UserDevice = {
 
 type UserDeviceMasked = Except<UserDevice, 'deviceId'>
 
-export { UserDevice, UserDeviceMasked }
+export type { UserDevice, UserDeviceMasked }

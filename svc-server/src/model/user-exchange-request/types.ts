@@ -15,4 +15,4 @@ type UserExchangeRequest = {
   responseBodyAt: Date | undefined
 }
 
-export { UserExchangeRequest }
+export type { UserExchangeRequest }

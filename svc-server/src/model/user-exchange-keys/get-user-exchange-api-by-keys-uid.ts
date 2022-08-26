@@ -1,9 +1,7 @@
 import { getExchange } from '../../model/exchange/index.js'
 
-import {
-  UserExchangeApi,
-  getUserExchangeApi,
-} from '../../exchange-api/index.js'
+import type { UserExchangeApi } from '../../exchange-api/index.js'
+import { getUserExchangeApi } from '../../exchange-api/index.js'
 
 import type { Pool } from '../../types.js'
 import { getUserExchangeKeys } from './get-user-exchange-keys.js'

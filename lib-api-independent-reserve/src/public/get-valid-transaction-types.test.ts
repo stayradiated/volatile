@@ -1,11 +1,11 @@
 import test from 'ava'
-import { throwIfErrorSync } from '@stayradiated/error-boundary'
+import { assertOk } from '@stayradiated/error-boundary'
 
 import { getValidTransactionTypes } from './get-valid-transaction-types.js'
 
 test('should get valid transaction types', async (t) => {
-  const [resultOrError] = await getValidTransactionTypes()
-  const result = throwIfErrorSync(resultOrError)
+  const [result] = await getValidTransactionTypes()
+  assertOk(result)
 
   t.deepEqual(result, [
     'AccountFee',

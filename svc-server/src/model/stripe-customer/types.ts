@@ -3,4 +3,4 @@ type StripeCustomer = {
   customerID: string
 }
 
-export { StripeCustomer }
+export type { StripeCustomer }

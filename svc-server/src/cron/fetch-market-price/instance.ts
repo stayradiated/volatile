@@ -1,16 +1,16 @@
-import { Kanye } from '@volatile/kanye'
+import type { Kanye } from '@volatile/kanye'
 
-import { Market } from '../../model/market/index.js'
+import type { Market } from '../../model/market/index.js'
 
 import { IllegalArgumentError } from '../../util/error.js'
 
-import {
-  marketPriceConfigList,
+import type {
   MarketPriceConfig,
   Currency,
   CurrencyPair,
   AssetSymbol,
 } from './config.js'
+import { marketPriceConfigList } from './config.js'
 
 import { resolveMarketPriceMap } from './resolve-market-price.js'
 import { resolveCurrencyMap } from './resolve-currency.js'

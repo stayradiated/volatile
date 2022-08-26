@@ -2,10 +2,8 @@ import { errorListBoundary } from '@stayradiated/error-boundary'
 
 import { IllegalStateError } from '../../util/error.js'
 import { log } from '../../util/debug.js'
-import {
-  DcaOrder,
-  getDcaOrderTargetValue,
-} from '../../model/dca-order/index.js'
+import type { DcaOrder } from '../../model/dca-order/index.js'
+import { getDcaOrderTargetValue } from '../../model/dca-order/index.js'
 import {
   selectAvgMarketPrice,
   selectLatestMarketPrice,

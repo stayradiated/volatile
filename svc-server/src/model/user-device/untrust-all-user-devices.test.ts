@@ -1,4 +1,4 @@
-import { throwIfError } from '@stayradiated/error-boundary'
+import { assertOk } from '@stayradiated/error-boundary'
 
 import { test } from '../../test-util/ava.js'
 
@@ -12,11 +12,10 @@ test('should untrust all user devices', async (t) => {
   const untrustedDeviceUid = await make.userDevice({ trusted: false })
   const trustedDeviceUid = await make.userDevice({ trusted: true })
 
-  const deviceuids = await throwIfError<string[]>(
-    untrustAllUserDevices(pool, { userUid }),
-  )
+  const deviceUids = await untrustAllUserDevices(pool, { userUid })
+  assertOk(deviceUids)
 
-  t.true(deviceuids.includes(trustedDeviceUid))
-  t.false(deviceuids.includes(untrustedDeviceUid))
-  t.is(deviceuids.length, 1)
+  t.true(deviceUids.includes(trustedDeviceUid))
+  t.false(deviceUids.includes(untrustedDeviceUid))
+  t.is(deviceUids.length, 1)
 })

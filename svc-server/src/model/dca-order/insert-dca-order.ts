@@ -49,4 +49,4 @@ const insertDcaOrder = async (
   }
 }
 
-export { insertDcaOrder, InsertDcaOrderOptions }
+export { insertDcaOrder, type InsertDcaOrderOptions }

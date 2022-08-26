@@ -1,9 +1,10 @@
 import { createCachedFetchFn, currencySources } from '@volatile/market-price'
-import { Kanye } from '@volatile/kanye'
+import type { Kanye } from '@volatile/kanye'
 
 import { config } from '../../env.js'
 
-import { CurrencyPair, usdNzd, usdAud, audNzd } from './config.js'
+import type { CurrencyPair } from './config.js'
+import { usdNzd, usdAud, audNzd } from './config.js'
 
 const OPEN_EXCHANGE_RATES_OPTIONS = {
   config: {

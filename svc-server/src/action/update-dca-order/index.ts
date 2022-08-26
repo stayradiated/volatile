@@ -1,5 +1,5 @@
 import * as z from 'zod'
-import { ActionHandler } from '../../util/action-handler.js'
+import type { ActionHandler } from '../../util/action-handler.js'
 import {
   updateDcaOrder,
   assertUserForDcaOrder,

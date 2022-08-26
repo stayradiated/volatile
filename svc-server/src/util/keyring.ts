@@ -1,5 +1,6 @@
 import * as process from 'node:process'
-import { createKeyring, Keyring } from '@volatile/keyring'
+import type { Keyring } from '@volatile/keyring'
+import { createKeyring } from '@volatile/keyring'
 
 import { config } from '../env.js'
 

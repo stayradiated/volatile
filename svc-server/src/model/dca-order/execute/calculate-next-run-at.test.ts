@@ -10,8 +10,8 @@ tk.freeze(now)
 type MacroInput = { startMinAgo: number; intervalMin: number }
 type MacroExpected = { nextRunAtInMin: number }
 
-const macro = test.macro({
-  exec(t, input: MacroInput, expected: MacroExpected) {
+const macro = test.macro<[MacroInput, MacroExpected]>({
+  exec(t, input, expected) {
     const { startMinAgo, intervalMin } = input
     const { nextRunAtInMin } = expected
 

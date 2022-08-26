@@ -1,10 +1,9 @@
 import { subHours } from 'date-fns'
-import { throwIfError } from '@stayradiated/error-boundary'
+import { assertOk } from '@stayradiated/error-boundary'
 
 import { test } from '../../test-util/ava.js'
 
 import { selectOpenOrdersForDca } from './select-open-orders-for-dca.js'
-import type { Order } from './types.js'
 
 test('selectOpenOrdersForDca: should return all open orders', async (t) => {
   const { pool, make } = t.context
@@ -28,9 +27,8 @@ test('selectOpenOrdersForDca: should return all open orders', async (t) => {
   })
   await make.dcaOrderHistory()
 
-  const rows = await throwIfError<Order[]>(
-    selectOpenOrdersForDca(pool, { dcaOrderUid }),
-  )
+  const rows = await selectOpenOrdersForDca(pool, { dcaOrderUid })
+  assertOk(rows)
 
   t.deepEqual(
     [orderA, orderB, orderC],
@@ -48,9 +46,8 @@ test('selectOpenOrdersForDca: should not return closed orders', async (t) => {
   })
   await make.dcaOrderHistory()
 
-  const rows = await throwIfError<Order[]>(
-    selectOpenOrdersForDca(pool, { dcaOrderUid }),
-  )
+  const rows = await selectOpenOrdersForDca(pool, { dcaOrderUid })
+  assertOk(rows)
 
   t.is(0, rows.length)
 })

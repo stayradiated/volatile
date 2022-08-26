@@ -3,4 +3,4 @@ type Currency = {
   name: string
 }
 
-export { Currency }
+export type { Currency }

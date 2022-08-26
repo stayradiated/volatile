@@ -1,9 +1,6 @@
 import test from 'ava'
 import nock from 'nock'
-import {
-  throwIfErrorSync,
-  throwIfValueSync,
-} from '@stayradiated/error-boundary'
+import { assertOk, assertError } from '@stayradiated/error-boundary'
 
 import { getBalance } from './get-balance.js'
 
@@ -38,7 +35,7 @@ test('should return true', async (t) => {
     )
 
   const [balance] = await getBalance({ config })
-  throwIfErrorSync(balance)
+  assertOk(balance)
 
   t.deepEqual(balance, {
     nzd: {
@@ -64,10 +61,10 @@ test('should detect invalid response', async (t) => {
     .reply(200, JSON.stringify({}))
 
   const [balance] = await getBalance({ config })
-  const error = throwIfValueSync(balance)
+  assertError(balance)
 
   t.is(
-    stripPath(error.message),
+    stripPath(balance.message),
     `Warning: root.nzd_available value is undefined. at PATH
 Warning: root.nzd_available Could not convert undefined to float. at PATH
 Warning: root.nzd_reserved value is undefined. at PATH

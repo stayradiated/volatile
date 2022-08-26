@@ -46,7 +46,9 @@ const enableUser2FaHandler: ActionHandler<typeof schema> = {
 
     const { name, secret, token } = input
 
-    const isValid = errorBoundarySync(() => authenticator.verify({ token, secret }))
+    const isValid = errorBoundarySync(() =>
+      authenticator.verify({ token, secret }),
+    )
     if (isValid instanceof Error) {
       return isValid
     }

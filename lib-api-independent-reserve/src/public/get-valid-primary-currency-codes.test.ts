@@ -1,11 +1,11 @@
 import test from 'ava'
-import { throwIfErrorSync } from '@stayradiated/error-boundary'
+import { assertOk } from '@stayradiated/error-boundary'
 
 import { getValidPrimaryCurrencyCodes } from './get-valid-primary-currency-codes.js'
 
 test('should get valid primary currency codes', async (t) => {
-  const [resultOrError] = await getValidPrimaryCurrencyCodes()
-  const result = throwIfErrorSync(resultOrError)
+  const [result] = await getValidPrimaryCurrencyCodes()
+  assertOk(result)
 
   const sortedResults = [...result].sort((a, b) => a.localeCompare(b))
   t.deepEqual(

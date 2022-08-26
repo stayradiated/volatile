@@ -19,4 +19,4 @@ type DcaOrder = {
   lastRunAt: Date | undefined
 }
 
-export { DcaOrder }
+export type { DcaOrder }

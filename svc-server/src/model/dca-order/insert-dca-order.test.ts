@@ -1,9 +1,9 @@
-import { throwIfError } from '@stayradiated/error-boundary'
+import { assertOk } from '@stayradiated/error-boundary'
 
 import { test } from '../../test-util/ava.js'
 
-import { insertDcaOrder, InsertDcaOrderOptions } from './insert-dca-order.js'
-import type { DcaOrder } from './types.js'
+import type { InsertDcaOrderOptions } from './insert-dca-order.js'
+import { insertDcaOrder } from './insert-dca-order.js'
 
 test('insertDcaOrder', async (t) => {
   const { pool, make } = t.context
@@ -34,7 +34,8 @@ test('insertDcaOrder', async (t) => {
     lastRunAt: undefined,
   }
 
-  const dcaOrder = await throwIfError<DcaOrder>(insertDcaOrder(pool, input))
+  const dcaOrder = await insertDcaOrder(pool, input)
+  assertOk(dcaOrder)
 
   t.like(dcaOrder, input)
   t.is(typeof dcaOrder.uid, 'string')
@@ -69,7 +70,8 @@ test('insertDcaOrder (no min/max)', async (t) => {
     lastRunAt: undefined,
   }
 
-  const dcaOrder = await throwIfError<DcaOrder>(insertDcaOrder(pool, input))
+  const dcaOrder = await insertDcaOrder(pool, input)
+  assertOk(dcaOrder)
 
   t.like(dcaOrder, input)
   t.is(typeof dcaOrder.uid, 'string')

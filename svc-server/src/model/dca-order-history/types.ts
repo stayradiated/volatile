@@ -15,4 +15,4 @@ type DcaOrderHistory = {
   description: string
 }
 
-export { DcaOrderHistory }
+export type { DcaOrderHistory }

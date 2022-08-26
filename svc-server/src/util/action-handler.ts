@@ -6,6 +6,7 @@ import type {
   RawRequestDefaultExpression,
   RawReplyDefaultExpression,
 } from 'fastify/types/utils'
+import type { RouteGenericInterface } from 'fastify/types/route'
 import * as z from 'zod'
 
 import { IllegalArgumentError } from '../util/error.js'
@@ -14,12 +15,13 @@ import { config } from '../env.js'
 import { pool } from '../pool.js'
 import type { Pool } from '../types.js'
 
-type RouteHandler<RouteGeneric> = RouteHandlerMethod<
-  RawServerDefault,
-  RawRequestDefaultExpression,
-  RawReplyDefaultExpression,
-  RouteGeneric
->
+type RouteHandler<RouteGeneric extends RouteGenericInterface> =
+  RouteHandlerMethod<
+    RawServerDefault,
+    RawRequestDefaultExpression,
+    RawReplyDefaultExpression,
+    RouteGeneric
+  >
 
 type ActionHandlerRequest<Input> = {
   Body: {
@@ -185,7 +187,7 @@ const createActionHandler =
   }
 
 const bindActionHandler = (fastify: FastifyInstance) => {
-  const actions: Map<string, ActionHandler<any>> = new Map()
+  const actions = new Map<string, ActionHandler<any>>()
 
   fastify.post('/action', createActionHandler(actions))
 

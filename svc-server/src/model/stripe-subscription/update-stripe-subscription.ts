@@ -34,4 +34,4 @@ const updateStripeSubscription = async (
   }
 }
 
-export { updateStripeSubscription, UpdateStripeSubscriptionOptions }
+export { updateStripeSubscription, type UpdateStripeSubscriptionOptions }

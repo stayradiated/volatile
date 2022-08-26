@@ -1,11 +1,13 @@
-import anyTest, { TestFn } from 'ava'
+import type { TestFn } from 'ava'
+import anyTest from 'ava'
 
 import { parseISO } from 'date-fns'
 import nock from 'nock'
-import { throwIfError, throwIfErrorSync } from '@stayradiated/error-boundary'
+import { assertOk } from '@stayradiated/error-boundary'
 import { pool } from '../pool.js'
 import type { Pool } from '../types.js'
-import { createMakeInstance, MakeInstance } from '../test-util/make.js'
+import type { MakeInstance } from '../test-util/make.js'
+import { createMakeInstance } from '../test-util/make.js'
 import { getIndependentReserveExchangeApi } from './independent-reserve.js'
 
 import type { UserExchangeApi } from './types.js'
@@ -26,15 +28,15 @@ test.beforeEach(async (t) => {
   const userUid = await make.user()
   const exchangeUid = await make.exchange()
 
-  t.context.api = throwIfErrorSync(
-    getIndependentReserveExchangeApi({
-      pool,
-      config: { apiKey: 'Api_KEY', apiSecret: 'Api_SECRET' },
-      userUid,
-      exchangeUid,
-      userExchangeKeysUid: undefined,
-    }),
-  )
+  const api = getIndependentReserveExchangeApi({
+    pool,
+    config: { apiKey: 'Api_KEY', apiSecret: 'Api_SECRET' },
+    userUid,
+    exchangeUid,
+    userExchangeKeysUid: undefined,
+  })
+  assertOk(api)
+  t.context.api = api
 })
 
 test('getLowestAskPrice', async (t) => {
@@ -73,12 +75,11 @@ test('getLowestAskPrice', async (t) => {
       SecondaryCurrencyCode: 'Usd',
     })
 
-  const lowestAskPrice = await throwIfError(
-    api.getLowestAskPrice({
-      primaryCurrency: 'BTC',
-      secondaryCurrency: 'USD',
-    }),
-  )
+  const lowestAskPrice = await api.getLowestAskPrice({
+    primaryCurrency: 'BTC',
+    secondaryCurrency: 'USD',
+  })
+  assertOk(lowestAskPrice)
 
   t.deepEqual(lowestAskPrice, 500)
 })
@@ -106,7 +107,8 @@ test('getBalance', async (t) => {
       },
     ])
 
-  const balance = await throwIfError(api.getBalance())
+  const balance = await api.getBalance()
+  assertOk(balance)
 
   t.deepEqual(balance, [
     {
@@ -163,7 +165,8 @@ test('getOpenOrders', async (t) => {
       ],
     })
 
-  const openOrders = await throwIfError(api.getOpenOrders())
+  const openOrders = await api.getOpenOrders()
+  assertOk(openOrders)
 
   t.deepEqual(openOrders, [
     {
@@ -222,12 +225,11 @@ test('getTrades', async (t) => {
       TotalPages: 1,
     })
 
-  const trades = await throwIfError(
-    api.getTrades({
-      pageIndex: 1,
-      pageSize: 10,
-    }),
-  )
+  const trades = await api.getTrades({
+    pageIndex: 1,
+    pageSize: 10,
+  })
+  assertOk(trades)
 
   t.deepEqual(trades, {
     total: 2,
@@ -277,14 +279,13 @@ test('createOrder', async (t) => {
       VolumeOrdered: 0.358,
     })
 
-  const order = await throwIfError(
-    api.createOrder({
-      volume: 0.358,
-      price: 485.76,
-      primaryCurrency: 'BTC',
-      secondaryCurrency: 'USD',
-    }),
-  )
+  const order = await api.createOrder({
+    volume: 0.358,
+    price: 485.76,
+    primaryCurrency: 'BTC',
+    secondaryCurrency: 'USD',
+  })
+  assertOk(order)
 
   t.deepEqual(order, {
     orderId: '719c495c-a39e-4884-93ac-280b37245037',
@@ -309,11 +310,10 @@ test('cancelOrder', async (t) => {
       VolumeOrdered: 0.358,
     })
 
-  const order = await throwIfError(
-    api.cancelOrder({
-      orderId: '719c495c-a39e-4884-93ac-280b37245037',
-    }),
-  )
+  const order = await api.cancelOrder({
+    orderId: '719c495c-a39e-4884-93ac-280b37245037',
+  })
+  assertOk(order)
 
   t.is(order, undefined)
 })

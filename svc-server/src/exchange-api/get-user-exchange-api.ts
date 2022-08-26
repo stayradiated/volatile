@@ -1,6 +1,6 @@
 import { IllegalStateError, ConfigError } from '../util/error.js'
+import type { Exchange } from '../model/exchange/index.js'
 import {
-  Exchange,
   EXCHANGE_DASSET,
   EXCHANGE_KIWI_COIN,
   EXCHANGE_INDEPENDENT_RESERVE,

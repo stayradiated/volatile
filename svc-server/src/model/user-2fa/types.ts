@@ -5,4 +5,4 @@ type User2Fa = {
   secret: string
 }
 
-export { User2Fa }
+export type { User2Fa }

@@ -1,4 +1,4 @@
-import { errorListBoundary, MultiError } from '@stayradiated/error-boundary'
+import { errorListBoundary } from '@stayradiated/error-boundary'
 
 import type { Pool } from '../../types.js'
 import type { UserExchangeApi } from '../../exchange-api/index.js'
@@ -51,8 +51,8 @@ const cancelPreviousOrders = async (
   if (cancelOrderError instanceof Error) {
     if (
       userExchangeApi.exchange === EXCHANGE_DASSET &&
-      cancelOrderError instanceof MultiError &&
-      cancelOrderError.cause.length <= 2
+      cancelOrderError instanceof AggregateError &&
+      cancelOrderError.errors.length <= 2
     ) {
       console.error(cancelOrderError)
     } else {

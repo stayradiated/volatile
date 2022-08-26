@@ -1,7 +1,7 @@
 import * as db from 'zapatos/db'
 import { errorBoundary } from '@stayradiated/error-boundary'
 import type { Except, SetOptional } from 'type-fest'
-import { user_exchange_keys } from 'zapatos/schema'
+import type { user_exchange_keys } from 'zapatos/schema'
 
 import * as hash from '../../util/hash.js'
 import { keyring } from '../../util/keyring.js'

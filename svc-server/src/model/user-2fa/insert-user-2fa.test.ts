@@ -1,10 +1,11 @@
-import { throwIfError, throwIfErrorSync } from '@stayradiated/error-boundary'
+import { assertOk } from '@stayradiated/error-boundary'
 import * as db from 'zapatos/db'
 import { test } from '../../test-util/ava.js'
 
 import { keyring } from '../../util/keyring.js'
 
-import { insertUser2Fa, InsertUser2FaOptions } from './insert-user-2fa.js'
+import type { InsertUser2FaOptions } from './insert-user-2fa.js'
+import { insertUser2Fa } from './insert-user-2fa.js'
 
 test('can insert user 2Fa', async (t) => {
   const { pool, make } = t.context
@@ -16,7 +17,7 @@ test('can insert user 2Fa', async (t) => {
     secret: 'HF2VYCQ7EYBBAS2H',
   }
 
-  await throwIfError(insertUser2Fa(pool, input))
+  assertOk(await insertUser2Fa(pool, input))
 
   const row = await db
     .selectExactlyOne('user_2fa', { user_uid: userUid })
@@ -24,9 +25,11 @@ test('can insert user 2Fa', async (t) => {
 
   t.like(row, { name: input.name })
 
-  const decryptedSecret = throwIfErrorSync(
-    keyring.decrypt(row.secret_encrypted, row.secret_keyring_id),
+  const decryptedSecret = keyring.decrypt(
+    row.secret_encrypted,
+    row.secret_keyring_id,
   )
+  assertOk(decryptedSecret)
 
   t.is(input.secret, decryptedSecret)
 })

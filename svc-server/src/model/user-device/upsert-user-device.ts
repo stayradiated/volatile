@@ -55,4 +55,4 @@ const upsertUserDevice = async (
   return error.uid
 }
 
-export { upsertUserDevice, UpsertUserDevicesOptions }
+export { upsertUserDevice, type UpsertUserDevicesOptions }

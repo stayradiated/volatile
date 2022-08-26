@@ -1,8 +1,8 @@
 import { createCachedFetchFn, marketPriceSources } from '@volatile/market-price'
-import { Kanye } from '@volatile/kanye'
+import type { Kanye } from '@volatile/kanye'
 
+import type { Market } from '../../model/market/index.js'
 import {
-  Market,
   MARKET_BINANCE_US,
   MARKET_DASSET,
   MARKET_KIWI_COIN,

@@ -1,5 +1,5 @@
 import * as z from 'zod'
-import { ActionHandler } from '../../util/action-handler.js'
+import type { ActionHandler } from '../../util/action-handler.js'
 import { stripe } from '../../util/stripe.js'
 
 const PRICE_ID = 'price_1JGejYDbaust07uDDS1lHEus'

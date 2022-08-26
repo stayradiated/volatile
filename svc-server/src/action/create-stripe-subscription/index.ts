@@ -4,7 +4,7 @@ import * as z from 'zod'
 import { stripe } from '../../util/stripe.js'
 import { MissingRequiredArgumentError } from '../../util/error.js'
 
-import { ActionHandler } from '../../util/action-handler.js'
+import type { ActionHandler } from '../../util/action-handler.js'
 
 import { getOrCreateStripeCustomer } from '../../model/stripe-customer/index.js'
 

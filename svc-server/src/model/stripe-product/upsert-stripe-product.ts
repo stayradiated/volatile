@@ -41,4 +41,4 @@ const upsertStripeProduct = async (
   }
 }
 
-export { upsertStripeProduct, UpsertStripeProductOptions }
+export { upsertStripeProduct, type UpsertStripeProductOptions }

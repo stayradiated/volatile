@@ -1,4 +1,4 @@
-import { Except } from 'type-fest'
+import type { Except } from 'type-fest'
 
 type UserEmailVerify = {
   uid: string
@@ -8,4 +8,4 @@ type UserEmailVerify = {
 
 type UserEmailVerifyMasked = Except<UserEmailVerify, 'secret'>
 
-export { UserEmailVerify, UserEmailVerifyMasked }
+export type { UserEmailVerify, UserEmailVerifyMasked }

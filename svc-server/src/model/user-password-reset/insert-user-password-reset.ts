@@ -42,4 +42,4 @@ const insertUserPasswordReset = async (
   }
 }
 
-export { insertUserPasswordReset, InsertUserPasswordResetOptions }
+export { insertUserPasswordReset, type InsertUserPasswordResetOptions }

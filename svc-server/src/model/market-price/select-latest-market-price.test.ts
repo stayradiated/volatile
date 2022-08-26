@@ -1,5 +1,5 @@
 import { subMinutes } from 'date-fns'
-import { throwIfError } from '@stayradiated/error-boundary'
+import { assertOk } from '@stayradiated/error-boundary'
 
 import { test } from '../../test-util/ava.js'
 
@@ -53,13 +53,12 @@ test('selectOpenOrdersForDca: should return open orders', async (t) => {
   await makeMarketPrice(12, 200)
   await makeMarketPrice(13, 300)
 
-  const latestPrice = await throwIfError<number>(
-    selectLatestMarketPrice(pool, {
-      marketUid,
-      assetSymbol,
-      currency,
-    }),
-  )
+  const latestPrice = await selectLatestMarketPrice(pool, {
+    marketUid,
+    assetSymbol,
+    currency,
+  })
+  assertOk(latestPrice)
 
   t.is(latestPrice, 10)
 })

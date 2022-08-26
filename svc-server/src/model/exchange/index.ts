@@ -166,7 +166,7 @@ const getExchangeList = async (pool: Pool): Promise<Exchange[] | Error> => {
 }
 
 export {
-  Exchange,
+  type Exchange,
   EXCHANGE_KIWI_COIN,
   EXCHANGE_DASSET,
   EXCHANGE_INDEPENDENT_RESERVE,

@@ -5,7 +5,7 @@ import { fromUnixTime } from 'date-fns'
 import { stripe } from '../../util/stripe.js'
 import { MissingRequiredArgumentError } from '../../util/error.js'
 
-import { ActionHandler } from '../../util/action-handler.js'
+import type { ActionHandler } from '../../util/action-handler.js'
 
 import { getOrCreateStripeCustomer } from '../../model/stripe-customer/index.js'
 import { updateStripeSubscription } from '../../model/stripe-subscription/index.js'

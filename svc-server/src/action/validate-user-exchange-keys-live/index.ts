@@ -1,7 +1,7 @@
 import * as z from 'zod'
 import { MissingRequiredArgumentError } from '../../util/error.js'
 
-import { ActionHandler } from '../../util/action-handler.js'
+import type { ActionHandler } from '../../util/action-handler.js'
 import { getUserExchangeApi } from '../../exchange-api/index.js'
 import { getExchange } from '../../model/exchange/index.js'
 

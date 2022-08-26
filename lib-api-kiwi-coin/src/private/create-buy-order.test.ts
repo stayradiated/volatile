@@ -1,9 +1,6 @@
 import test from 'ava'
 import nock from 'nock'
-import {
-  throwIfErrorSync,
-  throwIfValueSync,
-} from '@stayradiated/error-boundary'
+import { assertOk, assertError } from '@stayradiated/error-boundary'
 import { parseISO } from 'date-fns'
 
 import { createBuyOrder } from './create-buy-order.js'
@@ -43,7 +40,7 @@ test('should create buy order and return info', async (t) => {
     )
 
   const [order] = await createBuyOrder({ config, price, amount })
-  throwIfErrorSync(order)
+  assertOk(order)
 
   t.deepEqual(order, {
     price: 65_000,
@@ -67,10 +64,10 @@ test('should return API error', async (t) => {
     .reply(401, 'Unauthorized')
 
   const [order] = await createBuyOrder({ config, price, amount })
-  const error = throwIfValueSync(order)
+  assertError(order)
 
   t.is(
-    error.message,
+    order.message,
     'E_API: Received 401 error from POST https://kiwi-coin.com/api/buy: Unauthorized',
   )
 })

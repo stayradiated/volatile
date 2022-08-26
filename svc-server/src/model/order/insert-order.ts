@@ -1,8 +1,8 @@
 import { randomUUID } from 'node:crypto'
 import * as db from 'zapatos/db'
-import * as s from 'zapatos/schema'
+import type * as s from 'zapatos/schema'
 import { errorBoundary } from '@stayradiated/error-boundary'
-import { Except } from 'type-fest'
+import type { Except } from 'type-fest'
 
 import { DbError } from '../../util/error.js'
 
@@ -51,4 +51,4 @@ const insertOrder = async (
   }
 }
 
-export { insertOrder, InsertOrderOptions }
+export { insertOrder, type InsertOrderOptions }

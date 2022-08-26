@@ -1,5 +1,5 @@
 import * as db from 'zapatos/db'
-import { throwIfError } from '@stayradiated/error-boundary'
+import { assertOk } from '@stayradiated/error-boundary'
 import { parseISO } from 'date-fns'
 
 import { test } from '../../test-util/ava.js'
@@ -15,7 +15,7 @@ test('updatedOrder', async (t) => {
     closedAt: new Date(),
   }
 
-  await throwIfError(updateOrder(pool, input))
+  assertOk(await updateOrder(pool, input))
 
   const row = await db.selectExactlyOne('order', { uid: orderUid }).run(pool)
 

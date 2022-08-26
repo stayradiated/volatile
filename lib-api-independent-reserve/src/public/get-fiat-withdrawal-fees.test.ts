@@ -1,11 +1,11 @@
 import test from 'ava'
-import { throwIfErrorSync } from '@stayradiated/error-boundary'
+import { assertOk } from '@stayradiated/error-boundary'
 
 import { getFiatWithdrawalFees } from './get-fiat-withdrawal-fees.js'
 
 test('should get fiat withdrawal fees', async (t) => {
-  const [resultOrError] = await getFiatWithdrawalFees()
-  const result = throwIfErrorSync(resultOrError)
+  const [result] = await getFiatWithdrawalFees()
+  assertOk(result)
 
   t.true(Array.isArray(result))
   const item = result[0]!

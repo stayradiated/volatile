@@ -1,11 +1,10 @@
 import { parseISO } from 'date-fns'
-import { throwIfError } from '@stayradiated/error-boundary'
+import { assertOk } from '@stayradiated/error-boundary'
 
 import { test } from '../../test-util/ava.js'
 
 import { insertTrade } from './insert-trade.js'
 import { selectTradesAfterDate } from './select-trades-after-date.js'
-import type { Trade } from './types.js'
 
 test('select trades made after specified date', async (t) => {
   const { pool, make } = t.context
@@ -15,8 +14,8 @@ test('select trades made after specified date', async (t) => {
 
   const afterDate = parseISO('2021-01-05')
 
-  await throwIfError<Trade>(
-    insertTrade(pool, {
+  assertOk(
+    await insertTrade(pool, {
       userUid,
       exchangeUid,
       orderUid: undefined,
@@ -33,34 +32,32 @@ test('select trades made after specified date', async (t) => {
     }),
   )
 
-  const trade = await throwIfError<Trade>(
-    insertTrade(pool, {
-      userUid,
-      exchangeUid,
-      orderUid: undefined,
-      tradeID: 'test-trade-id-2',
-      primaryCurrency: 'BTC',
-      secondaryCurrency: 'NZD',
-      volume: 0.5,
-      type: 'BUY',
-      price: 1980,
-      value: 995,
-      fee: 5,
-      totalValue: 1000,
-      timestamp: parseISO('2021-01-05'),
-    }),
-  )
+  const trade = await insertTrade(pool, {
+    userUid,
+    exchangeUid,
+    orderUid: undefined,
+    tradeID: 'test-trade-id-2',
+    primaryCurrency: 'BTC',
+    secondaryCurrency: 'NZD',
+    volume: 0.5,
+    type: 'BUY',
+    price: 1980,
+    value: 995,
+    fee: 5,
+    totalValue: 1000,
+    timestamp: parseISO('2021-01-05'),
+  })
+  assertOk(trade)
 
-  const trades = await throwIfError<Trade[]>(
-    selectTradesAfterDate(pool, {
-      userUid,
-      exchangeUid,
-      primaryCurrency: 'BTC',
-      secondaryCurrency: 'NZD',
-      type: 'BUY',
-      afterDate,
-    }),
-  )
+  const trades = await selectTradesAfterDate(pool, {
+    userUid,
+    exchangeUid,
+    primaryCurrency: 'BTC',
+    secondaryCurrency: 'NZD',
+    type: 'BUY',
+    afterDate,
+  })
+  assertOk(trades)
 
   t.is(1, trades.length)
   t.is(trade.uid, trades[0]!.uid)

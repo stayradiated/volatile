@@ -104,9 +104,9 @@ const decrypt = (
 ): string | Error =>
   errorBoundarySync(() => {
     const decoded = Buffer.from(message, 'base64')
-    const hmac = decoded.slice(0, 32)
-    const iv = decoded.slice(32, 48)
-    const encrypted = decoded.slice(48)
+    const hmac = decoded.subarray(0, 32)
+    const iv = decoded.subarray(32, 48)
+    const encrypted = decoded.subarray(48)
     const decipher = crypto.createDecipheriv(algorithm, key.encryptionKey, iv)
     const decrypted = Buffer.concat([
       decipher.update(encrypted),
@@ -170,8 +170,8 @@ const normalizeKeys = (userKeys: UserKeys, keySize: KeySize): Key[] | Error => {
         )
       }
 
-      const signingKey = secret.slice(0, keySize)
-      const encryptionKey = secret.slice(keySize)
+      const signingKey = secret.subarray(0, keySize)
+      const encryptionKey = secret.subarray(keySize)
 
       const key: Key = {
         id,

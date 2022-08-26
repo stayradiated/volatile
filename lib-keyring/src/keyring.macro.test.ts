@@ -1,5 +1,5 @@
 import test from 'ava'
-import { throwIfErrorSync } from '@stayradiated/error-boundary'
+import { assertOk } from '@stayradiated/error-boundary'
 
 import { createKeyring } from './keyring.js'
 import type { UserKeys, EncryptResult } from './keyring.js'
@@ -16,22 +16,21 @@ type MacroOptions = {
 const macro = test.macro<[MacroOptions]>({
   exec(t, options: MacroOptions) {
     const { algorithm, keys, values } = options
-    const keyring = throwIfErrorSync(createKeyring(keys, { algorithm }))
+    const keyring = createKeyring(keys, { algorithm })
+    assertOk(keyring)
 
     for (const pair of values) {
       const { input, outputs } = pair
-
-      const encryptedResult = throwIfErrorSync(keyring.encrypt(input))
+      const encryptedResult: EncryptResult | Error = keyring.encrypt(input)
+      assertOk(encryptedResult)
       t.is(encryptedResult.keyringId, 2)
-      t.is(
-        throwIfErrorSync(keyring.decrypt(encryptedResult.encrypted, 2)),
-        input,
-      )
+
+      const decrypted = keyring.decrypt(encryptedResult.encrypted, 2)
+      t.is(decrypted, input)
 
       for (const output of outputs) {
-        const result = throwIfErrorSync(
-          keyring.decrypt(output.encrypted, output.keyringId),
-        )
+        const result = keyring.decrypt(output.encrypted, output.keyringId)
+        assertOk(result)
         t.deepEqual(result, input)
       }
     }

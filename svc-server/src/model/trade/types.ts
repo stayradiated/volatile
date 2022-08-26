@@ -17,4 +17,4 @@ type Trade = {
   totalValue: number
 }
 
-export { Trade }
+export type { Trade }

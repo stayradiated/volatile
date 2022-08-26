@@ -3,4 +3,4 @@ type ExchangeSecondaryCurrency = {
   symbol: string
 }
 
-export { ExchangeSecondaryCurrency }
+export type { ExchangeSecondaryCurrency }

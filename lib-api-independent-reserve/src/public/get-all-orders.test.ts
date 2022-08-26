@@ -1,14 +1,14 @@
 import test from 'ava'
-import { throwIfErrorSync } from '@stayradiated/error-boundary'
+import { assertOk } from '@stayradiated/error-boundary'
 
 import { getAllOrders } from './get-all-orders.js'
 
 test('should get all orders', async (t) => {
-  const [resultOrError] = await getAllOrders({
+  const [result] = await getAllOrders({
     primaryCurrencyCode: 'Xbt',
     secondaryCurrencyCode: 'Nzd',
   })
-  const result = throwIfErrorSync(resultOrError)
+  assertOk(result)
 
   t.true(Array.isArray(result.BuyOrders))
   t.true(Array.isArray(result.SellOrders))

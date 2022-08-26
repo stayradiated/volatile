@@ -1,5 +1,5 @@
 import db from 'zapatos/db'
-import { throwIfError } from '@stayradiated/error-boundary'
+import { assertOk } from '@stayradiated/error-boundary'
 
 import { test, mockUserExchangeApi } from '../../test-util/index.js'
 
@@ -36,8 +36,8 @@ test('sync open orders for user/exchange', async (t) => {
     },
   ])
 
-  await throwIfError(
-    syncExchangeOpenOrderList(pool, {
+  assertOk(
+    await syncExchangeOpenOrderList(pool, {
       userUid,
       exchangeUid,
       userExchangeApi,

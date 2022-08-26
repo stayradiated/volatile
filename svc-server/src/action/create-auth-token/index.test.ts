@@ -1,17 +1,15 @@
 import { randomUUID } from 'node:crypto'
-import { throwIfError, throwIfValue } from '@stayradiated/error-boundary'
+import { assertOk, assertError } from '@stayradiated/error-boundary'
 
 import { authenticator } from '../../util/otplib.js'
 import { test } from '../../test-util/ava.js'
 
-import { insertUser, User } from '../../model/user/index.js'
-import { Session } from '../../util/action-handler.js'
+import { insertUser } from '../../model/user/index.js'
+import type { Session } from '../../util/action-handler.js'
 import { insertUser2Fa } from '../../model/user-2fa/index.js'
 import { upsertUserDevice } from '../../model/user-device/index.js'
 
 import { createAuthTokenHandler } from './index.js'
-
-type CreateAuthTokenOutput = Exclude<Awaited<ReturnType<typeof createAuthTokenHandler.handler>>, Error>
 
 const GUEST_SESSION: Session = { role: 'guest', userUid: undefined }
 
@@ -21,9 +19,8 @@ test('should login with email/password', async (t) => {
   const email = `${randomUUID()}@polodog.com`
   const password = 'polodog'
 
-  const { uid: userUid } = await throwIfError(
-    insertUser(pool, { email, password }),
-  )
+  const user = await insertUser(pool, { email, password })
+  assertOk(user)
 
   const input = {
     email,
@@ -35,15 +32,14 @@ test('should login with email/password', async (t) => {
     role: 'user',
   }
 
-  const result = await throwIfError<CreateAuthTokenOutput>(
-    createAuthTokenHandler.handler({
-      pool,
-      input,
-      session: GUEST_SESSION,
-    }),
-  )
+  const result = await createAuthTokenHandler.handler({
+    pool,
+    input,
+    session: GUEST_SESSION,
+  })
+  assertOk(result)
 
-  t.is(userUid, result.userUid)
+  t.is(user.uid, result.userUid)
   t.is('string', typeof result.authToken)
 })
 
@@ -63,13 +59,12 @@ test('should fail if email does not exist', async (t) => {
     role: 'user',
   }
 
-  const error = await throwIfValue(
-    createAuthTokenHandler.handler({
-      pool,
-      input,
-      session: GUEST_SESSION,
-    }),
-  )
+  const error = await createAuthTokenHandler.handler({
+    pool,
+    input,
+    session: GUEST_SESSION,
+  })
+  assertError(error)
 
   t.is('E_AUTH: Invalid email or password.', error.message)
 })
@@ -80,7 +75,8 @@ test('should fail if password is incorrect', async (t) => {
   const email = `${randomUUID()}@swanskier`
   const password = 'swanskier'
 
-  await throwIfError<User>(insertUser(pool, { email, password }))
+  const user = await insertUser(pool, { email, password })
+  assertOk(user)
 
   const input = {
     email,
@@ -92,13 +88,12 @@ test('should fail if password is incorrect', async (t) => {
     role: 'user',
   }
 
-  const error = await throwIfValue(
-    createAuthTokenHandler.handler({
-      pool,
-      input,
-      session: GUEST_SESSION,
-    }),
-  )
+  const error = await createAuthTokenHandler.handler({
+    pool,
+    input,
+    session: GUEST_SESSION,
+  })
+  assertError(error)
 
   t.is('E_AUTH: Invalid email or password.', error.message)
 })
@@ -108,15 +103,14 @@ test('should fail if 2Fa token is required.', async (t) => {
 
   const email = `${randomUUID()}@rosetteschool`
   const password = 'rosetteschool'
-  const { uid: userUid } = await throwIfError<User>(
-    insertUser(pool, { email, password }),
-  )
+  const user = await insertUser(pool, { email, password })
+  assertOk(user)
 
   const secret = authenticator.generateSecret()
 
-  await throwIfError(
-    insertUser2Fa(pool, {
-      userUid,
+  assertOk(
+    await insertUser2Fa(pool, {
+      userUid: user.uid,
       name: 'Test 2Fa Token',
       secret,
     }),
@@ -131,13 +125,12 @@ test('should fail if 2Fa token is required.', async (t) => {
     token2fa: undefined,
     role: 'user',
   }
-  const error = await throwIfValue(
-    createAuthTokenHandler.handler({
-      pool,
-      input,
-      session: GUEST_SESSION,
-    }),
-  )
+  const error = await createAuthTokenHandler.handler({
+    pool,
+    input,
+    session: GUEST_SESSION,
+  })
+  assertError(error)
 
   t.is('E_AUTH: This user has 2Fa enabled.', error.message)
 })
@@ -147,15 +140,14 @@ test('should login with email/password/token_2fa', async (t) => {
 
   const email = `${randomUUID()}@keyboardavocado`
   const password = 'keyboardavocado'
-  const { uid: userUid } = await throwIfError<User>(
-    insertUser(pool, { email, password }),
-  )
+  const user = await insertUser(pool, { email, password })
+  assertOk(user)
 
   const secret = authenticator.generateSecret()
 
-  await throwIfError(
-    insertUser2Fa(pool, {
-      userUid,
+  assertOk(
+    await insertUser2Fa(pool, {
+      userUid: user.uid,
       name: 'Test 2Fa Token',
       secret,
     }),
@@ -170,15 +162,14 @@ test('should login with email/password/token_2fa', async (t) => {
     token2fa: authenticator.generate(secret),
     role: 'user',
   }
-  const result = await throwIfError<CreateAuthTokenOutput>(
-    createAuthTokenHandler.handler({
-      pool,
-      input,
-      session: GUEST_SESSION,
-    }),
-  )
+  const result = await createAuthTokenHandler.handler({
+    pool,
+    input,
+    session: GUEST_SESSION,
+  })
+  assertOk(result)
 
-  t.is(userUid, result.userUid)
+  t.is(user.uid, result.userUid)
   t.is('string', typeof result.authToken)
 })
 
@@ -189,23 +180,22 @@ test('should fail if 2Fa is required and device is not trusted', async (t) => {
   const password = 'speedboatvolcano'
   const deviceId = randomUUID()
 
-  const { uid: userUid } = await throwIfError<User>(
-    insertUser(pool, { email, password }),
-  )
+  const user = await insertUser(pool, { email, password })
+  assertOk(user)
 
   const secret = authenticator.generateSecret()
 
-  await throwIfError(
-    insertUser2Fa(pool, {
-      userUid,
+  assertOk(
+    await insertUser2Fa(pool, {
+      userUid: user.uid,
       name: 'Test 2Fa Token',
       secret,
     }),
   )
 
-  await throwIfError(
-    upsertUserDevice(pool, {
-      userUid,
+  assertOk(
+    await upsertUserDevice(pool, {
+      userUid: user.uid,
       accessedAt: new Date(),
       deviceId,
       name: 'not a trusted device',
@@ -216,7 +206,7 @@ test('should fail if 2Fa is required and device is not trusted', async (t) => {
   const input = {
     email,
     password,
-    deviceId: deviceId,
+    deviceId,
     deviceName: 'DEVICE_NAME',
     deviceTrusted: true,
     role: 'user',
@@ -224,13 +214,12 @@ test('should fail if 2Fa is required and device is not trusted', async (t) => {
     // Note that we are not passing a 2fa token here
     token_2fa: undefined,
   }
-  const error = await throwIfValue(
-    createAuthTokenHandler.handler({
-      pool,
-      input,
-      session: GUEST_SESSION,
-    }),
-  )
+  const error = await createAuthTokenHandler.handler({
+    pool,
+    input,
+    session: GUEST_SESSION,
+  })
+  assertError(error)
   t.is('E_AUTH: This user has 2Fa enabled.', error.message)
 })
 
@@ -241,23 +230,22 @@ test('should skip 2Fa when using a trusted device', async (t) => {
   const password = 'strawberrybus'
   const deviceId = randomUUID()
 
-  const { uid: userUid } = await throwIfError<User>(
-    insertUser(pool, { email, password }),
-  )
+  const user = await insertUser(pool, { email, password })
+  assertOk(user)
 
   const secret = authenticator.generateSecret()
 
-  await throwIfError(
-    insertUser2Fa(pool, {
-      userUid,
+  assertOk(
+    await insertUser2Fa(pool, {
+      userUid: user.uid,
       name: 'Test 2Fa Token',
       secret,
     }),
   )
 
-  await throwIfError(
-    upsertUserDevice(pool, {
-      userUid,
+  assertOk(
+    await upsertUserDevice(pool, {
+      userUid: user.uid,
       accessedAt: new Date(),
       deviceId,
       name: 'not important',
@@ -268,7 +256,7 @@ test('should skip 2Fa when using a trusted device', async (t) => {
   const input = {
     email,
     password,
-    deviceId: deviceId,
+    deviceId,
     deviceName: 'DEVICE_NAME',
     deviceTrusted: true,
     role: 'user',
@@ -276,14 +264,14 @@ test('should skip 2Fa when using a trusted device', async (t) => {
     // Note that we are not passing a 2fa token here
     token_2fa: undefined,
   }
-  const result = await throwIfError<CreateAuthTokenOutput>(
-    createAuthTokenHandler.handler({
-      pool,
-      input,
-      session: GUEST_SESSION,
-    }),
-  )
 
-  t.is(userUid, result.userUid)
+  const result = await createAuthTokenHandler.handler({
+    pool,
+    input,
+    session: GUEST_SESSION,
+  })
+  assertOk(result)
+
+  t.is(user.uid, result.userUid)
   t.is('string', typeof result.authToken)
 })

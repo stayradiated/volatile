@@ -1,4 +1,4 @@
-import { throwIfError } from '@stayradiated/error-boundary'
+import { assertOk } from '@stayradiated/error-boundary'
 import db from 'zapatos/db'
 import { parseISO } from 'date-fns'
 
@@ -25,11 +25,13 @@ test('should insert new balance', async (t) => {
     availableBalance: 777.77,
   }
 
-  const balanceUid = await throwIfError<string>(upsertBalance(pool, balance))
+  const balanceUid = await upsertBalance(pool, balance)
+  assertOk(balanceUid)
 
-  const row = await throwIfError(
-    db.selectExactlyOne('balance', { uid: balanceUid }).run(pool),
-  )
+  const row = await db
+    .selectExactlyOne('balance', { uid: balanceUid })
+    .run(pool)
+
   t.like(row, {
     uid: balanceUid,
     user_uid: balance.userUid,
@@ -63,13 +65,15 @@ test('should update existing balance', async (t) => {
 
   const existingBalanceUid = await make.balance(balance)
 
-  const balanceUid = await throwIfError<string>(upsertBalance(pool, balance))
+  const balanceUid = await upsertBalance(pool, balance)
+  assertOk(balanceUid)
 
   t.is(existingBalanceUid, balanceUid)
 
-  const row = await throwIfError(
-    db.selectExactlyOne('balance', { uid: balanceUid }).run(pool),
-  )
+  const row = await db
+    .selectExactlyOne('balance', { uid: balanceUid })
+    .run(pool)
+
   t.like(row, {
     uid: balanceUid,
     user_uid: balance.userUid,

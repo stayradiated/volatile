@@ -1,4 +1,4 @@
-import { throwIfValue } from '@stayradiated/error-boundary'
+import { assertError } from '@stayradiated/error-boundary'
 
 import { test, mockUserExchangeApi } from '../../test-util/index.js'
 
@@ -72,12 +72,11 @@ test('fail to cancel order → should error', async (t) => {
   const userExchangeApi = mockUserExchangeApi()
   userExchangeApi.cancelOrder.rejects(new Error('Fail'))
 
-  const error = await throwIfValue(
-    cancelPreviousOrders(pool, {
-      dcaOrderUid,
-      userExchangeApi,
-    }),
-  )
+  const error = await cancelPreviousOrders(pool, {
+    dcaOrderUid,
+    userExchangeApi,
+  })
+  assertError(error)
 
   t.is(error.message, 'E_MULTI: Caught 1 error: [Fail]')
   t.is(userExchangeApi.cancelOrder.callCount, 1)
@@ -100,12 +99,11 @@ test('fail to cancel 3 orders on dasset → should error', async (t) => {
   const userExchangeApi = mockUserExchangeApi(EXCHANGE_DASSET)
   userExchangeApi.cancelOrder.rejects(new Error('Fail'))
 
-  const error = await throwIfValue(
-    cancelPreviousOrders(pool, {
-      dcaOrderUid,
-      userExchangeApi,
-    }),
-  )
+  const error = await cancelPreviousOrders(pool, {
+    dcaOrderUid,
+    userExchangeApi,
+  })
+  assertError(error)
 
   t.is(error.message, 'E_MULTI: Caught 3 errors: [Fail, Fail, Fail]')
   t.is(userExchangeApi.cancelOrder.callCount, 3)

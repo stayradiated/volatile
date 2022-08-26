@@ -1,14 +1,14 @@
 import test from 'ava'
-import { throwIfErrorSync } from '@stayradiated/error-boundary'
+import { assertOk } from '@stayradiated/error-boundary'
 
 import { getMarketSummary } from './get-market-summary.js'
 
 test('should get market summary', async (t) => {
-  const [resultOrError] = await getMarketSummary({
+  const [result] = await getMarketSummary({
     primaryCurrencyCode: 'Xbt',
     secondaryCurrencyCode: 'Nzd',
   })
-  const result = throwIfErrorSync(resultOrError)
+  assertOk(result)
 
   t.is(typeof result.DayHighestPrice, 'number')
   t.is(typeof result.DayLowestPrice, 'number')

@@ -1,9 +1,6 @@
 import test from 'ava'
 import nock from 'nock'
-import {
-  throwIfErrorSync,
-  throwIfValueSync,
-} from '@stayradiated/error-boundary'
+import { assertOk, assertError } from '@stayradiated/error-boundary'
 import { fromUnixTime } from 'date-fns'
 
 import { getTradeList } from './get-trade-list.js'
@@ -41,7 +38,7 @@ test('should parse response', async (t) => {
     )
 
   const [tradeList] = await getTradeList({ config, timeframe: 'all' })
-  throwIfErrorSync(tradeList)
+  assertOk(tradeList)
 
   t.deepEqual(tradeList, [
     {
@@ -63,10 +60,10 @@ test('should detect invalid response', async (t) => {
     .reply(200, JSON.stringify([{}]))
 
   const [tradeList] = await getTradeList({ config, timeframe: 'all' })
-  const error = throwIfValueSync(tradeList)
+  assertError(tradeList)
 
   t.is(
-    stripPath(error.message),
+    stripPath(tradeList.message),
     `Warning: root[0].transaction_id value is undefined. at PATH
 Warning: root[0].order_id value is undefined. at PATH
 Warning: root[0].datetime value is undefined. at PATH

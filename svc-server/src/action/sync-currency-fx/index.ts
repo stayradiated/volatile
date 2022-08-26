@@ -3,7 +3,7 @@ import { parseISO } from 'date-fns'
 
 import { IllegalStateError } from '../../util/error.js'
 
-import { ActionHandler } from '../../util/action-handler.js'
+import type { ActionHandler } from '../../util/action-handler.js'
 
 import { syncCurrencyFx } from '../../model/currency-fx/index.js'
 

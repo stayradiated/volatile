@@ -1,4 +1,4 @@
-import { Task } from 'graphile-worker'
+import type { Task } from 'graphile-worker'
 
 import { UnexpectedError, CronError } from '../util/error.js'
 
@@ -96,4 +96,4 @@ const wrapCronHandler =
     }
   }
 
-export { CronHandlerFn, wrapCronHandler }
+export { type CronHandlerFn, wrapCronHandler }

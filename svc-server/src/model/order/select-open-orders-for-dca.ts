@@ -1,5 +1,5 @@
 import * as db from 'zapatos/db'
-import * as s from 'zapatos/schema'
+import type * as s from 'zapatos/schema'
 import { errorBoundary } from '@stayradiated/error-boundary'
 
 import type { Pool } from '../../types.js'

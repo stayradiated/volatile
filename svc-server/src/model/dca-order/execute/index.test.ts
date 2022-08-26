@@ -1,6 +1,6 @@
 import db from 'zapatos/db'
 import { parseISO, isAfter } from 'date-fns'
-import { throwIfError } from '@stayradiated/error-boundary'
+import { assertOk } from '@stayradiated/error-boundary'
 
 import { test } from '../../../test-util/ava.js'
 
@@ -25,7 +25,8 @@ test.serial('(lastRunAt=NULL, nextRunAt=NULL) set nextRunAt', async (t) => {
     nextRunAt: undefined,
   })
 
-  const jobs = await throwIfError<string[]>(execute(pool))
+  const jobs = await execute(pool)
+  assertOk(jobs)
   t.false(jobs.includes(dcaOrderUid))
 
   const updatedJob = await db
@@ -48,7 +49,8 @@ test.serial('(lastRunAt=PAST,nextRunAt=PAST) do nothing', async (t) => {
     nextRunAt: PAST,
   })
 
-  const jobs = await throwIfError<string[]>(execute(pool))
+  const jobs = await execute(pool)
+  assertOk(jobs)
   t.false(jobs.includes(dcaOrderUid))
 
   const updatedJob = await db
@@ -72,7 +74,8 @@ test.serial('(lastRunAt=DISTANT_PAST,nextRunAt=PAST) fire once', async (t) => {
     nextRunAt: PAST,
   })
 
-  const jobs = await throwIfError<string[]>(execute(pool))
+  const jobs = await execute(pool)
+  assertOk(jobs)
   t.true(jobs.includes(dcaOrderUid))
 
   const updatedJob = await db

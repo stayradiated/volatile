@@ -1,4 +1,4 @@
-import { throwIfError } from '@stayradiated/error-boundary'
+import { assertOk } from '@stayradiated/error-boundary'
 import * as db from 'zapatos/db'
 import { parseISO } from 'date-fns'
 
@@ -6,10 +6,8 @@ import { test } from '../../test-util/ava.js'
 
 import * as hash from '../../util/hash.js'
 
-import {
-  upsertUserDevice,
-  UpsertUserDevicesOptions,
-} from './upsert-user-device.js'
+import type { UpsertUserDevicesOptions } from './upsert-user-device.js'
+import { upsertUserDevice } from './upsert-user-device.js'
 
 test('can insert a user device', async (t) => {
   const { pool, make } = t.context
@@ -23,9 +21,8 @@ test('can insert a user device', async (t) => {
     deviceId: 'my randomly generated device id',
   }
 
-  const userDeviceUid = await throwIfError<string>(
-    upsertUserDevice(pool, input),
-  )
+  const userDeviceUid = await upsertUserDevice(pool, input)
+  assertOk(userDeviceUid)
   t.is(typeof userDeviceUid, 'string')
 
   const deviceIdHash = hash.sha256(input.deviceId)
@@ -52,25 +49,23 @@ test('can update a user device', async (t) => {
 
   const deviceId = 'loudspeakerman'
 
-  const userDeviceAUid = await throwIfError<string>(
-    upsertUserDevice(pool, {
-      userUid,
-      accessedAt: parseISO('2000-01-01'),
-      name: 'Test Device A',
-      trusted: false,
-      deviceId,
-    }),
-  )
+  const userDeviceAUid = await upsertUserDevice(pool, {
+    userUid,
+    accessedAt: parseISO('2000-01-01'),
+    name: 'Test Device A',
+    trusted: false,
+    deviceId,
+  })
+  assertOk(userDeviceAUid)
 
-  const userDeviceBUid = await throwIfError<string>(
-    upsertUserDevice(pool, {
-      userUid,
-      accessedAt: parseISO('2020-02-02'),
-      name: 'Test Device B',
-      trusted: true,
-      deviceId,
-    }),
-  )
+  const userDeviceBUid = await upsertUserDevice(pool, {
+    userUid,
+    accessedAt: parseISO('2020-02-02'),
+    name: 'Test Device B',
+    trusted: true,
+    deviceId,
+  })
+  assertOk(userDeviceBUid)
 
   t.is(userDeviceAUid, userDeviceBUid)
 

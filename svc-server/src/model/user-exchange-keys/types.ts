@@ -9,4 +9,4 @@ type UserExchangeKeys<
   invalidatedAt: Date | undefined
 }
 
-export { UserExchangeKeys }
+export type { UserExchangeKeys }

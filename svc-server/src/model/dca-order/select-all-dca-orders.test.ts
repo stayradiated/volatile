@@ -3,7 +3,8 @@ import { inspect } from 'node:util'
 import { test } from '../../test-util/ava.js'
 
 import { selectAllDcaOrders } from './select-all-dca-orders.js'
-import { insertDcaOrder, InsertDcaOrderOptions } from './insert-dca-order.js'
+import type { InsertDcaOrderOptions } from './insert-dca-order.js'
+import { insertDcaOrder } from './insert-dca-order.js'
 
 test('dcaOrder', async (t) => {
   const { pool, make } = t.context

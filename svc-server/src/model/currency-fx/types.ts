@@ -5,4 +5,4 @@ type CurrencyFx = {
   fxRate: number
 }
 
-export { CurrencyFx }
+export type { CurrencyFx }

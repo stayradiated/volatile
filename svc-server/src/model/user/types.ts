@@ -3,4 +3,4 @@ type User = {
   emailVerified: boolean
 }
 
-export { User }
+export type { User }

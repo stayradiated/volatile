@@ -1,5 +1,7 @@
-import { run, parseCronItems, CronItem, TaskList } from 'graphile-worker'
-import { wrapCronHandler, CronHandlerFn } from './util/cron-handler.js'
+import type { CronItem, TaskList } from 'graphile-worker'
+import { run, parseCronItems } from 'graphile-worker'
+import type { CronHandlerFn } from './util/cron-handler.js'
+import { wrapCronHandler } from './util/cron-handler.js'
 
 type CronJob<Input, Output> = {
   active: boolean

@@ -15,4 +15,4 @@ type Order = {
   closedAt: Date | undefined
 }
 
-export { Order }
+export type { Order }

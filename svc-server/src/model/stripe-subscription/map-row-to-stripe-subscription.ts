@@ -1,4 +1,4 @@
-import * as s from 'zapatos/schema'
+import type * as s from 'zapatos/schema'
 import { parseISO } from 'date-fns'
 
 import type { StripeSubscription } from './types.js'

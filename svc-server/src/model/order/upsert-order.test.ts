@@ -1,10 +1,11 @@
 import * as db from 'zapatos/db'
-import { throwIfError } from '@stayradiated/error-boundary'
+import { assertOk } from '@stayradiated/error-boundary'
 import { parseISO } from 'date-fns'
 
 import { test } from '../../test-util/ava.js'
 
-import { upsertOrder, UpsertOrderOptions } from './upsert-order.js'
+import type { UpsertOrderOptions } from './upsert-order.js'
+import { upsertOrder } from './upsert-order.js'
 
 test('upsertOrder', async (t) => {
   const { pool, make } = t.context
@@ -25,7 +26,8 @@ test('upsertOrder', async (t) => {
     closedAt: undefined,
   }
 
-  const rowUid = await throwIfError<string>(upsertOrder(pool, original))
+  const rowUid = await upsertOrder(pool, original)
+  assertOk(rowUid)
   t.is('string', typeof rowUid)
 
   const rowV1 = await db.selectExactlyOne('order', { uid: rowUid }).run(pool)
@@ -65,7 +67,8 @@ test('upsertOrder', async (t) => {
     closedAt: new Date(),
   }
 
-  const mutateUid = await throwIfError<string>(upsertOrder(pool, mutate))
+  const mutateUid = await upsertOrder(pool, mutate)
+  assertOk(mutateUid)
   t.is(rowUid, mutateUid)
 
   const rowV2 = await db.selectExactlyOne('order', { uid: rowUid }).run(pool)

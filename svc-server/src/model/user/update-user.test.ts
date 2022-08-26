@@ -1,6 +1,6 @@
 import { randomUUID } from 'node:crypto'
 import * as db from 'zapatos/db'
-import { throwIfError } from '@stayradiated/error-boundary'
+import { assertOk } from '@stayradiated/error-boundary'
 
 import * as hash from '../../util/hash.js'
 import { keyring } from '../../util/keyring.js'
@@ -14,7 +14,7 @@ test('updateUser: should update password', async (t) => {
   const userUid = await make.user()
 
   const password = 'eagle_tamale'
-  await throwIfError(updateUser(pool, { userUid, password }))
+  assertOk(await updateUser(pool, { userUid, password }))
 
   const user = await db.selectExactlyOne('user', { uid: userUid }).run(pool)
   const output = await hash.bcryptCompare(password, user.password_hash)
@@ -26,7 +26,7 @@ test('updateUser: should update email', async (t) => {
   const userUid = await make.user()
 
   const email = `${randomUUID()}@scorpion_prince`
-  await throwIfError(updateUser(pool, { userUid, email }))
+  assertOk(await updateUser(pool, { userUid, email }))
 
   const user = await db.selectExactlyOne('user', { uid: userUid }).run(pool)
 
@@ -46,7 +46,7 @@ test('updateUser: should check that email is unique', async (t) => {
 
   const email = `${randomUUID()}@goat_violin`
 
-  await throwIfError(insertUser(pool, { email, password: '' }))
+  assertOk(await insertUser(pool, { email, password: '' }))
   const error = await updateUser(pool, { userUid, email })
   if (!(error instanceof Error)) {
     t.fail(`Expected updateUser to fail, but it didn't!`)

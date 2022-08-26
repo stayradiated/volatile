@@ -63,4 +63,4 @@ const upsertTrade = async (
   }
 }
 
-export { upsertTrade, UpsertTradeOptions }
+export { upsertTrade, type UpsertTradeOptions }

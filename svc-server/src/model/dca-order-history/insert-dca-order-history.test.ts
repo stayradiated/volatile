@@ -3,10 +3,8 @@ import * as db from 'zapatos/db'
 
 import { test } from '../../test-util/ava.js'
 
-import {
-  insertDcaOrderHistory,
-  InsertDcaOrderHistoryOptions,
-} from './insert-dca-order-history.js'
+import type { InsertDcaOrderHistoryOptions } from './insert-dca-order-history.js'
+import { insertDcaOrderHistory } from './insert-dca-order-history.js'
 
 test('insertDcaOrderHistory', async (t) => {
   const { pool, make } = t.context

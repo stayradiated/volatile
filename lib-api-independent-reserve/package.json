@@ -24,7 +24,7 @@
   },
   "homepage": "https://github.com/stayradiated/volatile#readme",
   "dependencies": {
-    "@stayradiated/error-boundary": "3.0.0",
+    "@stayradiated/error-boundary": "4.0.0",
     "@volatile/kanye": "workspace:*",
     "@volatile/lib-error": "workspace:*",
     "p-limit": "4.0.0"
@@ -35,8 +35,8 @@
     "del-cli": "5.0.0",
     "nock": "13.2.9",
     "type-fest": "2.19.0",
-    "typescript": "4.7.4",
-    "xo": "0.52.1"
+    "typescript": "4.8.2",
+    "xo": "0.52.2"
   },
   "scripts": {
     "tidy": "xo --fix",

@@ -8,17 +8,19 @@ import type {
   RawRequestDefaultExpression,
   RawReplyDefaultExpression,
 } from 'fastify/types/utils'
+import type { RouteGenericInterface } from 'fastify/types/route'
 import { errorBoundarySync } from '@stayradiated/error-boundary'
 
 import { pool } from '../pool.js'
 import type { Pool } from '../types.js'
 
-type RouteHandler<RequestGeneric> = RouteHandlerMethod<
-  RawServerDefault,
-  RawRequestDefaultExpression,
-  RawReplyDefaultExpression,
-  RequestGeneric
->
+type RouteHandler<RequestGeneric extends RouteGenericInterface> =
+  RouteHandlerMethod<
+    RawServerDefault,
+    RawRequestDefaultExpression,
+    RawReplyDefaultExpression,
+    RequestGeneric
+  >
 
 type HandlerRequest<Input> = {
   Body: Input
@@ -75,4 +77,4 @@ const bindHandler =
     })
   }
 
-export { HandlerFn, wrapHandler, bindHandler }
+export { type HandlerFn, wrapHandler, bindHandler }

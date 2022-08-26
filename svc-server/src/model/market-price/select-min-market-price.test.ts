@@ -1,5 +1,5 @@
 import { subMinutes } from 'date-fns'
-import { throwIfError } from '@stayradiated/error-boundary'
+import { assertOk } from '@stayradiated/error-boundary'
 
 import { test } from '../../test-util/ava.js'
 
@@ -56,14 +56,13 @@ test('selectMinMarketPrice: should return min price', async (t) => {
   await makeMarketPrice(12, 200)
   await makeMarketPrice(13, 300)
 
-  const minPrice = await throwIfError<number>(
-    selectMinMarketPrice(pool, {
-      marketUid,
-      assetSymbol,
-      currency,
-      minutes: 10,
-    }),
-  )
+  const minPrice = await selectMinMarketPrice(pool, {
+    marketUid,
+    assetSymbol,
+    currency,
+    minutes: 10,
+  })
+  assertOk(minPrice)
 
   t.is(minPrice, 10)
 })

@@ -43,4 +43,4 @@ const insertUser2Fa = async (
   return undefined
 }
 
-export { insertUser2Fa, InsertUser2FaOptions }
+export { insertUser2Fa, type InsertUser2FaOptions }

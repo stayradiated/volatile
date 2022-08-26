@@ -28,4 +28,4 @@ const verifyUser2FaToken = async (
   return isValid
 }
 
-export { verifyUser2FaToken, VerifyUser2FaTokenOptions }
+export { verifyUser2FaToken, type VerifyUser2FaTokenOptions }

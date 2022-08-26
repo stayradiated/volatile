@@ -1,9 +1,6 @@
 import test from 'ava'
 import nock from 'nock'
-import {
-  throwIfErrorSync,
-  throwIfValueSync,
-} from '@stayradiated/error-boundary'
+import { assertOk, assertError } from '@stayradiated/error-boundary'
 
 import { cancelOrder } from './cancel-order.js'
 
@@ -30,7 +27,7 @@ test('should return true', async (t) => {
     .reply(200, JSON.stringify(true))
 
   const [result] = await cancelOrder({ config, orderId })
-  throwIfErrorSync(result)
+  assertOk(result)
 
   t.is(result, true)
 })
@@ -47,10 +44,10 @@ test('should return API error', async (t) => {
 
   const [result] = await cancelOrder({ config, orderId })
 
-  const error = throwIfValueSync(result)
+  assertError(result)
 
   t.is(
-    error.message,
+    result.message,
     'E_API: Received error from POST https://kiwi-coin.com/api/cancel_order',
   )
 })

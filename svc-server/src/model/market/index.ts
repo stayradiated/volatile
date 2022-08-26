@@ -92,7 +92,7 @@ const getMarketUid = async (
 }
 
 export {
-  Market,
+  type Market,
   MARKET_DASSET,
   MARKET_BINANCE_US,
   MARKET_KIWI_COIN,
