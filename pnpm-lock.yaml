@@ -270,9 +270,9 @@ importers:
 
   svc-hasura:
     specifiers:
-      hasura-cli: 2.9.0
+      hasura-cli: 2.10.1
     devDependencies:
-      hasura-cli: 2.9.0
+      hasura-cli: 2.10.1
 
   svc-server:
     specifiers:
@@ -311,7 +311,7 @@ importers:
       qrcode: 1.5.1
       rambda: 7.2.1
       sinon: 14.0.0
-      stripe: 10.5.0
+      stripe: 10.6.0
       timekeeper: 2.2.0
       ts-node: 10.9.1
       ts-node-dev: 2.0.0
@@ -342,7 +342,7 @@ importers:
       pg: 8.8.0
       qrcode: 1.5.1
       rambda: 7.2.1
-      stripe: 10.5.0
+      stripe: 10.6.0
       zapatos: 6.0.1_u2csln42rzxzcjmq5jxplaokhi
       zod: 3.18.0
     devDependencies:
@@ -7407,8 +7407,8 @@ packages:
     resolution: {integrity: sha512-Pkw+xBHuV6xFeJprJe2BBEoDV+AvQySaz3pPDRUs5PNZEMQjpXJJueqrpcHIXxnWTcAGi/UOCgVShlkY6kLoqg==}
     dev: true
 
-  /hasura-cli/2.9.0:
-    resolution: {integrity: sha512-TWVnG2HS0Q/QrwHelUmwW3LlwQLjRZpssBNcA7vEmx8ZBz/DA4ZuwqQbi+EtRoW2dt783SbqJq5G2u80/91RZg==}
+  /hasura-cli/2.10.1:
+    resolution: {integrity: sha512-i7vYumh0jEpHut/TlpoPUX4glfuw1wImdHUjhtBCdDUloWqi4B03MsiLjqs66aleILzsNFP7VhCkJHOVNf417Q==}
     engines: {node: '>=8'}
     hasBin: true
     requiresBuild: true
@@ -11433,8 +11433,8 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
-  /stripe/10.5.0:
-    resolution: {integrity: sha512-OT1EP12LPjg2Wdi6r6klIfB944obprhkS/QXGNI14xopeqRwpxjuVHzTbPfFSPuiWR78HR2VbTlHvY0iYLr1NA==}
+  /stripe/10.6.0:
+    resolution: {integrity: sha512-SjocCrgqsFA2o4iA72lTXKbcoz8AsK9OTchz+ptw5coznXucLyLcEBZ028MRh813lXMykeODFURNPSySb9dDQA==}
     engines: {node: ^8.1 || >=10.*}
     dependencies:
       '@types/node': 18.7.13
