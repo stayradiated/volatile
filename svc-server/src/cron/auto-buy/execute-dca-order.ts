@@ -142,7 +142,7 @@ const executeDcaOrder = async (
 
   const marketPrice = Math.min(avgMarketPrice, latestMarketPrice)
 
-  if (value <= (dcaOrder.minValue ?? 0)) {
+  if (value < (dcaOrder.minValue ?? 0)) {
     const dcaOrderHistory = await insertDcaOrderHistory(pool, {
       userUid: dcaOrder.userUid,
       dcaOrderUid: dcaOrder.uid,
