@@ -1,4 +1,5 @@
 import type { Kanye } from '@volatile/kanye'
+import * as z from 'zod'
 
 import type { Config } from '../util/types.js'
 import { post, getResponseBody } from '../util/client.js'
@@ -20,18 +21,22 @@ type PlaceLimitOrderOptions = {
   volume: number
 }
 
-type PlaceLimitOrderResult = {
-  CreatedTimestampUtc: string
-  OrderGuid: string
-  Price: number
-  PrimaryCurrencyCode: string
-  ReservedAmount: number
-  SecondaryCurrencyCode: string
-  Status: 'Open' | 'PartiallyFilled' | 'Filled'
-  Type: 'LimitOffer' | 'LimitBid'
-  VolumeFilled: number
-  VolumeOrdered: number
-}
+/* eslint-disable @typescript-eslint/naming-convention */
+const responseSchema = z.object({
+  CreatedTimestampUtc: z.string(),
+  OrderGuid: z.string(),
+  Price: z.number(),
+  PrimaryCurrencyCode: z.string(),
+  ReservedAmount: z.number(),
+  SecondaryCurrencyCode: z.string(),
+  Status: z.enum(['Open', 'PartiallyFilled', 'Filled']),
+  Type: z.enum(['LimitOffer', 'LimitBid']),
+  VolumeFilled: z.number(),
+  VolumeOrdered: z.number(),
+})
+/* eslint-enable @typescript-eslint/naming-convention */
+
+type PlaceLimitOrderResult = z.infer<typeof responseSchema>
 
 const placeLimitOrder = async (
   options: PlaceLimitOrderOptions,
@@ -55,7 +60,7 @@ const placeLimitOrder = async (
     return [raw, undefined]
   }
 
-  const result = getResponseBody<PlaceLimitOrderResult>(raw)
+  const result = getResponseBody(raw, responseSchema)
   return [result, raw]
 }
 

@@ -1,10 +1,12 @@
 import type { Kanye } from '@volatile/kanye'
+import * as z from 'zod'
 
 import { get, getResponseBody } from '../util/client.js'
 
 // Withdrawal fee for the currency. Denominated in the withdrawal currency.
-//
-type GetCryptoWithdrawalFeesResult = Record<string, number>
+const responseSchema = z.record(z.number())
+
+type GetCryptoWithdrawalFeesResult = z.infer<typeof responseSchema>
 
 const getCryptoWithdrawalFees = async (): Promise<
   [GetCryptoWithdrawalFeesResult | Error, Kanye?]
@@ -14,7 +16,7 @@ const getCryptoWithdrawalFees = async (): Promise<
     return [raw, undefined]
   }
 
-  const result = getResponseBody<GetCryptoWithdrawalFeesResult>(raw)
+  const result = getResponseBody(raw, responseSchema)
   return [result, raw]
 }
 

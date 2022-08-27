@@ -1,8 +1,11 @@
 import type { Kanye } from '@volatile/kanye'
+import * as z from 'zod'
 
 import { get, getResponseBody } from '../util/client.js'
 
-type GetValidPrimaryCurrencyCodesResult = string[]
+const responseSchema = z.array(z.string())
+
+type GetValidPrimaryCurrencyCodesResult = z.infer<typeof responseSchema>
 
 const getValidPrimaryCurrencyCodes = async (): Promise<
   [GetValidPrimaryCurrencyCodesResult | Error, Kanye?]
@@ -12,7 +15,8 @@ const getValidPrimaryCurrencyCodes = async (): Promise<
     return [raw, undefined]
   }
 
-  const result = getResponseBody<GetValidPrimaryCurrencyCodesResult>(raw)
+  const result = getResponseBody(raw, responseSchema)
+
   return [result, raw]
 }
 

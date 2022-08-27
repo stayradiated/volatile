@@ -1,5 +1,6 @@
 import type { Kanye } from '@volatile/kanye'
 import { kanye, getResponseBodyJson } from '@volatile/kanye'
+import type * as z from 'zod'
 
 import { createSignedBody } from './signature.js'
 import { withNonce } from './nonce.js'
@@ -35,6 +36,21 @@ const post = async (
   })
 }
 
-const getResponseBody = getResponseBodyJson
+const getResponseBody = <Z extends z.ZodType<unknown, any, unknown>>(
+  raw: Kanye,
+  schema: Z,
+): z.infer<Z> | Error => {
+  const responseBody = getResponseBodyJson<z.infer<Z>>(raw)
+  if (responseBody instanceof Error) {
+    return responseBody
+  }
+
+  const result = schema.safeParse(responseBody)
+  if (!result.success) {
+    return result.error
+  }
+
+  return result.data
+}
 
 export { get, post, getResponseBody }

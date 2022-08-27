@@ -1,4 +1,5 @@
 import type { Kanye } from '@volatile/kanye'
+import * as z from 'zod'
 
 import type { Config } from '../util/types.js'
 import { post, getResponseBody } from '../util/client.js'
@@ -9,7 +10,9 @@ type CancelOrderOptions = {
   orderGuid: string
 }
 
-type CancelOrderResult = boolean
+const responseSchema = z.boolean()
+
+type CancelOrderResult = z.infer<typeof responseSchema>
 
 const cancelOrder = async (
   options: CancelOrderOptions,
@@ -22,7 +25,7 @@ const cancelOrder = async (
     return [raw, undefined]
   }
 
-  const result = getResponseBody<CancelOrderResult>(raw)
+  const result = getResponseBody(raw, responseSchema)
   if (result instanceof Error) {
     if (
       result.message.includes(

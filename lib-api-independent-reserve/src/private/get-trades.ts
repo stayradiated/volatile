@@ -1,4 +1,5 @@
 import type { Kanye } from '@volatile/kanye'
+import * as z from 'zod'
 
 import type { Config } from '../util/types.js'
 import { post, getResponseBody } from '../util/client.js'
@@ -9,22 +10,28 @@ type GetTradesOptions = {
   pageSize: number // Must be greater or equal to 1 and less than or equal to 50. If a number greater than 50 is specified, then 50 will be used.
 }
 
-type GetTradesResult = {
-  PageSize: number
-  TotalItems: number
-  TotalPages: number
-  Data: Array<{
-    TradeGuid: string
-    TradeTimestampUtc: string
-    OrderGuid: string
-    OrderType: 'LimitBid' | 'LimitOffer' | 'MarketBid' | 'MarketOffer'
-    OrderTimestampUtc: string
-    VolumeTraded: number
-    Price: number
-    PrimaryCurrencyCode: string
-    SecondaryCurrencyCode: string
-  }>
-}
+/* eslint-disable @typescript-eslint/naming-convention */
+const responseSchema = z.object({
+  PageSize: z.number(),
+  TotalItems: z.number(),
+  TotalPages: z.number(),
+  Data: z.array(
+    z.object({
+      TradeGuid: z.string(),
+      TradeTimestampUtc: z.string(),
+      OrderGuid: z.string(),
+      OrderType: z.enum(['LimitBid', 'LimitOffer', 'MarketBid', 'MarketOffer']),
+      OrderTimestampUtc: z.string(),
+      VolumeTraded: z.number(),
+      Price: z.number(),
+      PrimaryCurrencyCode: z.string(),
+      SecondaryCurrencyCode: z.string(),
+    }),
+  ),
+})
+/* eslint-enable @typescript-eslint/naming-convention */
+
+type GetTradesResult = z.infer<typeof responseSchema>
 
 const getTrades = async (
   options: GetTradesOptions,
@@ -38,7 +45,7 @@ const getTrades = async (
     return [raw, undefined]
   }
 
-  const result = getResponseBody<GetTradesResult>(raw)
+  const result = getResponseBody(raw, responseSchema)
   return [result, raw]
 }
 

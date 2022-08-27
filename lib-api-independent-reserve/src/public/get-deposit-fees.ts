@@ -1,21 +1,36 @@
 import type { Kanye } from '@volatile/kanye'
+import * as z from 'zod'
 
 import { get, getResponseBody } from '../util/client.js'
 
-// Deposit fee for the currency. Denominated in the deposit currency.
-type GetDepositFeesResult = Array<{
-  // The method of deposit
-  DepositType: string
-  // An amount below this threshold will incur a deposit fee. When null, the fee is always applied.
-  FreeThreshold: number
-  // Deposit fee which will be deducted from deposit amount when under threshold. Denominated in the deposit currency.
-  Fee: {
-    // Fixed fee amount
-    Fixed: number | undefined
-    // Percentage fee
-    Percentage: number | undefined
+const nullToUndefined = (arg: unknown) => {
+  if (arg === null) {
+    return undefined
   }
-}>
+
+  return arg
+}
+
+// Deposit fee for the currency. Denominated in the deposit currency.
+/* eslint-disable @typescript-eslint/naming-convention */
+const responseSchema = z.array(
+  z.object({
+    // The method of deposit
+    DepositType: z.string(),
+    // An amount below this threshold will incur a deposit fee. When null, the fee is always applied.
+    FreeThreshold: z.preprocess(nullToUndefined, z.optional(z.number())),
+    // Deposit fee which will be deducted from deposit amount when under threshold. Denominated in the deposit currency.
+    Fee: z.object({
+      // Fixed fee amount
+      Fixed: z.preprocess(nullToUndefined, z.optional(z.number())),
+      // Percentage fee
+      Percentage: z.preprocess(nullToUndefined, z.optional(z.number())),
+    }),
+  }),
+)
+/* eslint-enable @typescript-eslint/naming-convention */
+
+type GetDepositFeesResult = z.infer<typeof responseSchema>
 
 const getDepositFees = async (): Promise<
   [GetDepositFeesResult | Error, Kanye?]
@@ -25,15 +40,7 @@ const getDepositFees = async (): Promise<
     return [raw, undefined]
   }
 
-  const result = getResponseBody<GetDepositFeesResult>(raw)
-
-  if (!(result instanceof Error)) {
-    for (const item of result) {
-      item.Fee.Fixed = item.Fee.Fixed ?? undefined
-      item.Fee.Percentage = item.Fee.Percentage ?? undefined
-    }
-  }
-
+  const result = getResponseBody(raw, responseSchema)
   return [result, raw]
 }
 

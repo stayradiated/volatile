@@ -1,12 +1,12 @@
 import type { ActionFunction } from '@remix-run/node'
 import { json } from '@remix-run/node'
-import type { Result } from 'remix-domains'
 import { makeDomainFunction, inputFromForm } from 'remix-domains'
 import { useTransition, useActionData } from '@remix-run/react'
 import * as z from 'zod'
 import { SendUserPasswordResetForm } from '~/components/send-user-password-reset-form/index'
 
 import { sdk } from '~/utils/api.server'
+import { collapseError } from '~/utils/error.server'
 
 const sendUserPasswordReset = makeDomainFunction(
   z.object({
@@ -26,16 +26,6 @@ const sendUserPasswordReset = makeDomainFunction(
     email: result.actionSendUserPasswordReset.email,
   }
 })
-
-const collapseError = (result: Result<unknown>): string => {
-  return [
-    result.errors.map((error) => error.message),
-    result.inputErrors.map((error) => error.message),
-    result.environmentErrors.map((error) => error.message),
-  ]
-    .flat()
-    .join(' • ')
-}
 
 type ActionData = {
   email?: string

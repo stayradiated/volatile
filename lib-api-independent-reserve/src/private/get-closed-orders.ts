@@ -1,3 +1,4 @@
+import * as z from 'zod'
 import type { Kanye } from '@volatile/kanye'
 
 import type { Config } from '../util/types.js'
@@ -11,10 +12,16 @@ type GetClosedOrdersOptions = {
   pageSize: number // Must be greater or equal to 1 and less than or equal to 50. If a number greater than 50 is specified, then 50 will be used.
 }
 
-type GetClosedOrdersResult = Array<{
-  CurrencyCode: string
-  Fee: number
-}>
+/* eslint-disable @typescript-eslint/naming-convention */
+const responseSchema = z.array(
+  z.object({
+    CurrencyCode: z.string(),
+    Fee: z.number(),
+  }),
+)
+/* eslint-enable @typescript-eslint/naming-convention */
+
+type GetClosedOrdersResult = z.infer<typeof responseSchema>
 
 const getClosedOrders = async (
   options: GetClosedOrdersOptions,
@@ -36,7 +43,7 @@ const getClosedOrders = async (
     return [raw, undefined]
   }
 
-  const result = getResponseBody<GetClosedOrdersResult>(raw)
+  const result = getResponseBody(raw, responseSchema)
   return [result, raw]
 }
 

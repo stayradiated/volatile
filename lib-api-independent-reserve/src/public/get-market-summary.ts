@@ -1,4 +1,5 @@
 import type { Kanye } from '@volatile/kanye'
+import * as z from 'zod'
 
 import { get, getResponseBody } from '../util/client.js'
 
@@ -13,30 +14,34 @@ type GetMarketSummaryOptions = {
   secondaryCurrencyCode: string
 }
 
-type GetMarketSummaryResult = {
+/* eslint-disable @typescript-eslint/naming-convention */
+const responseSchema = z.object({
   // UTC timestamp of when the market summary was generated
-  CreatedTimestampUtc: string
+  CreatedTimestampUtc: z.string(),
   // Current highest bid on order book
-  CurrentHighestBidPrice: number
+  CurrentHighestBidPrice: z.number(),
   // Current lowest offer on order book
-  CurrentLowestOfferPrice: number
+  CurrentLowestOfferPrice: z.number(),
   // Weighted average traded price over last 24 hours
-  DayAvgPrice: number
+  DayAvgPrice: z.number(),
   // Highest traded price over last 24 hours
-  DayHighestPrice: number
+  DayHighestPrice: z.number(),
   // Lowest traded price over last 24 hours
-  DayLowestPrice: number
+  DayLowestPrice: z.number(),
   // Volume of primary currency traded in last 24 hours
-  DayVolumeXbt: number
+  DayVolumeXbt: z.number(),
   // Volume of primary currency traded in last 24 hours for chosen secondary currency
-  DayVolumeXbtInSecondaryCurrrency: number
+  DayVolumeXbtInSecondaryCurrrency: z.number(),
   // Last traded price
-  LastPrice: number
+  LastPrice: z.number(),
   // The primary currency being summarised
-  PrimaryCurrencyCode: string
+  PrimaryCurrencyCode: z.string(),
   // The secondary currency being used for pricing
-  SecondaryCurrencyCode: string
-}
+  SecondaryCurrencyCode: z.string(),
+})
+/* eslint-enable @typescript-eslint/naming-convention */
+
+type GetMarketSummaryResult = z.infer<typeof responseSchema>
 
 const getMarketSummary = async (
   options: GetMarketSummaryOptions,
@@ -50,7 +55,7 @@ const getMarketSummary = async (
     return [raw, undefined]
   }
 
-  const result = getResponseBody<GetMarketSummaryResult>(raw)
+  const result = getResponseBody(raw, responseSchema)
   return [result, raw]
 }
 

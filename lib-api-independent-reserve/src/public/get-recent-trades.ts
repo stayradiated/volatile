@@ -1,4 +1,5 @@
 import type { Kanye } from '@volatile/kanye'
+import * as z from 'zod'
 
 import { get, getResponseBody } from '../util/client.js'
 
@@ -15,18 +16,22 @@ type GetRecentTradesOptions = {
   numberOfRecentTradesToRetrieve: number
 }
 
-type Trade = {
-  PrimaryCurrencyAmount: number
-  SecondaryCurrencyTradePrice: number
-  TradeTimestampUtc: string
-}
+/* eslint-disable @typescript-eslint/naming-convention */
+const tradeSchema = z.object({
+  PrimaryCurrencyAmount: z.number(),
+  SecondaryCurrencyTradePrice: z.number(),
+  TradeTimestampUtc: z.string(),
+})
 
-type GetRecentTradesResult = {
-  CreatedTimestampUtc: string
-  PrimaryCurrencyCode: string
-  SecondaryCurrencyCode: string
-  Trades: Trade[]
-}
+const responseSchema = z.object({
+  CreatedTimestampUtc: z.string(),
+  PrimaryCurrencyCode: z.string(),
+  SecondaryCurrencyCode: z.string(),
+  Trades: z.array(tradeSchema),
+})
+/* eslint-enable @typescript-eslint/naming-convention */
+
+type GetRecentTradesResult = z.infer<typeof responseSchema>
 
 const getRecentTrades = async (
   options: GetRecentTradesOptions,
@@ -45,7 +50,7 @@ const getRecentTrades = async (
     return [raw, undefined]
   }
 
-  const result = getResponseBody<GetRecentTradesResult>(raw)
+  const result = getResponseBody(raw, responseSchema)
   return [result, raw]
 }
 

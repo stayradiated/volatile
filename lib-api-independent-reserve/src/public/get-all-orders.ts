@@ -1,4 +1,5 @@
 import type { Kanye } from '@volatile/kanye'
+import * as z from 'zod'
 
 import { get, getResponseBody } from '../util/client.js'
 
@@ -13,27 +14,31 @@ type GetAllOrdersOptions = {
   secondaryCurrencyCode: string
 }
 
-type Order = {
+/* eslint-disable @typescript-eslint/naming-convention */
+const orderSchema = z.object({
   // Unique order identifier
-  Guid: string
+  Guid: z.string(),
   // Order price in secondary currency
-  Price: number
+  Price: z.number(),
   // Order volume in primary currency
-  Volume: number
-}
+  Volume: z.number(),
+})
 
-type GetAllOrdersResult = {
+const responseSchema = z.object({
   // List of all Buy Orders on order book
-  BuyOrders: Order[]
+  BuyOrders: z.array(orderSchema),
   // List of all Sell Orders on order book
-  SellOrders: Order[]
+  SellOrders: z.array(orderSchema),
   // UTC timestamp of when the order book was generated
-  CreatedTimestampUtc: string
+  CreatedTimestampUtc: z.string(),
   // The primary currency being shown
-  PrimaryCurrencyCode: string
+  PrimaryCurrencyCode: z.string(),
   // The secondary currency being used for pricing
-  SecondaryCurrencyCode: string
-}
+  SecondaryCurrencyCode: z.string(),
+})
+/* eslint-enable @typescript-eslint/naming-convention */
+
+type GetAllOrdersResult = z.infer<typeof responseSchema>
 
 const getAllOrders = async (
   options: GetAllOrdersOptions,
@@ -47,7 +52,7 @@ const getAllOrders = async (
     return [raw, undefined]
   }
 
-  const result = getResponseBody<GetAllOrdersResult>(raw)
+  const result = getResponseBody(raw, responseSchema)
   return [result, raw]
 }
 

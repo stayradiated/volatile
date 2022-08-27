@@ -1,3 +1,4 @@
+import * as z from 'zod'
 import type { Kanye } from '@volatile/kanye'
 
 import type { Config } from '../util/types.js'
@@ -11,25 +12,31 @@ type GetOpenOrdersOptions = {
   pageSize: number // Must be greater or equal to 1 and less than or equal to 50. If a number greater than 50 is specified, then 50 will be used.
 }
 
-type GetOpenOrdersResult = {
-  PageSize: number
-  TotalItems: number
-  TotalPages: number
-  Data: Array<{
-    AvgPrice: number
-    CreatedTimestampUtc: string
-    FeePercent: number
-    OrderGuid: string
-    OrderType: 'LimitOffer' | 'LimitBid'
-    Outstanding: number
-    Price: number
-    PrimaryCurrencyCode: string
-    SecondaryCurrencyCode: string
-    Status: 'Open' | 'PartiallyFilled'
-    Value: number
-    Volume: number
-  }>
-}
+/* eslint-disable @typescript-eslint/naming-convention */
+const responseSchema = z.object({
+  PageSize: z.number(),
+  TotalItems: z.number(),
+  TotalPages: z.number(),
+  Data: z.array(
+    z.object({
+      AvgPrice: z.number(),
+      CreatedTimestampUtc: z.string(),
+      FeePercent: z.number(),
+      OrderGuid: z.string(),
+      OrderType: z.enum(['LimitOffer', 'LimitBid']),
+      Outstanding: z.number(),
+      Price: z.number(),
+      PrimaryCurrencyCode: z.string(),
+      SecondaryCurrencyCode: z.string(),
+      Status: z.enum(['Open', 'PartiallyFilled']),
+      Value: z.number(),
+      Volume: z.number(),
+    }),
+  ),
+})
+/* eslint-enable @typescript-eslint/naming-convention */
+
+type GetOpenOrdersResult = z.infer<typeof responseSchema>
 
 const getOpenOrders = async (
   options: GetOpenOrdersOptions,
@@ -51,7 +58,7 @@ const getOpenOrders = async (
     return [raw, undefined]
   }
 
-  const result = getResponseBody<GetOpenOrdersResult>(raw)
+  const result = getResponseBody(raw, responseSchema)
   return [result, raw]
 }
 

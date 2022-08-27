@@ -1,23 +1,38 @@
 import type { Kanye } from '@volatile/kanye'
+import * as z from 'zod'
 
 import { get, getResponseBody } from '../util/client.js'
 
-// Withdrawal fee for the currency. Denominated in the withdrawal currency.
-type GetFiatWithdrawalFeesResult = Array<{
-  // The withdrawal method
-  WithdrawalType: string
-  // The minimum withdrawal amount
-  MinimumAmount: number
-  // The withdrawal currency
-  CurrencyCode: string
-  // Withdrawal fee which will be charged from your account.
-  Fee: {
-    // Fixed fee amount
-    Fixed: number
-    // Percentage fee
-    Percentage: number | undefined
+const nullToUndefined = (arg: unknown) => {
+  if (arg === null) {
+    return undefined
   }
-}>
+
+  return arg
+}
+
+// Withdrawal fee for the currency. Denominated in the withdrawal currency.
+/* eslint-disable @typescript-eslint/naming-convention */
+const responseSchema = z.array(
+  z.object({
+    // The withdrawal method
+    WithdrawalType: z.string(),
+    // The minimum withdrawal amount
+    MinimumAmount: z.number(),
+    // The withdrawal currency
+    CurrencyCode: z.string(),
+    // Withdrawal fee which will be charged from your account.
+    Fee: z.object({
+      // Fixed fee amount
+      Fixed: z.number(),
+      // Percentage fee
+      Percentage: z.preprocess(nullToUndefined, z.optional(z.number())),
+    }),
+  }),
+)
+/* eslint-enable @typescript-eslint/naming-convention */
+
+type GetFiatWithdrawalFeesResult = z.infer<typeof responseSchema>
 
 const getFiatWithdrawalFees = async (): Promise<
   [GetFiatWithdrawalFeesResult | Error, Kanye?]
@@ -27,15 +42,7 @@ const getFiatWithdrawalFees = async (): Promise<
     return [raw, undefined]
   }
 
-  const result = getResponseBody<GetFiatWithdrawalFeesResult>(raw)
-
-  if (!(result instanceof Error)) {
-    for (const item of result) {
-      item.Fee.Fixed = item.Fee.Fixed ?? undefined
-      item.Fee.Percentage = item.Fee.Percentage ?? undefined
-    }
-  }
-
+  const result = getResponseBody(raw, responseSchema)
   return [result, raw]
 }
 

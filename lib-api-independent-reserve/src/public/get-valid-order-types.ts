@@ -1,8 +1,11 @@
 import type { Kanye } from '@volatile/kanye'
+import * as z from 'zod'
 
 import { get, getResponseBody } from '../util/client.js'
 
-type GetValidOrderTypesResult = string[]
+const responseSchema = z.array(z.string())
+
+type GetValidOrderTypesResult = z.infer<typeof responseSchema>
 
 const getValidOrderTypes = async (): Promise<
   [GetValidOrderTypesResult | Error, Kanye?]
@@ -12,7 +15,7 @@ const getValidOrderTypes = async (): Promise<
     return [raw, undefined]
   }
 
-  const result = getResponseBody<GetValidOrderTypesResult>(raw)
+  const result = getResponseBody(raw, responseSchema)
   return [result, raw]
 }
 

@@ -1,4 +1,5 @@
 import type { Kanye } from '@volatile/kanye'
+import * as z from 'zod'
 
 import { get, getResponseBody } from '../util/client.js'
 
@@ -15,41 +16,45 @@ type GetTradeHistorySummaryOptions = {
   numberOfHoursInThePastToRetrieve: number
 }
 
-type HistorySummaryItem = {
+/* eslint-disable @typescript-eslint/naming-convention */
+const historySummaryItemSchema = z.object({
   //  Deprecated, not used
-  AverageSecondaryCurrencyPrice: number
+  AverageSecondaryCurrencyPrice: z.number(),
   //  Last traded price in hour
-  ClosingSecondaryCurrencyPrice: number
+  ClosingSecondaryCurrencyPrice: z.number(),
   //  UTC Start time of hour
-  StartTimestampUtc: string
+  StartTimestampUtc: z.string(),
   //  UTC End time of hour
-  EndTimestampUtc: string
+  EndTimestampUtc: z.string(),
   //  Highest traded price during hour
-  HighestSecondaryCurrencyPrice: number
+  HighestSecondaryCurrencyPrice: z.number(),
   //  Lowest traded price during hour
-  LowestSecondaryCurrencyPrice: number
+  LowestSecondaryCurrencyPrice: z.number(),
   //  Number of trades executed during hour
-  NumberOfTrades: number
+  NumberOfTrades: z.number(),
   //  Opening traded price at start of hour
-  OpeningSecondaryCurrencyPrice: number
+  OpeningSecondaryCurrencyPrice: z.number(),
   //  Volume of primary currency trade during hour
-  PrimaryCurrencyVolume: number
+  PrimaryCurrencyVolume: z.number(),
   //  Deprecated, not used
-  SecondaryCurrencyVolume: number
-}
+  SecondaryCurrencyVolume: z.number(),
+})
 
-type GetTradeHistorySummaryResult = {
+const responseSchema = z.object({
   // UTC timestamp of when the data was generated
-  CreatedTimestampUtc: string
+  CreatedTimestampUtc: z.string(),
   // List of hourly summary blocks
-  HistorySummaryItems: HistorySummaryItem[]
+  HistorySummaryItems: z.array(historySummaryItemSchema),
   // Number of past hours being returned
-  NumberOfHoursInThePastToRetrieve: number
+  NumberOfHoursInThePastToRetrieve: z.number(),
   // The primary currency being shown
-  PrimaryCurrencyCode: string
+  PrimaryCurrencyCode: z.string(),
   // The secondary currency being used for pricing
-  SecondaryCurrencyCode: string
-}
+  SecondaryCurrencyCode: z.string(),
+})
+/* eslint-enable @typescript-eslint/naming-convention */
+
+type GetTradeHistorySummaryResult = z.infer<typeof responseSchema>
 
 const getTradeHistorySummary = async (
   options: GetTradeHistorySummaryOptions,
@@ -68,7 +73,7 @@ const getTradeHistorySummary = async (
     return [raw, undefined]
   }
 
-  const result = getResponseBody<GetTradeHistorySummaryResult>(raw)
+  const result = getResponseBody(raw, responseSchema)
   return [result, raw]
 }
 
