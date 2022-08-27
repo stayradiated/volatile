@@ -66,7 +66,7 @@ const kanye = async (
           (request) => {
             url = request.url
             requestHeaders = parseHeaders(request.headers)
-            requestBody = String(request.body)
+            requestBody = JSON.stringify(request.body)
             log(`∙ ${request.method.slice(0, 3)} ${request.url}`)
           },
         ],
