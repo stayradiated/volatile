@@ -163,7 +163,7 @@ const createActionHandler =
       const output = await actionHandler.handler(context)
       if (output instanceof Error) {
         console.error(output)
-        await reply.code(400).send({ message: output.message })
+        await reply.code(400).send({ message: firstLine(output.message) })
         return
       }
 
