@@ -63,10 +63,10 @@ const kanye = async (
     ky(endpoint, {
       hooks: {
         beforeRequest: [
-          (request) => {
+          async (request) => {
             url = request.url
             requestHeaders = parseHeaders(request.headers)
-            requestBody = JSON.stringify(request.body)
+            requestBody = await request.clone().text()
             log(`∙ ${request.method.slice(0, 3)} ${request.url}`)
           },
         ],
