@@ -78,25 +78,25 @@ const start = async () => {
     connectionString: config.DATABASE_URL,
     jobs: [
       {
-        active: false,
+        active: config.ACTIVE_JOBS.includes('autoBuy'),
         name: 'autoBuy',
         pattern: '* * * * *',
         handler: cron.autoBuyHandler,
       },
       {
-        active: false,
+        active: config.ACTIVE_JOBS.includes('fetchCurrencyFx'),
         name: 'fetchCurrencyFx',
         pattern: '0 * * * *',
         handler: cron.fetchCurrencyFxHandler,
       },
       {
-        active: false,
+        active: config.ACTIVE_JOBS.includes('fetchMarketPrice'),
         name: 'fetchMarketPrice',
         pattern: '* * * * *',
         handler: cron.fetchMarketPriceHandler,
       },
       {
-        active: true,
+        active: config.ACTIVE_JOBS.includes('fetchStripe'),
         name: 'fetchStripe',
         pattern: '0 * * * *',
         handler: cron.fetchStripeHandler,

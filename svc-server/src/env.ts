@@ -18,17 +18,12 @@ const toNumber = (input: unknown): number => {
   return Number.NaN
 }
 
-const toJSON = (input: unknown): Record<string, any> => {
-  if (input === null) {
-    throw new Error('Input is null.')
+const fromStringToJSON = <T>(input: unknown): T | undefined => {
+  if (typeof input !== 'string') {
+    return undefined
   }
 
-  if (typeof input === 'object') return input
-  if (typeof input === 'string') {
-    return JSON.parse(input) as Record<string, any>
-  }
-
-  throw new Error('Invalid input')
+  return JSON.parse(input) as T
 }
 
 const toBuffer = (input: unknown): Buffer => {
@@ -48,9 +43,23 @@ const config = z
     NODE_ENV: z.string(),
     DATABASE_URL: z.string(),
 
+    ACTIVE_JOBS: z.preprocess(
+      fromStringToJSON,
+      z
+        .array(
+          z.enum([
+            'autoBuy',
+            'fetchCurrencyFx',
+            'fetchMarketPrice',
+            'fetchStripe',
+          ]),
+        )
+        .default([]),
+    ),
+
     BASE_URL: z.string().url(),
     PORT: z.preprocess(toNumber, z.number().gte(0).lte(65_535)),
-    KEYRING: z.preprocess(toJSON, z.record(z.string())),
+    KEYRING: z.preprocess(fromStringToJSON, z.record(z.string())),
     DIGEST_SALT: z.string(),
     BCRYPT_SALT_ROUNDS: z.preprocess(toNumber, z.number().int().min(10)),
     JWT_SECRET: z.string().transform(toBuffer),
@@ -70,5 +79,7 @@ const config = z
     OPEN_EXCHANGE_RATES_APP_ID: z.string(),
   })
   .parse(process.env)
+
+console.log(config)
 
 export { config }
