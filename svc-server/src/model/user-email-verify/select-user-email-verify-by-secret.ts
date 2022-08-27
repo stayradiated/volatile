@@ -22,11 +22,7 @@ const selectUserEmailVerifyBySecret = async (
       .run(pool),
   )
   if (!row || row instanceof Error) {
-    return new AuthError({
-      message: 'Invalid email verify secret.',
-      cause: row,
-      context: { secretHash },
-    })
+    return new AuthError('Invalid email verify secret.', { cause: row })
   }
 
   return {

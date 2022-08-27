@@ -2,7 +2,7 @@ import * as db from 'zapatos/db'
 import type * as s from 'zapatos/schema'
 import { errorBoundary } from '@stayradiated/error-boundary'
 
-import { DbError } from '../../util/error.js'
+import { DbError, messageWithContext } from '../../util/error.js'
 import type { Pool } from '../../types.js'
 
 type SelectLatestMarketPriceOptions = {
@@ -28,10 +28,8 @@ const selectLatestMarketPrice = async (
   )
 
   if (rows instanceof Error) {
-    return new DbError({
-      message: 'Could not execute latestMarketPrice query.',
+    return new DbError('Could not execute latestMarketPrice query.', {
       cause: rows,
-      context: options,
     })
   }
 
@@ -39,15 +37,12 @@ const selectLatestMarketPrice = async (
   const latestPrice = row ? Number.parseFloat(row.latest_price) : Number.NaN
 
   if (typeof latestPrice !== 'number' || Number.isNaN(latestPrice)) {
-    return new DbError({
-      message: `Could not get latest market price for ${assetSymbol}/${currency}.`,
-      context: {
-        marketUid,
-        assetSymbol,
-        currency,
-        row,
-      },
-    })
+    return new DbError(
+      messageWithContext(
+        `Could not get latest market price for ${assetSymbol}/${currency}.`,
+        { marketUid, assetSymbol, currency, row },
+      ),
+    )
   }
 
   return latestPrice

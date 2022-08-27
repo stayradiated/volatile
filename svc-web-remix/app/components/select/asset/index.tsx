@@ -1,9 +1,10 @@
 import { forwardRef } from 'react'
-import Select, {
+import type {
   Props as SelectProps,
   SelectInstance,
   OnChangeValue,
 } from 'react-select'
+import Select from 'react-select'
 
 // TODO: we should track which symbols are available on which exchanges
 const SYMBOL_OPTIONS = [

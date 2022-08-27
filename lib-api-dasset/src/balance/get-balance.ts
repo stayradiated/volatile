@@ -1,4 +1,5 @@
-import { kanye, Kanye, ApiError } from '@volatile/kanye'
+import type { Kanye } from '@volatile/kanye'
+import { kanye } from '@volatile/kanye'
 
 import { requestOptions, getResponseBody } from '../util/client.js'
 import { buildHeaders } from '../util/build-headers.js'
@@ -46,13 +47,13 @@ const getBalance = async (
 
   const result = getResponseBody<[GetBalanceResult]>(raw)
   if (result instanceof Error) {
-    const error = new ApiError({
-      message: 'Could not get balance from dasset.com',
-      cause: result,
-      context: {
-        currencySymbol,
+    const error = new Error(
+      `Could not get balance from dasset.com.
+${JSON.stringify({ currencySymbol })}`,
+      {
+        cause: result,
       },
-    })
+    )
     return [error, raw]
   }
 

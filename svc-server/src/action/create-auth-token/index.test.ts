@@ -2,6 +2,7 @@ import { randomUUID } from 'node:crypto'
 import { assertOk, assertError } from '@stayradiated/error-boundary'
 
 import { authenticator } from '../../util/otplib.js'
+import { firstLine } from '../../util/error.js'
 import { test } from '../../test-util/ava.js'
 
 import { insertUser } from '../../model/user/index.js'
@@ -66,7 +67,7 @@ test('should fail if email does not exist', async (t) => {
   })
   assertError(error)
 
-  t.is('E_AUTH: Invalid email or password.', error.message)
+  t.is('Invalid email or password.', firstLine(error.message))
 })
 
 test('should fail if password is incorrect', async (t) => {
@@ -95,7 +96,7 @@ test('should fail if password is incorrect', async (t) => {
   })
   assertError(error)
 
-  t.is('E_AUTH: Invalid email or password.', error.message)
+  t.is('Invalid email or password.', firstLine(error.message))
 })
 
 test('should fail if 2Fa token is required.', async (t) => {
@@ -132,7 +133,7 @@ test('should fail if 2Fa token is required.', async (t) => {
   })
   assertError(error)
 
-  t.is('E_AUTH: This user has 2Fa enabled.', error.message)
+  t.is(`This user has 2Fa enabled.`, firstLine(error.message))
 })
 
 test('should login with email/password/token_2fa', async (t) => {
@@ -220,7 +221,7 @@ test('should fail if 2Fa is required and device is not trusted', async (t) => {
     session: GUEST_SESSION,
   })
   assertError(error)
-  t.is('E_AUTH: This user has 2Fa enabled.', error.message)
+  t.is(`This user has 2Fa enabled.`, firstLine(error.message))
 })
 
 test('should skip 2Fa when using a trusted device', async (t) => {

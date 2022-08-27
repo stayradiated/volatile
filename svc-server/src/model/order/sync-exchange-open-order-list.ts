@@ -21,11 +21,10 @@ const syncExchangeOpenOrderList = async (
 
   const openOrderList = await userExchangeApi.getOpenOrders()
   if (openOrderList instanceof Error) {
-    return new ModelError({
-      message: 'Could not get open order list while syncing open order list.',
-      cause: openOrderList,
-      context: { userUid, exchangeUid },
-    })
+    return new ModelError(
+      'Could not get open order list while syncing open order list.',
+      { cause: openOrderList },
+    )
   }
 
   const openOrderIDList = openOrderList.map((order) => order.orderId)

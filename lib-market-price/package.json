@@ -31,7 +31,6 @@
   },
   "homepage": "https://github.com/stayradiated/volatile#readme",
   "dependencies": {
-    "@volatile/lib-error": "workspace:*",
     "@stayradiated/error-boundary": "4.0.0",
     "@volatile/dasset-api": "workspace:*",
     "@volatile/independent-reserve-api": "workspace:*",

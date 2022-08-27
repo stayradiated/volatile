@@ -1,4 +1,4 @@
-import { inspect } from 'node:util'
+import { assertOk } from '@stayradiated/error-boundary'
 import * as db from 'zapatos/db'
 import type * as s from 'zapatos/schema'
 
@@ -25,11 +25,7 @@ test('insertUserExchangeKey: should write to user_exchange_keys', async (t) => {
     description,
     invalidatedAt: undefined,
   })
-
-  if (result instanceof Error) {
-    t.fail(inspect(result))
-    return
-  }
+  assertOk(result)
 
   t.is('string', typeof result.uid)
   t.like(result, {
@@ -81,16 +77,10 @@ test('getUserExchangeKey: should read from user_exchange_keys', async (t) => {
     description,
     invalidatedAt: undefined,
   })
-  if (userExchangeKeys instanceof Error) {
-    t.fail(inspect(userExchangeKeys))
-    return
-  }
+  assertOk(userExchangeKeys)
 
   const result = await getUserExchangeKeys(pool, userExchangeKeys.uid)
-  if (result instanceof Error) {
-    t.fail(inspect(result))
-    return
-  }
+  assertOk(result)
 
   t.is(typeof result.uid, 'string')
   t.is(result.userUid, userUid)

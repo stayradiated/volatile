@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js'
-import { PaymentIntent } from '@stripe/stripe-js'
+import type { PaymentIntent } from '@stripe/stripe-js'
 
 type Props = {
   clientSecret: string

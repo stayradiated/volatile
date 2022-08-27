@@ -1,4 +1,5 @@
-import { ActionFunction, json, redirect } from '@remix-run/node'
+import type { ActionFunction } from '@remix-run/node'
+import { json, redirect } from '@remix-run/node'
 import { makeDomainFunction, inputFromForm } from 'remix-domains'
 import * as z from 'zod'
 

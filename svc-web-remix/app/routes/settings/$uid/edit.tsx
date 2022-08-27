@@ -1,15 +1,16 @@
 import { useLoaderData } from '@remix-run/react'
-import { LoaderFunction, json } from '@remix-run/node'
+import type { LoaderFunction } from '@remix-run/node'
+import { json } from '@remix-run/node'
 import invariant from 'tiny-invariant'
 import { Card } from '~/components/retro-ui'
 
 import { UserExchangeKeysFormEdit } from '~/components/user-exchange-keys-form-edit'
 import { getSessionData } from '~/utils/auth.server'
 import { sdk } from '~/utils/api.server'
-import { GetUserExchangeKeysFormEditQuery } from '~/graphql/generated'
+import type { GetUserExchangeKeysFormEditQuery } from '~/graphql/generated'
 import { loginRedirect } from '~/utils/redirect.server'
 
-interface LoaderData {
+type LoaderData = {
   userExchangeKeysUid: string
   query: GetUserExchangeKeysFormEditQuery
 }

@@ -12,31 +12,31 @@ export const builder = {}
 
 const getDcaOrdersQuery = /* GraphQL */ `
   query getDCAOrders {
-    dca_order {
+    dcaOrder {
       exchange {
         id
       }
       market {
         id
       }
-      primary_currency_symbol
-      secondary_currency_symbol
-      start_at
-      daily_average
-      market_offset
-      min_value
-      max_value
+      primaryCurrencySymbol
+      secondaryCurrencySymbol
+      startAt
+      dailyAverage
+      marketOffset
+      minValue
+      maxValue
 
-      dca_order_histories(limit: 1, order_by: { created_at: desc }) {
-        created_at
-        market_price
-        market_offset
-        available_balance
-        target_value
-        created_order
+      dcaOrderHistories(limit: 1, orderBy: { createdAt: DESC }) {
+        createdAt
+        marketPrice
+        marketOffset
+        availableBalance
+        targetValue
+        createdOrder
         description
-        primary_currency
-        secondary_currency
+        primaryCurrency
+        secondaryCurrency
 
         order {
           price
@@ -64,7 +64,7 @@ export const handler = createHandler(async (config) => {
     return result
   }
 
-  const dcaOrders = result.data.dca_order
+  const dcaOrders = result.data.dcaOrder
 
   console.dir(dcaOrders, { depth: null })
   return undefined

@@ -1,4 +1,4 @@
-import { TableInstance } from 'react-table'
+import type { TableInstance } from 'react-table'
 import styled from 'styled-components'
 
 const DISABLED = Symbol('DISABLED')

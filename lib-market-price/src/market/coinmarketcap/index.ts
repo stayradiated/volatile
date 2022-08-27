@@ -1,7 +1,7 @@
-import { kanye, getResponseBodyJson, ApiError } from '@volatile/kanye'
+import { kanye, getResponseBodyJson } from '@volatile/kanye'
 import { parseISO } from 'date-fns'
 
-import { MarketPriceSource } from '../../util/market-price-source.js'
+import type { MarketPriceSource } from '../../util/market-price-source.js'
 
 const prefixUrl = 'https://pro-api.coinmarketcap.com/'
 
@@ -80,14 +80,13 @@ const marketSource: MarketPriceSource<CoinMarketCapConfig> = {
 
     const result = getResponseBodyJson<ApiResponse>(raw)
     if (result instanceof Error) {
-      const error = new ApiError({
-        message: 'Could not fetch market price from coinmarketcap.com',
-        cause: result,
-        context: {
-          slug,
-          currency,
+      const error = new Error(
+        `Could not fetch market price from coinmarketcap.com
+${JSON.stringify({ slug, currency })}`,
+        {
+          cause: result,
         },
-      })
+      )
       return [error, raw]
     }
 
@@ -111,6 +110,6 @@ const marketSource: MarketPriceSource<CoinMarketCapConfig> = {
 }
 
 export default marketSource
-export { CoinMarketCapConfig }
+export type { CoinMarketCapConfig }
 
 export * as privateApi from './private-api.js'

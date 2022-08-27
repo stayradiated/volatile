@@ -1,9 +1,10 @@
 import { forwardRef } from 'react'
-import Select, {
+import type {
   Props as SelectProps,
   SelectInstance,
   OnChangeValue,
 } from 'react-select'
+import Select from 'react-select'
 
 const SYMBOL_OPTIONS = [
   { symbol: undefined },

@@ -1,6 +1,6 @@
 import * as kiwiCoin from '@volatile/kiwi-coin-api'
 
-import { MarketPriceSource } from '../../util/market-price-source.js'
+import type { MarketPriceSource } from '../../util/market-price-source.js'
 
 type Options = {
   assetSymbol: string
@@ -41,4 +41,4 @@ const marketSource: MarketPriceSource<Options> = {
 }
 
 export default marketSource
-export { Options }
+export type { Options }

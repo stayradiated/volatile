@@ -1,7 +1,7 @@
 import db from 'zapatos/db'
 import { errorBoundary } from '@stayradiated/error-boundary'
 
-import { DbError } from '../../util/error.js'
+import { DbError, messageWithContext } from '../../util/error.js'
 import type { Pool } from '../../types.js'
 
 import { mapRowToCronHistory } from './map-row-to-cron-history.js'
@@ -33,19 +33,14 @@ const updateCronHistory = async (
       .run(pool),
   )
   if (rows instanceof Error) {
-    return new DbError({
-      message: 'Could not update Dca Order.',
-      cause: rows,
-      context: { ...options },
-    })
+    return new DbError('Could not update Dca Order.', { cause: rows })
   }
 
   const row = rows[0]
   if (!row) {
-    return new DbError({
-      message: 'Could not update Dca Order.',
-      context: { ...options },
-    })
+    return new DbError(
+      messageWithContext(`Could not update Dca Order.`, { ...options }),
+    )
   }
 
   return mapRowToCronHistory(row)

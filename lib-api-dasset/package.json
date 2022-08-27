@@ -25,8 +25,7 @@
   "homepage": "https://github.com/stayradiated/volatile#readme",
   "dependencies": {
     "@stayradiated/error-boundary": "4.0.0",
-    "@volatile/kanye": "workspace:*",
-    "@volatile/lib-error": "workspace:*"
+    "@volatile/kanye": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "18.7.13",

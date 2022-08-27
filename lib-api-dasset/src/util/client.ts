@@ -1,6 +1,8 @@
-import { Kanye, getResponseBodyJson, ApiError } from '@volatile/kanye'
+import type { Kanye } from '@volatile/kanye'
+import { getResponseBodyJson } from '@volatile/kanye'
 
-import { Config } from './types.js'
+import type { Config, DassetApiError } from './types.js'
+import { ApiError } from './error.js'
 
 const prefixUrl = 'https://api.dassetx.com/api/'
 const timeout = 15_000
@@ -10,13 +12,6 @@ const requestOptions = (config: Config) => ({
   timeout,
   redact: [config.accountId, config.apiKey],
 })
-
-type DassetApiError = {
-  status: number
-  type: string
-  code: number
-  message: string
-}
 
 const isDassetApiError = (
   responseBody: unknown,
@@ -38,9 +33,8 @@ const getResponseBody = <T>(raw: Kanye): T | Error => {
   const responseBody = getResponseBodyJson<T>(raw)
   if (responseBody instanceof Error) {
     if (isDassetApiError(responseBody)) {
-      return new ApiError({
-        message: responseBody.message,
-        context: responseBody,
+      return new ApiError(responseBody.message, {
+        apiErrorBody: responseBody,
       })
     }
 

@@ -3,6 +3,7 @@ import { errorBoundarySync } from '@stayradiated/error-boundary'
 
 import {
   MissingRequiredArgumentError,
+  messageWithContext,
   IllegalStateError,
   IllegalArgumentError,
 } from '../../util/error.js'
@@ -29,19 +30,19 @@ const enableUser2FaHandler: ActionHandler<typeof schema> = {
   async handler(context) {
     const { pool, input, session } = context
     const { userUid } = session
-    if (!userUid) {
-      return new MissingRequiredArgumentError({
-        message: 'userUid is required',
-        context: { userUid },
-      })
-    }
+    if (!userUid)
+      return new MissingRequiredArgumentError(
+        messageWithContext(`userUid is required`, { userUid }),
+      )
 
     const alreadyHas2FaEnabled = await hasUser2FaByUserUid(pool, userUid)
     if (alreadyHas2FaEnabled) {
-      return new IllegalStateError({
-        message: 'This user already has 2Fa enabled.',
-        context: { userUid, alreadyHas2FaEnabled },
-      })
+      return new IllegalStateError(
+        messageWithContext(`This user already has 2Fa enabled.`, {
+          userUid,
+          alreadyHas2FaEnabled,
+        }),
+      )
     }
 
     const { name, secret, token } = input
@@ -54,10 +55,13 @@ const enableUser2FaHandler: ActionHandler<typeof schema> = {
     }
 
     if (!isValid) {
-      return new IllegalArgumentError({
-        message: 'Token is not valid for secret.',
-        context: { userUid, token, isValid },
-      })
+      return new IllegalArgumentError(
+        messageWithContext(`Token is not valid for secret.`, {
+          userUid,
+          token,
+          isValid,
+        }),
+      )
     }
 
     const error = await insertUser2Fa(pool, {

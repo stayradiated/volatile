@@ -1,9 +1,10 @@
 import { forwardRef } from 'react'
-import Select, {
+import type {
   Props as SelectProps,
   SelectInstance,
   OnChangeValue,
 } from 'react-select'
+import Select from 'react-select'
 
 // TODO: fetch this data from the server
 const EXCHANGE_OPTIONS = [

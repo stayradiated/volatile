@@ -3,7 +3,11 @@ import * as db from 'zapatos/db'
 import { errorBoundary } from '@stayradiated/error-boundary'
 import type * as s from 'zapatos/schema'
 
-import { DbError, IllegalStateError } from '../../util/error.js'
+import {
+  DbError,
+  messageWithContext,
+  IllegalStateError,
+} from '../../util/error.js'
 
 import type { Pool } from '../../types.js'
 
@@ -54,10 +58,9 @@ const forceGetExchangeUid = async (
   )
 
   if (rows instanceof Error || !rows) {
-    return new DbError({
-      message: 'Could not upsert exchange.',
-      context: { exchange },
-    })
+    return new DbError(
+      messageWithContext(`Could not upsert exchange.`, { exchange }),
+    )
   }
 
   return rows[0]!.uid
@@ -81,11 +84,7 @@ const forceGetExchange = async (
       .run(pool),
   )
   if (row instanceof Error) {
-    return new DbError({
-      message: 'Could not find exchange.',
-      cause: row,
-      context: { exchangeUid },
-    })
+    return new DbError('Could not find exchange.', { cause: row })
   }
 
   switch (row.id) {
@@ -96,10 +95,11 @@ const forceGetExchange = async (
     case EXCHANGE_INDEPENDENT_RESERVE.ID:
       return EXCHANGE_INDEPENDENT_RESERVE
     default:
-      return new IllegalStateError({
-        message: 'Could not identify exchange.',
-        context: { exchangeID: row.id },
-      })
+      return new IllegalStateError(
+        messageWithContext(`Could not identify exchange.`, {
+          exchangeID: row.id,
+        }),
+      )
   }
 }
 
@@ -150,10 +150,7 @@ const getExchangeList = async (pool: Pool): Promise<Exchange[] | Error> => {
       .run(pool),
   )
   if (rows instanceof Error) {
-    return new DbError({
-      message: 'Could not get exchange list.',
-      cause: rows,
-    })
+    return new DbError('Could not get exchange list.', { cause: rows })
   }
 
   return rows.map((row) => {

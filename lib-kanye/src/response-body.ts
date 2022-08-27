@@ -1,26 +1,30 @@
 import { HTTPError, TimeoutError } from 'ky'
 import { errorBoundarySync } from '@stayradiated/error-boundary'
 
-import { ApiError, NetError } from './error.js'
+import { NetworkError, ServerError } from './error.js'
 
 import type { Kanye } from './types.js'
 
 const getResponseBodyText = (input: Kanye): string | Error => {
   if (input.error) {
     if (input.error instanceof TimeoutError) {
-      return new NetError({
-        message: `Timed out waiting for ${input.method} ${input.url}`,
-        context: input,
-      })
+      return new NetworkError(
+        `Timed out waiting for ${input.method} ${input.url}`,
+        {
+          cause: input.error,
+        },
+      )
     }
 
     if (input.error instanceof HTTPError) {
-      return new ApiError({
-        message: `Received ${input.responseStatus ?? 'unknown'} error from ${
-          input.method
-        } ${input.url}: ${input.responseBody ?? ''}`,
-        context: input,
-      })
+      return new ServerError(
+        `Received ${input.responseStatus ?? '???'} error from ${input.method} ${
+          input.url
+        }: ${input.responseBody ?? ''}`,
+        {
+          cause: input.error,
+        },
+      )
     }
 
     return input.error
@@ -32,7 +36,6 @@ const getResponseBodyText = (input: Kanye): string | Error => {
 
   return input.responseBody
 }
-
 
 const getResponseBodyJson = <T>(raw: Kanye): T | Error => {
   const responseBodyText = getResponseBodyText(raw)

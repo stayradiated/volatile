@@ -3,6 +3,7 @@ import { addMinutes, subMinutes } from 'date-fns'
 import { assertOk, assertError } from '@stayradiated/error-boundary'
 
 import { test } from '../../test-util/ava.js'
+import { firstLine } from '../../util/error.js'
 
 import { insertUserPasswordReset } from './insert-user-password-reset.js'
 import { selectUserPasswordResetBySecret } from './select-user-password-reset-by-secret.js'
@@ -34,7 +35,7 @@ test('should fail for invalid password reset secret.', async (t) => {
   const error = await selectUserPasswordResetBySecret(pool, secret)
   assertError(error)
 
-  t.is('E_AUTH: Invalid password reset secret.', error.message)
+  t.is('Invalid password reset secret.', firstLine(error.message))
 })
 
 test('should fail for expired password reset', async (t) => {
@@ -54,5 +55,5 @@ test('should fail for expired password reset', async (t) => {
   const error = await selectUserPasswordResetBySecret(pool, secret)
   assertError(error)
 
-  t.is('E_AUTH: Invalid password reset secret.', error.message)
+  t.is('Invalid password reset secret.', firstLine(error.message))
 })

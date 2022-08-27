@@ -1,4 +1,5 @@
-import { LoaderFunction, json } from '@remix-run/node'
+import type { LoaderFunction } from '@remix-run/node'
+import { json } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
 import invariant from 'tiny-invariant'
 
@@ -6,7 +7,7 @@ import { getSessionData } from '~/utils/auth.server'
 import { sdk } from '~/utils/api.server'
 import { safeRedirect } from '~/utils/redirect.server'
 import { CronHistoryDetails } from '~/components/cron-history-details'
-import { CronHistoryFragment } from '~/graphql/generated'
+import type { CronHistoryFragment } from '~/graphql/generated'
 
 type LoaderData = {
   cronHistory: undefined | CronHistoryFragment

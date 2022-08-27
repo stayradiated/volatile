@@ -4,7 +4,7 @@ import { parseISO } from 'date-fns'
 import { formatInTimeZone } from 'date-fns-tz'
 
 import { TradeListItem } from './trade-list-item'
-import { GetTradeListQuery } from '~/graphql/generated'
+import type { GetTradeListQuery } from '~/graphql/generated'
 import { formatRelativeDate } from '~/components/date'
 
 const List = styled.ul`

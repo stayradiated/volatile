@@ -1,4 +1,4 @@
-import { CommandModule } from 'yargs'
+import type { CommandModule } from 'yargs'
 
 import * as dcaOrders from './dca-orders/index.js'
 import * as marketPrice from './market-price/index.js'

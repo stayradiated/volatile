@@ -9,4 +9,4 @@ type RowData = {
   currency: string
 }
 
-export { RowData }
+export type { RowData }

@@ -1,4 +1,5 @@
-import { kanye, Kanye, ApiError } from '@volatile/kanye'
+import type { Kanye } from '@volatile/kanye'
+import { kanye } from '@volatile/kanye'
 
 import { requestOptions, getResponseBody } from '../util/client.js'
 import { buildHeaders } from '../util/build-headers.js'
@@ -58,8 +59,7 @@ const getClosedOrderList = async (
 
   const result = getResponseBody<[GetClosedOrderListResult]>(raw)
   if (result instanceof Error) {
-    const error = new ApiError({
-      message: 'Could not get closed order list from dasset.com',
+    const error = new Error('Could not get closed order list from dasset.com', {
       cause: result,
     })
     return [error, raw]

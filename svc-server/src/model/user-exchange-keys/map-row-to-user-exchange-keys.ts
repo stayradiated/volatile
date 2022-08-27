@@ -10,10 +10,8 @@ const mapRowToUserExchangeKeys = <Keys extends Record<string, string>>(
 ): UserExchangeKeys<Keys> | Error => {
   const jsonKeys = keyring.decrypt(row.keys_encrypted, row.keys_keyring_id)
   if (jsonKeys instanceof Error) {
-    return new ConfigError({
-      message: 'Could not decrypt User Exchange Keys.',
+    return new ConfigError('Could not decrypt User Exchange Keys.', {
       cause: jsonKeys,
-      context: { userExchangeKeysUid: row.uid },
     })
   }
 

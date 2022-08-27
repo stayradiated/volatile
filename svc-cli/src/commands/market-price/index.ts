@@ -26,18 +26,18 @@ export const builder = (yargs: Argv) =>
 
 const getMarketPriceQuery = /* GraphQL */ `
   query getMarketPrice($assetSymbol: String!, $timestamp: timestamptz!) {
-    market_price(
-      distinct_on: [market_uid, asset_symbol, currency]
+    marketPrice(
+      distinctOn: [marketUid, assetSymbol, currency]
       where: {
-        asset_symbol: { _eq: $assetSymbol }
+        assetSymbol: { _eq: $assetSymbol }
         timestamp: { _gte: $timestamp }
       }
     ) {
       timestamp
-      asset_symbol
-      source_price
-      source_currency
-      fx_rate
+      assetSymbol
+      sourcePrice
+      sourceCurrency
+      fxRate
       price
       currency
       market {
@@ -73,14 +73,14 @@ export const handler = createHandler<Options>(async (config, argv) => {
     return result
   }
 
-  const rowData = result.data.market_price
+  const rowData = result.data.marketPrice
     .map<RowData | undefined>((marketPrice) => ({
       marketName: marketPrice.market.name,
       timestamp: parseISO(marketPrice.timestamp),
-      assetSymbol: marketPrice.asset_symbol,
-      sourcePrice: marketPrice.source_price,
-      sourceCurrency: marketPrice.source_currency,
-      fxRate: marketPrice.fx_rate,
+      assetSymbol: marketPrice.assetSymbol,
+      sourcePrice: marketPrice.sourcePrice,
+      sourceCurrency: marketPrice.sourceCurrency,
+      fxRate: marketPrice.fxRate,
       price: marketPrice.price,
       currency: marketPrice.currency,
     }))

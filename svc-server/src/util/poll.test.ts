@@ -1,4 +1,5 @@
 import test from 'ava'
+import { assertError } from '@stayradiated/error-boundary'
 
 import { poll } from './poll.js'
 
@@ -41,5 +42,7 @@ test('hit timeout after 2s', async (t) => {
       }
     },
   })
-  t.true(result instanceof Error)
+  assertError(result)
+
+  t.is(result.message, 'Timed out waiting for poll to finish.')
 })

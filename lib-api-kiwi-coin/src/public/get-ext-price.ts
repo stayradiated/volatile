@@ -1,5 +1,5 @@
 import type { Kanye } from '@volatile/kanye'
-import { kanye, getResponseBodyText, NetError } from '@volatile/kanye'
+import { kanye, getResponseBodyText, NetworkError } from '@volatile/kanye'
 
 enum GetExtPriceSource {
   worldwide = '1',
@@ -27,13 +27,12 @@ const getExtPrice = async (
 
   const price = getResponseBodyText(raw)
   if (price instanceof Error) {
-    const error = new NetError({
-      message: 'Could not fetch ext price from kiwi-coin.com',
-      cause: price,
-      context: {
-        options,
+    const error = new NetworkError(
+      `Could not fetch ext price from kiwi-coin.com for source="${source}"`,
+      {
+        cause: price,
       },
-    })
+    )
     return [error, raw]
   }
 

@@ -1,7 +1,7 @@
 import * as z from 'zod'
 import { parseISO } from 'date-fns'
 
-import { IllegalStateError } from '../../util/error.js'
+import { IllegalStateError, messageWithContext } from '../../util/error.js'
 
 import type { ActionHandler } from '../../util/action-handler.js'
 
@@ -24,10 +24,9 @@ const syncCurrencyFxHandler: ActionHandler<typeof schema> = {
     const { input, pool, session } = context
     const { role } = session
     if (role !== 'admin') {
-      return new IllegalStateError({
-        message: 'Only admin can query user email.',
-        context: { role },
-      })
+      return new IllegalStateError(
+        messageWithContext(`Only admin can query user email.`, { role }),
+      )
     }
 
     const { startDate, endDate, fromSymbol, toSymbol } = input

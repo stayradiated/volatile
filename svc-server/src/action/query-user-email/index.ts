@@ -1,5 +1,5 @@
 import * as z from 'zod'
-import { IllegalStateError } from '../../util/error.js'
+import { IllegalStateError, messageWithContext } from '../../util/error.js'
 
 import { getUserEmail } from '../../model/user/index.js'
 
@@ -20,10 +20,9 @@ const queryUserEmailHandler: ActionHandler<typeof schema> = {
     const { pool, input, session } = context
     const { role } = session
     if (role !== 'admin') {
-      return new IllegalStateError({
-        message: 'Only admin can query user email.',
-        context: { role },
-      })
+      return new IllegalStateError(
+        messageWithContext(`Only admin can query user email.`, { role }),
+      )
     }
 
     console.log(input)

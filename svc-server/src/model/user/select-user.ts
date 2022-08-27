@@ -1,7 +1,7 @@
 import * as db from 'zapatos/db'
 import { errorBoundary } from '@stayradiated/error-boundary'
 
-import { DbError } from '../../util/error.js'
+import { DbError, messageWithContext } from '../../util/error.js'
 
 import type { Pool } from '../../types.js'
 import type { User } from './types.js'
@@ -22,11 +22,12 @@ const selectUser = async (
       .run(pool),
   )
   if (row instanceof Error || !row) {
-    return new DbError({
-      message: 'Could not find user.',
-      cause: row,
-      context: { userUid },
-    })
+    return new DbError(
+      messageWithContext(`Could not find user.`, { userUid }),
+      {
+        cause: row,
+      },
+    )
   }
 
   return {

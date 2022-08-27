@@ -13,7 +13,6 @@ importers:
       '@stayradiated/error-boundary': 4.0.0
       '@types/node': 18.7.13
       '@volatile/kanye': workspace:*
-      '@volatile/lib-error': workspace:*
       ava: 4.3.3
       del-cli: 5.0.0
       dotenv: 16.0.1
@@ -24,7 +23,6 @@ importers:
     dependencies:
       '@stayradiated/error-boundary': 4.0.0
       '@volatile/kanye': link:../lib-kanye
-      '@volatile/lib-error': link:../lib-error
     devDependencies:
       '@types/node': 18.7.13
       ava: 4.3.3
@@ -40,7 +38,6 @@ importers:
       '@stayradiated/error-boundary': 4.0.0
       '@types/node': 18.7.13
       '@volatile/kanye': workspace:*
-      '@volatile/lib-error': workspace:*
       ava: 4.3.3
       del-cli: 5.0.0
       nock: 13.2.9
@@ -51,7 +48,6 @@ importers:
     dependencies:
       '@stayradiated/error-boundary': 4.0.0
       '@volatile/kanye': link:../lib-kanye
-      '@volatile/lib-error': link:../lib-error
       p-limit: 4.0.0
     devDependencies:
       '@types/node': 18.7.13
@@ -68,7 +64,6 @@ importers:
       '@types/debug': 4.1.7
       '@types/node': 18.7.13
       '@volatile/kanye': workspace:*
-      '@volatile/lib-error': workspace:*
       '@zwolf/prism': 2.13.0
       ava: 4.3.3
       date-fns: 2.29.2
@@ -82,7 +77,6 @@ importers:
     dependencies:
       '@stayradiated/error-boundary': 4.0.0
       '@volatile/kanye': link:../lib-kanye
-      '@volatile/lib-error': link:../lib-error
       '@zwolf/prism': 2.13.0
       date-fns: 2.29.2
       date-fns-tz: 1.3.6_date-fns@2.29.2
@@ -102,7 +96,6 @@ importers:
       '@types/debug': 4.1.7
       '@types/node': 18.7.13
       '@volatile/kanye': workspace:*
-      '@volatile/lib-error': workspace:*
       ava: 4.3.3
       date-fns: 2.29.2
       del-cli: 5.0.0
@@ -111,7 +104,6 @@ importers:
       xo: 0.52.2
     dependencies:
       '@volatile/kanye': link:../lib-kanye
-      '@volatile/lib-error': link:../lib-error
       date-fns: 2.29.2
     devDependencies:
       '@types/debug': 4.1.7
@@ -122,26 +114,11 @@ importers:
       typescript: 4.8.2
       xo: 0.52.2
 
-  lib-error:
-    specifiers:
-      '@types/node': 18.7.13
-      ava: 4.3.3
-      del-cli: 5.0.0
-      typescript: 4.8.2
-      xo: 0.52.2
-    devDependencies:
-      '@types/node': 18.7.13
-      ava: 4.3.3
-      del-cli: 5.0.0
-      typescript: 4.8.2
-      xo: 0.52.2
-
   lib-kanye:
     specifiers:
       '@stayradiated/error-boundary': 4.0.0
       '@types/debug': 4.1.7
       '@types/node': 18.7.13
-      '@volatile/lib-error': workspace:*
       ava: 4.3.3
       debug: 4.3.4
       del-cli: 5.0.0
@@ -153,7 +130,6 @@ importers:
       xo: 0.52.2
     dependencies:
       '@stayradiated/error-boundary': 4.0.0
-      '@volatile/lib-error': link:../lib-error
       debug: 4.3.4
       escape-string-regexp: 5.0.0
       ky: 0.31.1
@@ -194,7 +170,6 @@ importers:
       '@volatile/independent-reserve-api': workspace:*
       '@volatile/kanye': workspace:*
       '@volatile/kiwi-coin-api': workspace:*
-      '@volatile/lib-error': workspace:*
       '@volatile/open-exchange-rates-api': workspace:*
       ava: 4.3.3
       date-fns: 2.29.2
@@ -208,7 +183,6 @@ importers:
       '@volatile/independent-reserve-api': link:../lib-api-independent-reserve
       '@volatile/kanye': link:../lib-kanye
       '@volatile/kiwi-coin-api': link:../lib-api-kiwi-coin
-      '@volatile/lib-error': link:../lib-error
       '@volatile/open-exchange-rates-api': link:../lib-api-open-exchange-rates
       date-fns: 2.29.2
     devDependencies:
@@ -285,14 +259,13 @@ importers:
       '@types/qrcode': 1.5.0
       '@types/sinon': 10.0.13
       '@vercel/ncc': 0.34.0
-      '@volatile/dasset-api': workspace:1.0.1
-      '@volatile/independent-reserve-api': workspace:1.0.1
-      '@volatile/kanye': workspace:1.0.1
-      '@volatile/keyring': workspace:1.0.0
-      '@volatile/kiwi-coin-api': workspace:1.0.1
-      '@volatile/lib-error': workspace:1.0.0
-      '@volatile/market-price': workspace:1.0.0
-      '@volatile/open-exchange-rates-api': workspace:1.0.0
+      '@volatile/dasset-api': workspace:*
+      '@volatile/independent-reserve-api': workspace:*
+      '@volatile/kanye': workspace:*
+      '@volatile/keyring': workspace:*
+      '@volatile/kiwi-coin-api': workspace:*
+      '@volatile/market-price': workspace:*
+      '@volatile/open-exchange-rates-api': workspace:*
       ava: 4.3.3
       bcrypt: 5.0.1
       date-fns: 2.29.2
@@ -327,7 +300,6 @@ importers:
       '@volatile/kanye': link:../lib-kanye
       '@volatile/keyring': link:../lib-keyring
       '@volatile/kiwi-coin-api': link:../lib-api-kiwi-coin
-      '@volatile/lib-error': link:../lib-error
       '@volatile/market-price': link:../lib-market-price
       '@volatile/open-exchange-rates-api': link:../lib-api-open-exchange-rates
       bcrypt: 5.0.1
@@ -393,7 +365,6 @@ importers:
       '@types/styled-components': 5.1.26
       '@types/ua-parser-js': 0.7.36
       '@vercel/ncc': 0.34.0
-      '@volatile/lib-error': workspace:*
       date-fns: 2.29.2
       date-fns-tz: 1.3.6
       env-cmd: 10.1.0
@@ -424,7 +395,6 @@ importers:
       '@stayradiated/error-boundary': 4.0.0
       '@stripe/react-stripe-js': 1.10.0_cmmhtrb5rpqnadm4cijrsi2esq
       '@stripe/stripe-js': 1.35.0
-      '@volatile/lib-error': link:../lib-error
       date-fns: 2.29.2
       date-fns-tz: 1.3.6_date-fns@2.29.2
       graphql: 16.6.0

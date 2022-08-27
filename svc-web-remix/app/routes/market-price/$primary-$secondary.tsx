@@ -1,16 +1,17 @@
 import { useLoaderData } from '@remix-run/react'
-import { LoaderFunction, json } from '@remix-run/node'
+import type { LoaderFunction } from '@remix-run/node'
+import { json } from '@remix-run/node'
 import invariant from 'tiny-invariant'
 
 import { Card } from '~/components/retro-ui'
 import { MarketPriceChart } from '~/components/market-price-chart'
-import { GetMarketPriceQuery } from '~/graphql/generated'
+import type { GetMarketPriceQuery } from '~/graphql/generated'
 import { MarketPriceChartCalc } from '~/components/market-price-chart-calc'
 import { getSessionData } from '~/utils/auth.server'
 import { sdk } from '~/utils/api.server'
 import { loginRedirect } from '~/utils/redirect.server'
 
-interface LoaderData {
+type LoaderData = {
   query: GetMarketPriceQuery
   primaryCurrency: string
   secondaryCurrency: string

@@ -1,9 +1,10 @@
 import { randomUUID } from 'node:crypto'
 import * as db from 'zapatos/db'
-import { assertOk } from '@stayradiated/error-boundary'
+import { assertOk, assertError } from '@stayradiated/error-boundary'
 
 import * as hash from '../../util/hash.js'
 import { keyring } from '../../util/keyring.js'
+import { firstLine } from '../../util/error.js'
 
 import { test } from '../../test-util/ava.js'
 import { insertUser } from './insert-user.js'
@@ -48,14 +49,10 @@ test('updateUser: should check that email is unique', async (t) => {
 
   assertOk(await insertUser(pool, { email, password: '' }))
   const error = await updateUser(pool, { userUid, email })
-  if (!(error instanceof Error)) {
-    t.fail(`Expected updateUser to fail, but it didn't!`)
-    return
-  }
 
-  t.true(error instanceof Error)
+  assertError(error)
   t.is(
-    error.message,
-    'E_ILLEGAL_ARGUMENT: Could not create user, email already exists in DB.',
+    firstLine(error.message),
+    'Could not create user, email already exists in DB.',
   )
 })

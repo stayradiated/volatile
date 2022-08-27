@@ -1,4 +1,5 @@
-import { LoaderFunction, redirect } from '@remix-run/node'
+import type { LoaderFunction } from '@remix-run/node'
+import { redirect } from '@remix-run/node'
 import { Outlet, Link } from '@remix-run/react'
 
 import { getSessionData } from '~/utils/auth.server'

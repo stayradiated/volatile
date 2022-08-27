@@ -1,7 +1,7 @@
 import { errorBoundary } from '@stayradiated/error-boundary'
 import * as db from 'zapatos/db'
 
-import { NoEntityError } from '../../util/error.js'
+import { NoEntityError, messageWithContext } from '../../util/error.js'
 
 import type { Pool } from '../../types.js'
 import type { StripeCustomer } from './types.js'
@@ -28,12 +28,11 @@ const getStripeCustomerByUserUid = async (
   }
 
   if (!row) {
-    return new NoEntityError({
-      message: `User "${userUid}" does not have a customer.`,
-      context: {
+    return new NoEntityError(
+      messageWithContext(`User "${userUid}" does not have a customer.`, {
         userUid,
-      },
-    })
+      }),
+    )
   }
 
   return {

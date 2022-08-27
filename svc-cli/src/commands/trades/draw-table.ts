@@ -1,7 +1,8 @@
 import { format } from 'date-fns'
 
-import { table, Row10 } from '../../utils/table.js'
-import { RowData } from './types.js'
+import type { Row10 } from '../../utils/table.js'
+import { table } from '../../utils/table.js'
+import type { RowData } from './types.js'
 
 const sortByDateAsc = (a: RowData, b: RowData): number =>
   a.date.valueOf() - b.date.valueOf()

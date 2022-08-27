@@ -1,5 +1,6 @@
 import { useLoaderData } from '@remix-run/react'
-import { ActionFunction, LoaderFunction, json, redirect } from '@remix-run/node'
+import type { ActionFunction, LoaderFunction } from '@remix-run/node'
+import { json, redirect } from '@remix-run/node'
 
 import { Logo } from '~/components/logo'
 import { getSessionData, destroySession } from '~/utils/auth.server'
@@ -16,7 +17,7 @@ export const action: ActionFunction = async ({ request }) => {
   })
 }
 
-interface LoaderData {
+type LoaderData = {
   email: string
 }
 

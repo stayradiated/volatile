@@ -1,4 +1,5 @@
-import { LoaderFunction, json } from '@remix-run/node'
+import type { LoaderFunction } from '@remix-run/node'
+import { json } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
 import { promiseHash } from 'remix-utils'
 
@@ -6,9 +7,9 @@ import { Navigation } from '~/components/navigation/index'
 import { getSessionData } from '~/utils/auth.server'
 import { VerifyEmail } from '~/components/verify-email/index'
 import { sdk } from '~/utils/api.server'
-import { GetEmailVerifiedQuery } from '~/graphql/generated'
+import type { GetEmailVerifiedQuery } from '~/graphql/generated'
 
-interface LoaderData {
+type LoaderData = {
   email?: string
   query?: {
     getEmailVerified?: GetEmailVerifiedQuery

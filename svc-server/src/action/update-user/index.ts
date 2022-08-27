@@ -1,7 +1,10 @@
 import * as z from 'zod'
 import type { ActionHandler } from '../../util/action-handler.js'
 import { updateUser } from '../../model/user/index.js'
-import { MissingRequiredArgumentError } from '../../util/error.js'
+import {
+  MissingRequiredArgumentError,
+  messageWithContext,
+} from '../../util/error.js'
 
 const schema = {
   input: {
@@ -18,10 +21,9 @@ const updateUserHandler: ActionHandler<typeof schema> = {
     const { session, pool, input } = context
     const { userUid } = session
     if (!userUid) {
-      return new MissingRequiredArgumentError({
-        message: 'userUid is required',
-        context: { userUid },
-      })
+      return new MissingRequiredArgumentError(
+        messageWithContext(`userUid is required`, { userUid }),
+      )
     }
 
     const { email: rawEmail, password } = input

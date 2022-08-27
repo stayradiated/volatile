@@ -1,9 +1,10 @@
 import { useLoaderData } from '@remix-run/react'
-import { ActionFunction, LoaderFunction, json } from '@remix-run/node'
+import type { ActionFunction, LoaderFunction } from '@remix-run/node'
+import { json } from '@remix-run/node'
 import { inputFromFormData } from 'remix-domains'
 
 import { Navigation } from '~/components/navigation'
-import { GetSubscriptionsQuery } from '~/graphql/generated'
+import type { GetSubscriptionsQuery } from '~/graphql/generated'
 import { SubscriptionList } from '~/components/subscription-list'
 import { getSessionData } from '~/utils/auth.server'
 import { sdk } from '~/utils/api.server'
@@ -35,7 +36,7 @@ export const action: ActionFunction = async ({ request }) => {
   }
 }
 
-interface LoaderData {
+type LoaderData = {
   email: string
   query: GetSubscriptionsQuery
 }

@@ -1,4 +1,4 @@
-import { inspect } from 'node:util'
+import { assertOk } from '@stayradiated/error-boundary'
 
 import { test } from '../../test-util/ava.js'
 
@@ -39,10 +39,7 @@ test('dcaOrder', async (t) => {
     userUid,
     enabled: true,
   })
-  if (dcaOrderList instanceof Error) {
-    t.fail(inspect(dcaOrderList))
-    return
-  }
+  assertOk(dcaOrderList)
 
   t.is(1, dcaOrderList.length)
   t.like(dcaOrderList[0], input)

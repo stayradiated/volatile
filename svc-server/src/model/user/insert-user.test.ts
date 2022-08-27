@@ -1,10 +1,11 @@
 import { randomUUID } from 'node:crypto'
-import { assertOk } from '@stayradiated/error-boundary'
+import { assertOk, assertError } from '@stayradiated/error-boundary'
 import * as db from 'zapatos/db'
 import type * as s from 'zapatos/schema'
 
 import { test } from '../../test-util/ava.js'
 import * as hash from '../../util/hash.js'
+import { firstLine } from '../../util/error.js'
 import { keyring } from '../../util/keyring.js'
 import { insertUser } from './insert-user.js'
 
@@ -64,9 +65,9 @@ test('insertUser: should enforce unique emails', async (t) => {
     email,
     password: 'password',
   })
-  t.true(error instanceof Error)
-  t.like(error, {
-    message:
-      'E_ILLEGAL_ARGUMENT: Could not create user, email already exists in DB.',
-  })
+  assertError(error)
+  t.is(
+    firstLine(error.message),
+    'Could not create user, email already exists in DB.',
+  )
 })

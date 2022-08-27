@@ -45,11 +45,7 @@ const upsertUserDevice = async (
   )
 
   if (error instanceof Error) {
-    return new DbError({
-      message: 'Could not upsert user device.',
-      cause: error,
-      context: { options },
-    })
+    return new DbError('Could not upsert user device.', { cause: error })
   }
 
   return error.uid

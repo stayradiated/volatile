@@ -1,5 +1,6 @@
 import { format } from 'date-fns'
-import { Kanye, getResponseBodyJson } from '@volatile/kanye'
+import type { Kanye } from '@volatile/kanye'
+import { getResponseBodyJson } from '@volatile/kanye'
 
 import type { Config } from '../util/types.js'
 import { get } from '../util/client.js'

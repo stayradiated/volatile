@@ -1,7 +1,8 @@
 import { format } from 'date-fns'
 
-import { table, Row8 } from '../../utils/table.js'
-import { RowData } from './types.js'
+import type { Row8 } from '../../utils/table.js'
+import { table } from '../../utils/table.js'
+import type { RowData } from './types.js'
 
 const sortByPrice = (a: RowData, b: RowData): number => a.price - b.price
 

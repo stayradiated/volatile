@@ -16,16 +16,16 @@ export const builder = {}
 
 const getOpenOrdersQuery = /* GraphQL */ `
   query getOpenOrders {
-    order(where: { closed_at: { _is_null: true } }) {
+    order(where: { closedAt: { _isNull: true } }) {
       exchange {
         id
       }
-      opened_at
+      openedAt
       price
       value
       volume
-      primary_currency
-      secondary_currency
+      primaryCurrency
+      secondaryCurrency
       type
     }
   }
@@ -49,12 +49,12 @@ export const handler = createHandler(async (config) => {
 
   const rowData = result.data.order.map<RowData>((order) => ({
     exchangeId: order.exchange.id,
-    openedAt: parseISO(order.opened_at),
+    openedAt: parseISO(order.openedAt),
     value: order.value,
     price: order.price,
     volume: order.volume,
-    primaryCurrency: order.primary_currency,
-    secondaryCurrency: order.secondary_currency,
+    primaryCurrency: order.primaryCurrency,
+    secondaryCurrency: order.secondaryCurrency,
     type: order.type,
   }))
 

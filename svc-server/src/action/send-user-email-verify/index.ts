@@ -1,6 +1,7 @@
 import * as z from 'zod'
 import {
   MissingRequiredArgumentError,
+  messageWithContext,
   IllegalStateError,
   UnexpectedError,
 } from '../../util/error.js'
@@ -28,10 +29,9 @@ const sendUserEmailVerifyHandler: ActionHandler<typeof schema> = {
     const { pool, session } = context
     const { userUid } = session
     if (!userUid) {
-      return new MissingRequiredArgumentError({
-        message: 'userUid is required.',
-        context: { userUid },
-      })
+      return new MissingRequiredArgumentError(
+        messageWithContext(`userUid is required.`, { userUid }),
+      )
     }
 
     const user = await selectUser(pool, userUid)
@@ -40,10 +40,11 @@ const sendUserEmailVerifyHandler: ActionHandler<typeof schema> = {
     }
 
     if (user.emailVerified) {
-      return new IllegalStateError({
-        message: 'User has already verified their email address.',
-        context: { userUid },
-      })
+      return new IllegalStateError(
+        messageWithContext(`User has already verified their email address.`, {
+          userUid,
+        }),
+      )
     }
 
     const email = await getUserEmail(pool, user.uid)
@@ -70,10 +71,8 @@ const sendUserEmailVerifyHandler: ActionHandler<typeof schema> = {
       text: `Please open this URL to verify your Volatile account: ${config.BASE_URL}account/verify-email?secret=${secret}`,
     })
     if (sendMailError instanceof Error) {
-      return new UnexpectedError({
-        message: 'Could not send email verification URL.',
+      return new UnexpectedError('Could not send email verification URL.', {
         cause: sendMailError,
-        context: { email },
       })
     }
 

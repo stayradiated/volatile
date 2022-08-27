@@ -6,7 +6,7 @@ import type { ActionHandler } from '../../util/action-handler.js'
 import { config } from '../../env.js'
 
 import { sendMail } from '../../util/mail.js'
-import { UnexpectedError } from '../../util/error.js'
+import { UnexpectedError, messageWithContext } from '../../util/error.js'
 
 import { selectUserByEmail } from '../../model/user/index.js'
 import {
@@ -53,11 +53,10 @@ const sendUserPasswordResetHandler: ActionHandler<typeof schema> = {
       text: `To reset your account password, visit this URL: ${config.BASE_URL}reset-password/${secret}`,
     })
     if (sendMailError instanceof Error) {
-      return new UnexpectedError({
-        message: 'Could not send password reset URL.',
-        cause: sendMailError,
-        context: { email },
-      })
+      return new UnexpectedError(
+        messageWithContext(`Could not send password reset URL.`, { email }),
+        { cause: sendMailError },
+      )
     }
 
     return {

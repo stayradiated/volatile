@@ -1,8 +1,9 @@
 import { useLoaderData } from '@remix-run/react'
-import { LoaderFunction, json, redirect } from '@remix-run/node'
+import type { LoaderFunction } from '@remix-run/node'
+import { json, redirect } from '@remix-run/node'
 
 import { Card } from '~/components/retro-ui'
-import { GetCheckoutPageQuery } from '~/graphql/generated'
+import type { GetCheckoutPageQuery } from '~/graphql/generated'
 import { StripeContainer } from '~/components/subscription-price-list/stripe-container'
 import { StripeForm } from '~/components/subscription-price-list/stripe-form'
 import { SubscriptionCard } from '~/components/subscription-list'
@@ -10,7 +11,7 @@ import { getSessionData } from '~/utils/auth.server'
 import { sdk } from '~/utils/api.server'
 import { loginRedirect } from '~/utils/redirect.server'
 
-interface LoaderData {
+type LoaderData = {
   query: GetCheckoutPageQuery
 }
 

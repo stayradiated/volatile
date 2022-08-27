@@ -1,5 +1,8 @@
 import * as z from 'zod'
-import { MissingRequiredArgumentError } from '../../util/error.js'
+import {
+  MissingRequiredArgumentError,
+  messageWithContext,
+} from '../../util/error.js'
 
 import type { ActionHandler } from '../../util/action-handler.js'
 import { updateUserExchangeKeys } from '../../model/user-exchange-keys/index.js'
@@ -21,10 +24,9 @@ const updateUserExchangeKeysHandler: ActionHandler<typeof schema> = {
     const { userExchangeKeysUid, keys, description } = input
     const { userUid } = session
     if (!userUid) {
-      return new MissingRequiredArgumentError({
-        message: 'userUid is required',
-        context: { userUid },
-      })
+      return new MissingRequiredArgumentError(
+        messageWithContext(`userUid is required`, { userUid }),
+      )
     }
 
     const error = await updateUserExchangeKeys(pool, {

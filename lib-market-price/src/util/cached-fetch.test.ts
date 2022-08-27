@@ -1,15 +1,12 @@
 /* eslint-disable import/no-named-as-default-member */
 
 import { setTimeout } from 'node:timers/promises'
-import { Kanye } from '@volatile/kanye'
+import type { Kanye } from '@volatile/kanye'
 import test from 'ava'
 import sinon from 'sinon'
 
-import {
-  createCachedFetchFn,
-  CachedFetchConfig,
-  FetchFn,
-} from './cached-fetch.js'
+import type { CachedFetchConfig, FetchFn } from './cached-fetch.js'
+import { createCachedFetchFn } from './cached-fetch.js'
 
 const mockRaw: Kanye = {
   error: undefined,

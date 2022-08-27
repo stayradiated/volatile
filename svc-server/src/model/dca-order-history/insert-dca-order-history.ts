@@ -36,10 +36,8 @@ const insertDcaOrderHistory = async (
     db.insert('dca_order_history', [value], { returning: ['uid'] }).run(pool),
   )
   if (rows instanceof Error || !rows) {
-    return new DbError({
-      message: 'Could not insert row into kc.dca_order_history.',
+    return new DbError('Could not insert row into kc.dca_order_history.', {
       cause: rows,
-      context: { value },
     })
   }
 

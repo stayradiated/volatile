@@ -1,12 +1,13 @@
 import { useLoaderData } from '@remix-run/react'
-import { LoaderFunction, json } from '@remix-run/node'
+import type { LoaderFunction } from '@remix-run/node'
+import { json } from '@remix-run/node'
 
 import { TradeList } from '~/components/trade-list'
 import { loginRedirect } from '~/utils/redirect.server'
 import { Page } from '~/components/ui'
 import { getSessionData } from '~/utils/auth.server'
 import { sdk } from '~/utils/api.server'
-import {
+import type {
   GetTradeListQuery,
   GetTradeSumValueByWeekQuery,
   GetTradeAvgPriceQuery,
@@ -18,7 +19,7 @@ import {
 // import { TradeCumulativeVolume } from '~/components/trade-list/trade-cumulative-volume'
 // import { TradeSumValueByWeek } from '~/components/trade-list/trade-sum-value-by-week'
 
-interface LoaderData {
+type LoaderData = {
   email: string
   query: GetTradeListQuery
   tradeCumulativeSum: GetTradeCumulativeSumByDayQuery

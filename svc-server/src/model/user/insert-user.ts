@@ -3,7 +3,7 @@ import * as db from 'zapatos/db'
 import type * as s from 'zapatos/schema'
 import { errorBoundary } from '@stayradiated/error-boundary'
 
-import { IllegalArgumentError } from '../../util/error.js'
+import { IllegalArgumentError, messageWithContext } from '../../util/error.js'
 import { keyring } from '../../util/keyring.js'
 import * as hash from '../../util/hash.js'
 import type { Pool } from '../../types.js'
@@ -35,10 +35,11 @@ const insertUser = async (
   }
 
   if (emailIsAlreadyUsed) {
-    return new IllegalArgumentError({
-      message: 'Could not create user, email already exists in DB.',
-      context: { emailHash },
-    })
+    return new IllegalArgumentError(
+      messageWithContext(`Could not create user, email already exists in DB.`, {
+        emailHash,
+      }),
+    )
   }
 
   const passwordHash = await hash.bcrypt(password)

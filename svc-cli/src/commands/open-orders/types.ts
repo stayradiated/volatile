@@ -9,4 +9,4 @@ type RowData = {
   type: string
 }
 
-export { RowData }
+export type { RowData }

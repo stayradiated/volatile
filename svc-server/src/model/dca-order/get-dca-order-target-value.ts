@@ -1,6 +1,6 @@
 import { differenceInMinutes } from 'date-fns'
 
-import { IllegalStateError } from '../../util/error.js'
+import { IllegalStateError, messageWithContext } from '../../util/error.js'
 import { round } from '../../util/round.js'
 
 import { selectTradesAfterDate } from '../trade/index.js'
@@ -48,14 +48,13 @@ const getDcaOrderTargetValue = async (
   )
 
   if (typeof orderValue !== 'number' || Number.isNaN(orderValue)) {
-    return new IllegalStateError({
-      message: 'Calculated Dca order target value is not a number',
-      context: {
+    return new IllegalStateError(
+      messageWithContext(`Calculated Dca order target value is not a number`, {
         minuteAverage,
         tradedValue,
         minutesSinceStartDate,
-      },
-    })
+      }),
+    )
   }
 
   return Math.max(0, Math.min(maxValue ?? Number.POSITIVE_INFINITY, orderValue))

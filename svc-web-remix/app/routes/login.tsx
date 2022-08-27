@@ -1,4 +1,5 @@
-import { ActionFunction, LoaderFunction, json } from '@remix-run/node'
+import type { ActionFunction, LoaderFunction } from '@remix-run/node'
+import { json } from '@remix-run/node'
 import { useActionData, useLoaderData } from '@remix-run/react'
 import invariant from 'tiny-invariant'
 
@@ -60,7 +61,7 @@ export const action: ActionFunction = async ({ request }) => {
     console.error(error)
 
     return json<ActionData>({
-      error: error instanceof Error ? error.message : String(error)
+      error: error instanceof Error ? error.message : String(error),
     })
   }
 }

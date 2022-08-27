@@ -1,10 +1,8 @@
 import { inspect } from 'node:util'
-import {
-  latest as getLatestExchangeRate,
-  Config as OpenExchangeRatesConfig,
-} from '@volatile/open-exchange-rates-api'
+import type { Config as OpenExchangeRatesConfig } from '@volatile/open-exchange-rates-api'
+import { latest as getLatestExchangeRate } from '@volatile/open-exchange-rates-api'
 
-import { MarketPriceSource } from '../util/market-price-source.js'
+import type { MarketPriceSource } from '../util/market-price-source.js'
 
 type Options = {
   config: OpenExchangeRatesConfig
@@ -64,4 +62,4 @@ const createMarketSourceForCurrency = (
 
 export { createMarketSourceForCurrency }
 
-export { Config as OpenExchangeRatesConfig } from '@volatile/open-exchange-rates-api'
+export type { Config as OpenExchangeRatesConfig } from '@volatile/open-exchange-rates-api'

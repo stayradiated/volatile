@@ -22,10 +22,9 @@ const createUserExchangeKeysHandler: ActionHandler<typeof schema> = {
     const { exchangeUid, keys, description } = input
     const { userUid } = session
     if (!userUid) {
-      return new MissingRequiredArgumentError({
-        message: 'userUid is required',
-        context: { userUid },
-      })
+      return new MissingRequiredArgumentError(
+        `userUid is required${JSON.stringify(userUid)}`,
+      )
     }
 
     const result = await insertUserExchangeKeys(pool, {

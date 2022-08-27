@@ -40,14 +40,10 @@ const createSignedBody = (
   parameters: Record<string, string> = {},
 ): URLSearchParams | Error => {
   if (!isValidConfig(config)) {
-    return new ConfigError({
-      message: 'Config is not valid for kiwi-coin.com',
-      context: {
-        config,
-        endpoint,
-        parameters,
-      },
-    })
+    return new ConfigError(
+      `Config is not valid for kiwi-coin.com.
+${JSON.stringify({ config })}`,
+    )
   }
 
   const body = new URLSearchParams(parameters)

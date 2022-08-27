@@ -2,7 +2,10 @@ import { errorBoundary } from '@stayradiated/error-boundary'
 import * as z from 'zod'
 
 import { stripe } from '../../util/stripe.js'
-import { MissingRequiredArgumentError } from '../../util/error.js'
+import {
+  MissingRequiredArgumentError,
+  messageWithContext,
+} from '../../util/error.js'
 
 import type { ActionHandler } from '../../util/action-handler.js'
 
@@ -23,12 +26,14 @@ const createStripeSubscription: ActionHandler<typeof schema> = {
   async handler(context) {
     const { pool, input, session } = context
     const { userUid } = session
-    if (!userUid) {
-      return new MissingRequiredArgumentError({
-        message: 'userUid is required',
-        context: { userUid },
-      })
-    }
+    if (!userUid)
+      return new MissingRequiredArgumentError(
+        messageWithContext(
+          `userUid is required
+    `,
+          { userUid },
+        ),
+      )
 
     const { priceId } = input
 

@@ -1,5 +1,6 @@
 import { useLoaderData } from '@remix-run/react'
-import { LoaderFunction, json } from '@remix-run/node'
+import type { LoaderFunction } from '@remix-run/node'
+import { json } from '@remix-run/node'
 import invariant from 'tiny-invariant'
 import { parseISO, formatISO, subHours } from 'date-fns'
 import { errorBoundary } from '@stayradiated/error-boundary'
@@ -10,7 +11,7 @@ import { Card } from '~/components/retro-ui'
 import { loginRedirect } from '~/utils/redirect.server'
 
 import { sdk } from '~/utils/api.server'
-import {
+import type {
   GetDcaOrderHistoryListQuery,
   GetDcaOrderHistoryPriceChartQuery,
 } from '~/graphql/generated'

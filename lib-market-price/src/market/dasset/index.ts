@@ -1,7 +1,6 @@
 import * as dasset from '@volatile/dasset-api'
 
-import { IllegalStateError } from '../../util/error.js'
-import { MarketPriceSource } from '../../util/market-price-source.js'
+import type { MarketPriceSource } from '../../util/market-price-source.js'
 
 type Options = {
   config: dasset.Config
@@ -41,10 +40,10 @@ const marketSource: MarketPriceSource<Options> = {
     }
 
     if (!ticker) {
-      const error = new IllegalStateError({
-        message: 'Received an empty ticker value from dassetx.com.',
-        context: { assetSymbol, currency },
-      })
+      const error = new Error(
+        `Received an empty ticker value from dassetx.com.
+${JSON.stringify({ assetSymbol, currency })}`,
+      )
       return [error, raw]
     }
 
@@ -64,4 +63,4 @@ const marketSource: MarketPriceSource<Options> = {
 }
 
 export default marketSource
-export { Options }
+export type { Options }

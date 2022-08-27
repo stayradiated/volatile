@@ -22,13 +22,7 @@ const selectUserDeviceByID = async (
       .run(pool),
   )
   if (row instanceof Error || !row) {
-    return new DbError({
-      message: 'Could not find user device.',
-      cause: row,
-      context: {
-        deviceIdHash,
-      },
-    })
+    return new DbError('Could not find user device.', { cause: row })
   }
 
   return mapRowToUserDevice(row)

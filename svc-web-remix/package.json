@@ -20,7 +20,6 @@
     "@stayradiated/error-boundary": "4.0.0",
     "@stripe/react-stripe-js": "1.10.0",
     "@stripe/stripe-js": "1.35.0",
-    "@volatile/lib-error": "workspace:*",
     "date-fns": "2.29.2",
     "date-fns-tz": "1.3.6",
     "graphql": "16.6.0",

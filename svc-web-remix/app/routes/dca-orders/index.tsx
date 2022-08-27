@@ -1,12 +1,13 @@
 import { useLoaderData } from '@remix-run/react'
-import { ActionFunction, LoaderFunction, json, redirect } from '@remix-run/node'
+import type { ActionFunction, LoaderFunction } from '@remix-run/node'
+import { json, redirect } from '@remix-run/node'
 import { makeDomainFunction, inputFromFormData } from 'remix-domains'
 import * as z from 'zod'
 
 import { DcaOrderList } from '~/components/dca-order-list/index'
 import { getSessionData } from '~/utils/auth.server'
 import { sdk } from '~/utils/api.server'
-import { GetDcaOrderListQuery } from '~/graphql/generated'
+import type { GetDcaOrderListQuery } from '~/graphql/generated'
 import { loginRedirect } from '~/utils/redirect.server'
 
 const updateDcaOrderEnabled = makeDomainFunction(
@@ -59,7 +60,7 @@ export const action: ActionFunction = async ({ request }) => {
   return null
 }
 
-interface LoaderData {
+type LoaderData = {
   query: GetDcaOrderListQuery
 }
 

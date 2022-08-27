@@ -1,7 +1,8 @@
 import test from 'ava'
 import { assertOk } from '@stayradiated/error-boundary'
 
-import { PaginatedFetchFn, getPage, getAllPages } from './pagination.js'
+import type { PaginatedFetchFn } from './pagination.js'
+import { getPage, getAllPages } from './pagination.js'
 import type { Config } from './types.js'
 
 const range = (start: number, end: number): number[] => {

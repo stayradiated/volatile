@@ -25,14 +25,14 @@ export const builder = (yargs: Argv) =>
 
 const getTradesQuery = /* GraphQL */ `
   query getTrades($assetSymbol: String!, $limit: Int!, $offset: Int!) {
-    tradeAggregate: trade_aggregate {
+    tradeAggregate: tradeAggregate {
       aggregate {
         count
       }
     }
     trade(
-      where: { primary_currency: { _eq: $assetSymbol } }
-      order_by: { timestamp: asc }
+      where: { primaryCurrency: { _eq: $assetSymbol } }
+      orderBy: { timestamp: ASC }
       limit: $limit
       offset: $offset
     ) {
@@ -40,16 +40,16 @@ const getTradesQuery = /* GraphQL */ `
         id
       }
       order {
-        created_at
+        createdAt
       }
-      trade_id
+      tradeId
       timestamp
       volume
-      primary_currency
+      primaryCurrency
       type
       price
       fee
-      total_value
+      totalValue
     }
   }
 `
@@ -81,14 +81,14 @@ export const handler = createHandler<Options>(async (config, argv) => {
 
   const rowData = result.data.trade.map<RowData>((trade) => ({
     exchange: trade.exchange.id,
-    tradeId: trade.trade_id,
-    orderCreatedAt: trade.order ? parseISO(trade.order.created_at) : undefined,
+    tradeId: trade.tradeId,
+    orderCreatedAt: trade.order ? parseISO(trade.order.createdAt) : undefined,
     date: parseISO(trade.timestamp),
     price: trade.price,
-    assetSymbol: trade.primary_currency,
-    nzd: trade.total_value,
+    assetSymbol: trade.primaryCurrency,
+    nzd: trade.totalValue,
     btc: trade.volume,
-    fee: (trade.fee / trade.total_value) * 100,
+    fee: (trade.fee / trade.totalValue) * 100,
     type: trade.type,
   }))
 

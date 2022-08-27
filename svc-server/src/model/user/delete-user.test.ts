@@ -1,6 +1,7 @@
 import { assertOk, assertError } from '@stayradiated/error-boundary'
 
 import { test } from '../../test-util/ava.js'
+import { firstLine } from '../../util/error.js'
 
 import { deleteUser } from './delete-user.js'
 import { selectUser } from './select-user.js'
@@ -17,5 +18,5 @@ test('should delete a user', async (t) => {
 
   const user = await selectUser(pool, userUid)
   assertError(user)
-  t.is(user.message, 'E_DB: Could not find user.')
+  t.is(firstLine(user.message), 'Could not find user.')
 })

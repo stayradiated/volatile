@@ -3,6 +3,7 @@ import QR from 'qrcode'
 
 import {
   MissingRequiredArgumentError,
+  messageWithContext,
   IllegalStateError,
 } from '../../util/error.js'
 import { authenticator } from '../../util/otplib.js'
@@ -23,18 +24,19 @@ const setupUser2FaHandler: ActionHandler<typeof schema> = {
     const { pool, session } = context
     const { userUid } = session
     if (!userUid) {
-      return new MissingRequiredArgumentError({
-        message: 'userUid is required',
-        context: { userUid },
-      })
+      return new MissingRequiredArgumentError(
+        messageWithContext(`userUid is required`, { userUid }),
+      )
     }
 
     const alreadyHas2FaEnabled = await hasUser2FaByUserUid(pool, userUid)
     if (alreadyHas2FaEnabled) {
-      return new IllegalStateError({
-        message: 'This user already has 2Fa enabled.',
-        context: { userUid, alreadyHas2FaEnabled },
-      })
+      return new IllegalStateError(
+        messageWithContext(`This user already has 2Fa enabled.`, {
+          userUid,
+          alreadyHas2FaEnabled,
+        }),
+      )
     }
 
     const secret = authenticator.generateSecret(20)

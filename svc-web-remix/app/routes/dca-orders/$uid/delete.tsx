@@ -1,4 +1,5 @@
-import { ActionFunction, LoaderFunction, json, redirect } from '@remix-run/node'
+import type { ActionFunction, LoaderFunction } from '@remix-run/node'
+import { json, redirect } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
 import invariant from 'tiny-invariant'
 import { errorBoundary } from '@stayradiated/error-boundary'

@@ -1,6 +1,6 @@
+import type { LinkProps } from '@remix-run/react'
 import { Link } from '@remix-run/react'
 import styled from 'styled-components'
-import { LinkProps } from '@remix-run/react'
 
 type Props = LinkProps
 

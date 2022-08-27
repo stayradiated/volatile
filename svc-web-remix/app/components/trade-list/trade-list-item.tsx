@@ -4,7 +4,7 @@ import { formatInTimeZone } from 'date-fns-tz'
 import styled from 'styled-components'
 import { ExchangeLogo } from './exchange-logo'
 import { formatCurrency } from '~/components/format'
-import { GetTradeListQuery } from '~/graphql/generated'
+import type { GetTradeListQuery } from '~/graphql/generated'
 
 type Trade = GetTradeListQuery['trade'][number]
 

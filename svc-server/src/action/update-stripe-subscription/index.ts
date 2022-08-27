@@ -3,7 +3,10 @@ import { errorBoundary } from '@stayradiated/error-boundary'
 import { fromUnixTime } from 'date-fns'
 
 import { stripe } from '../../util/stripe.js'
-import { MissingRequiredArgumentError } from '../../util/error.js'
+import {
+  MissingRequiredArgumentError,
+  messageWithContext,
+} from '../../util/error.js'
 
 import type { ActionHandler } from '../../util/action-handler.js'
 
@@ -25,10 +28,9 @@ const updateStripeSubscriptionHandler: ActionHandler<typeof schema> = {
     const { pool, input, session } = context
     const { userUid } = session
     if (!userUid) {
-      return new MissingRequiredArgumentError({
-        message: 'userUid is required',
-        context: { userUid },
-      })
+      return new MissingRequiredArgumentError(
+        messageWithContext(`userUid is required`, { userUid }),
+      )
     }
 
     const { subscriptionId, cancelAtPeriodEnd } = input

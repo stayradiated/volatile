@@ -1,15 +1,15 @@
-import { Link } from '@remix-run/react'
-import { useLoaderData, Outlet } from '@remix-run/react'
-import { LoaderFunction, json } from '@remix-run/node'
+import { Link, useLoaderData, Outlet } from '@remix-run/react'
+import type { LoaderFunction } from '@remix-run/node'
+import { json } from '@remix-run/node'
 import { promiseHash } from 'remix-utils'
 
 import { Card } from '~/components/retro-ui'
 import { getSessionData } from '~/utils/auth.server'
 import { sdk } from '~/utils/api.server'
-import { GetUser2FaQuery } from '~/graphql/generated'
+import type { GetUser2FaQuery } from '~/graphql/generated'
 import { loginRedirect } from '~/utils/redirect.server'
 
-interface LoaderData {
+type LoaderData = {
   query: {
     getUser2FA: GetUser2FaQuery
   }

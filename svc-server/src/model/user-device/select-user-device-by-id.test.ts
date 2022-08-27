@@ -37,5 +37,5 @@ test('should handle missing device', async (t) => {
   const error = await selectUserDeviceByID(pool, deviceId)
   assertError(error)
 
-  t.is(error.message, `E_DB: Could not find user device.`)
+  t.is(error.message, `Could not find user device.`)
 })

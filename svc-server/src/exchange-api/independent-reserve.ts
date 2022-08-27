@@ -173,9 +173,7 @@ const getIndependentReserveExchangeApi = (
   const { pool, config, userUid, exchangeUid, userExchangeKeysUid } = options
 
   if (!ir.isValidConfig(config)) {
-    return new ExchangeError({
-      message: 'Config is not valid for independentreserve.com.',
-    })
+    return new ExchangeError('Config is not valid for independentreserve.com.')
   }
 
   const logRequest: LogRequestFn = async (request) => {

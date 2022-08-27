@@ -15,12 +15,8 @@ const selectDcaOrder = async (
     db.selectOne('dca_order', { uid: dcaOrderUid }).run(pool),
   )
   if (!row || row instanceof Error) {
-    return new DbError({
-      message: `Could not select Dca order with uid=${dcaOrderUid}.`,
+    return new DbError(`Could not select Dca order with uid=${dcaOrderUid}.`, {
       cause: row,
-      context: {
-        dcaOrderUid,
-      },
     })
   }
 

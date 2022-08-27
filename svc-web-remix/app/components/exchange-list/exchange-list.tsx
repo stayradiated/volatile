@@ -1,5 +1,5 @@
 import { ExchangeTable } from './exchange-table'
-import { GetExchangeListQuery } from '~/graphql/generated'
+import type { GetExchangeListQuery } from '~/graphql/generated'
 
 type Props = {
   query: GetExchangeListQuery

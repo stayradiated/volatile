@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 
-import { Chart, ChartConfig, formatDataForChart } from '../chart'
+import type { ChartConfig } from '../chart'
+import { Chart, formatDataForChart } from '../chart'
 import type { GetMarketPriceQuery } from '~/graphql/generated'
 
 type Source = GetMarketPriceQuery['binanceUs'][number]['marketPrices']

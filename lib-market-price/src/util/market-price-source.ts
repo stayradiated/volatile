@@ -1,5 +1,5 @@
-import { CachedFetchConfig } from './cached-fetch.js'
+import type { CachedFetchConfig } from './cached-fetch.js'
 
 type MarketPriceSource<Options> = CachedFetchConfig<Options, number>
 
-export { MarketPriceSource }
+export type { MarketPriceSource }

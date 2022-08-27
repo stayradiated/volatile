@@ -3,7 +3,7 @@ import Select from 'react-select'
 
 import { Form, PrimaryButton, Input, DateInput } from '../retro-ui'
 
-import { GetDcaOrderFormCreateQuery } from '~/graphql/generated'
+import type { GetDcaOrderFormCreateQuery } from '~/graphql/generated'
 
 type Exchange = GetDcaOrderFormCreateQuery['exchange'][number]
 type UserExchangeKeys = GetDcaOrderFormCreateQuery['userExchangeKeys'][number]

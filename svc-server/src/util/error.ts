@@ -1,35 +1,31 @@
-import { BetterError } from '@volatile/lib-error'
+class UnexpectedError extends Error {}
+class CronError extends Error {}
+class ModelError extends Error {}
+class ConfigError extends Error {}
+class ExchangeError extends Error {}
+class DbError extends Error {}
+class NoEntityError extends Error {}
+class AuthError extends Error {}
+class UserLimitError extends Error {}
+class PermissionError extends Error {}
+class AlreadyInitializedError extends Error {}
+class NotInitializedError extends Error {}
+class IllegalArgumentError extends Error {}
+class IllegalArgumentTypeError extends Error {}
+class MissingRequiredArgumentError extends Error {}
+class IllegalStateError extends Error {}
 
-class UnexpectedError extends BetterError {}
-class CronError extends BetterError {}
+const messageWithContext = <T extends Record<string, unknown>>(
+  errorMessage: string,
+  context: T,
+): string => {
+  return `${errorMessage}
+${JSON.stringify(context)}`
+}
 
-class ModelError extends BetterError {}
-
-class ConfigError extends BetterError {}
-
-class ExchangeError extends BetterError {}
-
-class DbError extends BetterError {}
-
-class NoEntityError extends BetterError {}
-
-class AuthError extends BetterError {}
-
-class UserLimitError extends BetterError {}
-
-class PermissionError extends BetterError {}
-
-class AlreadyInitializedError extends BetterError {}
-
-class NotInitializedError extends BetterError {}
-
-class IllegalArgumentError extends BetterError {}
-
-class IllegalArgumentTypeError extends BetterError {}
-
-class MissingRequiredArgumentError extends BetterError {}
-
-class IllegalStateError extends BetterError {}
+const firstLine = (errorMessage: string): string => {
+  return errorMessage.split('\n')[0] ?? ''
+}
 
 export {
   AlreadyInitializedError,
@@ -48,4 +44,6 @@ export {
   ModelError,
   NotInitializedError,
   UnexpectedError,
+  messageWithContext,
+  firstLine,
 }

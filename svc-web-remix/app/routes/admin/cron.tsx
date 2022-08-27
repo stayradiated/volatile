@@ -1,4 +1,5 @@
-import { LoaderFunction, json } from '@remix-run/node'
+import type { LoaderFunction } from '@remix-run/node'
+import { json } from '@remix-run/node'
 import { useLoaderData, Link, Outlet } from '@remix-run/react'
 import { promiseHash } from 'remix-utils'
 

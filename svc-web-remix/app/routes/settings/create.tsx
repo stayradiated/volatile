@@ -1,12 +1,13 @@
 import { useLoaderData } from '@remix-run/react'
-import { ActionFunction, LoaderFunction, json, redirect } from '@remix-run/node'
+import type { ActionFunction, LoaderFunction } from '@remix-run/node'
+import { json, redirect } from '@remix-run/node'
 import invariant from 'tiny-invariant'
 import { Card } from '~/components/retro-ui'
 
 import { UserExchangeKeysFormCreate } from '~/components/user-exchange-keys-form-create'
 import { getSessionData } from '~/utils/auth.server'
 import { sdk } from '~/utils/api.server'
-import { GetExchangeKeysFormCreateQuery } from '~/graphql/generated'
+import type { GetExchangeKeysFormCreateQuery } from '~/graphql/generated'
 import { loginRedirect } from '~/utils/redirect.server'
 
 export const action: ActionFunction = async ({ request }) => {
@@ -51,7 +52,7 @@ export const action: ActionFunction = async ({ request }) => {
   return redirect('/settings')
 }
 
-interface LoaderData {
+type LoaderData = {
   query: GetExchangeKeysFormCreateQuery
 }
 

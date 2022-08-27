@@ -1,11 +1,12 @@
 import { useMemo } from 'react'
-import { useTable, Column, CellProps } from 'react-table'
+import type { Column, CellProps } from 'react-table'
+import { useTable } from 'react-table'
 import { parseISO, format } from 'date-fns'
 
 import { Table } from '../retro-ui'
 import { formatCurrency } from '~/components/format'
 
-import { GetDcaOrderHistoryListQuery } from '~/graphql/generated'
+import type { GetDcaOrderHistoryListQuery } from '~/graphql/generated'
 
 type DcaOrderHistory = GetDcaOrderHistoryListQuery['dcaOrderHistory'][number]
 

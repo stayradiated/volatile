@@ -1,4 +1,5 @@
-import { kanye, Kanye, ApiError } from '@volatile/kanye'
+import type { Kanye } from '@volatile/kanye'
+import { kanye } from '@volatile/kanye'
 
 import { requestOptions, getResponseBody } from '../util/client.js'
 import { buildHeaders } from '../util/build-headers.js'
@@ -48,13 +49,13 @@ const createOrder = async (
 
   const result = getResponseBody<[CreateOrderResult]>(raw)
   if (result instanceof Error) {
-    const error = new ApiError({
-      message: 'Could not create order on dasset.com',
-      cause: result,
-      context: {
-        order,
+    const error = new Error(
+      `Could not create order on dasset.com.
+${JSON.stringify({ order })}`,
+      {
+        cause: result,
       },
-    })
+    )
     return [error, raw]
   }
 

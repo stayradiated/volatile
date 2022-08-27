@@ -1,4 +1,4 @@
-import { Kanye } from '@volatile/kanye'
+import type { Kanye } from '@volatile/kanye'
 import { differenceInMilliseconds } from 'date-fns'
 
 type FetchFnResult<ReturnValue> = {

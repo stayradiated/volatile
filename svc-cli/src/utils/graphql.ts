@@ -100,4 +100,4 @@ const graphqlPaginate = async <Data>(
   return result
 }
 
-export { graphql, graphqlPaginate, GraphqlResult }
+export { graphql, graphqlPaginate, type GraphqlResult }

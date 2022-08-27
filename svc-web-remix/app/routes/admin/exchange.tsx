@@ -1,11 +1,12 @@
-import { LoaderFunction, json } from '@remix-run/node'
+import type { LoaderFunction } from '@remix-run/node'
+import { json } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
 
 import { getSessionData } from '~/utils/auth.server'
 import { sdk } from '~/utils/api.server'
 import { safeRedirect } from '~/utils/redirect.server'
 import { Card } from '~/components/retro-ui'
-import { GetAdminExchangeListQuery } from '~/graphql/generated'
+import type { GetAdminExchangeListQuery } from '~/graphql/generated'
 
 type Exchange = GetAdminExchangeListQuery['exchange'][number]
 

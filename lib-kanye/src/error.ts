@@ -1,27 +1,4 @@
-/* eslint-disable @typescript-eslint/no-useless-constructor */
+class NetworkError extends Error {}
+class ServerError extends Error {}
 
-import {
-  BetterError,
-  BetterErrorConstructorArg,
-} from '@volatile/lib-error'
-
-// WHEN
-// do we use
-// NetError
-// and when
-// do we use
-// APIError?
-
-class NetError extends BetterError {
-  constructor(arg?: BetterErrorConstructorArg) {
-    super(arg)
-  }
-}
-
-class ApiError extends BetterError {
-  constructor(arg?: BetterErrorConstructorArg) {
-    super(arg)
-  }
-}
-
-export { NetError, ApiError }
+export { NetworkError, ServerError }

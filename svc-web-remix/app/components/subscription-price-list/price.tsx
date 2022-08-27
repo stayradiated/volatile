@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-import { GetPricesQuery } from '~/graphql/generated'
+import type { GetPricesQuery } from '~/graphql/generated'
 import { formatCurrency } from '~/components/format'
 
 const Container = styled.div`

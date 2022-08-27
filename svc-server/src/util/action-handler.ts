@@ -45,9 +45,7 @@ const parseSessionVariables = (
   input: Record<string, string> | undefined,
 ): Session | Error => {
   if (typeof input !== 'object' || input === null) {
-    return new IllegalArgumentError({
-      message: 'session_variables must be an object.',
-    })
+    return new IllegalArgumentError('session_variables must be an object.')
   }
 
   const role = input['x-hasura-role'] as SessionRole
@@ -57,16 +55,16 @@ const parseSessionVariables = (
     role !== 'guest' &&
     role !== 'admin'
   ) {
-    return new IllegalArgumentError({
-      message: 'session_variables has an invalid x-hasura-role.',
-    })
+    return new IllegalArgumentError(
+      'session_variables has an invalid x-hasura-role.',
+    )
   }
 
   const userUid = input['x-hasura-user-id']
   if ((role === 'user' || role === 'superuser') && !userUid) {
-    return new IllegalArgumentError({
-      message: 'session_variables is missing x-hasura-user-id.',
-    })
+    return new IllegalArgumentError(
+      'session_variables is missing x-hasura-user-id.',
+    )
   }
 
   return {

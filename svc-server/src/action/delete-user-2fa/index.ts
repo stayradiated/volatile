@@ -1,6 +1,7 @@
 import * as z from 'zod'
 import {
   MissingRequiredArgumentError,
+  messageWithContext,
   IllegalStateError,
   IllegalArgumentError,
 } from '../../util/error.js'
@@ -26,18 +27,19 @@ const deleteUser2FaHandler: ActionHandler<typeof schema> = {
     const { pool, input, session } = context
     const { userUid } = session
     if (!userUid) {
-      return new MissingRequiredArgumentError({
-        message: 'userUid is required',
-        context: { userUid },
-      })
+      return new MissingRequiredArgumentError(
+        messageWithContext(`userUid is required`, { userUid }),
+      )
     }
 
     const has2FaEnabled = await hasUser2FaByUserUid(pool, userUid)
     if (!has2FaEnabled) {
-      return new IllegalStateError({
-        message: 'This user does not have 2Fa enabled.',
-        context: { userUid, has2FaEnabled },
-      })
+      return new IllegalStateError(
+        messageWithContext(`This user does not have 2Fa enabled.`, {
+          userUid,
+          has2FaEnabled,
+        }),
+      )
     }
 
     const { token } = input
@@ -51,10 +53,13 @@ const deleteUser2FaHandler: ActionHandler<typeof schema> = {
     }
 
     if (!isValidToken) {
-      return new IllegalArgumentError({
-        message: 'Token is not valid for secret.',
-        context: { userUid, token, isValidToken },
-      })
+      return new IllegalArgumentError(
+        messageWithContext(`Token is not valid for secret.`, {
+          userUid,
+          token,
+          isValidToken,
+        }),
+      )
     }
 
     const error = await deleteUser2Fa(pool, { userUid })

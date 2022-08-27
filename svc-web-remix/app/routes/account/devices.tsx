@@ -1,14 +1,15 @@
 import { useLoaderData, Outlet } from '@remix-run/react'
-import { LoaderFunction, json } from '@remix-run/node'
+import type { LoaderFunction } from '@remix-run/node'
+import { json } from '@remix-run/node'
 
 import { Card } from '~/components/retro-ui'
-import { GetUserDeviceListQuery } from '~/graphql/generated'
+import type { GetUserDeviceListQuery } from '~/graphql/generated'
 import { UserDeviceList } from '~/components/user-device-list'
 import { getSessionData } from '~/utils/auth.server'
 import { sdk } from '~/utils/api.server'
 import { loginRedirect } from '~/utils/redirect.server'
 
-interface LoaderData {
+type LoaderData = {
   query: GetUserDeviceListQuery
 }
 

@@ -1,6 +1,5 @@
 import { useRef, useEffect } from 'react'
-import {
-  createChart,
+import type {
   DeepPartial,
   ChartOptions,
   AreaSeriesOptions,
@@ -9,6 +8,7 @@ import {
   HistogramSeriesOptions,
   HistogramData,
 } from 'lightweight-charts'
+import { createChart } from 'lightweight-charts'
 
 type AlternateLineData = { time: number; value: number }
 

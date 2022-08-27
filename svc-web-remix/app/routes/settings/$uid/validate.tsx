@@ -1,5 +1,6 @@
 import { useLoaderData, useActionData } from '@remix-run/react'
-import { ActionFunction, LoaderFunction, json } from '@remix-run/node'
+import type { ActionFunction, LoaderFunction } from '@remix-run/node'
+import { json } from '@remix-run/node'
 import invariant from 'tiny-invariant'
 import { errorBoundary } from '@stayradiated/error-boundary'
 import { Card } from '~/components/retro-ui'
@@ -55,7 +56,7 @@ export const action: ActionFunction = async ({ request, params }) => {
   })
 }
 
-interface LoaderData {
+type LoaderData = {
   userExchangeKeysUid: string
 }
 

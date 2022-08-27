@@ -1,7 +1,11 @@
 import db from 'zapatos/db'
 import { errorBoundary } from '@stayradiated/error-boundary'
 
-import { UserLimitError, DbError } from '../../util/error.js'
+import {
+  UserLimitError,
+  messageWithContext,
+  DbError,
+} from '../../util/error.js'
 import type { Pool } from '../../types.js'
 
 import { getUserLimit } from '../user-limit/index.js'
@@ -45,13 +49,12 @@ const updateDcaOrder = async (
     const enabledDcaOrdersCount = enabledDcaOrders.length
 
     if (enabledDcaOrdersCount >= maxEnabledDcaOrderCount) {
-      return new UserLimitError({
-        message: 'You have reached the maximum number of DcaOrders',
-        context: {
+      return new UserLimitError(
+        messageWithContext(`You have reached the maximum number of DcaOrders`, {
           enabledDcaOrdersCount,
           maxEnabledDcaOrderCount,
-        },
-      })
+        }),
+      )
     }
   }
 
@@ -72,19 +75,17 @@ const updateDcaOrder = async (
       .run(pool),
   )
   if (rows instanceof Error) {
-    return new DbError({
-      message: 'Could not update Dca Order.',
-      cause: rows,
-      context: { dcaOrderUid, enabled },
-    })
+    return new DbError('Could not update Dca Order.', { cause: rows })
   }
 
   const row = rows[0]
   if (!row) {
-    return new DbError({
-      message: 'Could not update Dca Order.',
-      context: { dcaOrderUid, enabled },
-    })
+    return new DbError(
+      messageWithContext(`Could not update Dca Order.`, {
+        dcaOrderUid,
+        enabled,
+      }),
+    )
   }
 
   return mapRowToDcaOrder(row)

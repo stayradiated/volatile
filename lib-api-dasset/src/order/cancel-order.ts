@@ -1,4 +1,5 @@
-import { kanye, Kanye, ApiError } from '@volatile/kanye'
+import type { Kanye } from '@volatile/kanye'
+import { kanye } from '@volatile/kanye'
 
 import { requestOptions, getResponseBody } from '../util/client.js'
 import { buildHeaders } from '../util/build-headers.js'
@@ -44,13 +45,13 @@ const cancelOrder = async (
       ]
     }
 
-    const error = new ApiError({
-      message: 'Could not cancel order on dasset.com',
-      cause: result,
-      context: {
-        orderId,
+    const error = new Error(
+      `Could not cancel order on dasset.com.
+${JSON.stringify({ orderId })}`,
+      {
+        cause: result,
       },
-    })
+    )
     return [error, raw]
   }
 

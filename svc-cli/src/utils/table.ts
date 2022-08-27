@@ -83,8 +83,8 @@ const table = <R extends RowAny>(options: TableOptions<R>): string => {
     },
     drawHorizontalLine: (lineIndex, rowCount) =>
       lineIndex === 0 ||
-      (header && lineIndex === 1) ||
-      (footer && lineIndex === rowCount - 1) ||
+      (Boolean(header) && lineIndex === 1) ||
+      (Boolean(footer) && lineIndex === rowCount - 1) ||
       lineIndex === rowCount,
     columnDefault: {
       alignment: 'right',
@@ -96,15 +96,15 @@ const table = <R extends RowAny>(options: TableOptions<R>): string => {
 
 export {
   table,
-  Row1,
-  Row2,
-  Row3,
-  Row4,
-  Row5,
-  Row6,
-  Row7,
-  Row8,
-  Row9,
-  Row10,
-  RowAny,
+  type Row1,
+  type Row2,
+  type Row3,
+  type Row4,
+  type Row5,
+  type Row6,
+  type Row7,
+  type Row8,
+  type Row9,
+  type Row10,
+  type RowAny,
 }

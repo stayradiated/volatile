@@ -27,11 +27,10 @@ const dasset: ExchangeApi<d.Config> = {
       }
 
       if (orderBook instanceof Error) {
-        return new ExchangeError({
-          message: 'Failed to get lowest ask price from dassetx.com',
-          cause: orderBook,
-          context: { primaryCurrency, secondaryCurrency },
-        })
+        return new ExchangeError(
+          'Failed to get lowest ask price from dassetx.com',
+          { cause: orderBook },
+        )
       }
 
       const lowestAsk = orderBook.ask[0]
@@ -50,8 +49,7 @@ const dasset: ExchangeApi<d.Config> = {
       }
 
       if (balanceList instanceof Error) {
-        return new ExchangeError({
-          message: `Failed to fetch balance from dassetx.com`,
+        return new ExchangeError(`Failed to fetch balance from dassetx.com`, {
           cause: balanceList,
         })
       }
@@ -71,8 +69,7 @@ const dasset: ExchangeApi<d.Config> = {
       }
 
       if (openOrders instanceof Error) {
-        return new ExchangeError({
-          message: 'Failed to get open orders for dassetx.com',
+        return new ExchangeError('Failed to get open orders for dassetx.com', {
           cause: openOrders,
         })
       }
@@ -103,11 +100,10 @@ const dasset: ExchangeApi<d.Config> = {
       }
 
       if (orders instanceof Error) {
-        return new ExchangeError({
-          message: 'Failed to get closed orders from dassetx.com',
-          cause: orders,
-          context: { pageSize, pageIndex },
-        })
+        return new ExchangeError(
+          'Failed to get closed orders from dassetx.com',
+          { cause: orders },
+        )
       }
 
       return {
@@ -152,10 +148,8 @@ const dasset: ExchangeApi<d.Config> = {
       }
 
       if (order instanceof Error) {
-        return new ExchangeError({
-          message: 'Failed to create order on dassetx.com',
+        return new ExchangeError('Failed to create order on dassetx.com', {
           cause: order,
-          context: { volume, price, primaryCurrency, secondaryCurrency },
         })
       }
 
@@ -173,10 +167,8 @@ const dasset: ExchangeApi<d.Config> = {
       }
 
       if (error instanceof Error) {
-        return new ExchangeError({
-          message: 'Failed to cancel order on dassetx.com',
+        return new ExchangeError('Failed to cancel order on dassetx.com', {
           cause: error,
-          context: { orderId },
         })
       }
 
@@ -190,9 +182,7 @@ const getDassetExchangeApi = (
   const { pool, config, userUid, exchangeUid, userExchangeKeysUid } = options
 
   if (!d.isValidConfig(config)) {
-    return new ExchangeError({
-      message: 'Config is not valid for dassetx.com.',
-    })
+    return new ExchangeError('Config is not valid for dassetx.com.')
   }
 
   const logRequest: LogRequestFn = async (request) => {

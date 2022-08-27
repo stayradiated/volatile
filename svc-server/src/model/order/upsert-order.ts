@@ -52,11 +52,7 @@ const upsertOrder = async (
       .run(pool),
   )
   if (row instanceof Error) {
-    return new DbError({
-      message: 'Could not upsert order',
-      cause: row,
-      context: { order },
-    })
+    return new DbError('Could not upsert order', { cause: row })
   }
 
   return row.uid

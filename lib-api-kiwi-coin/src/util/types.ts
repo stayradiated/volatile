@@ -12,4 +12,6 @@ type Order = {
   datetime: string
 }
 
-export type { Config, Order }
+type ApiErrorBody = { error: string | Record<string, unknown> }
+
+export type { Config, Order, ApiErrorBody }

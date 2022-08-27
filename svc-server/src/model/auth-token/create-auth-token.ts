@@ -1,7 +1,7 @@
 import * as db from 'zapatos/db'
 import { errorBoundary } from '@stayradiated/error-boundary'
 
-import { AuthError } from '../../util/error.js'
+import { AuthError, messageWithContext } from '../../util/error.js'
 
 import * as hash from '../../util/hash.js'
 import type { Pool } from '../../types.js'
@@ -39,26 +39,20 @@ const createAuthToken = async (
       .run(pool),
   )
   if (row instanceof Error) {
-    return new AuthError({
-      message: 'Could not read user from database',
-      cause: row,
-      context: { emailHash },
-    })
+    return new AuthError('Could not read user from database', { cause: row })
   }
 
   if (!row) {
-    return new AuthError({
-      message: 'Invalid email or password.',
-      context: { emailHash },
-    })
+    return new AuthError(
+      messageWithContext(`Invalid email or password.`, { emailHash }),
+    )
   }
 
   const passwordMatches = await hash.bcryptCompare(password, row.password_hash)
   if (!passwordMatches) {
-    return new AuthError({
-      message: 'Invalid email or password.',
-      context: { passwordMatches },
-    })
+    return new AuthError(
+      messageWithContext(`Invalid email or password.`, { passwordMatches }),
+    )
   }
 
   const userUid = row.uid

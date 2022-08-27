@@ -10,7 +10,7 @@ const Label = styled.label`
   font-weight: 600;
 `
 
-type Props = {
+type FormItemProps = {
   className?: string
   children?: React.ReactNode
   label?: string
@@ -20,7 +20,7 @@ type Props = {
   formName?: string
 }
 
-const FormItem = (props: Props) => {
+const FormItem = (props: FormItemProps) => {
   const { className, children, label, name, formName = '' } = props
 
   const labelKey = `${formName}_${name}`
@@ -31,7 +31,11 @@ const FormItem = (props: Props) => {
       <div className={className}>
         {React.Children.map(children, (child) => {
           if (typeof name === 'string' && React.isValidElement(child)) {
-            return React.cloneElement(child, { id: labelKey, name })
+            const input = child as React.ReactElement<{
+              id: string
+              name: string
+            }>
+            return React.cloneElement(input, { id: labelKey, name })
           }
 
           return child
@@ -42,3 +46,4 @@ const FormItem = (props: Props) => {
 }
 
 export { FormItem }
+export type { FormItemProps }

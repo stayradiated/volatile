@@ -1,4 +1,5 @@
-import { ActionFunction, json } from '@remix-run/node'
+import type { ActionFunction } from '@remix-run/node'
+import { json } from '@remix-run/node'
 import { useActionData } from '@remix-run/react'
 import invariant from 'tiny-invariant'
 import { errorBoundary } from '@stayradiated/error-boundary'

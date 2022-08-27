@@ -1,15 +1,16 @@
 import { useLoaderData } from '@remix-run/react'
-import { LoaderFunction, json } from '@remix-run/node'
+import type { LoaderFunction } from '@remix-run/node'
+import { json } from '@remix-run/node'
 import { subHours, formatISO } from 'date-fns'
 
 import { Page } from '~/components/ui'
 import { ExchangeList } from '~/components/exchange-list'
 import { getSessionData } from '~/utils/auth.server'
 import { sdk } from '~/utils/api.server'
-import { GetExchangeListQuery } from '~/graphql/generated'
+import type { GetExchangeListQuery } from '~/graphql/generated'
 import { loginRedirect } from '~/utils/redirect.server'
 
-interface LoaderData {
+type LoaderData = {
   query: GetExchangeListQuery
 }
 

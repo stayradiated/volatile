@@ -22,16 +22,16 @@ const createAuthTokenQuery = /* GraphQL */ `
     $token2Fa: String
     $role: String!
   ) {
-    action_create_auth_token(
+    actionCreateAuthToken(
       email: $email
       password: $password
-      device_id: $deviceId
-      device_name: $deviceName
-      device_trusted: $deviceTrusted
-      token_2fa: $token2Fa
+      deviceId: $deviceId
+      deviceName: $deviceName
+      deviceTrusted: $deviceTrusted
+      token2fa: $token2Fa
       role: $role
     ) {
-      auth_token
+      authToken
     }
   }
 `
@@ -61,7 +61,7 @@ const getAuthToken = async (
     return result
   }
 
-  const authToken = result.data.action_create_auth_token?.auth_token
+  const authToken = result.data.actionCreateAuthToken?.authToken
   if (!authToken) {
     return new Error('Failed to get auth token from server')
   }
@@ -73,7 +73,7 @@ const getAuthTokenWith2Fa = async (config: Config): Promise<string | Error> => {
   const authToken = await getAuthToken(config)
   if (
     authToken instanceof Error &&
-    authToken.message === 'E_AUTH: This user has Two Factor Auth enabled.'
+    authToken.message === 'EAUTH: This user has Two Factor Auth enabled.'
   ) {
     const promptResult = await prompts({
       type: 'text',

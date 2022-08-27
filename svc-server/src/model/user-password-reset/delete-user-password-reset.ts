@@ -23,11 +23,7 @@ const deleteUserPasswordReset = async (
       .run(pool),
   )
   if (error instanceof Error) {
-    return new DbError({
-      message: 'Could not delete User Password Reset',
-      cause: error,
-      context: { userPasswordResetUid },
-    })
+    return new DbError('Could not delete User Password Reset', { cause: error })
   }
 
   return true

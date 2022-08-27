@@ -1,11 +1,12 @@
 import { useLoaderData } from '@remix-run/react'
-import { ActionFunction, LoaderFunction, json, redirect } from '@remix-run/node'
+import type { ActionFunction, LoaderFunction } from '@remix-run/node'
+import { json, redirect } from '@remix-run/node'
 import invariant from 'tiny-invariant'
 
 import { UserExchangeKeysDelete } from '~/components/user-exchange-keys-delete'
 import { getSessionData } from '~/utils/auth.server'
 import { sdk } from '~/utils/api.server'
-import { GetUserExchangeKeysByUidQuery } from '~/graphql/generated'
+import type { GetUserExchangeKeysByUidQuery } from '~/graphql/generated'
 import { loginRedirect } from '~/utils/redirect.server'
 
 export const action: ActionFunction = async ({ request, params }) => {
@@ -33,7 +34,7 @@ export const action: ActionFunction = async ({ request, params }) => {
   return redirect('/settings')
 }
 
-interface LoaderData {
+type LoaderData = {
   query: {
     getUserExchangeKeysByUid: GetUserExchangeKeysByUidQuery
   }

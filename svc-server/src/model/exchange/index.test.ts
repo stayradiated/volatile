@@ -1,4 +1,4 @@
-import { inspect } from 'node:util'
+import { assertOk } from '@stayradiated/error-boundary'
 
 import { test } from '../../test-util/ava.js'
 
@@ -29,10 +29,7 @@ test('forceGetExchangeUid: concurrent', async (t) => {
 test('forceGetExchange', async (t) => {
   const { pool } = t.context
   const exchangeUid = await getExchangeUid(pool, EXCHANGE_KIWI_COIN)
-  if (exchangeUid instanceof Error) {
-    t.fail(inspect(exchangeUid))
-    return
-  }
+  assertOk(exchangeUid)
 
   const exchange = await forceGetExchange(pool, exchangeUid)
   t.is(exchange, EXCHANGE_KIWI_COIN)
@@ -41,16 +38,10 @@ test('forceGetExchange', async (t) => {
 test('getExchangeUid + getExchange', async (t) => {
   const { pool } = t.context
   const exchangeUid = await getExchangeUid(pool, EXCHANGE_KIWI_COIN)
-  if (exchangeUid instanceof Error) {
-    t.fail(inspect(exchangeUid))
-    return
-  }
+  assertOk(exchangeUid)
 
   const exchange = await getExchange(pool, exchangeUid)
-  if (exchange instanceof Error) {
-    t.fail(inspect(exchange))
-    return
-  }
+  assertOk(exchange)
 
   t.is(exchange, EXCHANGE_KIWI_COIN)
 })

@@ -2,7 +2,11 @@ import * as db from 'zapatos/db'
 import type * as s from 'zapatos/schema'
 import { errorBoundary } from '@stayradiated/error-boundary'
 
-import { IllegalArgumentError, DbError } from '../../util/error.js'
+import {
+  IllegalArgumentError,
+  messageWithContext,
+  DbError,
+} from '../../util/error.js'
 
 import { keyring } from '../../util/keyring.js'
 import * as hash from '../../util/hash.js'
@@ -34,10 +38,12 @@ const updateUser = async (
     }
 
     if (emailIsAlreadyUsed) {
-      return new IllegalArgumentError({
-        message: 'Could not create user, email already exists in DB.',
-        context: { userUid, emailHash },
-      })
+      return new IllegalArgumentError(
+        messageWithContext(
+          `Could not create user, email already exists in DB.`,
+          { userUid, emailHash },
+        ),
+      )
     }
 
     const emailEncrypted = keyring.encrypt(email)
@@ -70,13 +76,12 @@ const updateUser = async (
   }
 
   if (updatedRows.length === 0) {
-    return new DbError({
-      message: 'Could not find a user with that uid.',
-      context: {
+    return new DbError(
+      messageWithContext(`Could not find a user with that uid.`, {
         userUid,
         fields,
-      },
-    })
+      }),
+    )
   }
 
   return undefined

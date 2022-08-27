@@ -2,7 +2,7 @@ import db from 'zapatos/db'
 import { errorBoundary } from '@stayradiated/error-boundary'
 
 import type { Pool } from '../../types.js'
-import { PermissionError } from '../../util/error.js'
+import { PermissionError, messageWithContext } from '../../util/error.js'
 
 type AssertUserForDcaOrderOptions = {
   userUid: string
@@ -24,10 +24,12 @@ const assertUserForDcaOrder = async (
       .run(pool),
   )
   if (dcaOrder instanceof Error) {
-    return new PermissionError({
-      message: 'User does not have access to Dca Order.',
-      context: { dcaOrderUid, userUid },
-    })
+    return new PermissionError(
+      messageWithContext(`User does not have access to Dca Order.`, {
+        dcaOrderUid,
+        userUid,
+      }),
+    )
   }
 
   return true

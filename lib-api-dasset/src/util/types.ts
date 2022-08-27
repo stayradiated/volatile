@@ -13,4 +13,11 @@ type PaginatedList<T> = {
   results: T[]
 }
 
-export { Config, PaginationOptions, PaginatedList }
+type DassetApiError = {
+  status: number
+  type: string
+  code: number
+  message: string
+}
+
+export type { Config, PaginationOptions, PaginatedList, DassetApiError }

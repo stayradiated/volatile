@@ -1,5 +1,6 @@
 import { useLoaderData } from '@remix-run/react'
-import { ActionFunction, LoaderFunction, json, redirect } from '@remix-run/node'
+import type { ActionFunction, LoaderFunction } from '@remix-run/node'
+import { json, redirect } from '@remix-run/node'
 import invariant from 'tiny-invariant'
 
 import { UserDeviceDelete } from '~/components/user-device-delete'
@@ -34,7 +35,7 @@ export const action: ActionFunction = async ({ request, params }) => {
   return redirect('/account/devices')
 }
 
-interface LoaderData {
+type LoaderData = {
   userDeviceUid: string
   query: {
     getUserDeviceByUid: GetUserDeviceByUidQuery

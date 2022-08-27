@@ -1,6 +1,6 @@
-import { Link } from '@remix-run/react'
-import { useLoaderData, Outlet } from '@remix-run/react'
-import { ActionFunction, LoaderFunction, json } from '@remix-run/node'
+import { Link, useLoaderData, Outlet } from '@remix-run/react'
+import type { ActionFunction, LoaderFunction } from '@remix-run/node'
+import { json } from '@remix-run/node'
 import { inputFromFormData } from 'remix-domains'
 
 import { Card } from '~/components/retro-ui'
@@ -9,7 +9,7 @@ import { SubscriptionCard } from '~/components/subscription-list'
 import { getSessionData } from '~/utils/auth.server'
 import { loginRedirect } from '~/utils/redirect.server'
 import { sdk } from '~/utils/api.server'
-import { GetSubscriptionStatusQuery } from '~/graphql/generated'
+import type { GetSubscriptionStatusQuery } from '~/graphql/generated'
 import { updateStripeSubscription } from '~/actions'
 
 export const action: ActionFunction = async ({ request }) => {
@@ -37,7 +37,7 @@ export const action: ActionFunction = async ({ request }) => {
   }
 }
 
-interface LoaderData {
+type LoaderData = {
   email: string
   query: GetSubscriptionStatusQuery
 }

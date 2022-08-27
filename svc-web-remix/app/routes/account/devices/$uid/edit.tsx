@@ -1,10 +1,11 @@
 import { useLoaderData } from '@remix-run/react'
-import { ActionFunction, LoaderFunction, json, redirect } from '@remix-run/node'
+import type { ActionFunction, LoaderFunction } from '@remix-run/node'
+import { json, redirect } from '@remix-run/node'
 import invariant from 'tiny-invariant'
 
 import { UserDeviceFormEdit } from '~/components/user-device-form-edit'
 import { Card } from '~/components/retro-ui'
-import { GetUserDeviceByUidQuery } from '~/graphql/generated'
+import type { GetUserDeviceByUidQuery } from '~/graphql/generated'
 import { getSessionData } from '~/utils/auth.server'
 import { sdk } from '~/utils/api.server'
 import { loginRedirect } from '~/utils/redirect.server'
@@ -39,7 +40,7 @@ export const action: ActionFunction = async ({ request, params }) => {
   return redirect('/account/devices')
 }
 
-interface LoaderData {
+type LoaderData = {
   userDeviceUid: string
   query: GetUserDeviceByUidQuery
 }

@@ -22,10 +22,10 @@ const kiwiCoin: ExchangeApi<kc.Config> = {
       }
 
       if (orderBook instanceof Error) {
-        return new ExchangeError({
-          message: 'Failed to get lowest ask price from kiwi-coin.com',
-          cause: orderBook,
-        })
+        return new ExchangeError(
+          'Failed to get lowest ask price from kiwi-coin.com',
+          { cause: orderBook },
+        )
       }
 
       const lowestAsk = orderBook.asks[0]
@@ -44,8 +44,7 @@ const kiwiCoin: ExchangeApi<kc.Config> = {
       }
 
       if (balance instanceof Error) {
-        return new ExchangeError({
-          message: 'Failed to get balance from kiwi-coin.com',
+        return new ExchangeError('Failed to get balance from kiwi-coin.com', {
           cause: balance,
         })
       }
@@ -72,10 +71,10 @@ const kiwiCoin: ExchangeApi<kc.Config> = {
       }
 
       if (openOrders instanceof Error) {
-        return new ExchangeError({
-          message: 'Failed to get open orders for kiwi-coin.com',
-          cause: openOrders,
-        })
+        return new ExchangeError(
+          'Failed to get open orders for kiwi-coin.com',
+          { cause: openOrders },
+        )
       }
 
       return openOrders.map((order) => ({
@@ -137,10 +136,8 @@ const kiwiCoin: ExchangeApi<kc.Config> = {
       }
 
       if (order instanceof Error) {
-        return new ExchangeError({
-          message: 'Failed to create order on kiwi-coin.com',
+        return new ExchangeError('Failed to create order on kiwi-coin.com', {
           cause: order,
-          context: { price, volume },
         })
       }
 
@@ -161,10 +158,8 @@ const kiwiCoin: ExchangeApi<kc.Config> = {
       }
 
       if (error instanceof Error) {
-        return new ExchangeError({
-          message: 'Failed to cancel order on kiwi-coin.com',
+        return new ExchangeError('Failed to cancel order on kiwi-coin.com', {
           cause: error,
-          context: { orderId },
         })
       }
 
@@ -178,9 +173,7 @@ const getKiwiCoinExchangeApi = (
   const { pool, config, userUid, exchangeUid, userExchangeKeysUid } = options
 
   if (!kc.isValidConfig(config)) {
-    return new ExchangeError({
-      message: 'Config is not valid for kiwi-coin.com.',
-    })
+    return new ExchangeError('Config is not valid for kiwi-coin.com.')
   }
 
   const logRequest: LogRequestFn = async (request) => {

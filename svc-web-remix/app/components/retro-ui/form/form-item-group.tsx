@@ -1,5 +1,6 @@
 import React from 'react'
 
+import type { FormItemProps } from './form-item'
 import { FormItem } from './form-item'
 
 type Props = {
@@ -14,9 +15,10 @@ const FormItemGroup = (props: Props) => {
     <>
       {React.Children.map(children, (child) => {
         if (React.isValidElement(child) && child.type === FormItem) {
-          const { name } = child.props
+          const formItem = child as React.ReactElement<FormItemProps>
+          const { name } = formItem.props
           if (typeof name === 'string') {
-            return React.cloneElement(child, { formName })
+            return React.cloneElement(formItem, { formName })
           }
 
           return child

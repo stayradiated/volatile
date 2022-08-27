@@ -1,4 +1,4 @@
-import { Kanye } from '@volatile/kanye'
+import type { Kanye } from '@volatile/kanye'
 import { errorListBoundarySync } from '@stayradiated/error-boundary'
 
 import type { Config, PaginationOptions, PaginatedList } from './types.js'
@@ -102,8 +102,8 @@ const buildPaginationSearchParameters = (
 }
 
 export {
-  PaginatedFetchFn,
-  PaginatorState,
+  type PaginatedFetchFn,
+  type PaginatorState,
   getPage,
   getAllPages,
   buildPaginationSearchParameters as buildPaginationSearchParams,

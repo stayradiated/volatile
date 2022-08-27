@@ -13,9 +13,9 @@
   "scripts": {
     "test": "echo 'no files to test...'",
     "tidy": "xo --fix --ignore *.graphql.ts",
-    "build:tsc": "del-cli dist && tsc",
+    "tsc": "del-cli dist && tsc",
     "package": "ncc build ./src/index.ts --out ./dist/ncc --external web-streams-polyfill/ponyfill/es2018 && mv ./dist/ncc/index.js ./dist/ncc/cli.js",
-    "graphql": "graphql-codegen --config ./graphql.codegen.cjs"
+    "codegen": "graphql-codegen --config ./graphql.codegen.cjs"
   },
   "dependencies": {
     "@stayradiated/error-boundary": "4.0.0",

@@ -1,9 +1,10 @@
 import ky from 'ky-universal'
-import { Options as KyOptions, HTTPError, TimeoutError } from 'ky'
+import type { Options as KyOptions } from 'ky'
+import { HTTPError, TimeoutError } from 'ky'
 import debug from 'debug'
 import { errorBoundary } from '@stayradiated/error-boundary'
 
-import { NetError } from './error.js'
+import { NetworkError } from './error.js'
 import { buildRedactFn } from './redact.js'
 
 import type { Kanye } from './types.js'
@@ -114,10 +115,12 @@ const kanye = async (
       })
     }
 
-    const error = new NetError({
-      message: `Unexpected error ocurred while making POST request to ${endpoint}`,
-      cause: response,
-    })
+    const error = new NetworkError(
+      `Unexpected error ocurred while making POST request to ${endpoint}`,
+      {
+        cause: response,
+      },
+    )
 
     return buildReturnValue(options, {
       error,
@@ -162,8 +165,7 @@ const kanye = async (
       })
     }
 
-    const error = new NetError({
-      message: `Received error from POST ${url}`,
+    const error = new NetworkError(`Received error from POST ${url}`, {
       cause: responseBody,
     })
 

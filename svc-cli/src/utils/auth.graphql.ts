@@ -11,4 +11,4 @@ export type GetAuthTokenMutationVariables = Types.Exact<{
 }>;
 
 
-export type GetAuthTokenMutation = { __typename?: 'mutation_root', action_create_auth_token?: { __typename?: 'CreateAuthTokenOutput', auth_token: string } | null };
+export type GetAuthTokenMutation = { __typename?: 'mutation_root', actionCreateAuthToken?: { __typename?: 'CreateAuthTokenOutput', authToken: string } | null };

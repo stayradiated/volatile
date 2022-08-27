@@ -1,7 +1,7 @@
 import { format, parseISO } from 'date-fns'
 
 import { UpdateSubscriptionButton } from './update-subscription-button'
-import { StripeSubscriptionFragment } from '~/graphql/generated'
+import type { StripeSubscriptionFragment } from '~/graphql/generated'
 
 type Status = {
   name: string

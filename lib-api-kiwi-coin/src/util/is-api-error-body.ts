@@ -1,4 +1,4 @@
-type ApiErrorBody = { error: string | Record<string, unknown> }
+import type { ApiErrorBody } from './types.js'
 
 const isApiErrorBody = (
   responseBody: unknown,
@@ -16,4 +16,3 @@ const isApiErrorBody = (
 }
 
 export { isApiErrorBody }
-export type { ApiErrorBody }

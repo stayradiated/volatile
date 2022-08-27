@@ -1,7 +1,11 @@
 import { formatISO } from 'date-fns'
 import * as z from 'zod'
 
-import { AuthError, IllegalArgumentError } from '../../util/error.js'
+import {
+  AuthError,
+  messageWithContext,
+  IllegalArgumentError,
+} from '../../util/error.js'
 
 import { createAuthToken } from '../../model/auth-token/index.js'
 import type { ActionHandler } from '../../util/action-handler.js'
@@ -48,10 +52,12 @@ const createAuthTokenHandler: ActionHandler<typeof schema> = {
     const email = rawEmail.trim().toLowerCase()
 
     if (role !== 'user' && role !== 'superuser') {
-      return new IllegalArgumentError({
-        message: 'Role must be either "user" or "superuser".',
-        context: { email, role },
-      })
+      return new IllegalArgumentError(
+        messageWithContext(`Role must be either "user" or "superuser".`, {
+          email,
+          role,
+        }),
+      )
     }
 
     const result = await createAuthToken(pool, { email, password, role })
@@ -68,10 +74,14 @@ const createAuthTokenHandler: ActionHandler<typeof schema> = {
 
     if (requires2Fa) {
       if (!isTrustedDevice && !has2FaToken) {
-        return new AuthError({
-          message: 'This user has 2Fa enabled.',
-          context: { userUid, requires2Fa, isTrustedDevice, has2FaToken },
-        })
+        return new AuthError(
+          messageWithContext(`This user has 2Fa enabled.`, {
+            userUid,
+            requires2Fa,
+            isTrustedDevice,
+            has2FaToken,
+          }),
+        )
       }
 
       if (has2FaToken) {
@@ -84,10 +94,9 @@ const createAuthTokenHandler: ActionHandler<typeof schema> = {
         }
 
         if (!isValidToken) {
-          return new AuthError({
-            message: 'Invalid 2Fa token.',
-            context: { userUid, isValidToken },
-          })
+          return new AuthError(
+            messageWithContext(`Invalid 2Fa token.`, { userUid, isValidToken }),
+          )
         }
       }
     }

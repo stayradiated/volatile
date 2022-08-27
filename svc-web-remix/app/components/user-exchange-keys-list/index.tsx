@@ -1,6 +1,7 @@
 import { Link } from '@remix-run/react'
 import { useMemo } from 'react'
-import { useTable, Column } from 'react-table'
+import type { Column } from 'react-table'
+import { useTable } from 'react-table'
 import { parseISO } from 'date-fns'
 import { formatInTimeZone } from 'date-fns-tz'
 

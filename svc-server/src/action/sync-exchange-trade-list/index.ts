@@ -1,5 +1,8 @@
 import * as z from 'zod'
-import { MissingRequiredArgumentError } from '../../util/error.js'
+import {
+  MissingRequiredArgumentError,
+  messageWithContext,
+} from '../../util/error.js'
 
 import type { ActionHandler } from '../../util/action-handler.js'
 
@@ -20,10 +23,9 @@ const syncExchangeTradeListHandler: ActionHandler<typeof schema> = {
     const { input, pool, session } = context
     const { userUid } = session
     if (!userUid) {
-      return new MissingRequiredArgumentError({
-        message: 'userUid is required',
-        context: { userUid },
-      })
+      return new MissingRequiredArgumentError(
+        messageWithContext(`userUid is required`, { userUid }),
+      )
     }
 
     const { userExchangeKeysUid, forceSync } = input

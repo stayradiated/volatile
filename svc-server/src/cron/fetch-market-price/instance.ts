@@ -2,7 +2,7 @@ import type { Kanye } from '@volatile/kanye'
 
 import type { Market } from '../../model/market/index.js'
 
-import { IllegalArgumentError } from '../../util/error.js'
+import { IllegalArgumentError, messageWithContext } from '../../util/error.js'
 
 import type {
   MarketPriceConfig,
@@ -28,10 +28,12 @@ const createFetchSourcePrice = (
 
   if (!resolveMarketPriceMap.has(market)) {
     return async () => {
-      const error = new IllegalArgumentError({
-        message: `Could not resolve market price for "${market.ID}"`,
-        context: { market, assetSymbol, currency },
-      })
+      const error = new IllegalArgumentError(
+        messageWithContext(
+          `Could not resolve market price for "${market.ID}"`,
+          { market, assetSymbol, currency },
+        ),
+      )
       return [error]
     }
   }
@@ -52,12 +54,12 @@ const createFetchFxRate = (
   const { currencyPair } = options
   if (!resolveCurrencyMap.has(currencyPair)) {
     return async () => {
-      const error = new IllegalArgumentError({
-        message: `Could not resolve market price for "${currencyPair.join(
-          '/',
-        )}"`,
-        context: { currencyPair },
-      })
+      const error = new IllegalArgumentError(
+        messageWithContext(
+          `Could not resolve market price for "${currencyPair.join('/')}"`,
+          { currencyPair },
+        ),
+      )
       return [error]
     }
   }

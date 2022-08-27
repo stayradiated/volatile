@@ -1,12 +1,16 @@
-/* eslint-disable @typescript-eslint/no-useless-constructor */
+import type { ApiErrorBody } from './types.js'
 
-import type { BetterErrorConstructorArg } from '@volatile/lib-error'
-import { BetterError } from '@volatile/lib-error'
+class ConfigError extends Error {}
 
-class ConfigError extends BetterError {
-  constructor(arg?: BetterErrorConstructorArg) {
-    super(arg)
+class ApiError extends Error {
+  apiErrorBody: ApiErrorBody
+  constructor(
+    message: string,
+    options: { cause?: Error; apiErrorBody: ApiErrorBody },
+  ) {
+    super(message, options)
+    this.apiErrorBody = options.apiErrorBody
   }
 }
 
-export { ConfigError }
+export { ConfigError, ApiError }

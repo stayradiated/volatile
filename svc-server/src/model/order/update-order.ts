@@ -20,11 +20,7 @@ const updateOrder = async (
       .run(pool),
   )
   if (error instanceof Error) {
-    return new DbError({
-      message: 'updateOrder failed',
-      cause: error,
-      context: { orderUid: uid },
-    })
+    return new DbError('updateOrder failed', { cause: error })
   }
 }
 

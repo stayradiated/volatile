@@ -1,6 +1,7 @@
 import { ClientOnly } from 'remix-utils'
 
-import { Chart as ClientChart, ChartProps } from './chart.client'
+import type { ChartProps } from './chart.client'
+import { Chart as ClientChart } from './chart.client'
 
 const ServerChart = (props: ChartProps) => {
   const { width = 1000, height = 300 } = props

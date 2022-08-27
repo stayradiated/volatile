@@ -1,5 +1,6 @@
 import { parseISO, format } from 'date-fns'
-import { useTable, Column } from 'react-table'
+import type { Column } from 'react-table'
+import { useTable } from 'react-table'
 
 import { Table } from '../retro-ui'
 

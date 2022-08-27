@@ -24,7 +24,6 @@
   },
   "homepage": "https://github.com/stayradiated/volatile#readme",
   "dependencies": {
-    "@volatile/lib-error": "workspace:*",
     "@volatile/kanye": "workspace:*",
     "date-fns": "2.29.2"
   },

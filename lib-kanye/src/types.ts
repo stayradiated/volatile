@@ -18,4 +18,4 @@ type Kanye = KanyeRedacted & {
   redacted: KanyeRedactFn
 }
 
-export { Kanye, KanyeRedacted, KanyeRedactFn }
+export type { Kanye, KanyeRedacted, KanyeRedactFn }

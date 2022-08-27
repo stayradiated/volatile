@@ -18,319 +18,126 @@ export type Scalars = {
   uuid: any;
 };
 
+export type AvailableBalanceFxBalanceArgs = {
+  currency?: InputMaybe<Scalars['String']>;
+};
+
+/** columns and relationships of "balance" */
+export type Balance = {
+  __typename?: 'Balance';
+  availableBalance: Scalars['numeric'];
+  /** A computed field, executes function "balance_available_balance_fx" */
+  availableBalanceFx?: Maybe<Scalars['numeric']>;
+  createdAt: Scalars['timestamptz'];
+  /** An object relationship */
+  currency: Currency;
+  currencySymbol: Scalars['String'];
+  /** An object relationship */
+  exchange: Exchange;
+  exchangeUid: Scalars['uuid'];
+  totalBalance: Scalars['numeric'];
+  /** A computed field, executes function "balance_total_balance_fx" */
+  totalBalanceFx?: Maybe<Scalars['numeric']>;
+  uid: Scalars['uuid'];
+  updatedAt: Scalars['timestamptz'];
+  /** An object relationship */
+  user: User;
+  /** An object relationship */
+  userExchangeKey: UserExchangeKeys;
+  userExchangeKeysUid: Scalars['uuid'];
+  userUid: Scalars['uuid'];
+};
+
+
+/** columns and relationships of "balance" */
+export type BalanceAvailableBalanceFxArgs = {
+  args: AvailableBalanceFxBalanceArgs;
+};
+
+
+/** columns and relationships of "balance" */
+export type BalanceTotalBalanceFxArgs = {
+  args: TotalBalanceFxBalanceArgs;
+};
+
+/** Boolean expression to filter rows from the table "balance". All fields are combined with a logical 'AND'. */
+export type BalanceBoolExp = {
+  _and?: InputMaybe<Array<BalanceBoolExp>>;
+  _not?: InputMaybe<BalanceBoolExp>;
+  _or?: InputMaybe<Array<BalanceBoolExp>>;
+  availableBalance?: InputMaybe<NumericComparisonExp>;
+  createdAt?: InputMaybe<TimestamptzComparisonExp>;
+  currency?: InputMaybe<CurrencyBoolExp>;
+  currencySymbol?: InputMaybe<StringComparisonExp>;
+  exchange?: InputMaybe<ExchangeBoolExp>;
+  exchangeUid?: InputMaybe<UuidComparisonExp>;
+  totalBalance?: InputMaybe<NumericComparisonExp>;
+  uid?: InputMaybe<UuidComparisonExp>;
+  updatedAt?: InputMaybe<TimestamptzComparisonExp>;
+  user?: InputMaybe<UserBoolExp>;
+  userExchangeKey?: InputMaybe<UserExchangeKeysBoolExp>;
+  userExchangeKeysUid?: InputMaybe<UuidComparisonExp>;
+  userUid?: InputMaybe<UuidComparisonExp>;
+};
+
+/** Ordering options when selecting data from "balance". */
+export type BalanceOrderBy = {
+  availableBalance?: InputMaybe<OrderBy>;
+  createdAt?: InputMaybe<OrderBy>;
+  currency?: InputMaybe<CurrencyOrderBy>;
+  currencySymbol?: InputMaybe<OrderBy>;
+  exchange?: InputMaybe<ExchangeOrderBy>;
+  exchangeUid?: InputMaybe<OrderBy>;
+  totalBalance?: InputMaybe<OrderBy>;
+  uid?: InputMaybe<OrderBy>;
+  updatedAt?: InputMaybe<OrderBy>;
+  user?: InputMaybe<UserOrderBy>;
+  userExchangeKey?: InputMaybe<UserExchangeKeysOrderBy>;
+  userExchangeKeysUid?: InputMaybe<OrderBy>;
+  userUid?: InputMaybe<OrderBy>;
+};
+
+/** select columns of table "balance" */
+export enum BalanceSelectColumn {
+  /** column name */
+  AvailableBalance = 'availableBalance',
+  /** column name */
+  CreatedAt = 'createdAt',
+  /** column name */
+  CurrencySymbol = 'currencySymbol',
+  /** column name */
+  ExchangeUid = 'exchangeUid',
+  /** column name */
+  TotalBalance = 'totalBalance',
+  /** column name */
+  Uid = 'uid',
+  /** column name */
+  UpdatedAt = 'updatedAt',
+  /** column name */
+  UserExchangeKeysUid = 'userExchangeKeysUid',
+  /** column name */
+  UserUid = 'userUid'
+}
+
+export type BalanceUserExchangeKeysArgs = {
+  timestamp_at?: InputMaybe<Scalars['timestamptz']>;
+};
+
 /** Boolean expression to compare columns of type "Boolean". All fields are combined with logical 'AND'. */
-export type Boolean_Comparison_Exp = {
+export type BooleanComparisonExp = {
   _eq?: InputMaybe<Scalars['Boolean']>;
   _gt?: InputMaybe<Scalars['Boolean']>;
   _gte?: InputMaybe<Scalars['Boolean']>;
   _in?: InputMaybe<Array<Scalars['Boolean']>>;
-  _is_null?: InputMaybe<Scalars['Boolean']>;
+  _isNull?: InputMaybe<Scalars['Boolean']>;
   _lt?: InputMaybe<Scalars['Boolean']>;
   _lte?: InputMaybe<Scalars['Boolean']>;
   _neq?: InputMaybe<Scalars['Boolean']>;
   _nin?: InputMaybe<Array<Scalars['Boolean']>>;
 };
 
-export type CreateAuthTokenOutput = {
-  __typename?: 'CreateAuthTokenOutput';
-  auth_token: Scalars['String'];
-  expires_at: Scalars['timestamptz'];
-  user?: Maybe<User>;
-  user_uid: Scalars['String'];
-};
-
-export type CreateDcaOrderResult = {
-  __typename?: 'CreateDCAOrderResult';
-  dca_order?: Maybe<Dca_Order>;
-  dca_order_uid: Scalars['uuid'];
-};
-
-export type CreateStripeSubscription = {
-  __typename?: 'CreateStripeSubscription';
-  client_secret: Scalars['String'];
-  stripe_subscription?: Maybe<Stripe_Subscription>;
-  subscription_id: Scalars['String'];
-};
-
-export type CreateUserExchangeKeysOutput = {
-  __typename?: 'CreateUserExchangeKeysOutput';
-  user_exchange_keys?: Maybe<User_Exchange_Keys>;
-  user_exchange_keys_uid: Scalars['uuid'];
-};
-
-export type CreateUserOutput = {
-  __typename?: 'CreateUserOutput';
-  user_uid: Scalars['String'];
-};
-
-export type EnableUser2FaOutput = {
-  __typename?: 'EnableUser2FAOutput';
-  user?: Maybe<User>;
-  user_uid: Scalars['uuid'];
-};
-
-/** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
-export type Int_Comparison_Exp = {
-  _eq?: InputMaybe<Scalars['Int']>;
-  _gt?: InputMaybe<Scalars['Int']>;
-  _gte?: InputMaybe<Scalars['Int']>;
-  _in?: InputMaybe<Array<Scalars['Int']>>;
-  _is_null?: InputMaybe<Scalars['Boolean']>;
-  _lt?: InputMaybe<Scalars['Int']>;
-  _lte?: InputMaybe<Scalars['Int']>;
-  _neq?: InputMaybe<Scalars['Int']>;
-  _nin?: InputMaybe<Array<Scalars['Int']>>;
-};
-
-export type QueryLiveStripeSubscriptionOutput = {
-  __typename?: 'QueryLiveStripeSubscriptionOutput';
-  client_secret: Scalars['String'];
-  id: Scalars['String'];
-};
-
-export type QueryStripeConfigOutput = {
-  __typename?: 'QueryStripeConfigOutput';
-  publishable_key: Scalars['String'];
-};
-
-export type QueryUserLimitOutput = {
-  __typename?: 'QueryUserLimitOutput';
-  user_limit: Scalars['jsonb'];
-  user_uid: Scalars['String'];
-};
-
-export type RefreshAuthTokenOutput = {
-  __typename?: 'RefreshAuthTokenOutput';
-  auth_token: Scalars['String'];
-  expires_at: Scalars['timestamptz'];
-  user?: Maybe<User>;
-  user_uid: Scalars['String'];
-};
-
-export type ResetUserPasswordOutput = {
-  __typename?: 'ResetUserPasswordOutput';
-  auth_token: Scalars['String'];
-  expires_at: Scalars['timestamptz'];
-  user_uid: Scalars['uuid'];
-};
-
-export type SendUserEmailVerifyOutput = {
-  __typename?: 'SendUserEmailVerifyOutput';
-  user_uid: Scalars['uuid'];
-};
-
-export type SendUserPasswordResetOutput = {
-  __typename?: 'SendUserPasswordResetOutput';
-  email: Scalars['String'];
-};
-
-export type SetupUser2FaOutput = {
-  __typename?: 'SetupUser2FAOutput';
-  qrcode: Scalars['String'];
-  secret: Scalars['String'];
-};
-
-/** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
-export type String_Comparison_Exp = {
-  _eq?: InputMaybe<Scalars['String']>;
-  _gt?: InputMaybe<Scalars['String']>;
-  _gte?: InputMaybe<Scalars['String']>;
-  /** does the column match the given case-insensitive pattern */
-  _ilike?: InputMaybe<Scalars['String']>;
-  _in?: InputMaybe<Array<Scalars['String']>>;
-  /** does the column match the given POSIX regular expression, case insensitive */
-  _iregex?: InputMaybe<Scalars['String']>;
-  _is_null?: InputMaybe<Scalars['Boolean']>;
-  /** does the column match the given pattern */
-  _like?: InputMaybe<Scalars['String']>;
-  _lt?: InputMaybe<Scalars['String']>;
-  _lte?: InputMaybe<Scalars['String']>;
-  _neq?: InputMaybe<Scalars['String']>;
-  /** does the column NOT match the given case-insensitive pattern */
-  _nilike?: InputMaybe<Scalars['String']>;
-  _nin?: InputMaybe<Array<Scalars['String']>>;
-  /** does the column NOT match the given POSIX regular expression, case insensitive */
-  _niregex?: InputMaybe<Scalars['String']>;
-  /** does the column NOT match the given pattern */
-  _nlike?: InputMaybe<Scalars['String']>;
-  /** does the column NOT match the given POSIX regular expression, case sensitive */
-  _nregex?: InputMaybe<Scalars['String']>;
-  /** does the column NOT match the given SQL regular expression */
-  _nsimilar?: InputMaybe<Scalars['String']>;
-  /** does the column match the given POSIX regular expression, case sensitive */
-  _regex?: InputMaybe<Scalars['String']>;
-  /** does the column match the given SQL regular expression */
-  _similar?: InputMaybe<Scalars['String']>;
-};
-
-export type SyncExchangeOpenOrderListOutput = {
-  __typename?: 'SyncExchangeOpenOrderListOutput';
-  user?: Maybe<User>;
-  user_uid: Scalars['uuid'];
-};
-
-export type SyncExchangeTradeListOutput = {
-  __typename?: 'SyncExchangeTradeListOutput';
-  user?: Maybe<User>;
-  user_uid: Scalars['uuid'];
-};
-
-export type UpdateDcaOrderOutput = {
-  __typename?: 'UpdateDCAOrderOutput';
-  dca_order?: Maybe<Dca_Order>;
-  dca_order_uid: Scalars['uuid'];
-};
-
-export type UpdateSubscriptionOutput = {
-  __typename?: 'UpdateSubscriptionOutput';
-  stripe_subscription?: Maybe<Stripe_Subscription>;
-  subscription_id: Scalars['String'];
-};
-
-export type UpdateUserExchangeKeysOutput = {
-  __typename?: 'UpdateUserExchangeKeysOutput';
-  user_exchange_keys?: Maybe<User_Exchange_Keys>;
-  user_exchange_keys_uid: Scalars['uuid'];
-};
-
-export type UpdateUserOutput = {
-  __typename?: 'UpdateUserOutput';
-  user?: Maybe<User>;
-  user_uid: Scalars['uuid'];
-};
-
-export type ValidatUserPasswordResetOutput = {
-  __typename?: 'ValidatUserPasswordResetOutput';
-  email?: Maybe<Scalars['String']>;
-  is_valid: Scalars['Boolean'];
-};
-
-export type ValidateUserExchangeKeysLiveOutput = {
-  __typename?: 'ValidateUserExchangeKeysLiveOutput';
-  is_valid: Scalars['Boolean'];
-  validation_message?: Maybe<Scalars['String']>;
-};
-
-export type ValidateUserExchangeKeysOutput = {
-  __typename?: 'ValidateUserExchangeKeysOutput';
-  is_valid: Scalars['Boolean'];
-  user_exchange_keys?: Maybe<User_Exchange_Keys>;
-  user_exchange_keys_uid: Scalars['uuid'];
-  validation_message?: Maybe<Scalars['String']>;
-};
-
-export type VerifyUserEmailOutput = {
-  __typename?: 'VerifyUserEmailOutput';
-  email: Scalars['String'];
-};
-
-export type Available_Balance_Fx_Balance_Args = {
-  currency?: InputMaybe<Scalars['String']>;
-};
-
-/** columns and relationships of "balance" */
-export type Balance = {
-  __typename?: 'balance';
-  available_balance: Scalars['numeric'];
-  /** A computed field, executes function "balance_available_balance_fx" */
-  available_balance_fx?: Maybe<Scalars['numeric']>;
-  created_at: Scalars['timestamptz'];
-  /** An object relationship */
-  currency: Currency;
-  currency_symbol: Scalars['String'];
-  /** An object relationship */
-  exchange: Exchange;
-  exchange_uid: Scalars['uuid'];
-  total_balance: Scalars['numeric'];
-  /** A computed field, executes function "balance_total_balance_fx" */
-  total_balance_fx?: Maybe<Scalars['numeric']>;
-  uid: Scalars['uuid'];
-  updated_at: Scalars['timestamptz'];
-  /** An object relationship */
-  user: User;
-  /** An object relationship */
-  user_exchange_key: User_Exchange_Keys;
-  user_exchange_keys_uid: Scalars['uuid'];
-  user_uid: Scalars['uuid'];
-};
-
-
-/** columns and relationships of "balance" */
-export type BalanceAvailable_Balance_FxArgs = {
-  args: Available_Balance_Fx_Balance_Args;
-};
-
-
-/** columns and relationships of "balance" */
-export type BalanceTotal_Balance_FxArgs = {
-  args: Total_Balance_Fx_Balance_Args;
-};
-
-/** Boolean expression to filter rows from the table "balance". All fields are combined with a logical 'AND'. */
-export type Balance_Bool_Exp = {
-  _and?: InputMaybe<Array<Balance_Bool_Exp>>;
-  _not?: InputMaybe<Balance_Bool_Exp>;
-  _or?: InputMaybe<Array<Balance_Bool_Exp>>;
-  available_balance?: InputMaybe<Numeric_Comparison_Exp>;
-  created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
-  currency?: InputMaybe<Currency_Bool_Exp>;
-  currency_symbol?: InputMaybe<String_Comparison_Exp>;
-  exchange?: InputMaybe<Exchange_Bool_Exp>;
-  exchange_uid?: InputMaybe<Uuid_Comparison_Exp>;
-  total_balance?: InputMaybe<Numeric_Comparison_Exp>;
-  uid?: InputMaybe<Uuid_Comparison_Exp>;
-  updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
-  user?: InputMaybe<User_Bool_Exp>;
-  user_exchange_key?: InputMaybe<User_Exchange_Keys_Bool_Exp>;
-  user_exchange_keys_uid?: InputMaybe<Uuid_Comparison_Exp>;
-  user_uid?: InputMaybe<Uuid_Comparison_Exp>;
-};
-
-/** Ordering options when selecting data from "balance". */
-export type Balance_Order_By = {
-  available_balance?: InputMaybe<Order_By>;
-  created_at?: InputMaybe<Order_By>;
-  currency?: InputMaybe<Currency_Order_By>;
-  currency_symbol?: InputMaybe<Order_By>;
-  exchange?: InputMaybe<Exchange_Order_By>;
-  exchange_uid?: InputMaybe<Order_By>;
-  total_balance?: InputMaybe<Order_By>;
-  uid?: InputMaybe<Order_By>;
-  updated_at?: InputMaybe<Order_By>;
-  user?: InputMaybe<User_Order_By>;
-  user_exchange_key?: InputMaybe<User_Exchange_Keys_Order_By>;
-  user_exchange_keys_uid?: InputMaybe<Order_By>;
-  user_uid?: InputMaybe<Order_By>;
-};
-
-/** select columns of table "balance" */
-export enum Balance_Select_Column {
-  /** column name */
-  AvailableBalance = 'available_balance',
-  /** column name */
-  CreatedAt = 'created_at',
-  /** column name */
-  CurrencySymbol = 'currency_symbol',
-  /** column name */
-  ExchangeUid = 'exchange_uid',
-  /** column name */
-  TotalBalance = 'total_balance',
-  /** column name */
-  Uid = 'uid',
-  /** column name */
-  UpdatedAt = 'updated_at',
-  /** column name */
-  UserExchangeKeysUid = 'user_exchange_keys_uid',
-  /** column name */
-  UserUid = 'user_uid'
-}
-
-export type Balance_User_Exchange_Keys_Args = {
-  timestamp_at?: InputMaybe<Scalars['timestamptz']>;
-};
-
 /** Boolean expression to compare columns of type "bpchar". All fields are combined with logical 'AND'. */
-export type Bpchar_Comparison_Exp = {
+export type BpcharComparisonExp = {
   _eq?: InputMaybe<Scalars['bpchar']>;
   _gt?: InputMaybe<Scalars['bpchar']>;
   _gte?: InputMaybe<Scalars['bpchar']>;
@@ -339,7 +146,7 @@ export type Bpchar_Comparison_Exp = {
   _in?: InputMaybe<Array<Scalars['bpchar']>>;
   /** does the column match the given POSIX regular expression, case insensitive */
   _iregex?: InputMaybe<Scalars['bpchar']>;
-  _is_null?: InputMaybe<Scalars['Boolean']>;
+  _isNull?: InputMaybe<Scalars['Boolean']>;
   /** does the column match the given pattern */
   _like?: InputMaybe<Scalars['bpchar']>;
   _lt?: InputMaybe<Scalars['bpchar']>;
@@ -362,1308 +169,1346 @@ export type Bpchar_Comparison_Exp = {
   _similar?: InputMaybe<Scalars['bpchar']>;
 };
 
+export type CreateAuthTokenOutput = {
+  __typename?: 'CreateAuthTokenOutput';
+  authToken: Scalars['String'];
+  expiresAt: Scalars['timestamptz'];
+  user?: Maybe<User>;
+  userUid: Scalars['String'];
+};
+
+export type CreateDcaOrderResult = {
+  __typename?: 'CreateDcaOrderResult';
+  dcaOrder?: Maybe<DcaOrder>;
+  dcaOrderUid: Scalars['uuid'];
+};
+
+export type CreateStripeSubscription = {
+  __typename?: 'CreateStripeSubscription';
+  clientSecret: Scalars['String'];
+  stripeSubscription?: Maybe<StripeSubscription>;
+  subscriptionId: Scalars['String'];
+};
+
+export type CreateUserExchangeKeysOutput = {
+  __typename?: 'CreateUserExchangeKeysOutput';
+  userExchangeKeys?: Maybe<UserExchangeKeys>;
+  userExchangeKeysUid: Scalars['uuid'];
+};
+
+export type CreateUserOutput = {
+  __typename?: 'CreateUserOutput';
+  userUid: Scalars['String'];
+};
+
 /** columns and relationships of "currency" */
 export type Currency = {
-  __typename?: 'currency';
-  created_at: Scalars['timestamptz'];
+  __typename?: 'Currency';
+  createdAt: Scalars['timestamptz'];
   name: Scalars['String'];
   symbol: Scalars['String'];
-  updated_at: Scalars['timestamptz'];
+  updatedAt: Scalars['timestamptz'];
 };
 
 /** Boolean expression to filter rows from the table "currency". All fields are combined with a logical 'AND'. */
-export type Currency_Bool_Exp = {
-  _and?: InputMaybe<Array<Currency_Bool_Exp>>;
-  _not?: InputMaybe<Currency_Bool_Exp>;
-  _or?: InputMaybe<Array<Currency_Bool_Exp>>;
-  created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
-  name?: InputMaybe<String_Comparison_Exp>;
-  symbol?: InputMaybe<String_Comparison_Exp>;
-  updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+export type CurrencyBoolExp = {
+  _and?: InputMaybe<Array<CurrencyBoolExp>>;
+  _not?: InputMaybe<CurrencyBoolExp>;
+  _or?: InputMaybe<Array<CurrencyBoolExp>>;
+  createdAt?: InputMaybe<TimestamptzComparisonExp>;
+  name?: InputMaybe<StringComparisonExp>;
+  symbol?: InputMaybe<StringComparisonExp>;
+  updatedAt?: InputMaybe<TimestamptzComparisonExp>;
 };
 
 /** Ordering options when selecting data from "currency". */
-export type Currency_Order_By = {
-  created_at?: InputMaybe<Order_By>;
-  name?: InputMaybe<Order_By>;
-  symbol?: InputMaybe<Order_By>;
-  updated_at?: InputMaybe<Order_By>;
+export type CurrencyOrderBy = {
+  createdAt?: InputMaybe<OrderBy>;
+  name?: InputMaybe<OrderBy>;
+  symbol?: InputMaybe<OrderBy>;
+  updatedAt?: InputMaybe<OrderBy>;
 };
 
 /** select columns of table "currency" */
-export enum Currency_Select_Column {
+export enum CurrencySelectColumn {
   /** column name */
-  CreatedAt = 'created_at',
+  CreatedAt = 'createdAt',
   /** column name */
   Name = 'name',
   /** column name */
   Symbol = 'symbol',
   /** column name */
-  UpdatedAt = 'updated_at'
+  UpdatedAt = 'updatedAt'
 }
 
 /** columns and relationships of "dca_order" */
-export type Dca_Order = {
-  __typename?: 'dca_order';
-  created_at: Scalars['timestamptz'];
-  daily_average: Scalars['numeric'];
+export type DcaOrder = {
+  __typename?: 'DcaOrder';
+  createdAt: Scalars['timestamptz'];
+  dailyAverage: Scalars['numeric'];
   /** An array relationship */
-  dca_order_histories: Array<Dca_Order_History>;
+  dcaOrderHistories: Array<DcaOrderHistory>;
   /** An aggregate relationship */
-  dca_order_histories_aggregate: Dca_Order_History_Aggregate;
-  enabled_at?: Maybe<Scalars['timestamptz']>;
+  dcaOrderHistoriesAggregate: DcaOrderHistoryAggregate;
+  enabledAt?: Maybe<Scalars['timestamptz']>;
   /** An object relationship */
   exchange: Exchange;
-  exchange_market_trading_pair?: Maybe<Array<Market_Trading_Pair>>;
-  exchange_uid: Scalars['uuid'];
-  interval_ms: Scalars['Int'];
-  last_run_at?: Maybe<Scalars['timestamptz']>;
+  exchangeMarketTradingPair?: Maybe<Array<MarketTradingPair>>;
+  exchangeUid: Scalars['uuid'];
+  intervalMs: Scalars['Int'];
+  lastRunAt?: Maybe<Scalars['timestamptz']>;
   /** An object relationship */
   market: Market;
-  market_offset: Scalars['numeric'];
+  marketOffset: Scalars['numeric'];
   /** An array relationship */
-  market_prices: Array<Market_Price>;
-  market_uid: Scalars['uuid'];
-  max_price?: Maybe<Scalars['numeric']>;
-  max_value?: Maybe<Scalars['numeric']>;
-  min_price?: Maybe<Scalars['numeric']>;
-  min_value?: Maybe<Scalars['numeric']>;
-  next_run_at?: Maybe<Scalars['timestamptz']>;
+  marketPrices: Array<MarketPrice>;
+  marketUid: Scalars['uuid'];
+  maxPrice?: Maybe<Scalars['numeric']>;
+  maxValue?: Maybe<Scalars['numeric']>;
+  minPrice?: Maybe<Scalars['numeric']>;
+  minValue?: Maybe<Scalars['numeric']>;
+  nextRunAt?: Maybe<Scalars['timestamptz']>;
   /** An object relationship */
-  primary_currency: Currency;
-  primary_currency_symbol: Scalars['String'];
+  primaryCurrency: Currency;
+  primaryCurrencySymbol: Scalars['String'];
   /** An object relationship */
-  secondary_currency: Currency;
-  secondary_currency_symbol: Scalars['String'];
-  start_at: Scalars['timestamptz'];
+  secondaryCurrency: Currency;
+  secondaryCurrencySymbol: Scalars['String'];
+  startAt: Scalars['timestamptz'];
   uid: Scalars['uuid'];
-  updated_at: Scalars['timestamptz'];
+  updatedAt: Scalars['timestamptz'];
   /** An object relationship */
   user: User;
   /** An object relationship */
-  user_exchange_keys: User_Exchange_Keys;
-  user_exchange_keys_uid: Scalars['uuid'];
-  user_uid: Scalars['uuid'];
+  userExchangeKeys: UserExchangeKeys;
+  userExchangeKeysUid: Scalars['uuid'];
+  userUid: Scalars['uuid'];
 };
 
 
 /** columns and relationships of "dca_order" */
-export type Dca_OrderDca_Order_HistoriesArgs = {
-  distinct_on?: InputMaybe<Array<Dca_Order_History_Select_Column>>;
+export type DcaOrderDcaOrderHistoriesArgs = {
+  distinctOn?: InputMaybe<Array<DcaOrderHistorySelectColumn>>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Dca_Order_History_Order_By>>;
-  where?: InputMaybe<Dca_Order_History_Bool_Exp>;
+  orderBy?: InputMaybe<Array<DcaOrderHistoryOrderBy>>;
+  where?: InputMaybe<DcaOrderHistoryBoolExp>;
 };
 
 
 /** columns and relationships of "dca_order" */
-export type Dca_OrderDca_Order_Histories_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Dca_Order_History_Select_Column>>;
+export type DcaOrderDcaOrderHistoriesAggregateArgs = {
+  distinctOn?: InputMaybe<Array<DcaOrderHistorySelectColumn>>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Dca_Order_History_Order_By>>;
-  where?: InputMaybe<Dca_Order_History_Bool_Exp>;
+  orderBy?: InputMaybe<Array<DcaOrderHistoryOrderBy>>;
+  where?: InputMaybe<DcaOrderHistoryBoolExp>;
 };
 
 
 /** columns and relationships of "dca_order" */
-export type Dca_OrderExchange_Market_Trading_PairArgs = {
-  distinct_on?: InputMaybe<Array<Market_Trading_Pair_Select_Column>>;
+export type DcaOrderExchangeMarketTradingPairArgs = {
+  distinctOn?: InputMaybe<Array<MarketTradingPairSelectColumn>>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Market_Trading_Pair_Order_By>>;
-  where?: InputMaybe<Market_Trading_Pair_Bool_Exp>;
+  orderBy?: InputMaybe<Array<MarketTradingPairOrderBy>>;
+  where?: InputMaybe<MarketTradingPairBoolExp>;
 };
 
 
 /** columns and relationships of "dca_order" */
-export type Dca_OrderMarket_PricesArgs = {
-  distinct_on?: InputMaybe<Array<Market_Price_Select_Column>>;
+export type DcaOrderMarketPricesArgs = {
+  distinctOn?: InputMaybe<Array<MarketPriceSelectColumn>>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Market_Price_Order_By>>;
-  where?: InputMaybe<Market_Price_Bool_Exp>;
+  orderBy?: InputMaybe<Array<MarketPriceOrderBy>>;
+  where?: InputMaybe<MarketPriceBoolExp>;
 };
 
 /** aggregated selection of "dca_order" */
-export type Dca_Order_Aggregate = {
-  __typename?: 'dca_order_aggregate';
-  aggregate?: Maybe<Dca_Order_Aggregate_Fields>;
-  nodes: Array<Dca_Order>;
+export type DcaOrderAggregate = {
+  __typename?: 'DcaOrderAggregate';
+  aggregate?: Maybe<DcaOrderAggregateFields>;
+  nodes: Array<DcaOrder>;
 };
 
 /** aggregate fields of "dca_order" */
-export type Dca_Order_Aggregate_Fields = {
-  __typename?: 'dca_order_aggregate_fields';
-  avg?: Maybe<Dca_Order_Avg_Fields>;
+export type DcaOrderAggregateFields = {
+  __typename?: 'DcaOrderAggregateFields';
+  avg?: Maybe<DcaOrderAvgFields>;
   count: Scalars['Int'];
-  max?: Maybe<Dca_Order_Max_Fields>;
-  min?: Maybe<Dca_Order_Min_Fields>;
-  stddev?: Maybe<Dca_Order_Stddev_Fields>;
-  stddev_pop?: Maybe<Dca_Order_Stddev_Pop_Fields>;
-  stddev_samp?: Maybe<Dca_Order_Stddev_Samp_Fields>;
-  sum?: Maybe<Dca_Order_Sum_Fields>;
-  var_pop?: Maybe<Dca_Order_Var_Pop_Fields>;
-  var_samp?: Maybe<Dca_Order_Var_Samp_Fields>;
-  variance?: Maybe<Dca_Order_Variance_Fields>;
+  max?: Maybe<DcaOrderMaxFields>;
+  min?: Maybe<DcaOrderMinFields>;
+  stddev?: Maybe<DcaOrderStddevFields>;
+  stddevPop?: Maybe<DcaOrderStddevPopFields>;
+  stddevSamp?: Maybe<DcaOrderStddevSampFields>;
+  sum?: Maybe<DcaOrderSumFields>;
+  varPop?: Maybe<DcaOrderVarPopFields>;
+  varSamp?: Maybe<DcaOrderVarSampFields>;
+  variance?: Maybe<DcaOrderVarianceFields>;
 };
 
 
 /** aggregate fields of "dca_order" */
-export type Dca_Order_Aggregate_FieldsCountArgs = {
-  columns?: InputMaybe<Array<Dca_Order_Select_Column>>;
+export type DcaOrderAggregateFieldsCountArgs = {
+  columns?: InputMaybe<Array<DcaOrderSelectColumn>>;
   distinct?: InputMaybe<Scalars['Boolean']>;
 };
 
 /** order by aggregate values of table "dca_order" */
-export type Dca_Order_Aggregate_Order_By = {
-  avg?: InputMaybe<Dca_Order_Avg_Order_By>;
-  count?: InputMaybe<Order_By>;
-  max?: InputMaybe<Dca_Order_Max_Order_By>;
-  min?: InputMaybe<Dca_Order_Min_Order_By>;
-  stddev?: InputMaybe<Dca_Order_Stddev_Order_By>;
-  stddev_pop?: InputMaybe<Dca_Order_Stddev_Pop_Order_By>;
-  stddev_samp?: InputMaybe<Dca_Order_Stddev_Samp_Order_By>;
-  sum?: InputMaybe<Dca_Order_Sum_Order_By>;
-  var_pop?: InputMaybe<Dca_Order_Var_Pop_Order_By>;
-  var_samp?: InputMaybe<Dca_Order_Var_Samp_Order_By>;
-  variance?: InputMaybe<Dca_Order_Variance_Order_By>;
+export type DcaOrderAggregateOrderBy = {
+  avg?: InputMaybe<DcaOrderAvgOrderBy>;
+  count?: InputMaybe<OrderBy>;
+  max?: InputMaybe<DcaOrderMaxOrderBy>;
+  min?: InputMaybe<DcaOrderMinOrderBy>;
+  stddev?: InputMaybe<DcaOrderStddevOrderBy>;
+  stddev_pop?: InputMaybe<DcaOrderStddevPopOrderBy>;
+  stddev_samp?: InputMaybe<DcaOrderStddevSampOrderBy>;
+  sum?: InputMaybe<DcaOrderSumOrderBy>;
+  var_pop?: InputMaybe<DcaOrderVarPopOrderBy>;
+  var_samp?: InputMaybe<DcaOrderVarSampOrderBy>;
+  variance?: InputMaybe<DcaOrderVarianceOrderBy>;
 };
 
 /** aggregate avg on columns */
-export type Dca_Order_Avg_Fields = {
-  __typename?: 'dca_order_avg_fields';
-  daily_average?: Maybe<Scalars['Float']>;
-  interval_ms?: Maybe<Scalars['Float']>;
-  market_offset?: Maybe<Scalars['Float']>;
-  max_price?: Maybe<Scalars['Float']>;
-  max_value?: Maybe<Scalars['Float']>;
-  min_price?: Maybe<Scalars['Float']>;
-  min_value?: Maybe<Scalars['Float']>;
+export type DcaOrderAvgFields = {
+  __typename?: 'DcaOrderAvgFields';
+  dailyAverage?: Maybe<Scalars['Float']>;
+  intervalMs?: Maybe<Scalars['Float']>;
+  marketOffset?: Maybe<Scalars['Float']>;
+  maxPrice?: Maybe<Scalars['Float']>;
+  maxValue?: Maybe<Scalars['Float']>;
+  minPrice?: Maybe<Scalars['Float']>;
+  minValue?: Maybe<Scalars['Float']>;
 };
 
 /** order by avg() on columns of table "dca_order" */
-export type Dca_Order_Avg_Order_By = {
-  daily_average?: InputMaybe<Order_By>;
-  interval_ms?: InputMaybe<Order_By>;
-  market_offset?: InputMaybe<Order_By>;
-  max_price?: InputMaybe<Order_By>;
-  max_value?: InputMaybe<Order_By>;
-  min_price?: InputMaybe<Order_By>;
-  min_value?: InputMaybe<Order_By>;
+export type DcaOrderAvgOrderBy = {
+  dailyAverage?: InputMaybe<OrderBy>;
+  intervalMs?: InputMaybe<OrderBy>;
+  marketOffset?: InputMaybe<OrderBy>;
+  maxPrice?: InputMaybe<OrderBy>;
+  maxValue?: InputMaybe<OrderBy>;
+  minPrice?: InputMaybe<OrderBy>;
+  minValue?: InputMaybe<OrderBy>;
 };
 
 /** Boolean expression to filter rows from the table "dca_order". All fields are combined with a logical 'AND'. */
-export type Dca_Order_Bool_Exp = {
-  _and?: InputMaybe<Array<Dca_Order_Bool_Exp>>;
-  _not?: InputMaybe<Dca_Order_Bool_Exp>;
-  _or?: InputMaybe<Array<Dca_Order_Bool_Exp>>;
-  created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
-  daily_average?: InputMaybe<Numeric_Comparison_Exp>;
-  dca_order_histories?: InputMaybe<Dca_Order_History_Bool_Exp>;
-  enabled_at?: InputMaybe<Timestamptz_Comparison_Exp>;
-  exchange?: InputMaybe<Exchange_Bool_Exp>;
-  exchange_market_trading_pair?: InputMaybe<Market_Trading_Pair_Bool_Exp>;
-  exchange_uid?: InputMaybe<Uuid_Comparison_Exp>;
-  interval_ms?: InputMaybe<Int_Comparison_Exp>;
-  last_run_at?: InputMaybe<Timestamptz_Comparison_Exp>;
-  market?: InputMaybe<Market_Bool_Exp>;
-  market_offset?: InputMaybe<Numeric_Comparison_Exp>;
-  market_prices?: InputMaybe<Market_Price_Bool_Exp>;
-  market_uid?: InputMaybe<Uuid_Comparison_Exp>;
-  max_price?: InputMaybe<Numeric_Comparison_Exp>;
-  max_value?: InputMaybe<Numeric_Comparison_Exp>;
-  min_price?: InputMaybe<Numeric_Comparison_Exp>;
-  min_value?: InputMaybe<Numeric_Comparison_Exp>;
-  next_run_at?: InputMaybe<Timestamptz_Comparison_Exp>;
-  primary_currency?: InputMaybe<Currency_Bool_Exp>;
-  primary_currency_symbol?: InputMaybe<String_Comparison_Exp>;
-  secondary_currency?: InputMaybe<Currency_Bool_Exp>;
-  secondary_currency_symbol?: InputMaybe<String_Comparison_Exp>;
-  start_at?: InputMaybe<Timestamptz_Comparison_Exp>;
-  uid?: InputMaybe<Uuid_Comparison_Exp>;
-  updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
-  user?: InputMaybe<User_Bool_Exp>;
-  user_exchange_keys?: InputMaybe<User_Exchange_Keys_Bool_Exp>;
-  user_exchange_keys_uid?: InputMaybe<Uuid_Comparison_Exp>;
-  user_uid?: InputMaybe<Uuid_Comparison_Exp>;
+export type DcaOrderBoolExp = {
+  _and?: InputMaybe<Array<DcaOrderBoolExp>>;
+  _not?: InputMaybe<DcaOrderBoolExp>;
+  _or?: InputMaybe<Array<DcaOrderBoolExp>>;
+  createdAt?: InputMaybe<TimestamptzComparisonExp>;
+  dailyAverage?: InputMaybe<NumericComparisonExp>;
+  dcaOrderHistories?: InputMaybe<DcaOrderHistoryBoolExp>;
+  enabledAt?: InputMaybe<TimestamptzComparisonExp>;
+  exchange?: InputMaybe<ExchangeBoolExp>;
+  exchangeMarketTradingPair?: InputMaybe<MarketTradingPairBoolExp>;
+  exchangeUid?: InputMaybe<UuidComparisonExp>;
+  intervalMs?: InputMaybe<IntComparisonExp>;
+  lastRunAt?: InputMaybe<TimestamptzComparisonExp>;
+  market?: InputMaybe<MarketBoolExp>;
+  marketOffset?: InputMaybe<NumericComparisonExp>;
+  marketPrices?: InputMaybe<MarketPriceBoolExp>;
+  marketUid?: InputMaybe<UuidComparisonExp>;
+  maxPrice?: InputMaybe<NumericComparisonExp>;
+  maxValue?: InputMaybe<NumericComparisonExp>;
+  minPrice?: InputMaybe<NumericComparisonExp>;
+  minValue?: InputMaybe<NumericComparisonExp>;
+  nextRunAt?: InputMaybe<TimestamptzComparisonExp>;
+  primaryCurrency?: InputMaybe<CurrencyBoolExp>;
+  primaryCurrencySymbol?: InputMaybe<StringComparisonExp>;
+  secondaryCurrency?: InputMaybe<CurrencyBoolExp>;
+  secondaryCurrencySymbol?: InputMaybe<StringComparisonExp>;
+  startAt?: InputMaybe<TimestamptzComparisonExp>;
+  uid?: InputMaybe<UuidComparisonExp>;
+  updatedAt?: InputMaybe<TimestamptzComparisonExp>;
+  user?: InputMaybe<UserBoolExp>;
+  userExchangeKeys?: InputMaybe<UserExchangeKeysBoolExp>;
+  userExchangeKeysUid?: InputMaybe<UuidComparisonExp>;
+  userUid?: InputMaybe<UuidComparisonExp>;
 };
 
 /** columns and relationships of "dca_order_history" */
-export type Dca_Order_History = {
-  __typename?: 'dca_order_history';
-  available_balance: Scalars['numeric'];
-  created_at: Scalars['timestamptz'];
-  created_order: Scalars['Boolean'];
+export type DcaOrderHistory = {
+  __typename?: 'DcaOrderHistory';
+  availableBalance: Scalars['numeric'];
+  createdAt: Scalars['timestamptz'];
+  createdOrder: Scalars['Boolean'];
   /** An object relationship */
-  dca_order: Dca_Order;
-  dca_order_uid: Scalars['uuid'];
+  dcaOrder: DcaOrder;
+  dcaOrderUid: Scalars['uuid'];
   description: Scalars['String'];
-  market_offset: Scalars['numeric'];
-  market_price: Scalars['numeric'];
+  marketOffset: Scalars['numeric'];
+  marketPrice: Scalars['numeric'];
   /** An object relationship */
   order?: Maybe<Order>;
-  order_uid?: Maybe<Scalars['uuid']>;
-  primary_currency: Scalars['String'];
-  secondary_currency: Scalars['String'];
-  target_value: Scalars['numeric'];
+  orderUid?: Maybe<Scalars['uuid']>;
+  primaryCurrency: Scalars['String'];
+  secondaryCurrency: Scalars['String'];
+  targetValue: Scalars['numeric'];
   uid: Scalars['uuid'];
-  updated_at: Scalars['timestamptz'];
+  updatedAt: Scalars['timestamptz'];
   /** An object relationship */
   user: User;
-  user_uid: Scalars['uuid'];
+  userUid: Scalars['uuid'];
   value: Scalars['numeric'];
 };
 
 /** aggregated selection of "dca_order_history" */
-export type Dca_Order_History_Aggregate = {
-  __typename?: 'dca_order_history_aggregate';
-  aggregate?: Maybe<Dca_Order_History_Aggregate_Fields>;
-  nodes: Array<Dca_Order_History>;
+export type DcaOrderHistoryAggregate = {
+  __typename?: 'DcaOrderHistoryAggregate';
+  aggregate?: Maybe<DcaOrderHistoryAggregateFields>;
+  nodes: Array<DcaOrderHistory>;
 };
 
 /** aggregate fields of "dca_order_history" */
-export type Dca_Order_History_Aggregate_Fields = {
-  __typename?: 'dca_order_history_aggregate_fields';
-  avg?: Maybe<Dca_Order_History_Avg_Fields>;
+export type DcaOrderHistoryAggregateFields = {
+  __typename?: 'DcaOrderHistoryAggregateFields';
+  avg?: Maybe<DcaOrderHistoryAvgFields>;
   count: Scalars['Int'];
-  max?: Maybe<Dca_Order_History_Max_Fields>;
-  min?: Maybe<Dca_Order_History_Min_Fields>;
-  stddev?: Maybe<Dca_Order_History_Stddev_Fields>;
-  stddev_pop?: Maybe<Dca_Order_History_Stddev_Pop_Fields>;
-  stddev_samp?: Maybe<Dca_Order_History_Stddev_Samp_Fields>;
-  sum?: Maybe<Dca_Order_History_Sum_Fields>;
-  var_pop?: Maybe<Dca_Order_History_Var_Pop_Fields>;
-  var_samp?: Maybe<Dca_Order_History_Var_Samp_Fields>;
-  variance?: Maybe<Dca_Order_History_Variance_Fields>;
+  max?: Maybe<DcaOrderHistoryMaxFields>;
+  min?: Maybe<DcaOrderHistoryMinFields>;
+  stddev?: Maybe<DcaOrderHistoryStddevFields>;
+  stddevPop?: Maybe<DcaOrderHistoryStddevPopFields>;
+  stddevSamp?: Maybe<DcaOrderHistoryStddevSampFields>;
+  sum?: Maybe<DcaOrderHistorySumFields>;
+  varPop?: Maybe<DcaOrderHistoryVarPopFields>;
+  varSamp?: Maybe<DcaOrderHistoryVarSampFields>;
+  variance?: Maybe<DcaOrderHistoryVarianceFields>;
 };
 
 
 /** aggregate fields of "dca_order_history" */
-export type Dca_Order_History_Aggregate_FieldsCountArgs = {
-  columns?: InputMaybe<Array<Dca_Order_History_Select_Column>>;
+export type DcaOrderHistoryAggregateFieldsCountArgs = {
+  columns?: InputMaybe<Array<DcaOrderHistorySelectColumn>>;
   distinct?: InputMaybe<Scalars['Boolean']>;
 };
 
 /** order by aggregate values of table "dca_order_history" */
-export type Dca_Order_History_Aggregate_Order_By = {
-  avg?: InputMaybe<Dca_Order_History_Avg_Order_By>;
-  count?: InputMaybe<Order_By>;
-  max?: InputMaybe<Dca_Order_History_Max_Order_By>;
-  min?: InputMaybe<Dca_Order_History_Min_Order_By>;
-  stddev?: InputMaybe<Dca_Order_History_Stddev_Order_By>;
-  stddev_pop?: InputMaybe<Dca_Order_History_Stddev_Pop_Order_By>;
-  stddev_samp?: InputMaybe<Dca_Order_History_Stddev_Samp_Order_By>;
-  sum?: InputMaybe<Dca_Order_History_Sum_Order_By>;
-  var_pop?: InputMaybe<Dca_Order_History_Var_Pop_Order_By>;
-  var_samp?: InputMaybe<Dca_Order_History_Var_Samp_Order_By>;
-  variance?: InputMaybe<Dca_Order_History_Variance_Order_By>;
+export type DcaOrderHistoryAggregateOrderBy = {
+  avg?: InputMaybe<DcaOrderHistoryAvgOrderBy>;
+  count?: InputMaybe<OrderBy>;
+  max?: InputMaybe<DcaOrderHistoryMaxOrderBy>;
+  min?: InputMaybe<DcaOrderHistoryMinOrderBy>;
+  stddev?: InputMaybe<DcaOrderHistoryStddevOrderBy>;
+  stddev_pop?: InputMaybe<DcaOrderHistoryStddevPopOrderBy>;
+  stddev_samp?: InputMaybe<DcaOrderHistoryStddevSampOrderBy>;
+  sum?: InputMaybe<DcaOrderHistorySumOrderBy>;
+  var_pop?: InputMaybe<DcaOrderHistoryVarPopOrderBy>;
+  var_samp?: InputMaybe<DcaOrderHistoryVarSampOrderBy>;
+  variance?: InputMaybe<DcaOrderHistoryVarianceOrderBy>;
 };
 
 /** aggregate avg on columns */
-export type Dca_Order_History_Avg_Fields = {
-  __typename?: 'dca_order_history_avg_fields';
-  available_balance?: Maybe<Scalars['Float']>;
-  market_offset?: Maybe<Scalars['Float']>;
-  market_price?: Maybe<Scalars['Float']>;
-  target_value?: Maybe<Scalars['Float']>;
+export type DcaOrderHistoryAvgFields = {
+  __typename?: 'DcaOrderHistoryAvgFields';
+  availableBalance?: Maybe<Scalars['Float']>;
+  marketOffset?: Maybe<Scalars['Float']>;
+  marketPrice?: Maybe<Scalars['Float']>;
+  targetValue?: Maybe<Scalars['Float']>;
   value?: Maybe<Scalars['Float']>;
 };
 
 /** order by avg() on columns of table "dca_order_history" */
-export type Dca_Order_History_Avg_Order_By = {
-  available_balance?: InputMaybe<Order_By>;
-  market_offset?: InputMaybe<Order_By>;
-  market_price?: InputMaybe<Order_By>;
-  target_value?: InputMaybe<Order_By>;
-  value?: InputMaybe<Order_By>;
+export type DcaOrderHistoryAvgOrderBy = {
+  availableBalance?: InputMaybe<OrderBy>;
+  marketOffset?: InputMaybe<OrderBy>;
+  marketPrice?: InputMaybe<OrderBy>;
+  targetValue?: InputMaybe<OrderBy>;
+  value?: InputMaybe<OrderBy>;
 };
 
 /** Boolean expression to filter rows from the table "dca_order_history". All fields are combined with a logical 'AND'. */
-export type Dca_Order_History_Bool_Exp = {
-  _and?: InputMaybe<Array<Dca_Order_History_Bool_Exp>>;
-  _not?: InputMaybe<Dca_Order_History_Bool_Exp>;
-  _or?: InputMaybe<Array<Dca_Order_History_Bool_Exp>>;
-  available_balance?: InputMaybe<Numeric_Comparison_Exp>;
-  created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
-  created_order?: InputMaybe<Boolean_Comparison_Exp>;
-  dca_order?: InputMaybe<Dca_Order_Bool_Exp>;
-  dca_order_uid?: InputMaybe<Uuid_Comparison_Exp>;
-  description?: InputMaybe<String_Comparison_Exp>;
-  market_offset?: InputMaybe<Numeric_Comparison_Exp>;
-  market_price?: InputMaybe<Numeric_Comparison_Exp>;
-  order?: InputMaybe<Order_Bool_Exp>;
-  order_uid?: InputMaybe<Uuid_Comparison_Exp>;
-  primary_currency?: InputMaybe<String_Comparison_Exp>;
-  secondary_currency?: InputMaybe<String_Comparison_Exp>;
-  target_value?: InputMaybe<Numeric_Comparison_Exp>;
-  uid?: InputMaybe<Uuid_Comparison_Exp>;
-  updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
-  user?: InputMaybe<User_Bool_Exp>;
-  user_uid?: InputMaybe<Uuid_Comparison_Exp>;
-  value?: InputMaybe<Numeric_Comparison_Exp>;
+export type DcaOrderHistoryBoolExp = {
+  _and?: InputMaybe<Array<DcaOrderHistoryBoolExp>>;
+  _not?: InputMaybe<DcaOrderHistoryBoolExp>;
+  _or?: InputMaybe<Array<DcaOrderHistoryBoolExp>>;
+  availableBalance?: InputMaybe<NumericComparisonExp>;
+  createdAt?: InputMaybe<TimestamptzComparisonExp>;
+  createdOrder?: InputMaybe<BooleanComparisonExp>;
+  dcaOrder?: InputMaybe<DcaOrderBoolExp>;
+  dcaOrderUid?: InputMaybe<UuidComparisonExp>;
+  description?: InputMaybe<StringComparisonExp>;
+  marketOffset?: InputMaybe<NumericComparisonExp>;
+  marketPrice?: InputMaybe<NumericComparisonExp>;
+  order?: InputMaybe<OrderBoolExp>;
+  orderUid?: InputMaybe<UuidComparisonExp>;
+  primaryCurrency?: InputMaybe<StringComparisonExp>;
+  secondaryCurrency?: InputMaybe<StringComparisonExp>;
+  targetValue?: InputMaybe<NumericComparisonExp>;
+  uid?: InputMaybe<UuidComparisonExp>;
+  updatedAt?: InputMaybe<TimestamptzComparisonExp>;
+  user?: InputMaybe<UserBoolExp>;
+  userUid?: InputMaybe<UuidComparisonExp>;
+  value?: InputMaybe<NumericComparisonExp>;
 };
 
 /** aggregate max on columns */
-export type Dca_Order_History_Max_Fields = {
-  __typename?: 'dca_order_history_max_fields';
-  available_balance?: Maybe<Scalars['numeric']>;
-  created_at?: Maybe<Scalars['timestamptz']>;
-  dca_order_uid?: Maybe<Scalars['uuid']>;
+export type DcaOrderHistoryMaxFields = {
+  __typename?: 'DcaOrderHistoryMaxFields';
+  availableBalance?: Maybe<Scalars['numeric']>;
+  createdAt?: Maybe<Scalars['timestamptz']>;
+  dcaOrderUid?: Maybe<Scalars['uuid']>;
   description?: Maybe<Scalars['String']>;
-  market_offset?: Maybe<Scalars['numeric']>;
-  market_price?: Maybe<Scalars['numeric']>;
-  order_uid?: Maybe<Scalars['uuid']>;
-  primary_currency?: Maybe<Scalars['String']>;
-  secondary_currency?: Maybe<Scalars['String']>;
-  target_value?: Maybe<Scalars['numeric']>;
+  marketOffset?: Maybe<Scalars['numeric']>;
+  marketPrice?: Maybe<Scalars['numeric']>;
+  orderUid?: Maybe<Scalars['uuid']>;
+  primaryCurrency?: Maybe<Scalars['String']>;
+  secondaryCurrency?: Maybe<Scalars['String']>;
+  targetValue?: Maybe<Scalars['numeric']>;
   uid?: Maybe<Scalars['uuid']>;
-  updated_at?: Maybe<Scalars['timestamptz']>;
-  user_uid?: Maybe<Scalars['uuid']>;
+  updatedAt?: Maybe<Scalars['timestamptz']>;
+  userUid?: Maybe<Scalars['uuid']>;
   value?: Maybe<Scalars['numeric']>;
 };
 
 /** order by max() on columns of table "dca_order_history" */
-export type Dca_Order_History_Max_Order_By = {
-  available_balance?: InputMaybe<Order_By>;
-  created_at?: InputMaybe<Order_By>;
-  dca_order_uid?: InputMaybe<Order_By>;
-  description?: InputMaybe<Order_By>;
-  market_offset?: InputMaybe<Order_By>;
-  market_price?: InputMaybe<Order_By>;
-  order_uid?: InputMaybe<Order_By>;
-  primary_currency?: InputMaybe<Order_By>;
-  secondary_currency?: InputMaybe<Order_By>;
-  target_value?: InputMaybe<Order_By>;
-  uid?: InputMaybe<Order_By>;
-  updated_at?: InputMaybe<Order_By>;
-  user_uid?: InputMaybe<Order_By>;
-  value?: InputMaybe<Order_By>;
+export type DcaOrderHistoryMaxOrderBy = {
+  availableBalance?: InputMaybe<OrderBy>;
+  createdAt?: InputMaybe<OrderBy>;
+  dcaOrderUid?: InputMaybe<OrderBy>;
+  description?: InputMaybe<OrderBy>;
+  marketOffset?: InputMaybe<OrderBy>;
+  marketPrice?: InputMaybe<OrderBy>;
+  orderUid?: InputMaybe<OrderBy>;
+  primaryCurrency?: InputMaybe<OrderBy>;
+  secondaryCurrency?: InputMaybe<OrderBy>;
+  targetValue?: InputMaybe<OrderBy>;
+  uid?: InputMaybe<OrderBy>;
+  updatedAt?: InputMaybe<OrderBy>;
+  userUid?: InputMaybe<OrderBy>;
+  value?: InputMaybe<OrderBy>;
 };
 
 /** aggregate min on columns */
-export type Dca_Order_History_Min_Fields = {
-  __typename?: 'dca_order_history_min_fields';
-  available_balance?: Maybe<Scalars['numeric']>;
-  created_at?: Maybe<Scalars['timestamptz']>;
-  dca_order_uid?: Maybe<Scalars['uuid']>;
+export type DcaOrderHistoryMinFields = {
+  __typename?: 'DcaOrderHistoryMinFields';
+  availableBalance?: Maybe<Scalars['numeric']>;
+  createdAt?: Maybe<Scalars['timestamptz']>;
+  dcaOrderUid?: Maybe<Scalars['uuid']>;
   description?: Maybe<Scalars['String']>;
-  market_offset?: Maybe<Scalars['numeric']>;
-  market_price?: Maybe<Scalars['numeric']>;
-  order_uid?: Maybe<Scalars['uuid']>;
-  primary_currency?: Maybe<Scalars['String']>;
-  secondary_currency?: Maybe<Scalars['String']>;
-  target_value?: Maybe<Scalars['numeric']>;
+  marketOffset?: Maybe<Scalars['numeric']>;
+  marketPrice?: Maybe<Scalars['numeric']>;
+  orderUid?: Maybe<Scalars['uuid']>;
+  primaryCurrency?: Maybe<Scalars['String']>;
+  secondaryCurrency?: Maybe<Scalars['String']>;
+  targetValue?: Maybe<Scalars['numeric']>;
   uid?: Maybe<Scalars['uuid']>;
-  updated_at?: Maybe<Scalars['timestamptz']>;
-  user_uid?: Maybe<Scalars['uuid']>;
+  updatedAt?: Maybe<Scalars['timestamptz']>;
+  userUid?: Maybe<Scalars['uuid']>;
   value?: Maybe<Scalars['numeric']>;
 };
 
 /** order by min() on columns of table "dca_order_history" */
-export type Dca_Order_History_Min_Order_By = {
-  available_balance?: InputMaybe<Order_By>;
-  created_at?: InputMaybe<Order_By>;
-  dca_order_uid?: InputMaybe<Order_By>;
-  description?: InputMaybe<Order_By>;
-  market_offset?: InputMaybe<Order_By>;
-  market_price?: InputMaybe<Order_By>;
-  order_uid?: InputMaybe<Order_By>;
-  primary_currency?: InputMaybe<Order_By>;
-  secondary_currency?: InputMaybe<Order_By>;
-  target_value?: InputMaybe<Order_By>;
-  uid?: InputMaybe<Order_By>;
-  updated_at?: InputMaybe<Order_By>;
-  user_uid?: InputMaybe<Order_By>;
-  value?: InputMaybe<Order_By>;
+export type DcaOrderHistoryMinOrderBy = {
+  availableBalance?: InputMaybe<OrderBy>;
+  createdAt?: InputMaybe<OrderBy>;
+  dcaOrderUid?: InputMaybe<OrderBy>;
+  description?: InputMaybe<OrderBy>;
+  marketOffset?: InputMaybe<OrderBy>;
+  marketPrice?: InputMaybe<OrderBy>;
+  orderUid?: InputMaybe<OrderBy>;
+  primaryCurrency?: InputMaybe<OrderBy>;
+  secondaryCurrency?: InputMaybe<OrderBy>;
+  targetValue?: InputMaybe<OrderBy>;
+  uid?: InputMaybe<OrderBy>;
+  updatedAt?: InputMaybe<OrderBy>;
+  userUid?: InputMaybe<OrderBy>;
+  value?: InputMaybe<OrderBy>;
 };
 
 /** Ordering options when selecting data from "dca_order_history". */
-export type Dca_Order_History_Order_By = {
-  available_balance?: InputMaybe<Order_By>;
-  created_at?: InputMaybe<Order_By>;
-  created_order?: InputMaybe<Order_By>;
-  dca_order?: InputMaybe<Dca_Order_Order_By>;
-  dca_order_uid?: InputMaybe<Order_By>;
-  description?: InputMaybe<Order_By>;
-  market_offset?: InputMaybe<Order_By>;
-  market_price?: InputMaybe<Order_By>;
-  order?: InputMaybe<Order_Order_By>;
-  order_uid?: InputMaybe<Order_By>;
-  primary_currency?: InputMaybe<Order_By>;
-  secondary_currency?: InputMaybe<Order_By>;
-  target_value?: InputMaybe<Order_By>;
-  uid?: InputMaybe<Order_By>;
-  updated_at?: InputMaybe<Order_By>;
-  user?: InputMaybe<User_Order_By>;
-  user_uid?: InputMaybe<Order_By>;
-  value?: InputMaybe<Order_By>;
+export type DcaOrderHistoryOrderBy = {
+  availableBalance?: InputMaybe<OrderBy>;
+  createdAt?: InputMaybe<OrderBy>;
+  createdOrder?: InputMaybe<OrderBy>;
+  dcaOrder?: InputMaybe<DcaOrderOrderBy>;
+  dcaOrderUid?: InputMaybe<OrderBy>;
+  description?: InputMaybe<OrderBy>;
+  marketOffset?: InputMaybe<OrderBy>;
+  marketPrice?: InputMaybe<OrderBy>;
+  order?: InputMaybe<OrderOrderBy>;
+  orderUid?: InputMaybe<OrderBy>;
+  primaryCurrency?: InputMaybe<OrderBy>;
+  secondaryCurrency?: InputMaybe<OrderBy>;
+  targetValue?: InputMaybe<OrderBy>;
+  uid?: InputMaybe<OrderBy>;
+  updatedAt?: InputMaybe<OrderBy>;
+  user?: InputMaybe<UserOrderBy>;
+  userUid?: InputMaybe<OrderBy>;
+  value?: InputMaybe<OrderBy>;
 };
 
 /** select columns of table "dca_order_history" */
-export enum Dca_Order_History_Select_Column {
+export enum DcaOrderHistorySelectColumn {
   /** column name */
-  AvailableBalance = 'available_balance',
+  AvailableBalance = 'availableBalance',
   /** column name */
-  CreatedAt = 'created_at',
+  CreatedAt = 'createdAt',
   /** column name */
-  CreatedOrder = 'created_order',
+  CreatedOrder = 'createdOrder',
   /** column name */
-  DcaOrderUid = 'dca_order_uid',
+  DcaOrderUid = 'dcaOrderUid',
   /** column name */
   Description = 'description',
   /** column name */
-  MarketOffset = 'market_offset',
+  MarketOffset = 'marketOffset',
   /** column name */
-  MarketPrice = 'market_price',
+  MarketPrice = 'marketPrice',
   /** column name */
-  OrderUid = 'order_uid',
+  OrderUid = 'orderUid',
   /** column name */
-  PrimaryCurrency = 'primary_currency',
+  PrimaryCurrency = 'primaryCurrency',
   /** column name */
-  SecondaryCurrency = 'secondary_currency',
+  SecondaryCurrency = 'secondaryCurrency',
   /** column name */
-  TargetValue = 'target_value',
+  TargetValue = 'targetValue',
   /** column name */
   Uid = 'uid',
   /** column name */
-  UpdatedAt = 'updated_at',
+  UpdatedAt = 'updatedAt',
   /** column name */
-  UserUid = 'user_uid',
+  UserUid = 'userUid',
   /** column name */
   Value = 'value'
 }
 
 /** aggregate stddev on columns */
-export type Dca_Order_History_Stddev_Fields = {
-  __typename?: 'dca_order_history_stddev_fields';
-  available_balance?: Maybe<Scalars['Float']>;
-  market_offset?: Maybe<Scalars['Float']>;
-  market_price?: Maybe<Scalars['Float']>;
-  target_value?: Maybe<Scalars['Float']>;
+export type DcaOrderHistoryStddevFields = {
+  __typename?: 'DcaOrderHistoryStddevFields';
+  availableBalance?: Maybe<Scalars['Float']>;
+  marketOffset?: Maybe<Scalars['Float']>;
+  marketPrice?: Maybe<Scalars['Float']>;
+  targetValue?: Maybe<Scalars['Float']>;
   value?: Maybe<Scalars['Float']>;
 };
 
 /** order by stddev() on columns of table "dca_order_history" */
-export type Dca_Order_History_Stddev_Order_By = {
-  available_balance?: InputMaybe<Order_By>;
-  market_offset?: InputMaybe<Order_By>;
-  market_price?: InputMaybe<Order_By>;
-  target_value?: InputMaybe<Order_By>;
-  value?: InputMaybe<Order_By>;
+export type DcaOrderHistoryStddevOrderBy = {
+  availableBalance?: InputMaybe<OrderBy>;
+  marketOffset?: InputMaybe<OrderBy>;
+  marketPrice?: InputMaybe<OrderBy>;
+  targetValue?: InputMaybe<OrderBy>;
+  value?: InputMaybe<OrderBy>;
 };
 
 /** aggregate stddev_pop on columns */
-export type Dca_Order_History_Stddev_Pop_Fields = {
-  __typename?: 'dca_order_history_stddev_pop_fields';
-  available_balance?: Maybe<Scalars['Float']>;
-  market_offset?: Maybe<Scalars['Float']>;
-  market_price?: Maybe<Scalars['Float']>;
-  target_value?: Maybe<Scalars['Float']>;
+export type DcaOrderHistoryStddevPopFields = {
+  __typename?: 'DcaOrderHistoryStddevPopFields';
+  availableBalance?: Maybe<Scalars['Float']>;
+  marketOffset?: Maybe<Scalars['Float']>;
+  marketPrice?: Maybe<Scalars['Float']>;
+  targetValue?: Maybe<Scalars['Float']>;
   value?: Maybe<Scalars['Float']>;
 };
 
 /** order by stddev_pop() on columns of table "dca_order_history" */
-export type Dca_Order_History_Stddev_Pop_Order_By = {
-  available_balance?: InputMaybe<Order_By>;
-  market_offset?: InputMaybe<Order_By>;
-  market_price?: InputMaybe<Order_By>;
-  target_value?: InputMaybe<Order_By>;
-  value?: InputMaybe<Order_By>;
+export type DcaOrderHistoryStddevPopOrderBy = {
+  availableBalance?: InputMaybe<OrderBy>;
+  marketOffset?: InputMaybe<OrderBy>;
+  marketPrice?: InputMaybe<OrderBy>;
+  targetValue?: InputMaybe<OrderBy>;
+  value?: InputMaybe<OrderBy>;
 };
 
 /** aggregate stddev_samp on columns */
-export type Dca_Order_History_Stddev_Samp_Fields = {
-  __typename?: 'dca_order_history_stddev_samp_fields';
-  available_balance?: Maybe<Scalars['Float']>;
-  market_offset?: Maybe<Scalars['Float']>;
-  market_price?: Maybe<Scalars['Float']>;
-  target_value?: Maybe<Scalars['Float']>;
+export type DcaOrderHistoryStddevSampFields = {
+  __typename?: 'DcaOrderHistoryStddevSampFields';
+  availableBalance?: Maybe<Scalars['Float']>;
+  marketOffset?: Maybe<Scalars['Float']>;
+  marketPrice?: Maybe<Scalars['Float']>;
+  targetValue?: Maybe<Scalars['Float']>;
   value?: Maybe<Scalars['Float']>;
 };
 
 /** order by stddev_samp() on columns of table "dca_order_history" */
-export type Dca_Order_History_Stddev_Samp_Order_By = {
-  available_balance?: InputMaybe<Order_By>;
-  market_offset?: InputMaybe<Order_By>;
-  market_price?: InputMaybe<Order_By>;
-  target_value?: InputMaybe<Order_By>;
-  value?: InputMaybe<Order_By>;
+export type DcaOrderHistoryStddevSampOrderBy = {
+  availableBalance?: InputMaybe<OrderBy>;
+  marketOffset?: InputMaybe<OrderBy>;
+  marketPrice?: InputMaybe<OrderBy>;
+  targetValue?: InputMaybe<OrderBy>;
+  value?: InputMaybe<OrderBy>;
 };
 
 /** aggregate sum on columns */
-export type Dca_Order_History_Sum_Fields = {
-  __typename?: 'dca_order_history_sum_fields';
-  available_balance?: Maybe<Scalars['numeric']>;
-  market_offset?: Maybe<Scalars['numeric']>;
-  market_price?: Maybe<Scalars['numeric']>;
-  target_value?: Maybe<Scalars['numeric']>;
+export type DcaOrderHistorySumFields = {
+  __typename?: 'DcaOrderHistorySumFields';
+  availableBalance?: Maybe<Scalars['numeric']>;
+  marketOffset?: Maybe<Scalars['numeric']>;
+  marketPrice?: Maybe<Scalars['numeric']>;
+  targetValue?: Maybe<Scalars['numeric']>;
   value?: Maybe<Scalars['numeric']>;
 };
 
 /** order by sum() on columns of table "dca_order_history" */
-export type Dca_Order_History_Sum_Order_By = {
-  available_balance?: InputMaybe<Order_By>;
-  market_offset?: InputMaybe<Order_By>;
-  market_price?: InputMaybe<Order_By>;
-  target_value?: InputMaybe<Order_By>;
-  value?: InputMaybe<Order_By>;
+export type DcaOrderHistorySumOrderBy = {
+  availableBalance?: InputMaybe<OrderBy>;
+  marketOffset?: InputMaybe<OrderBy>;
+  marketPrice?: InputMaybe<OrderBy>;
+  targetValue?: InputMaybe<OrderBy>;
+  value?: InputMaybe<OrderBy>;
 };
 
 /** aggregate var_pop on columns */
-export type Dca_Order_History_Var_Pop_Fields = {
-  __typename?: 'dca_order_history_var_pop_fields';
-  available_balance?: Maybe<Scalars['Float']>;
-  market_offset?: Maybe<Scalars['Float']>;
-  market_price?: Maybe<Scalars['Float']>;
-  target_value?: Maybe<Scalars['Float']>;
+export type DcaOrderHistoryVarPopFields = {
+  __typename?: 'DcaOrderHistoryVarPopFields';
+  availableBalance?: Maybe<Scalars['Float']>;
+  marketOffset?: Maybe<Scalars['Float']>;
+  marketPrice?: Maybe<Scalars['Float']>;
+  targetValue?: Maybe<Scalars['Float']>;
   value?: Maybe<Scalars['Float']>;
 };
 
 /** order by var_pop() on columns of table "dca_order_history" */
-export type Dca_Order_History_Var_Pop_Order_By = {
-  available_balance?: InputMaybe<Order_By>;
-  market_offset?: InputMaybe<Order_By>;
-  market_price?: InputMaybe<Order_By>;
-  target_value?: InputMaybe<Order_By>;
-  value?: InputMaybe<Order_By>;
+export type DcaOrderHistoryVarPopOrderBy = {
+  availableBalance?: InputMaybe<OrderBy>;
+  marketOffset?: InputMaybe<OrderBy>;
+  marketPrice?: InputMaybe<OrderBy>;
+  targetValue?: InputMaybe<OrderBy>;
+  value?: InputMaybe<OrderBy>;
 };
 
 /** aggregate var_samp on columns */
-export type Dca_Order_History_Var_Samp_Fields = {
-  __typename?: 'dca_order_history_var_samp_fields';
-  available_balance?: Maybe<Scalars['Float']>;
-  market_offset?: Maybe<Scalars['Float']>;
-  market_price?: Maybe<Scalars['Float']>;
-  target_value?: Maybe<Scalars['Float']>;
+export type DcaOrderHistoryVarSampFields = {
+  __typename?: 'DcaOrderHistoryVarSampFields';
+  availableBalance?: Maybe<Scalars['Float']>;
+  marketOffset?: Maybe<Scalars['Float']>;
+  marketPrice?: Maybe<Scalars['Float']>;
+  targetValue?: Maybe<Scalars['Float']>;
   value?: Maybe<Scalars['Float']>;
 };
 
 /** order by var_samp() on columns of table "dca_order_history" */
-export type Dca_Order_History_Var_Samp_Order_By = {
-  available_balance?: InputMaybe<Order_By>;
-  market_offset?: InputMaybe<Order_By>;
-  market_price?: InputMaybe<Order_By>;
-  target_value?: InputMaybe<Order_By>;
-  value?: InputMaybe<Order_By>;
+export type DcaOrderHistoryVarSampOrderBy = {
+  availableBalance?: InputMaybe<OrderBy>;
+  marketOffset?: InputMaybe<OrderBy>;
+  marketPrice?: InputMaybe<OrderBy>;
+  targetValue?: InputMaybe<OrderBy>;
+  value?: InputMaybe<OrderBy>;
 };
 
 /** aggregate variance on columns */
-export type Dca_Order_History_Variance_Fields = {
-  __typename?: 'dca_order_history_variance_fields';
-  available_balance?: Maybe<Scalars['Float']>;
-  market_offset?: Maybe<Scalars['Float']>;
-  market_price?: Maybe<Scalars['Float']>;
-  target_value?: Maybe<Scalars['Float']>;
+export type DcaOrderHistoryVarianceFields = {
+  __typename?: 'DcaOrderHistoryVarianceFields';
+  availableBalance?: Maybe<Scalars['Float']>;
+  marketOffset?: Maybe<Scalars['Float']>;
+  marketPrice?: Maybe<Scalars['Float']>;
+  targetValue?: Maybe<Scalars['Float']>;
   value?: Maybe<Scalars['Float']>;
 };
 
 /** order by variance() on columns of table "dca_order_history" */
-export type Dca_Order_History_Variance_Order_By = {
-  available_balance?: InputMaybe<Order_By>;
-  market_offset?: InputMaybe<Order_By>;
-  market_price?: InputMaybe<Order_By>;
-  target_value?: InputMaybe<Order_By>;
-  value?: InputMaybe<Order_By>;
+export type DcaOrderHistoryVarianceOrderBy = {
+  availableBalance?: InputMaybe<OrderBy>;
+  marketOffset?: InputMaybe<OrderBy>;
+  marketPrice?: InputMaybe<OrderBy>;
+  targetValue?: InputMaybe<OrderBy>;
+  value?: InputMaybe<OrderBy>;
 };
 
 /** input type for incrementing numeric columns in table "dca_order" */
-export type Dca_Order_Inc_Input = {
-  daily_average?: InputMaybe<Scalars['numeric']>;
-  interval_ms?: InputMaybe<Scalars['Int']>;
-  market_offset?: InputMaybe<Scalars['numeric']>;
-  max_price?: InputMaybe<Scalars['numeric']>;
-  max_value?: InputMaybe<Scalars['numeric']>;
-  min_price?: InputMaybe<Scalars['numeric']>;
-  min_value?: InputMaybe<Scalars['numeric']>;
+export type DcaOrderIncInput = {
+  dailyAverage?: InputMaybe<Scalars['numeric']>;
+  intervalMs?: InputMaybe<Scalars['Int']>;
+  marketOffset?: InputMaybe<Scalars['numeric']>;
+  maxPrice?: InputMaybe<Scalars['numeric']>;
+  maxValue?: InputMaybe<Scalars['numeric']>;
+  minPrice?: InputMaybe<Scalars['numeric']>;
+  minValue?: InputMaybe<Scalars['numeric']>;
 };
 
 /** aggregate max on columns */
-export type Dca_Order_Max_Fields = {
-  __typename?: 'dca_order_max_fields';
-  created_at?: Maybe<Scalars['timestamptz']>;
-  daily_average?: Maybe<Scalars['numeric']>;
-  enabled_at?: Maybe<Scalars['timestamptz']>;
-  exchange_uid?: Maybe<Scalars['uuid']>;
-  interval_ms?: Maybe<Scalars['Int']>;
-  last_run_at?: Maybe<Scalars['timestamptz']>;
-  market_offset?: Maybe<Scalars['numeric']>;
-  market_uid?: Maybe<Scalars['uuid']>;
-  max_price?: Maybe<Scalars['numeric']>;
-  max_value?: Maybe<Scalars['numeric']>;
-  min_price?: Maybe<Scalars['numeric']>;
-  min_value?: Maybe<Scalars['numeric']>;
-  next_run_at?: Maybe<Scalars['timestamptz']>;
-  primary_currency_symbol?: Maybe<Scalars['String']>;
-  secondary_currency_symbol?: Maybe<Scalars['String']>;
-  start_at?: Maybe<Scalars['timestamptz']>;
+export type DcaOrderMaxFields = {
+  __typename?: 'DcaOrderMaxFields';
+  createdAt?: Maybe<Scalars['timestamptz']>;
+  dailyAverage?: Maybe<Scalars['numeric']>;
+  enabledAt?: Maybe<Scalars['timestamptz']>;
+  exchangeUid?: Maybe<Scalars['uuid']>;
+  intervalMs?: Maybe<Scalars['Int']>;
+  lastRunAt?: Maybe<Scalars['timestamptz']>;
+  marketOffset?: Maybe<Scalars['numeric']>;
+  marketUid?: Maybe<Scalars['uuid']>;
+  maxPrice?: Maybe<Scalars['numeric']>;
+  maxValue?: Maybe<Scalars['numeric']>;
+  minPrice?: Maybe<Scalars['numeric']>;
+  minValue?: Maybe<Scalars['numeric']>;
+  nextRunAt?: Maybe<Scalars['timestamptz']>;
+  primaryCurrencySymbol?: Maybe<Scalars['String']>;
+  secondaryCurrencySymbol?: Maybe<Scalars['String']>;
+  startAt?: Maybe<Scalars['timestamptz']>;
   uid?: Maybe<Scalars['uuid']>;
-  updated_at?: Maybe<Scalars['timestamptz']>;
-  user_exchange_keys_uid?: Maybe<Scalars['uuid']>;
-  user_uid?: Maybe<Scalars['uuid']>;
+  updatedAt?: Maybe<Scalars['timestamptz']>;
+  userExchangeKeysUid?: Maybe<Scalars['uuid']>;
+  userUid?: Maybe<Scalars['uuid']>;
 };
 
 /** order by max() on columns of table "dca_order" */
-export type Dca_Order_Max_Order_By = {
-  created_at?: InputMaybe<Order_By>;
-  daily_average?: InputMaybe<Order_By>;
-  enabled_at?: InputMaybe<Order_By>;
-  exchange_uid?: InputMaybe<Order_By>;
-  interval_ms?: InputMaybe<Order_By>;
-  last_run_at?: InputMaybe<Order_By>;
-  market_offset?: InputMaybe<Order_By>;
-  market_uid?: InputMaybe<Order_By>;
-  max_price?: InputMaybe<Order_By>;
-  max_value?: InputMaybe<Order_By>;
-  min_price?: InputMaybe<Order_By>;
-  min_value?: InputMaybe<Order_By>;
-  next_run_at?: InputMaybe<Order_By>;
-  primary_currency_symbol?: InputMaybe<Order_By>;
-  secondary_currency_symbol?: InputMaybe<Order_By>;
-  start_at?: InputMaybe<Order_By>;
-  uid?: InputMaybe<Order_By>;
-  updated_at?: InputMaybe<Order_By>;
-  user_exchange_keys_uid?: InputMaybe<Order_By>;
-  user_uid?: InputMaybe<Order_By>;
+export type DcaOrderMaxOrderBy = {
+  createdAt?: InputMaybe<OrderBy>;
+  dailyAverage?: InputMaybe<OrderBy>;
+  enabledAt?: InputMaybe<OrderBy>;
+  exchangeUid?: InputMaybe<OrderBy>;
+  intervalMs?: InputMaybe<OrderBy>;
+  lastRunAt?: InputMaybe<OrderBy>;
+  marketOffset?: InputMaybe<OrderBy>;
+  marketUid?: InputMaybe<OrderBy>;
+  maxPrice?: InputMaybe<OrderBy>;
+  maxValue?: InputMaybe<OrderBy>;
+  minPrice?: InputMaybe<OrderBy>;
+  minValue?: InputMaybe<OrderBy>;
+  nextRunAt?: InputMaybe<OrderBy>;
+  primaryCurrencySymbol?: InputMaybe<OrderBy>;
+  secondaryCurrencySymbol?: InputMaybe<OrderBy>;
+  startAt?: InputMaybe<OrderBy>;
+  uid?: InputMaybe<OrderBy>;
+  updatedAt?: InputMaybe<OrderBy>;
+  userExchangeKeysUid?: InputMaybe<OrderBy>;
+  userUid?: InputMaybe<OrderBy>;
 };
 
 /** aggregate min on columns */
-export type Dca_Order_Min_Fields = {
-  __typename?: 'dca_order_min_fields';
-  created_at?: Maybe<Scalars['timestamptz']>;
-  daily_average?: Maybe<Scalars['numeric']>;
-  enabled_at?: Maybe<Scalars['timestamptz']>;
-  exchange_uid?: Maybe<Scalars['uuid']>;
-  interval_ms?: Maybe<Scalars['Int']>;
-  last_run_at?: Maybe<Scalars['timestamptz']>;
-  market_offset?: Maybe<Scalars['numeric']>;
-  market_uid?: Maybe<Scalars['uuid']>;
-  max_price?: Maybe<Scalars['numeric']>;
-  max_value?: Maybe<Scalars['numeric']>;
-  min_price?: Maybe<Scalars['numeric']>;
-  min_value?: Maybe<Scalars['numeric']>;
-  next_run_at?: Maybe<Scalars['timestamptz']>;
-  primary_currency_symbol?: Maybe<Scalars['String']>;
-  secondary_currency_symbol?: Maybe<Scalars['String']>;
-  start_at?: Maybe<Scalars['timestamptz']>;
+export type DcaOrderMinFields = {
+  __typename?: 'DcaOrderMinFields';
+  createdAt?: Maybe<Scalars['timestamptz']>;
+  dailyAverage?: Maybe<Scalars['numeric']>;
+  enabledAt?: Maybe<Scalars['timestamptz']>;
+  exchangeUid?: Maybe<Scalars['uuid']>;
+  intervalMs?: Maybe<Scalars['Int']>;
+  lastRunAt?: Maybe<Scalars['timestamptz']>;
+  marketOffset?: Maybe<Scalars['numeric']>;
+  marketUid?: Maybe<Scalars['uuid']>;
+  maxPrice?: Maybe<Scalars['numeric']>;
+  maxValue?: Maybe<Scalars['numeric']>;
+  minPrice?: Maybe<Scalars['numeric']>;
+  minValue?: Maybe<Scalars['numeric']>;
+  nextRunAt?: Maybe<Scalars['timestamptz']>;
+  primaryCurrencySymbol?: Maybe<Scalars['String']>;
+  secondaryCurrencySymbol?: Maybe<Scalars['String']>;
+  startAt?: Maybe<Scalars['timestamptz']>;
   uid?: Maybe<Scalars['uuid']>;
-  updated_at?: Maybe<Scalars['timestamptz']>;
-  user_exchange_keys_uid?: Maybe<Scalars['uuid']>;
-  user_uid?: Maybe<Scalars['uuid']>;
+  updatedAt?: Maybe<Scalars['timestamptz']>;
+  userExchangeKeysUid?: Maybe<Scalars['uuid']>;
+  userUid?: Maybe<Scalars['uuid']>;
 };
 
 /** order by min() on columns of table "dca_order" */
-export type Dca_Order_Min_Order_By = {
-  created_at?: InputMaybe<Order_By>;
-  daily_average?: InputMaybe<Order_By>;
-  enabled_at?: InputMaybe<Order_By>;
-  exchange_uid?: InputMaybe<Order_By>;
-  interval_ms?: InputMaybe<Order_By>;
-  last_run_at?: InputMaybe<Order_By>;
-  market_offset?: InputMaybe<Order_By>;
-  market_uid?: InputMaybe<Order_By>;
-  max_price?: InputMaybe<Order_By>;
-  max_value?: InputMaybe<Order_By>;
-  min_price?: InputMaybe<Order_By>;
-  min_value?: InputMaybe<Order_By>;
-  next_run_at?: InputMaybe<Order_By>;
-  primary_currency_symbol?: InputMaybe<Order_By>;
-  secondary_currency_symbol?: InputMaybe<Order_By>;
-  start_at?: InputMaybe<Order_By>;
-  uid?: InputMaybe<Order_By>;
-  updated_at?: InputMaybe<Order_By>;
-  user_exchange_keys_uid?: InputMaybe<Order_By>;
-  user_uid?: InputMaybe<Order_By>;
+export type DcaOrderMinOrderBy = {
+  createdAt?: InputMaybe<OrderBy>;
+  dailyAverage?: InputMaybe<OrderBy>;
+  enabledAt?: InputMaybe<OrderBy>;
+  exchangeUid?: InputMaybe<OrderBy>;
+  intervalMs?: InputMaybe<OrderBy>;
+  lastRunAt?: InputMaybe<OrderBy>;
+  marketOffset?: InputMaybe<OrderBy>;
+  marketUid?: InputMaybe<OrderBy>;
+  maxPrice?: InputMaybe<OrderBy>;
+  maxValue?: InputMaybe<OrderBy>;
+  minPrice?: InputMaybe<OrderBy>;
+  minValue?: InputMaybe<OrderBy>;
+  nextRunAt?: InputMaybe<OrderBy>;
+  primaryCurrencySymbol?: InputMaybe<OrderBy>;
+  secondaryCurrencySymbol?: InputMaybe<OrderBy>;
+  startAt?: InputMaybe<OrderBy>;
+  uid?: InputMaybe<OrderBy>;
+  updatedAt?: InputMaybe<OrderBy>;
+  userExchangeKeysUid?: InputMaybe<OrderBy>;
+  userUid?: InputMaybe<OrderBy>;
 };
 
 /** response of any mutation on the table "dca_order" */
-export type Dca_Order_Mutation_Response = {
-  __typename?: 'dca_order_mutation_response';
+export type DcaOrderMutationResponse = {
+  __typename?: 'DcaOrderMutationResponse';
   /** number of rows affected by the mutation */
   affected_rows: Scalars['Int'];
   /** data from the rows affected by the mutation */
-  returning: Array<Dca_Order>;
+  returning: Array<DcaOrder>;
 };
 
 /** Ordering options when selecting data from "dca_order". */
-export type Dca_Order_Order_By = {
-  created_at?: InputMaybe<Order_By>;
-  daily_average?: InputMaybe<Order_By>;
-  dca_order_histories_aggregate?: InputMaybe<Dca_Order_History_Aggregate_Order_By>;
-  enabled_at?: InputMaybe<Order_By>;
-  exchange?: InputMaybe<Exchange_Order_By>;
-  exchange_market_trading_pair_aggregate?: InputMaybe<Market_Trading_Pair_Aggregate_Order_By>;
-  exchange_uid?: InputMaybe<Order_By>;
-  interval_ms?: InputMaybe<Order_By>;
-  last_run_at?: InputMaybe<Order_By>;
-  market?: InputMaybe<Market_Order_By>;
-  market_offset?: InputMaybe<Order_By>;
-  market_prices_aggregate?: InputMaybe<Market_Price_Aggregate_Order_By>;
-  market_uid?: InputMaybe<Order_By>;
-  max_price?: InputMaybe<Order_By>;
-  max_value?: InputMaybe<Order_By>;
-  min_price?: InputMaybe<Order_By>;
-  min_value?: InputMaybe<Order_By>;
-  next_run_at?: InputMaybe<Order_By>;
-  primary_currency?: InputMaybe<Currency_Order_By>;
-  primary_currency_symbol?: InputMaybe<Order_By>;
-  secondary_currency?: InputMaybe<Currency_Order_By>;
-  secondary_currency_symbol?: InputMaybe<Order_By>;
-  start_at?: InputMaybe<Order_By>;
-  uid?: InputMaybe<Order_By>;
-  updated_at?: InputMaybe<Order_By>;
-  user?: InputMaybe<User_Order_By>;
-  user_exchange_keys?: InputMaybe<User_Exchange_Keys_Order_By>;
-  user_exchange_keys_uid?: InputMaybe<Order_By>;
-  user_uid?: InputMaybe<Order_By>;
+export type DcaOrderOrderBy = {
+  createdAt?: InputMaybe<OrderBy>;
+  dailyAverage?: InputMaybe<OrderBy>;
+  dcaOrderHistoriesAggregate?: InputMaybe<DcaOrderHistoryAggregateOrderBy>;
+  enabledAt?: InputMaybe<OrderBy>;
+  exchange?: InputMaybe<ExchangeOrderBy>;
+  exchangeMarketTradingPairAggregate?: InputMaybe<MarketTradingPairAggregateOrderBy>;
+  exchangeUid?: InputMaybe<OrderBy>;
+  intervalMs?: InputMaybe<OrderBy>;
+  lastRunAt?: InputMaybe<OrderBy>;
+  market?: InputMaybe<MarketOrderBy>;
+  marketOffset?: InputMaybe<OrderBy>;
+  marketPricesAggregate?: InputMaybe<MarketPriceAggregateOrderBy>;
+  marketUid?: InputMaybe<OrderBy>;
+  maxPrice?: InputMaybe<OrderBy>;
+  maxValue?: InputMaybe<OrderBy>;
+  minPrice?: InputMaybe<OrderBy>;
+  minValue?: InputMaybe<OrderBy>;
+  nextRunAt?: InputMaybe<OrderBy>;
+  primaryCurrency?: InputMaybe<CurrencyOrderBy>;
+  primaryCurrencySymbol?: InputMaybe<OrderBy>;
+  secondaryCurrency?: InputMaybe<CurrencyOrderBy>;
+  secondaryCurrencySymbol?: InputMaybe<OrderBy>;
+  startAt?: InputMaybe<OrderBy>;
+  uid?: InputMaybe<OrderBy>;
+  updatedAt?: InputMaybe<OrderBy>;
+  user?: InputMaybe<UserOrderBy>;
+  userExchangeKeys?: InputMaybe<UserExchangeKeysOrderBy>;
+  userExchangeKeysUid?: InputMaybe<OrderBy>;
+  userUid?: InputMaybe<OrderBy>;
 };
 
 /** primary key columns input for table: dca_order */
-export type Dca_Order_Pk_Columns_Input = {
+export type DcaOrderPkColumnsInput = {
   uid: Scalars['uuid'];
 };
 
 /** select columns of table "dca_order" */
-export enum Dca_Order_Select_Column {
+export enum DcaOrderSelectColumn {
   /** column name */
-  CreatedAt = 'created_at',
+  CreatedAt = 'createdAt',
   /** column name */
-  DailyAverage = 'daily_average',
+  DailyAverage = 'dailyAverage',
   /** column name */
-  EnabledAt = 'enabled_at',
+  EnabledAt = 'enabledAt',
   /** column name */
-  ExchangeUid = 'exchange_uid',
+  ExchangeUid = 'exchangeUid',
   /** column name */
-  IntervalMs = 'interval_ms',
+  IntervalMs = 'intervalMs',
   /** column name */
-  LastRunAt = 'last_run_at',
+  LastRunAt = 'lastRunAt',
   /** column name */
-  MarketOffset = 'market_offset',
+  MarketOffset = 'marketOffset',
   /** column name */
-  MarketUid = 'market_uid',
+  MarketUid = 'marketUid',
   /** column name */
-  MaxPrice = 'max_price',
+  MaxPrice = 'maxPrice',
   /** column name */
-  MaxValue = 'max_value',
+  MaxValue = 'maxValue',
   /** column name */
-  MinPrice = 'min_price',
+  MinPrice = 'minPrice',
   /** column name */
-  MinValue = 'min_value',
+  MinValue = 'minValue',
   /** column name */
-  NextRunAt = 'next_run_at',
+  NextRunAt = 'nextRunAt',
   /** column name */
-  PrimaryCurrencySymbol = 'primary_currency_symbol',
+  PrimaryCurrencySymbol = 'primaryCurrencySymbol',
   /** column name */
-  SecondaryCurrencySymbol = 'secondary_currency_symbol',
+  SecondaryCurrencySymbol = 'secondaryCurrencySymbol',
   /** column name */
-  StartAt = 'start_at',
+  StartAt = 'startAt',
   /** column name */
   Uid = 'uid',
   /** column name */
-  UpdatedAt = 'updated_at',
+  UpdatedAt = 'updatedAt',
   /** column name */
-  UserExchangeKeysUid = 'user_exchange_keys_uid',
+  UserExchangeKeysUid = 'userExchangeKeysUid',
   /** column name */
-  UserUid = 'user_uid'
+  UserUid = 'userUid'
 }
 
 /** input type for updating data in table "dca_order" */
-export type Dca_Order_Set_Input = {
-  daily_average?: InputMaybe<Scalars['numeric']>;
-  interval_ms?: InputMaybe<Scalars['Int']>;
-  market_offset?: InputMaybe<Scalars['numeric']>;
-  market_uid?: InputMaybe<Scalars['uuid']>;
-  max_price?: InputMaybe<Scalars['numeric']>;
-  max_value?: InputMaybe<Scalars['numeric']>;
-  min_price?: InputMaybe<Scalars['numeric']>;
-  min_value?: InputMaybe<Scalars['numeric']>;
-  start_at?: InputMaybe<Scalars['timestamptz']>;
-  updated_at?: InputMaybe<Scalars['timestamptz']>;
-  user_exchange_keys_uid?: InputMaybe<Scalars['uuid']>;
+export type DcaOrderSetInput = {
+  dailyAverage?: InputMaybe<Scalars['numeric']>;
+  intervalMs?: InputMaybe<Scalars['Int']>;
+  marketOffset?: InputMaybe<Scalars['numeric']>;
+  marketUid?: InputMaybe<Scalars['uuid']>;
+  maxPrice?: InputMaybe<Scalars['numeric']>;
+  maxValue?: InputMaybe<Scalars['numeric']>;
+  minPrice?: InputMaybe<Scalars['numeric']>;
+  minValue?: InputMaybe<Scalars['numeric']>;
+  startAt?: InputMaybe<Scalars['timestamptz']>;
+  updatedAt?: InputMaybe<Scalars['timestamptz']>;
+  userExchangeKeysUid?: InputMaybe<Scalars['uuid']>;
 };
 
 /** aggregate stddev on columns */
-export type Dca_Order_Stddev_Fields = {
-  __typename?: 'dca_order_stddev_fields';
-  daily_average?: Maybe<Scalars['Float']>;
-  interval_ms?: Maybe<Scalars['Float']>;
-  market_offset?: Maybe<Scalars['Float']>;
-  max_price?: Maybe<Scalars['Float']>;
-  max_value?: Maybe<Scalars['Float']>;
-  min_price?: Maybe<Scalars['Float']>;
-  min_value?: Maybe<Scalars['Float']>;
+export type DcaOrderStddevFields = {
+  __typename?: 'DcaOrderStddevFields';
+  dailyAverage?: Maybe<Scalars['Float']>;
+  intervalMs?: Maybe<Scalars['Float']>;
+  marketOffset?: Maybe<Scalars['Float']>;
+  maxPrice?: Maybe<Scalars['Float']>;
+  maxValue?: Maybe<Scalars['Float']>;
+  minPrice?: Maybe<Scalars['Float']>;
+  minValue?: Maybe<Scalars['Float']>;
 };
 
 /** order by stddev() on columns of table "dca_order" */
-export type Dca_Order_Stddev_Order_By = {
-  daily_average?: InputMaybe<Order_By>;
-  interval_ms?: InputMaybe<Order_By>;
-  market_offset?: InputMaybe<Order_By>;
-  max_price?: InputMaybe<Order_By>;
-  max_value?: InputMaybe<Order_By>;
-  min_price?: InputMaybe<Order_By>;
-  min_value?: InputMaybe<Order_By>;
+export type DcaOrderStddevOrderBy = {
+  dailyAverage?: InputMaybe<OrderBy>;
+  intervalMs?: InputMaybe<OrderBy>;
+  marketOffset?: InputMaybe<OrderBy>;
+  maxPrice?: InputMaybe<OrderBy>;
+  maxValue?: InputMaybe<OrderBy>;
+  minPrice?: InputMaybe<OrderBy>;
+  minValue?: InputMaybe<OrderBy>;
 };
 
 /** aggregate stddev_pop on columns */
-export type Dca_Order_Stddev_Pop_Fields = {
-  __typename?: 'dca_order_stddev_pop_fields';
-  daily_average?: Maybe<Scalars['Float']>;
-  interval_ms?: Maybe<Scalars['Float']>;
-  market_offset?: Maybe<Scalars['Float']>;
-  max_price?: Maybe<Scalars['Float']>;
-  max_value?: Maybe<Scalars['Float']>;
-  min_price?: Maybe<Scalars['Float']>;
-  min_value?: Maybe<Scalars['Float']>;
+export type DcaOrderStddevPopFields = {
+  __typename?: 'DcaOrderStddevPopFields';
+  dailyAverage?: Maybe<Scalars['Float']>;
+  intervalMs?: Maybe<Scalars['Float']>;
+  marketOffset?: Maybe<Scalars['Float']>;
+  maxPrice?: Maybe<Scalars['Float']>;
+  maxValue?: Maybe<Scalars['Float']>;
+  minPrice?: Maybe<Scalars['Float']>;
+  minValue?: Maybe<Scalars['Float']>;
 };
 
 /** order by stddev_pop() on columns of table "dca_order" */
-export type Dca_Order_Stddev_Pop_Order_By = {
-  daily_average?: InputMaybe<Order_By>;
-  interval_ms?: InputMaybe<Order_By>;
-  market_offset?: InputMaybe<Order_By>;
-  max_price?: InputMaybe<Order_By>;
-  max_value?: InputMaybe<Order_By>;
-  min_price?: InputMaybe<Order_By>;
-  min_value?: InputMaybe<Order_By>;
+export type DcaOrderStddevPopOrderBy = {
+  dailyAverage?: InputMaybe<OrderBy>;
+  intervalMs?: InputMaybe<OrderBy>;
+  marketOffset?: InputMaybe<OrderBy>;
+  maxPrice?: InputMaybe<OrderBy>;
+  maxValue?: InputMaybe<OrderBy>;
+  minPrice?: InputMaybe<OrderBy>;
+  minValue?: InputMaybe<OrderBy>;
 };
 
 /** aggregate stddev_samp on columns */
-export type Dca_Order_Stddev_Samp_Fields = {
-  __typename?: 'dca_order_stddev_samp_fields';
-  daily_average?: Maybe<Scalars['Float']>;
-  interval_ms?: Maybe<Scalars['Float']>;
-  market_offset?: Maybe<Scalars['Float']>;
-  max_price?: Maybe<Scalars['Float']>;
-  max_value?: Maybe<Scalars['Float']>;
-  min_price?: Maybe<Scalars['Float']>;
-  min_value?: Maybe<Scalars['Float']>;
+export type DcaOrderStddevSampFields = {
+  __typename?: 'DcaOrderStddevSampFields';
+  dailyAverage?: Maybe<Scalars['Float']>;
+  intervalMs?: Maybe<Scalars['Float']>;
+  marketOffset?: Maybe<Scalars['Float']>;
+  maxPrice?: Maybe<Scalars['Float']>;
+  maxValue?: Maybe<Scalars['Float']>;
+  minPrice?: Maybe<Scalars['Float']>;
+  minValue?: Maybe<Scalars['Float']>;
 };
 
 /** order by stddev_samp() on columns of table "dca_order" */
-export type Dca_Order_Stddev_Samp_Order_By = {
-  daily_average?: InputMaybe<Order_By>;
-  interval_ms?: InputMaybe<Order_By>;
-  market_offset?: InputMaybe<Order_By>;
-  max_price?: InputMaybe<Order_By>;
-  max_value?: InputMaybe<Order_By>;
-  min_price?: InputMaybe<Order_By>;
-  min_value?: InputMaybe<Order_By>;
+export type DcaOrderStddevSampOrderBy = {
+  dailyAverage?: InputMaybe<OrderBy>;
+  intervalMs?: InputMaybe<OrderBy>;
+  marketOffset?: InputMaybe<OrderBy>;
+  maxPrice?: InputMaybe<OrderBy>;
+  maxValue?: InputMaybe<OrderBy>;
+  minPrice?: InputMaybe<OrderBy>;
+  minValue?: InputMaybe<OrderBy>;
 };
 
 /** aggregate sum on columns */
-export type Dca_Order_Sum_Fields = {
-  __typename?: 'dca_order_sum_fields';
-  daily_average?: Maybe<Scalars['numeric']>;
-  interval_ms?: Maybe<Scalars['Int']>;
-  market_offset?: Maybe<Scalars['numeric']>;
-  max_price?: Maybe<Scalars['numeric']>;
-  max_value?: Maybe<Scalars['numeric']>;
-  min_price?: Maybe<Scalars['numeric']>;
-  min_value?: Maybe<Scalars['numeric']>;
+export type DcaOrderSumFields = {
+  __typename?: 'DcaOrderSumFields';
+  dailyAverage?: Maybe<Scalars['numeric']>;
+  intervalMs?: Maybe<Scalars['Int']>;
+  marketOffset?: Maybe<Scalars['numeric']>;
+  maxPrice?: Maybe<Scalars['numeric']>;
+  maxValue?: Maybe<Scalars['numeric']>;
+  minPrice?: Maybe<Scalars['numeric']>;
+  minValue?: Maybe<Scalars['numeric']>;
 };
 
 /** order by sum() on columns of table "dca_order" */
-export type Dca_Order_Sum_Order_By = {
-  daily_average?: InputMaybe<Order_By>;
-  interval_ms?: InputMaybe<Order_By>;
-  market_offset?: InputMaybe<Order_By>;
-  max_price?: InputMaybe<Order_By>;
-  max_value?: InputMaybe<Order_By>;
-  min_price?: InputMaybe<Order_By>;
-  min_value?: InputMaybe<Order_By>;
+export type DcaOrderSumOrderBy = {
+  dailyAverage?: InputMaybe<OrderBy>;
+  intervalMs?: InputMaybe<OrderBy>;
+  marketOffset?: InputMaybe<OrderBy>;
+  maxPrice?: InputMaybe<OrderBy>;
+  maxValue?: InputMaybe<OrderBy>;
+  minPrice?: InputMaybe<OrderBy>;
+  minValue?: InputMaybe<OrderBy>;
 };
 
-export type Dca_Order_Updates = {
+export type DcaOrderUpdates = {
   /** increments the numeric columns with given value of the filtered values */
-  _inc?: InputMaybe<Dca_Order_Inc_Input>;
+  _inc?: InputMaybe<DcaOrderIncInput>;
   /** sets the columns of the filtered rows to the given values */
-  _set?: InputMaybe<Dca_Order_Set_Input>;
-  where: Dca_Order_Bool_Exp;
+  _set?: InputMaybe<DcaOrderSetInput>;
+  where: DcaOrderBoolExp;
 };
 
 /** aggregate var_pop on columns */
-export type Dca_Order_Var_Pop_Fields = {
-  __typename?: 'dca_order_var_pop_fields';
-  daily_average?: Maybe<Scalars['Float']>;
-  interval_ms?: Maybe<Scalars['Float']>;
-  market_offset?: Maybe<Scalars['Float']>;
-  max_price?: Maybe<Scalars['Float']>;
-  max_value?: Maybe<Scalars['Float']>;
-  min_price?: Maybe<Scalars['Float']>;
-  min_value?: Maybe<Scalars['Float']>;
+export type DcaOrderVarPopFields = {
+  __typename?: 'DcaOrderVarPopFields';
+  dailyAverage?: Maybe<Scalars['Float']>;
+  intervalMs?: Maybe<Scalars['Float']>;
+  marketOffset?: Maybe<Scalars['Float']>;
+  maxPrice?: Maybe<Scalars['Float']>;
+  maxValue?: Maybe<Scalars['Float']>;
+  minPrice?: Maybe<Scalars['Float']>;
+  minValue?: Maybe<Scalars['Float']>;
 };
 
 /** order by var_pop() on columns of table "dca_order" */
-export type Dca_Order_Var_Pop_Order_By = {
-  daily_average?: InputMaybe<Order_By>;
-  interval_ms?: InputMaybe<Order_By>;
-  market_offset?: InputMaybe<Order_By>;
-  max_price?: InputMaybe<Order_By>;
-  max_value?: InputMaybe<Order_By>;
-  min_price?: InputMaybe<Order_By>;
-  min_value?: InputMaybe<Order_By>;
+export type DcaOrderVarPopOrderBy = {
+  dailyAverage?: InputMaybe<OrderBy>;
+  intervalMs?: InputMaybe<OrderBy>;
+  marketOffset?: InputMaybe<OrderBy>;
+  maxPrice?: InputMaybe<OrderBy>;
+  maxValue?: InputMaybe<OrderBy>;
+  minPrice?: InputMaybe<OrderBy>;
+  minValue?: InputMaybe<OrderBy>;
 };
 
 /** aggregate var_samp on columns */
-export type Dca_Order_Var_Samp_Fields = {
-  __typename?: 'dca_order_var_samp_fields';
-  daily_average?: Maybe<Scalars['Float']>;
-  interval_ms?: Maybe<Scalars['Float']>;
-  market_offset?: Maybe<Scalars['Float']>;
-  max_price?: Maybe<Scalars['Float']>;
-  max_value?: Maybe<Scalars['Float']>;
-  min_price?: Maybe<Scalars['Float']>;
-  min_value?: Maybe<Scalars['Float']>;
+export type DcaOrderVarSampFields = {
+  __typename?: 'DcaOrderVarSampFields';
+  dailyAverage?: Maybe<Scalars['Float']>;
+  intervalMs?: Maybe<Scalars['Float']>;
+  marketOffset?: Maybe<Scalars['Float']>;
+  maxPrice?: Maybe<Scalars['Float']>;
+  maxValue?: Maybe<Scalars['Float']>;
+  minPrice?: Maybe<Scalars['Float']>;
+  minValue?: Maybe<Scalars['Float']>;
 };
 
 /** order by var_samp() on columns of table "dca_order" */
-export type Dca_Order_Var_Samp_Order_By = {
-  daily_average?: InputMaybe<Order_By>;
-  interval_ms?: InputMaybe<Order_By>;
-  market_offset?: InputMaybe<Order_By>;
-  max_price?: InputMaybe<Order_By>;
-  max_value?: InputMaybe<Order_By>;
-  min_price?: InputMaybe<Order_By>;
-  min_value?: InputMaybe<Order_By>;
+export type DcaOrderVarSampOrderBy = {
+  dailyAverage?: InputMaybe<OrderBy>;
+  intervalMs?: InputMaybe<OrderBy>;
+  marketOffset?: InputMaybe<OrderBy>;
+  maxPrice?: InputMaybe<OrderBy>;
+  maxValue?: InputMaybe<OrderBy>;
+  minPrice?: InputMaybe<OrderBy>;
+  minValue?: InputMaybe<OrderBy>;
 };
 
 /** aggregate variance on columns */
-export type Dca_Order_Variance_Fields = {
-  __typename?: 'dca_order_variance_fields';
-  daily_average?: Maybe<Scalars['Float']>;
-  interval_ms?: Maybe<Scalars['Float']>;
-  market_offset?: Maybe<Scalars['Float']>;
-  max_price?: Maybe<Scalars['Float']>;
-  max_value?: Maybe<Scalars['Float']>;
-  min_price?: Maybe<Scalars['Float']>;
-  min_value?: Maybe<Scalars['Float']>;
+export type DcaOrderVarianceFields = {
+  __typename?: 'DcaOrderVarianceFields';
+  dailyAverage?: Maybe<Scalars['Float']>;
+  intervalMs?: Maybe<Scalars['Float']>;
+  marketOffset?: Maybe<Scalars['Float']>;
+  maxPrice?: Maybe<Scalars['Float']>;
+  maxValue?: Maybe<Scalars['Float']>;
+  minPrice?: Maybe<Scalars['Float']>;
+  minValue?: Maybe<Scalars['Float']>;
 };
 
 /** order by variance() on columns of table "dca_order" */
-export type Dca_Order_Variance_Order_By = {
-  daily_average?: InputMaybe<Order_By>;
-  interval_ms?: InputMaybe<Order_By>;
-  market_offset?: InputMaybe<Order_By>;
-  max_price?: InputMaybe<Order_By>;
-  max_value?: InputMaybe<Order_By>;
-  min_price?: InputMaybe<Order_By>;
-  min_value?: InputMaybe<Order_By>;
+export type DcaOrderVarianceOrderBy = {
+  dailyAverage?: InputMaybe<OrderBy>;
+  intervalMs?: InputMaybe<OrderBy>;
+  marketOffset?: InputMaybe<OrderBy>;
+  maxPrice?: InputMaybe<OrderBy>;
+  maxValue?: InputMaybe<OrderBy>;
+  minPrice?: InputMaybe<OrderBy>;
+  minValue?: InputMaybe<OrderBy>;
+};
+
+export type EnableUser2FaOutput = {
+  __typename?: 'EnableUser2FAOutput';
+  user?: Maybe<User>;
+  userUid: Scalars['uuid'];
 };
 
 /** columns and relationships of "exchange" */
 export type Exchange = {
-  __typename?: 'exchange';
-  created_at: Scalars['timestamptz'];
+  __typename?: 'Exchange';
+  createdAt: Scalars['timestamptz'];
   /** An array relationship */
-  dca_orders: Array<Dca_Order>;
+  dcaOrders: Array<DcaOrder>;
   /** An aggregate relationship */
-  dca_orders_aggregate: Dca_Order_Aggregate;
+  dcaOrdersAggregate: DcaOrderAggregate;
   id: Scalars['String'];
   name: Scalars['String'];
   /** An array relationship */
   orders: Array<Order>;
   /** An aggregate relationship */
-  orders_aggregate: Order_Aggregate;
+  ordersAggregate: OrderAggregate;
   /** An array relationship */
-  primary_currencies: Array<Exchange_Primary_Currency>;
+  primaryCurrencies: Array<ExchangePrimaryCurrency>;
   /** An array relationship */
-  secondary_currencies: Array<Exchange_Secondary_Currency>;
+  secondaryCurrencies: Array<ExchangeSecondaryCurrency>;
   /** An array relationship */
   trades: Array<Trade>;
   /** An aggregate relationship */
-  trades_aggregate: Trade_Aggregate;
+  tradesAggregate: TradeAggregate;
   uid: Scalars['uuid'];
-  updated_at: Scalars['timestamptz'];
+  updatedAt: Scalars['timestamptz'];
   url: Scalars['String'];
   /** An array relationship */
-  user_exchange_keys: Array<User_Exchange_Keys>;
+  userExchangeKeys: Array<UserExchangeKeys>;
   /** An aggregate relationship */
-  user_exchange_keys_aggregate: User_Exchange_Keys_Aggregate;
+  userExchangeKeysAggregate: UserExchangeKeysAggregate;
 };
 
 
 /** columns and relationships of "exchange" */
-export type ExchangeDca_OrdersArgs = {
-  distinct_on?: InputMaybe<Array<Dca_Order_Select_Column>>;
+export type ExchangeDcaOrdersArgs = {
+  distinctOn?: InputMaybe<Array<DcaOrderSelectColumn>>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Dca_Order_Order_By>>;
-  where?: InputMaybe<Dca_Order_Bool_Exp>;
+  orderBy?: InputMaybe<Array<DcaOrderOrderBy>>;
+  where?: InputMaybe<DcaOrderBoolExp>;
 };
 
 
 /** columns and relationships of "exchange" */
-export type ExchangeDca_Orders_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Dca_Order_Select_Column>>;
+export type ExchangeDcaOrdersAggregateArgs = {
+  distinctOn?: InputMaybe<Array<DcaOrderSelectColumn>>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Dca_Order_Order_By>>;
-  where?: InputMaybe<Dca_Order_Bool_Exp>;
+  orderBy?: InputMaybe<Array<DcaOrderOrderBy>>;
+  where?: InputMaybe<DcaOrderBoolExp>;
 };
 
 
 /** columns and relationships of "exchange" */
 export type ExchangeOrdersArgs = {
-  distinct_on?: InputMaybe<Array<Order_Select_Column>>;
+  distinctOn?: InputMaybe<Array<OrderSelectColumn>>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Order_Order_By>>;
-  where?: InputMaybe<Order_Bool_Exp>;
+  orderBy?: InputMaybe<Array<OrderOrderBy>>;
+  where?: InputMaybe<OrderBoolExp>;
 };
 
 
 /** columns and relationships of "exchange" */
-export type ExchangeOrders_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Order_Select_Column>>;
+export type ExchangeOrdersAggregateArgs = {
+  distinctOn?: InputMaybe<Array<OrderSelectColumn>>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Order_Order_By>>;
-  where?: InputMaybe<Order_Bool_Exp>;
+  orderBy?: InputMaybe<Array<OrderOrderBy>>;
+  where?: InputMaybe<OrderBoolExp>;
 };
 
 
 /** columns and relationships of "exchange" */
-export type ExchangePrimary_CurrenciesArgs = {
-  distinct_on?: InputMaybe<Array<Exchange_Primary_Currency_Select_Column>>;
+export type ExchangePrimaryCurrenciesArgs = {
+  distinctOn?: InputMaybe<Array<ExchangePrimaryCurrencySelectColumn>>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Exchange_Primary_Currency_Order_By>>;
-  where?: InputMaybe<Exchange_Primary_Currency_Bool_Exp>;
+  orderBy?: InputMaybe<Array<ExchangePrimaryCurrencyOrderBy>>;
+  where?: InputMaybe<ExchangePrimaryCurrencyBoolExp>;
 };
 
 
 /** columns and relationships of "exchange" */
-export type ExchangeSecondary_CurrenciesArgs = {
-  distinct_on?: InputMaybe<Array<Exchange_Secondary_Currency_Select_Column>>;
+export type ExchangeSecondaryCurrenciesArgs = {
+  distinctOn?: InputMaybe<Array<ExchangeSecondaryCurrencySelectColumn>>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Exchange_Secondary_Currency_Order_By>>;
-  where?: InputMaybe<Exchange_Secondary_Currency_Bool_Exp>;
+  orderBy?: InputMaybe<Array<ExchangeSecondaryCurrencyOrderBy>>;
+  where?: InputMaybe<ExchangeSecondaryCurrencyBoolExp>;
 };
 
 
 /** columns and relationships of "exchange" */
 export type ExchangeTradesArgs = {
-  distinct_on?: InputMaybe<Array<Trade_Select_Column>>;
+  distinctOn?: InputMaybe<Array<TradeSelectColumn>>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Trade_Order_By>>;
-  where?: InputMaybe<Trade_Bool_Exp>;
+  orderBy?: InputMaybe<Array<TradeOrderBy>>;
+  where?: InputMaybe<TradeBoolExp>;
 };
 
 
 /** columns and relationships of "exchange" */
-export type ExchangeTrades_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Trade_Select_Column>>;
+export type ExchangeTradesAggregateArgs = {
+  distinctOn?: InputMaybe<Array<TradeSelectColumn>>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Trade_Order_By>>;
-  where?: InputMaybe<Trade_Bool_Exp>;
+  orderBy?: InputMaybe<Array<TradeOrderBy>>;
+  where?: InputMaybe<TradeBoolExp>;
 };
 
 
 /** columns and relationships of "exchange" */
-export type ExchangeUser_Exchange_KeysArgs = {
-  distinct_on?: InputMaybe<Array<User_Exchange_Keys_Select_Column>>;
+export type ExchangeUserExchangeKeysArgs = {
+  distinctOn?: InputMaybe<Array<UserExchangeKeysSelectColumn>>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<User_Exchange_Keys_Order_By>>;
-  where?: InputMaybe<User_Exchange_Keys_Bool_Exp>;
+  orderBy?: InputMaybe<Array<UserExchangeKeysOrderBy>>;
+  where?: InputMaybe<UserExchangeKeysBoolExp>;
 };
 
 
 /** columns and relationships of "exchange" */
-export type ExchangeUser_Exchange_Keys_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<User_Exchange_Keys_Select_Column>>;
+export type ExchangeUserExchangeKeysAggregateArgs = {
+  distinctOn?: InputMaybe<Array<UserExchangeKeysSelectColumn>>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<User_Exchange_Keys_Order_By>>;
-  where?: InputMaybe<User_Exchange_Keys_Bool_Exp>;
+  orderBy?: InputMaybe<Array<UserExchangeKeysOrderBy>>;
+  where?: InputMaybe<UserExchangeKeysBoolExp>;
 };
 
 /** Boolean expression to filter rows from the table "exchange". All fields are combined with a logical 'AND'. */
-export type Exchange_Bool_Exp = {
-  _and?: InputMaybe<Array<Exchange_Bool_Exp>>;
-  _not?: InputMaybe<Exchange_Bool_Exp>;
-  _or?: InputMaybe<Array<Exchange_Bool_Exp>>;
-  created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
-  dca_orders?: InputMaybe<Dca_Order_Bool_Exp>;
-  id?: InputMaybe<String_Comparison_Exp>;
-  name?: InputMaybe<String_Comparison_Exp>;
-  orders?: InputMaybe<Order_Bool_Exp>;
-  primary_currencies?: InputMaybe<Exchange_Primary_Currency_Bool_Exp>;
-  secondary_currencies?: InputMaybe<Exchange_Secondary_Currency_Bool_Exp>;
-  trades?: InputMaybe<Trade_Bool_Exp>;
-  uid?: InputMaybe<Uuid_Comparison_Exp>;
-  updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
-  url?: InputMaybe<String_Comparison_Exp>;
-  user_exchange_keys?: InputMaybe<User_Exchange_Keys_Bool_Exp>;
+export type ExchangeBoolExp = {
+  _and?: InputMaybe<Array<ExchangeBoolExp>>;
+  _not?: InputMaybe<ExchangeBoolExp>;
+  _or?: InputMaybe<Array<ExchangeBoolExp>>;
+  createdAt?: InputMaybe<TimestamptzComparisonExp>;
+  dcaOrders?: InputMaybe<DcaOrderBoolExp>;
+  id?: InputMaybe<StringComparisonExp>;
+  name?: InputMaybe<StringComparisonExp>;
+  orders?: InputMaybe<OrderBoolExp>;
+  primaryCurrencies?: InputMaybe<ExchangePrimaryCurrencyBoolExp>;
+  secondaryCurrencies?: InputMaybe<ExchangeSecondaryCurrencyBoolExp>;
+  trades?: InputMaybe<TradeBoolExp>;
+  uid?: InputMaybe<UuidComparisonExp>;
+  updatedAt?: InputMaybe<TimestamptzComparisonExp>;
+  url?: InputMaybe<StringComparisonExp>;
+  userExchangeKeys?: InputMaybe<UserExchangeKeysBoolExp>;
 };
 
 /** Ordering options when selecting data from "exchange". */
-export type Exchange_Order_By = {
-  created_at?: InputMaybe<Order_By>;
-  dca_orders_aggregate?: InputMaybe<Dca_Order_Aggregate_Order_By>;
-  id?: InputMaybe<Order_By>;
-  name?: InputMaybe<Order_By>;
-  orders_aggregate?: InputMaybe<Order_Aggregate_Order_By>;
-  primary_currencies_aggregate?: InputMaybe<Exchange_Primary_Currency_Aggregate_Order_By>;
-  secondary_currencies_aggregate?: InputMaybe<Exchange_Secondary_Currency_Aggregate_Order_By>;
-  trades_aggregate?: InputMaybe<Trade_Aggregate_Order_By>;
-  uid?: InputMaybe<Order_By>;
-  updated_at?: InputMaybe<Order_By>;
-  url?: InputMaybe<Order_By>;
-  user_exchange_keys_aggregate?: InputMaybe<User_Exchange_Keys_Aggregate_Order_By>;
+export type ExchangeOrderBy = {
+  createdAt?: InputMaybe<OrderBy>;
+  dcaOrdersAggregate?: InputMaybe<DcaOrderAggregateOrderBy>;
+  id?: InputMaybe<OrderBy>;
+  name?: InputMaybe<OrderBy>;
+  ordersAggregate?: InputMaybe<OrderAggregateOrderBy>;
+  primaryCurrenciesAggregate?: InputMaybe<ExchangePrimaryCurrencyAggregateOrderBy>;
+  secondaryCurrenciesAggregate?: InputMaybe<ExchangeSecondaryCurrencyAggregateOrderBy>;
+  tradesAggregate?: InputMaybe<TradeAggregateOrderBy>;
+  uid?: InputMaybe<OrderBy>;
+  updatedAt?: InputMaybe<OrderBy>;
+  url?: InputMaybe<OrderBy>;
+  userExchangeKeysAggregate?: InputMaybe<UserExchangeKeysAggregateOrderBy>;
 };
 
 /** columns and relationships of "exchange_primary_currency" */
-export type Exchange_Primary_Currency = {
-  __typename?: 'exchange_primary_currency';
-  created_at: Scalars['timestamptz'];
+export type ExchangePrimaryCurrency = {
+  __typename?: 'ExchangePrimaryCurrency';
+  createdAt: Scalars['timestamptz'];
   /** An object relationship */
   currency: Currency;
   /** An object relationship */
   exchange: Exchange;
-  exchange_uid: Scalars['uuid'];
+  exchangeUid: Scalars['uuid'];
   symbol: Scalars['String'];
-  updated_at: Scalars['timestamptz'];
+  updatedAt: Scalars['timestamptz'];
 };
 
 /** order by aggregate values of table "exchange_primary_currency" */
-export type Exchange_Primary_Currency_Aggregate_Order_By = {
-  count?: InputMaybe<Order_By>;
-  max?: InputMaybe<Exchange_Primary_Currency_Max_Order_By>;
-  min?: InputMaybe<Exchange_Primary_Currency_Min_Order_By>;
+export type ExchangePrimaryCurrencyAggregateOrderBy = {
+  count?: InputMaybe<OrderBy>;
+  max?: InputMaybe<ExchangePrimaryCurrencyMaxOrderBy>;
+  min?: InputMaybe<ExchangePrimaryCurrencyMinOrderBy>;
 };
 
 /** Boolean expression to filter rows from the table "exchange_primary_currency". All fields are combined with a logical 'AND'. */
-export type Exchange_Primary_Currency_Bool_Exp = {
-  _and?: InputMaybe<Array<Exchange_Primary_Currency_Bool_Exp>>;
-  _not?: InputMaybe<Exchange_Primary_Currency_Bool_Exp>;
-  _or?: InputMaybe<Array<Exchange_Primary_Currency_Bool_Exp>>;
-  created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
-  currency?: InputMaybe<Currency_Bool_Exp>;
-  exchange?: InputMaybe<Exchange_Bool_Exp>;
-  exchange_uid?: InputMaybe<Uuid_Comparison_Exp>;
-  symbol?: InputMaybe<String_Comparison_Exp>;
-  updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+export type ExchangePrimaryCurrencyBoolExp = {
+  _and?: InputMaybe<Array<ExchangePrimaryCurrencyBoolExp>>;
+  _not?: InputMaybe<ExchangePrimaryCurrencyBoolExp>;
+  _or?: InputMaybe<Array<ExchangePrimaryCurrencyBoolExp>>;
+  createdAt?: InputMaybe<TimestamptzComparisonExp>;
+  currency?: InputMaybe<CurrencyBoolExp>;
+  exchange?: InputMaybe<ExchangeBoolExp>;
+  exchangeUid?: InputMaybe<UuidComparisonExp>;
+  symbol?: InputMaybe<StringComparisonExp>;
+  updatedAt?: InputMaybe<TimestamptzComparisonExp>;
 };
 
 /** order by max() on columns of table "exchange_primary_currency" */
-export type Exchange_Primary_Currency_Max_Order_By = {
-  created_at?: InputMaybe<Order_By>;
-  exchange_uid?: InputMaybe<Order_By>;
-  symbol?: InputMaybe<Order_By>;
-  updated_at?: InputMaybe<Order_By>;
+export type ExchangePrimaryCurrencyMaxOrderBy = {
+  createdAt?: InputMaybe<OrderBy>;
+  exchangeUid?: InputMaybe<OrderBy>;
+  symbol?: InputMaybe<OrderBy>;
+  updatedAt?: InputMaybe<OrderBy>;
 };
 
 /** order by min() on columns of table "exchange_primary_currency" */
-export type Exchange_Primary_Currency_Min_Order_By = {
-  created_at?: InputMaybe<Order_By>;
-  exchange_uid?: InputMaybe<Order_By>;
-  symbol?: InputMaybe<Order_By>;
-  updated_at?: InputMaybe<Order_By>;
+export type ExchangePrimaryCurrencyMinOrderBy = {
+  createdAt?: InputMaybe<OrderBy>;
+  exchangeUid?: InputMaybe<OrderBy>;
+  symbol?: InputMaybe<OrderBy>;
+  updatedAt?: InputMaybe<OrderBy>;
 };
 
 /** Ordering options when selecting data from "exchange_primary_currency". */
-export type Exchange_Primary_Currency_Order_By = {
-  created_at?: InputMaybe<Order_By>;
-  currency?: InputMaybe<Currency_Order_By>;
-  exchange?: InputMaybe<Exchange_Order_By>;
-  exchange_uid?: InputMaybe<Order_By>;
-  symbol?: InputMaybe<Order_By>;
-  updated_at?: InputMaybe<Order_By>;
+export type ExchangePrimaryCurrencyOrderBy = {
+  createdAt?: InputMaybe<OrderBy>;
+  currency?: InputMaybe<CurrencyOrderBy>;
+  exchange?: InputMaybe<ExchangeOrderBy>;
+  exchangeUid?: InputMaybe<OrderBy>;
+  symbol?: InputMaybe<OrderBy>;
+  updatedAt?: InputMaybe<OrderBy>;
 };
 
 /** select columns of table "exchange_primary_currency" */
-export enum Exchange_Primary_Currency_Select_Column {
+export enum ExchangePrimaryCurrencySelectColumn {
   /** column name */
-  CreatedAt = 'created_at',
+  CreatedAt = 'createdAt',
   /** column name */
-  ExchangeUid = 'exchange_uid',
+  ExchangeUid = 'exchangeUid',
   /** column name */
   Symbol = 'symbol',
   /** column name */
-  UpdatedAt = 'updated_at'
+  UpdatedAt = 'updatedAt'
 }
 
 /** columns and relationships of "exchange_secondary_currency" */
-export type Exchange_Secondary_Currency = {
-  __typename?: 'exchange_secondary_currency';
-  created_at: Scalars['timestamptz'];
+export type ExchangeSecondaryCurrency = {
+  __typename?: 'ExchangeSecondaryCurrency';
+  createdAt: Scalars['timestamptz'];
   /** An object relationship */
   currency: Currency;
   /** An object relationship */
   exchange: Exchange;
-  exchange_uid: Scalars['uuid'];
+  exchangeUid: Scalars['uuid'];
   symbol: Scalars['String'];
-  updated_at: Scalars['timestamptz'];
+  updatedAt: Scalars['timestamptz'];
 };
 
 /** order by aggregate values of table "exchange_secondary_currency" */
-export type Exchange_Secondary_Currency_Aggregate_Order_By = {
-  count?: InputMaybe<Order_By>;
-  max?: InputMaybe<Exchange_Secondary_Currency_Max_Order_By>;
-  min?: InputMaybe<Exchange_Secondary_Currency_Min_Order_By>;
+export type ExchangeSecondaryCurrencyAggregateOrderBy = {
+  count?: InputMaybe<OrderBy>;
+  max?: InputMaybe<ExchangeSecondaryCurrencyMaxOrderBy>;
+  min?: InputMaybe<ExchangeSecondaryCurrencyMinOrderBy>;
 };
 
 /** Boolean expression to filter rows from the table "exchange_secondary_currency". All fields are combined with a logical 'AND'. */
-export type Exchange_Secondary_Currency_Bool_Exp = {
-  _and?: InputMaybe<Array<Exchange_Secondary_Currency_Bool_Exp>>;
-  _not?: InputMaybe<Exchange_Secondary_Currency_Bool_Exp>;
-  _or?: InputMaybe<Array<Exchange_Secondary_Currency_Bool_Exp>>;
-  created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
-  currency?: InputMaybe<Currency_Bool_Exp>;
-  exchange?: InputMaybe<Exchange_Bool_Exp>;
-  exchange_uid?: InputMaybe<Uuid_Comparison_Exp>;
-  symbol?: InputMaybe<String_Comparison_Exp>;
-  updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+export type ExchangeSecondaryCurrencyBoolExp = {
+  _and?: InputMaybe<Array<ExchangeSecondaryCurrencyBoolExp>>;
+  _not?: InputMaybe<ExchangeSecondaryCurrencyBoolExp>;
+  _or?: InputMaybe<Array<ExchangeSecondaryCurrencyBoolExp>>;
+  createdAt?: InputMaybe<TimestamptzComparisonExp>;
+  currency?: InputMaybe<CurrencyBoolExp>;
+  exchange?: InputMaybe<ExchangeBoolExp>;
+  exchangeUid?: InputMaybe<UuidComparisonExp>;
+  symbol?: InputMaybe<StringComparisonExp>;
+  updatedAt?: InputMaybe<TimestamptzComparisonExp>;
 };
 
 /** order by max() on columns of table "exchange_secondary_currency" */
-export type Exchange_Secondary_Currency_Max_Order_By = {
-  created_at?: InputMaybe<Order_By>;
-  exchange_uid?: InputMaybe<Order_By>;
-  symbol?: InputMaybe<Order_By>;
-  updated_at?: InputMaybe<Order_By>;
+export type ExchangeSecondaryCurrencyMaxOrderBy = {
+  createdAt?: InputMaybe<OrderBy>;
+  exchangeUid?: InputMaybe<OrderBy>;
+  symbol?: InputMaybe<OrderBy>;
+  updatedAt?: InputMaybe<OrderBy>;
 };
 
 /** order by min() on columns of table "exchange_secondary_currency" */
-export type Exchange_Secondary_Currency_Min_Order_By = {
-  created_at?: InputMaybe<Order_By>;
-  exchange_uid?: InputMaybe<Order_By>;
-  symbol?: InputMaybe<Order_By>;
-  updated_at?: InputMaybe<Order_By>;
+export type ExchangeSecondaryCurrencyMinOrderBy = {
+  createdAt?: InputMaybe<OrderBy>;
+  exchangeUid?: InputMaybe<OrderBy>;
+  symbol?: InputMaybe<OrderBy>;
+  updatedAt?: InputMaybe<OrderBy>;
 };
 
 /** Ordering options when selecting data from "exchange_secondary_currency". */
-export type Exchange_Secondary_Currency_Order_By = {
-  created_at?: InputMaybe<Order_By>;
-  currency?: InputMaybe<Currency_Order_By>;
-  exchange?: InputMaybe<Exchange_Order_By>;
-  exchange_uid?: InputMaybe<Order_By>;
-  symbol?: InputMaybe<Order_By>;
-  updated_at?: InputMaybe<Order_By>;
+export type ExchangeSecondaryCurrencyOrderBy = {
+  createdAt?: InputMaybe<OrderBy>;
+  currency?: InputMaybe<CurrencyOrderBy>;
+  exchange?: InputMaybe<ExchangeOrderBy>;
+  exchangeUid?: InputMaybe<OrderBy>;
+  symbol?: InputMaybe<OrderBy>;
+  updatedAt?: InputMaybe<OrderBy>;
 };
 
 /** select columns of table "exchange_secondary_currency" */
-export enum Exchange_Secondary_Currency_Select_Column {
+export enum ExchangeSecondaryCurrencySelectColumn {
   /** column name */
-  CreatedAt = 'created_at',
+  CreatedAt = 'createdAt',
   /** column name */
-  ExchangeUid = 'exchange_uid',
+  ExchangeUid = 'exchangeUid',
   /** column name */
   Symbol = 'symbol',
   /** column name */
-  UpdatedAt = 'updated_at'
+  UpdatedAt = 'updatedAt'
 }
 
 /** select columns of table "exchange" */
-export enum Exchange_Select_Column {
+export enum ExchangeSelectColumn {
   /** column name */
-  CreatedAt = 'created_at',
+  CreatedAt = 'createdAt',
   /** column name */
   Id = 'id',
   /** column name */
@@ -1671,255 +1516,268 @@ export enum Exchange_Select_Column {
   /** column name */
   Uid = 'uid',
   /** column name */
-  UpdatedAt = 'updated_at',
+  UpdatedAt = 'updatedAt',
   /** column name */
   Url = 'url'
 }
 
-export type Fee_Fx_Trade_Args = {
+export type FeeFxTradeArgs = {
   currency?: InputMaybe<Scalars['String']>;
+};
+
+/** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
+export type IntComparisonExp = {
+  _eq?: InputMaybe<Scalars['Int']>;
+  _gt?: InputMaybe<Scalars['Int']>;
+  _gte?: InputMaybe<Scalars['Int']>;
+  _in?: InputMaybe<Array<Scalars['Int']>>;
+  _isNull?: InputMaybe<Scalars['Boolean']>;
+  _lt?: InputMaybe<Scalars['Int']>;
+  _lte?: InputMaybe<Scalars['Int']>;
+  _neq?: InputMaybe<Scalars['Int']>;
+  _nin?: InputMaybe<Array<Scalars['Int']>>;
 };
 
 /** columns and relationships of "market" */
 export type Market = {
-  __typename?: 'market';
-  created_at: Scalars['timestamptz'];
+  __typename?: 'Market';
+  createdAt: Scalars['timestamptz'];
   /** An array relationship */
-  dca_orders: Array<Dca_Order>;
+  dcaOrders: Array<DcaOrder>;
   /** An aggregate relationship */
-  dca_orders_aggregate: Dca_Order_Aggregate;
+  dcaOrdersAggregate: DcaOrderAggregate;
   id: Scalars['String'];
   /** An array relationship */
-  market_prices: Array<Market_Price>;
+  marketPrices: Array<MarketPrice>;
   name: Scalars['String'];
   uid: Scalars['uuid'];
-  updated_at: Scalars['timestamptz'];
+  updatedAt: Scalars['timestamptz'];
 };
 
 
 /** columns and relationships of "market" */
-export type MarketDca_OrdersArgs = {
-  distinct_on?: InputMaybe<Array<Dca_Order_Select_Column>>;
+export type MarketDcaOrdersArgs = {
+  distinctOn?: InputMaybe<Array<DcaOrderSelectColumn>>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Dca_Order_Order_By>>;
-  where?: InputMaybe<Dca_Order_Bool_Exp>;
+  orderBy?: InputMaybe<Array<DcaOrderOrderBy>>;
+  where?: InputMaybe<DcaOrderBoolExp>;
 };
 
 
 /** columns and relationships of "market" */
-export type MarketDca_Orders_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Dca_Order_Select_Column>>;
+export type MarketDcaOrdersAggregateArgs = {
+  distinctOn?: InputMaybe<Array<DcaOrderSelectColumn>>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Dca_Order_Order_By>>;
-  where?: InputMaybe<Dca_Order_Bool_Exp>;
+  orderBy?: InputMaybe<Array<DcaOrderOrderBy>>;
+  where?: InputMaybe<DcaOrderBoolExp>;
 };
 
 
 /** columns and relationships of "market" */
-export type MarketMarket_PricesArgs = {
-  distinct_on?: InputMaybe<Array<Market_Price_Select_Column>>;
+export type MarketMarketPricesArgs = {
+  distinctOn?: InputMaybe<Array<MarketPriceSelectColumn>>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Market_Price_Order_By>>;
-  where?: InputMaybe<Market_Price_Bool_Exp>;
+  orderBy?: InputMaybe<Array<MarketPriceOrderBy>>;
+  where?: InputMaybe<MarketPriceBoolExp>;
 };
 
 /** Boolean expression to filter rows from the table "market". All fields are combined with a logical 'AND'. */
-export type Market_Bool_Exp = {
-  _and?: InputMaybe<Array<Market_Bool_Exp>>;
-  _not?: InputMaybe<Market_Bool_Exp>;
-  _or?: InputMaybe<Array<Market_Bool_Exp>>;
-  created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
-  dca_orders?: InputMaybe<Dca_Order_Bool_Exp>;
-  id?: InputMaybe<String_Comparison_Exp>;
-  market_prices?: InputMaybe<Market_Price_Bool_Exp>;
-  name?: InputMaybe<String_Comparison_Exp>;
-  uid?: InputMaybe<Uuid_Comparison_Exp>;
-  updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+export type MarketBoolExp = {
+  _and?: InputMaybe<Array<MarketBoolExp>>;
+  _not?: InputMaybe<MarketBoolExp>;
+  _or?: InputMaybe<Array<MarketBoolExp>>;
+  createdAt?: InputMaybe<TimestamptzComparisonExp>;
+  dcaOrders?: InputMaybe<DcaOrderBoolExp>;
+  id?: InputMaybe<StringComparisonExp>;
+  marketPrices?: InputMaybe<MarketPriceBoolExp>;
+  name?: InputMaybe<StringComparisonExp>;
+  uid?: InputMaybe<UuidComparisonExp>;
+  updatedAt?: InputMaybe<TimestamptzComparisonExp>;
 };
 
 /** Ordering options when selecting data from "market". */
-export type Market_Order_By = {
-  created_at?: InputMaybe<Order_By>;
-  dca_orders_aggregate?: InputMaybe<Dca_Order_Aggregate_Order_By>;
-  id?: InputMaybe<Order_By>;
-  market_prices_aggregate?: InputMaybe<Market_Price_Aggregate_Order_By>;
-  name?: InputMaybe<Order_By>;
-  uid?: InputMaybe<Order_By>;
-  updated_at?: InputMaybe<Order_By>;
+export type MarketOrderBy = {
+  createdAt?: InputMaybe<OrderBy>;
+  dcaOrdersAggregate?: InputMaybe<DcaOrderAggregateOrderBy>;
+  id?: InputMaybe<OrderBy>;
+  marketPricesAggregate?: InputMaybe<MarketPriceAggregateOrderBy>;
+  name?: InputMaybe<OrderBy>;
+  uid?: InputMaybe<OrderBy>;
+  updatedAt?: InputMaybe<OrderBy>;
 };
 
 /** columns and relationships of "market_price" */
-export type Market_Price = {
-  __typename?: 'market_price';
-  asset_symbol: Scalars['String'];
+export type MarketPrice = {
+  __typename?: 'MarketPrice';
+  assetSymbol: Scalars['String'];
   currency: Scalars['String'];
-  fx_rate: Scalars['numeric'];
+  fxRate: Scalars['numeric'];
   /** An object relationship */
   market: Market;
-  market_uid: Scalars['uuid'];
+  marketUid: Scalars['uuid'];
   price: Scalars['numeric'];
-  source_currency: Scalars['bpchar'];
-  source_price: Scalars['numeric'];
+  sourceCurrency: Scalars['bpchar'];
+  sourcePrice: Scalars['numeric'];
   timestamp: Scalars['timestamptz'];
 };
 
 /** order by aggregate values of table "market_price" */
-export type Market_Price_Aggregate_Order_By = {
-  avg?: InputMaybe<Market_Price_Avg_Order_By>;
-  count?: InputMaybe<Order_By>;
-  max?: InputMaybe<Market_Price_Max_Order_By>;
-  min?: InputMaybe<Market_Price_Min_Order_By>;
-  stddev?: InputMaybe<Market_Price_Stddev_Order_By>;
-  stddev_pop?: InputMaybe<Market_Price_Stddev_Pop_Order_By>;
-  stddev_samp?: InputMaybe<Market_Price_Stddev_Samp_Order_By>;
-  sum?: InputMaybe<Market_Price_Sum_Order_By>;
-  var_pop?: InputMaybe<Market_Price_Var_Pop_Order_By>;
-  var_samp?: InputMaybe<Market_Price_Var_Samp_Order_By>;
-  variance?: InputMaybe<Market_Price_Variance_Order_By>;
+export type MarketPriceAggregateOrderBy = {
+  avg?: InputMaybe<MarketPriceAvgOrderBy>;
+  count?: InputMaybe<OrderBy>;
+  max?: InputMaybe<MarketPriceMaxOrderBy>;
+  min?: InputMaybe<MarketPriceMinOrderBy>;
+  stddev?: InputMaybe<MarketPriceStddevOrderBy>;
+  stddev_pop?: InputMaybe<MarketPriceStddevPopOrderBy>;
+  stddev_samp?: InputMaybe<MarketPriceStddevSampOrderBy>;
+  sum?: InputMaybe<MarketPriceSumOrderBy>;
+  var_pop?: InputMaybe<MarketPriceVarPopOrderBy>;
+  var_samp?: InputMaybe<MarketPriceVarSampOrderBy>;
+  variance?: InputMaybe<MarketPriceVarianceOrderBy>;
 };
 
 /** order by avg() on columns of table "market_price" */
-export type Market_Price_Avg_Order_By = {
-  fx_rate?: InputMaybe<Order_By>;
-  price?: InputMaybe<Order_By>;
-  source_price?: InputMaybe<Order_By>;
+export type MarketPriceAvgOrderBy = {
+  fxRate?: InputMaybe<OrderBy>;
+  price?: InputMaybe<OrderBy>;
+  sourcePrice?: InputMaybe<OrderBy>;
 };
 
 /** Boolean expression to filter rows from the table "market_price". All fields are combined with a logical 'AND'. */
-export type Market_Price_Bool_Exp = {
-  _and?: InputMaybe<Array<Market_Price_Bool_Exp>>;
-  _not?: InputMaybe<Market_Price_Bool_Exp>;
-  _or?: InputMaybe<Array<Market_Price_Bool_Exp>>;
-  asset_symbol?: InputMaybe<String_Comparison_Exp>;
-  currency?: InputMaybe<String_Comparison_Exp>;
-  fx_rate?: InputMaybe<Numeric_Comparison_Exp>;
-  market?: InputMaybe<Market_Bool_Exp>;
-  market_uid?: InputMaybe<Uuid_Comparison_Exp>;
-  price?: InputMaybe<Numeric_Comparison_Exp>;
-  source_currency?: InputMaybe<Bpchar_Comparison_Exp>;
-  source_price?: InputMaybe<Numeric_Comparison_Exp>;
-  timestamp?: InputMaybe<Timestamptz_Comparison_Exp>;
+export type MarketPriceBoolExp = {
+  _and?: InputMaybe<Array<MarketPriceBoolExp>>;
+  _not?: InputMaybe<MarketPriceBoolExp>;
+  _or?: InputMaybe<Array<MarketPriceBoolExp>>;
+  assetSymbol?: InputMaybe<StringComparisonExp>;
+  currency?: InputMaybe<StringComparisonExp>;
+  fxRate?: InputMaybe<NumericComparisonExp>;
+  market?: InputMaybe<MarketBoolExp>;
+  marketUid?: InputMaybe<UuidComparisonExp>;
+  price?: InputMaybe<NumericComparisonExp>;
+  sourceCurrency?: InputMaybe<BpcharComparisonExp>;
+  sourcePrice?: InputMaybe<NumericComparisonExp>;
+  timestamp?: InputMaybe<TimestamptzComparisonExp>;
 };
 
-export type Market_Price_Latest_Args = {
+export type MarketPriceLatestArgs = {
   asset_symbol?: InputMaybe<Scalars['String']>;
   currency?: InputMaybe<Scalars['String']>;
   market_uid?: InputMaybe<Scalars['uuid']>;
 };
 
 /** order by max() on columns of table "market_price" */
-export type Market_Price_Max_Order_By = {
-  asset_symbol?: InputMaybe<Order_By>;
-  currency?: InputMaybe<Order_By>;
-  fx_rate?: InputMaybe<Order_By>;
-  market_uid?: InputMaybe<Order_By>;
-  price?: InputMaybe<Order_By>;
-  source_currency?: InputMaybe<Order_By>;
-  source_price?: InputMaybe<Order_By>;
-  timestamp?: InputMaybe<Order_By>;
+export type MarketPriceMaxOrderBy = {
+  assetSymbol?: InputMaybe<OrderBy>;
+  currency?: InputMaybe<OrderBy>;
+  fxRate?: InputMaybe<OrderBy>;
+  marketUid?: InputMaybe<OrderBy>;
+  price?: InputMaybe<OrderBy>;
+  sourceCurrency?: InputMaybe<OrderBy>;
+  sourcePrice?: InputMaybe<OrderBy>;
+  timestamp?: InputMaybe<OrderBy>;
 };
 
 /** order by min() on columns of table "market_price" */
-export type Market_Price_Min_Order_By = {
-  asset_symbol?: InputMaybe<Order_By>;
-  currency?: InputMaybe<Order_By>;
-  fx_rate?: InputMaybe<Order_By>;
-  market_uid?: InputMaybe<Order_By>;
-  price?: InputMaybe<Order_By>;
-  source_currency?: InputMaybe<Order_By>;
-  source_price?: InputMaybe<Order_By>;
-  timestamp?: InputMaybe<Order_By>;
+export type MarketPriceMinOrderBy = {
+  assetSymbol?: InputMaybe<OrderBy>;
+  currency?: InputMaybe<OrderBy>;
+  fxRate?: InputMaybe<OrderBy>;
+  marketUid?: InputMaybe<OrderBy>;
+  price?: InputMaybe<OrderBy>;
+  sourceCurrency?: InputMaybe<OrderBy>;
+  sourcePrice?: InputMaybe<OrderBy>;
+  timestamp?: InputMaybe<OrderBy>;
 };
 
 /** Ordering options when selecting data from "market_price". */
-export type Market_Price_Order_By = {
-  asset_symbol?: InputMaybe<Order_By>;
-  currency?: InputMaybe<Order_By>;
-  fx_rate?: InputMaybe<Order_By>;
-  market?: InputMaybe<Market_Order_By>;
-  market_uid?: InputMaybe<Order_By>;
-  price?: InputMaybe<Order_By>;
-  source_currency?: InputMaybe<Order_By>;
-  source_price?: InputMaybe<Order_By>;
-  timestamp?: InputMaybe<Order_By>;
+export type MarketPriceOrderBy = {
+  assetSymbol?: InputMaybe<OrderBy>;
+  currency?: InputMaybe<OrderBy>;
+  fxRate?: InputMaybe<OrderBy>;
+  market?: InputMaybe<MarketOrderBy>;
+  marketUid?: InputMaybe<OrderBy>;
+  price?: InputMaybe<OrderBy>;
+  sourceCurrency?: InputMaybe<OrderBy>;
+  sourcePrice?: InputMaybe<OrderBy>;
+  timestamp?: InputMaybe<OrderBy>;
 };
 
 /** select columns of table "market_price" */
-export enum Market_Price_Select_Column {
+export enum MarketPriceSelectColumn {
   /** column name */
-  AssetSymbol = 'asset_symbol',
+  AssetSymbol = 'assetSymbol',
   /** column name */
   Currency = 'currency',
   /** column name */
-  FxRate = 'fx_rate',
+  FxRate = 'fxRate',
   /** column name */
-  MarketUid = 'market_uid',
+  MarketUid = 'marketUid',
   /** column name */
   Price = 'price',
   /** column name */
-  SourceCurrency = 'source_currency',
+  SourceCurrency = 'sourceCurrency',
   /** column name */
-  SourcePrice = 'source_price',
+  SourcePrice = 'sourcePrice',
   /** column name */
   Timestamp = 'timestamp'
 }
 
 /** order by stddev() on columns of table "market_price" */
-export type Market_Price_Stddev_Order_By = {
-  fx_rate?: InputMaybe<Order_By>;
-  price?: InputMaybe<Order_By>;
-  source_price?: InputMaybe<Order_By>;
+export type MarketPriceStddevOrderBy = {
+  fxRate?: InputMaybe<OrderBy>;
+  price?: InputMaybe<OrderBy>;
+  sourcePrice?: InputMaybe<OrderBy>;
 };
 
 /** order by stddev_pop() on columns of table "market_price" */
-export type Market_Price_Stddev_Pop_Order_By = {
-  fx_rate?: InputMaybe<Order_By>;
-  price?: InputMaybe<Order_By>;
-  source_price?: InputMaybe<Order_By>;
+export type MarketPriceStddevPopOrderBy = {
+  fxRate?: InputMaybe<OrderBy>;
+  price?: InputMaybe<OrderBy>;
+  sourcePrice?: InputMaybe<OrderBy>;
 };
 
 /** order by stddev_samp() on columns of table "market_price" */
-export type Market_Price_Stddev_Samp_Order_By = {
-  fx_rate?: InputMaybe<Order_By>;
-  price?: InputMaybe<Order_By>;
-  source_price?: InputMaybe<Order_By>;
+export type MarketPriceStddevSampOrderBy = {
+  fxRate?: InputMaybe<OrderBy>;
+  price?: InputMaybe<OrderBy>;
+  sourcePrice?: InputMaybe<OrderBy>;
 };
 
 /** order by sum() on columns of table "market_price" */
-export type Market_Price_Sum_Order_By = {
-  fx_rate?: InputMaybe<Order_By>;
-  price?: InputMaybe<Order_By>;
-  source_price?: InputMaybe<Order_By>;
+export type MarketPriceSumOrderBy = {
+  fxRate?: InputMaybe<OrderBy>;
+  price?: InputMaybe<OrderBy>;
+  sourcePrice?: InputMaybe<OrderBy>;
 };
 
 /** order by var_pop() on columns of table "market_price" */
-export type Market_Price_Var_Pop_Order_By = {
-  fx_rate?: InputMaybe<Order_By>;
-  price?: InputMaybe<Order_By>;
-  source_price?: InputMaybe<Order_By>;
+export type MarketPriceVarPopOrderBy = {
+  fxRate?: InputMaybe<OrderBy>;
+  price?: InputMaybe<OrderBy>;
+  sourcePrice?: InputMaybe<OrderBy>;
 };
 
 /** order by var_samp() on columns of table "market_price" */
-export type Market_Price_Var_Samp_Order_By = {
-  fx_rate?: InputMaybe<Order_By>;
-  price?: InputMaybe<Order_By>;
-  source_price?: InputMaybe<Order_By>;
+export type MarketPriceVarSampOrderBy = {
+  fxRate?: InputMaybe<OrderBy>;
+  price?: InputMaybe<OrderBy>;
+  sourcePrice?: InputMaybe<OrderBy>;
 };
 
 /** order by variance() on columns of table "market_price" */
-export type Market_Price_Variance_Order_By = {
-  fx_rate?: InputMaybe<Order_By>;
-  price?: InputMaybe<Order_By>;
-  source_price?: InputMaybe<Order_By>;
+export type MarketPriceVarianceOrderBy = {
+  fxRate?: InputMaybe<OrderBy>;
+  price?: InputMaybe<OrderBy>;
+  sourcePrice?: InputMaybe<OrderBy>;
 };
 
 /** select columns of table "market" */
-export enum Market_Select_Column {
+export enum MarketSelectColumn {
   /** column name */
-  CreatedAt = 'created_at',
+  CreatedAt = 'createdAt',
   /** column name */
   Id = 'id',
   /** column name */
@@ -1927,12 +1785,12 @@ export enum Market_Select_Column {
   /** column name */
   Uid = 'uid',
   /** column name */
-  UpdatedAt = 'updated_at'
+  UpdatedAt = 'updatedAt'
 }
 
 /** columns and relationships of "market_trading_pair" */
-export type Market_Trading_Pair = {
-  __typename?: 'market_trading_pair';
+export type MarketTradingPair = {
+  __typename?: 'MarketTradingPair';
   /** An object relationship */
   currency: Currency;
   /** An object relationship */
@@ -1940,354 +1798,85 @@ export type Market_Trading_Pair = {
   /** An object relationship */
   market: Market;
   /** An array relationship */
-  market_prices: Array<Market_Price>;
-  market_uid: Scalars['uuid'];
-  primary_currency_symbol: Scalars['String'];
-  secondary_currency_symbol: Scalars['String'];
+  marketPrices: Array<MarketPrice>;
+  marketUid: Scalars['uuid'];
+  primaryCurrencySymbol: Scalars['String'];
+  secondaryCurrencySymbol: Scalars['String'];
 };
 
 
 /** columns and relationships of "market_trading_pair" */
-export type Market_Trading_PairMarket_PricesArgs = {
-  distinct_on?: InputMaybe<Array<Market_Price_Select_Column>>;
+export type MarketTradingPairMarketPricesArgs = {
+  distinctOn?: InputMaybe<Array<MarketPriceSelectColumn>>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Market_Price_Order_By>>;
-  where?: InputMaybe<Market_Price_Bool_Exp>;
+  orderBy?: InputMaybe<Array<MarketPriceOrderBy>>;
+  where?: InputMaybe<MarketPriceBoolExp>;
 };
 
 /** order by aggregate values of table "market_trading_pair" */
-export type Market_Trading_Pair_Aggregate_Order_By = {
-  count?: InputMaybe<Order_By>;
-  max?: InputMaybe<Market_Trading_Pair_Max_Order_By>;
-  min?: InputMaybe<Market_Trading_Pair_Min_Order_By>;
+export type MarketTradingPairAggregateOrderBy = {
+  count?: InputMaybe<OrderBy>;
+  max?: InputMaybe<MarketTradingPairMaxOrderBy>;
+  min?: InputMaybe<MarketTradingPairMinOrderBy>;
 };
 
 /** Boolean expression to filter rows from the table "market_trading_pair". All fields are combined with a logical 'AND'. */
-export type Market_Trading_Pair_Bool_Exp = {
-  _and?: InputMaybe<Array<Market_Trading_Pair_Bool_Exp>>;
-  _not?: InputMaybe<Market_Trading_Pair_Bool_Exp>;
-  _or?: InputMaybe<Array<Market_Trading_Pair_Bool_Exp>>;
-  currency?: InputMaybe<Currency_Bool_Exp>;
-  currencyBySecondaryCurrencySymbol?: InputMaybe<Currency_Bool_Exp>;
-  market?: InputMaybe<Market_Bool_Exp>;
-  market_prices?: InputMaybe<Market_Price_Bool_Exp>;
-  market_uid?: InputMaybe<Uuid_Comparison_Exp>;
-  primary_currency_symbol?: InputMaybe<String_Comparison_Exp>;
-  secondary_currency_symbol?: InputMaybe<String_Comparison_Exp>;
+export type MarketTradingPairBoolExp = {
+  _and?: InputMaybe<Array<MarketTradingPairBoolExp>>;
+  _not?: InputMaybe<MarketTradingPairBoolExp>;
+  _or?: InputMaybe<Array<MarketTradingPairBoolExp>>;
+  currency?: InputMaybe<CurrencyBoolExp>;
+  currencyBySecondaryCurrencySymbol?: InputMaybe<CurrencyBoolExp>;
+  market?: InputMaybe<MarketBoolExp>;
+  marketPrices?: InputMaybe<MarketPriceBoolExp>;
+  marketUid?: InputMaybe<UuidComparisonExp>;
+  primaryCurrencySymbol?: InputMaybe<StringComparisonExp>;
+  secondaryCurrencySymbol?: InputMaybe<StringComparisonExp>;
 };
 
 /** order by max() on columns of table "market_trading_pair" */
-export type Market_Trading_Pair_Max_Order_By = {
-  market_uid?: InputMaybe<Order_By>;
-  primary_currency_symbol?: InputMaybe<Order_By>;
-  secondary_currency_symbol?: InputMaybe<Order_By>;
+export type MarketTradingPairMaxOrderBy = {
+  marketUid?: InputMaybe<OrderBy>;
+  primaryCurrencySymbol?: InputMaybe<OrderBy>;
+  secondaryCurrencySymbol?: InputMaybe<OrderBy>;
 };
 
 /** order by min() on columns of table "market_trading_pair" */
-export type Market_Trading_Pair_Min_Order_By = {
-  market_uid?: InputMaybe<Order_By>;
-  primary_currency_symbol?: InputMaybe<Order_By>;
-  secondary_currency_symbol?: InputMaybe<Order_By>;
+export type MarketTradingPairMinOrderBy = {
+  marketUid?: InputMaybe<OrderBy>;
+  primaryCurrencySymbol?: InputMaybe<OrderBy>;
+  secondaryCurrencySymbol?: InputMaybe<OrderBy>;
 };
 
 /** Ordering options when selecting data from "market_trading_pair". */
-export type Market_Trading_Pair_Order_By = {
-  currency?: InputMaybe<Currency_Order_By>;
-  currencyBySecondaryCurrencySymbol?: InputMaybe<Currency_Order_By>;
-  market?: InputMaybe<Market_Order_By>;
-  market_prices_aggregate?: InputMaybe<Market_Price_Aggregate_Order_By>;
-  market_uid?: InputMaybe<Order_By>;
-  primary_currency_symbol?: InputMaybe<Order_By>;
-  secondary_currency_symbol?: InputMaybe<Order_By>;
+export type MarketTradingPairOrderBy = {
+  currency?: InputMaybe<CurrencyOrderBy>;
+  currencyBySecondaryCurrencySymbol?: InputMaybe<CurrencyOrderBy>;
+  market?: InputMaybe<MarketOrderBy>;
+  marketPricesAggregate?: InputMaybe<MarketPriceAggregateOrderBy>;
+  marketUid?: InputMaybe<OrderBy>;
+  primaryCurrencySymbol?: InputMaybe<OrderBy>;
+  secondaryCurrencySymbol?: InputMaybe<OrderBy>;
 };
 
 /** select columns of table "market_trading_pair" */
-export enum Market_Trading_Pair_Select_Column {
+export enum MarketTradingPairSelectColumn {
   /** column name */
-  MarketUid = 'market_uid',
+  MarketUid = 'marketUid',
   /** column name */
-  PrimaryCurrencySymbol = 'primary_currency_symbol',
+  PrimaryCurrencySymbol = 'primaryCurrencySymbol',
   /** column name */
-  SecondaryCurrencySymbol = 'secondary_currency_symbol'
+  SecondaryCurrencySymbol = 'secondaryCurrencySymbol'
 }
 
-/** mutation root */
-export type Mutation_Root = {
-  __typename?: 'mutation_root';
-  action_create_auth_token?: Maybe<CreateAuthTokenOutput>;
-  action_create_dca_order?: Maybe<CreateDcaOrderResult>;
-  action_create_stripe_subscription: CreateStripeSubscription;
-  action_create_user?: Maybe<CreateUserOutput>;
-  action_create_user_exchange_keys?: Maybe<CreateUserExchangeKeysOutput>;
-  action_enable_user_2fa?: Maybe<EnableUser2FaOutput>;
-  action_refresh_auth_token?: Maybe<RefreshAuthTokenOutput>;
-  action_reset_user_password: ResetUserPasswordOutput;
-  action_send_user_email_verify: SendUserEmailVerifyOutput;
-  action_send_user_password_reset: SendUserPasswordResetOutput;
-  action_sync_exchange_open_order_list?: Maybe<SyncExchangeOpenOrderListOutput>;
-  action_sync_exchange_trade_list?: Maybe<SyncExchangeTradeListOutput>;
-  action_update_dca_order: UpdateDcaOrderOutput;
-  action_update_stripe_subscription: UpdateSubscriptionOutput;
-  action_update_user: UpdateUserOutput;
-  action_update_user_exchange_keys?: Maybe<UpdateUserExchangeKeysOutput>;
-  action_validate_user_exchange_keys?: Maybe<ValidateUserExchangeKeysOutput>;
-  action_validate_user_exchange_keys_live?: Maybe<ValidateUserExchangeKeysLiveOutput>;
-  action_validate_user_password_reset: ValidatUserPasswordResetOutput;
-  action_verify_user_email: VerifyUserEmailOutput;
-  /** delete data from the table: "dca_order" */
-  delete_dca_order?: Maybe<Dca_Order_Mutation_Response>;
-  /** delete single row from the table: "dca_order" */
-  delete_dca_order_by_pk?: Maybe<Dca_Order>;
-  /** delete data from the table: "user_device" */
-  delete_user_device?: Maybe<User_Device_Mutation_Response>;
-  /** delete single row from the table: "user_device" */
-  delete_user_device_by_pk?: Maybe<User_Device>;
-  /** delete data from the table: "user_exchange_keys" */
-  delete_user_exchange_keys?: Maybe<User_Exchange_Keys_Mutation_Response>;
-  /** delete single row from the table: "user_exchange_keys" */
-  delete_user_exchange_keys_by_pk?: Maybe<User_Exchange_Keys>;
-  /** update data of the table: "dca_order" */
-  update_dca_order?: Maybe<Dca_Order_Mutation_Response>;
-  /** update single row of the table: "dca_order" */
-  update_dca_order_by_pk?: Maybe<Dca_Order>;
-  /** update multiples rows of table: "dca_order" */
-  update_dca_order_many?: Maybe<Array<Maybe<Dca_Order_Mutation_Response>>>;
-  /** update data of the table: "user_device" */
-  update_user_device?: Maybe<User_Device_Mutation_Response>;
-  /** update single row of the table: "user_device" */
-  update_user_device_by_pk?: Maybe<User_Device>;
-  /** update multiples rows of table: "user_device" */
-  update_user_device_many?: Maybe<Array<Maybe<User_Device_Mutation_Response>>>;
-};
-
-
-/** mutation root */
-export type Mutation_RootAction_Create_Auth_TokenArgs = {
-  device_id: Scalars['String'];
-  device_name: Scalars['String'];
-  device_trusted: Scalars['Boolean'];
-  email: Scalars['String'];
-  password: Scalars['String'];
-  role: Scalars['String'];
-  token_2fa?: InputMaybe<Scalars['String']>;
-};
-
-
-/** mutation root */
-export type Mutation_RootAction_Create_Dca_OrderArgs = {
-  daily_average: Scalars['Float'];
-  interval_ms: Scalars['Int'];
-  market_offset: Scalars['Float'];
-  market_uid: Scalars['uuid'];
-  max_price?: InputMaybe<Scalars['Float']>;
-  max_value?: InputMaybe<Scalars['Float']>;
-  min_price?: InputMaybe<Scalars['Float']>;
-  min_value?: InputMaybe<Scalars['Float']>;
-  primary_currency: Scalars['String'];
-  secondary_currency: Scalars['String'];
-  start_at: Scalars['timestamp'];
-  user_exchange_keys_uid: Scalars['uuid'];
-};
-
-
-/** mutation root */
-export type Mutation_RootAction_Create_Stripe_SubscriptionArgs = {
-  price_id?: InputMaybe<Scalars['String']>;
-};
-
-
-/** mutation root */
-export type Mutation_RootAction_Create_UserArgs = {
-  email: Scalars['String'];
-  password: Scalars['String'];
-};
-
-
-/** mutation root */
-export type Mutation_RootAction_Create_User_Exchange_KeysArgs = {
-  description: Scalars['String'];
-  exchange_uid: Scalars['uuid'];
-  keys: Scalars['jsonb'];
-};
-
-
-/** mutation root */
-export type Mutation_RootAction_Enable_User_2faArgs = {
-  name: Scalars['String'];
-  secret: Scalars['String'];
-  token: Scalars['String'];
-};
-
-
-/** mutation root */
-export type Mutation_RootAction_Reset_User_PasswordArgs = {
-  device_id: Scalars['String'];
-  device_name: Scalars['String'];
-  device_trusted: Scalars['Boolean'];
-  new_password: Scalars['String'];
-  password_reset_secret: Scalars['String'];
-  token_2fa?: InputMaybe<Scalars['String']>;
-};
-
-
-/** mutation root */
-export type Mutation_RootAction_Send_User_Password_ResetArgs = {
-  email: Scalars['String'];
-};
-
-
-/** mutation root */
-export type Mutation_RootAction_Sync_Exchange_Open_Order_ListArgs = {
-  user_exchange_keys_uid: Scalars['uuid'];
-};
-
-
-/** mutation root */
-export type Mutation_RootAction_Sync_Exchange_Trade_ListArgs = {
-  force_sync?: InputMaybe<Scalars['Boolean']>;
-  user_exchange_keys_uid: Scalars['uuid'];
-};
-
-
-/** mutation root */
-export type Mutation_RootAction_Update_Dca_OrderArgs = {
-  dca_order_uid: Scalars['uuid'];
-  enabled: Scalars['Boolean'];
-};
-
-
-/** mutation root */
-export type Mutation_RootAction_Update_Stripe_SubscriptionArgs = {
-  cancel_at_period_end: Scalars['Boolean'];
-  subscription_id: Scalars['String'];
-};
-
-
-/** mutation root */
-export type Mutation_RootAction_Update_UserArgs = {
-  email?: InputMaybe<Scalars['String']>;
-  password?: InputMaybe<Scalars['String']>;
-};
-
-
-/** mutation root */
-export type Mutation_RootAction_Update_User_Exchange_KeysArgs = {
-  description?: InputMaybe<Scalars['String']>;
-  keys?: InputMaybe<Scalars['jsonb']>;
-  user_exchange_keys_uid: Scalars['uuid'];
-};
-
-
-/** mutation root */
-export type Mutation_RootAction_Validate_User_Exchange_KeysArgs = {
-  user_exchange_keys_uid: Scalars['uuid'];
-};
-
-
-/** mutation root */
-export type Mutation_RootAction_Validate_User_Exchange_Keys_LiveArgs = {
-  exchange_uid: Scalars['uuid'];
-  keys: Scalars['jsonb'];
-};
-
-
-/** mutation root */
-export type Mutation_RootAction_Validate_User_Password_ResetArgs = {
-  password_reset_secret: Scalars['String'];
-};
-
-
-/** mutation root */
-export type Mutation_RootAction_Verify_User_EmailArgs = {
-  email_verify_secret: Scalars['String'];
-};
-
-
-/** mutation root */
-export type Mutation_RootDelete_Dca_OrderArgs = {
-  where: Dca_Order_Bool_Exp;
-};
-
-
-/** mutation root */
-export type Mutation_RootDelete_Dca_Order_By_PkArgs = {
-  uid: Scalars['uuid'];
-};
-
-
-/** mutation root */
-export type Mutation_RootDelete_User_DeviceArgs = {
-  where: User_Device_Bool_Exp;
-};
-
-
-/** mutation root */
-export type Mutation_RootDelete_User_Device_By_PkArgs = {
-  uid: Scalars['uuid'];
-};
-
-
-/** mutation root */
-export type Mutation_RootDelete_User_Exchange_KeysArgs = {
-  where: User_Exchange_Keys_Bool_Exp;
-};
-
-
-/** mutation root */
-export type Mutation_RootDelete_User_Exchange_Keys_By_PkArgs = {
-  uid: Scalars['uuid'];
-};
-
-
-/** mutation root */
-export type Mutation_RootUpdate_Dca_OrderArgs = {
-  _inc?: InputMaybe<Dca_Order_Inc_Input>;
-  _set?: InputMaybe<Dca_Order_Set_Input>;
-  where: Dca_Order_Bool_Exp;
-};
-
-
-/** mutation root */
-export type Mutation_RootUpdate_Dca_Order_By_PkArgs = {
-  _inc?: InputMaybe<Dca_Order_Inc_Input>;
-  _set?: InputMaybe<Dca_Order_Set_Input>;
-  pk_columns: Dca_Order_Pk_Columns_Input;
-};
-
-
-/** mutation root */
-export type Mutation_RootUpdate_Dca_Order_ManyArgs = {
-  updates: Array<Dca_Order_Updates>;
-};
-
-
-/** mutation root */
-export type Mutation_RootUpdate_User_DeviceArgs = {
-  _set?: InputMaybe<User_Device_Set_Input>;
-  where: User_Device_Bool_Exp;
-};
-
-
-/** mutation root */
-export type Mutation_RootUpdate_User_Device_By_PkArgs = {
-  _set?: InputMaybe<User_Device_Set_Input>;
-  pk_columns: User_Device_Pk_Columns_Input;
-};
-
-
-/** mutation root */
-export type Mutation_RootUpdate_User_Device_ManyArgs = {
-  updates: Array<User_Device_Updates>;
-};
-
 /** Boolean expression to compare columns of type "numeric". All fields are combined with logical 'AND'. */
-export type Numeric_Comparison_Exp = {
+export type NumericComparisonExp = {
   _eq?: InputMaybe<Scalars['numeric']>;
   _gt?: InputMaybe<Scalars['numeric']>;
   _gte?: InputMaybe<Scalars['numeric']>;
   _in?: InputMaybe<Array<Scalars['numeric']>>;
-  _is_null?: InputMaybe<Scalars['Boolean']>;
+  _isNull?: InputMaybe<Scalars['Boolean']>;
   _lt?: InputMaybe<Scalars['numeric']>;
   _lte?: InputMaybe<Scalars['numeric']>;
   _neq?: InputMaybe<Scalars['numeric']>;
@@ -2296,272 +1885,272 @@ export type Numeric_Comparison_Exp = {
 
 /** columns and relationships of "order" */
 export type Order = {
-  __typename?: 'order';
-  closed_at?: Maybe<Scalars['timestamptz']>;
-  created_at: Scalars['timestamptz'];
+  __typename?: 'Order';
+  closedAt?: Maybe<Scalars['timestamptz']>;
+  createdAt: Scalars['timestamptz'];
   /** An array relationship */
-  dca_order_histories: Array<Dca_Order_History>;
+  dcaOrderHistories: Array<DcaOrderHistory>;
   /** An aggregate relationship */
-  dca_order_histories_aggregate: Dca_Order_History_Aggregate;
+  dcaOrderHistoriesAggregate: DcaOrderHistoryAggregate;
   /** An object relationship */
   exchange: Exchange;
-  exchange_uid: Scalars['uuid'];
-  opened_at: Scalars['timestamptz'];
-  order_id: Scalars['String'];
+  exchangeUid: Scalars['uuid'];
+  openedAt: Scalars['timestamptz'];
+  orderId: Scalars['String'];
   price: Scalars['numeric'];
-  primary_currency: Scalars['String'];
-  secondary_currency: Scalars['String'];
+  primaryCurrency: Scalars['String'];
+  secondaryCurrency: Scalars['String'];
   type: Scalars['String'];
   uid: Scalars['uuid'];
-  updated_at: Scalars['timestamptz'];
+  updatedAt: Scalars['timestamptz'];
   /** An object relationship */
   user: User;
-  user_uid: Scalars['uuid'];
+  userUid: Scalars['uuid'];
   value: Scalars['numeric'];
   volume: Scalars['numeric'];
 };
 
 
 /** columns and relationships of "order" */
-export type OrderDca_Order_HistoriesArgs = {
-  distinct_on?: InputMaybe<Array<Dca_Order_History_Select_Column>>;
+export type OrderDcaOrderHistoriesArgs = {
+  distinctOn?: InputMaybe<Array<DcaOrderHistorySelectColumn>>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Dca_Order_History_Order_By>>;
-  where?: InputMaybe<Dca_Order_History_Bool_Exp>;
+  orderBy?: InputMaybe<Array<DcaOrderHistoryOrderBy>>;
+  where?: InputMaybe<DcaOrderHistoryBoolExp>;
 };
 
 
 /** columns and relationships of "order" */
-export type OrderDca_Order_Histories_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Dca_Order_History_Select_Column>>;
+export type OrderDcaOrderHistoriesAggregateArgs = {
+  distinctOn?: InputMaybe<Array<DcaOrderHistorySelectColumn>>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Dca_Order_History_Order_By>>;
-  where?: InputMaybe<Dca_Order_History_Bool_Exp>;
+  orderBy?: InputMaybe<Array<DcaOrderHistoryOrderBy>>;
+  where?: InputMaybe<DcaOrderHistoryBoolExp>;
 };
 
 /** aggregated selection of "order" */
-export type Order_Aggregate = {
-  __typename?: 'order_aggregate';
-  aggregate?: Maybe<Order_Aggregate_Fields>;
+export type OrderAggregate = {
+  __typename?: 'OrderAggregate';
+  aggregate?: Maybe<OrderAggregateFields>;
   nodes: Array<Order>;
 };
 
 /** aggregate fields of "order" */
-export type Order_Aggregate_Fields = {
-  __typename?: 'order_aggregate_fields';
-  avg?: Maybe<Order_Avg_Fields>;
+export type OrderAggregateFields = {
+  __typename?: 'OrderAggregateFields';
+  avg?: Maybe<OrderAvgFields>;
   count: Scalars['Int'];
-  max?: Maybe<Order_Max_Fields>;
-  min?: Maybe<Order_Min_Fields>;
-  stddev?: Maybe<Order_Stddev_Fields>;
-  stddev_pop?: Maybe<Order_Stddev_Pop_Fields>;
-  stddev_samp?: Maybe<Order_Stddev_Samp_Fields>;
-  sum?: Maybe<Order_Sum_Fields>;
-  var_pop?: Maybe<Order_Var_Pop_Fields>;
-  var_samp?: Maybe<Order_Var_Samp_Fields>;
-  variance?: Maybe<Order_Variance_Fields>;
+  max?: Maybe<OrderMaxFields>;
+  min?: Maybe<OrderMinFields>;
+  stddev?: Maybe<OrderStddevFields>;
+  stddevPop?: Maybe<OrderStddevPopFields>;
+  stddevSamp?: Maybe<OrderStddevSampFields>;
+  sum?: Maybe<OrderSumFields>;
+  varPop?: Maybe<OrderVarPopFields>;
+  varSamp?: Maybe<OrderVarSampFields>;
+  variance?: Maybe<OrderVarianceFields>;
 };
 
 
 /** aggregate fields of "order" */
-export type Order_Aggregate_FieldsCountArgs = {
-  columns?: InputMaybe<Array<Order_Select_Column>>;
+export type OrderAggregateFieldsCountArgs = {
+  columns?: InputMaybe<Array<OrderSelectColumn>>;
   distinct?: InputMaybe<Scalars['Boolean']>;
 };
 
 /** order by aggregate values of table "order" */
-export type Order_Aggregate_Order_By = {
-  avg?: InputMaybe<Order_Avg_Order_By>;
-  count?: InputMaybe<Order_By>;
-  max?: InputMaybe<Order_Max_Order_By>;
-  min?: InputMaybe<Order_Min_Order_By>;
-  stddev?: InputMaybe<Order_Stddev_Order_By>;
-  stddev_pop?: InputMaybe<Order_Stddev_Pop_Order_By>;
-  stddev_samp?: InputMaybe<Order_Stddev_Samp_Order_By>;
-  sum?: InputMaybe<Order_Sum_Order_By>;
-  var_pop?: InputMaybe<Order_Var_Pop_Order_By>;
-  var_samp?: InputMaybe<Order_Var_Samp_Order_By>;
-  variance?: InputMaybe<Order_Variance_Order_By>;
+export type OrderAggregateOrderBy = {
+  avg?: InputMaybe<OrderAvgOrderBy>;
+  count?: InputMaybe<OrderBy>;
+  max?: InputMaybe<OrderMaxOrderBy>;
+  min?: InputMaybe<OrderMinOrderBy>;
+  stddev?: InputMaybe<OrderStddevOrderBy>;
+  stddev_pop?: InputMaybe<OrderStddevPopOrderBy>;
+  stddev_samp?: InputMaybe<OrderStddevSampOrderBy>;
+  sum?: InputMaybe<OrderSumOrderBy>;
+  var_pop?: InputMaybe<OrderVarPopOrderBy>;
+  var_samp?: InputMaybe<OrderVarSampOrderBy>;
+  variance?: InputMaybe<OrderVarianceOrderBy>;
 };
 
 /** aggregate avg on columns */
-export type Order_Avg_Fields = {
-  __typename?: 'order_avg_fields';
+export type OrderAvgFields = {
+  __typename?: 'OrderAvgFields';
   price?: Maybe<Scalars['Float']>;
   value?: Maybe<Scalars['Float']>;
   volume?: Maybe<Scalars['Float']>;
 };
 
 /** order by avg() on columns of table "order" */
-export type Order_Avg_Order_By = {
-  price?: InputMaybe<Order_By>;
-  value?: InputMaybe<Order_By>;
-  volume?: InputMaybe<Order_By>;
+export type OrderAvgOrderBy = {
+  price?: InputMaybe<OrderBy>;
+  value?: InputMaybe<OrderBy>;
+  volume?: InputMaybe<OrderBy>;
 };
 
 /** Boolean expression to filter rows from the table "order". All fields are combined with a logical 'AND'. */
-export type Order_Bool_Exp = {
-  _and?: InputMaybe<Array<Order_Bool_Exp>>;
-  _not?: InputMaybe<Order_Bool_Exp>;
-  _or?: InputMaybe<Array<Order_Bool_Exp>>;
-  closed_at?: InputMaybe<Timestamptz_Comparison_Exp>;
-  created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
-  dca_order_histories?: InputMaybe<Dca_Order_History_Bool_Exp>;
-  exchange?: InputMaybe<Exchange_Bool_Exp>;
-  exchange_uid?: InputMaybe<Uuid_Comparison_Exp>;
-  opened_at?: InputMaybe<Timestamptz_Comparison_Exp>;
-  order_id?: InputMaybe<String_Comparison_Exp>;
-  price?: InputMaybe<Numeric_Comparison_Exp>;
-  primary_currency?: InputMaybe<String_Comparison_Exp>;
-  secondary_currency?: InputMaybe<String_Comparison_Exp>;
-  type?: InputMaybe<String_Comparison_Exp>;
-  uid?: InputMaybe<Uuid_Comparison_Exp>;
-  updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
-  user?: InputMaybe<User_Bool_Exp>;
-  user_uid?: InputMaybe<Uuid_Comparison_Exp>;
-  value?: InputMaybe<Numeric_Comparison_Exp>;
-  volume?: InputMaybe<Numeric_Comparison_Exp>;
+export type OrderBoolExp = {
+  _and?: InputMaybe<Array<OrderBoolExp>>;
+  _not?: InputMaybe<OrderBoolExp>;
+  _or?: InputMaybe<Array<OrderBoolExp>>;
+  closedAt?: InputMaybe<TimestamptzComparisonExp>;
+  createdAt?: InputMaybe<TimestamptzComparisonExp>;
+  dcaOrderHistories?: InputMaybe<DcaOrderHistoryBoolExp>;
+  exchange?: InputMaybe<ExchangeBoolExp>;
+  exchangeUid?: InputMaybe<UuidComparisonExp>;
+  openedAt?: InputMaybe<TimestamptzComparisonExp>;
+  orderId?: InputMaybe<StringComparisonExp>;
+  price?: InputMaybe<NumericComparisonExp>;
+  primaryCurrency?: InputMaybe<StringComparisonExp>;
+  secondaryCurrency?: InputMaybe<StringComparisonExp>;
+  type?: InputMaybe<StringComparisonExp>;
+  uid?: InputMaybe<UuidComparisonExp>;
+  updatedAt?: InputMaybe<TimestamptzComparisonExp>;
+  user?: InputMaybe<UserBoolExp>;
+  userUid?: InputMaybe<UuidComparisonExp>;
+  value?: InputMaybe<NumericComparisonExp>;
+  volume?: InputMaybe<NumericComparisonExp>;
 };
 
 /** column ordering options */
-export enum Order_By {
+export enum OrderBy {
   /** in ascending order, nulls last */
-  Asc = 'asc',
+  Asc = 'ASC',
   /** in ascending order, nulls first */
-  AscNullsFirst = 'asc_nulls_first',
+  AscNullsFirst = 'ASC_NULLS_FIRST',
   /** in ascending order, nulls last */
-  AscNullsLast = 'asc_nulls_last',
+  AscNullsLast = 'ASC_NULLS_LAST',
   /** in descending order, nulls first */
-  Desc = 'desc',
+  Desc = 'DESC',
   /** in descending order, nulls first */
-  DescNullsFirst = 'desc_nulls_first',
+  DescNullsFirst = 'DESC_NULLS_FIRST',
   /** in descending order, nulls last */
-  DescNullsLast = 'desc_nulls_last'
+  DescNullsLast = 'DESC_NULLS_LAST'
 }
 
 /** aggregate max on columns */
-export type Order_Max_Fields = {
-  __typename?: 'order_max_fields';
-  closed_at?: Maybe<Scalars['timestamptz']>;
-  created_at?: Maybe<Scalars['timestamptz']>;
-  exchange_uid?: Maybe<Scalars['uuid']>;
-  opened_at?: Maybe<Scalars['timestamptz']>;
-  order_id?: Maybe<Scalars['String']>;
+export type OrderMaxFields = {
+  __typename?: 'OrderMaxFields';
+  closedAt?: Maybe<Scalars['timestamptz']>;
+  createdAt?: Maybe<Scalars['timestamptz']>;
+  exchangeUid?: Maybe<Scalars['uuid']>;
+  openedAt?: Maybe<Scalars['timestamptz']>;
+  orderId?: Maybe<Scalars['String']>;
   price?: Maybe<Scalars['numeric']>;
-  primary_currency?: Maybe<Scalars['String']>;
-  secondary_currency?: Maybe<Scalars['String']>;
+  primaryCurrency?: Maybe<Scalars['String']>;
+  secondaryCurrency?: Maybe<Scalars['String']>;
   type?: Maybe<Scalars['String']>;
   uid?: Maybe<Scalars['uuid']>;
-  updated_at?: Maybe<Scalars['timestamptz']>;
-  user_uid?: Maybe<Scalars['uuid']>;
+  updatedAt?: Maybe<Scalars['timestamptz']>;
+  userUid?: Maybe<Scalars['uuid']>;
   value?: Maybe<Scalars['numeric']>;
   volume?: Maybe<Scalars['numeric']>;
 };
 
 /** order by max() on columns of table "order" */
-export type Order_Max_Order_By = {
-  closed_at?: InputMaybe<Order_By>;
-  created_at?: InputMaybe<Order_By>;
-  exchange_uid?: InputMaybe<Order_By>;
-  opened_at?: InputMaybe<Order_By>;
-  order_id?: InputMaybe<Order_By>;
-  price?: InputMaybe<Order_By>;
-  primary_currency?: InputMaybe<Order_By>;
-  secondary_currency?: InputMaybe<Order_By>;
-  type?: InputMaybe<Order_By>;
-  uid?: InputMaybe<Order_By>;
-  updated_at?: InputMaybe<Order_By>;
-  user_uid?: InputMaybe<Order_By>;
-  value?: InputMaybe<Order_By>;
-  volume?: InputMaybe<Order_By>;
+export type OrderMaxOrderBy = {
+  closedAt?: InputMaybe<OrderBy>;
+  createdAt?: InputMaybe<OrderBy>;
+  exchangeUid?: InputMaybe<OrderBy>;
+  openedAt?: InputMaybe<OrderBy>;
+  orderId?: InputMaybe<OrderBy>;
+  price?: InputMaybe<OrderBy>;
+  primaryCurrency?: InputMaybe<OrderBy>;
+  secondaryCurrency?: InputMaybe<OrderBy>;
+  type?: InputMaybe<OrderBy>;
+  uid?: InputMaybe<OrderBy>;
+  updatedAt?: InputMaybe<OrderBy>;
+  userUid?: InputMaybe<OrderBy>;
+  value?: InputMaybe<OrderBy>;
+  volume?: InputMaybe<OrderBy>;
 };
 
 /** aggregate min on columns */
-export type Order_Min_Fields = {
-  __typename?: 'order_min_fields';
-  closed_at?: Maybe<Scalars['timestamptz']>;
-  created_at?: Maybe<Scalars['timestamptz']>;
-  exchange_uid?: Maybe<Scalars['uuid']>;
-  opened_at?: Maybe<Scalars['timestamptz']>;
-  order_id?: Maybe<Scalars['String']>;
+export type OrderMinFields = {
+  __typename?: 'OrderMinFields';
+  closedAt?: Maybe<Scalars['timestamptz']>;
+  createdAt?: Maybe<Scalars['timestamptz']>;
+  exchangeUid?: Maybe<Scalars['uuid']>;
+  openedAt?: Maybe<Scalars['timestamptz']>;
+  orderId?: Maybe<Scalars['String']>;
   price?: Maybe<Scalars['numeric']>;
-  primary_currency?: Maybe<Scalars['String']>;
-  secondary_currency?: Maybe<Scalars['String']>;
+  primaryCurrency?: Maybe<Scalars['String']>;
+  secondaryCurrency?: Maybe<Scalars['String']>;
   type?: Maybe<Scalars['String']>;
   uid?: Maybe<Scalars['uuid']>;
-  updated_at?: Maybe<Scalars['timestamptz']>;
-  user_uid?: Maybe<Scalars['uuid']>;
+  updatedAt?: Maybe<Scalars['timestamptz']>;
+  userUid?: Maybe<Scalars['uuid']>;
   value?: Maybe<Scalars['numeric']>;
   volume?: Maybe<Scalars['numeric']>;
 };
 
 /** order by min() on columns of table "order" */
-export type Order_Min_Order_By = {
-  closed_at?: InputMaybe<Order_By>;
-  created_at?: InputMaybe<Order_By>;
-  exchange_uid?: InputMaybe<Order_By>;
-  opened_at?: InputMaybe<Order_By>;
-  order_id?: InputMaybe<Order_By>;
-  price?: InputMaybe<Order_By>;
-  primary_currency?: InputMaybe<Order_By>;
-  secondary_currency?: InputMaybe<Order_By>;
-  type?: InputMaybe<Order_By>;
-  uid?: InputMaybe<Order_By>;
-  updated_at?: InputMaybe<Order_By>;
-  user_uid?: InputMaybe<Order_By>;
-  value?: InputMaybe<Order_By>;
-  volume?: InputMaybe<Order_By>;
+export type OrderMinOrderBy = {
+  closedAt?: InputMaybe<OrderBy>;
+  createdAt?: InputMaybe<OrderBy>;
+  exchangeUid?: InputMaybe<OrderBy>;
+  openedAt?: InputMaybe<OrderBy>;
+  orderId?: InputMaybe<OrderBy>;
+  price?: InputMaybe<OrderBy>;
+  primaryCurrency?: InputMaybe<OrderBy>;
+  secondaryCurrency?: InputMaybe<OrderBy>;
+  type?: InputMaybe<OrderBy>;
+  uid?: InputMaybe<OrderBy>;
+  updatedAt?: InputMaybe<OrderBy>;
+  userUid?: InputMaybe<OrderBy>;
+  value?: InputMaybe<OrderBy>;
+  volume?: InputMaybe<OrderBy>;
 };
 
 /** Ordering options when selecting data from "order". */
-export type Order_Order_By = {
-  closed_at?: InputMaybe<Order_By>;
-  created_at?: InputMaybe<Order_By>;
-  dca_order_histories_aggregate?: InputMaybe<Dca_Order_History_Aggregate_Order_By>;
-  exchange?: InputMaybe<Exchange_Order_By>;
-  exchange_uid?: InputMaybe<Order_By>;
-  opened_at?: InputMaybe<Order_By>;
-  order_id?: InputMaybe<Order_By>;
-  price?: InputMaybe<Order_By>;
-  primary_currency?: InputMaybe<Order_By>;
-  secondary_currency?: InputMaybe<Order_By>;
-  type?: InputMaybe<Order_By>;
-  uid?: InputMaybe<Order_By>;
-  updated_at?: InputMaybe<Order_By>;
-  user?: InputMaybe<User_Order_By>;
-  user_uid?: InputMaybe<Order_By>;
-  value?: InputMaybe<Order_By>;
-  volume?: InputMaybe<Order_By>;
+export type OrderOrderBy = {
+  closedAt?: InputMaybe<OrderBy>;
+  createdAt?: InputMaybe<OrderBy>;
+  dcaOrderHistoriesAggregate?: InputMaybe<DcaOrderHistoryAggregateOrderBy>;
+  exchange?: InputMaybe<ExchangeOrderBy>;
+  exchangeUid?: InputMaybe<OrderBy>;
+  openedAt?: InputMaybe<OrderBy>;
+  orderId?: InputMaybe<OrderBy>;
+  price?: InputMaybe<OrderBy>;
+  primaryCurrency?: InputMaybe<OrderBy>;
+  secondaryCurrency?: InputMaybe<OrderBy>;
+  type?: InputMaybe<OrderBy>;
+  uid?: InputMaybe<OrderBy>;
+  updatedAt?: InputMaybe<OrderBy>;
+  user?: InputMaybe<UserOrderBy>;
+  userUid?: InputMaybe<OrderBy>;
+  value?: InputMaybe<OrderBy>;
+  volume?: InputMaybe<OrderBy>;
 };
 
 /** select columns of table "order" */
-export enum Order_Select_Column {
+export enum OrderSelectColumn {
   /** column name */
-  ClosedAt = 'closed_at',
+  ClosedAt = 'closedAt',
   /** column name */
-  CreatedAt = 'created_at',
+  CreatedAt = 'createdAt',
   /** column name */
-  ExchangeUid = 'exchange_uid',
+  ExchangeUid = 'exchangeUid',
   /** column name */
-  OpenedAt = 'opened_at',
+  OpenedAt = 'openedAt',
   /** column name */
-  OrderId = 'order_id',
+  OrderId = 'orderId',
   /** column name */
   Price = 'price',
   /** column name */
-  PrimaryCurrency = 'primary_currency',
+  PrimaryCurrency = 'primaryCurrency',
   /** column name */
-  SecondaryCurrency = 'secondary_currency',
+  SecondaryCurrency = 'secondaryCurrency',
   /** column name */
   Type = 'type',
   /** column name */
   Uid = 'uid',
   /** column name */
-  UpdatedAt = 'updated_at',
+  UpdatedAt = 'updatedAt',
   /** column name */
-  UserUid = 'user_uid',
+  UserUid = 'userUid',
   /** column name */
   Value = 'value',
   /** column name */
@@ -2569,743 +2158,334 @@ export enum Order_Select_Column {
 }
 
 /** aggregate stddev on columns */
-export type Order_Stddev_Fields = {
-  __typename?: 'order_stddev_fields';
+export type OrderStddevFields = {
+  __typename?: 'OrderStddevFields';
   price?: Maybe<Scalars['Float']>;
   value?: Maybe<Scalars['Float']>;
   volume?: Maybe<Scalars['Float']>;
 };
 
 /** order by stddev() on columns of table "order" */
-export type Order_Stddev_Order_By = {
-  price?: InputMaybe<Order_By>;
-  value?: InputMaybe<Order_By>;
-  volume?: InputMaybe<Order_By>;
+export type OrderStddevOrderBy = {
+  price?: InputMaybe<OrderBy>;
+  value?: InputMaybe<OrderBy>;
+  volume?: InputMaybe<OrderBy>;
 };
 
 /** aggregate stddev_pop on columns */
-export type Order_Stddev_Pop_Fields = {
-  __typename?: 'order_stddev_pop_fields';
+export type OrderStddevPopFields = {
+  __typename?: 'OrderStddevPopFields';
   price?: Maybe<Scalars['Float']>;
   value?: Maybe<Scalars['Float']>;
   volume?: Maybe<Scalars['Float']>;
 };
 
 /** order by stddev_pop() on columns of table "order" */
-export type Order_Stddev_Pop_Order_By = {
-  price?: InputMaybe<Order_By>;
-  value?: InputMaybe<Order_By>;
-  volume?: InputMaybe<Order_By>;
+export type OrderStddevPopOrderBy = {
+  price?: InputMaybe<OrderBy>;
+  value?: InputMaybe<OrderBy>;
+  volume?: InputMaybe<OrderBy>;
 };
 
 /** aggregate stddev_samp on columns */
-export type Order_Stddev_Samp_Fields = {
-  __typename?: 'order_stddev_samp_fields';
+export type OrderStddevSampFields = {
+  __typename?: 'OrderStddevSampFields';
   price?: Maybe<Scalars['Float']>;
   value?: Maybe<Scalars['Float']>;
   volume?: Maybe<Scalars['Float']>;
 };
 
 /** order by stddev_samp() on columns of table "order" */
-export type Order_Stddev_Samp_Order_By = {
-  price?: InputMaybe<Order_By>;
-  value?: InputMaybe<Order_By>;
-  volume?: InputMaybe<Order_By>;
+export type OrderStddevSampOrderBy = {
+  price?: InputMaybe<OrderBy>;
+  value?: InputMaybe<OrderBy>;
+  volume?: InputMaybe<OrderBy>;
 };
 
 /** aggregate sum on columns */
-export type Order_Sum_Fields = {
-  __typename?: 'order_sum_fields';
+export type OrderSumFields = {
+  __typename?: 'OrderSumFields';
   price?: Maybe<Scalars['numeric']>;
   value?: Maybe<Scalars['numeric']>;
   volume?: Maybe<Scalars['numeric']>;
 };
 
 /** order by sum() on columns of table "order" */
-export type Order_Sum_Order_By = {
-  price?: InputMaybe<Order_By>;
-  value?: InputMaybe<Order_By>;
-  volume?: InputMaybe<Order_By>;
+export type OrderSumOrderBy = {
+  price?: InputMaybe<OrderBy>;
+  value?: InputMaybe<OrderBy>;
+  volume?: InputMaybe<OrderBy>;
 };
 
 /** aggregate var_pop on columns */
-export type Order_Var_Pop_Fields = {
-  __typename?: 'order_var_pop_fields';
+export type OrderVarPopFields = {
+  __typename?: 'OrderVarPopFields';
   price?: Maybe<Scalars['Float']>;
   value?: Maybe<Scalars['Float']>;
   volume?: Maybe<Scalars['Float']>;
 };
 
 /** order by var_pop() on columns of table "order" */
-export type Order_Var_Pop_Order_By = {
-  price?: InputMaybe<Order_By>;
-  value?: InputMaybe<Order_By>;
-  volume?: InputMaybe<Order_By>;
+export type OrderVarPopOrderBy = {
+  price?: InputMaybe<OrderBy>;
+  value?: InputMaybe<OrderBy>;
+  volume?: InputMaybe<OrderBy>;
 };
 
 /** aggregate var_samp on columns */
-export type Order_Var_Samp_Fields = {
-  __typename?: 'order_var_samp_fields';
+export type OrderVarSampFields = {
+  __typename?: 'OrderVarSampFields';
   price?: Maybe<Scalars['Float']>;
   value?: Maybe<Scalars['Float']>;
   volume?: Maybe<Scalars['Float']>;
 };
 
 /** order by var_samp() on columns of table "order" */
-export type Order_Var_Samp_Order_By = {
-  price?: InputMaybe<Order_By>;
-  value?: InputMaybe<Order_By>;
-  volume?: InputMaybe<Order_By>;
+export type OrderVarSampOrderBy = {
+  price?: InputMaybe<OrderBy>;
+  value?: InputMaybe<OrderBy>;
+  volume?: InputMaybe<OrderBy>;
 };
 
 /** aggregate variance on columns */
-export type Order_Variance_Fields = {
-  __typename?: 'order_variance_fields';
+export type OrderVarianceFields = {
+  __typename?: 'OrderVarianceFields';
   price?: Maybe<Scalars['Float']>;
   value?: Maybe<Scalars['Float']>;
   volume?: Maybe<Scalars['Float']>;
 };
 
 /** order by variance() on columns of table "order" */
-export type Order_Variance_Order_By = {
-  price?: InputMaybe<Order_By>;
-  value?: InputMaybe<Order_By>;
-  volume?: InputMaybe<Order_By>;
+export type OrderVarianceOrderBy = {
+  price?: InputMaybe<OrderBy>;
+  value?: InputMaybe<OrderBy>;
+  volume?: InputMaybe<OrderBy>;
 };
 
-export type Price_Fx_Trade_Args = {
+export type PriceFxTradeArgs = {
   currency?: InputMaybe<Scalars['String']>;
 };
 
-export type Query_Root = {
-  __typename?: 'query_root';
-  /** Query information about a Stripe Subscription (direct from Stripe) */
-  action_query_live_stripe_subscription: QueryLiveStripeSubscriptionOutput;
-  action_query_stripe_config: QueryStripeConfigOutput;
-  action_query_user_limit?: Maybe<QueryUserLimitOutput>;
-  action_setup_user_2fa?: Maybe<SetupUser2FaOutput>;
-  /** fetch data from the table: "balance" */
-  balance: Array<Balance>;
-  /** fetch data from the table: "balance" using primary key columns */
-  balance_by_pk?: Maybe<Balance>;
-  /** fetch data from the table: "currency" */
-  currency: Array<Currency>;
-  /** fetch data from the table: "currency" using primary key columns */
-  currency_by_pk?: Maybe<Currency>;
-  /** fetch data from the table: "dca_order" */
-  dca_order: Array<Dca_Order>;
-  /** fetch aggregated fields from the table: "dca_order" */
-  dca_order_aggregate: Dca_Order_Aggregate;
-  /** fetch data from the table: "dca_order" using primary key columns */
-  dca_order_by_pk?: Maybe<Dca_Order>;
-  /** fetch data from the table: "dca_order_history" */
-  dca_order_history: Array<Dca_Order_History>;
-  /** fetch aggregated fields from the table: "dca_order_history" */
-  dca_order_history_aggregate: Dca_Order_History_Aggregate;
-  /** fetch data from the table: "dca_order_history" using primary key columns */
-  dca_order_history_by_pk?: Maybe<Dca_Order_History>;
-  /** fetch data from the table: "exchange" */
-  exchange: Array<Exchange>;
-  /** fetch data from the table: "exchange" using primary key columns */
-  exchange_by_pk?: Maybe<Exchange>;
-  /** fetch data from the table: "exchange_primary_currency" */
-  exchange_primary_currency: Array<Exchange_Primary_Currency>;
-  /** fetch data from the table: "exchange_primary_currency" using primary key columns */
-  exchange_primary_currency_by_pk?: Maybe<Exchange_Primary_Currency>;
-  /** fetch data from the table: "exchange_secondary_currency" */
-  exchange_secondary_currency: Array<Exchange_Secondary_Currency>;
-  /** fetch data from the table: "exchange_secondary_currency" using primary key columns */
-  exchange_secondary_currency_by_pk?: Maybe<Exchange_Secondary_Currency>;
-  /** fetch data from the table: "market" */
-  market: Array<Market>;
-  /** fetch data from the table: "market" using primary key columns */
-  market_by_pk?: Maybe<Market>;
-  /** fetch data from the table: "market_price" */
-  market_price: Array<Market_Price>;
-  /** fetch data from the table: "market_price" using primary key columns */
-  market_price_by_pk?: Maybe<Market_Price>;
-  /** execute function "market_price_latest" which returns "market_price" */
-  market_price_latest: Array<Market_Price>;
-  /** fetch data from the table: "market_trading_pair" */
-  market_trading_pair: Array<Market_Trading_Pair>;
-  /** fetch data from the table: "order" */
-  order: Array<Order>;
-  /** fetch aggregated fields from the table: "order" */
-  order_aggregate: Order_Aggregate;
-  /** fetch data from the table: "order" using primary key columns */
-  order_by_pk?: Maybe<Order>;
-  /** fetch data from the table: "stripe_price" */
-  stripe_price: Array<Stripe_Price>;
-  /** fetch data from the table: "stripe_price" using primary key columns */
-  stripe_price_by_pk?: Maybe<Stripe_Price>;
-  /** fetch data from the table: "stripe_product" */
-  stripe_product: Array<Stripe_Product>;
-  /** fetch data from the table: "stripe_product" using primary key columns */
-  stripe_product_by_pk?: Maybe<Stripe_Product>;
-  /** fetch data from the table: "stripe_subscription" */
-  stripe_subscription: Array<Stripe_Subscription>;
-  /** fetch aggregated fields from the table: "stripe_subscription" */
-  stripe_subscription_aggregate: Stripe_Subscription_Aggregate;
-  /** fetch data from the table: "stripe_subscription" using primary key columns */
-  stripe_subscription_by_pk?: Maybe<Stripe_Subscription>;
-  /** fetch data from the table: "trade" */
-  trade: Array<Trade>;
-  /** fetch aggregated fields from the table: "trade" */
-  trade_aggregate: Trade_Aggregate;
-  /** execute function "trade_avg_price_by_window" which returns "type_trade_avg_price_by_window" */
-  trade_avg_price_by_window: Array<Type_Trade_Avg_Price_By_Window>;
-  /** fetch data from the table: "trade" using primary key columns */
-  trade_by_pk?: Maybe<Trade>;
-  /** execute function "trade_sum_by_window" which returns "type_trade_sum_by_window" */
-  trade_sum_by_window: Array<Type_Trade_Sum_By_Window>;
-  /** fetch data from the table: "type_trade_avg_price_by_window" */
-  type_trade_avg_price_by_window: Array<Type_Trade_Avg_Price_By_Window>;
-  /** fetch data from the table: "type_trade_sum_by_window" */
-  type_trade_sum_by_window: Array<Type_Trade_Sum_By_Window>;
-  /** fetch data from the table: "user" */
-  user: Array<User>;
-  /** fetch data from the table: "user_2fa" */
-  user_2fa: Array<User_2fa>;
-  /** fetch data from the table: "user_2fa" using primary key columns */
-  user_2fa_by_pk?: Maybe<User_2fa>;
-  /** fetch data from the table: "user" using primary key columns */
-  user_by_pk?: Maybe<User>;
-  /** fetch data from the table: "user_device" */
-  user_device: Array<User_Device>;
-  /** fetch aggregated fields from the table: "user_device" */
-  user_device_aggregate: User_Device_Aggregate;
-  /** fetch data from the table: "user_device" using primary key columns */
-  user_device_by_pk?: Maybe<User_Device>;
-  /** An array relationship */
-  user_exchange_keys: Array<User_Exchange_Keys>;
-  /** An aggregate relationship */
-  user_exchange_keys_aggregate: User_Exchange_Keys_Aggregate;
-  /** fetch data from the table: "user_exchange_keys" using primary key columns */
-  user_exchange_keys_by_pk?: Maybe<User_Exchange_Keys>;
-};
-
-
-export type Query_RootAction_Query_Live_Stripe_SubscriptionArgs = {
-  subscription_id: Scalars['String'];
-};
-
-
-export type Query_RootBalanceArgs = {
-  distinct_on?: InputMaybe<Array<Balance_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Balance_Order_By>>;
-  where?: InputMaybe<Balance_Bool_Exp>;
-};
-
-
-export type Query_RootBalance_By_PkArgs = {
-  uid: Scalars['uuid'];
-};
-
-
-export type Query_RootCurrencyArgs = {
-  distinct_on?: InputMaybe<Array<Currency_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Currency_Order_By>>;
-  where?: InputMaybe<Currency_Bool_Exp>;
-};
-
-
-export type Query_RootCurrency_By_PkArgs = {
-  symbol: Scalars['String'];
-};
-
-
-export type Query_RootDca_OrderArgs = {
-  distinct_on?: InputMaybe<Array<Dca_Order_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Dca_Order_Order_By>>;
-  where?: InputMaybe<Dca_Order_Bool_Exp>;
-};
-
-
-export type Query_RootDca_Order_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Dca_Order_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Dca_Order_Order_By>>;
-  where?: InputMaybe<Dca_Order_Bool_Exp>;
-};
-
-
-export type Query_RootDca_Order_By_PkArgs = {
-  uid: Scalars['uuid'];
-};
-
-
-export type Query_RootDca_Order_HistoryArgs = {
-  distinct_on?: InputMaybe<Array<Dca_Order_History_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Dca_Order_History_Order_By>>;
-  where?: InputMaybe<Dca_Order_History_Bool_Exp>;
-};
-
-
-export type Query_RootDca_Order_History_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Dca_Order_History_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Dca_Order_History_Order_By>>;
-  where?: InputMaybe<Dca_Order_History_Bool_Exp>;
-};
-
-
-export type Query_RootDca_Order_History_By_PkArgs = {
-  uid: Scalars['uuid'];
-};
-
-
-export type Query_RootExchangeArgs = {
-  distinct_on?: InputMaybe<Array<Exchange_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Exchange_Order_By>>;
-  where?: InputMaybe<Exchange_Bool_Exp>;
-};
-
-
-export type Query_RootExchange_By_PkArgs = {
-  uid: Scalars['uuid'];
-};
-
-
-export type Query_RootExchange_Primary_CurrencyArgs = {
-  distinct_on?: InputMaybe<Array<Exchange_Primary_Currency_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Exchange_Primary_Currency_Order_By>>;
-  where?: InputMaybe<Exchange_Primary_Currency_Bool_Exp>;
-};
-
-
-export type Query_RootExchange_Primary_Currency_By_PkArgs = {
-  exchange_uid: Scalars['uuid'];
-  symbol: Scalars['String'];
-};
-
-
-export type Query_RootExchange_Secondary_CurrencyArgs = {
-  distinct_on?: InputMaybe<Array<Exchange_Secondary_Currency_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Exchange_Secondary_Currency_Order_By>>;
-  where?: InputMaybe<Exchange_Secondary_Currency_Bool_Exp>;
-};
-
-
-export type Query_RootExchange_Secondary_Currency_By_PkArgs = {
-  exchange_uid: Scalars['uuid'];
-  symbol: Scalars['String'];
-};
-
-
-export type Query_RootMarketArgs = {
-  distinct_on?: InputMaybe<Array<Market_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Market_Order_By>>;
-  where?: InputMaybe<Market_Bool_Exp>;
-};
-
-
-export type Query_RootMarket_By_PkArgs = {
-  uid: Scalars['uuid'];
-};
-
-
-export type Query_RootMarket_PriceArgs = {
-  distinct_on?: InputMaybe<Array<Market_Price_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Market_Price_Order_By>>;
-  where?: InputMaybe<Market_Price_Bool_Exp>;
-};
-
-
-export type Query_RootMarket_Price_By_PkArgs = {
-  asset_symbol: Scalars['String'];
-  currency: Scalars['String'];
-  market_uid: Scalars['uuid'];
-  source_currency: Scalars['bpchar'];
-  timestamp: Scalars['timestamptz'];
-};
-
-
-export type Query_RootMarket_Price_LatestArgs = {
-  args: Market_Price_Latest_Args;
-  distinct_on?: InputMaybe<Array<Market_Price_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Market_Price_Order_By>>;
-  where?: InputMaybe<Market_Price_Bool_Exp>;
-};
-
-
-export type Query_RootMarket_Trading_PairArgs = {
-  distinct_on?: InputMaybe<Array<Market_Trading_Pair_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Market_Trading_Pair_Order_By>>;
-  where?: InputMaybe<Market_Trading_Pair_Bool_Exp>;
-};
-
-
-export type Query_RootOrderArgs = {
-  distinct_on?: InputMaybe<Array<Order_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Order_Order_By>>;
-  where?: InputMaybe<Order_Bool_Exp>;
-};
-
-
-export type Query_RootOrder_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Order_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Order_Order_By>>;
-  where?: InputMaybe<Order_Bool_Exp>;
-};
-
-
-export type Query_RootOrder_By_PkArgs = {
-  uid: Scalars['uuid'];
-};
-
-
-export type Query_RootStripe_PriceArgs = {
-  distinct_on?: InputMaybe<Array<Stripe_Price_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Stripe_Price_Order_By>>;
-  where?: InputMaybe<Stripe_Price_Bool_Exp>;
-};
-
-
-export type Query_RootStripe_Price_By_PkArgs = {
+export type QueryLiveStripeSubscriptionOutput = {
+  __typename?: 'QueryLiveStripeSubscriptionOutput';
+  clientSecret: Scalars['String'];
   id: Scalars['String'];
 };
 
-
-export type Query_RootStripe_ProductArgs = {
-  distinct_on?: InputMaybe<Array<Stripe_Product_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Stripe_Product_Order_By>>;
-  where?: InputMaybe<Stripe_Product_Bool_Exp>;
+export type QueryStripeConfigOutput = {
+  __typename?: 'QueryStripeConfigOutput';
+  publishableKey: Scalars['String'];
 };
 
-
-export type Query_RootStripe_Product_By_PkArgs = {
-  id: Scalars['String'];
+export type QueryUserLimitOutput = {
+  __typename?: 'QueryUserLimitOutput';
+  userLimit: Scalars['jsonb'];
+  userUid: Scalars['String'];
 };
 
-
-export type Query_RootStripe_SubscriptionArgs = {
-  distinct_on?: InputMaybe<Array<Stripe_Subscription_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Stripe_Subscription_Order_By>>;
-  where?: InputMaybe<Stripe_Subscription_Bool_Exp>;
+export type RefreshAuthTokenOutput = {
+  __typename?: 'RefreshAuthTokenOutput';
+  authToken: Scalars['String'];
+  expiresAt: Scalars['timestamptz'];
+  user?: Maybe<User>;
+  userUid: Scalars['String'];
 };
 
-
-export type Query_RootStripe_Subscription_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Stripe_Subscription_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Stripe_Subscription_Order_By>>;
-  where?: InputMaybe<Stripe_Subscription_Bool_Exp>;
+export type ResetUserPasswordOutput = {
+  __typename?: 'ResetUserPasswordOutput';
+  authToken: Scalars['String'];
+  expiresAt: Scalars['timestamptz'];
+  userUid: Scalars['uuid'];
 };
 
-
-export type Query_RootStripe_Subscription_By_PkArgs = {
-  id: Scalars['String'];
+export type SendUserEmailVerifyOutput = {
+  __typename?: 'SendUserEmailVerifyOutput';
+  userUid: Scalars['uuid'];
 };
 
-
-export type Query_RootTradeArgs = {
-  distinct_on?: InputMaybe<Array<Trade_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Trade_Order_By>>;
-  where?: InputMaybe<Trade_Bool_Exp>;
+export type SendUserPasswordResetOutput = {
+  __typename?: 'SendUserPasswordResetOutput';
+  email: Scalars['String'];
 };
 
-
-export type Query_RootTrade_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Trade_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Trade_Order_By>>;
-  where?: InputMaybe<Trade_Bool_Exp>;
+export type SetupUser2FaOutput = {
+  __typename?: 'SetupUser2FAOutput';
+  qrcode: Scalars['String'];
+  secret: Scalars['String'];
 };
 
-
-export type Query_RootTrade_Avg_Price_By_WindowArgs = {
-  args: Trade_Avg_Price_By_Window_Args;
-  distinct_on?: InputMaybe<Array<Type_Trade_Avg_Price_By_Window_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Type_Trade_Avg_Price_By_Window_Order_By>>;
-  where?: InputMaybe<Type_Trade_Avg_Price_By_Window_Bool_Exp>;
-};
-
-
-export type Query_RootTrade_By_PkArgs = {
-  uid: Scalars['uuid'];
-};
-
-
-export type Query_RootTrade_Sum_By_WindowArgs = {
-  args: Trade_Sum_By_Window_Args;
-  distinct_on?: InputMaybe<Array<Type_Trade_Sum_By_Window_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Type_Trade_Sum_By_Window_Order_By>>;
-  where?: InputMaybe<Type_Trade_Sum_By_Window_Bool_Exp>;
-};
-
-
-export type Query_RootType_Trade_Avg_Price_By_WindowArgs = {
-  distinct_on?: InputMaybe<Array<Type_Trade_Avg_Price_By_Window_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Type_Trade_Avg_Price_By_Window_Order_By>>;
-  where?: InputMaybe<Type_Trade_Avg_Price_By_Window_Bool_Exp>;
-};
-
-
-export type Query_RootType_Trade_Sum_By_WindowArgs = {
-  distinct_on?: InputMaybe<Array<Type_Trade_Sum_By_Window_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Type_Trade_Sum_By_Window_Order_By>>;
-  where?: InputMaybe<Type_Trade_Sum_By_Window_Bool_Exp>;
-};
-
-
-export type Query_RootUserArgs = {
-  distinct_on?: InputMaybe<Array<User_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<User_Order_By>>;
-  where?: InputMaybe<User_Bool_Exp>;
-};
-
-
-export type Query_RootUser_2faArgs = {
-  distinct_on?: InputMaybe<Array<User_2fa_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<User_2fa_Order_By>>;
-  where?: InputMaybe<User_2fa_Bool_Exp>;
-};
-
-
-export type Query_RootUser_2fa_By_PkArgs = {
-  uid: Scalars['uuid'];
-};
-
-
-export type Query_RootUser_By_PkArgs = {
-  uid: Scalars['uuid'];
-};
-
-
-export type Query_RootUser_DeviceArgs = {
-  distinct_on?: InputMaybe<Array<User_Device_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<User_Device_Order_By>>;
-  where?: InputMaybe<User_Device_Bool_Exp>;
-};
-
-
-export type Query_RootUser_Device_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<User_Device_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<User_Device_Order_By>>;
-  where?: InputMaybe<User_Device_Bool_Exp>;
-};
-
-
-export type Query_RootUser_Device_By_PkArgs = {
-  uid: Scalars['uuid'];
-};
-
-
-export type Query_RootUser_Exchange_KeysArgs = {
-  distinct_on?: InputMaybe<Array<User_Exchange_Keys_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<User_Exchange_Keys_Order_By>>;
-  where?: InputMaybe<User_Exchange_Keys_Bool_Exp>;
-};
-
-
-export type Query_RootUser_Exchange_Keys_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<User_Exchange_Keys_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<User_Exchange_Keys_Order_By>>;
-  where?: InputMaybe<User_Exchange_Keys_Bool_Exp>;
-};
-
-
-export type Query_RootUser_Exchange_Keys_By_PkArgs = {
-  uid: Scalars['uuid'];
+/** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
+export type StringComparisonExp = {
+  _eq?: InputMaybe<Scalars['String']>;
+  _gt?: InputMaybe<Scalars['String']>;
+  _gte?: InputMaybe<Scalars['String']>;
+  /** does the column match the given case-insensitive pattern */
+  _ilike?: InputMaybe<Scalars['String']>;
+  _in?: InputMaybe<Array<Scalars['String']>>;
+  /** does the column match the given POSIX regular expression, case insensitive */
+  _iregex?: InputMaybe<Scalars['String']>;
+  _isNull?: InputMaybe<Scalars['Boolean']>;
+  /** does the column match the given pattern */
+  _like?: InputMaybe<Scalars['String']>;
+  _lt?: InputMaybe<Scalars['String']>;
+  _lte?: InputMaybe<Scalars['String']>;
+  _neq?: InputMaybe<Scalars['String']>;
+  /** does the column NOT match the given case-insensitive pattern */
+  _nilike?: InputMaybe<Scalars['String']>;
+  _nin?: InputMaybe<Array<Scalars['String']>>;
+  /** does the column NOT match the given POSIX regular expression, case insensitive */
+  _niregex?: InputMaybe<Scalars['String']>;
+  /** does the column NOT match the given pattern */
+  _nlike?: InputMaybe<Scalars['String']>;
+  /** does the column NOT match the given POSIX regular expression, case sensitive */
+  _nregex?: InputMaybe<Scalars['String']>;
+  /** does the column NOT match the given SQL regular expression */
+  _nsimilar?: InputMaybe<Scalars['String']>;
+  /** does the column match the given POSIX regular expression, case sensitive */
+  _regex?: InputMaybe<Scalars['String']>;
+  /** does the column match the given SQL regular expression */
+  _similar?: InputMaybe<Scalars['String']>;
 };
 
 /** columns and relationships of "stripe_price" */
-export type Stripe_Price = {
-  __typename?: 'stripe_price';
+export type StripePrice = {
+  __typename?: 'StripePrice';
   active: Scalars['Boolean'];
-  billing_scheme: Scalars['String'];
+  billingScheme: Scalars['String'];
   currency: Scalars['bpchar'];
   id: Scalars['String'];
   nickname?: Maybe<Scalars['String']>;
-  product_id: Scalars['String'];
-  recurring_aggregate_usage?: Maybe<Scalars['String']>;
-  recurring_interval?: Maybe<Scalars['String']>;
-  recurring_interval_count?: Maybe<Scalars['Int']>;
-  recurring_usage_type?: Maybe<Scalars['String']>;
+  productId: Scalars['String'];
+  recurringAggregateUsage?: Maybe<Scalars['String']>;
+  recurringInterval?: Maybe<Scalars['String']>;
+  recurringIntervalCount?: Maybe<Scalars['Int']>;
+  recurringUsageType?: Maybe<Scalars['String']>;
   /** An object relationship */
-  stripe_product: Stripe_Product;
+  stripeProduct: StripeProduct;
   /** An array relationship */
-  stripe_subscriptions: Array<Stripe_Subscription>;
+  stripeSubscriptions: Array<StripeSubscription>;
   /** An aggregate relationship */
-  stripe_subscriptions_aggregate: Stripe_Subscription_Aggregate;
+  stripeSubscriptionsAggregate: StripeSubscriptionAggregate;
   type: Scalars['String'];
-  unit_amount?: Maybe<Scalars['Int']>;
+  unitAmount?: Maybe<Scalars['Int']>;
 };
 
 
 /** columns and relationships of "stripe_price" */
-export type Stripe_PriceStripe_SubscriptionsArgs = {
-  distinct_on?: InputMaybe<Array<Stripe_Subscription_Select_Column>>;
+export type StripePriceStripeSubscriptionsArgs = {
+  distinctOn?: InputMaybe<Array<StripeSubscriptionSelectColumn>>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Stripe_Subscription_Order_By>>;
-  where?: InputMaybe<Stripe_Subscription_Bool_Exp>;
+  orderBy?: InputMaybe<Array<StripeSubscriptionOrderBy>>;
+  where?: InputMaybe<StripeSubscriptionBoolExp>;
 };
 
 
 /** columns and relationships of "stripe_price" */
-export type Stripe_PriceStripe_Subscriptions_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Stripe_Subscription_Select_Column>>;
+export type StripePriceStripeSubscriptionsAggregateArgs = {
+  distinctOn?: InputMaybe<Array<StripeSubscriptionSelectColumn>>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Stripe_Subscription_Order_By>>;
-  where?: InputMaybe<Stripe_Subscription_Bool_Exp>;
+  orderBy?: InputMaybe<Array<StripeSubscriptionOrderBy>>;
+  where?: InputMaybe<StripeSubscriptionBoolExp>;
 };
 
 /** order by aggregate values of table "stripe_price" */
-export type Stripe_Price_Aggregate_Order_By = {
-  avg?: InputMaybe<Stripe_Price_Avg_Order_By>;
-  count?: InputMaybe<Order_By>;
-  max?: InputMaybe<Stripe_Price_Max_Order_By>;
-  min?: InputMaybe<Stripe_Price_Min_Order_By>;
-  stddev?: InputMaybe<Stripe_Price_Stddev_Order_By>;
-  stddev_pop?: InputMaybe<Stripe_Price_Stddev_Pop_Order_By>;
-  stddev_samp?: InputMaybe<Stripe_Price_Stddev_Samp_Order_By>;
-  sum?: InputMaybe<Stripe_Price_Sum_Order_By>;
-  var_pop?: InputMaybe<Stripe_Price_Var_Pop_Order_By>;
-  var_samp?: InputMaybe<Stripe_Price_Var_Samp_Order_By>;
-  variance?: InputMaybe<Stripe_Price_Variance_Order_By>;
+export type StripePriceAggregateOrderBy = {
+  avg?: InputMaybe<StripePriceAvgOrderBy>;
+  count?: InputMaybe<OrderBy>;
+  max?: InputMaybe<StripePriceMaxOrderBy>;
+  min?: InputMaybe<StripePriceMinOrderBy>;
+  stddev?: InputMaybe<StripePriceStddevOrderBy>;
+  stddev_pop?: InputMaybe<StripePriceStddevPopOrderBy>;
+  stddev_samp?: InputMaybe<StripePriceStddevSampOrderBy>;
+  sum?: InputMaybe<StripePriceSumOrderBy>;
+  var_pop?: InputMaybe<StripePriceVarPopOrderBy>;
+  var_samp?: InputMaybe<StripePriceVarSampOrderBy>;
+  variance?: InputMaybe<StripePriceVarianceOrderBy>;
 };
 
 /** order by avg() on columns of table "stripe_price" */
-export type Stripe_Price_Avg_Order_By = {
-  recurring_interval_count?: InputMaybe<Order_By>;
-  unit_amount?: InputMaybe<Order_By>;
+export type StripePriceAvgOrderBy = {
+  recurringIntervalCount?: InputMaybe<OrderBy>;
+  unitAmount?: InputMaybe<OrderBy>;
 };
 
 /** Boolean expression to filter rows from the table "stripe_price". All fields are combined with a logical 'AND'. */
-export type Stripe_Price_Bool_Exp = {
-  _and?: InputMaybe<Array<Stripe_Price_Bool_Exp>>;
-  _not?: InputMaybe<Stripe_Price_Bool_Exp>;
-  _or?: InputMaybe<Array<Stripe_Price_Bool_Exp>>;
-  active?: InputMaybe<Boolean_Comparison_Exp>;
-  billing_scheme?: InputMaybe<String_Comparison_Exp>;
-  currency?: InputMaybe<Bpchar_Comparison_Exp>;
-  id?: InputMaybe<String_Comparison_Exp>;
-  nickname?: InputMaybe<String_Comparison_Exp>;
-  product_id?: InputMaybe<String_Comparison_Exp>;
-  recurring_aggregate_usage?: InputMaybe<String_Comparison_Exp>;
-  recurring_interval?: InputMaybe<String_Comparison_Exp>;
-  recurring_interval_count?: InputMaybe<Int_Comparison_Exp>;
-  recurring_usage_type?: InputMaybe<String_Comparison_Exp>;
-  stripe_product?: InputMaybe<Stripe_Product_Bool_Exp>;
-  stripe_subscriptions?: InputMaybe<Stripe_Subscription_Bool_Exp>;
-  type?: InputMaybe<String_Comparison_Exp>;
-  unit_amount?: InputMaybe<Int_Comparison_Exp>;
+export type StripePriceBoolExp = {
+  _and?: InputMaybe<Array<StripePriceBoolExp>>;
+  _not?: InputMaybe<StripePriceBoolExp>;
+  _or?: InputMaybe<Array<StripePriceBoolExp>>;
+  active?: InputMaybe<BooleanComparisonExp>;
+  billingScheme?: InputMaybe<StringComparisonExp>;
+  currency?: InputMaybe<BpcharComparisonExp>;
+  id?: InputMaybe<StringComparisonExp>;
+  nickname?: InputMaybe<StringComparisonExp>;
+  productId?: InputMaybe<StringComparisonExp>;
+  recurringAggregateUsage?: InputMaybe<StringComparisonExp>;
+  recurringInterval?: InputMaybe<StringComparisonExp>;
+  recurringIntervalCount?: InputMaybe<IntComparisonExp>;
+  recurringUsageType?: InputMaybe<StringComparisonExp>;
+  stripeProduct?: InputMaybe<StripeProductBoolExp>;
+  stripeSubscriptions?: InputMaybe<StripeSubscriptionBoolExp>;
+  type?: InputMaybe<StringComparisonExp>;
+  unitAmount?: InputMaybe<IntComparisonExp>;
 };
 
 /** order by max() on columns of table "stripe_price" */
-export type Stripe_Price_Max_Order_By = {
-  billing_scheme?: InputMaybe<Order_By>;
-  currency?: InputMaybe<Order_By>;
-  id?: InputMaybe<Order_By>;
-  nickname?: InputMaybe<Order_By>;
-  product_id?: InputMaybe<Order_By>;
-  recurring_aggregate_usage?: InputMaybe<Order_By>;
-  recurring_interval?: InputMaybe<Order_By>;
-  recurring_interval_count?: InputMaybe<Order_By>;
-  recurring_usage_type?: InputMaybe<Order_By>;
-  type?: InputMaybe<Order_By>;
-  unit_amount?: InputMaybe<Order_By>;
+export type StripePriceMaxOrderBy = {
+  billingScheme?: InputMaybe<OrderBy>;
+  currency?: InputMaybe<OrderBy>;
+  id?: InputMaybe<OrderBy>;
+  nickname?: InputMaybe<OrderBy>;
+  productId?: InputMaybe<OrderBy>;
+  recurringAggregateUsage?: InputMaybe<OrderBy>;
+  recurringInterval?: InputMaybe<OrderBy>;
+  recurringIntervalCount?: InputMaybe<OrderBy>;
+  recurringUsageType?: InputMaybe<OrderBy>;
+  type?: InputMaybe<OrderBy>;
+  unitAmount?: InputMaybe<OrderBy>;
 };
 
 /** order by min() on columns of table "stripe_price" */
-export type Stripe_Price_Min_Order_By = {
-  billing_scheme?: InputMaybe<Order_By>;
-  currency?: InputMaybe<Order_By>;
-  id?: InputMaybe<Order_By>;
-  nickname?: InputMaybe<Order_By>;
-  product_id?: InputMaybe<Order_By>;
-  recurring_aggregate_usage?: InputMaybe<Order_By>;
-  recurring_interval?: InputMaybe<Order_By>;
-  recurring_interval_count?: InputMaybe<Order_By>;
-  recurring_usage_type?: InputMaybe<Order_By>;
-  type?: InputMaybe<Order_By>;
-  unit_amount?: InputMaybe<Order_By>;
+export type StripePriceMinOrderBy = {
+  billingScheme?: InputMaybe<OrderBy>;
+  currency?: InputMaybe<OrderBy>;
+  id?: InputMaybe<OrderBy>;
+  nickname?: InputMaybe<OrderBy>;
+  productId?: InputMaybe<OrderBy>;
+  recurringAggregateUsage?: InputMaybe<OrderBy>;
+  recurringInterval?: InputMaybe<OrderBy>;
+  recurringIntervalCount?: InputMaybe<OrderBy>;
+  recurringUsageType?: InputMaybe<OrderBy>;
+  type?: InputMaybe<OrderBy>;
+  unitAmount?: InputMaybe<OrderBy>;
 };
 
 /** Ordering options when selecting data from "stripe_price". */
-export type Stripe_Price_Order_By = {
-  active?: InputMaybe<Order_By>;
-  billing_scheme?: InputMaybe<Order_By>;
-  currency?: InputMaybe<Order_By>;
-  id?: InputMaybe<Order_By>;
-  nickname?: InputMaybe<Order_By>;
-  product_id?: InputMaybe<Order_By>;
-  recurring_aggregate_usage?: InputMaybe<Order_By>;
-  recurring_interval?: InputMaybe<Order_By>;
-  recurring_interval_count?: InputMaybe<Order_By>;
-  recurring_usage_type?: InputMaybe<Order_By>;
-  stripe_product?: InputMaybe<Stripe_Product_Order_By>;
-  stripe_subscriptions_aggregate?: InputMaybe<Stripe_Subscription_Aggregate_Order_By>;
-  type?: InputMaybe<Order_By>;
-  unit_amount?: InputMaybe<Order_By>;
+export type StripePriceOrderBy = {
+  active?: InputMaybe<OrderBy>;
+  billingScheme?: InputMaybe<OrderBy>;
+  currency?: InputMaybe<OrderBy>;
+  id?: InputMaybe<OrderBy>;
+  nickname?: InputMaybe<OrderBy>;
+  productId?: InputMaybe<OrderBy>;
+  recurringAggregateUsage?: InputMaybe<OrderBy>;
+  recurringInterval?: InputMaybe<OrderBy>;
+  recurringIntervalCount?: InputMaybe<OrderBy>;
+  recurringUsageType?: InputMaybe<OrderBy>;
+  stripeProduct?: InputMaybe<StripeProductOrderBy>;
+  stripeSubscriptionsAggregate?: InputMaybe<StripeSubscriptionAggregateOrderBy>;
+  type?: InputMaybe<OrderBy>;
+  unitAmount?: InputMaybe<OrderBy>;
 };
 
 /** select columns of table "stripe_price" */
-export enum Stripe_Price_Select_Column {
+export enum StripePriceSelectColumn {
   /** column name */
   Active = 'active',
   /** column name */
-  BillingScheme = 'billing_scheme',
+  BillingScheme = 'billingScheme',
   /** column name */
   Currency = 'currency',
   /** column name */
@@ -3313,107 +2493,107 @@ export enum Stripe_Price_Select_Column {
   /** column name */
   Nickname = 'nickname',
   /** column name */
-  ProductId = 'product_id',
+  ProductId = 'productId',
   /** column name */
-  RecurringAggregateUsage = 'recurring_aggregate_usage',
+  RecurringAggregateUsage = 'recurringAggregateUsage',
   /** column name */
-  RecurringInterval = 'recurring_interval',
+  RecurringInterval = 'recurringInterval',
   /** column name */
-  RecurringIntervalCount = 'recurring_interval_count',
+  RecurringIntervalCount = 'recurringIntervalCount',
   /** column name */
-  RecurringUsageType = 'recurring_usage_type',
+  RecurringUsageType = 'recurringUsageType',
   /** column name */
   Type = 'type',
   /** column name */
-  UnitAmount = 'unit_amount'
+  UnitAmount = 'unitAmount'
 }
 
 /** order by stddev() on columns of table "stripe_price" */
-export type Stripe_Price_Stddev_Order_By = {
-  recurring_interval_count?: InputMaybe<Order_By>;
-  unit_amount?: InputMaybe<Order_By>;
+export type StripePriceStddevOrderBy = {
+  recurringIntervalCount?: InputMaybe<OrderBy>;
+  unitAmount?: InputMaybe<OrderBy>;
 };
 
 /** order by stddev_pop() on columns of table "stripe_price" */
-export type Stripe_Price_Stddev_Pop_Order_By = {
-  recurring_interval_count?: InputMaybe<Order_By>;
-  unit_amount?: InputMaybe<Order_By>;
+export type StripePriceStddevPopOrderBy = {
+  recurringIntervalCount?: InputMaybe<OrderBy>;
+  unitAmount?: InputMaybe<OrderBy>;
 };
 
 /** order by stddev_samp() on columns of table "stripe_price" */
-export type Stripe_Price_Stddev_Samp_Order_By = {
-  recurring_interval_count?: InputMaybe<Order_By>;
-  unit_amount?: InputMaybe<Order_By>;
+export type StripePriceStddevSampOrderBy = {
+  recurringIntervalCount?: InputMaybe<OrderBy>;
+  unitAmount?: InputMaybe<OrderBy>;
 };
 
 /** order by sum() on columns of table "stripe_price" */
-export type Stripe_Price_Sum_Order_By = {
-  recurring_interval_count?: InputMaybe<Order_By>;
-  unit_amount?: InputMaybe<Order_By>;
+export type StripePriceSumOrderBy = {
+  recurringIntervalCount?: InputMaybe<OrderBy>;
+  unitAmount?: InputMaybe<OrderBy>;
 };
 
 /** order by var_pop() on columns of table "stripe_price" */
-export type Stripe_Price_Var_Pop_Order_By = {
-  recurring_interval_count?: InputMaybe<Order_By>;
-  unit_amount?: InputMaybe<Order_By>;
+export type StripePriceVarPopOrderBy = {
+  recurringIntervalCount?: InputMaybe<OrderBy>;
+  unitAmount?: InputMaybe<OrderBy>;
 };
 
 /** order by var_samp() on columns of table "stripe_price" */
-export type Stripe_Price_Var_Samp_Order_By = {
-  recurring_interval_count?: InputMaybe<Order_By>;
-  unit_amount?: InputMaybe<Order_By>;
+export type StripePriceVarSampOrderBy = {
+  recurringIntervalCount?: InputMaybe<OrderBy>;
+  unitAmount?: InputMaybe<OrderBy>;
 };
 
 /** order by variance() on columns of table "stripe_price" */
-export type Stripe_Price_Variance_Order_By = {
-  recurring_interval_count?: InputMaybe<Order_By>;
-  unit_amount?: InputMaybe<Order_By>;
+export type StripePriceVarianceOrderBy = {
+  recurringIntervalCount?: InputMaybe<OrderBy>;
+  unitAmount?: InputMaybe<OrderBy>;
 };
 
 /** columns and relationships of "stripe_product" */
-export type Stripe_Product = {
-  __typename?: 'stripe_product';
+export type StripeProduct = {
+  __typename?: 'StripeProduct';
   active: Scalars['Boolean'];
   description?: Maybe<Scalars['String']>;
   id: Scalars['String'];
   name: Scalars['String'];
   /** An array relationship */
-  stripe_prices: Array<Stripe_Price>;
+  stripePrices: Array<StripePrice>;
 };
 
 
 /** columns and relationships of "stripe_product" */
-export type Stripe_ProductStripe_PricesArgs = {
-  distinct_on?: InputMaybe<Array<Stripe_Price_Select_Column>>;
+export type StripeProductStripePricesArgs = {
+  distinctOn?: InputMaybe<Array<StripePriceSelectColumn>>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Stripe_Price_Order_By>>;
-  where?: InputMaybe<Stripe_Price_Bool_Exp>;
+  orderBy?: InputMaybe<Array<StripePriceOrderBy>>;
+  where?: InputMaybe<StripePriceBoolExp>;
 };
 
 /** Boolean expression to filter rows from the table "stripe_product". All fields are combined with a logical 'AND'. */
-export type Stripe_Product_Bool_Exp = {
-  _and?: InputMaybe<Array<Stripe_Product_Bool_Exp>>;
-  _not?: InputMaybe<Stripe_Product_Bool_Exp>;
-  _or?: InputMaybe<Array<Stripe_Product_Bool_Exp>>;
-  active?: InputMaybe<Boolean_Comparison_Exp>;
-  description?: InputMaybe<String_Comparison_Exp>;
-  id?: InputMaybe<String_Comparison_Exp>;
-  name?: InputMaybe<String_Comparison_Exp>;
-  stripe_prices?: InputMaybe<Stripe_Price_Bool_Exp>;
+export type StripeProductBoolExp = {
+  _and?: InputMaybe<Array<StripeProductBoolExp>>;
+  _not?: InputMaybe<StripeProductBoolExp>;
+  _or?: InputMaybe<Array<StripeProductBoolExp>>;
+  active?: InputMaybe<BooleanComparisonExp>;
+  description?: InputMaybe<StringComparisonExp>;
+  id?: InputMaybe<StringComparisonExp>;
+  name?: InputMaybe<StringComparisonExp>;
+  stripePrices?: InputMaybe<StripePriceBoolExp>;
 };
 
 /** Ordering options when selecting data from "stripe_product". */
-export type Stripe_Product_Order_By = {
-  active?: InputMaybe<Order_By>;
-  description?: InputMaybe<Order_By>;
-  id?: InputMaybe<Order_By>;
-  name?: InputMaybe<Order_By>;
-  stripe_prices_aggregate?: InputMaybe<Stripe_Price_Aggregate_Order_By>;
+export type StripeProductOrderBy = {
+  active?: InputMaybe<OrderBy>;
+  description?: InputMaybe<OrderBy>;
+  id?: InputMaybe<OrderBy>;
+  name?: InputMaybe<OrderBy>;
+  stripePricesAggregate?: InputMaybe<StripePriceAggregateOrderBy>;
 };
 
 /** select columns of table "stripe_product" */
-export enum Stripe_Product_Select_Column {
+export enum StripeProductSelectColumn {
   /** column name */
   Active = 'active',
   /** column name */
@@ -3425,101 +2605,101 @@ export enum Stripe_Product_Select_Column {
 }
 
 /** columns and relationships of "stripe_subscription" */
-export type Stripe_Subscription = {
-  __typename?: 'stripe_subscription';
-  cancel_at?: Maybe<Scalars['timestamptz']>;
-  cancel_at_period_end: Scalars['Boolean'];
-  canceled_at?: Maybe<Scalars['timestamptz']>;
-  current_period_end: Scalars['timestamptz'];
-  current_period_start: Scalars['timestamptz'];
+export type StripeSubscription = {
+  __typename?: 'StripeSubscription';
+  cancelAt?: Maybe<Scalars['timestamptz']>;
+  cancelAtPeriodEnd: Scalars['Boolean'];
+  canceledAt?: Maybe<Scalars['timestamptz']>;
+  currentPeriodEnd: Scalars['timestamptz'];
+  currentPeriodStart: Scalars['timestamptz'];
   description?: Maybe<Scalars['String']>;
   id: Scalars['String'];
   quantity: Scalars['Int'];
   status: Scalars['String'];
   /** An object relationship */
-  stripe_price: Stripe_Price;
+  stripePrice: StripePrice;
 };
 
 /** aggregated selection of "stripe_subscription" */
-export type Stripe_Subscription_Aggregate = {
-  __typename?: 'stripe_subscription_aggregate';
-  aggregate?: Maybe<Stripe_Subscription_Aggregate_Fields>;
-  nodes: Array<Stripe_Subscription>;
+export type StripeSubscriptionAggregate = {
+  __typename?: 'StripeSubscriptionAggregate';
+  aggregate?: Maybe<StripeSubscriptionAggregateFields>;
+  nodes: Array<StripeSubscription>;
 };
 
 /** aggregate fields of "stripe_subscription" */
-export type Stripe_Subscription_Aggregate_Fields = {
-  __typename?: 'stripe_subscription_aggregate_fields';
-  avg?: Maybe<Stripe_Subscription_Avg_Fields>;
+export type StripeSubscriptionAggregateFields = {
+  __typename?: 'StripeSubscriptionAggregateFields';
+  avg?: Maybe<StripeSubscriptionAvgFields>;
   count: Scalars['Int'];
-  max?: Maybe<Stripe_Subscription_Max_Fields>;
-  min?: Maybe<Stripe_Subscription_Min_Fields>;
-  stddev?: Maybe<Stripe_Subscription_Stddev_Fields>;
-  stddev_pop?: Maybe<Stripe_Subscription_Stddev_Pop_Fields>;
-  stddev_samp?: Maybe<Stripe_Subscription_Stddev_Samp_Fields>;
-  sum?: Maybe<Stripe_Subscription_Sum_Fields>;
-  var_pop?: Maybe<Stripe_Subscription_Var_Pop_Fields>;
-  var_samp?: Maybe<Stripe_Subscription_Var_Samp_Fields>;
-  variance?: Maybe<Stripe_Subscription_Variance_Fields>;
+  max?: Maybe<StripeSubscriptionMaxFields>;
+  min?: Maybe<StripeSubscriptionMinFields>;
+  stddev?: Maybe<StripeSubscriptionStddevFields>;
+  stddevPop?: Maybe<StripeSubscriptionStddevPopFields>;
+  stddevSamp?: Maybe<StripeSubscriptionStddevSampFields>;
+  sum?: Maybe<StripeSubscriptionSumFields>;
+  varPop?: Maybe<StripeSubscriptionVarPopFields>;
+  varSamp?: Maybe<StripeSubscriptionVarSampFields>;
+  variance?: Maybe<StripeSubscriptionVarianceFields>;
 };
 
 
 /** aggregate fields of "stripe_subscription" */
-export type Stripe_Subscription_Aggregate_FieldsCountArgs = {
-  columns?: InputMaybe<Array<Stripe_Subscription_Select_Column>>;
+export type StripeSubscriptionAggregateFieldsCountArgs = {
+  columns?: InputMaybe<Array<StripeSubscriptionSelectColumn>>;
   distinct?: InputMaybe<Scalars['Boolean']>;
 };
 
 /** order by aggregate values of table "stripe_subscription" */
-export type Stripe_Subscription_Aggregate_Order_By = {
-  avg?: InputMaybe<Stripe_Subscription_Avg_Order_By>;
-  count?: InputMaybe<Order_By>;
-  max?: InputMaybe<Stripe_Subscription_Max_Order_By>;
-  min?: InputMaybe<Stripe_Subscription_Min_Order_By>;
-  stddev?: InputMaybe<Stripe_Subscription_Stddev_Order_By>;
-  stddev_pop?: InputMaybe<Stripe_Subscription_Stddev_Pop_Order_By>;
-  stddev_samp?: InputMaybe<Stripe_Subscription_Stddev_Samp_Order_By>;
-  sum?: InputMaybe<Stripe_Subscription_Sum_Order_By>;
-  var_pop?: InputMaybe<Stripe_Subscription_Var_Pop_Order_By>;
-  var_samp?: InputMaybe<Stripe_Subscription_Var_Samp_Order_By>;
-  variance?: InputMaybe<Stripe_Subscription_Variance_Order_By>;
+export type StripeSubscriptionAggregateOrderBy = {
+  avg?: InputMaybe<StripeSubscriptionAvgOrderBy>;
+  count?: InputMaybe<OrderBy>;
+  max?: InputMaybe<StripeSubscriptionMaxOrderBy>;
+  min?: InputMaybe<StripeSubscriptionMinOrderBy>;
+  stddev?: InputMaybe<StripeSubscriptionStddevOrderBy>;
+  stddev_pop?: InputMaybe<StripeSubscriptionStddevPopOrderBy>;
+  stddev_samp?: InputMaybe<StripeSubscriptionStddevSampOrderBy>;
+  sum?: InputMaybe<StripeSubscriptionSumOrderBy>;
+  var_pop?: InputMaybe<StripeSubscriptionVarPopOrderBy>;
+  var_samp?: InputMaybe<StripeSubscriptionVarSampOrderBy>;
+  variance?: InputMaybe<StripeSubscriptionVarianceOrderBy>;
 };
 
 /** aggregate avg on columns */
-export type Stripe_Subscription_Avg_Fields = {
-  __typename?: 'stripe_subscription_avg_fields';
+export type StripeSubscriptionAvgFields = {
+  __typename?: 'StripeSubscriptionAvgFields';
   quantity?: Maybe<Scalars['Float']>;
 };
 
 /** order by avg() on columns of table "stripe_subscription" */
-export type Stripe_Subscription_Avg_Order_By = {
-  quantity?: InputMaybe<Order_By>;
+export type StripeSubscriptionAvgOrderBy = {
+  quantity?: InputMaybe<OrderBy>;
 };
 
 /** Boolean expression to filter rows from the table "stripe_subscription". All fields are combined with a logical 'AND'. */
-export type Stripe_Subscription_Bool_Exp = {
-  _and?: InputMaybe<Array<Stripe_Subscription_Bool_Exp>>;
-  _not?: InputMaybe<Stripe_Subscription_Bool_Exp>;
-  _or?: InputMaybe<Array<Stripe_Subscription_Bool_Exp>>;
-  cancel_at?: InputMaybe<Timestamptz_Comparison_Exp>;
-  cancel_at_period_end?: InputMaybe<Boolean_Comparison_Exp>;
-  canceled_at?: InputMaybe<Timestamptz_Comparison_Exp>;
-  current_period_end?: InputMaybe<Timestamptz_Comparison_Exp>;
-  current_period_start?: InputMaybe<Timestamptz_Comparison_Exp>;
-  description?: InputMaybe<String_Comparison_Exp>;
-  id?: InputMaybe<String_Comparison_Exp>;
-  quantity?: InputMaybe<Int_Comparison_Exp>;
-  status?: InputMaybe<String_Comparison_Exp>;
-  stripe_price?: InputMaybe<Stripe_Price_Bool_Exp>;
+export type StripeSubscriptionBoolExp = {
+  _and?: InputMaybe<Array<StripeSubscriptionBoolExp>>;
+  _not?: InputMaybe<StripeSubscriptionBoolExp>;
+  _or?: InputMaybe<Array<StripeSubscriptionBoolExp>>;
+  cancelAt?: InputMaybe<TimestamptzComparisonExp>;
+  cancelAtPeriodEnd?: InputMaybe<BooleanComparisonExp>;
+  canceledAt?: InputMaybe<TimestamptzComparisonExp>;
+  currentPeriodEnd?: InputMaybe<TimestamptzComparisonExp>;
+  currentPeriodStart?: InputMaybe<TimestamptzComparisonExp>;
+  description?: InputMaybe<StringComparisonExp>;
+  id?: InputMaybe<StringComparisonExp>;
+  quantity?: InputMaybe<IntComparisonExp>;
+  status?: InputMaybe<StringComparisonExp>;
+  stripePrice?: InputMaybe<StripePriceBoolExp>;
 };
 
 /** aggregate max on columns */
-export type Stripe_Subscription_Max_Fields = {
-  __typename?: 'stripe_subscription_max_fields';
-  cancel_at?: Maybe<Scalars['timestamptz']>;
-  canceled_at?: Maybe<Scalars['timestamptz']>;
-  current_period_end?: Maybe<Scalars['timestamptz']>;
-  current_period_start?: Maybe<Scalars['timestamptz']>;
+export type StripeSubscriptionMaxFields = {
+  __typename?: 'StripeSubscriptionMaxFields';
+  cancelAt?: Maybe<Scalars['timestamptz']>;
+  canceledAt?: Maybe<Scalars['timestamptz']>;
+  currentPeriodEnd?: Maybe<Scalars['timestamptz']>;
+  currentPeriodStart?: Maybe<Scalars['timestamptz']>;
   description?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['String']>;
   quantity?: Maybe<Scalars['Int']>;
@@ -3527,24 +2707,24 @@ export type Stripe_Subscription_Max_Fields = {
 };
 
 /** order by max() on columns of table "stripe_subscription" */
-export type Stripe_Subscription_Max_Order_By = {
-  cancel_at?: InputMaybe<Order_By>;
-  canceled_at?: InputMaybe<Order_By>;
-  current_period_end?: InputMaybe<Order_By>;
-  current_period_start?: InputMaybe<Order_By>;
-  description?: InputMaybe<Order_By>;
-  id?: InputMaybe<Order_By>;
-  quantity?: InputMaybe<Order_By>;
-  status?: InputMaybe<Order_By>;
+export type StripeSubscriptionMaxOrderBy = {
+  cancelAt?: InputMaybe<OrderBy>;
+  canceledAt?: InputMaybe<OrderBy>;
+  currentPeriodEnd?: InputMaybe<OrderBy>;
+  currentPeriodStart?: InputMaybe<OrderBy>;
+  description?: InputMaybe<OrderBy>;
+  id?: InputMaybe<OrderBy>;
+  quantity?: InputMaybe<OrderBy>;
+  status?: InputMaybe<OrderBy>;
 };
 
 /** aggregate min on columns */
-export type Stripe_Subscription_Min_Fields = {
-  __typename?: 'stripe_subscription_min_fields';
-  cancel_at?: Maybe<Scalars['timestamptz']>;
-  canceled_at?: Maybe<Scalars['timestamptz']>;
-  current_period_end?: Maybe<Scalars['timestamptz']>;
-  current_period_start?: Maybe<Scalars['timestamptz']>;
+export type StripeSubscriptionMinFields = {
+  __typename?: 'StripeSubscriptionMinFields';
+  cancelAt?: Maybe<Scalars['timestamptz']>;
+  canceledAt?: Maybe<Scalars['timestamptz']>;
+  currentPeriodEnd?: Maybe<Scalars['timestamptz']>;
+  currentPeriodStart?: Maybe<Scalars['timestamptz']>;
   description?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['String']>;
   quantity?: Maybe<Scalars['Int']>;
@@ -3552,43 +2732,43 @@ export type Stripe_Subscription_Min_Fields = {
 };
 
 /** order by min() on columns of table "stripe_subscription" */
-export type Stripe_Subscription_Min_Order_By = {
-  cancel_at?: InputMaybe<Order_By>;
-  canceled_at?: InputMaybe<Order_By>;
-  current_period_end?: InputMaybe<Order_By>;
-  current_period_start?: InputMaybe<Order_By>;
-  description?: InputMaybe<Order_By>;
-  id?: InputMaybe<Order_By>;
-  quantity?: InputMaybe<Order_By>;
-  status?: InputMaybe<Order_By>;
+export type StripeSubscriptionMinOrderBy = {
+  cancelAt?: InputMaybe<OrderBy>;
+  canceledAt?: InputMaybe<OrderBy>;
+  currentPeriodEnd?: InputMaybe<OrderBy>;
+  currentPeriodStart?: InputMaybe<OrderBy>;
+  description?: InputMaybe<OrderBy>;
+  id?: InputMaybe<OrderBy>;
+  quantity?: InputMaybe<OrderBy>;
+  status?: InputMaybe<OrderBy>;
 };
 
 /** Ordering options when selecting data from "stripe_subscription". */
-export type Stripe_Subscription_Order_By = {
-  cancel_at?: InputMaybe<Order_By>;
-  cancel_at_period_end?: InputMaybe<Order_By>;
-  canceled_at?: InputMaybe<Order_By>;
-  current_period_end?: InputMaybe<Order_By>;
-  current_period_start?: InputMaybe<Order_By>;
-  description?: InputMaybe<Order_By>;
-  id?: InputMaybe<Order_By>;
-  quantity?: InputMaybe<Order_By>;
-  status?: InputMaybe<Order_By>;
-  stripe_price?: InputMaybe<Stripe_Price_Order_By>;
+export type StripeSubscriptionOrderBy = {
+  cancelAt?: InputMaybe<OrderBy>;
+  cancelAtPeriodEnd?: InputMaybe<OrderBy>;
+  canceledAt?: InputMaybe<OrderBy>;
+  currentPeriodEnd?: InputMaybe<OrderBy>;
+  currentPeriodStart?: InputMaybe<OrderBy>;
+  description?: InputMaybe<OrderBy>;
+  id?: InputMaybe<OrderBy>;
+  quantity?: InputMaybe<OrderBy>;
+  status?: InputMaybe<OrderBy>;
+  stripePrice?: InputMaybe<StripePriceOrderBy>;
 };
 
 /** select columns of table "stripe_subscription" */
-export enum Stripe_Subscription_Select_Column {
+export enum StripeSubscriptionSelectColumn {
   /** column name */
-  CancelAt = 'cancel_at',
+  CancelAt = 'cancelAt',
   /** column name */
-  CancelAtPeriodEnd = 'cancel_at_period_end',
+  CancelAtPeriodEnd = 'cancelAtPeriodEnd',
   /** column name */
-  CanceledAt = 'canceled_at',
+  CanceledAt = 'canceledAt',
   /** column name */
-  CurrentPeriodEnd = 'current_period_end',
+  CurrentPeriodEnd = 'currentPeriodEnd',
   /** column name */
-  CurrentPeriodStart = 'current_period_start',
+  CurrentPeriodStart = 'currentPeriodStart',
   /** column name */
   Description = 'description',
   /** column name */
@@ -3600,872 +2780,404 @@ export enum Stripe_Subscription_Select_Column {
 }
 
 /** aggregate stddev on columns */
-export type Stripe_Subscription_Stddev_Fields = {
-  __typename?: 'stripe_subscription_stddev_fields';
+export type StripeSubscriptionStddevFields = {
+  __typename?: 'StripeSubscriptionStddevFields';
   quantity?: Maybe<Scalars['Float']>;
 };
 
 /** order by stddev() on columns of table "stripe_subscription" */
-export type Stripe_Subscription_Stddev_Order_By = {
-  quantity?: InputMaybe<Order_By>;
+export type StripeSubscriptionStddevOrderBy = {
+  quantity?: InputMaybe<OrderBy>;
 };
 
 /** aggregate stddev_pop on columns */
-export type Stripe_Subscription_Stddev_Pop_Fields = {
-  __typename?: 'stripe_subscription_stddev_pop_fields';
+export type StripeSubscriptionStddevPopFields = {
+  __typename?: 'StripeSubscriptionStddevPopFields';
   quantity?: Maybe<Scalars['Float']>;
 };
 
 /** order by stddev_pop() on columns of table "stripe_subscription" */
-export type Stripe_Subscription_Stddev_Pop_Order_By = {
-  quantity?: InputMaybe<Order_By>;
+export type StripeSubscriptionStddevPopOrderBy = {
+  quantity?: InputMaybe<OrderBy>;
 };
 
 /** aggregate stddev_samp on columns */
-export type Stripe_Subscription_Stddev_Samp_Fields = {
-  __typename?: 'stripe_subscription_stddev_samp_fields';
+export type StripeSubscriptionStddevSampFields = {
+  __typename?: 'StripeSubscriptionStddevSampFields';
   quantity?: Maybe<Scalars['Float']>;
 };
 
 /** order by stddev_samp() on columns of table "stripe_subscription" */
-export type Stripe_Subscription_Stddev_Samp_Order_By = {
-  quantity?: InputMaybe<Order_By>;
+export type StripeSubscriptionStddevSampOrderBy = {
+  quantity?: InputMaybe<OrderBy>;
 };
 
 /** aggregate sum on columns */
-export type Stripe_Subscription_Sum_Fields = {
-  __typename?: 'stripe_subscription_sum_fields';
+export type StripeSubscriptionSumFields = {
+  __typename?: 'StripeSubscriptionSumFields';
   quantity?: Maybe<Scalars['Int']>;
 };
 
 /** order by sum() on columns of table "stripe_subscription" */
-export type Stripe_Subscription_Sum_Order_By = {
-  quantity?: InputMaybe<Order_By>;
+export type StripeSubscriptionSumOrderBy = {
+  quantity?: InputMaybe<OrderBy>;
 };
 
 /** aggregate var_pop on columns */
-export type Stripe_Subscription_Var_Pop_Fields = {
-  __typename?: 'stripe_subscription_var_pop_fields';
+export type StripeSubscriptionVarPopFields = {
+  __typename?: 'StripeSubscriptionVarPopFields';
   quantity?: Maybe<Scalars['Float']>;
 };
 
 /** order by var_pop() on columns of table "stripe_subscription" */
-export type Stripe_Subscription_Var_Pop_Order_By = {
-  quantity?: InputMaybe<Order_By>;
+export type StripeSubscriptionVarPopOrderBy = {
+  quantity?: InputMaybe<OrderBy>;
 };
 
 /** aggregate var_samp on columns */
-export type Stripe_Subscription_Var_Samp_Fields = {
-  __typename?: 'stripe_subscription_var_samp_fields';
+export type StripeSubscriptionVarSampFields = {
+  __typename?: 'StripeSubscriptionVarSampFields';
   quantity?: Maybe<Scalars['Float']>;
 };
 
 /** order by var_samp() on columns of table "stripe_subscription" */
-export type Stripe_Subscription_Var_Samp_Order_By = {
-  quantity?: InputMaybe<Order_By>;
+export type StripeSubscriptionVarSampOrderBy = {
+  quantity?: InputMaybe<OrderBy>;
 };
 
 /** aggregate variance on columns */
-export type Stripe_Subscription_Variance_Fields = {
-  __typename?: 'stripe_subscription_variance_fields';
+export type StripeSubscriptionVarianceFields = {
+  __typename?: 'StripeSubscriptionVarianceFields';
   quantity?: Maybe<Scalars['Float']>;
 };
 
 /** order by variance() on columns of table "stripe_subscription" */
-export type Stripe_Subscription_Variance_Order_By = {
-  quantity?: InputMaybe<Order_By>;
+export type StripeSubscriptionVarianceOrderBy = {
+  quantity?: InputMaybe<OrderBy>;
 };
 
-export type Subscription_Root = {
-  __typename?: 'subscription_root';
-  /** fetch data from the table: "balance" */
-  balance: Array<Balance>;
-  /** fetch data from the table: "balance" using primary key columns */
-  balance_by_pk?: Maybe<Balance>;
-  /** fetch data from the table: "currency" */
-  currency: Array<Currency>;
-  /** fetch data from the table: "currency" using primary key columns */
-  currency_by_pk?: Maybe<Currency>;
-  /** fetch data from the table: "dca_order" */
-  dca_order: Array<Dca_Order>;
-  /** fetch aggregated fields from the table: "dca_order" */
-  dca_order_aggregate: Dca_Order_Aggregate;
-  /** fetch data from the table: "dca_order" using primary key columns */
-  dca_order_by_pk?: Maybe<Dca_Order>;
-  /** fetch data from the table: "dca_order_history" */
-  dca_order_history: Array<Dca_Order_History>;
-  /** fetch aggregated fields from the table: "dca_order_history" */
-  dca_order_history_aggregate: Dca_Order_History_Aggregate;
-  /** fetch data from the table: "dca_order_history" using primary key columns */
-  dca_order_history_by_pk?: Maybe<Dca_Order_History>;
-  /** fetch data from the table: "exchange" */
-  exchange: Array<Exchange>;
-  /** fetch data from the table: "exchange" using primary key columns */
-  exchange_by_pk?: Maybe<Exchange>;
-  /** fetch data from the table: "exchange_primary_currency" */
-  exchange_primary_currency: Array<Exchange_Primary_Currency>;
-  /** fetch data from the table: "exchange_primary_currency" using primary key columns */
-  exchange_primary_currency_by_pk?: Maybe<Exchange_Primary_Currency>;
-  /** fetch data from the table: "exchange_secondary_currency" */
-  exchange_secondary_currency: Array<Exchange_Secondary_Currency>;
-  /** fetch data from the table: "exchange_secondary_currency" using primary key columns */
-  exchange_secondary_currency_by_pk?: Maybe<Exchange_Secondary_Currency>;
-  /** fetch data from the table: "market" */
-  market: Array<Market>;
-  /** fetch data from the table: "market" using primary key columns */
-  market_by_pk?: Maybe<Market>;
-  /** fetch data from the table: "market_price" */
-  market_price: Array<Market_Price>;
-  /** fetch data from the table: "market_price" using primary key columns */
-  market_price_by_pk?: Maybe<Market_Price>;
-  /** execute function "market_price_latest" which returns "market_price" */
-  market_price_latest: Array<Market_Price>;
-  /** fetch data from the table: "market_trading_pair" */
-  market_trading_pair: Array<Market_Trading_Pair>;
-  /** fetch data from the table: "order" */
-  order: Array<Order>;
-  /** fetch aggregated fields from the table: "order" */
-  order_aggregate: Order_Aggregate;
-  /** fetch data from the table: "order" using primary key columns */
-  order_by_pk?: Maybe<Order>;
-  /** fetch data from the table: "stripe_price" */
-  stripe_price: Array<Stripe_Price>;
-  /** fetch data from the table: "stripe_price" using primary key columns */
-  stripe_price_by_pk?: Maybe<Stripe_Price>;
-  /** fetch data from the table: "stripe_product" */
-  stripe_product: Array<Stripe_Product>;
-  /** fetch data from the table: "stripe_product" using primary key columns */
-  stripe_product_by_pk?: Maybe<Stripe_Product>;
-  /** fetch data from the table: "stripe_subscription" */
-  stripe_subscription: Array<Stripe_Subscription>;
-  /** fetch aggregated fields from the table: "stripe_subscription" */
-  stripe_subscription_aggregate: Stripe_Subscription_Aggregate;
-  /** fetch data from the table: "stripe_subscription" using primary key columns */
-  stripe_subscription_by_pk?: Maybe<Stripe_Subscription>;
-  /** fetch data from the table: "trade" */
-  trade: Array<Trade>;
-  /** fetch aggregated fields from the table: "trade" */
-  trade_aggregate: Trade_Aggregate;
-  /** execute function "trade_avg_price_by_window" which returns "type_trade_avg_price_by_window" */
-  trade_avg_price_by_window: Array<Type_Trade_Avg_Price_By_Window>;
-  /** fetch data from the table: "trade" using primary key columns */
-  trade_by_pk?: Maybe<Trade>;
-  /** execute function "trade_sum_by_window" which returns "type_trade_sum_by_window" */
-  trade_sum_by_window: Array<Type_Trade_Sum_By_Window>;
-  /** fetch data from the table: "type_trade_avg_price_by_window" */
-  type_trade_avg_price_by_window: Array<Type_Trade_Avg_Price_By_Window>;
-  /** fetch data from the table: "type_trade_sum_by_window" */
-  type_trade_sum_by_window: Array<Type_Trade_Sum_By_Window>;
-  /** fetch data from the table: "user" */
-  user: Array<User>;
-  /** fetch data from the table: "user_2fa" */
-  user_2fa: Array<User_2fa>;
-  /** fetch data from the table: "user_2fa" using primary key columns */
-  user_2fa_by_pk?: Maybe<User_2fa>;
-  /** fetch data from the table: "user" using primary key columns */
-  user_by_pk?: Maybe<User>;
-  /** fetch data from the table: "user_device" */
-  user_device: Array<User_Device>;
-  /** fetch aggregated fields from the table: "user_device" */
-  user_device_aggregate: User_Device_Aggregate;
-  /** fetch data from the table: "user_device" using primary key columns */
-  user_device_by_pk?: Maybe<User_Device>;
-  /** An array relationship */
-  user_exchange_keys: Array<User_Exchange_Keys>;
-  /** An aggregate relationship */
-  user_exchange_keys_aggregate: User_Exchange_Keys_Aggregate;
-  /** fetch data from the table: "user_exchange_keys" using primary key columns */
-  user_exchange_keys_by_pk?: Maybe<User_Exchange_Keys>;
+export type SyncExchangeOpenOrderListOutput = {
+  __typename?: 'SyncExchangeOpenOrderListOutput';
+  user?: Maybe<User>;
+  userUid: Scalars['uuid'];
 };
 
-
-export type Subscription_RootBalanceArgs = {
-  distinct_on?: InputMaybe<Array<Balance_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Balance_Order_By>>;
-  where?: InputMaybe<Balance_Bool_Exp>;
-};
-
-
-export type Subscription_RootBalance_By_PkArgs = {
-  uid: Scalars['uuid'];
-};
-
-
-export type Subscription_RootCurrencyArgs = {
-  distinct_on?: InputMaybe<Array<Currency_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Currency_Order_By>>;
-  where?: InputMaybe<Currency_Bool_Exp>;
-};
-
-
-export type Subscription_RootCurrency_By_PkArgs = {
-  symbol: Scalars['String'];
-};
-
-
-export type Subscription_RootDca_OrderArgs = {
-  distinct_on?: InputMaybe<Array<Dca_Order_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Dca_Order_Order_By>>;
-  where?: InputMaybe<Dca_Order_Bool_Exp>;
-};
-
-
-export type Subscription_RootDca_Order_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Dca_Order_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Dca_Order_Order_By>>;
-  where?: InputMaybe<Dca_Order_Bool_Exp>;
-};
-
-
-export type Subscription_RootDca_Order_By_PkArgs = {
-  uid: Scalars['uuid'];
-};
-
-
-export type Subscription_RootDca_Order_HistoryArgs = {
-  distinct_on?: InputMaybe<Array<Dca_Order_History_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Dca_Order_History_Order_By>>;
-  where?: InputMaybe<Dca_Order_History_Bool_Exp>;
-};
-
-
-export type Subscription_RootDca_Order_History_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Dca_Order_History_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Dca_Order_History_Order_By>>;
-  where?: InputMaybe<Dca_Order_History_Bool_Exp>;
-};
-
-
-export type Subscription_RootDca_Order_History_By_PkArgs = {
-  uid: Scalars['uuid'];
-};
-
-
-export type Subscription_RootExchangeArgs = {
-  distinct_on?: InputMaybe<Array<Exchange_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Exchange_Order_By>>;
-  where?: InputMaybe<Exchange_Bool_Exp>;
-};
-
-
-export type Subscription_RootExchange_By_PkArgs = {
-  uid: Scalars['uuid'];
-};
-
-
-export type Subscription_RootExchange_Primary_CurrencyArgs = {
-  distinct_on?: InputMaybe<Array<Exchange_Primary_Currency_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Exchange_Primary_Currency_Order_By>>;
-  where?: InputMaybe<Exchange_Primary_Currency_Bool_Exp>;
-};
-
-
-export type Subscription_RootExchange_Primary_Currency_By_PkArgs = {
-  exchange_uid: Scalars['uuid'];
-  symbol: Scalars['String'];
-};
-
-
-export type Subscription_RootExchange_Secondary_CurrencyArgs = {
-  distinct_on?: InputMaybe<Array<Exchange_Secondary_Currency_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Exchange_Secondary_Currency_Order_By>>;
-  where?: InputMaybe<Exchange_Secondary_Currency_Bool_Exp>;
-};
-
-
-export type Subscription_RootExchange_Secondary_Currency_By_PkArgs = {
-  exchange_uid: Scalars['uuid'];
-  symbol: Scalars['String'];
-};
-
-
-export type Subscription_RootMarketArgs = {
-  distinct_on?: InputMaybe<Array<Market_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Market_Order_By>>;
-  where?: InputMaybe<Market_Bool_Exp>;
-};
-
-
-export type Subscription_RootMarket_By_PkArgs = {
-  uid: Scalars['uuid'];
-};
-
-
-export type Subscription_RootMarket_PriceArgs = {
-  distinct_on?: InputMaybe<Array<Market_Price_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Market_Price_Order_By>>;
-  where?: InputMaybe<Market_Price_Bool_Exp>;
-};
-
-
-export type Subscription_RootMarket_Price_By_PkArgs = {
-  asset_symbol: Scalars['String'];
-  currency: Scalars['String'];
-  market_uid: Scalars['uuid'];
-  source_currency: Scalars['bpchar'];
-  timestamp: Scalars['timestamptz'];
-};
-
-
-export type Subscription_RootMarket_Price_LatestArgs = {
-  args: Market_Price_Latest_Args;
-  distinct_on?: InputMaybe<Array<Market_Price_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Market_Price_Order_By>>;
-  where?: InputMaybe<Market_Price_Bool_Exp>;
-};
-
-
-export type Subscription_RootMarket_Trading_PairArgs = {
-  distinct_on?: InputMaybe<Array<Market_Trading_Pair_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Market_Trading_Pair_Order_By>>;
-  where?: InputMaybe<Market_Trading_Pair_Bool_Exp>;
-};
-
-
-export type Subscription_RootOrderArgs = {
-  distinct_on?: InputMaybe<Array<Order_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Order_Order_By>>;
-  where?: InputMaybe<Order_Bool_Exp>;
-};
-
-
-export type Subscription_RootOrder_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Order_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Order_Order_By>>;
-  where?: InputMaybe<Order_Bool_Exp>;
-};
-
-
-export type Subscription_RootOrder_By_PkArgs = {
-  uid: Scalars['uuid'];
-};
-
-
-export type Subscription_RootStripe_PriceArgs = {
-  distinct_on?: InputMaybe<Array<Stripe_Price_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Stripe_Price_Order_By>>;
-  where?: InputMaybe<Stripe_Price_Bool_Exp>;
-};
-
-
-export type Subscription_RootStripe_Price_By_PkArgs = {
-  id: Scalars['String'];
-};
-
-
-export type Subscription_RootStripe_ProductArgs = {
-  distinct_on?: InputMaybe<Array<Stripe_Product_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Stripe_Product_Order_By>>;
-  where?: InputMaybe<Stripe_Product_Bool_Exp>;
-};
-
-
-export type Subscription_RootStripe_Product_By_PkArgs = {
-  id: Scalars['String'];
-};
-
-
-export type Subscription_RootStripe_SubscriptionArgs = {
-  distinct_on?: InputMaybe<Array<Stripe_Subscription_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Stripe_Subscription_Order_By>>;
-  where?: InputMaybe<Stripe_Subscription_Bool_Exp>;
-};
-
-
-export type Subscription_RootStripe_Subscription_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Stripe_Subscription_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Stripe_Subscription_Order_By>>;
-  where?: InputMaybe<Stripe_Subscription_Bool_Exp>;
-};
-
-
-export type Subscription_RootStripe_Subscription_By_PkArgs = {
-  id: Scalars['String'];
-};
-
-
-export type Subscription_RootTradeArgs = {
-  distinct_on?: InputMaybe<Array<Trade_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Trade_Order_By>>;
-  where?: InputMaybe<Trade_Bool_Exp>;
-};
-
-
-export type Subscription_RootTrade_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Trade_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Trade_Order_By>>;
-  where?: InputMaybe<Trade_Bool_Exp>;
-};
-
-
-export type Subscription_RootTrade_Avg_Price_By_WindowArgs = {
-  args: Trade_Avg_Price_By_Window_Args;
-  distinct_on?: InputMaybe<Array<Type_Trade_Avg_Price_By_Window_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Type_Trade_Avg_Price_By_Window_Order_By>>;
-  where?: InputMaybe<Type_Trade_Avg_Price_By_Window_Bool_Exp>;
-};
-
-
-export type Subscription_RootTrade_By_PkArgs = {
-  uid: Scalars['uuid'];
-};
-
-
-export type Subscription_RootTrade_Sum_By_WindowArgs = {
-  args: Trade_Sum_By_Window_Args;
-  distinct_on?: InputMaybe<Array<Type_Trade_Sum_By_Window_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Type_Trade_Sum_By_Window_Order_By>>;
-  where?: InputMaybe<Type_Trade_Sum_By_Window_Bool_Exp>;
-};
-
-
-export type Subscription_RootType_Trade_Avg_Price_By_WindowArgs = {
-  distinct_on?: InputMaybe<Array<Type_Trade_Avg_Price_By_Window_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Type_Trade_Avg_Price_By_Window_Order_By>>;
-  where?: InputMaybe<Type_Trade_Avg_Price_By_Window_Bool_Exp>;
-};
-
-
-export type Subscription_RootType_Trade_Sum_By_WindowArgs = {
-  distinct_on?: InputMaybe<Array<Type_Trade_Sum_By_Window_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Type_Trade_Sum_By_Window_Order_By>>;
-  where?: InputMaybe<Type_Trade_Sum_By_Window_Bool_Exp>;
-};
-
-
-export type Subscription_RootUserArgs = {
-  distinct_on?: InputMaybe<Array<User_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<User_Order_By>>;
-  where?: InputMaybe<User_Bool_Exp>;
-};
-
-
-export type Subscription_RootUser_2faArgs = {
-  distinct_on?: InputMaybe<Array<User_2fa_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<User_2fa_Order_By>>;
-  where?: InputMaybe<User_2fa_Bool_Exp>;
-};
-
-
-export type Subscription_RootUser_2fa_By_PkArgs = {
-  uid: Scalars['uuid'];
-};
-
-
-export type Subscription_RootUser_By_PkArgs = {
-  uid: Scalars['uuid'];
-};
-
-
-export type Subscription_RootUser_DeviceArgs = {
-  distinct_on?: InputMaybe<Array<User_Device_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<User_Device_Order_By>>;
-  where?: InputMaybe<User_Device_Bool_Exp>;
-};
-
-
-export type Subscription_RootUser_Device_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<User_Device_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<User_Device_Order_By>>;
-  where?: InputMaybe<User_Device_Bool_Exp>;
-};
-
-
-export type Subscription_RootUser_Device_By_PkArgs = {
-  uid: Scalars['uuid'];
-};
-
-
-export type Subscription_RootUser_Exchange_KeysArgs = {
-  distinct_on?: InputMaybe<Array<User_Exchange_Keys_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<User_Exchange_Keys_Order_By>>;
-  where?: InputMaybe<User_Exchange_Keys_Bool_Exp>;
-};
-
-
-export type Subscription_RootUser_Exchange_Keys_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<User_Exchange_Keys_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<User_Exchange_Keys_Order_By>>;
-  where?: InputMaybe<User_Exchange_Keys_Bool_Exp>;
-};
-
-
-export type Subscription_RootUser_Exchange_Keys_By_PkArgs = {
-  uid: Scalars['uuid'];
+export type SyncExchangeTradeListOutput = {
+  __typename?: 'SyncExchangeTradeListOutput';
+  user?: Maybe<User>;
+  userUid: Scalars['uuid'];
 };
 
 /** Boolean expression to compare columns of type "timestamptz". All fields are combined with logical 'AND'. */
-export type Timestamptz_Comparison_Exp = {
+export type TimestamptzComparisonExp = {
   _eq?: InputMaybe<Scalars['timestamptz']>;
   _gt?: InputMaybe<Scalars['timestamptz']>;
   _gte?: InputMaybe<Scalars['timestamptz']>;
   _in?: InputMaybe<Array<Scalars['timestamptz']>>;
-  _is_null?: InputMaybe<Scalars['Boolean']>;
+  _isNull?: InputMaybe<Scalars['Boolean']>;
   _lt?: InputMaybe<Scalars['timestamptz']>;
   _lte?: InputMaybe<Scalars['timestamptz']>;
   _neq?: InputMaybe<Scalars['timestamptz']>;
   _nin?: InputMaybe<Array<Scalars['timestamptz']>>;
 };
 
-export type Total_Balance_Fx_Balance_Args = {
+export type TotalBalanceFxBalanceArgs = {
   currency?: InputMaybe<Scalars['String']>;
 };
 
-export type Total_Value_Fx_Trade_Args = {
+export type TotalValueFxTradeArgs = {
   currency?: InputMaybe<Scalars['String']>;
 };
 
 /** columns and relationships of "trade" */
 export type Trade = {
-  __typename?: 'trade';
-  created_at: Scalars['timestamptz'];
+  __typename?: 'Trade';
+  createdAt: Scalars['timestamptz'];
   /** An object relationship */
   exchange: Exchange;
-  exchange_uid: Scalars['uuid'];
+  exchangeUid: Scalars['uuid'];
   fee: Scalars['numeric'];
   /** A computed field, executes function "trade_fee_fx" */
-  fee_fx?: Maybe<Scalars['numeric']>;
+  feeFx?: Maybe<Scalars['numeric']>;
   /** An object relationship */
   order?: Maybe<Order>;
-  order_uid?: Maybe<Scalars['uuid']>;
+  orderUid?: Maybe<Scalars['uuid']>;
   price: Scalars['numeric'];
   /** A computed field, executes function "trade_price_fx" */
-  price_fx?: Maybe<Scalars['numeric']>;
-  primary_currency: Scalars['String'];
-  secondary_currency: Scalars['String'];
+  priceFx?: Maybe<Scalars['numeric']>;
+  primaryCurrency: Scalars['String'];
+  secondaryCurrency: Scalars['String'];
   timestamp: Scalars['timestamptz'];
-  total_value: Scalars['numeric'];
+  totalValue: Scalars['numeric'];
   /** A computed field, executes function "trade_total_value_fx" */
-  total_value_fx?: Maybe<Scalars['numeric']>;
-  trade_id: Scalars['String'];
+  totalValueFx?: Maybe<Scalars['numeric']>;
+  tradeId: Scalars['String'];
   type: Scalars['String'];
   uid: Scalars['uuid'];
-  updated_at: Scalars['timestamptz'];
+  updatedAt: Scalars['timestamptz'];
   /** An object relationship */
   user: User;
-  user_uid: Scalars['uuid'];
+  userUid: Scalars['uuid'];
   value: Scalars['numeric'];
   /** A computed field, executes function "trade_value_fx" */
-  value_fx?: Maybe<Scalars['numeric']>;
+  valueFx?: Maybe<Scalars['numeric']>;
   volume: Scalars['numeric'];
 };
 
 
 /** columns and relationships of "trade" */
-export type TradeFee_FxArgs = {
-  args: Fee_Fx_Trade_Args;
+export type TradeFeeFxArgs = {
+  args: FeeFxTradeArgs;
 };
 
 
 /** columns and relationships of "trade" */
-export type TradePrice_FxArgs = {
-  args: Price_Fx_Trade_Args;
+export type TradePriceFxArgs = {
+  args: PriceFxTradeArgs;
 };
 
 
 /** columns and relationships of "trade" */
-export type TradeTotal_Value_FxArgs = {
-  args: Total_Value_Fx_Trade_Args;
+export type TradeTotalValueFxArgs = {
+  args: TotalValueFxTradeArgs;
 };
 
 
 /** columns and relationships of "trade" */
-export type TradeValue_FxArgs = {
-  args: Value_Fx_Trade_Args;
+export type TradeValueFxArgs = {
+  args: ValueFxTradeArgs;
 };
 
 /** aggregated selection of "trade" */
-export type Trade_Aggregate = {
-  __typename?: 'trade_aggregate';
-  aggregate?: Maybe<Trade_Aggregate_Fields>;
+export type TradeAggregate = {
+  __typename?: 'TradeAggregate';
+  aggregate?: Maybe<TradeAggregateFields>;
   nodes: Array<Trade>;
 };
 
 /** aggregate fields of "trade" */
-export type Trade_Aggregate_Fields = {
-  __typename?: 'trade_aggregate_fields';
-  avg?: Maybe<Trade_Avg_Fields>;
+export type TradeAggregateFields = {
+  __typename?: 'TradeAggregateFields';
+  avg?: Maybe<TradeAvgFields>;
   count: Scalars['Int'];
-  max?: Maybe<Trade_Max_Fields>;
-  min?: Maybe<Trade_Min_Fields>;
-  stddev?: Maybe<Trade_Stddev_Fields>;
-  stddev_pop?: Maybe<Trade_Stddev_Pop_Fields>;
-  stddev_samp?: Maybe<Trade_Stddev_Samp_Fields>;
-  sum?: Maybe<Trade_Sum_Fields>;
-  var_pop?: Maybe<Trade_Var_Pop_Fields>;
-  var_samp?: Maybe<Trade_Var_Samp_Fields>;
-  variance?: Maybe<Trade_Variance_Fields>;
+  max?: Maybe<TradeMaxFields>;
+  min?: Maybe<TradeMinFields>;
+  stddev?: Maybe<TradeStddevFields>;
+  stddevPop?: Maybe<TradeStddevPopFields>;
+  stddevSamp?: Maybe<TradeStddevSampFields>;
+  sum?: Maybe<TradeSumFields>;
+  varPop?: Maybe<TradeVarPopFields>;
+  varSamp?: Maybe<TradeVarSampFields>;
+  variance?: Maybe<TradeVarianceFields>;
 };
 
 
 /** aggregate fields of "trade" */
-export type Trade_Aggregate_FieldsCountArgs = {
-  columns?: InputMaybe<Array<Trade_Select_Column>>;
+export type TradeAggregateFieldsCountArgs = {
+  columns?: InputMaybe<Array<TradeSelectColumn>>;
   distinct?: InputMaybe<Scalars['Boolean']>;
 };
 
 /** order by aggregate values of table "trade" */
-export type Trade_Aggregate_Order_By = {
-  avg?: InputMaybe<Trade_Avg_Order_By>;
-  count?: InputMaybe<Order_By>;
-  max?: InputMaybe<Trade_Max_Order_By>;
-  min?: InputMaybe<Trade_Min_Order_By>;
-  stddev?: InputMaybe<Trade_Stddev_Order_By>;
-  stddev_pop?: InputMaybe<Trade_Stddev_Pop_Order_By>;
-  stddev_samp?: InputMaybe<Trade_Stddev_Samp_Order_By>;
-  sum?: InputMaybe<Trade_Sum_Order_By>;
-  var_pop?: InputMaybe<Trade_Var_Pop_Order_By>;
-  var_samp?: InputMaybe<Trade_Var_Samp_Order_By>;
-  variance?: InputMaybe<Trade_Variance_Order_By>;
+export type TradeAggregateOrderBy = {
+  avg?: InputMaybe<TradeAvgOrderBy>;
+  count?: InputMaybe<OrderBy>;
+  max?: InputMaybe<TradeMaxOrderBy>;
+  min?: InputMaybe<TradeMinOrderBy>;
+  stddev?: InputMaybe<TradeStddevOrderBy>;
+  stddev_pop?: InputMaybe<TradeStddevPopOrderBy>;
+  stddev_samp?: InputMaybe<TradeStddevSampOrderBy>;
+  sum?: InputMaybe<TradeSumOrderBy>;
+  var_pop?: InputMaybe<TradeVarPopOrderBy>;
+  var_samp?: InputMaybe<TradeVarSampOrderBy>;
+  variance?: InputMaybe<TradeVarianceOrderBy>;
 };
 
 /** aggregate avg on columns */
-export type Trade_Avg_Fields = {
-  __typename?: 'trade_avg_fields';
+export type TradeAvgFields = {
+  __typename?: 'TradeAvgFields';
   fee?: Maybe<Scalars['Float']>;
   price?: Maybe<Scalars['Float']>;
-  total_value?: Maybe<Scalars['Float']>;
+  totalValue?: Maybe<Scalars['Float']>;
   value?: Maybe<Scalars['Float']>;
   volume?: Maybe<Scalars['Float']>;
 };
 
 /** order by avg() on columns of table "trade" */
-export type Trade_Avg_Order_By = {
-  fee?: InputMaybe<Order_By>;
-  price?: InputMaybe<Order_By>;
-  total_value?: InputMaybe<Order_By>;
-  value?: InputMaybe<Order_By>;
-  volume?: InputMaybe<Order_By>;
+export type TradeAvgOrderBy = {
+  fee?: InputMaybe<OrderBy>;
+  price?: InputMaybe<OrderBy>;
+  totalValue?: InputMaybe<OrderBy>;
+  value?: InputMaybe<OrderBy>;
+  volume?: InputMaybe<OrderBy>;
 };
 
-export type Trade_Avg_Price_By_Window_Args = {
+export type TradeAvgPriceByWindowArgs = {
   currency?: InputMaybe<Scalars['String']>;
   group_by?: InputMaybe<Scalars['String']>;
 };
 
 /** Boolean expression to filter rows from the table "trade". All fields are combined with a logical 'AND'. */
-export type Trade_Bool_Exp = {
-  _and?: InputMaybe<Array<Trade_Bool_Exp>>;
-  _not?: InputMaybe<Trade_Bool_Exp>;
-  _or?: InputMaybe<Array<Trade_Bool_Exp>>;
-  created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
-  exchange?: InputMaybe<Exchange_Bool_Exp>;
-  exchange_uid?: InputMaybe<Uuid_Comparison_Exp>;
-  fee?: InputMaybe<Numeric_Comparison_Exp>;
-  order?: InputMaybe<Order_Bool_Exp>;
-  order_uid?: InputMaybe<Uuid_Comparison_Exp>;
-  price?: InputMaybe<Numeric_Comparison_Exp>;
-  primary_currency?: InputMaybe<String_Comparison_Exp>;
-  secondary_currency?: InputMaybe<String_Comparison_Exp>;
-  timestamp?: InputMaybe<Timestamptz_Comparison_Exp>;
-  total_value?: InputMaybe<Numeric_Comparison_Exp>;
-  trade_id?: InputMaybe<String_Comparison_Exp>;
-  type?: InputMaybe<String_Comparison_Exp>;
-  uid?: InputMaybe<Uuid_Comparison_Exp>;
-  updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
-  user?: InputMaybe<User_Bool_Exp>;
-  user_uid?: InputMaybe<Uuid_Comparison_Exp>;
-  value?: InputMaybe<Numeric_Comparison_Exp>;
-  volume?: InputMaybe<Numeric_Comparison_Exp>;
+export type TradeBoolExp = {
+  _and?: InputMaybe<Array<TradeBoolExp>>;
+  _not?: InputMaybe<TradeBoolExp>;
+  _or?: InputMaybe<Array<TradeBoolExp>>;
+  createdAt?: InputMaybe<TimestamptzComparisonExp>;
+  exchange?: InputMaybe<ExchangeBoolExp>;
+  exchangeUid?: InputMaybe<UuidComparisonExp>;
+  fee?: InputMaybe<NumericComparisonExp>;
+  order?: InputMaybe<OrderBoolExp>;
+  orderUid?: InputMaybe<UuidComparisonExp>;
+  price?: InputMaybe<NumericComparisonExp>;
+  primaryCurrency?: InputMaybe<StringComparisonExp>;
+  secondaryCurrency?: InputMaybe<StringComparisonExp>;
+  timestamp?: InputMaybe<TimestamptzComparisonExp>;
+  totalValue?: InputMaybe<NumericComparisonExp>;
+  tradeId?: InputMaybe<StringComparisonExp>;
+  type?: InputMaybe<StringComparisonExp>;
+  uid?: InputMaybe<UuidComparisonExp>;
+  updatedAt?: InputMaybe<TimestamptzComparisonExp>;
+  user?: InputMaybe<UserBoolExp>;
+  userUid?: InputMaybe<UuidComparisonExp>;
+  value?: InputMaybe<NumericComparisonExp>;
+  volume?: InputMaybe<NumericComparisonExp>;
 };
 
 /** aggregate max on columns */
-export type Trade_Max_Fields = {
-  __typename?: 'trade_max_fields';
-  created_at?: Maybe<Scalars['timestamptz']>;
-  exchange_uid?: Maybe<Scalars['uuid']>;
+export type TradeMaxFields = {
+  __typename?: 'TradeMaxFields';
+  createdAt?: Maybe<Scalars['timestamptz']>;
+  exchangeUid?: Maybe<Scalars['uuid']>;
   fee?: Maybe<Scalars['numeric']>;
-  order_uid?: Maybe<Scalars['uuid']>;
+  orderUid?: Maybe<Scalars['uuid']>;
   price?: Maybe<Scalars['numeric']>;
-  primary_currency?: Maybe<Scalars['String']>;
-  secondary_currency?: Maybe<Scalars['String']>;
+  primaryCurrency?: Maybe<Scalars['String']>;
+  secondaryCurrency?: Maybe<Scalars['String']>;
   timestamp?: Maybe<Scalars['timestamptz']>;
-  total_value?: Maybe<Scalars['numeric']>;
-  trade_id?: Maybe<Scalars['String']>;
+  totalValue?: Maybe<Scalars['numeric']>;
+  tradeId?: Maybe<Scalars['String']>;
   type?: Maybe<Scalars['String']>;
   uid?: Maybe<Scalars['uuid']>;
-  updated_at?: Maybe<Scalars['timestamptz']>;
-  user_uid?: Maybe<Scalars['uuid']>;
+  updatedAt?: Maybe<Scalars['timestamptz']>;
+  userUid?: Maybe<Scalars['uuid']>;
   value?: Maybe<Scalars['numeric']>;
   volume?: Maybe<Scalars['numeric']>;
 };
 
 /** order by max() on columns of table "trade" */
-export type Trade_Max_Order_By = {
-  created_at?: InputMaybe<Order_By>;
-  exchange_uid?: InputMaybe<Order_By>;
-  fee?: InputMaybe<Order_By>;
-  order_uid?: InputMaybe<Order_By>;
-  price?: InputMaybe<Order_By>;
-  primary_currency?: InputMaybe<Order_By>;
-  secondary_currency?: InputMaybe<Order_By>;
-  timestamp?: InputMaybe<Order_By>;
-  total_value?: InputMaybe<Order_By>;
-  trade_id?: InputMaybe<Order_By>;
-  type?: InputMaybe<Order_By>;
-  uid?: InputMaybe<Order_By>;
-  updated_at?: InputMaybe<Order_By>;
-  user_uid?: InputMaybe<Order_By>;
-  value?: InputMaybe<Order_By>;
-  volume?: InputMaybe<Order_By>;
+export type TradeMaxOrderBy = {
+  createdAt?: InputMaybe<OrderBy>;
+  exchangeUid?: InputMaybe<OrderBy>;
+  fee?: InputMaybe<OrderBy>;
+  orderUid?: InputMaybe<OrderBy>;
+  price?: InputMaybe<OrderBy>;
+  primaryCurrency?: InputMaybe<OrderBy>;
+  secondaryCurrency?: InputMaybe<OrderBy>;
+  timestamp?: InputMaybe<OrderBy>;
+  totalValue?: InputMaybe<OrderBy>;
+  tradeId?: InputMaybe<OrderBy>;
+  type?: InputMaybe<OrderBy>;
+  uid?: InputMaybe<OrderBy>;
+  updatedAt?: InputMaybe<OrderBy>;
+  userUid?: InputMaybe<OrderBy>;
+  value?: InputMaybe<OrderBy>;
+  volume?: InputMaybe<OrderBy>;
 };
 
 /** aggregate min on columns */
-export type Trade_Min_Fields = {
-  __typename?: 'trade_min_fields';
-  created_at?: Maybe<Scalars['timestamptz']>;
-  exchange_uid?: Maybe<Scalars['uuid']>;
+export type TradeMinFields = {
+  __typename?: 'TradeMinFields';
+  createdAt?: Maybe<Scalars['timestamptz']>;
+  exchangeUid?: Maybe<Scalars['uuid']>;
   fee?: Maybe<Scalars['numeric']>;
-  order_uid?: Maybe<Scalars['uuid']>;
+  orderUid?: Maybe<Scalars['uuid']>;
   price?: Maybe<Scalars['numeric']>;
-  primary_currency?: Maybe<Scalars['String']>;
-  secondary_currency?: Maybe<Scalars['String']>;
+  primaryCurrency?: Maybe<Scalars['String']>;
+  secondaryCurrency?: Maybe<Scalars['String']>;
   timestamp?: Maybe<Scalars['timestamptz']>;
-  total_value?: Maybe<Scalars['numeric']>;
-  trade_id?: Maybe<Scalars['String']>;
+  totalValue?: Maybe<Scalars['numeric']>;
+  tradeId?: Maybe<Scalars['String']>;
   type?: Maybe<Scalars['String']>;
   uid?: Maybe<Scalars['uuid']>;
-  updated_at?: Maybe<Scalars['timestamptz']>;
-  user_uid?: Maybe<Scalars['uuid']>;
+  updatedAt?: Maybe<Scalars['timestamptz']>;
+  userUid?: Maybe<Scalars['uuid']>;
   value?: Maybe<Scalars['numeric']>;
   volume?: Maybe<Scalars['numeric']>;
 };
 
 /** order by min() on columns of table "trade" */
-export type Trade_Min_Order_By = {
-  created_at?: InputMaybe<Order_By>;
-  exchange_uid?: InputMaybe<Order_By>;
-  fee?: InputMaybe<Order_By>;
-  order_uid?: InputMaybe<Order_By>;
-  price?: InputMaybe<Order_By>;
-  primary_currency?: InputMaybe<Order_By>;
-  secondary_currency?: InputMaybe<Order_By>;
-  timestamp?: InputMaybe<Order_By>;
-  total_value?: InputMaybe<Order_By>;
-  trade_id?: InputMaybe<Order_By>;
-  type?: InputMaybe<Order_By>;
-  uid?: InputMaybe<Order_By>;
-  updated_at?: InputMaybe<Order_By>;
-  user_uid?: InputMaybe<Order_By>;
-  value?: InputMaybe<Order_By>;
-  volume?: InputMaybe<Order_By>;
+export type TradeMinOrderBy = {
+  createdAt?: InputMaybe<OrderBy>;
+  exchangeUid?: InputMaybe<OrderBy>;
+  fee?: InputMaybe<OrderBy>;
+  orderUid?: InputMaybe<OrderBy>;
+  price?: InputMaybe<OrderBy>;
+  primaryCurrency?: InputMaybe<OrderBy>;
+  secondaryCurrency?: InputMaybe<OrderBy>;
+  timestamp?: InputMaybe<OrderBy>;
+  totalValue?: InputMaybe<OrderBy>;
+  tradeId?: InputMaybe<OrderBy>;
+  type?: InputMaybe<OrderBy>;
+  uid?: InputMaybe<OrderBy>;
+  updatedAt?: InputMaybe<OrderBy>;
+  userUid?: InputMaybe<OrderBy>;
+  value?: InputMaybe<OrderBy>;
+  volume?: InputMaybe<OrderBy>;
 };
 
 /** Ordering options when selecting data from "trade". */
-export type Trade_Order_By = {
-  created_at?: InputMaybe<Order_By>;
-  exchange?: InputMaybe<Exchange_Order_By>;
-  exchange_uid?: InputMaybe<Order_By>;
-  fee?: InputMaybe<Order_By>;
-  order?: InputMaybe<Order_Order_By>;
-  order_uid?: InputMaybe<Order_By>;
-  price?: InputMaybe<Order_By>;
-  primary_currency?: InputMaybe<Order_By>;
-  secondary_currency?: InputMaybe<Order_By>;
-  timestamp?: InputMaybe<Order_By>;
-  total_value?: InputMaybe<Order_By>;
-  trade_id?: InputMaybe<Order_By>;
-  type?: InputMaybe<Order_By>;
-  uid?: InputMaybe<Order_By>;
-  updated_at?: InputMaybe<Order_By>;
-  user?: InputMaybe<User_Order_By>;
-  user_uid?: InputMaybe<Order_By>;
-  value?: InputMaybe<Order_By>;
-  volume?: InputMaybe<Order_By>;
+export type TradeOrderBy = {
+  createdAt?: InputMaybe<OrderBy>;
+  exchange?: InputMaybe<ExchangeOrderBy>;
+  exchangeUid?: InputMaybe<OrderBy>;
+  fee?: InputMaybe<OrderBy>;
+  order?: InputMaybe<OrderOrderBy>;
+  orderUid?: InputMaybe<OrderBy>;
+  price?: InputMaybe<OrderBy>;
+  primaryCurrency?: InputMaybe<OrderBy>;
+  secondaryCurrency?: InputMaybe<OrderBy>;
+  timestamp?: InputMaybe<OrderBy>;
+  totalValue?: InputMaybe<OrderBy>;
+  tradeId?: InputMaybe<OrderBy>;
+  type?: InputMaybe<OrderBy>;
+  uid?: InputMaybe<OrderBy>;
+  updatedAt?: InputMaybe<OrderBy>;
+  user?: InputMaybe<UserOrderBy>;
+  userUid?: InputMaybe<OrderBy>;
+  value?: InputMaybe<OrderBy>;
+  volume?: InputMaybe<OrderBy>;
 };
 
 /** select columns of table "trade" */
-export enum Trade_Select_Column {
+export enum TradeSelectColumn {
   /** column name */
-  CreatedAt = 'created_at',
+  CreatedAt = 'createdAt',
   /** column name */
-  ExchangeUid = 'exchange_uid',
+  ExchangeUid = 'exchangeUid',
   /** column name */
   Fee = 'fee',
   /** column name */
-  OrderUid = 'order_uid',
+  OrderUid = 'orderUid',
   /** column name */
   Price = 'price',
   /** column name */
-  PrimaryCurrency = 'primary_currency',
+  PrimaryCurrency = 'primaryCurrency',
   /** column name */
-  SecondaryCurrency = 'secondary_currency',
+  SecondaryCurrency = 'secondaryCurrency',
   /** column name */
   Timestamp = 'timestamp',
   /** column name */
-  TotalValue = 'total_value',
+  TotalValue = 'totalValue',
   /** column name */
-  TradeId = 'trade_id',
+  TradeId = 'tradeId',
   /** column name */
   Type = 'type',
   /** column name */
   Uid = 'uid',
   /** column name */
-  UpdatedAt = 'updated_at',
+  UpdatedAt = 'updatedAt',
   /** column name */
-  UserUid = 'user_uid',
+  UserUid = 'userUid',
   /** column name */
   Value = 'value',
   /** column name */
@@ -4473,600 +3185,624 @@ export enum Trade_Select_Column {
 }
 
 /** aggregate stddev on columns */
-export type Trade_Stddev_Fields = {
-  __typename?: 'trade_stddev_fields';
+export type TradeStddevFields = {
+  __typename?: 'TradeStddevFields';
   fee?: Maybe<Scalars['Float']>;
   price?: Maybe<Scalars['Float']>;
-  total_value?: Maybe<Scalars['Float']>;
+  totalValue?: Maybe<Scalars['Float']>;
   value?: Maybe<Scalars['Float']>;
   volume?: Maybe<Scalars['Float']>;
 };
 
 /** order by stddev() on columns of table "trade" */
-export type Trade_Stddev_Order_By = {
-  fee?: InputMaybe<Order_By>;
-  price?: InputMaybe<Order_By>;
-  total_value?: InputMaybe<Order_By>;
-  value?: InputMaybe<Order_By>;
-  volume?: InputMaybe<Order_By>;
+export type TradeStddevOrderBy = {
+  fee?: InputMaybe<OrderBy>;
+  price?: InputMaybe<OrderBy>;
+  totalValue?: InputMaybe<OrderBy>;
+  value?: InputMaybe<OrderBy>;
+  volume?: InputMaybe<OrderBy>;
 };
 
 /** aggregate stddev_pop on columns */
-export type Trade_Stddev_Pop_Fields = {
-  __typename?: 'trade_stddev_pop_fields';
+export type TradeStddevPopFields = {
+  __typename?: 'TradeStddevPopFields';
   fee?: Maybe<Scalars['Float']>;
   price?: Maybe<Scalars['Float']>;
-  total_value?: Maybe<Scalars['Float']>;
+  totalValue?: Maybe<Scalars['Float']>;
   value?: Maybe<Scalars['Float']>;
   volume?: Maybe<Scalars['Float']>;
 };
 
 /** order by stddev_pop() on columns of table "trade" */
-export type Trade_Stddev_Pop_Order_By = {
-  fee?: InputMaybe<Order_By>;
-  price?: InputMaybe<Order_By>;
-  total_value?: InputMaybe<Order_By>;
-  value?: InputMaybe<Order_By>;
-  volume?: InputMaybe<Order_By>;
+export type TradeStddevPopOrderBy = {
+  fee?: InputMaybe<OrderBy>;
+  price?: InputMaybe<OrderBy>;
+  totalValue?: InputMaybe<OrderBy>;
+  value?: InputMaybe<OrderBy>;
+  volume?: InputMaybe<OrderBy>;
 };
 
 /** aggregate stddev_samp on columns */
-export type Trade_Stddev_Samp_Fields = {
-  __typename?: 'trade_stddev_samp_fields';
+export type TradeStddevSampFields = {
+  __typename?: 'TradeStddevSampFields';
   fee?: Maybe<Scalars['Float']>;
   price?: Maybe<Scalars['Float']>;
-  total_value?: Maybe<Scalars['Float']>;
+  totalValue?: Maybe<Scalars['Float']>;
   value?: Maybe<Scalars['Float']>;
   volume?: Maybe<Scalars['Float']>;
 };
 
 /** order by stddev_samp() on columns of table "trade" */
-export type Trade_Stddev_Samp_Order_By = {
-  fee?: InputMaybe<Order_By>;
-  price?: InputMaybe<Order_By>;
-  total_value?: InputMaybe<Order_By>;
-  value?: InputMaybe<Order_By>;
-  volume?: InputMaybe<Order_By>;
+export type TradeStddevSampOrderBy = {
+  fee?: InputMaybe<OrderBy>;
+  price?: InputMaybe<OrderBy>;
+  totalValue?: InputMaybe<OrderBy>;
+  value?: InputMaybe<OrderBy>;
+  volume?: InputMaybe<OrderBy>;
 };
 
-export type Trade_Sum_By_Window_Args = {
+export type TradeSumByWindowArgs = {
   currency?: InputMaybe<Scalars['String']>;
   group_by?: InputMaybe<Scalars['String']>;
 };
 
 /** aggregate sum on columns */
-export type Trade_Sum_Fields = {
-  __typename?: 'trade_sum_fields';
+export type TradeSumFields = {
+  __typename?: 'TradeSumFields';
   fee?: Maybe<Scalars['numeric']>;
   price?: Maybe<Scalars['numeric']>;
-  total_value?: Maybe<Scalars['numeric']>;
+  totalValue?: Maybe<Scalars['numeric']>;
   value?: Maybe<Scalars['numeric']>;
   volume?: Maybe<Scalars['numeric']>;
 };
 
 /** order by sum() on columns of table "trade" */
-export type Trade_Sum_Order_By = {
-  fee?: InputMaybe<Order_By>;
-  price?: InputMaybe<Order_By>;
-  total_value?: InputMaybe<Order_By>;
-  value?: InputMaybe<Order_By>;
-  volume?: InputMaybe<Order_By>;
+export type TradeSumOrderBy = {
+  fee?: InputMaybe<OrderBy>;
+  price?: InputMaybe<OrderBy>;
+  totalValue?: InputMaybe<OrderBy>;
+  value?: InputMaybe<OrderBy>;
+  volume?: InputMaybe<OrderBy>;
 };
 
 /** aggregate var_pop on columns */
-export type Trade_Var_Pop_Fields = {
-  __typename?: 'trade_var_pop_fields';
+export type TradeVarPopFields = {
+  __typename?: 'TradeVarPopFields';
   fee?: Maybe<Scalars['Float']>;
   price?: Maybe<Scalars['Float']>;
-  total_value?: Maybe<Scalars['Float']>;
+  totalValue?: Maybe<Scalars['Float']>;
   value?: Maybe<Scalars['Float']>;
   volume?: Maybe<Scalars['Float']>;
 };
 
 /** order by var_pop() on columns of table "trade" */
-export type Trade_Var_Pop_Order_By = {
-  fee?: InputMaybe<Order_By>;
-  price?: InputMaybe<Order_By>;
-  total_value?: InputMaybe<Order_By>;
-  value?: InputMaybe<Order_By>;
-  volume?: InputMaybe<Order_By>;
+export type TradeVarPopOrderBy = {
+  fee?: InputMaybe<OrderBy>;
+  price?: InputMaybe<OrderBy>;
+  totalValue?: InputMaybe<OrderBy>;
+  value?: InputMaybe<OrderBy>;
+  volume?: InputMaybe<OrderBy>;
 };
 
 /** aggregate var_samp on columns */
-export type Trade_Var_Samp_Fields = {
-  __typename?: 'trade_var_samp_fields';
+export type TradeVarSampFields = {
+  __typename?: 'TradeVarSampFields';
   fee?: Maybe<Scalars['Float']>;
   price?: Maybe<Scalars['Float']>;
-  total_value?: Maybe<Scalars['Float']>;
+  totalValue?: Maybe<Scalars['Float']>;
   value?: Maybe<Scalars['Float']>;
   volume?: Maybe<Scalars['Float']>;
 };
 
 /** order by var_samp() on columns of table "trade" */
-export type Trade_Var_Samp_Order_By = {
-  fee?: InputMaybe<Order_By>;
-  price?: InputMaybe<Order_By>;
-  total_value?: InputMaybe<Order_By>;
-  value?: InputMaybe<Order_By>;
-  volume?: InputMaybe<Order_By>;
+export type TradeVarSampOrderBy = {
+  fee?: InputMaybe<OrderBy>;
+  price?: InputMaybe<OrderBy>;
+  totalValue?: InputMaybe<OrderBy>;
+  value?: InputMaybe<OrderBy>;
+  volume?: InputMaybe<OrderBy>;
 };
 
 /** aggregate variance on columns */
-export type Trade_Variance_Fields = {
-  __typename?: 'trade_variance_fields';
+export type TradeVarianceFields = {
+  __typename?: 'TradeVarianceFields';
   fee?: Maybe<Scalars['Float']>;
   price?: Maybe<Scalars['Float']>;
-  total_value?: Maybe<Scalars['Float']>;
+  totalValue?: Maybe<Scalars['Float']>;
   value?: Maybe<Scalars['Float']>;
   volume?: Maybe<Scalars['Float']>;
 };
 
 /** order by variance() on columns of table "trade" */
-export type Trade_Variance_Order_By = {
-  fee?: InputMaybe<Order_By>;
-  price?: InputMaybe<Order_By>;
-  total_value?: InputMaybe<Order_By>;
-  value?: InputMaybe<Order_By>;
-  volume?: InputMaybe<Order_By>;
+export type TradeVarianceOrderBy = {
+  fee?: InputMaybe<OrderBy>;
+  price?: InputMaybe<OrderBy>;
+  totalValue?: InputMaybe<OrderBy>;
+  value?: InputMaybe<OrderBy>;
+  volume?: InputMaybe<OrderBy>;
 };
 
 /** columns and relationships of "type_trade_avg_price_by_window" */
-export type Type_Trade_Avg_Price_By_Window = {
-  __typename?: 'type_trade_avg_price_by_window';
-  avg_price?: Maybe<Scalars['numeric']>;
+export type TypeTradeAvgPriceByWindow = {
+  __typename?: 'TypeTradeAvgPriceByWindow';
+  avgPrice?: Maybe<Scalars['numeric']>;
   price?: Maybe<Scalars['numeric']>;
-  primary_currency?: Maybe<Scalars['String']>;
+  primaryCurrency?: Maybe<Scalars['String']>;
   timestamp?: Maybe<Scalars['timestamptz']>;
-  total_value?: Maybe<Scalars['numeric']>;
-  user_uid?: Maybe<Scalars['uuid']>;
+  totalValue?: Maybe<Scalars['numeric']>;
+  userUid?: Maybe<Scalars['uuid']>;
   volume?: Maybe<Scalars['numeric']>;
 };
 
 /** Boolean expression to filter rows from the table "type_trade_avg_price_by_window". All fields are combined with a logical 'AND'. */
-export type Type_Trade_Avg_Price_By_Window_Bool_Exp = {
-  _and?: InputMaybe<Array<Type_Trade_Avg_Price_By_Window_Bool_Exp>>;
-  _not?: InputMaybe<Type_Trade_Avg_Price_By_Window_Bool_Exp>;
-  _or?: InputMaybe<Array<Type_Trade_Avg_Price_By_Window_Bool_Exp>>;
-  avg_price?: InputMaybe<Numeric_Comparison_Exp>;
-  price?: InputMaybe<Numeric_Comparison_Exp>;
-  primary_currency?: InputMaybe<String_Comparison_Exp>;
-  timestamp?: InputMaybe<Timestamptz_Comparison_Exp>;
-  total_value?: InputMaybe<Numeric_Comparison_Exp>;
-  user_uid?: InputMaybe<Uuid_Comparison_Exp>;
-  volume?: InputMaybe<Numeric_Comparison_Exp>;
+export type TypeTradeAvgPriceByWindowBoolExp = {
+  _and?: InputMaybe<Array<TypeTradeAvgPriceByWindowBoolExp>>;
+  _not?: InputMaybe<TypeTradeAvgPriceByWindowBoolExp>;
+  _or?: InputMaybe<Array<TypeTradeAvgPriceByWindowBoolExp>>;
+  avgPrice?: InputMaybe<NumericComparisonExp>;
+  price?: InputMaybe<NumericComparisonExp>;
+  primaryCurrency?: InputMaybe<StringComparisonExp>;
+  timestamp?: InputMaybe<TimestamptzComparisonExp>;
+  totalValue?: InputMaybe<NumericComparisonExp>;
+  userUid?: InputMaybe<UuidComparisonExp>;
+  volume?: InputMaybe<NumericComparisonExp>;
 };
 
 /** Ordering options when selecting data from "type_trade_avg_price_by_window". */
-export type Type_Trade_Avg_Price_By_Window_Order_By = {
-  avg_price?: InputMaybe<Order_By>;
-  price?: InputMaybe<Order_By>;
-  primary_currency?: InputMaybe<Order_By>;
-  timestamp?: InputMaybe<Order_By>;
-  total_value?: InputMaybe<Order_By>;
-  user_uid?: InputMaybe<Order_By>;
-  volume?: InputMaybe<Order_By>;
+export type TypeTradeAvgPriceByWindowOrderBy = {
+  avgPrice?: InputMaybe<OrderBy>;
+  price?: InputMaybe<OrderBy>;
+  primaryCurrency?: InputMaybe<OrderBy>;
+  timestamp?: InputMaybe<OrderBy>;
+  totalValue?: InputMaybe<OrderBy>;
+  userUid?: InputMaybe<OrderBy>;
+  volume?: InputMaybe<OrderBy>;
 };
 
 /** select columns of table "type_trade_avg_price_by_window" */
-export enum Type_Trade_Avg_Price_By_Window_Select_Column {
+export enum TypeTradeAvgPriceByWindowSelectColumn {
   /** column name */
-  AvgPrice = 'avg_price',
+  AvgPrice = 'avgPrice',
   /** column name */
   Price = 'price',
   /** column name */
-  PrimaryCurrency = 'primary_currency',
+  PrimaryCurrency = 'primaryCurrency',
   /** column name */
   Timestamp = 'timestamp',
   /** column name */
-  TotalValue = 'total_value',
+  TotalValue = 'totalValue',
   /** column name */
-  UserUid = 'user_uid',
+  UserUid = 'userUid',
   /** column name */
   Volume = 'volume'
 }
 
 /** columns and relationships of "type_trade_sum_by_window" */
-export type Type_Trade_Sum_By_Window = {
-  __typename?: 'type_trade_sum_by_window';
-  primary_currency?: Maybe<Scalars['String']>;
+export type TypeTradeSumByWindow = {
+  __typename?: 'TypeTradeSumByWindow';
+  primaryCurrency?: Maybe<Scalars['String']>;
   timestamp?: Maybe<Scalars['timestamptz']>;
-  total_value?: Maybe<Scalars['numeric']>;
-  user_uid?: Maybe<Scalars['uuid']>;
+  totalValue?: Maybe<Scalars['numeric']>;
+  userUid?: Maybe<Scalars['uuid']>;
   value?: Maybe<Scalars['numeric']>;
   volume?: Maybe<Scalars['numeric']>;
 };
 
 /** Boolean expression to filter rows from the table "type_trade_sum_by_window". All fields are combined with a logical 'AND'. */
-export type Type_Trade_Sum_By_Window_Bool_Exp = {
-  _and?: InputMaybe<Array<Type_Trade_Sum_By_Window_Bool_Exp>>;
-  _not?: InputMaybe<Type_Trade_Sum_By_Window_Bool_Exp>;
-  _or?: InputMaybe<Array<Type_Trade_Sum_By_Window_Bool_Exp>>;
-  primary_currency?: InputMaybe<String_Comparison_Exp>;
-  timestamp?: InputMaybe<Timestamptz_Comparison_Exp>;
-  total_value?: InputMaybe<Numeric_Comparison_Exp>;
-  user_uid?: InputMaybe<Uuid_Comparison_Exp>;
-  value?: InputMaybe<Numeric_Comparison_Exp>;
-  volume?: InputMaybe<Numeric_Comparison_Exp>;
+export type TypeTradeSumByWindowBoolExp = {
+  _and?: InputMaybe<Array<TypeTradeSumByWindowBoolExp>>;
+  _not?: InputMaybe<TypeTradeSumByWindowBoolExp>;
+  _or?: InputMaybe<Array<TypeTradeSumByWindowBoolExp>>;
+  primaryCurrency?: InputMaybe<StringComparisonExp>;
+  timestamp?: InputMaybe<TimestamptzComparisonExp>;
+  totalValue?: InputMaybe<NumericComparisonExp>;
+  userUid?: InputMaybe<UuidComparisonExp>;
+  value?: InputMaybe<NumericComparisonExp>;
+  volume?: InputMaybe<NumericComparisonExp>;
 };
 
 /** Ordering options when selecting data from "type_trade_sum_by_window". */
-export type Type_Trade_Sum_By_Window_Order_By = {
-  primary_currency?: InputMaybe<Order_By>;
-  timestamp?: InputMaybe<Order_By>;
-  total_value?: InputMaybe<Order_By>;
-  user_uid?: InputMaybe<Order_By>;
-  value?: InputMaybe<Order_By>;
-  volume?: InputMaybe<Order_By>;
+export type TypeTradeSumByWindowOrderBy = {
+  primaryCurrency?: InputMaybe<OrderBy>;
+  timestamp?: InputMaybe<OrderBy>;
+  totalValue?: InputMaybe<OrderBy>;
+  userUid?: InputMaybe<OrderBy>;
+  value?: InputMaybe<OrderBy>;
+  volume?: InputMaybe<OrderBy>;
 };
 
 /** select columns of table "type_trade_sum_by_window" */
-export enum Type_Trade_Sum_By_Window_Select_Column {
+export enum TypeTradeSumByWindowSelectColumn {
   /** column name */
-  PrimaryCurrency = 'primary_currency',
+  PrimaryCurrency = 'primaryCurrency',
   /** column name */
   Timestamp = 'timestamp',
   /** column name */
-  TotalValue = 'total_value',
+  TotalValue = 'totalValue',
   /** column name */
-  UserUid = 'user_uid',
+  UserUid = 'userUid',
   /** column name */
   Value = 'value',
   /** column name */
   Volume = 'volume'
 }
 
+export type UpdateDcaOrderOutput = {
+  __typename?: 'UpdateDcaOrderOutput';
+  dcaOrder?: Maybe<DcaOrder>;
+  dcaOrderUid: Scalars['uuid'];
+};
+
+export type UpdateSubscriptionOutput = {
+  __typename?: 'UpdateSubscriptionOutput';
+  stripeSubscription?: Maybe<StripeSubscription>;
+  subscriptionId: Scalars['String'];
+};
+
+export type UpdateUserExchangeKeysOutput = {
+  __typename?: 'UpdateUserExchangeKeysOutput';
+  userExchangeKeys?: Maybe<UserExchangeKeys>;
+  userExchangeKeysUid: Scalars['uuid'];
+};
+
+export type UpdateUserOutput = {
+  __typename?: 'UpdateUserOutput';
+  user?: Maybe<User>;
+  userUid: Scalars['uuid'];
+};
+
 /** columns and relationships of "user" */
 export type User = {
-  __typename?: 'user';
-  created_at: Scalars['timestamptz'];
+  __typename?: 'User';
+  createdAt: Scalars['timestamptz'];
   /** An array relationship */
-  dca_order_histories: Array<Dca_Order_History>;
+  dcaOrderHistories: Array<DcaOrderHistory>;
   /** An aggregate relationship */
-  dca_order_histories_aggregate: Dca_Order_History_Aggregate;
+  dcaOrderHistoriesAggregate: DcaOrderHistoryAggregate;
   /** An array relationship */
-  dca_orders: Array<Dca_Order>;
+  dcaOrders: Array<DcaOrder>;
   /** An aggregate relationship */
-  dca_orders_aggregate: Dca_Order_Aggregate;
-  email_verified: Scalars['Boolean'];
+  dcaOrdersAggregate: DcaOrderAggregate;
+  emailVerified: Scalars['Boolean'];
   /** An array relationship */
   orders: Array<Order>;
   /** An aggregate relationship */
-  orders_aggregate: Order_Aggregate;
+  ordersAggregate: OrderAggregate;
   timezone: Scalars['String'];
   /** An array relationship */
   trades: Array<Trade>;
   /** An aggregate relationship */
-  trades_aggregate: Trade_Aggregate;
+  tradesAggregate: TradeAggregate;
   uid: Scalars['uuid'];
-  updated_at: Scalars['timestamptz'];
+  updatedAt: Scalars['timestamptz'];
   /** An object relationship */
-  user_2fa?: Maybe<User_2fa>;
+  user2fa?: Maybe<User2fa>;
   /** An array relationship */
-  user_devices: Array<User_Device>;
+  userDevices: Array<UserDevice>;
   /** An aggregate relationship */
-  user_devices_aggregate: User_Device_Aggregate;
+  userDevicesAggregate: UserDeviceAggregate;
   /** An array relationship */
-  user_exchange_keys: Array<User_Exchange_Keys>;
+  userExchangeKeys: Array<UserExchangeKeys>;
   /** An aggregate relationship */
-  user_exchange_keys_aggregate: User_Exchange_Keys_Aggregate;
+  userExchangeKeysAggregate: UserExchangeKeysAggregate;
 };
 
 
 /** columns and relationships of "user" */
-export type UserDca_Order_HistoriesArgs = {
-  distinct_on?: InputMaybe<Array<Dca_Order_History_Select_Column>>;
+export type UserDcaOrderHistoriesArgs = {
+  distinctOn?: InputMaybe<Array<DcaOrderHistorySelectColumn>>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Dca_Order_History_Order_By>>;
-  where?: InputMaybe<Dca_Order_History_Bool_Exp>;
+  orderBy?: InputMaybe<Array<DcaOrderHistoryOrderBy>>;
+  where?: InputMaybe<DcaOrderHistoryBoolExp>;
 };
 
 
 /** columns and relationships of "user" */
-export type UserDca_Order_Histories_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Dca_Order_History_Select_Column>>;
+export type UserDcaOrderHistoriesAggregateArgs = {
+  distinctOn?: InputMaybe<Array<DcaOrderHistorySelectColumn>>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Dca_Order_History_Order_By>>;
-  where?: InputMaybe<Dca_Order_History_Bool_Exp>;
+  orderBy?: InputMaybe<Array<DcaOrderHistoryOrderBy>>;
+  where?: InputMaybe<DcaOrderHistoryBoolExp>;
 };
 
 
 /** columns and relationships of "user" */
-export type UserDca_OrdersArgs = {
-  distinct_on?: InputMaybe<Array<Dca_Order_Select_Column>>;
+export type UserDcaOrdersArgs = {
+  distinctOn?: InputMaybe<Array<DcaOrderSelectColumn>>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Dca_Order_Order_By>>;
-  where?: InputMaybe<Dca_Order_Bool_Exp>;
+  orderBy?: InputMaybe<Array<DcaOrderOrderBy>>;
+  where?: InputMaybe<DcaOrderBoolExp>;
 };
 
 
 /** columns and relationships of "user" */
-export type UserDca_Orders_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Dca_Order_Select_Column>>;
+export type UserDcaOrdersAggregateArgs = {
+  distinctOn?: InputMaybe<Array<DcaOrderSelectColumn>>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Dca_Order_Order_By>>;
-  where?: InputMaybe<Dca_Order_Bool_Exp>;
+  orderBy?: InputMaybe<Array<DcaOrderOrderBy>>;
+  where?: InputMaybe<DcaOrderBoolExp>;
 };
 
 
 /** columns and relationships of "user" */
 export type UserOrdersArgs = {
-  distinct_on?: InputMaybe<Array<Order_Select_Column>>;
+  distinctOn?: InputMaybe<Array<OrderSelectColumn>>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Order_Order_By>>;
-  where?: InputMaybe<Order_Bool_Exp>;
+  orderBy?: InputMaybe<Array<OrderOrderBy>>;
+  where?: InputMaybe<OrderBoolExp>;
 };
 
 
 /** columns and relationships of "user" */
-export type UserOrders_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Order_Select_Column>>;
+export type UserOrdersAggregateArgs = {
+  distinctOn?: InputMaybe<Array<OrderSelectColumn>>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Order_Order_By>>;
-  where?: InputMaybe<Order_Bool_Exp>;
+  orderBy?: InputMaybe<Array<OrderOrderBy>>;
+  where?: InputMaybe<OrderBoolExp>;
 };
 
 
 /** columns and relationships of "user" */
 export type UserTradesArgs = {
-  distinct_on?: InputMaybe<Array<Trade_Select_Column>>;
+  distinctOn?: InputMaybe<Array<TradeSelectColumn>>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Trade_Order_By>>;
-  where?: InputMaybe<Trade_Bool_Exp>;
+  orderBy?: InputMaybe<Array<TradeOrderBy>>;
+  where?: InputMaybe<TradeBoolExp>;
 };
 
 
 /** columns and relationships of "user" */
-export type UserTrades_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Trade_Select_Column>>;
+export type UserTradesAggregateArgs = {
+  distinctOn?: InputMaybe<Array<TradeSelectColumn>>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Trade_Order_By>>;
-  where?: InputMaybe<Trade_Bool_Exp>;
+  orderBy?: InputMaybe<Array<TradeOrderBy>>;
+  where?: InputMaybe<TradeBoolExp>;
 };
 
 
 /** columns and relationships of "user" */
-export type UserUser_DevicesArgs = {
-  distinct_on?: InputMaybe<Array<User_Device_Select_Column>>;
+export type UserUserDevicesArgs = {
+  distinctOn?: InputMaybe<Array<UserDeviceSelectColumn>>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<User_Device_Order_By>>;
-  where?: InputMaybe<User_Device_Bool_Exp>;
+  orderBy?: InputMaybe<Array<UserDeviceOrderBy>>;
+  where?: InputMaybe<UserDeviceBoolExp>;
 };
 
 
 /** columns and relationships of "user" */
-export type UserUser_Devices_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<User_Device_Select_Column>>;
+export type UserUserDevicesAggregateArgs = {
+  distinctOn?: InputMaybe<Array<UserDeviceSelectColumn>>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<User_Device_Order_By>>;
-  where?: InputMaybe<User_Device_Bool_Exp>;
+  orderBy?: InputMaybe<Array<UserDeviceOrderBy>>;
+  where?: InputMaybe<UserDeviceBoolExp>;
 };
 
 
 /** columns and relationships of "user" */
-export type UserUser_Exchange_KeysArgs = {
-  distinct_on?: InputMaybe<Array<User_Exchange_Keys_Select_Column>>;
+export type UserUserExchangeKeysArgs = {
+  distinctOn?: InputMaybe<Array<UserExchangeKeysSelectColumn>>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<User_Exchange_Keys_Order_By>>;
-  where?: InputMaybe<User_Exchange_Keys_Bool_Exp>;
+  orderBy?: InputMaybe<Array<UserExchangeKeysOrderBy>>;
+  where?: InputMaybe<UserExchangeKeysBoolExp>;
 };
 
 
 /** columns and relationships of "user" */
-export type UserUser_Exchange_Keys_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<User_Exchange_Keys_Select_Column>>;
+export type UserUserExchangeKeysAggregateArgs = {
+  distinctOn?: InputMaybe<Array<UserExchangeKeysSelectColumn>>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<User_Exchange_Keys_Order_By>>;
-  where?: InputMaybe<User_Exchange_Keys_Bool_Exp>;
+  orderBy?: InputMaybe<Array<UserExchangeKeysOrderBy>>;
+  where?: InputMaybe<UserExchangeKeysBoolExp>;
 };
 
 /** columns and relationships of "user_2fa" */
-export type User_2fa = {
-  __typename?: 'user_2fa';
-  created_at: Scalars['timestamptz'];
+export type User2fa = {
+  __typename?: 'User2fa';
+  createdAt: Scalars['timestamptz'];
   name: Scalars['String'];
   uid: Scalars['uuid'];
-  updated_at: Scalars['timestamptz'];
+  updatedAt: Scalars['timestamptz'];
   /** An object relationship */
   user: User;
-  user_uid: Scalars['uuid'];
+  userUid: Scalars['uuid'];
 };
 
 /** Boolean expression to filter rows from the table "user_2fa". All fields are combined with a logical 'AND'. */
-export type User_2fa_Bool_Exp = {
-  _and?: InputMaybe<Array<User_2fa_Bool_Exp>>;
-  _not?: InputMaybe<User_2fa_Bool_Exp>;
-  _or?: InputMaybe<Array<User_2fa_Bool_Exp>>;
-  created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
-  name?: InputMaybe<String_Comparison_Exp>;
-  uid?: InputMaybe<Uuid_Comparison_Exp>;
-  updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
-  user?: InputMaybe<User_Bool_Exp>;
-  user_uid?: InputMaybe<Uuid_Comparison_Exp>;
+export type User2faBoolExp = {
+  _and?: InputMaybe<Array<User2faBoolExp>>;
+  _not?: InputMaybe<User2faBoolExp>;
+  _or?: InputMaybe<Array<User2faBoolExp>>;
+  createdAt?: InputMaybe<TimestamptzComparisonExp>;
+  name?: InputMaybe<StringComparisonExp>;
+  uid?: InputMaybe<UuidComparisonExp>;
+  updatedAt?: InputMaybe<TimestamptzComparisonExp>;
+  user?: InputMaybe<UserBoolExp>;
+  userUid?: InputMaybe<UuidComparisonExp>;
 };
 
 /** Ordering options when selecting data from "user_2fa". */
-export type User_2fa_Order_By = {
-  created_at?: InputMaybe<Order_By>;
-  name?: InputMaybe<Order_By>;
-  uid?: InputMaybe<Order_By>;
-  updated_at?: InputMaybe<Order_By>;
-  user?: InputMaybe<User_Order_By>;
-  user_uid?: InputMaybe<Order_By>;
+export type User2faOrderBy = {
+  createdAt?: InputMaybe<OrderBy>;
+  name?: InputMaybe<OrderBy>;
+  uid?: InputMaybe<OrderBy>;
+  updatedAt?: InputMaybe<OrderBy>;
+  user?: InputMaybe<UserOrderBy>;
+  userUid?: InputMaybe<OrderBy>;
 };
 
 /** select columns of table "user_2fa" */
-export enum User_2fa_Select_Column {
+export enum User2faSelectColumn {
   /** column name */
-  CreatedAt = 'created_at',
+  CreatedAt = 'createdAt',
   /** column name */
   Name = 'name',
   /** column name */
   Uid = 'uid',
   /** column name */
-  UpdatedAt = 'updated_at',
+  UpdatedAt = 'updatedAt',
   /** column name */
-  UserUid = 'user_uid'
+  UserUid = 'userUid'
 }
 
 /** Boolean expression to filter rows from the table "user". All fields are combined with a logical 'AND'. */
-export type User_Bool_Exp = {
-  _and?: InputMaybe<Array<User_Bool_Exp>>;
-  _not?: InputMaybe<User_Bool_Exp>;
-  _or?: InputMaybe<Array<User_Bool_Exp>>;
-  created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
-  dca_order_histories?: InputMaybe<Dca_Order_History_Bool_Exp>;
-  dca_orders?: InputMaybe<Dca_Order_Bool_Exp>;
-  email_verified?: InputMaybe<Boolean_Comparison_Exp>;
-  orders?: InputMaybe<Order_Bool_Exp>;
-  timezone?: InputMaybe<String_Comparison_Exp>;
-  trades?: InputMaybe<Trade_Bool_Exp>;
-  uid?: InputMaybe<Uuid_Comparison_Exp>;
-  updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
-  user_2fa?: InputMaybe<User_2fa_Bool_Exp>;
-  user_devices?: InputMaybe<User_Device_Bool_Exp>;
-  user_exchange_keys?: InputMaybe<User_Exchange_Keys_Bool_Exp>;
+export type UserBoolExp = {
+  _and?: InputMaybe<Array<UserBoolExp>>;
+  _not?: InputMaybe<UserBoolExp>;
+  _or?: InputMaybe<Array<UserBoolExp>>;
+  createdAt?: InputMaybe<TimestamptzComparisonExp>;
+  dcaOrderHistories?: InputMaybe<DcaOrderHistoryBoolExp>;
+  dcaOrders?: InputMaybe<DcaOrderBoolExp>;
+  emailVerified?: InputMaybe<BooleanComparisonExp>;
+  orders?: InputMaybe<OrderBoolExp>;
+  timezone?: InputMaybe<StringComparisonExp>;
+  trades?: InputMaybe<TradeBoolExp>;
+  uid?: InputMaybe<UuidComparisonExp>;
+  updatedAt?: InputMaybe<TimestamptzComparisonExp>;
+  user2fa?: InputMaybe<User2faBoolExp>;
+  userDevices?: InputMaybe<UserDeviceBoolExp>;
+  userExchangeKeys?: InputMaybe<UserExchangeKeysBoolExp>;
 };
 
 /** columns and relationships of "user_device" */
-export type User_Device = {
-  __typename?: 'user_device';
-  accessed_at: Scalars['timestamptz'];
-  created_at: Scalars['timestamptz'];
+export type UserDevice = {
+  __typename?: 'UserDevice';
+  accessedAt: Scalars['timestamptz'];
+  createdAt: Scalars['timestamptz'];
   name: Scalars['String'];
   trusted: Scalars['Boolean'];
   uid: Scalars['uuid'];
-  updated_at: Scalars['timestamptz'];
-  user_uid: Scalars['uuid'];
+  updatedAt: Scalars['timestamptz'];
+  userUid: Scalars['uuid'];
 };
 
 /** aggregated selection of "user_device" */
-export type User_Device_Aggregate = {
-  __typename?: 'user_device_aggregate';
-  aggregate?: Maybe<User_Device_Aggregate_Fields>;
-  nodes: Array<User_Device>;
+export type UserDeviceAggregate = {
+  __typename?: 'UserDeviceAggregate';
+  aggregate?: Maybe<UserDeviceAggregateFields>;
+  nodes: Array<UserDevice>;
 };
 
 /** aggregate fields of "user_device" */
-export type User_Device_Aggregate_Fields = {
-  __typename?: 'user_device_aggregate_fields';
+export type UserDeviceAggregateFields = {
+  __typename?: 'UserDeviceAggregateFields';
   count: Scalars['Int'];
-  max?: Maybe<User_Device_Max_Fields>;
-  min?: Maybe<User_Device_Min_Fields>;
+  max?: Maybe<UserDeviceMaxFields>;
+  min?: Maybe<UserDeviceMinFields>;
 };
 
 
 /** aggregate fields of "user_device" */
-export type User_Device_Aggregate_FieldsCountArgs = {
-  columns?: InputMaybe<Array<User_Device_Select_Column>>;
+export type UserDeviceAggregateFieldsCountArgs = {
+  columns?: InputMaybe<Array<UserDeviceSelectColumn>>;
   distinct?: InputMaybe<Scalars['Boolean']>;
 };
 
 /** order by aggregate values of table "user_device" */
-export type User_Device_Aggregate_Order_By = {
-  count?: InputMaybe<Order_By>;
-  max?: InputMaybe<User_Device_Max_Order_By>;
-  min?: InputMaybe<User_Device_Min_Order_By>;
+export type UserDeviceAggregateOrderBy = {
+  count?: InputMaybe<OrderBy>;
+  max?: InputMaybe<UserDeviceMaxOrderBy>;
+  min?: InputMaybe<UserDeviceMinOrderBy>;
 };
 
 /** Boolean expression to filter rows from the table "user_device". All fields are combined with a logical 'AND'. */
-export type User_Device_Bool_Exp = {
-  _and?: InputMaybe<Array<User_Device_Bool_Exp>>;
-  _not?: InputMaybe<User_Device_Bool_Exp>;
-  _or?: InputMaybe<Array<User_Device_Bool_Exp>>;
-  accessed_at?: InputMaybe<Timestamptz_Comparison_Exp>;
-  created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
-  name?: InputMaybe<String_Comparison_Exp>;
-  trusted?: InputMaybe<Boolean_Comparison_Exp>;
-  uid?: InputMaybe<Uuid_Comparison_Exp>;
-  updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
-  user_uid?: InputMaybe<Uuid_Comparison_Exp>;
+export type UserDeviceBoolExp = {
+  _and?: InputMaybe<Array<UserDeviceBoolExp>>;
+  _not?: InputMaybe<UserDeviceBoolExp>;
+  _or?: InputMaybe<Array<UserDeviceBoolExp>>;
+  accessedAt?: InputMaybe<TimestamptzComparisonExp>;
+  createdAt?: InputMaybe<TimestamptzComparisonExp>;
+  name?: InputMaybe<StringComparisonExp>;
+  trusted?: InputMaybe<BooleanComparisonExp>;
+  uid?: InputMaybe<UuidComparisonExp>;
+  updatedAt?: InputMaybe<TimestamptzComparisonExp>;
+  userUid?: InputMaybe<UuidComparisonExp>;
 };
 
 /** aggregate max on columns */
-export type User_Device_Max_Fields = {
-  __typename?: 'user_device_max_fields';
-  accessed_at?: Maybe<Scalars['timestamptz']>;
-  created_at?: Maybe<Scalars['timestamptz']>;
+export type UserDeviceMaxFields = {
+  __typename?: 'UserDeviceMaxFields';
+  accessedAt?: Maybe<Scalars['timestamptz']>;
+  createdAt?: Maybe<Scalars['timestamptz']>;
   name?: Maybe<Scalars['String']>;
   uid?: Maybe<Scalars['uuid']>;
-  updated_at?: Maybe<Scalars['timestamptz']>;
-  user_uid?: Maybe<Scalars['uuid']>;
+  updatedAt?: Maybe<Scalars['timestamptz']>;
+  userUid?: Maybe<Scalars['uuid']>;
 };
 
 /** order by max() on columns of table "user_device" */
-export type User_Device_Max_Order_By = {
-  accessed_at?: InputMaybe<Order_By>;
-  created_at?: InputMaybe<Order_By>;
-  name?: InputMaybe<Order_By>;
-  uid?: InputMaybe<Order_By>;
-  updated_at?: InputMaybe<Order_By>;
-  user_uid?: InputMaybe<Order_By>;
+export type UserDeviceMaxOrderBy = {
+  accessedAt?: InputMaybe<OrderBy>;
+  createdAt?: InputMaybe<OrderBy>;
+  name?: InputMaybe<OrderBy>;
+  uid?: InputMaybe<OrderBy>;
+  updatedAt?: InputMaybe<OrderBy>;
+  userUid?: InputMaybe<OrderBy>;
 };
 
 /** aggregate min on columns */
-export type User_Device_Min_Fields = {
-  __typename?: 'user_device_min_fields';
-  accessed_at?: Maybe<Scalars['timestamptz']>;
-  created_at?: Maybe<Scalars['timestamptz']>;
+export type UserDeviceMinFields = {
+  __typename?: 'UserDeviceMinFields';
+  accessedAt?: Maybe<Scalars['timestamptz']>;
+  createdAt?: Maybe<Scalars['timestamptz']>;
   name?: Maybe<Scalars['String']>;
   uid?: Maybe<Scalars['uuid']>;
-  updated_at?: Maybe<Scalars['timestamptz']>;
-  user_uid?: Maybe<Scalars['uuid']>;
+  updatedAt?: Maybe<Scalars['timestamptz']>;
+  userUid?: Maybe<Scalars['uuid']>;
 };
 
 /** order by min() on columns of table "user_device" */
-export type User_Device_Min_Order_By = {
-  accessed_at?: InputMaybe<Order_By>;
-  created_at?: InputMaybe<Order_By>;
-  name?: InputMaybe<Order_By>;
-  uid?: InputMaybe<Order_By>;
-  updated_at?: InputMaybe<Order_By>;
-  user_uid?: InputMaybe<Order_By>;
+export type UserDeviceMinOrderBy = {
+  accessedAt?: InputMaybe<OrderBy>;
+  createdAt?: InputMaybe<OrderBy>;
+  name?: InputMaybe<OrderBy>;
+  uid?: InputMaybe<OrderBy>;
+  updatedAt?: InputMaybe<OrderBy>;
+  userUid?: InputMaybe<OrderBy>;
 };
 
 /** response of any mutation on the table "user_device" */
-export type User_Device_Mutation_Response = {
-  __typename?: 'user_device_mutation_response';
+export type UserDeviceMutationResponse = {
+  __typename?: 'UserDeviceMutationResponse';
   /** number of rows affected by the mutation */
   affected_rows: Scalars['Int'];
   /** data from the rows affected by the mutation */
-  returning: Array<User_Device>;
+  returning: Array<UserDevice>;
 };
 
 /** Ordering options when selecting data from "user_device". */
-export type User_Device_Order_By = {
-  accessed_at?: InputMaybe<Order_By>;
-  created_at?: InputMaybe<Order_By>;
-  name?: InputMaybe<Order_By>;
-  trusted?: InputMaybe<Order_By>;
-  uid?: InputMaybe<Order_By>;
-  updated_at?: InputMaybe<Order_By>;
-  user_uid?: InputMaybe<Order_By>;
+export type UserDeviceOrderBy = {
+  accessedAt?: InputMaybe<OrderBy>;
+  createdAt?: InputMaybe<OrderBy>;
+  name?: InputMaybe<OrderBy>;
+  trusted?: InputMaybe<OrderBy>;
+  uid?: InputMaybe<OrderBy>;
+  updatedAt?: InputMaybe<OrderBy>;
+  userUid?: InputMaybe<OrderBy>;
 };
 
 /** primary key columns input for table: user_device */
-export type User_Device_Pk_Columns_Input = {
+export type UserDevicePkColumnsInput = {
   uid: Scalars['uuid'];
 };
 
 /** select columns of table "user_device" */
-export enum User_Device_Select_Column {
+export enum UserDeviceSelectColumn {
   /** column name */
-  AccessedAt = 'accessed_at',
+  AccessedAt = 'accessedAt',
   /** column name */
-  CreatedAt = 'created_at',
+  CreatedAt = 'createdAt',
   /** column name */
   Name = 'name',
   /** column name */
@@ -5074,252 +3810,1516 @@ export enum User_Device_Select_Column {
   /** column name */
   Uid = 'uid',
   /** column name */
-  UpdatedAt = 'updated_at',
+  UpdatedAt = 'updatedAt',
   /** column name */
-  UserUid = 'user_uid'
+  UserUid = 'userUid'
 }
 
 /** input type for updating data in table "user_device" */
-export type User_Device_Set_Input = {
+export type UserDeviceSetInput = {
   name?: InputMaybe<Scalars['String']>;
-  updated_at?: InputMaybe<Scalars['timestamptz']>;
+  updatedAt?: InputMaybe<Scalars['timestamptz']>;
 };
 
-export type User_Device_Updates = {
+export type UserDeviceUpdates = {
   /** sets the columns of the filtered rows to the given values */
-  _set?: InputMaybe<User_Device_Set_Input>;
-  where: User_Device_Bool_Exp;
+  _set?: InputMaybe<UserDeviceSetInput>;
+  where: UserDeviceBoolExp;
 };
 
 /** columns and relationships of "user_exchange_keys" */
-export type User_Exchange_Keys = {
-  __typename?: 'user_exchange_keys';
+export type UserExchangeKeys = {
+  __typename?: 'UserExchangeKeys';
   /** A computed field, executes function "user_exchange_keys_balance" */
   balance?: Maybe<Array<Balance>>;
-  created_at: Scalars['timestamptz'];
+  createdAt: Scalars['timestamptz'];
   /** An array relationship */
-  dca_orders: Array<Dca_Order>;
+  dcaOrders: Array<DcaOrder>;
   /** An aggregate relationship */
-  dca_orders_aggregate: Dca_Order_Aggregate;
+  dcaOrdersAggregate: DcaOrderAggregate;
   description: Scalars['String'];
   /** An object relationship */
   exchange: Exchange;
-  exchange_uid: Scalars['uuid'];
-  invalidated_at?: Maybe<Scalars['timestamptz']>;
+  exchangeUid: Scalars['uuid'];
+  invalidatedAt?: Maybe<Scalars['timestamptz']>;
   uid: Scalars['uuid'];
-  updated_at: Scalars['timestamptz'];
+  updatedAt: Scalars['timestamptz'];
   /** An object relationship */
   user: User;
-  user_uid: Scalars['uuid'];
+  userUid: Scalars['uuid'];
 };
 
 
 /** columns and relationships of "user_exchange_keys" */
-export type User_Exchange_KeysBalanceArgs = {
-  args: Balance_User_Exchange_Keys_Args;
-  distinct_on?: InputMaybe<Array<Balance_Select_Column>>;
+export type UserExchangeKeysBalanceArgs = {
+  args: BalanceUserExchangeKeysArgs;
+  distinctOn?: InputMaybe<Array<BalanceSelectColumn>>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Balance_Order_By>>;
-  where?: InputMaybe<Balance_Bool_Exp>;
+  orderBy?: InputMaybe<Array<BalanceOrderBy>>;
+  where?: InputMaybe<BalanceBoolExp>;
 };
 
 
 /** columns and relationships of "user_exchange_keys" */
-export type User_Exchange_KeysDca_OrdersArgs = {
-  distinct_on?: InputMaybe<Array<Dca_Order_Select_Column>>;
+export type UserExchangeKeysDcaOrdersArgs = {
+  distinctOn?: InputMaybe<Array<DcaOrderSelectColumn>>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Dca_Order_Order_By>>;
-  where?: InputMaybe<Dca_Order_Bool_Exp>;
+  orderBy?: InputMaybe<Array<DcaOrderOrderBy>>;
+  where?: InputMaybe<DcaOrderBoolExp>;
 };
 
 
 /** columns and relationships of "user_exchange_keys" */
-export type User_Exchange_KeysDca_Orders_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Dca_Order_Select_Column>>;
+export type UserExchangeKeysDcaOrdersAggregateArgs = {
+  distinctOn?: InputMaybe<Array<DcaOrderSelectColumn>>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Dca_Order_Order_By>>;
-  where?: InputMaybe<Dca_Order_Bool_Exp>;
+  orderBy?: InputMaybe<Array<DcaOrderOrderBy>>;
+  where?: InputMaybe<DcaOrderBoolExp>;
 };
 
 /** aggregated selection of "user_exchange_keys" */
-export type User_Exchange_Keys_Aggregate = {
-  __typename?: 'user_exchange_keys_aggregate';
-  aggregate?: Maybe<User_Exchange_Keys_Aggregate_Fields>;
-  nodes: Array<User_Exchange_Keys>;
+export type UserExchangeKeysAggregate = {
+  __typename?: 'UserExchangeKeysAggregate';
+  aggregate?: Maybe<UserExchangeKeysAggregateFields>;
+  nodes: Array<UserExchangeKeys>;
 };
 
 /** aggregate fields of "user_exchange_keys" */
-export type User_Exchange_Keys_Aggregate_Fields = {
-  __typename?: 'user_exchange_keys_aggregate_fields';
+export type UserExchangeKeysAggregateFields = {
+  __typename?: 'UserExchangeKeysAggregateFields';
   count: Scalars['Int'];
-  max?: Maybe<User_Exchange_Keys_Max_Fields>;
-  min?: Maybe<User_Exchange_Keys_Min_Fields>;
+  max?: Maybe<UserExchangeKeysMaxFields>;
+  min?: Maybe<UserExchangeKeysMinFields>;
 };
 
 
 /** aggregate fields of "user_exchange_keys" */
-export type User_Exchange_Keys_Aggregate_FieldsCountArgs = {
-  columns?: InputMaybe<Array<User_Exchange_Keys_Select_Column>>;
+export type UserExchangeKeysAggregateFieldsCountArgs = {
+  columns?: InputMaybe<Array<UserExchangeKeysSelectColumn>>;
   distinct?: InputMaybe<Scalars['Boolean']>;
 };
 
 /** order by aggregate values of table "user_exchange_keys" */
-export type User_Exchange_Keys_Aggregate_Order_By = {
-  count?: InputMaybe<Order_By>;
-  max?: InputMaybe<User_Exchange_Keys_Max_Order_By>;
-  min?: InputMaybe<User_Exchange_Keys_Min_Order_By>;
+export type UserExchangeKeysAggregateOrderBy = {
+  count?: InputMaybe<OrderBy>;
+  max?: InputMaybe<UserExchangeKeysMaxOrderBy>;
+  min?: InputMaybe<UserExchangeKeysMinOrderBy>;
 };
 
 /** Boolean expression to filter rows from the table "user_exchange_keys". All fields are combined with a logical 'AND'. */
-export type User_Exchange_Keys_Bool_Exp = {
-  _and?: InputMaybe<Array<User_Exchange_Keys_Bool_Exp>>;
-  _not?: InputMaybe<User_Exchange_Keys_Bool_Exp>;
-  _or?: InputMaybe<Array<User_Exchange_Keys_Bool_Exp>>;
-  created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
-  dca_orders?: InputMaybe<Dca_Order_Bool_Exp>;
-  description?: InputMaybe<String_Comparison_Exp>;
-  exchange?: InputMaybe<Exchange_Bool_Exp>;
-  exchange_uid?: InputMaybe<Uuid_Comparison_Exp>;
-  invalidated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
-  uid?: InputMaybe<Uuid_Comparison_Exp>;
-  updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
-  user?: InputMaybe<User_Bool_Exp>;
-  user_uid?: InputMaybe<Uuid_Comparison_Exp>;
+export type UserExchangeKeysBoolExp = {
+  _and?: InputMaybe<Array<UserExchangeKeysBoolExp>>;
+  _not?: InputMaybe<UserExchangeKeysBoolExp>;
+  _or?: InputMaybe<Array<UserExchangeKeysBoolExp>>;
+  createdAt?: InputMaybe<TimestamptzComparisonExp>;
+  dcaOrders?: InputMaybe<DcaOrderBoolExp>;
+  description?: InputMaybe<StringComparisonExp>;
+  exchange?: InputMaybe<ExchangeBoolExp>;
+  exchangeUid?: InputMaybe<UuidComparisonExp>;
+  invalidatedAt?: InputMaybe<TimestamptzComparisonExp>;
+  uid?: InputMaybe<UuidComparisonExp>;
+  updatedAt?: InputMaybe<TimestamptzComparisonExp>;
+  user?: InputMaybe<UserBoolExp>;
+  userUid?: InputMaybe<UuidComparisonExp>;
 };
 
 /** aggregate max on columns */
-export type User_Exchange_Keys_Max_Fields = {
-  __typename?: 'user_exchange_keys_max_fields';
-  created_at?: Maybe<Scalars['timestamptz']>;
+export type UserExchangeKeysMaxFields = {
+  __typename?: 'UserExchangeKeysMaxFields';
+  createdAt?: Maybe<Scalars['timestamptz']>;
   description?: Maybe<Scalars['String']>;
-  exchange_uid?: Maybe<Scalars['uuid']>;
-  invalidated_at?: Maybe<Scalars['timestamptz']>;
+  exchangeUid?: Maybe<Scalars['uuid']>;
+  invalidatedAt?: Maybe<Scalars['timestamptz']>;
   uid?: Maybe<Scalars['uuid']>;
-  updated_at?: Maybe<Scalars['timestamptz']>;
-  user_uid?: Maybe<Scalars['uuid']>;
+  updatedAt?: Maybe<Scalars['timestamptz']>;
+  userUid?: Maybe<Scalars['uuid']>;
 };
 
 /** order by max() on columns of table "user_exchange_keys" */
-export type User_Exchange_Keys_Max_Order_By = {
-  created_at?: InputMaybe<Order_By>;
-  description?: InputMaybe<Order_By>;
-  exchange_uid?: InputMaybe<Order_By>;
-  invalidated_at?: InputMaybe<Order_By>;
-  uid?: InputMaybe<Order_By>;
-  updated_at?: InputMaybe<Order_By>;
-  user_uid?: InputMaybe<Order_By>;
+export type UserExchangeKeysMaxOrderBy = {
+  createdAt?: InputMaybe<OrderBy>;
+  description?: InputMaybe<OrderBy>;
+  exchangeUid?: InputMaybe<OrderBy>;
+  invalidatedAt?: InputMaybe<OrderBy>;
+  uid?: InputMaybe<OrderBy>;
+  updatedAt?: InputMaybe<OrderBy>;
+  userUid?: InputMaybe<OrderBy>;
 };
 
 /** aggregate min on columns */
-export type User_Exchange_Keys_Min_Fields = {
-  __typename?: 'user_exchange_keys_min_fields';
-  created_at?: Maybe<Scalars['timestamptz']>;
+export type UserExchangeKeysMinFields = {
+  __typename?: 'UserExchangeKeysMinFields';
+  createdAt?: Maybe<Scalars['timestamptz']>;
   description?: Maybe<Scalars['String']>;
-  exchange_uid?: Maybe<Scalars['uuid']>;
-  invalidated_at?: Maybe<Scalars['timestamptz']>;
+  exchangeUid?: Maybe<Scalars['uuid']>;
+  invalidatedAt?: Maybe<Scalars['timestamptz']>;
   uid?: Maybe<Scalars['uuid']>;
-  updated_at?: Maybe<Scalars['timestamptz']>;
-  user_uid?: Maybe<Scalars['uuid']>;
+  updatedAt?: Maybe<Scalars['timestamptz']>;
+  userUid?: Maybe<Scalars['uuid']>;
 };
 
 /** order by min() on columns of table "user_exchange_keys" */
-export type User_Exchange_Keys_Min_Order_By = {
-  created_at?: InputMaybe<Order_By>;
-  description?: InputMaybe<Order_By>;
-  exchange_uid?: InputMaybe<Order_By>;
-  invalidated_at?: InputMaybe<Order_By>;
-  uid?: InputMaybe<Order_By>;
-  updated_at?: InputMaybe<Order_By>;
-  user_uid?: InputMaybe<Order_By>;
+export type UserExchangeKeysMinOrderBy = {
+  createdAt?: InputMaybe<OrderBy>;
+  description?: InputMaybe<OrderBy>;
+  exchangeUid?: InputMaybe<OrderBy>;
+  invalidatedAt?: InputMaybe<OrderBy>;
+  uid?: InputMaybe<OrderBy>;
+  updatedAt?: InputMaybe<OrderBy>;
+  userUid?: InputMaybe<OrderBy>;
 };
 
 /** response of any mutation on the table "user_exchange_keys" */
-export type User_Exchange_Keys_Mutation_Response = {
-  __typename?: 'user_exchange_keys_mutation_response';
+export type UserExchangeKeysMutationResponse = {
+  __typename?: 'UserExchangeKeysMutationResponse';
   /** number of rows affected by the mutation */
   affected_rows: Scalars['Int'];
   /** data from the rows affected by the mutation */
-  returning: Array<User_Exchange_Keys>;
+  returning: Array<UserExchangeKeys>;
 };
 
 /** Ordering options when selecting data from "user_exchange_keys". */
-export type User_Exchange_Keys_Order_By = {
-  created_at?: InputMaybe<Order_By>;
-  dca_orders_aggregate?: InputMaybe<Dca_Order_Aggregate_Order_By>;
-  description?: InputMaybe<Order_By>;
-  exchange?: InputMaybe<Exchange_Order_By>;
-  exchange_uid?: InputMaybe<Order_By>;
-  invalidated_at?: InputMaybe<Order_By>;
-  uid?: InputMaybe<Order_By>;
-  updated_at?: InputMaybe<Order_By>;
-  user?: InputMaybe<User_Order_By>;
-  user_uid?: InputMaybe<Order_By>;
+export type UserExchangeKeysOrderBy = {
+  createdAt?: InputMaybe<OrderBy>;
+  dcaOrdersAggregate?: InputMaybe<DcaOrderAggregateOrderBy>;
+  description?: InputMaybe<OrderBy>;
+  exchange?: InputMaybe<ExchangeOrderBy>;
+  exchangeUid?: InputMaybe<OrderBy>;
+  invalidatedAt?: InputMaybe<OrderBy>;
+  uid?: InputMaybe<OrderBy>;
+  updatedAt?: InputMaybe<OrderBy>;
+  user?: InputMaybe<UserOrderBy>;
+  userUid?: InputMaybe<OrderBy>;
 };
 
 /** select columns of table "user_exchange_keys" */
-export enum User_Exchange_Keys_Select_Column {
+export enum UserExchangeKeysSelectColumn {
   /** column name */
-  CreatedAt = 'created_at',
+  CreatedAt = 'createdAt',
   /** column name */
   Description = 'description',
   /** column name */
-  ExchangeUid = 'exchange_uid',
+  ExchangeUid = 'exchangeUid',
   /** column name */
-  InvalidatedAt = 'invalidated_at',
+  InvalidatedAt = 'invalidatedAt',
   /** column name */
   Uid = 'uid',
   /** column name */
-  UpdatedAt = 'updated_at',
+  UpdatedAt = 'updatedAt',
   /** column name */
-  UserUid = 'user_uid'
+  UserUid = 'userUid'
 }
 
 /** Ordering options when selecting data from "user". */
-export type User_Order_By = {
-  created_at?: InputMaybe<Order_By>;
-  dca_order_histories_aggregate?: InputMaybe<Dca_Order_History_Aggregate_Order_By>;
-  dca_orders_aggregate?: InputMaybe<Dca_Order_Aggregate_Order_By>;
-  email_verified?: InputMaybe<Order_By>;
-  orders_aggregate?: InputMaybe<Order_Aggregate_Order_By>;
-  timezone?: InputMaybe<Order_By>;
-  trades_aggregate?: InputMaybe<Trade_Aggregate_Order_By>;
-  uid?: InputMaybe<Order_By>;
-  updated_at?: InputMaybe<Order_By>;
-  user_2fa?: InputMaybe<User_2fa_Order_By>;
-  user_devices_aggregate?: InputMaybe<User_Device_Aggregate_Order_By>;
-  user_exchange_keys_aggregate?: InputMaybe<User_Exchange_Keys_Aggregate_Order_By>;
+export type UserOrderBy = {
+  createdAt?: InputMaybe<OrderBy>;
+  dcaOrderHistoriesAggregate?: InputMaybe<DcaOrderHistoryAggregateOrderBy>;
+  dcaOrdersAggregate?: InputMaybe<DcaOrderAggregateOrderBy>;
+  emailVerified?: InputMaybe<OrderBy>;
+  ordersAggregate?: InputMaybe<OrderAggregateOrderBy>;
+  timezone?: InputMaybe<OrderBy>;
+  tradesAggregate?: InputMaybe<TradeAggregateOrderBy>;
+  uid?: InputMaybe<OrderBy>;
+  updatedAt?: InputMaybe<OrderBy>;
+  user2fa?: InputMaybe<User2faOrderBy>;
+  userDevicesAggregate?: InputMaybe<UserDeviceAggregateOrderBy>;
+  userExchangeKeysAggregate?: InputMaybe<UserExchangeKeysAggregateOrderBy>;
 };
 
 /** select columns of table "user" */
-export enum User_Select_Column {
+export enum UserSelectColumn {
   /** column name */
-  CreatedAt = 'created_at',
+  CreatedAt = 'createdAt',
   /** column name */
-  EmailVerified = 'email_verified',
+  EmailVerified = 'emailVerified',
   /** column name */
   Timezone = 'timezone',
   /** column name */
   Uid = 'uid',
   /** column name */
-  UpdatedAt = 'updated_at'
+  UpdatedAt = 'updatedAt'
 }
 
 /** Boolean expression to compare columns of type "uuid". All fields are combined with logical 'AND'. */
-export type Uuid_Comparison_Exp = {
+export type UuidComparisonExp = {
   _eq?: InputMaybe<Scalars['uuid']>;
   _gt?: InputMaybe<Scalars['uuid']>;
   _gte?: InputMaybe<Scalars['uuid']>;
   _in?: InputMaybe<Array<Scalars['uuid']>>;
-  _is_null?: InputMaybe<Scalars['Boolean']>;
+  _isNull?: InputMaybe<Scalars['Boolean']>;
   _lt?: InputMaybe<Scalars['uuid']>;
   _lte?: InputMaybe<Scalars['uuid']>;
   _neq?: InputMaybe<Scalars['uuid']>;
   _nin?: InputMaybe<Array<Scalars['uuid']>>;
 };
 
-export type Value_Fx_Trade_Args = {
+export type ValidatUserPasswordResetOutput = {
+  __typename?: 'ValidatUserPasswordResetOutput';
+  email?: Maybe<Scalars['String']>;
+  isValid: Scalars['Boolean'];
+};
+
+export type ValidateUserExchangeKeysLiveOutput = {
+  __typename?: 'ValidateUserExchangeKeysLiveOutput';
+  isValid: Scalars['Boolean'];
+  validationMessage?: Maybe<Scalars['String']>;
+};
+
+export type ValidateUserExchangeKeysOutput = {
+  __typename?: 'ValidateUserExchangeKeysOutput';
+  isValid: Scalars['Boolean'];
+  userExchangeKeys?: Maybe<UserExchangeKeys>;
+  userExchangeKeysUid: Scalars['uuid'];
+  validationMessage?: Maybe<Scalars['String']>;
+};
+
+export type ValueFxTradeArgs = {
   currency?: InputMaybe<Scalars['String']>;
+};
+
+export type VerifyUserEmailOutput = {
+  __typename?: 'VerifyUserEmailOutput';
+  email: Scalars['String'];
+};
+
+/** mutation root */
+export type Mutation_Root = {
+  __typename?: 'mutation_root';
+  actionCreateAuthToken?: Maybe<CreateAuthTokenOutput>;
+  actionCreateDcaOrder?: Maybe<CreateDcaOrderResult>;
+  actionCreateStripeSubscription: CreateStripeSubscription;
+  actionCreateUser?: Maybe<CreateUserOutput>;
+  actionCreateUserExchangeKeys?: Maybe<CreateUserExchangeKeysOutput>;
+  actionEnableUser2fa?: Maybe<EnableUser2FaOutput>;
+  actionRefreshAuthToken?: Maybe<RefreshAuthTokenOutput>;
+  actionResetUserPassword: ResetUserPasswordOutput;
+  actionSendUserEmailVerify: SendUserEmailVerifyOutput;
+  actionSendUserPasswordReset: SendUserPasswordResetOutput;
+  actionSyncExchangeOpenOrderList?: Maybe<SyncExchangeOpenOrderListOutput>;
+  actionSyncExchangeTradeList?: Maybe<SyncExchangeTradeListOutput>;
+  actionUpdateDcaOrder: UpdateDcaOrderOutput;
+  actionUpdateStripeSubscription: UpdateSubscriptionOutput;
+  actionUpdateUser: UpdateUserOutput;
+  actionUpdateUserExchangeKeys?: Maybe<UpdateUserExchangeKeysOutput>;
+  actionValidateUserExchangeKeys?: Maybe<ValidateUserExchangeKeysOutput>;
+  actionValidateUserExchangeKeysLive?: Maybe<ValidateUserExchangeKeysLiveOutput>;
+  actionValidateUserPasswordReset: ValidatUserPasswordResetOutput;
+  actionVerifyUserEmail: VerifyUserEmailOutput;
+  /** delete data from the table: "dca_order" */
+  deleteDcaOrder?: Maybe<DcaOrderMutationResponse>;
+  /** delete single row from the table: "dca_order" */
+  deleteDcaOrderByPk?: Maybe<DcaOrder>;
+  /** delete data from the table: "user_device" */
+  deleteUserDevice?: Maybe<UserDeviceMutationResponse>;
+  /** delete single row from the table: "user_device" */
+  deleteUserDeviceByPk?: Maybe<UserDevice>;
+  /** delete data from the table: "user_exchange_keys" */
+  deleteUserExchangeKeys?: Maybe<UserExchangeKeysMutationResponse>;
+  /** delete single row from the table: "user_exchange_keys" */
+  deleteUserExchangeKeysByPk?: Maybe<UserExchangeKeys>;
+  /** update data of the table: "dca_order" */
+  updateDcaOrder?: Maybe<DcaOrderMutationResponse>;
+  /** update single row of the table: "dca_order" */
+  updateDcaOrderByPk?: Maybe<DcaOrder>;
+  /** update multiples rows of table: "dca_order" */
+  updateDcaOrderMany?: Maybe<Array<Maybe<DcaOrderMutationResponse>>>;
+  /** update data of the table: "user_device" */
+  updateUserDevice?: Maybe<UserDeviceMutationResponse>;
+  /** update single row of the table: "user_device" */
+  updateUserDeviceByPk?: Maybe<UserDevice>;
+  /** update multiples rows of table: "user_device" */
+  updateUserDeviceMany?: Maybe<Array<Maybe<UserDeviceMutationResponse>>>;
+};
+
+
+/** mutation root */
+export type Mutation_RootActionCreateAuthTokenArgs = {
+  deviceId: Scalars['String'];
+  deviceName: Scalars['String'];
+  deviceTrusted: Scalars['Boolean'];
+  email: Scalars['String'];
+  password: Scalars['String'];
+  role: Scalars['String'];
+  token2fa?: InputMaybe<Scalars['String']>;
+};
+
+
+/** mutation root */
+export type Mutation_RootActionCreateDcaOrderArgs = {
+  dailyAverage: Scalars['Float'];
+  intervalMs: Scalars['Int'];
+  marketOffset: Scalars['Float'];
+  marketUid: Scalars['uuid'];
+  maxPrice?: InputMaybe<Scalars['Float']>;
+  maxValue?: InputMaybe<Scalars['Float']>;
+  minPrice?: InputMaybe<Scalars['Float']>;
+  minValue?: InputMaybe<Scalars['Float']>;
+  primaryCurrency: Scalars['String'];
+  secondaryCurrency: Scalars['String'];
+  startAt: Scalars['timestamp'];
+  userExchangeKeysUid: Scalars['uuid'];
+};
+
+
+/** mutation root */
+export type Mutation_RootActionCreateStripeSubscriptionArgs = {
+  priceId?: InputMaybe<Scalars['String']>;
+};
+
+
+/** mutation root */
+export type Mutation_RootActionCreateUserArgs = {
+  email: Scalars['String'];
+  password: Scalars['String'];
+};
+
+
+/** mutation root */
+export type Mutation_RootActionCreateUserExchangeKeysArgs = {
+  description: Scalars['String'];
+  exchangeUid: Scalars['uuid'];
+  keys: Scalars['jsonb'];
+};
+
+
+/** mutation root */
+export type Mutation_RootActionEnableUser2faArgs = {
+  name: Scalars['String'];
+  secret: Scalars['String'];
+  token: Scalars['String'];
+};
+
+
+/** mutation root */
+export type Mutation_RootActionResetUserPasswordArgs = {
+  deviceId: Scalars['String'];
+  deviceName: Scalars['String'];
+  deviceTrusted: Scalars['Boolean'];
+  newPassword: Scalars['String'];
+  passwordResetSecret: Scalars['String'];
+  token2fa?: InputMaybe<Scalars['String']>;
+};
+
+
+/** mutation root */
+export type Mutation_RootActionSendUserPasswordResetArgs = {
+  email: Scalars['String'];
+};
+
+
+/** mutation root */
+export type Mutation_RootActionSyncExchangeOpenOrderListArgs = {
+  userExchangeKeysUid: Scalars['uuid'];
+};
+
+
+/** mutation root */
+export type Mutation_RootActionSyncExchangeTradeListArgs = {
+  forceSync?: InputMaybe<Scalars['Boolean']>;
+  userExchangeKeysUid: Scalars['uuid'];
+};
+
+
+/** mutation root */
+export type Mutation_RootActionUpdateDcaOrderArgs = {
+  dcaOrderUid: Scalars['uuid'];
+  enabled: Scalars['Boolean'];
+};
+
+
+/** mutation root */
+export type Mutation_RootActionUpdateStripeSubscriptionArgs = {
+  cancelAtPeriodEnd: Scalars['Boolean'];
+  subscriptionId: Scalars['String'];
+};
+
+
+/** mutation root */
+export type Mutation_RootActionUpdateUserArgs = {
+  email?: InputMaybe<Scalars['String']>;
+  password?: InputMaybe<Scalars['String']>;
+};
+
+
+/** mutation root */
+export type Mutation_RootActionUpdateUserExchangeKeysArgs = {
+  description?: InputMaybe<Scalars['String']>;
+  keys?: InputMaybe<Scalars['jsonb']>;
+  userExchangeKeysUid: Scalars['uuid'];
+};
+
+
+/** mutation root */
+export type Mutation_RootActionValidateUserExchangeKeysArgs = {
+  userExchangeKeysUid: Scalars['uuid'];
+};
+
+
+/** mutation root */
+export type Mutation_RootActionValidateUserExchangeKeysLiveArgs = {
+  exchangeUid: Scalars['uuid'];
+  keys: Scalars['jsonb'];
+};
+
+
+/** mutation root */
+export type Mutation_RootActionValidateUserPasswordResetArgs = {
+  passwordResetSecret: Scalars['String'];
+};
+
+
+/** mutation root */
+export type Mutation_RootActionVerifyUserEmailArgs = {
+  emailVerifySecret: Scalars['String'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDeleteDcaOrderArgs = {
+  where: DcaOrderBoolExp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDeleteDcaOrderByPkArgs = {
+  uid: Scalars['uuid'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDeleteUserDeviceArgs = {
+  where: UserDeviceBoolExp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDeleteUserDeviceByPkArgs = {
+  uid: Scalars['uuid'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDeleteUserExchangeKeysArgs = {
+  where: UserExchangeKeysBoolExp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDeleteUserExchangeKeysByPkArgs = {
+  uid: Scalars['uuid'];
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdateDcaOrderArgs = {
+  _inc?: InputMaybe<DcaOrderIncInput>;
+  _set?: InputMaybe<DcaOrderSetInput>;
+  where: DcaOrderBoolExp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdateDcaOrderByPkArgs = {
+  _inc?: InputMaybe<DcaOrderIncInput>;
+  _set?: InputMaybe<DcaOrderSetInput>;
+  pk_columns: DcaOrderPkColumnsInput;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdateDcaOrderManyArgs = {
+  updates: Array<DcaOrderUpdates>;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdateUserDeviceArgs = {
+  _set?: InputMaybe<UserDeviceSetInput>;
+  where: UserDeviceBoolExp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdateUserDeviceByPkArgs = {
+  _set?: InputMaybe<UserDeviceSetInput>;
+  pk_columns: UserDevicePkColumnsInput;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdateUserDeviceManyArgs = {
+  updates: Array<UserDeviceUpdates>;
+};
+
+export type Query_Root = {
+  __typename?: 'query_root';
+  /** Query information about a Stripe Subscription (direct from Stripe) */
+  actionQueryLiveStripeSubscription: QueryLiveStripeSubscriptionOutput;
+  actionQueryStripeConfig: QueryStripeConfigOutput;
+  actionQueryUserLimit?: Maybe<QueryUserLimitOutput>;
+  actionSetupUser2fa?: Maybe<SetupUser2FaOutput>;
+  /** fetch data from the table: "balance" */
+  balance: Array<Balance>;
+  /** fetch data from the table: "balance" using primary key columns */
+  balanceByPk?: Maybe<Balance>;
+  /** fetch data from the table: "currency" */
+  currency: Array<Currency>;
+  /** fetch data from the table: "currency" using primary key columns */
+  currencyByPk?: Maybe<Currency>;
+  /** fetch data from the table: "dca_order" */
+  dcaOrder: Array<DcaOrder>;
+  /** fetch aggregated fields from the table: "dca_order" */
+  dcaOrderAggregate: DcaOrderAggregate;
+  /** fetch data from the table: "dca_order" using primary key columns */
+  dcaOrderByPk?: Maybe<DcaOrder>;
+  /** fetch data from the table: "dca_order_history" */
+  dcaOrderHistory: Array<DcaOrderHistory>;
+  /** fetch aggregated fields from the table: "dca_order_history" */
+  dcaOrderHistoryAggregate: DcaOrderHistoryAggregate;
+  /** fetch data from the table: "dca_order_history" using primary key columns */
+  dcaOrderHistoryByPk?: Maybe<DcaOrderHistory>;
+  /** fetch data from the table: "exchange" */
+  exchange: Array<Exchange>;
+  /** fetch data from the table: "exchange" using primary key columns */
+  exchangeByPk?: Maybe<Exchange>;
+  /** fetch data from the table: "exchange_primary_currency" */
+  exchangePrimaryCurrency: Array<ExchangePrimaryCurrency>;
+  /** fetch data from the table: "exchange_primary_currency" using primary key columns */
+  exchangePrimaryCurrencyByPk?: Maybe<ExchangePrimaryCurrency>;
+  /** fetch data from the table: "exchange_secondary_currency" */
+  exchangeSecondaryCurrency: Array<ExchangeSecondaryCurrency>;
+  /** fetch data from the table: "exchange_secondary_currency" using primary key columns */
+  exchangeSecondaryCurrencyByPk?: Maybe<ExchangeSecondaryCurrency>;
+  /** fetch data from the table: "market" */
+  market: Array<Market>;
+  /** fetch data from the table: "market" using primary key columns */
+  marketByPk?: Maybe<Market>;
+  /** fetch data from the table: "market_price" */
+  marketPrice: Array<MarketPrice>;
+  /** fetch data from the table: "market_price" using primary key columns */
+  marketPriceByPk?: Maybe<MarketPrice>;
+  /** execute function "market_price_latest" which returns "market_price" */
+  marketPriceLatest: Array<MarketPrice>;
+  /** fetch data from the table: "market_trading_pair" */
+  marketTradingPair: Array<MarketTradingPair>;
+  /** fetch data from the table: "order" */
+  order: Array<Order>;
+  /** fetch aggregated fields from the table: "order" */
+  orderAggregate: OrderAggregate;
+  /** fetch data from the table: "order" using primary key columns */
+  orderByPk?: Maybe<Order>;
+  /** fetch data from the table: "stripe_price" */
+  stripePrice: Array<StripePrice>;
+  /** fetch data from the table: "stripe_price" using primary key columns */
+  stripePriceByPk?: Maybe<StripePrice>;
+  /** fetch data from the table: "stripe_product" */
+  stripeProduct: Array<StripeProduct>;
+  /** fetch data from the table: "stripe_product" using primary key columns */
+  stripeProductByPk?: Maybe<StripeProduct>;
+  /** fetch data from the table: "stripe_subscription" */
+  stripeSubscription: Array<StripeSubscription>;
+  /** fetch aggregated fields from the table: "stripe_subscription" */
+  stripeSubscriptionAggregate: StripeSubscriptionAggregate;
+  /** fetch data from the table: "stripe_subscription" using primary key columns */
+  stripeSubscriptionByPk?: Maybe<StripeSubscription>;
+  /** fetch data from the table: "trade" */
+  trade: Array<Trade>;
+  /** fetch aggregated fields from the table: "trade" */
+  tradeAggregate: TradeAggregate;
+  /** execute function "trade_avg_price_by_window" which returns "type_trade_avg_price_by_window" */
+  tradeAvgPriceByWindow: Array<TypeTradeAvgPriceByWindow>;
+  /** fetch data from the table: "trade" using primary key columns */
+  tradeByPk?: Maybe<Trade>;
+  /** execute function "trade_sum_by_window" which returns "type_trade_sum_by_window" */
+  tradeSumByWindow: Array<TypeTradeSumByWindow>;
+  /** fetch data from the table: "type_trade_avg_price_by_window" */
+  typeTradeAvgPriceByWindow: Array<TypeTradeAvgPriceByWindow>;
+  /** fetch data from the table: "type_trade_sum_by_window" */
+  typeTradeSumByWindow: Array<TypeTradeSumByWindow>;
+  /** fetch data from the table: "user" */
+  user: Array<User>;
+  /** fetch data from the table: "user_2fa" */
+  user2fa: Array<User2fa>;
+  /** fetch data from the table: "user_2fa" using primary key columns */
+  user2faByPk?: Maybe<User2fa>;
+  /** fetch data from the table: "user" using primary key columns */
+  userByPk?: Maybe<User>;
+  /** fetch data from the table: "user_device" */
+  userDevice: Array<UserDevice>;
+  /** fetch aggregated fields from the table: "user_device" */
+  userDeviceAggregate: UserDeviceAggregate;
+  /** fetch data from the table: "user_device" using primary key columns */
+  userDeviceByPk?: Maybe<UserDevice>;
+  /** An array relationship */
+  userExchangeKeys: Array<UserExchangeKeys>;
+  /** An aggregate relationship */
+  userExchangeKeysAggregate: UserExchangeKeysAggregate;
+  /** fetch data from the table: "user_exchange_keys" using primary key columns */
+  userExchangeKeysByPk?: Maybe<UserExchangeKeys>;
+};
+
+
+export type Query_RootActionQueryLiveStripeSubscriptionArgs = {
+  subscriptionId: Scalars['String'];
+};
+
+
+export type Query_RootBalanceArgs = {
+  distinctOn?: InputMaybe<Array<BalanceSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<BalanceOrderBy>>;
+  where?: InputMaybe<BalanceBoolExp>;
+};
+
+
+export type Query_RootBalanceByPkArgs = {
+  uid: Scalars['uuid'];
+};
+
+
+export type Query_RootCurrencyArgs = {
+  distinctOn?: InputMaybe<Array<CurrencySelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<CurrencyOrderBy>>;
+  where?: InputMaybe<CurrencyBoolExp>;
+};
+
+
+export type Query_RootCurrencyByPkArgs = {
+  symbol: Scalars['String'];
+};
+
+
+export type Query_RootDcaOrderArgs = {
+  distinctOn?: InputMaybe<Array<DcaOrderSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<DcaOrderOrderBy>>;
+  where?: InputMaybe<DcaOrderBoolExp>;
+};
+
+
+export type Query_RootDcaOrderAggregateArgs = {
+  distinctOn?: InputMaybe<Array<DcaOrderSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<DcaOrderOrderBy>>;
+  where?: InputMaybe<DcaOrderBoolExp>;
+};
+
+
+export type Query_RootDcaOrderByPkArgs = {
+  uid: Scalars['uuid'];
+};
+
+
+export type Query_RootDcaOrderHistoryArgs = {
+  distinctOn?: InputMaybe<Array<DcaOrderHistorySelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<DcaOrderHistoryOrderBy>>;
+  where?: InputMaybe<DcaOrderHistoryBoolExp>;
+};
+
+
+export type Query_RootDcaOrderHistoryAggregateArgs = {
+  distinctOn?: InputMaybe<Array<DcaOrderHistorySelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<DcaOrderHistoryOrderBy>>;
+  where?: InputMaybe<DcaOrderHistoryBoolExp>;
+};
+
+
+export type Query_RootDcaOrderHistoryByPkArgs = {
+  uid: Scalars['uuid'];
+};
+
+
+export type Query_RootExchangeArgs = {
+  distinctOn?: InputMaybe<Array<ExchangeSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<ExchangeOrderBy>>;
+  where?: InputMaybe<ExchangeBoolExp>;
+};
+
+
+export type Query_RootExchangeByPkArgs = {
+  uid: Scalars['uuid'];
+};
+
+
+export type Query_RootExchangePrimaryCurrencyArgs = {
+  distinctOn?: InputMaybe<Array<ExchangePrimaryCurrencySelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<ExchangePrimaryCurrencyOrderBy>>;
+  where?: InputMaybe<ExchangePrimaryCurrencyBoolExp>;
+};
+
+
+export type Query_RootExchangePrimaryCurrencyByPkArgs = {
+  exchangeUid: Scalars['uuid'];
+  symbol: Scalars['String'];
+};
+
+
+export type Query_RootExchangeSecondaryCurrencyArgs = {
+  distinctOn?: InputMaybe<Array<ExchangeSecondaryCurrencySelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<ExchangeSecondaryCurrencyOrderBy>>;
+  where?: InputMaybe<ExchangeSecondaryCurrencyBoolExp>;
+};
+
+
+export type Query_RootExchangeSecondaryCurrencyByPkArgs = {
+  exchangeUid: Scalars['uuid'];
+  symbol: Scalars['String'];
+};
+
+
+export type Query_RootMarketArgs = {
+  distinctOn?: InputMaybe<Array<MarketSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<MarketOrderBy>>;
+  where?: InputMaybe<MarketBoolExp>;
+};
+
+
+export type Query_RootMarketByPkArgs = {
+  uid: Scalars['uuid'];
+};
+
+
+export type Query_RootMarketPriceArgs = {
+  distinctOn?: InputMaybe<Array<MarketPriceSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<MarketPriceOrderBy>>;
+  where?: InputMaybe<MarketPriceBoolExp>;
+};
+
+
+export type Query_RootMarketPriceByPkArgs = {
+  assetSymbol: Scalars['String'];
+  currency: Scalars['String'];
+  marketUid: Scalars['uuid'];
+  sourceCurrency: Scalars['bpchar'];
+  timestamp: Scalars['timestamptz'];
+};
+
+
+export type Query_RootMarketPriceLatestArgs = {
+  args: MarketPriceLatestArgs;
+  distinctOn?: InputMaybe<Array<MarketPriceSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<MarketPriceOrderBy>>;
+  where?: InputMaybe<MarketPriceBoolExp>;
+};
+
+
+export type Query_RootMarketTradingPairArgs = {
+  distinctOn?: InputMaybe<Array<MarketTradingPairSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<MarketTradingPairOrderBy>>;
+  where?: InputMaybe<MarketTradingPairBoolExp>;
+};
+
+
+export type Query_RootOrderArgs = {
+  distinctOn?: InputMaybe<Array<OrderSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<OrderOrderBy>>;
+  where?: InputMaybe<OrderBoolExp>;
+};
+
+
+export type Query_RootOrderAggregateArgs = {
+  distinctOn?: InputMaybe<Array<OrderSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<OrderOrderBy>>;
+  where?: InputMaybe<OrderBoolExp>;
+};
+
+
+export type Query_RootOrderByPkArgs = {
+  uid: Scalars['uuid'];
+};
+
+
+export type Query_RootStripePriceArgs = {
+  distinctOn?: InputMaybe<Array<StripePriceSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<StripePriceOrderBy>>;
+  where?: InputMaybe<StripePriceBoolExp>;
+};
+
+
+export type Query_RootStripePriceByPkArgs = {
+  id: Scalars['String'];
+};
+
+
+export type Query_RootStripeProductArgs = {
+  distinctOn?: InputMaybe<Array<StripeProductSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<StripeProductOrderBy>>;
+  where?: InputMaybe<StripeProductBoolExp>;
+};
+
+
+export type Query_RootStripeProductByPkArgs = {
+  id: Scalars['String'];
+};
+
+
+export type Query_RootStripeSubscriptionArgs = {
+  distinctOn?: InputMaybe<Array<StripeSubscriptionSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<StripeSubscriptionOrderBy>>;
+  where?: InputMaybe<StripeSubscriptionBoolExp>;
+};
+
+
+export type Query_RootStripeSubscriptionAggregateArgs = {
+  distinctOn?: InputMaybe<Array<StripeSubscriptionSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<StripeSubscriptionOrderBy>>;
+  where?: InputMaybe<StripeSubscriptionBoolExp>;
+};
+
+
+export type Query_RootStripeSubscriptionByPkArgs = {
+  id: Scalars['String'];
+};
+
+
+export type Query_RootTradeArgs = {
+  distinctOn?: InputMaybe<Array<TradeSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<TradeOrderBy>>;
+  where?: InputMaybe<TradeBoolExp>;
+};
+
+
+export type Query_RootTradeAggregateArgs = {
+  distinctOn?: InputMaybe<Array<TradeSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<TradeOrderBy>>;
+  where?: InputMaybe<TradeBoolExp>;
+};
+
+
+export type Query_RootTradeAvgPriceByWindowArgs = {
+  args: TradeAvgPriceByWindowArgs;
+  distinctOn?: InputMaybe<Array<TypeTradeAvgPriceByWindowSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<TypeTradeAvgPriceByWindowOrderBy>>;
+  where?: InputMaybe<TypeTradeAvgPriceByWindowBoolExp>;
+};
+
+
+export type Query_RootTradeByPkArgs = {
+  uid: Scalars['uuid'];
+};
+
+
+export type Query_RootTradeSumByWindowArgs = {
+  args: TradeSumByWindowArgs;
+  distinctOn?: InputMaybe<Array<TypeTradeSumByWindowSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<TypeTradeSumByWindowOrderBy>>;
+  where?: InputMaybe<TypeTradeSumByWindowBoolExp>;
+};
+
+
+export type Query_RootTypeTradeAvgPriceByWindowArgs = {
+  distinctOn?: InputMaybe<Array<TypeTradeAvgPriceByWindowSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<TypeTradeAvgPriceByWindowOrderBy>>;
+  where?: InputMaybe<TypeTradeAvgPriceByWindowBoolExp>;
+};
+
+
+export type Query_RootTypeTradeSumByWindowArgs = {
+  distinctOn?: InputMaybe<Array<TypeTradeSumByWindowSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<TypeTradeSumByWindowOrderBy>>;
+  where?: InputMaybe<TypeTradeSumByWindowBoolExp>;
+};
+
+
+export type Query_RootUserArgs = {
+  distinctOn?: InputMaybe<Array<UserSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<UserOrderBy>>;
+  where?: InputMaybe<UserBoolExp>;
+};
+
+
+export type Query_RootUser2faArgs = {
+  distinctOn?: InputMaybe<Array<User2faSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<User2faOrderBy>>;
+  where?: InputMaybe<User2faBoolExp>;
+};
+
+
+export type Query_RootUser2faByPkArgs = {
+  uid: Scalars['uuid'];
+};
+
+
+export type Query_RootUserByPkArgs = {
+  uid: Scalars['uuid'];
+};
+
+
+export type Query_RootUserDeviceArgs = {
+  distinctOn?: InputMaybe<Array<UserDeviceSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<UserDeviceOrderBy>>;
+  where?: InputMaybe<UserDeviceBoolExp>;
+};
+
+
+export type Query_RootUserDeviceAggregateArgs = {
+  distinctOn?: InputMaybe<Array<UserDeviceSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<UserDeviceOrderBy>>;
+  where?: InputMaybe<UserDeviceBoolExp>;
+};
+
+
+export type Query_RootUserDeviceByPkArgs = {
+  uid: Scalars['uuid'];
+};
+
+
+export type Query_RootUserExchangeKeysArgs = {
+  distinctOn?: InputMaybe<Array<UserExchangeKeysSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<UserExchangeKeysOrderBy>>;
+  where?: InputMaybe<UserExchangeKeysBoolExp>;
+};
+
+
+export type Query_RootUserExchangeKeysAggregateArgs = {
+  distinctOn?: InputMaybe<Array<UserExchangeKeysSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<UserExchangeKeysOrderBy>>;
+  where?: InputMaybe<UserExchangeKeysBoolExp>;
+};
+
+
+export type Query_RootUserExchangeKeysByPkArgs = {
+  uid: Scalars['uuid'];
+};
+
+export type Subscription_Root = {
+  __typename?: 'subscription_root';
+  /** fetch data from the table: "balance" */
+  balance: Array<Balance>;
+  /** fetch data from the table: "balance" using primary key columns */
+  balanceByPk?: Maybe<Balance>;
+  /** fetch data from the table: "currency" */
+  currency: Array<Currency>;
+  /** fetch data from the table: "currency" using primary key columns */
+  currencyByPk?: Maybe<Currency>;
+  /** fetch data from the table: "dca_order" */
+  dcaOrder: Array<DcaOrder>;
+  /** fetch aggregated fields from the table: "dca_order" */
+  dcaOrderAggregate: DcaOrderAggregate;
+  /** fetch data from the table: "dca_order" using primary key columns */
+  dcaOrderByPk?: Maybe<DcaOrder>;
+  /** fetch data from the table: "dca_order_history" */
+  dcaOrderHistory: Array<DcaOrderHistory>;
+  /** fetch aggregated fields from the table: "dca_order_history" */
+  dcaOrderHistoryAggregate: DcaOrderHistoryAggregate;
+  /** fetch data from the table: "dca_order_history" using primary key columns */
+  dcaOrderHistoryByPk?: Maybe<DcaOrderHistory>;
+  /** fetch data from the table: "exchange" */
+  exchange: Array<Exchange>;
+  /** fetch data from the table: "exchange" using primary key columns */
+  exchangeByPk?: Maybe<Exchange>;
+  /** fetch data from the table: "exchange_primary_currency" */
+  exchangePrimaryCurrency: Array<ExchangePrimaryCurrency>;
+  /** fetch data from the table: "exchange_primary_currency" using primary key columns */
+  exchangePrimaryCurrencyByPk?: Maybe<ExchangePrimaryCurrency>;
+  /** fetch data from the table: "exchange_secondary_currency" */
+  exchangeSecondaryCurrency: Array<ExchangeSecondaryCurrency>;
+  /** fetch data from the table: "exchange_secondary_currency" using primary key columns */
+  exchangeSecondaryCurrencyByPk?: Maybe<ExchangeSecondaryCurrency>;
+  /** fetch data from the table: "market" */
+  market: Array<Market>;
+  /** fetch data from the table: "market" using primary key columns */
+  marketByPk?: Maybe<Market>;
+  /** fetch data from the table: "market_price" */
+  marketPrice: Array<MarketPrice>;
+  /** fetch data from the table: "market_price" using primary key columns */
+  marketPriceByPk?: Maybe<MarketPrice>;
+  /** execute function "market_price_latest" which returns "market_price" */
+  marketPriceLatest: Array<MarketPrice>;
+  /** fetch data from the table: "market_trading_pair" */
+  marketTradingPair: Array<MarketTradingPair>;
+  /** fetch data from the table: "order" */
+  order: Array<Order>;
+  /** fetch aggregated fields from the table: "order" */
+  orderAggregate: OrderAggregate;
+  /** fetch data from the table: "order" using primary key columns */
+  orderByPk?: Maybe<Order>;
+  /** fetch data from the table: "stripe_price" */
+  stripePrice: Array<StripePrice>;
+  /** fetch data from the table: "stripe_price" using primary key columns */
+  stripePriceByPk?: Maybe<StripePrice>;
+  /** fetch data from the table: "stripe_product" */
+  stripeProduct: Array<StripeProduct>;
+  /** fetch data from the table: "stripe_product" using primary key columns */
+  stripeProductByPk?: Maybe<StripeProduct>;
+  /** fetch data from the table: "stripe_subscription" */
+  stripeSubscription: Array<StripeSubscription>;
+  /** fetch aggregated fields from the table: "stripe_subscription" */
+  stripeSubscriptionAggregate: StripeSubscriptionAggregate;
+  /** fetch data from the table: "stripe_subscription" using primary key columns */
+  stripeSubscriptionByPk?: Maybe<StripeSubscription>;
+  /** fetch data from the table: "trade" */
+  trade: Array<Trade>;
+  /** fetch aggregated fields from the table: "trade" */
+  tradeAggregate: TradeAggregate;
+  /** execute function "trade_avg_price_by_window" which returns "type_trade_avg_price_by_window" */
+  tradeAvgPriceByWindow: Array<TypeTradeAvgPriceByWindow>;
+  /** fetch data from the table: "trade" using primary key columns */
+  tradeByPk?: Maybe<Trade>;
+  /** execute function "trade_sum_by_window" which returns "type_trade_sum_by_window" */
+  tradeSumByWindow: Array<TypeTradeSumByWindow>;
+  /** fetch data from the table: "type_trade_avg_price_by_window" */
+  typeTradeAvgPriceByWindow: Array<TypeTradeAvgPriceByWindow>;
+  /** fetch data from the table: "type_trade_sum_by_window" */
+  typeTradeSumByWindow: Array<TypeTradeSumByWindow>;
+  /** fetch data from the table: "user" */
+  user: Array<User>;
+  /** fetch data from the table: "user_2fa" */
+  user2fa: Array<User2fa>;
+  /** fetch data from the table: "user_2fa" using primary key columns */
+  user2faByPk?: Maybe<User2fa>;
+  /** fetch data from the table: "user" using primary key columns */
+  userByPk?: Maybe<User>;
+  /** fetch data from the table: "user_device" */
+  userDevice: Array<UserDevice>;
+  /** fetch aggregated fields from the table: "user_device" */
+  userDeviceAggregate: UserDeviceAggregate;
+  /** fetch data from the table: "user_device" using primary key columns */
+  userDeviceByPk?: Maybe<UserDevice>;
+  /** An array relationship */
+  userExchangeKeys: Array<UserExchangeKeys>;
+  /** An aggregate relationship */
+  userExchangeKeysAggregate: UserExchangeKeysAggregate;
+  /** fetch data from the table: "user_exchange_keys" using primary key columns */
+  userExchangeKeysByPk?: Maybe<UserExchangeKeys>;
+};
+
+
+export type Subscription_RootBalanceArgs = {
+  distinctOn?: InputMaybe<Array<BalanceSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<BalanceOrderBy>>;
+  where?: InputMaybe<BalanceBoolExp>;
+};
+
+
+export type Subscription_RootBalanceByPkArgs = {
+  uid: Scalars['uuid'];
+};
+
+
+export type Subscription_RootCurrencyArgs = {
+  distinctOn?: InputMaybe<Array<CurrencySelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<CurrencyOrderBy>>;
+  where?: InputMaybe<CurrencyBoolExp>;
+};
+
+
+export type Subscription_RootCurrencyByPkArgs = {
+  symbol: Scalars['String'];
+};
+
+
+export type Subscription_RootDcaOrderArgs = {
+  distinctOn?: InputMaybe<Array<DcaOrderSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<DcaOrderOrderBy>>;
+  where?: InputMaybe<DcaOrderBoolExp>;
+};
+
+
+export type Subscription_RootDcaOrderAggregateArgs = {
+  distinctOn?: InputMaybe<Array<DcaOrderSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<DcaOrderOrderBy>>;
+  where?: InputMaybe<DcaOrderBoolExp>;
+};
+
+
+export type Subscription_RootDcaOrderByPkArgs = {
+  uid: Scalars['uuid'];
+};
+
+
+export type Subscription_RootDcaOrderHistoryArgs = {
+  distinctOn?: InputMaybe<Array<DcaOrderHistorySelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<DcaOrderHistoryOrderBy>>;
+  where?: InputMaybe<DcaOrderHistoryBoolExp>;
+};
+
+
+export type Subscription_RootDcaOrderHistoryAggregateArgs = {
+  distinctOn?: InputMaybe<Array<DcaOrderHistorySelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<DcaOrderHistoryOrderBy>>;
+  where?: InputMaybe<DcaOrderHistoryBoolExp>;
+};
+
+
+export type Subscription_RootDcaOrderHistoryByPkArgs = {
+  uid: Scalars['uuid'];
+};
+
+
+export type Subscription_RootExchangeArgs = {
+  distinctOn?: InputMaybe<Array<ExchangeSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<ExchangeOrderBy>>;
+  where?: InputMaybe<ExchangeBoolExp>;
+};
+
+
+export type Subscription_RootExchangeByPkArgs = {
+  uid: Scalars['uuid'];
+};
+
+
+export type Subscription_RootExchangePrimaryCurrencyArgs = {
+  distinctOn?: InputMaybe<Array<ExchangePrimaryCurrencySelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<ExchangePrimaryCurrencyOrderBy>>;
+  where?: InputMaybe<ExchangePrimaryCurrencyBoolExp>;
+};
+
+
+export type Subscription_RootExchangePrimaryCurrencyByPkArgs = {
+  exchangeUid: Scalars['uuid'];
+  symbol: Scalars['String'];
+};
+
+
+export type Subscription_RootExchangeSecondaryCurrencyArgs = {
+  distinctOn?: InputMaybe<Array<ExchangeSecondaryCurrencySelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<ExchangeSecondaryCurrencyOrderBy>>;
+  where?: InputMaybe<ExchangeSecondaryCurrencyBoolExp>;
+};
+
+
+export type Subscription_RootExchangeSecondaryCurrencyByPkArgs = {
+  exchangeUid: Scalars['uuid'];
+  symbol: Scalars['String'];
+};
+
+
+export type Subscription_RootMarketArgs = {
+  distinctOn?: InputMaybe<Array<MarketSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<MarketOrderBy>>;
+  where?: InputMaybe<MarketBoolExp>;
+};
+
+
+export type Subscription_RootMarketByPkArgs = {
+  uid: Scalars['uuid'];
+};
+
+
+export type Subscription_RootMarketPriceArgs = {
+  distinctOn?: InputMaybe<Array<MarketPriceSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<MarketPriceOrderBy>>;
+  where?: InputMaybe<MarketPriceBoolExp>;
+};
+
+
+export type Subscription_RootMarketPriceByPkArgs = {
+  assetSymbol: Scalars['String'];
+  currency: Scalars['String'];
+  marketUid: Scalars['uuid'];
+  sourceCurrency: Scalars['bpchar'];
+  timestamp: Scalars['timestamptz'];
+};
+
+
+export type Subscription_RootMarketPriceLatestArgs = {
+  args: MarketPriceLatestArgs;
+  distinctOn?: InputMaybe<Array<MarketPriceSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<MarketPriceOrderBy>>;
+  where?: InputMaybe<MarketPriceBoolExp>;
+};
+
+
+export type Subscription_RootMarketTradingPairArgs = {
+  distinctOn?: InputMaybe<Array<MarketTradingPairSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<MarketTradingPairOrderBy>>;
+  where?: InputMaybe<MarketTradingPairBoolExp>;
+};
+
+
+export type Subscription_RootOrderArgs = {
+  distinctOn?: InputMaybe<Array<OrderSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<OrderOrderBy>>;
+  where?: InputMaybe<OrderBoolExp>;
+};
+
+
+export type Subscription_RootOrderAggregateArgs = {
+  distinctOn?: InputMaybe<Array<OrderSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<OrderOrderBy>>;
+  where?: InputMaybe<OrderBoolExp>;
+};
+
+
+export type Subscription_RootOrderByPkArgs = {
+  uid: Scalars['uuid'];
+};
+
+
+export type Subscription_RootStripePriceArgs = {
+  distinctOn?: InputMaybe<Array<StripePriceSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<StripePriceOrderBy>>;
+  where?: InputMaybe<StripePriceBoolExp>;
+};
+
+
+export type Subscription_RootStripePriceByPkArgs = {
+  id: Scalars['String'];
+};
+
+
+export type Subscription_RootStripeProductArgs = {
+  distinctOn?: InputMaybe<Array<StripeProductSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<StripeProductOrderBy>>;
+  where?: InputMaybe<StripeProductBoolExp>;
+};
+
+
+export type Subscription_RootStripeProductByPkArgs = {
+  id: Scalars['String'];
+};
+
+
+export type Subscription_RootStripeSubscriptionArgs = {
+  distinctOn?: InputMaybe<Array<StripeSubscriptionSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<StripeSubscriptionOrderBy>>;
+  where?: InputMaybe<StripeSubscriptionBoolExp>;
+};
+
+
+export type Subscription_RootStripeSubscriptionAggregateArgs = {
+  distinctOn?: InputMaybe<Array<StripeSubscriptionSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<StripeSubscriptionOrderBy>>;
+  where?: InputMaybe<StripeSubscriptionBoolExp>;
+};
+
+
+export type Subscription_RootStripeSubscriptionByPkArgs = {
+  id: Scalars['String'];
+};
+
+
+export type Subscription_RootTradeArgs = {
+  distinctOn?: InputMaybe<Array<TradeSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<TradeOrderBy>>;
+  where?: InputMaybe<TradeBoolExp>;
+};
+
+
+export type Subscription_RootTradeAggregateArgs = {
+  distinctOn?: InputMaybe<Array<TradeSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<TradeOrderBy>>;
+  where?: InputMaybe<TradeBoolExp>;
+};
+
+
+export type Subscription_RootTradeAvgPriceByWindowArgs = {
+  args: TradeAvgPriceByWindowArgs;
+  distinctOn?: InputMaybe<Array<TypeTradeAvgPriceByWindowSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<TypeTradeAvgPriceByWindowOrderBy>>;
+  where?: InputMaybe<TypeTradeAvgPriceByWindowBoolExp>;
+};
+
+
+export type Subscription_RootTradeByPkArgs = {
+  uid: Scalars['uuid'];
+};
+
+
+export type Subscription_RootTradeSumByWindowArgs = {
+  args: TradeSumByWindowArgs;
+  distinctOn?: InputMaybe<Array<TypeTradeSumByWindowSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<TypeTradeSumByWindowOrderBy>>;
+  where?: InputMaybe<TypeTradeSumByWindowBoolExp>;
+};
+
+
+export type Subscription_RootTypeTradeAvgPriceByWindowArgs = {
+  distinctOn?: InputMaybe<Array<TypeTradeAvgPriceByWindowSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<TypeTradeAvgPriceByWindowOrderBy>>;
+  where?: InputMaybe<TypeTradeAvgPriceByWindowBoolExp>;
+};
+
+
+export type Subscription_RootTypeTradeSumByWindowArgs = {
+  distinctOn?: InputMaybe<Array<TypeTradeSumByWindowSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<TypeTradeSumByWindowOrderBy>>;
+  where?: InputMaybe<TypeTradeSumByWindowBoolExp>;
+};
+
+
+export type Subscription_RootUserArgs = {
+  distinctOn?: InputMaybe<Array<UserSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<UserOrderBy>>;
+  where?: InputMaybe<UserBoolExp>;
+};
+
+
+export type Subscription_RootUser2faArgs = {
+  distinctOn?: InputMaybe<Array<User2faSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<User2faOrderBy>>;
+  where?: InputMaybe<User2faBoolExp>;
+};
+
+
+export type Subscription_RootUser2faByPkArgs = {
+  uid: Scalars['uuid'];
+};
+
+
+export type Subscription_RootUserByPkArgs = {
+  uid: Scalars['uuid'];
+};
+
+
+export type Subscription_RootUserDeviceArgs = {
+  distinctOn?: InputMaybe<Array<UserDeviceSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<UserDeviceOrderBy>>;
+  where?: InputMaybe<UserDeviceBoolExp>;
+};
+
+
+export type Subscription_RootUserDeviceAggregateArgs = {
+  distinctOn?: InputMaybe<Array<UserDeviceSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<UserDeviceOrderBy>>;
+  where?: InputMaybe<UserDeviceBoolExp>;
+};
+
+
+export type Subscription_RootUserDeviceByPkArgs = {
+  uid: Scalars['uuid'];
+};
+
+
+export type Subscription_RootUserExchangeKeysArgs = {
+  distinctOn?: InputMaybe<Array<UserExchangeKeysSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<UserExchangeKeysOrderBy>>;
+  where?: InputMaybe<UserExchangeKeysBoolExp>;
+};
+
+
+export type Subscription_RootUserExchangeKeysAggregateArgs = {
+  distinctOn?: InputMaybe<Array<UserExchangeKeysSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Array<UserExchangeKeysOrderBy>>;
+  where?: InputMaybe<UserExchangeKeysBoolExp>;
+};
+
+
+export type Subscription_RootUserExchangeKeysByPkArgs = {
+  uid: Scalars['uuid'];
 };

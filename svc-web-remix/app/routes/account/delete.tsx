@@ -1,5 +1,6 @@
 import { useLoaderData } from '@remix-run/react'
-import { ActionFunction, LoaderFunction, json, redirect } from '@remix-run/node'
+import type { ActionFunction, LoaderFunction } from '@remix-run/node'
+import { json, redirect } from '@remix-run/node'
 import invariant from 'tiny-invariant'
 import { errorBoundary } from '@stayradiated/error-boundary'
 
@@ -49,7 +50,7 @@ export const action: ActionFunction = async ({ request }) => {
   })
 }
 
-interface LoaderData {
+type LoaderData = {
   email: string
 }
 

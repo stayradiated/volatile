@@ -1,7 +1,7 @@
 import * as ir from '@volatile/independent-reserve-api'
 import { parseISO } from 'date-fns'
 
-import { MarketPriceSource } from '../../util/market-price-source.js'
+import type { MarketPriceSource } from '../../util/market-price-source.js'
 
 type Options = {
   assetSymbol: string
@@ -35,4 +35,4 @@ const marketSource: MarketPriceSource<Options> = {
 }
 
 export default marketSource
-export { Options }
+export type { Options }

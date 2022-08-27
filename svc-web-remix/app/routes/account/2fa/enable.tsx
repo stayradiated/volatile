@@ -1,5 +1,6 @@
 import { useLoaderData, useActionData } from '@remix-run/react'
-import { ActionFunction, LoaderFunction, json, redirect } from '@remix-run/node'
+import type { ActionFunction, LoaderFunction } from '@remix-run/node'
+import { json, redirect } from '@remix-run/node'
 import invariant from 'tiny-invariant'
 import { promiseHash } from 'remix-utils'
 import { errorBoundary } from '@stayradiated/error-boundary'
@@ -8,7 +9,7 @@ import { UserFormSetup2FA } from '~/components/user-form-setup-2fa'
 import { Card } from '~/components/retro-ui'
 import { getSessionData } from '~/utils/auth.server'
 import { sdk } from '~/utils/api.server'
-import { SetupUser2FaQuery } from '~/graphql/generated'
+import type { SetupUser2FaQuery } from '~/graphql/generated'
 import { loginRedirect } from '~/utils/redirect.server'
 
 type ActionData = {
@@ -51,7 +52,7 @@ export const action: ActionFunction = async ({ request }) => {
   return null
 }
 
-interface LoaderData {
+type LoaderData = {
   query: {
     setupUser2FA: SetupUser2FaQuery
   }

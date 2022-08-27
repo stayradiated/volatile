@@ -2,7 +2,11 @@ import * as db from 'zapatos/db'
 import type * as s from 'zapatos/schema'
 import { errorBoundary } from '@stayradiated/error-boundary'
 
-import { DbError, IllegalStateError } from '../../util/error.js'
+import {
+  DbError,
+  messageWithContext,
+  IllegalStateError,
+} from '../../util/error.js'
 
 import type { Pool } from '../../types.js'
 
@@ -47,14 +51,13 @@ const calculateValueToBid = async (
   `.run(pool),
   )
   if (rows instanceof Error) {
-    return new DbError({
-      message: 'Could not query dca orders for calculateValueToBid.',
-      cause: rows,
-      context: {
-        dcaOrderUid,
-        userExchangeKeysUid,
-      },
-    })
+    return new DbError(
+      messageWithContext(
+        `Could not query dca orders for calculateValueToBid.`,
+        { dcaOrderUid, userExchangeKeysUid },
+      ),
+      { cause: rows },
+    )
   }
 
   const row = rows[0]!
@@ -65,9 +68,8 @@ const calculateValueToBid = async (
 
   const bid = Math.min(availableBalance, targetValue, portion)
   if (typeof bid !== 'number' || Number.isNaN(bid)) {
-    return new IllegalStateError({
-      message: 'Calculated value to bid is not a number',
-      context: {
+    return new IllegalStateError(
+      messageWithContext(`Calculated value to bid is not a number`, {
         bid,
         availableBalance,
         targetValue,
@@ -75,8 +77,8 @@ const calculateValueToBid = async (
         sumAvailable,
         sumTarget,
         row,
-      },
-    })
+      }),
+    )
   }
 
   return bid

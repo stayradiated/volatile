@@ -1,6 +1,7 @@
 import { redirect } from '@remix-run/node'
 
-import { Session, destroySession } from '~/utils/auth.server'
+import type { Session } from '~/utils/auth.server'
+import { destroySession } from '~/utils/auth.server'
 
 const safeRedirect = (request: Request, to: string, options?: ResponseInit) => {
   const url = new URL(request.url)

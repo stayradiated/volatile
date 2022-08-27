@@ -3,6 +3,7 @@ import { formatISO } from 'date-fns'
 
 import {
   MissingRequiredArgumentError,
+  messageWithContext,
   IllegalArgumentError,
 } from '../../util/error.js'
 
@@ -25,16 +26,13 @@ const refreshAuthTokenHandler: ActionHandler<typeof schema> = {
     const { userUid, role } = session
 
     if (!userUid) {
-      return new MissingRequiredArgumentError({
-        message: 'userUid is required',
-        context: { userUid },
-      })
+      return new MissingRequiredArgumentError(
+        messageWithContext(`userUid is required`, { userUid }),
+      )
     }
 
     if (role !== 'user' && role !== 'superuser') {
-      return new IllegalArgumentError({
-        message: 'Cannot refresh tokens for this role.',
-      })
+      return new IllegalArgumentError('Cannot refresh tokens for this role.')
     }
 
     const result = generateAuthToken({ userUid, role })

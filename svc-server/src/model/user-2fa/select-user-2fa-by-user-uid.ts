@@ -15,11 +15,7 @@ const selectUser2FaByUserUid = async (
     db.selectOne('user_2fa', { user_uid: userUid }).run(pool),
   )
   if (row instanceof Error || !row) {
-    return new DbError({
-      message: 'Could not find user 2Fa.',
-      cause: row,
-      context: { userUid },
-    })
+    return new DbError('Could not find user 2Fa.', { cause: row })
   }
 
   const secret = keyring.decrypt(row.secret_encrypted, row.secret_keyring_id)

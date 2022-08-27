@@ -1,7 +1,7 @@
 import * as z from 'zod'
 import { formatISO } from 'date-fns'
 
-import { AuthError } from '../../util/error.js'
+import { AuthError, messageWithContext } from '../../util/error.js'
 
 import type { ActionHandler } from '../../util/action-handler.js'
 import {
@@ -64,10 +64,14 @@ const resetUserPasswordHandler: ActionHandler<typeof schema> = {
 
     if (requires2Fa) {
       if (!isTrustedDevice && !has2FaToken) {
-        return new AuthError({
-          message: 'This user has 2Fa enabled.',
-          context: { userUid, requires2Fa, isTrustedDevice, has2FaToken },
-        })
+        return new AuthError(
+          messageWithContext(`This user has 2Fa enabled.`, {
+            userUid,
+            requires2Fa,
+            isTrustedDevice,
+            has2FaToken,
+          }),
+        )
       }
 
       if (has2FaToken) {
@@ -80,10 +84,9 @@ const resetUserPasswordHandler: ActionHandler<typeof schema> = {
         }
 
         if (!isValidToken) {
-          return new AuthError({
-            message: 'Invalid 2Fa token.',
-            context: { userUid, isValidToken },
-          })
+          return new AuthError(
+            messageWithContext(`Invalid 2Fa token.`, { userUid, isValidToken }),
+          )
         }
       }
     }

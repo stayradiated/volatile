@@ -1,6 +1,10 @@
 import type { Task } from 'graphile-worker'
 
-import { UnexpectedError, CronError } from '../util/error.js'
+import {
+  UnexpectedError,
+  messageWithContext,
+  CronError,
+} from '../util/error.js'
 
 import {
   insertCronHistory,
@@ -45,17 +49,21 @@ const wrapCronHandler =
       const output = await fn(context)
 
       if (output instanceof Error) {
-        const cronError = new CronError({
-          message: `Error returned by cron handler for "${taskId}"`,
-          cause: output,
-          context: { taskId, input },
-        })
+        const cronError = new CronError(
+          messageWithContext(`Error returned by cron handler for "${taskId}"`, {
+            taskId,
+            input,
+          }),
+          {
+            cause: output,
+          },
+        )
 
         const cronHistoryError = await updateCronHistory(pool, {
           uid: row.uid,
           completedAt: new Date(),
           state: 'ERROR',
-          output: cronError.toObject({ omitting: false }),
+          output: cronError,
         })
         if (cronHistoryError instanceof Error) {
           helpers.logger.error(cronHistoryError.message)
@@ -76,19 +84,20 @@ const wrapCronHandler =
 
       return
     } catch (error: unknown) {
-      const unexpectedError = new UnexpectedError({
-        message: `Unexpected error thrown while executing cron hrndler for "${taskId}"`,
-        cause: error as Error,
-        context: {
-          taskId,
-          input,
+      const unexpectedError = new UnexpectedError(
+        messageWithContext(
+          `Unexpected error thrown while executing cron hrndler for "${taskId}".`,
+          { taskId, input },
+        ),
+        {
+          cause: error,
         },
-      })
+      )
       const cronHistoryError = await updateCronHistory(pool, {
         uid: row.uid,
         completedAt: new Date(),
         state: 'ERROR',
-        output: unexpectedError.toObject({ omitting: false }),
+        output: unexpectedError,
       })
       if (cronHistoryError instanceof Error) {
         helpers.logger.error(cronHistoryError.message)

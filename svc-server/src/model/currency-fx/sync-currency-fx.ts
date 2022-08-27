@@ -6,7 +6,7 @@ import { historical } from '@volatile/open-exchange-rates-api'
 
 import { config } from '../../env.js'
 
-import { UnexpectedError } from '../../util/error.js'
+import { UnexpectedError, messageWithContext } from '../../util/error.js'
 
 import { insertRequest } from '../request/index.js'
 
@@ -90,16 +90,15 @@ const syncCurrencyFx = async (
         const fxRate = toRate / fromRate
 
         if (typeof fxRate !== 'number' || Number.isNaN(fxRate)) {
-          return new UnexpectedError({
-            message: `Could not get ${fromSymbol}→${toSymbol} rate`,
-            context: {
+          return new UnexpectedError(
+            messageWithContext(`Could not get ${fromSymbol}→${toSymbol} rate`, {
               fromSymbol,
               fromRate,
               toSymbol,
               toRate,
               fxRate,
-            },
-          })
+            }),
+          )
         }
 
         const upsertResult = await upsertCurrencyFx(pool, {

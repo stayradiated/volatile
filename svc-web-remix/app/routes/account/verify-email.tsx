@@ -1,5 +1,6 @@
 import { errorBoundary } from '@stayradiated/error-boundary'
-import { LoaderFunction, ActionFunction, redirect, json } from '@remix-run/node'
+import type { LoaderFunction, ActionFunction } from '@remix-run/node'
+import { redirect, json } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
 import invariant from 'tiny-invariant'
 import { sdk } from '~/utils/api.server'

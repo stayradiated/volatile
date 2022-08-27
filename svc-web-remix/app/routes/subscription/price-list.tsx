@@ -1,11 +1,12 @@
 import { useLoaderData } from '@remix-run/react'
-import { ActionFunction, LoaderFunction, json, redirect } from '@remix-run/node'
+import type { ActionFunction, LoaderFunction } from '@remix-run/node'
+import { json, redirect } from '@remix-run/node'
 import { makeDomainFunction, inputFromForm } from 'remix-domains'
 import * as z from 'zod'
 
 import { Navigation } from '~/components/navigation'
 import { Card } from '~/components/retro-ui'
-import { GetPricesQuery } from '~/graphql/generated'
+import type { GetPricesQuery } from '~/graphql/generated'
 import { SubscriptionPriceList } from '~/components/subscription-price-list'
 import { getSessionData } from '~/utils/auth.server'
 import { sdk } from '~/utils/api.server'
@@ -55,7 +56,7 @@ export const action: ActionFunction = async ({ request }) => {
   return redirect(`/subscription/checkout?id=${id}`)
 }
 
-interface LoaderData {
+type LoaderData = {
   email: string
   query: GetPricesQuery
 }

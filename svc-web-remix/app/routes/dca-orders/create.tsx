@@ -1,4 +1,5 @@
-import { ActionFunction, LoaderFunction, json, redirect } from '@remix-run/node'
+import type { ActionFunction, LoaderFunction } from '@remix-run/node'
+import { json, redirect } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
 import { errorBoundary } from '@stayradiated/error-boundary'
 import * as z from 'zod'
@@ -7,7 +8,7 @@ import { makeDomainFunction, inputFromForm } from 'remix-domains'
 
 import { Card } from '~/components/retro-ui'
 import { DcaOrderFormCreate } from '~/components/dca-order-form-create'
-import { GetDcaOrderFormCreateQuery } from '~/graphql/generated'
+import type { GetDcaOrderFormCreateQuery } from '~/graphql/generated'
 import { getSessionData } from '~/utils/auth.server'
 import { sdk } from '~/utils/api.server'
 import { loginRedirect } from '~/utils/redirect.server'
@@ -51,7 +52,7 @@ export const action: ActionFunction = async ({ request }) => {
   return redirect('/dca-orders')
 }
 
-interface LoaderData {
+type LoaderData = {
   query: {
     getDcaOrderFormCreate: GetDcaOrderFormCreateQuery
   }

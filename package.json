@@ -1,5 +1,6 @@
 {
   "scripts": {
+    "tidy:all": "turbo run tidy",
     "build:all": "turbo run build",
     "package:server": "turbo run package --filter=@volatile/svc-server",
     "package:web": "turbo run package --filter=@volatile/svc-web-remix",

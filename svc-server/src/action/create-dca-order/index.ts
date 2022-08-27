@@ -33,10 +33,9 @@ const createDcaOrderHandler: ActionHandler<typeof schema> = {
     const { pool, input, session } = context
     const { userUid } = session
     if (!userUid) {
-      return new MissingRequiredArgumentError({
-        message: 'userUid is required',
-        context: { userUid },
-      })
+      return new MissingRequiredArgumentError(
+        `userUid is required${JSON.stringify(userUid)}`,
+      )
     }
 
     const {

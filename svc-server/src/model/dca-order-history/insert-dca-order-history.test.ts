@@ -1,5 +1,5 @@
-import { inspect } from 'node:util'
 import * as db from 'zapatos/db'
+import { assertOk } from '@stayradiated/error-boundary'
 
 import { test } from '../../test-util/ava.js'
 
@@ -29,10 +29,7 @@ test('insertDcaOrderHistory', async (t) => {
   }
 
   const result = await insertDcaOrderHistory(pool, input)
-  if (result instanceof Error) {
-    t.fail(inspect(result))
-    return
-  }
+  assertOk(result)
 
   t.like(result, input)
   t.is('string', typeof result.uid)

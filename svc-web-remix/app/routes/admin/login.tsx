@@ -1,4 +1,5 @@
-import { ActionFunction, LoaderFunction, json } from '@remix-run/node'
+import type { ActionFunction, LoaderFunction } from '@remix-run/node'
+import { json } from '@remix-run/node'
 import invariant from 'tiny-invariant'
 
 import {

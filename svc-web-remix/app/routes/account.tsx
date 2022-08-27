@@ -1,12 +1,13 @@
 import { useLoaderData, Outlet, Link } from '@remix-run/react'
-import { LoaderFunction, json } from '@remix-run/node'
+import type { LoaderFunction } from '@remix-run/node'
+import { json } from '@remix-run/node'
 
 import { Card } from '~/components/retro-ui'
 import { Navigation } from '~/components/navigation'
 import { getSessionData } from '~/utils/auth.server'
 import { loginRedirect } from '~/utils/redirect.server'
 
-interface LoaderData {
+type LoaderData = {
   userUid: string
   email: string
 }

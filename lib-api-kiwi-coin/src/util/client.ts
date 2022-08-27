@@ -1,10 +1,11 @@
 import type { Kanye } from '@volatile/kanye'
-import { kanye, getResponseBodyJson, ApiError } from '@volatile/kanye'
+import { kanye, getResponseBodyJson } from '@volatile/kanye'
 
 import { createSignedBody } from './signature.js'
 import { isApiErrorBody } from './is-api-error-body.js'
 import { serial } from './serial.js'
 import type { Config } from './types.js'
+import { ApiError } from './error.js'
 
 const prefixUrl = 'https://kiwi-coin.com/api/'
 
@@ -42,13 +43,13 @@ const post = async (
 const getResponseBody = <T>(input: Kanye): T | Error => {
   const responseBodyJson = getResponseBodyJson<T>(input)
 
+  if (responseBodyJson instanceof Error) {
+    return responseBodyJson
+  }
+
   if (isApiErrorBody(responseBodyJson)) {
-    return new ApiError({
-      message: `Received error from ${input.method} ${input.url}`,
-      context: {
-        ...input,
-        responseBodyJson,
-      },
+    return new ApiError(`Received error from ${input.method} ${input.url}`, {
+      apiErrorBody: responseBodyJson,
     })
   }
 

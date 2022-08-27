@@ -1,7 +1,7 @@
 import fs from 'node:fs/promises'
 import * as process from 'node:process'
 import { errorBoundary } from '@stayradiated/error-boundary'
-import { ArgumentsCamelCase } from 'yargs'
+import type { ArgumentsCamelCase } from 'yargs'
 
 type Config = {
   endpoint: string
@@ -47,4 +47,4 @@ const createHandler =
     }
   }
 
-export { createHandler, Config }
+export { createHandler, type Config }

@@ -1,6 +1,6 @@
 import { errorListBoundary } from '@stayradiated/error-boundary'
 
-import { IllegalStateError } from '../../util/error.js'
+import { IllegalStateError, messageWithContext } from '../../util/error.js'
 import { log } from '../../util/debug.js'
 import type { DcaOrder } from '../../model/dca-order/index.js'
 import { getDcaOrderTargetValue } from '../../model/dca-order/index.js'
@@ -186,9 +186,8 @@ const executeDcaOrder = async (
 
     const volume = round(8, value / orderPrice)
     if (typeof volume !== 'number' || Number.isNaN(volume)) {
-      return new IllegalStateError({
-        message: 'Calculated volume is not a number',
-        context: {
+      return new IllegalStateError(
+        messageWithContext(`Calculated volume is not a number`, {
           volume,
           value,
           orderPrice,
@@ -196,8 +195,8 @@ const executeDcaOrder = async (
           lowestAskPrice,
           offsetPercent,
           marketPrice,
-        },
-      })
+        }),
+      )
     }
 
     const freshOrder = await userExchangeApi.createOrder({

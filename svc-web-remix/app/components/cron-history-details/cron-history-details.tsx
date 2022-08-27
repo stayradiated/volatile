@@ -1,6 +1,6 @@
 import { ErrorDetails } from './error-details'
 import { Card } from '~/components/retro-ui'
-import { CronHistoryFragment } from '~/graphql/generated'
+import type { CronHistoryFragment } from '~/graphql/generated'
 
 type CronHistoryDetailsProps = {
   item: CronHistoryFragment

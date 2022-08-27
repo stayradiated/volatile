@@ -1,14 +1,3 @@
-/* eslint-disable @typescript-eslint/no-useless-constructor */
-
-import {
-  BetterError,
-  BetterErrorConstructorArg,
-} from '@volatile/lib-error'
-
-class IllegalStateError extends BetterError {
-  constructor(arg: BetterErrorConstructorArg) {
-    super(arg)
-  }
-}
+class IllegalStateError extends Error {}
 
 export { IllegalStateError }

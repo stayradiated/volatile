@@ -43,14 +43,13 @@
   },
   "dependencies": {
     "@stayradiated/error-boundary": "4.0.0",
-    "@volatile/dasset-api": "workspace:1.0.1",
-    "@volatile/independent-reserve-api": "workspace:1.0.1",
-    "@volatile/kanye": "workspace:1.0.1",
-    "@volatile/keyring": "workspace:1.0.0",
-    "@volatile/kiwi-coin-api": "workspace:1.0.1",
-    "@volatile/lib-error": "workspace:1.0.0",
-    "@volatile/market-price": "workspace:1.0.0",
-    "@volatile/open-exchange-rates-api": "workspace:1.0.0",
+    "@volatile/dasset-api": "workspace:*",
+    "@volatile/independent-reserve-api": "workspace:*",
+    "@volatile/kanye": "workspace:*",
+    "@volatile/keyring": "workspace:*",
+    "@volatile/kiwi-coin-api": "workspace:*",
+    "@volatile/market-price": "workspace:*",
+    "@volatile/open-exchange-rates-api": "workspace:*",
     "bcrypt": "5.0.1",
     "date-fns": "2.29.2",
     "debug": "4.3.4",
@@ -70,13 +69,7 @@
   "__comment": "The following configs are managed by `npx @stayradiated/jsconfig`",
   "ava": {
     "verbose": true,
-    "extensions": {
-      "ts": "module"
-    },
-    "nodeArguments": [
-      "--loader=ts-node/esm"
-    ],
-    "files": ["./src/**/*.test.ts"]
+    "files": ["./dist/**/*.test.js"]
   },
   "xo": {
     "space": true,
@@ -85,7 +78,18 @@
     "rules": {
       "@typescript-eslint/naming-convention": "off",
       "n/file-extension-in-import": "off",
-      "ava/assertion-arguments": "off"
+      "ava/assertion-arguments": "off",
+      "ava/no-ignored-test-files": [
+        "error",
+        {
+          "files": [
+            "**/src/**/*.test.ts"
+          ],
+          "extensions": [
+            "ts"
+          ]
+        }
+      ]
     }
   },
   "prettier": {

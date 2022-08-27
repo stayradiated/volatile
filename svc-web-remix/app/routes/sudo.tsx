@@ -1,5 +1,6 @@
 import { useLoaderData } from '@remix-run/react'
-import { ActionFunction, LoaderFunction, json } from '@remix-run/node'
+import type { ActionFunction, LoaderFunction } from '@remix-run/node'
+import { json } from '@remix-run/node'
 import invariant from 'tiny-invariant'
 
 import { SudoForm } from '~/components/sudo-form'
@@ -66,7 +67,7 @@ export const action: ActionFunction = async ({ request }) => {
   }
 }
 
-interface LoaderData {
+type LoaderData = {
   returnTo: string | undefined
 }
 

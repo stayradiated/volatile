@@ -1,14 +1,16 @@
-/* eslint-disable @typescript-eslint/no-useless-constructor */
+import type { DassetApiError } from './types.js'
 
-import {
-  BetterError,
-  BetterErrorConstructorArg,
-} from '@volatile/lib-error'
+class ConfigError extends Error {}
 
-class ConfigError extends BetterError {
-  constructor(arg: BetterErrorConstructorArg) {
-    super(arg)
+class ApiError extends Error {
+  apiErrorBody: DassetApiError
+  constructor(
+    message: string,
+    options: { cause?: Error; apiErrorBody: DassetApiError },
+  ) {
+    super(message, options)
+    this.apiErrorBody = options.apiErrorBody
   }
 }
 
-export { ConfigError }
+export { ConfigError, ApiError }

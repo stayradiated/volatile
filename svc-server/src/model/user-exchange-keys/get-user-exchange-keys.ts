@@ -15,11 +15,7 @@ const getUserExchangeKeys = async <Keys extends Record<string, string>>(
     db.selectOne('user_exchange_keys', { uid: userExchangeKeysUid }).run(pool),
   )
   if (row instanceof Error || !row) {
-    return new DbError({
-      message: 'Could not find User Exchange Keys.',
-      cause: row,
-      context: { userExchangeKeysUid },
-    })
+    return new DbError('Could not find User Exchange Keys.', { cause: row })
   }
 
   return mapRowToUserExchangeKeys<Keys>(row)

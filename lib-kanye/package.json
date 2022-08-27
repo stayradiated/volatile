@@ -24,7 +24,6 @@
   },
   "homepage": "https://github.com/stayradiated/volatile#readme",
   "dependencies": {
-    "@volatile/lib-error": "workspace:*",
     "@stayradiated/error-boundary": "4.0.0",
     "debug": "4.3.4",
     "escape-string-regexp": "5.0.0",

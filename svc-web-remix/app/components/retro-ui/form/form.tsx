@@ -1,5 +1,6 @@
 import React from 'react'
-import { Form as RemixForm, FormMethod } from '@remix-run/react'
+import type { FormMethod } from '@remix-run/react'
+import { Form as RemixForm } from '@remix-run/react'
 
 import { FormItem } from './form-item'
 import { FormItemGroup } from './form-item-group'

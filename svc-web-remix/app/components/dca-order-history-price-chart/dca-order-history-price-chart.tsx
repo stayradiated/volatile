@@ -1,6 +1,7 @@
 import { useMemo } from 'react'
 
-import { Chart, ChartConfig, formatDataForChart } from '../chart'
+import type { ChartConfig } from '../chart'
+import { Chart, formatDataForChart } from '../chart'
 
 import type {
   GetDcaOrderHistoryPriceChartQuery,

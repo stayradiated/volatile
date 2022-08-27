@@ -1,15 +1,16 @@
 import { useLoaderData } from '@remix-run/react'
-import { LoaderFunction, json } from '@remix-run/node'
+import type { LoaderFunction } from '@remix-run/node'
+import { json } from '@remix-run/node'
 
 import { Navigation } from '~/components/navigation'
 import { Card } from '~/components/retro-ui'
 import { OpenOrderList } from '~/components/open-order-list/index'
 import { getSessionData } from '~/utils/auth.server'
 import { sdk } from '~/utils/api.server'
-import { GetOpenOrderListQuery } from '~/graphql/generated'
+import type { GetOpenOrderListQuery } from '~/graphql/generated'
 import { loginRedirect } from '~/utils/redirect.server'
 
-interface LoaderData {
+type LoaderData = {
   email: string
   query: GetOpenOrderListQuery
 }

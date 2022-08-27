@@ -1,8 +1,8 @@
 import * as z from 'zod'
 import { errorBoundarySync } from '@stayradiated/error-boundary'
-import { Session as RemixSession } from '@remix-run/node'
-import { fromUnixTime, isBefore } from 'date-fns'
 import { createCookieSessionStorage } from '@remix-run/node'
+import type { Session as RemixSession } from '@remix-run/node'
+import { fromUnixTime, isBefore } from 'date-fns'
 import config from './env.server'
 
 const { getSession, commitSession, destroySession } =

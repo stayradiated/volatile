@@ -2,7 +2,7 @@ import * as db from 'zapatos/db'
 import type * as s from 'zapatos/schema'
 import { errorBoundary } from '@stayradiated/error-boundary'
 
-import { DbError } from '../../util/error.js'
+import { DbError, messageWithContext } from '../../util/error.js'
 import type { Pool } from '../../types.js'
 
 type GetMarketPriceOptions = {
@@ -32,19 +32,17 @@ const getMarketPrice = async (
   )
 
   if (rows instanceof Error) {
-    return new DbError({
-      message: `Could not get market price.`,
-      cause: rows,
-      context: options,
-    })
+    return new DbError(`Could not get market price.`, { cause: rows })
   }
 
   const row = rows[0]
   if (!row) {
-    return new DbError({
-      message: `No market price available for ${assetSymbol}/${currency}.`,
-      context: options,
-    })
+    return new DbError(
+      messageWithContext(
+        `No market price available for ${assetSymbol}/${currency}.`,
+        { marketUid, assetSymbol, currency },
+      ),
+    )
   }
 
   return row.price

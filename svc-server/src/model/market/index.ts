@@ -3,7 +3,7 @@ import * as db from 'zapatos/db'
 import type * as s from 'zapatos/schema'
 import { errorBoundary } from '@stayradiated/error-boundary'
 
-import { DbError } from '../../util/error.js'
+import { DbError, messageWithContext } from '../../util/error.js'
 import type { Pool } from '../../types.js'
 
 type Market = {
@@ -63,10 +63,9 @@ const forceGetMarketUid = async (
   )
 
   if (rows instanceof Error || !rows) {
-    return new DbError({
-      message: 'Could not upsert market',
-      context: { market },
-    })
+    return new DbError(
+      messageWithContext(`Could not upsert market`, { market }),
+    )
   }
 
   return rows[0]!.uid

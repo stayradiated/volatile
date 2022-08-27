@@ -1,4 +1,8 @@
-import { IllegalStateError, ConfigError } from '../util/error.js'
+import {
+  IllegalStateError,
+  messageWithContext,
+  ConfigError,
+} from '../util/error.js'
 import type { Exchange } from '../model/exchange/index.js'
 import {
   EXCHANGE_DASSET,
@@ -32,19 +36,14 @@ const getUserExchangeApi = async (options: {
       case EXCHANGE_INDEPENDENT_RESERVE:
         return getIndependentReserveExchangeApi(options)
       default:
-        return new IllegalStateError({
-          message: 'Unexpected exchange.',
-          context: { exchange },
-        })
+        return new IllegalStateError(
+          messageWithContext(`Unexpected exchange.`, { exchange }),
+        )
     }
   })()
   if (userExchangeApi instanceof Error) {
-    return new ConfigError({
-      message: 'Could not read User Exchange Keys.',
+    return new ConfigError('Could not read User Exchange Keys.', {
       cause: userExchangeApi,
-      context: {
-        exchange,
-      },
     })
   }
 
