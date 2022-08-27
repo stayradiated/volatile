@@ -69,7 +69,7 @@ const UserExchangeKeysList = (props: Props) => {
   return (
     <>
       <Table table={table} />
-      <Link to="/settings/create">Add API Keys</Link>
+      <Link to="./create">Add API Keys</Link>
 
       {/* <UserExchangeKeysModalDelete */}
       {/*   isOpen={Boolean(deleteState)} */}

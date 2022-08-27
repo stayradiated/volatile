@@ -5,7 +5,7 @@ import { useTable } from 'react-table'
 import { parseISO, differenceInHours } from 'date-fns'
 
 import { ToggleDcaOrder } from './toggle-dca-order'
-import { Card, Table, Dropdown } from '~/components/retro-ui'
+import { Table, Dropdown } from '~/components/retro-ui'
 import { formatCurrency } from '~/components/format'
 
 import type { GetDcaOrderListQuery } from '~/graphql/generated'
@@ -118,11 +118,8 @@ const DcaOrderList = (props: Props) => {
 
   return (
     <>
-      <Card width={1000}>
-        <h2>☰ Dca Order List</h2>
-        <Table table={table} />
-        <Link to="/dca-orders/create">Create Dca Order</Link>
-      </Card>
+      <Table table={table} />
+      <Link to="/dca-orders/create">Create Dca Order</Link>
     </>
   )
 }

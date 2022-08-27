@@ -4,7 +4,6 @@ import { json } from '@remix-run/node'
 import { inputFromFormData } from 'remix-domains'
 
 import { Card } from '~/components/retro-ui'
-import { Navigation } from '~/components/navigation'
 import { SubscriptionCard } from '~/components/subscription-list'
 import { getSessionData } from '~/utils/auth.server'
 import { loginRedirect } from '~/utils/redirect.server'
@@ -38,7 +37,6 @@ export const action: ActionFunction = async ({ request }) => {
 }
 
 type LoaderData = {
-  email: string
   query: GetSubscriptionStatusQuery
 }
 
@@ -49,7 +47,7 @@ export const loader: LoaderFunction = async ({ request }) => {
     return loginRedirect(request, session)
   }
 
-  const { email, authToken } = session
+  const { authToken } = session
 
   const query = await sdk.getSubscriptionStatus(
     {},
@@ -60,27 +58,25 @@ export const loader: LoaderFunction = async ({ request }) => {
   )
 
   return json<LoaderData>({
-    email,
     query,
   })
 }
 
 const SubscriptionRoute = () => {
-  const { email, query } = useLoaderData<LoaderData>()
+  const { query } = useLoaderData<LoaderData>()
 
   const activeSubscription = query.activeStripeSubscription[0]
   const incompleteSubscription = query.incompleteStripeSubscription[0]
 
   return (
     <>
-      <Navigation isAuthenticatedUser email={email} />
       <Card>
         {activeSubscription && (
           <SubscriptionCard subscription={activeSubscription} />
         )}
         {incompleteSubscription && (
           <p>
-            <Link to={`/subscription/checkout?id=${incompleteSubscription.id}`}>
+            <Link to={`./checkout?id=${incompleteSubscription.id}`}>
               Resume your subscription
             </Link>
           </p>
@@ -90,12 +86,12 @@ const SubscriptionRoute = () => {
             <p>No Active Subscription :(</p>
             <ul>
               <li>
-                <Link to="price-list">Subscribe!</Link>
+                <Link to="./price-list">Subscribe!</Link>
               </li>
               {(query.stripeSubscriptionAggregate.aggregate?.count ?? 0) >
                 0 && (
                 <li>
-                  <Link to="list">Your Previous Subscriptions</Link>
+                  <Link to="./list">Your Previous Subscriptions</Link>
                 </li>
               )}
             </ul>

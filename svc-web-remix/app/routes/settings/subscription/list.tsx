@@ -3,7 +3,6 @@ import type { ActionFunction, LoaderFunction } from '@remix-run/node'
 import { json } from '@remix-run/node'
 import { inputFromFormData } from 'remix-domains'
 
-import { Navigation } from '~/components/navigation'
 import type { GetSubscriptionsQuery } from '~/graphql/generated'
 import { SubscriptionList } from '~/components/subscription-list'
 import { getSessionData } from '~/utils/auth.server'
@@ -37,7 +36,6 @@ export const action: ActionFunction = async ({ request }) => {
 }
 
 type LoaderData = {
-  email: string
   query: GetSubscriptionsQuery
 }
 
@@ -48,7 +46,7 @@ export const loader: LoaderFunction = async ({ request }) => {
     return loginRedirect(request, session)
   }
 
-  const { email, authToken } = session
+  const { authToken } = session
 
   const query = await sdk.getSubscriptions(
     {},
@@ -59,17 +57,15 @@ export const loader: LoaderFunction = async ({ request }) => {
   )
 
   return json<LoaderData>({
-    email,
     query,
   })
 }
 
 const SubscriptionRoute = () => {
-  const { email, query } = useLoaderData<LoaderData>()
+  const { query } = useLoaderData<LoaderData>()
 
   return (
     <>
-      <Navigation isAuthenticatedUser email={email} />
       <SubscriptionList query={query} />
     </>
   )

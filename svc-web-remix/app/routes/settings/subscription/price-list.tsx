@@ -4,7 +4,6 @@ import { json, redirect } from '@remix-run/node'
 import { makeDomainFunction, inputFromForm } from 'remix-domains'
 import * as z from 'zod'
 
-import { Navigation } from '~/components/navigation'
 import { Card } from '~/components/retro-ui'
 import type { GetPricesQuery } from '~/graphql/generated'
 import { SubscriptionPriceList } from '~/components/subscription-price-list'
@@ -57,7 +56,6 @@ export const action: ActionFunction = async ({ request }) => {
 }
 
 type LoaderData = {
-  email: string
   query: GetPricesQuery
 }
 
@@ -68,7 +66,7 @@ export const loader: LoaderFunction = async ({ request }) => {
     return loginRedirect(request, session)
   }
 
-  const { email, authToken } = session
+  const { authToken } = session
 
   const query = await sdk.getPrices(
     {},
@@ -79,17 +77,15 @@ export const loader: LoaderFunction = async ({ request }) => {
   )
 
   return json<LoaderData>({
-    email,
     query,
   })
 }
 
 const SubscriptionRoute = () => {
-  const { email, query } = useLoaderData<LoaderData>()
+  const { query } = useLoaderData<LoaderData>()
 
   return (
     <>
-      <Navigation isAuthenticatedUser email={email} />
       <Card>
         <SubscriptionPriceList query={query} />
       </Card>

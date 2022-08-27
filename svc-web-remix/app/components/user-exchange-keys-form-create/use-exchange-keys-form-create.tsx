@@ -25,7 +25,7 @@ const UserExchangeKeysFormCreate = (props: Props) => {
   return (
     <div>
       <h2>+ Exchange API Key</h2>
-      <Form name="addUserExchangeKey" method="post" action="/settings/create">
+      <Form name="addUserExchangeKey" method="post">
         <Form.Item label="Name" name="description">
           <Input />
         </Form.Item>
@@ -47,7 +47,7 @@ const UserExchangeKeysFormCreate = (props: Props) => {
         </Form.Item>
 
         <Form.Item>
-          <Link to="/settings">Cancel</Link>
+          <Link to="../">Cancel</Link>
           <PrimaryButton type="button">
             {keysAreValid ? '✓ Valid' : 'Validate Keys'}
           </PrimaryButton>
