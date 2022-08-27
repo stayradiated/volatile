@@ -9,7 +9,7 @@ import type {
 import type { RouteGenericInterface } from 'fastify/types/route'
 import * as z from 'zod'
 
-import { IllegalArgumentError } from '../util/error.js'
+import { IllegalArgumentError, firstLine } from '../util/error.js'
 import { config } from '../env.js'
 
 import { pool } from '../pool.js'
@@ -179,7 +179,9 @@ const createActionHandler =
     } catch (error: unknown) {
       console.error(error)
       const message =
-        error instanceof Error ? error.message : 'Unknown error occured'
+        error instanceof Error
+          ? firstLine(error.message)
+          : 'Unknown error occured'
       await reply.code(499).send({ message })
     }
   }
