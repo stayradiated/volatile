@@ -1,4 +1,4 @@
-query getCronHistoryTaskIDs{
+query getCronHistoryTaskIds{
   cronHistoryAggregate(distinctOn: taskId) {
     nodes {
       taskId

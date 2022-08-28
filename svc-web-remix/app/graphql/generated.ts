@@ -11614,6 +11614,18 @@ export type VerifyUserEmailMutationVariables = Exact<{
 
 export type VerifyUserEmailMutation = { __typename?: 'mutation_root', actionVerifyUserEmail: { __typename?: 'VerifyUserEmailOutput', email: string } };
 
+export type GetCronHistoryListQueryVariables = Exact<{
+  where?: InputMaybe<CronHistoryBoolExp>;
+}>;
+
+
+export type GetCronHistoryListQuery = { __typename?: 'query_root', cronHistory: Array<{ __typename?: 'CronHistory', uid: string, taskId: string, createdAt: string, state: string, output?: Record<string, unknown> | null }> };
+
+export type GetCronHistoryTaskIdsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetCronHistoryTaskIdsQuery = { __typename?: 'query_root', cronHistoryAggregate: { __typename?: 'CronHistoryAggregate', nodes: Array<{ __typename?: 'CronHistory', taskId: string }> } };
+
 export type GetAdminExchangeListQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -11632,18 +11644,6 @@ export type GetCronHistoryQueryVariables = Exact<{
 
 
 export type GetCronHistoryQuery = { __typename?: 'query_root', cronHistoryByPk?: { __typename?: 'CronHistory', uid: string, taskId: string, createdAt: string, updatedAt: string, completedAt?: string | null, state: string, input: Record<string, unknown>, output?: Record<string, unknown> | null } | null };
-
-export type GetCronHistoryListQueryVariables = Exact<{
-  where?: InputMaybe<CronHistoryBoolExp>;
-}>;
-
-
-export type GetCronHistoryListQuery = { __typename?: 'query_root', cronHistory: Array<{ __typename?: 'CronHistory', uid: string, taskId: string, createdAt: string, state: string }> };
-
-export type GetCronHistoryTaskIDsQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type GetCronHistoryTaskIDsQuery = { __typename?: 'query_root', cronHistoryAggregate: { __typename?: 'CronHistoryAggregate', nodes: Array<{ __typename?: 'CronHistory', taskId: string }> } };
 
 export type GetDcaOrderFormCreateQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -12154,6 +12154,26 @@ export const VerifyUserEmailDocument = gql`
   }
 }
     `;
+export const GetCronHistoryListDocument = gql`
+    query getCronHistoryList($where: CronHistoryBoolExp) {
+  cronHistory(limit: 10, orderBy: {createdAt: DESC}, where: $where) {
+    uid
+    taskId
+    createdAt
+    state
+    output
+  }
+}
+    `;
+export const GetCronHistoryTaskIdsDocument = gql`
+    query getCronHistoryTaskIds {
+  cronHistoryAggregate(distinctOn: taskId) {
+    nodes {
+      taskId
+    }
+  }
+}
+    `;
 export const GetAdminExchangeListDocument = gql`
     query getAdminExchangeList {
   exchange {
@@ -12193,25 +12213,6 @@ export const GetCronHistoryDocument = gql`
   }
 }
     ${CronHistoryFragmentDoc}`;
-export const GetCronHistoryListDocument = gql`
-    query getCronHistoryList($where: CronHistoryBoolExp) {
-  cronHistory(limit: 10, orderBy: {createdAt: DESC}, where: $where) {
-    uid
-    taskId
-    createdAt
-    state
-  }
-}
-    `;
-export const GetCronHistoryTaskIDsDocument = gql`
-    query getCronHistoryTaskIDs {
-  cronHistoryAggregate(distinctOn: taskId) {
-    nodes {
-      taskId
-    }
-  }
-}
-    `;
 export const GetDcaOrderFormCreateDocument = gql`
     query getDcaOrderFormCreate {
   market {
@@ -12851,6 +12852,12 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     verifyUserEmail(variables: VerifyUserEmailMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<VerifyUserEmailMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<VerifyUserEmailMutation>(VerifyUserEmailDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'verifyUserEmail', 'mutation');
     },
+    getCronHistoryList(variables?: GetCronHistoryListQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetCronHistoryListQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetCronHistoryListQuery>(GetCronHistoryListDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getCronHistoryList', 'query');
+    },
+    getCronHistoryTaskIds(variables?: GetCronHistoryTaskIdsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetCronHistoryTaskIdsQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetCronHistoryTaskIdsQuery>(GetCronHistoryTaskIdsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getCronHistoryTaskIds', 'query');
+    },
     getAdminExchangeList(variables?: GetAdminExchangeListQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetAdminExchangeListQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetAdminExchangeListQuery>(GetAdminExchangeListDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getAdminExchangeList', 'query');
     },
@@ -12859,12 +12866,6 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     getCronHistory(variables: GetCronHistoryQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetCronHistoryQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetCronHistoryQuery>(GetCronHistoryDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getCronHistory', 'query');
-    },
-    getCronHistoryList(variables?: GetCronHistoryListQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetCronHistoryListQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<GetCronHistoryListQuery>(GetCronHistoryListDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getCronHistoryList', 'query');
-    },
-    getCronHistoryTaskIDs(variables?: GetCronHistoryTaskIDsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetCronHistoryTaskIDsQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<GetCronHistoryTaskIDsQuery>(GetCronHistoryTaskIDsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getCronHistoryTaskIDs', 'query');
     },
     getDcaOrderFormCreate(variables?: GetDcaOrderFormCreateQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetDcaOrderFormCreateQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetDcaOrderFormCreateQuery>(GetDcaOrderFormCreateDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getDcaOrderFormCreate', 'query');

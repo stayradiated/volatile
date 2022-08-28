@@ -4,5 +4,6 @@ query getCronHistoryList($where: CronHistoryBoolExp) {
     taskId
     createdAt
     state
+    output
   }
 }

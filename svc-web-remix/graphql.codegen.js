@@ -1,9 +1,11 @@
+const process = require('node:process')
+
 module.exports = {
   schema: [
     {
-      'http://localhost:9999/v1/graphql': {
+      [process.env.GRAPHQL_ENDPOINT]: {
         headers: {
-          'X-Hasura-Admin-Secret': 'unlockedinfinity',
+          'X-Hasura-Admin-Secret': process.env.GRAPHQL_ADMIN_SECRET,
           'X-Hasura-Allowed-Roles': 'guest,user,superuser,admin',
         },
       },
