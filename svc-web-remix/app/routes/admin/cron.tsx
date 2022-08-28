@@ -18,6 +18,8 @@ import { safeRedirect } from '~/utils/redirect.server'
 import { useSearchParamsLink } from '~/hooks/use-search-params-link'
 import { Table } from '~/components/ui/index'
 
+const PAGE_SIZE = 20
+
 type CronHistoryItem = {
   uid: string
   taskId: string
@@ -41,6 +43,12 @@ export const loader: LoaderFunction = async ({ request }) => {
   const { searchParams } = new URL(request.url)
   const filterByTaskId = searchParams.get('task')
   const filterByState = searchParams.get('state')
+  const page = Math.max(
+    1,
+    searchParams.has('page')
+      ? Number.parseInt(searchParams.get('page') ?? '1', 10)
+      : 1,
+  )
 
   const query = await promiseHash({
     getCronHistoryTaskIds: sdk.getCronHistoryTaskIds(
@@ -52,6 +60,8 @@ export const loader: LoaderFunction = async ({ request }) => {
     ),
     getCronHistoryList: sdk.getCronHistoryList(
       {
+        limit: PAGE_SIZE,
+        offset: (page - 1) * PAGE_SIZE,
         where: {
           taskId: filterByTaskId ? { _eq: filterByTaskId } : undefined,
           state: filterByState ? { _eq: filterByState } : undefined,
@@ -101,6 +111,9 @@ const CronRoute = () => {
 
   const activeTaskId = searchParameters.get('task')
   const activeState = searchParameters.get('state')
+  const page = searchParameters.has('page')
+    ? Number.parseInt(searchParameters.get('page') ?? '1', 10)
+    : 1
 
   const columns: Array<ColumnDef<CronHistoryItem, string>> = useMemo(() => {
     const columnHelper = createColumnHelper<CronHistoryItem>()
@@ -203,6 +216,29 @@ const CronRoute = () => {
               </NavLink>
             </li>
           </ul>
+        </li>
+        <li>
+          <Link
+            replace
+            to={searchParametersLink({
+              set: page > 1 ? { page: String(page - 1) } : {},
+            })}
+          >
+            ← Prev
+          </Link>
+        </li>
+        <li>
+          <Link
+            replace
+            to={searchParametersLink({
+              set:
+                cronHistoryList.length >= PAGE_SIZE
+                  ? { page: String(page + 1) }
+                  : {},
+            })}
+          >
+            Next →
+          </Link>
         </li>
       </ul>
 

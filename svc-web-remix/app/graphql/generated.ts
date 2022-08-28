@@ -11616,6 +11616,8 @@ export type VerifyUserEmailMutation = { __typename?: 'mutation_root', actionVeri
 
 export type GetCronHistoryListQueryVariables = Exact<{
   where?: InputMaybe<CronHistoryBoolExp>;
+  limit: Scalars['Int'];
+  offset: Scalars['Int'];
 }>;
 
 
@@ -12155,8 +12157,13 @@ export const VerifyUserEmailDocument = gql`
 }
     `;
 export const GetCronHistoryListDocument = gql`
-    query getCronHistoryList($where: CronHistoryBoolExp) {
-  cronHistory(limit: 10, orderBy: {createdAt: DESC}, where: $where) {
+    query getCronHistoryList($where: CronHistoryBoolExp, $limit: Int!, $offset: Int!) {
+  cronHistory(
+    limit: $limit
+    offset: $offset
+    orderBy: {createdAt: DESC}
+    where: $where
+  ) {
     uid
     taskId
     createdAt
@@ -12852,7 +12859,7 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     verifyUserEmail(variables: VerifyUserEmailMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<VerifyUserEmailMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<VerifyUserEmailMutation>(VerifyUserEmailDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'verifyUserEmail', 'mutation');
     },
-    getCronHistoryList(variables?: GetCronHistoryListQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetCronHistoryListQuery> {
+    getCronHistoryList(variables: GetCronHistoryListQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetCronHistoryListQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetCronHistoryListQuery>(GetCronHistoryListDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getCronHistoryList', 'query');
     },
     getCronHistoryTaskIds(variables?: GetCronHistoryTaskIdsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetCronHistoryTaskIdsQuery> {

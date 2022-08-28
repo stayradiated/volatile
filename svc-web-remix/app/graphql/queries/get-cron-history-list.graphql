@@ -1,5 +1,5 @@
-query getCronHistoryList($where: CronHistoryBoolExp) {
-  cronHistory(limit: 10, orderBy: {createdAt: DESC}, where: $where) {
+query getCronHistoryList($where: CronHistoryBoolExp, $limit: Int!, $offset: Int!) {
+  cronHistory(limit: $limit, offset: $offset, orderBy: {createdAt: DESC}, where: $where) {
     uid
     taskId
     createdAt
