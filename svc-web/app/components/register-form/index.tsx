@@ -1,10 +1,9 @@
-import { Link, Form } from '@remix-run/react'
+import { Link } from '@remix-run/react'
 import styled from 'styled-components'
 
-import { Alert, Card, Input, PrimaryButton } from '../retro-ui'
-import { Logo } from '../logo'
+import { Form, Alert, Input, PrimaryButton } from '../retro-ui'
 
-const Section = styled.div`
+const FormAction = styled(Form.Item)`
   display: flex;
   justify-content: space-between;
 `
@@ -15,25 +14,23 @@ type RegisterFormProps = {
 }
 
 const RegisterForm = (props: RegisterFormProps) => {
-  const { loading, error } = props
+  const { loading: _loading, error } = props
 
   return (
-    <Card>
-      <Logo />
-      <Form method="post">
-        <p>Create a new account.</p>
-        {error && <Alert message={error} type="error" />}
-
-        <fieldset disabled={loading}>
-          <Input name="email" type="email" />
-          <Input type="password" name="password" />
-          <Section>
-            <Link to="/login">log in</Link>
-            <PrimaryButton type="submit">SIGN UP</PrimaryButton>
-          </Section>
-        </fieldset>
-      </Form>
-    </Card>
+    <Form name="register" method="post">
+      <p>Create a new account.</p>
+      {error && <Alert message={error} type="error" />}
+      <Form.Item label="Email">
+        <Input name="email" type="email" />
+      </Form.Item>
+      <Form.Item label="Password">
+        <Input type="password" name="password" />
+      </Form.Item>
+      <FormAction>
+        <Link to="/login">Log in</Link>
+        <PrimaryButton type="submit">SIGN UP</PrimaryButton>
+      </FormAction>
+    </Form>
   )
 }
 

@@ -10,6 +10,7 @@ import {
   commitSession,
 } from '~/utils/auth.server'
 import { RegisterForm } from '~/components/register-form/index'
+import { Logo } from '~/components/logo'
 import { sdk } from '~/utils/api.server'
 
 const createUser = makeDomainFunction(
@@ -97,7 +98,12 @@ const RegisterRoute = () => {
   const transition = useTransition()
   const loading = transition.state === 'submitting'
 
-  return <RegisterForm loading={loading} error={error} />
+  return (
+    <>
+      <Logo />
+      <RegisterForm loading={loading} error={error} />
+    </>
+  )
 }
 
 export default RegisterRoute
