@@ -3,5 +3,5 @@
 !/svc-hasura/metadata/
 !/svc-server/dist/
 !/svc-server/migrations/
-!/svc-web-remix/dist/
-!/svc-web-remix/public/
+!/svc-web/dist/
+!/svc-web/public/

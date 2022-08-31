@@ -3,8 +3,8 @@ FROM node:16.16.0-alpine as node
 RUN npm install --verbose --location=global @remix-run/serve@1.6.8
 
 WORKDIR /app
-COPY ./svc-web-remix/dist/ ./
-COPY ./svc-web-remix/public/ ./public/
+COPY ./svc-web/dist/ ./
+COPY ./svc-web/public/ ./public/
 
 ENV NODE_ENV=production
 
