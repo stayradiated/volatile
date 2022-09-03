@@ -43,7 +43,10 @@ test('getLowestAskPrice', async (t) => {
   const { api } = t.context
 
   mock
-    .intercept({ method: 'GET', path: (path) => path.startsWith('/Public/GetOrderBook') })
+    .intercept({
+      method: 'GET',
+      path: (path) => path.startsWith('/Public/GetOrderBook'),
+    })
     .reply(200, {
       BuyOrders: [
         {
@@ -87,25 +90,23 @@ test('getLowestAskPrice', async (t) => {
 test('getBalance', async (t) => {
   const { api } = t.context
 
-  mock
-    .intercept({ method: 'POST', path: '/Private/GetAccounts' })
-    .reply(200, [
-      /* eslint-disabel @typescript-eslint/naming-convention */
-      {
-        AccountGuid: '66dcac65-bf07-4e68-ad46-838f51100424',
-        AccountStatus: 'Active',
-        AvailableBalance: 45.334,
-        CurrencyCode: 'Xbt',
-        TotalBalance: 46.81,
-      },
-      {
-        AccountGuid: '49994921-60ec-411e-8a78-d0eba078d5e9',
-        AccountStatus: 'Active',
-        AvailableBalance: 14_345.53,
-        CurrencyCode: 'Usd',
-        TotalBalance: 15_784.07,
-      },
-    ])
+  mock.intercept({ method: 'POST', path: '/Private/GetAccounts' }).reply(200, [
+    /* eslint-disabel @typescript-eslint/naming-convention */
+    {
+      AccountGuid: '66dcac65-bf07-4e68-ad46-838f51100424',
+      AccountStatus: 'Active',
+      AvailableBalance: 45.334,
+      CurrencyCode: 'Xbt',
+      TotalBalance: 46.81,
+    },
+    {
+      AccountGuid: '49994921-60ec-411e-8a78-d0eba078d5e9',
+      AccountStatus: 'Active',
+      AvailableBalance: 14_345.53,
+      CurrencyCode: 'Usd',
+      TotalBalance: 15_784.07,
+    },
+  ])
 
   const balance = await api.getBalance()
   assertOk(balance)
@@ -193,37 +194,35 @@ test('getOpenOrders', async (t) => {
 test('getTrades', async (t) => {
   const { api } = t.context
 
-  mock
-    .intercept({ method: 'POST', path: '/Private/GetTrades' })
-    .reply(200, {
-      Data: [
-        {
-          TradeGuid: '593e609d-041a-4f46-a41d-2cb8e908973f',
-          TradeTimestampUtc: '2014-12-16T03:44:19.2187707Z',
-          OrderGuid: '8bf851a3-76d2-439c-945a-93367541d467',
-          OrderType: 'LimitBid',
-          OrderTimestampUtc: '2014-12-16T03:43:36.7423769Z',
-          VolumeTraded: 0.5,
-          Price: 410,
-          PrimaryCurrencyCode: 'Xbt',
-          SecondaryCurrencyCode: 'Usd',
-        },
-        {
-          TradeGuid: '13c1e71c-bfb4-452c-b13e-e03535f98b09',
-          TradeTimestampUtc: '2014-12-11T11:37:42.2089564Z',
-          OrderGuid: '1ce88acf-6013-4867-b58d-77f0e41ec475',
-          OrderType: 'LimitBid',
-          OrderTimestampUtc: '2014-12-11T11:37:42.0724391Z',
-          VolumeTraded: 0.4,
-          Price: 399,
-          PrimaryCurrencyCode: 'Xbt',
-          SecondaryCurrencyCode: 'Usd',
-        },
-      ],
-      PageSize: 10,
-      TotalItems: 2,
-      TotalPages: 1,
-    })
+  mock.intercept({ method: 'POST', path: '/Private/GetTrades' }).reply(200, {
+    Data: [
+      {
+        TradeGuid: '593e609d-041a-4f46-a41d-2cb8e908973f',
+        TradeTimestampUtc: '2014-12-16T03:44:19.2187707Z',
+        OrderGuid: '8bf851a3-76d2-439c-945a-93367541d467',
+        OrderType: 'LimitBid',
+        OrderTimestampUtc: '2014-12-16T03:43:36.7423769Z',
+        VolumeTraded: 0.5,
+        Price: 410,
+        PrimaryCurrencyCode: 'Xbt',
+        SecondaryCurrencyCode: 'Usd',
+      },
+      {
+        TradeGuid: '13c1e71c-bfb4-452c-b13e-e03535f98b09',
+        TradeTimestampUtc: '2014-12-11T11:37:42.2089564Z',
+        OrderGuid: '1ce88acf-6013-4867-b58d-77f0e41ec475',
+        OrderType: 'LimitBid',
+        OrderTimestampUtc: '2014-12-11T11:37:42.0724391Z',
+        VolumeTraded: 0.4,
+        Price: 399,
+        PrimaryCurrencyCode: 'Xbt',
+        SecondaryCurrencyCode: 'Usd',
+      },
+    ],
+    PageSize: 10,
+    TotalItems: 2,
+    TotalPages: 1,
+  })
 
   const trades = await api.getTrades({
     pageIndex: 1,
@@ -295,23 +294,21 @@ test('createOrder', async (t) => {
 test.only('cancelOrder', async (t) => {
   const { api } = t.context
 
-  mock
-    .intercept({ method: 'POST', path: '/Private/CancelOrder' })
-    .reply(200, {
-      CreatedTimestampUtc: '2014-08-05T06:42:11.3032208Z',
-      OrderGuid: '719c495c-a39e-4884-93ac-280b37245037',
-      Price: 485.76,
-      AvgPrice: null,
-      FeePercent: 0.005,
-      PrimaryCurrencyCode: 'Xbt',
-      ReservedAmount: 0.358,
-      SecondaryCurrencyCode: 'Usd',
-      Status: 'Cancelled',
-      Type: 'LimitOffer',
-      VolumeFilled: 0,
-      VolumeOrdered: 0.358,
-      VolumeCurrencyType: 'Primary',
-    })
+  mock.intercept({ method: 'POST', path: '/Private/CancelOrder' }).reply(200, {
+    CreatedTimestampUtc: '2014-08-05T06:42:11.3032208Z',
+    OrderGuid: '719c495c-a39e-4884-93ac-280b37245037',
+    Price: 485.76,
+    AvgPrice: null,
+    FeePercent: 0.005,
+    PrimaryCurrencyCode: 'Xbt',
+    ReservedAmount: 0.358,
+    SecondaryCurrencyCode: 'Usd',
+    Status: 'Cancelled',
+    Type: 'LimitOffer',
+    VolumeFilled: 0,
+    VolumeOrdered: 0.358,
+    VolumeCurrencyType: 'Primary',
+  })
 
   const order = await api.cancelOrder({
     orderId: '719c495c-a39e-4884-93ac-280b37245037',

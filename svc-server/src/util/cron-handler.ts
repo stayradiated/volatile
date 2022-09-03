@@ -4,6 +4,7 @@ import {
   UnexpectedError,
   messageWithContext,
   CronError,
+  errorToObject,
 } from '../util/error.js'
 
 import {
@@ -63,7 +64,7 @@ const wrapCronHandler =
           uid: row.uid,
           completedAt: new Date(),
           state: 'ERROR',
-          output: cronError,
+          output: errorToObject(cronError),
         })
         if (cronHistoryError instanceof Error) {
           helpers.logger.error(cronHistoryError.message)
@@ -97,7 +98,7 @@ const wrapCronHandler =
         uid: row.uid,
         completedAt: new Date(),
         state: 'ERROR',
-        output: unexpectedError,
+        output: errorToObject(unexpectedError),
       })
       if (cronHistoryError instanceof Error) {
         helpers.logger.error(cronHistoryError.message)
