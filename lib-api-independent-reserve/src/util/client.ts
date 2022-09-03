@@ -8,14 +8,26 @@ import type { Config } from './types.js'
 
 const prefixUrl = 'https://api.independentreserve.com/'
 
+const buildSearchParameters = (
+  input: Record<string, string | number | boolean>,
+): URLSearchParams => {
+  const searchParameters = new URLSearchParams()
+  for (const [key, value] of Object.entries(input)) {
+    searchParameters.set(key, String(value))
+  }
+
+  return searchParameters
+}
+
 const get = async (
   endpoint: string,
-  searchParameters?: Record<string, string | number>,
+  searchParameters?: Record<string, string | number | boolean>,
 ): Promise<Kanye | Error> => {
-  return kanye(endpoint, {
+  return kanye(prefixUrl + endpoint, {
     method: 'GET',
-    prefixUrl,
-    searchParams: searchParameters,
+    searchParams: searchParameters
+      ? buildSearchParameters(searchParameters)
+      : undefined,
   })
 }
 
@@ -27,10 +39,12 @@ const post = async (
   return withNonce(config.apiKey, async (nonce) => {
     const signedBody = createSignedBody({ config, endpoint, parameters, nonce })
 
-    return kanye(endpoint, {
+    return kanye(prefixUrl + endpoint, {
       method: 'POST',
-      prefixUrl,
-      json: signedBody,
+      body: JSON.stringify(signedBody),
+      headers: {
+        'content-type': 'application/json',
+      },
       redact: [config.apiKey, config.apiSecret],
     })
   })

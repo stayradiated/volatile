@@ -28,21 +28,17 @@
     "@volatile/kanye": "workspace:*"
   },
   "devDependencies": {
-    "@types/node": "18.7.13",
+    "@types/node": "18.7.14",
     "ava": "4.3.3",
-    "del-cli": "5.0.0",
-    "dotenv": "16.0.1",
-    "env-var": "7.1.1",
-    "nock": "13.2.9",
     "typescript": "4.8.2",
-    "xo": "0.52.2"
+    "xo": "0.52.3"
   },
   "scripts": {
     "tidy": "xo --fix",
     "test": "ava",
-    "build": "del-cli dist && tsc"
+    "build": "rm -rf ./dist && tsc"
   },
-  "__comment": "The following configs are managed by `npx @stayradiated/jsconfig`",
+  "__comment": "The following configs are managed by `@stayradiated/jsconfig`",
   "ava": {
     "verbose": true
   },
@@ -68,7 +64,6 @@
   "prettier": {
     "arrowParens": "always",
     "bracketSpacing": true,
-    "jsxBracketSameLine": false,
     "semi": false,
     "singleQuote": true,
     "tabWidth": 2,

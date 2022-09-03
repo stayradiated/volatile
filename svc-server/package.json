@@ -8,38 +8,34 @@
   "license": "GPL-3.0",
   "type": "module",
   "scripts": {
-    "dev": "ts-node-dev --exit-child --transpile-only ./src/index.ts",
     "pretest": "${npm_execpath} run migrate:test migrate",
     "test": "env-cmd --file=./.env.test ava",
-    "tidy": "xo --fix --ignore ./src/zapatos",
-    "tsc": "del-cli ./dist && tsc",
+    "tidy": "xo --fix",
+    "tsc": "rm -rf ./dist && tsc",
     "zapatos": "zapatos",
-    "package": "mv package.json package.json.tmp; del-cli ./dist && ncc build --no-source-map-register --transpile-only ./src/index.ts; mv package.json.tmp package.json",
-    "start": "NODE_ENV=production node --require 'dotenv/config' ./dist/index.js",
+    "package": "mv package.json package.json.tmp; rm -rf ./dist && ncc build --no-source-map-register --transpile-only ./src/index.ts; mv package.json.tmp package.json",
+    "start": "env-cmd node ./dist/index.js",
     "migrate": "env-cmd graphile-migrate",
-    "migrate:test": "env-cmd --file=./.env.test graphile-migrate"
+    "migrate:test": "env-cmd --file=./.env.test graphile-migrate",
+    "build": "rm -rf ./dist && tsc"
   },
   "devDependencies": {
     "@types/bcrypt": "5.0.0",
     "@types/debug": "4.1.7",
-    "@types/node": "18.7.13",
+    "@types/node": "18.7.14",
     "@types/nodemailer": "6.4.5",
     "@types/pg": "8.6.5",
     "@types/qrcode": "1.5.0",
     "@types/sinon": "10.0.13",
     "@vercel/ncc": "0.34.0",
     "ava": "4.3.3",
-    "del-cli": "5.0.0",
     "env-cmd": "10.1.0",
     "graphile-migrate": "1.4.0",
-    "nock": "13.2.9",
     "sinon": "14.0.0",
     "timekeeper": "2.2.0",
-    "ts-node": "10.9.1",
-    "ts-node-dev": "2.0.0",
     "type-fest": "2.19.0",
     "typescript": "4.8.2",
-    "xo": "0.52.2"
+    "xo": "0.52.3"
   },
   "dependencies": {
     "@stayradiated/error-boundary": "4.0.0",
@@ -53,7 +49,6 @@
     "bcrypt": "5.0.1",
     "date-fns": "2.29.2",
     "debug": "4.3.4",
-    "dotenv": "16.0.1",
     "fastify": "4.5.3",
     "graphile-worker": "0.13.0",
     "njwt": "1.2.0",
@@ -62,22 +57,19 @@
     "pg": "8.8.0",
     "qrcode": "1.5.1",
     "rambda": "7.2.1",
-    "stripe": "10.6.0",
+    "stripe": "10.7.0",
     "zapatos": "6.0.1",
     "zod": "3.18.0"
   },
-  "__comment": "The following configs are managed by `npx @stayradiated/jsconfig`",
+  "__comment": "The following configs are managed by `@stayradiated/jsconfig`",
   "ava": {
-    "verbose": true,
-    "files": ["./dist/**/*.test.js"]
+    "verbose": true
   },
   "xo": {
     "space": true,
     "semicolon": false,
     "prettier": true,
     "rules": {
-      "@typescript-eslint/naming-convention": "off",
-      "n/file-extension-in-import": "off",
       "ava/assertion-arguments": "off",
       "ava/no-ignored-test-files": [
         "error",
@@ -95,11 +87,11 @@
   "prettier": {
     "arrowParens": "always",
     "bracketSpacing": true,
-    "jsxBracketSameLine": false,
     "semi": false,
     "singleQuote": true,
     "tabWidth": 2,
     "trailingComma": "all",
     "useTabs": false
-  }
+  },
+  "version": ""
 }

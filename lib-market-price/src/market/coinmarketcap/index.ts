@@ -63,9 +63,8 @@ const marketSource: MarketPriceSource<CoinMarketCapConfig> = {
     const slug = 'bitcoin'
     const currency = 'NZD'
 
-    const raw = await kanye('v1/cryptocurrency/quotes/latest', {
+    const raw = await kanye(prefixUrl + 'v1/cryptocurrency/quotes/latest', {
       method: 'GET',
-      prefixUrl,
       searchParams: {
         slug,
         convert: currency,

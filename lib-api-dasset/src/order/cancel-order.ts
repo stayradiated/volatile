@@ -1,8 +1,6 @@
 import type { Kanye } from '@volatile/kanye'
-import { kanye } from '@volatile/kanye'
 
-import { requestOptions, getResponseBody } from '../util/client.js'
-import { buildHeaders } from '../util/build-headers.js'
+import { request, getResponseBody } from '../util/client.js'
 import type { Config } from '../util/types.js'
 
 type CancelOrderOptions = {
@@ -19,15 +17,10 @@ const cancelOrder = async (
 ): Promise<[CancelOrderResult | Error, Kanye?]> => {
   const { config, orderId } = options
 
-  const headers = buildHeaders(config)
-  if (headers instanceof Error) {
-    return [headers, undefined]
-  }
-
-  const raw = await kanye(`orders/${orderId}`, {
-    ...requestOptions(config),
+  const raw = await request({
+    config,
     method: 'DELETE',
-    headers,
+    endpoint: `orders/${orderId}`,
   })
   if (raw instanceof Error) {
     return [raw, undefined]

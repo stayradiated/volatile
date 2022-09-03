@@ -88,14 +88,14 @@ const getAllPages = async <T>(
 
 const buildPaginationSearchParameters = (
   options: PaginationOptions,
-): Record<string, number> => {
-  const searchParameters: Record<string, number> = {}
+): Record<string, string> => {
+  const searchParameters: Record<string, string> = {}
   if (typeof options.limit === 'number') {
-    searchParameters['limit'] = options.limit
+    searchParameters['limit'] = String(options.limit)
   }
 
   if (typeof options.page === 'number') {
-    searchParameters['page'] = options.page
+    searchParameters['page'] = String(options.page)
   }
 
   return searchParameters

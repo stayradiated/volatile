@@ -1,10 +1,5 @@
-import dotenv from 'dotenv'
-import env from 'env-var'
-
-dotenv.config()
-
-const dassetApiKey = env.get('DASSET_API_KEY').required().asString()
-const dassetAccountId = env.get('DASSET_ACCOUNT_ID').required().asString()
+const dassetApiKey = '__TEST_DASSET_API_KEY__'
+const dassetAccountId = '__TEST_DASSET_ACCOUNT_ID__'
 
 const testConfig = {
   accountId: dassetAccountId,

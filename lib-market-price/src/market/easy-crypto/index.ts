@@ -37,9 +37,8 @@ const marketSource: MarketPriceSource<Options> = {
 
     const lastUpdated = new Date()
 
-    const raw = await kanye(`ticker/${tradingPair}`, {
+    const raw = await kanye(prefixUrl + `ticker/${tradingPair}`, {
       method: 'GET',
-      prefixUrl,
     })
     if (raw instanceof Error) {
       return [raw]

@@ -1,12 +1,16 @@
 import { Link } from '@remix-run/react'
 import styled from 'styled-components'
 
-const Page = styled.main``
+import { Logo } from '~/components/logo'
+
+const Page = styled.main`
+  padding: 20px;
+`
 
 const LandingPage = () => {
   return (
     <Page>
-      <h1>🪙 Volatile</h1>
+      <Logo />
 
       <Link to="/login">Log In</Link>
 

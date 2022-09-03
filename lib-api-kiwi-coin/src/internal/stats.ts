@@ -128,8 +128,7 @@ const parseStats = (input: string): Stats | Error => {
 }
 
 const fetchStats = async (): Promise<Stats | Error> => {
-  const raw = await kanye('stats.html', {
-    prefixUrl: 'https://kiwi-coin.com/',
+  const raw = await kanye('https://kiwi-coin.com/stats.html', {
     headers: {
       'user-agent':
         'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36',

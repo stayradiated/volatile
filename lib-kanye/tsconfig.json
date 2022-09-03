@@ -1,11 +1,15 @@
 {
-  "__comment": "This typescipt config is managed by `npx @stayradiated/jsconfig`",
+  "__comment": "This typescipt config is managed by `@stayradiated/jsconfig`",
   "compilerOptions": {
     "outDir": "dist",
-    "module": "ES2022",
-    "target": "ES2022",
-    "lib": [ "ES2022", "DOM" ],
+    "module": "ES2020",
     "moduleResolution": "node",
+    "moduleDetection": "force",
+    "target": "ES2022",
+    "lib": [
+      "ES2022",
+      "DOM"
+    ],
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": false,
     "jsx": "react",

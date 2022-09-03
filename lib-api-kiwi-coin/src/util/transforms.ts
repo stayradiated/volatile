@@ -1,4 +1,4 @@
-import { inspect } from 'util'
+import { inspect } from 'node:util'
 import { fromUnixTime, parseISO } from 'date-fns'
 import type { Prism } from '@zwolf/prism'
 

@@ -1,11 +1,11 @@
 import test from 'ava'
-import nock from 'nock'
+import { mockGlobalDispatcher } from '@volatile/kanye'
 import { assertOk, assertError } from '@stayradiated/error-boundary'
 import { fromUnixTime } from 'date-fns'
 
 import { getTradeList } from './get-trade-list.js'
 
-nock.disableNetConnect()
+const mock = mockGlobalDispatcher('https://kiwi-coin.com')
 
 const config = {
   userId: 'user-id',
@@ -17,25 +17,23 @@ const stripPath = (input: string): string =>
   input.replace(/file:\/{3}[a-z\d/.:-]+/gi, 'PATH')
 
 test('should parse response', async (t) => {
-  nock('https://kiwi-coin.com')
-    .post('/api/trades', () => true)
-    .reply(
-      200,
-      JSON.stringify([
-        {
-          /* eslint-disable @typescript-eslint/naming-convention */
-          transaction_id: 12_345,
-          order_id: 98_765,
-          datetime: 1_631_710_068,
-          trade_type: 0,
-          trade_size: 0.5,
-          price: 30_000,
-          income: 0.5,
-          fee: 0.4,
-          /* eslint-enable @typescript-eslint/naming-convention */
-        },
-      ]),
-    )
+  mock.intercept({ method: 'POST', path: '/api/trades' }).reply(
+    200,
+    JSON.stringify([
+      {
+        /* eslint-disable @typescript-eslint/naming-convention */
+        transaction_id: 12_345,
+        order_id: 98_765,
+        datetime: 1_631_710_068,
+        trade_type: 0,
+        trade_size: 0.5,
+        price: 30_000,
+        income: 0.5,
+        fee: 0.4,
+        /* eslint-enable @typescript-eslint/naming-convention */
+      },
+    ]),
+  )
 
   const [tradeList] = await getTradeList({ config, timeframe: 'all' })
   assertOk(tradeList)
@@ -55,8 +53,8 @@ test('should parse response', async (t) => {
 })
 
 test('should detect invalid response', async (t) => {
-  nock('https://kiwi-coin.com')
-    .post('/api/trades', () => true)
+  mock
+    .intercept({ method: 'POST', path: '/api/trades' })
     .reply(200, JSON.stringify([{}]))
 
   const [tradeList] = await getTradeList({ config, timeframe: 'all' })

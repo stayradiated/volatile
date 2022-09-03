@@ -1,14 +1,12 @@
 import test from 'ava'
-import nock from 'nock'
+import { mockGlobalDispatcher } from '@volatile/kanye'
 
 import * as kiwiCoin from './index.js'
 
-test.before(() => {
-  nock.disableNetConnect()
-})
+const mock = mockGlobalDispatcher('https://kiwi-coin.com')
 
-test.serial('ticker', async (t) => {
-  nock('https://kiwi-coin.com').get('/api/ticker').reply(200, {
+test('ticker', async (t) => {
+  mock.intercept({ path: '/api/ticker' }).reply(200, {
     last: 47_899.05,
     date: 1_625_804_519,
     high: 48_600,

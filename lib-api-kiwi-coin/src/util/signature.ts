@@ -1,4 +1,4 @@
-import { createHmac } from 'crypto'
+import { createHmac } from 'node:crypto'
 
 import { isValidConfig } from './is-valid-config.js'
 import { ConfigError } from './error.js'
@@ -38,7 +38,7 @@ const createSignedBody = (
   config: Config,
   endpoint: string,
   parameters: Record<string, string> = {},
-): URLSearchParams | Error => {
+): string | Error => {
   if (!isValidConfig(config)) {
     return new ConfigError(
       `Config is not valid for kiwi-coin.com.
@@ -46,16 +46,20 @@ ${JSON.stringify({ config })}`,
     )
   }
 
-  const body = new URLSearchParams(parameters)
+  const formData = new URLSearchParams()
+  for (const [key, value] of Object.entries(parameters)) {
+    formData.set(key, value)
+  }
+
   const args: string[] = Object.values(parameters)
 
   const { key, nonce, signature } = createSignature(config, endpoint, args)
 
-  body.set('key', key)
-  body.set('nonce', nonce)
-  body.set('signature', signature)
+  formData.set('key', key)
+  formData.set('nonce', nonce)
+  formData.set('signature', signature)
 
-  return body
+  return formData.toString()
 }
 
 export { createSignature, createSignedBody }

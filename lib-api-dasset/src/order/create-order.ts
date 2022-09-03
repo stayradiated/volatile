@@ -1,8 +1,6 @@
 import type { Kanye } from '@volatile/kanye'
-import { kanye } from '@volatile/kanye'
 
-import { requestOptions, getResponseBody } from '../util/client.js'
-import { buildHeaders } from '../util/build-headers.js'
+import { request, getResponseBody } from '../util/client.js'
 import type { Config } from '../util/types.js'
 
 type CreateOrderOptions = {
@@ -32,16 +30,11 @@ const createOrder = async (
 ): Promise<[CreateOrderResult | Error, Kanye?]> => {
   const { config, order } = options
 
-  const headers = buildHeaders(config)
-  if (headers instanceof Error) {
-    return [headers, undefined]
-  }
-
-  const raw = await kanye('orders', {
-    ...requestOptions(config),
+  const raw = await request({
+    config,
     method: 'POST',
-    headers,
-    json: order,
+    endpoint: 'orders',
+    body: order,
   })
   if (raw instanceof Error) {
     return [raw, undefined]

@@ -1,7 +1,6 @@
 import { Link } from '@remix-run/react'
 import styled from 'styled-components'
 
-import { Logo } from '../logo'
 import { Alert, Form, CheckboxInput, Input, PrimaryButton } from '../retro-ui'
 
 const FormActions = styled(Form.Item)`
@@ -9,31 +8,29 @@ const FormActions = styled(Form.Item)`
   justify-content: space-between;
 `
 
-type LoginFormProps = {
+type TwoFactorFormProps = {
+  username: string
+  password: string
   returnTo: string | undefined
   error: string | undefined
 }
 
-const LoginForm = (props: LoginFormProps) => {
-  const { returnTo, error } = props
+const TwoFactorForm = (props: TwoFactorFormProps) => {
+  const { username, password, returnTo, error } = props
 
   return (
     <Form name="login" method="post" action="/login">
       <Form.Item>
         <p>Log in to your account</p>
         <input type="hidden" name="return" value={returnTo} />
+        <input type="hidden" name="username" value={username} />
+        <input type="hidden" name="password" value={password} />
       </Form.Item>
       {error && <Alert message={error} type="error" />}
-      <Form.Item label="Email" name="email">
-        <Input type="email" />
-      </Form.Item>
-      <Form.Item label="Password" name="password">
-        <Input type="password" />
-      </Form.Item>
       <Form.Item label="2FA Token" name="token2FA">
-        <Input />
+        <Input inputMode="numeric" minLength={6} maxLength={6} />
       </Form.Item>
-      <Form.Item label="Don't Ask Me For 2FA Again" name="deviceTrusted">
+      <Form.Item label="Trust This Device" name="deviceTrusted">
         <CheckboxInput />
       </Form.Item>
       <FormActions>
@@ -48,4 +45,4 @@ const LoginForm = (props: LoginFormProps) => {
   )
 }
 
-export { LoginForm }
+export { TwoFactorForm }

@@ -1,8 +1,6 @@
 import type { Kanye } from '@volatile/kanye'
-import { kanye } from '@volatile/kanye'
 
-import { requestOptions, getResponseBody } from '../util/client.js'
-import { buildHeaders } from '../util/build-headers.js'
+import { get, getResponseBody } from '../util/client.js'
 import type { Config } from '../util/types.js'
 
 type Balance = {
@@ -29,16 +27,7 @@ const getBalanceList = async (
 ): Promise<[GetBalanceListResult | Error, Kanye?]> => {
   const { config } = options
 
-  const headers = buildHeaders(config)
-  if (headers instanceof Error) {
-    return [headers, undefined]
-  }
-
-  const raw = await kanye('balances', {
-    ...requestOptions(config),
-    method: 'GET',
-    headers,
-  })
+  const raw = await get(config, 'balances')
   if (raw instanceof Error) {
     return [raw, undefined]
   }

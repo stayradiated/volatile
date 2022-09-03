@@ -1,23 +1,42 @@
-import ky from 'ky-universal'
-import type { Options as KyOptions } from 'ky'
-import { HTTPError, TimeoutError } from 'ky'
+import type { IncomingHttpHeaders } from 'node:http'
 import debug from 'debug'
 import { errorBoundary } from '@stayradiated/error-boundary'
+import { request, errors as undiciErrors } from 'undici'
 
-import { NetworkError } from './error.js'
+import { NetworkError, ServerError } from './error.js'
 import { buildRedactFn } from './redact.js'
 
 import type { Kanye } from './types.js'
 
-const parseHeaders = (headers: Headers): Record<string, string> => {
-  const typescriptHeaders = headers as unknown as {
-    entries: () => IterableIterator<[string, string]>
-  }
-  return Object.fromEntries(typescriptHeaders.entries())
+type KanyeOptions = {
+  method?: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'HEAD'
+  origin?: string
+  body?: string
+  headers?: Record<string, string>
+  signal?: AbortSignal
+  bodyTimeout?: number
+  headersTimeout?: number
+  redact?: string[]
+  searchParams?: URLSearchParams | Record<string, string>
 }
 
-type KanyeOptions = KyOptions & {
-  redact?: string[]
+const parseHeaders = (
+  headers: IncomingHttpHeaders | string[] | undefined,
+): Record<string, string | string[]> => {
+  if (typeof headers === 'undefined') {
+    return {}
+  }
+
+  if (Array.isArray(headers)) {
+    return { _: headers }
+  }
+
+  const output: Record<string, string | string[]> = {}
+  for (const [key, value] of Object.entries(headers)) {
+    output[key] = typeof value === 'undefined' ? '' : value
+  }
+
+  return output
 }
 
 const buildReturnValue = (
@@ -49,40 +68,46 @@ const kanye = async (
   options: KanyeOptions,
 ): Promise<Kanye> => {
   const log = debug('kanye')
+  const {
+    method = 'GET',
+    origin,
+    headers: requestHeaders,
+    body: requestBody,
+    searchParams,
+    signal,
+    bodyTimeout,
+    headersTimeout,
+  } = options
 
-  const method = options.method ?? 'GET'
-  let url = `${
-    typeof options.prefixUrl === 'string' ? options.prefixUrl : ''
-  }${endpoint}`
-  let requestBody: string | undefined
-  let requestHeaders: Record<string, string> | undefined
+  const urlSearchParameters = searchParams
+    ? new URLSearchParams(searchParams)
+    : undefined
+  const endpointWithSearchParameters =
+    endpoint + (urlSearchParameters ? '?' + urlSearchParameters.toString() : '')
+  const url: string = new URL(endpointWithSearchParameters, origin).toString()
 
   const requestAt = new Date()
 
-  const response = await errorBoundary(async () =>
-    ky(endpoint, {
-      hooks: {
-        beforeRequest: [
-          async (request) => {
-            url = request.url
-            requestHeaders = parseHeaders(request.headers)
-            requestBody = await request.clone().text()
-            log(`∙ ${request.method.slice(0, 3)} ${request.url}`)
-          },
-        ],
-        afterResponse: [
-          (request) => {
-            log(`✓ ${request.method.slice(0, 3)} ${request.url}`)
-          },
-        ],
-      },
-      ...options,
-    }),
-  )
+  log(`∙ ${method.slice(0, 3)} ${url}`)
+
+  const response = await errorBoundary(async () => {
+    return request(url, {
+      method,
+      body: requestBody,
+      headers: requestHeaders,
+      signal,
+      bodyTimeout,
+      headersTimeout,
+      throwOnError: false,
+    })
+  })
+
+  log(`✓ ${method.slice(0, 3)} ${url}`)
+
   const responseAt = new Date()
 
   if (response instanceof Error) {
-    if (response instanceof TimeoutError) {
+    if (response instanceof undiciErrors.HeadersTimeoutError) {
       return buildReturnValue(options, {
         error: response,
         method,
@@ -94,11 +119,14 @@ const kanye = async (
       })
     }
 
-    if (response instanceof HTTPError) {
-      const responseBodyText = await errorBoundary(async () => {
-        const responseBodyText = response.response.text()
-        return responseBodyText
-      })
+    if (response instanceof undiciErrors.ResponseStatusCodeError) {
+      console.log('ResponseStatusCodeError', response)
+      const responseBodyText =
+        response.body === null ||
+        typeof response.body === 'undefined' ||
+        typeof response.body === 'string'
+          ? response.body ?? undefined
+          : JSON.stringify(response.body)
 
       return buildReturnValue(options, {
         error: response,
@@ -108,15 +136,14 @@ const kanye = async (
         requestHeaders,
         requestBody,
         responseAt,
-        responseStatus: response.response.status,
-        responseHeaders: parseHeaders(response.response.headers),
-        responseBody:
-          responseBodyText instanceof Error ? undefined : responseBodyText,
+        responseStatus: response.statusCode,
+        responseHeaders: parseHeaders(response.headers ?? undefined),
+        responseBody: responseBodyText,
       })
     }
 
     const error = new NetworkError(
-      `Unexpected error ocurred while making POST request to ${endpoint}`,
+      `Unexpected error ocurred while requesting ${method} ${endpoint}`,
       {
         cause: response,
       },
@@ -133,11 +160,11 @@ const kanye = async (
     })
   }
 
-  const responseBody = await errorBoundary(async () => response.text())
+  const responseBody = await errorBoundary(async () => response.body.text())
   const responseBodyAt = new Date()
 
   if (responseBody instanceof Error) {
-    if (responseBody instanceof TimeoutError) {
+    if (responseBody instanceof undiciErrors.BodyTimeoutError) {
       return buildReturnValue(options, {
         error: responseBody,
         method,
@@ -150,7 +177,7 @@ const kanye = async (
       })
     }
 
-    if (responseBody instanceof HTTPError) {
+    if (responseBody instanceof undiciErrors.UndiciError) {
       return buildReturnValue(options, {
         error: responseBody,
         method,
@@ -159,13 +186,13 @@ const kanye = async (
         requestHeaders,
         requestBody,
         responseAt,
-        responseStatus: responseBody.response.status,
-        responseHeaders: parseHeaders(responseBody.response.headers),
+        responseStatus: response.statusCode,
+        responseHeaders: parseHeaders(response.headers),
         responseBodyAt,
       })
     }
 
-    const error = new NetworkError(`Received error from POST ${url}`, {
+    const error = new NetworkError(`Received error from ${method} ${url}`, {
       cause: responseBody,
     })
 
@@ -181,6 +208,23 @@ const kanye = async (
     })
   }
 
+  if (response.statusCode >= 400) {
+    return buildReturnValue(options, {
+      error: new ServerError(
+        `Received ${response.statusCode} error from ${method} ${url}: ${responseBody}`,
+      ),
+      method,
+      url,
+      requestAt,
+      requestHeaders,
+      requestBody,
+      responseStatus: response.statusCode,
+      responseHeaders: parseHeaders(response.headers),
+      responseBody,
+      responseAt,
+    })
+  }
+
   return buildReturnValue(options, {
     error: undefined,
     method,
@@ -188,7 +232,7 @@ const kanye = async (
     requestAt,
     requestHeaders,
     requestBody,
-    responseStatus: response.status,
+    responseStatus: response.statusCode,
     responseHeaders: parseHeaders(response.headers),
     responseBody,
     responseAt,

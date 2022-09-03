@@ -1,12 +1,12 @@
 import test from 'ava'
-import nock from 'nock'
 
 import { kanye } from './kanye.js'
+import { mockGlobalDispatcher } from './mock.js'
 
-nock.disableNetConnect()
+const mock = mockGlobalDispatcher('https://example.com')
 
 test('should redact url', async (t) => {
-  nock('https://example.com').get('/').reply(200, { hello: 'world' })
+  mock.intercept({ path: '/' }).reply(200, { hello: 'world' })
 
   const raw = await kanye('https://example.com', {
     searchParams: {

@@ -10,13 +10,33 @@ type CancelOrderOptions = {
   orderGuid: string
 }
 
-const responseSchema = z.boolean()
-
-type CancelOrderResult = z.infer<typeof responseSchema>
+const responseSchema = z.object({
+  /* eslint-disable @typescript-eslint/naming-convention */
+  AvgPrice: z.number().nullable(),
+  CreatedTimestampUtc: z.string(),
+  FeePercent: z.number(),
+  OrderGuid: z.string(),
+  Price: z.number(),
+  PrimaryCurrencyCode: z.string(),
+  ReservedAmount: z.number(),
+  SecondaryCurrencyCode: z.string(),
+  Status: z.enum([
+    'Filled',
+    'PartiallyFilledAndCancelled',
+    'Cancelled',
+    'PartiallyFilledAndExpired',
+    'Expired',
+  ]),
+  Type: z.enum(['LimitBid', 'LimitOffer']),
+  VolumeCurrencyType: z.enum(['Primary', 'Secondary']),
+  VolumeFilled: z.number(),
+  VolumeOrdered: z.number(),
+  /* eslint-enable @typescript-eslint/naming-convention */
+})
 
 const cancelOrder = async (
   options: CancelOrderOptions,
-): Promise<[CancelOrderResult | Error, Kanye?]> => {
+): Promise<[boolean | Error, Kanye?]> => {
   const { config, orderGuid } = options
   const raw = await post(config, 'Private/CancelOrder', {
     orderGuid,

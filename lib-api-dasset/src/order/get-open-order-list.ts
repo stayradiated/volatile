@@ -1,8 +1,6 @@
 import type { Kanye } from '@volatile/kanye'
-import { kanye } from '@volatile/kanye'
 
-import { requestOptions, getResponseBody } from '../util/client.js'
-import { buildHeaders } from '../util/build-headers.js'
+import { request, getResponseBody } from '../util/client.js'
 import { buildPaginationSearchParams } from '../util/pagination.js'
 
 import type { PaginationOptions, PaginatedList, Config } from '../util/types.js'
@@ -41,15 +39,10 @@ const getOpenOrderList = async (
 ): Promise<[GetOpenOrderListResult | Error, Kanye?]> => {
   const { config } = options
 
-  const headers = buildHeaders(config)
-  if (headers instanceof Error) {
-    return [headers, undefined]
-  }
-
-  const raw = await kanye('orders/open', {
-    ...requestOptions(config),
+  const raw = await request({
+    config,
     method: 'GET',
-    headers,
+    endpoint: 'orders/open',
     searchParams: buildPaginationSearchParams(options),
   })
   if (raw instanceof Error) {

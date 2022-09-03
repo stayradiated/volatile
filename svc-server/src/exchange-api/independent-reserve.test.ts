@@ -1,8 +1,8 @@
 import type { TestFn } from 'ava'
 import anyTest from 'ava'
+import { mockGlobalDispatcher } from '@volatile/kanye'
 
 import { parseISO } from 'date-fns'
-import nock from 'nock'
 import { assertOk } from '@stayradiated/error-boundary'
 import { pool } from '../pool.js'
 import type { Pool } from '../types.js'
@@ -12,7 +12,7 @@ import { getIndependentReserveExchangeApi } from './independent-reserve.js'
 
 import type { UserExchangeApi } from './types.js'
 
-nock.disableNetConnect()
+const mock = mockGlobalDispatcher('https://api.independentreserve.com')
 
 const test = anyTest as TestFn<{
   pool: Pool
@@ -42,9 +42,8 @@ test.beforeEach(async (t) => {
 test('getLowestAskPrice', async (t) => {
   const { api } = t.context
 
-  nock('https://api.independentreserve.com')
-    .get('/Public/GetOrderBook')
-    .query(() => true)
+  mock
+    .intercept({ method: 'GET', path: (path) => path.startsWith('/Public/GetOrderBook') })
     .reply(200, {
       BuyOrders: [
         {
@@ -79,6 +78,7 @@ test('getLowestAskPrice', async (t) => {
     primaryCurrency: 'BTC',
     secondaryCurrency: 'USD',
   })
+
   assertOk(lowestAskPrice)
 
   t.deepEqual(lowestAskPrice, 500)
@@ -87,8 +87,8 @@ test('getLowestAskPrice', async (t) => {
 test('getBalance', async (t) => {
   const { api } = t.context
 
-  nock('https://api.independentreserve.com')
-    .post('/Private/GetAccounts', () => true)
+  mock
+    .intercept({ method: 'POST', path: '/Private/GetAccounts' })
     .reply(200, [
       /* eslint-disabel @typescript-eslint/naming-convention */
       {
@@ -127,8 +127,8 @@ test('getBalance', async (t) => {
 test('getOpenOrders', async (t) => {
   const { api } = t.context
 
-  nock('https://api.independentreserve.com')
-    .post('/Private/GetOpenOrders', () => true)
+  mock
+    .intercept({ method: 'POST', path: '/Private/GetOpenOrders' })
     .reply(200, {
       PageSize: 25,
       TotalItems: 2,
@@ -193,8 +193,8 @@ test('getOpenOrders', async (t) => {
 test('getTrades', async (t) => {
   const { api } = t.context
 
-  nock('https://api.independentreserve.com')
-    .post('/Private/GetTrades', () => true)
+  mock
+    .intercept({ method: 'POST', path: '/Private/GetTrades' })
     .reply(200, {
       Data: [
         {
@@ -264,8 +264,8 @@ test('getTrades', async (t) => {
 test('createOrder', async (t) => {
   const { api } = t.context
 
-  nock('https://api.independentreserve.com')
-    .post('/Private/PlaceLimitOrder', () => true)
+  mock
+    .intercept({ method: 'POST', path: '/Private/PlaceLimitOrder' })
     .reply(200, {
       CreatedTimestampUtc: '2014-08-05T06:42:11.3032208Z',
       OrderGuid: '719c495c-a39e-4884-93ac-280b37245037',
@@ -292,15 +292,17 @@ test('createOrder', async (t) => {
   })
 })
 
-test('cancelOrder', async (t) => {
+test.only('cancelOrder', async (t) => {
   const { api } = t.context
 
-  nock('https://api.independentreserve.com')
-    .post('/Private/CancelOrder', () => true)
+  mock
+    .intercept({ method: 'POST', path: '/Private/CancelOrder' })
     .reply(200, {
       CreatedTimestampUtc: '2014-08-05T06:42:11.3032208Z',
       OrderGuid: '719c495c-a39e-4884-93ac-280b37245037',
       Price: 485.76,
+      AvgPrice: null,
+      FeePercent: 0.005,
       PrimaryCurrencyCode: 'Xbt',
       ReservedAmount: 0.358,
       SecondaryCurrencyCode: 'Usd',
@@ -308,6 +310,7 @@ test('cancelOrder', async (t) => {
       Type: 'LimitOffer',
       VolumeFilled: 0,
       VolumeOrdered: 0.358,
+      VolumeCurrencyType: 'Primary',
     })
 
   const order = await api.cancelOrder({

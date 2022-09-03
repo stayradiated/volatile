@@ -44,8 +44,10 @@ const macro = test.macro<[MacroOptions]>({
 test(macro, {
   algorithm: 'AES-128-CBC',
   keys: {
+    /* eslint-disable @typescript-eslint/naming-convention */
     1: '7K0xBRrumkPm03UKS3g4MFm2gGCrFCa3eXnBWigOdlM=',
     2: 'FAN9+xqbI/FrA6u94eEjOGl9xudnhYdV2RCvG8QLcSA=',
+    /* eslint-enable @typescript-eslint/naming-convention */
   },
   values: [
     {
@@ -79,8 +81,10 @@ test(macro, {
 test(macro, {
   algorithm: 'AES-192-CBC',
   keys: {
+    /* eslint-disable @typescript-eslint/naming-convention */
     1: 'GTZL7ZjUG/PQ8kzF/8BardfieeYaWOVaiXvOagLA2LLvWqlkuK7H03eJ1OTFhfX6',
     2: 'nrHV/MOZ94GZLFm7o9ccM9tWikgfTjm/C3eqG0IJRzW6xrFXF5MMQ2+ZCjV4hV7M',
+    /* eslint-enable @typescript-eslint/naming-convention */
   },
   values: [
     {
@@ -114,8 +118,10 @@ test(macro, {
 test(macro, {
   algorithm: 'AES-256-CBC',
   keys: {
+    /* eslint-disable @typescript-eslint/naming-convention */
     1: 'QTCR5qqiKPouS10H9W7Vhv+nfgM5OHSW20XRga7NrOpEZb32mTNU/4u1753m0eEmQQR+a4xL6/kv6c5DitcUnA==',
     2: 'Av3qcW5Q8RSfkNk+KKuzHUOEIsihzV/vBc+L/lxq/Yt94tBIJstVqOx5zy2izG7KEJLx3lRyu/xJkT448HPcZQ==',
+    /* eslint-enable @typescript-eslint/naming-convention */
   },
   values: [
     {

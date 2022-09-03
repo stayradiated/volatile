@@ -144,15 +144,17 @@ export const chart = async (
   options: ChartOptions,
 ): Promise<ChartResult | Error> => {
   const { id, range, convertId } = options
-  const raw = await kanye('data-api/v3/cryptocurrency/detail/chart', {
-    prefixUrl,
-    method: 'GET',
-    searchParams: {
-      id: id.toString(),
-      range,
-      convertId: convertId.toString(),
+  const raw = await kanye(
+    prefixUrl + 'data-api/v3/cryptocurrency/detail/chart',
+    {
+      method: 'GET',
+      searchParams: {
+        id: id.toString(),
+        range,
+        convertId: convertId.toString(),
+      },
     },
-  })
+  )
   if (raw instanceof Error) {
     return raw
   }

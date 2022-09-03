@@ -11,11 +11,10 @@ const prefixUrl = 'https://kiwi-coin.com/api/'
 
 const get = async (
   endpoint: string,
-  searchParameters?: Record<string, string | number>,
+  searchParameters?: Record<string, string>,
 ): Promise<Kanye | Error> => {
-  return kanye(endpoint, {
+  return kanye(prefixUrl + endpoint, {
     method: 'GET',
-    prefixUrl,
     searchParams: searchParameters,
   })
 }
@@ -31,9 +30,8 @@ const post = async (
   }
 
   return serial(config.userId, async () => {
-    return kanye(endpoint, {
+    return kanye(prefixUrl + endpoint, {
       method: 'POST',
-      prefixUrl,
       body: requestBody,
       redact: [config.userId, config.apiKey, config.apiSecret],
     })

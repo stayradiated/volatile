@@ -17,8 +17,7 @@ const getExtPrice = async (
 ): Promise<[GetExtPriceResult | Error, Kanye?]> => {
   const { source } = options
 
-  const raw = await kanye('extprice', {
-    prefixUrl: 'https://kiwi-coin.com/',
+  const raw = await kanye('https://kiwi-coin.com/extprice', {
     searchParams: { s: source },
   })
   if (raw instanceof Error) {

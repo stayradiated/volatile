@@ -13,7 +13,7 @@ services:
       - ../svc-server:/app
 
   hasura:
-    image: hasura/graphql-engine:v2.10.1.cli-migrations-v3
+    image: hasura/graphql-engine:v2.11.1.cli-migrations-v3
     ports:
       - "127.0.0.1:9999:8080"
     extra_hosts:

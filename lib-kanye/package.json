@@ -2,7 +2,7 @@
   "private": true,
   "name": "@volatile/kanye",
   "version": "1.0.1",
-  "description": "A wrapper around ky",
+  "description": "Network requests designed to be logged",
   "type": "module",
   "exports": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -27,24 +27,21 @@
     "@stayradiated/error-boundary": "4.0.0",
     "debug": "4.3.4",
     "escape-string-regexp": "5.0.0",
-    "ky": "0.31.1",
-    "ky-universal": "0.10.1"
+    "undici": "5.10.0"
   },
   "devDependencies": {
     "@types/debug": "4.1.7",
-    "@types/node": "18.7.13",
+    "@types/node": "18.7.14",
     "ava": "4.3.3",
-    "del-cli": "5.0.0",
-    "nock": "13.2.9",
     "typescript": "4.8.2",
-    "xo": "0.52.2"
+    "xo": "0.52.3"
   },
   "scripts": {
     "tidy": "xo --fix",
     "test": "ava",
-    "build": "del-cli dist && tsc"
+    "build": "rm -rf ./dist && tsc"
   },
-  "__comment": "The following configs are managed by `npx @stayradiated/jsconfig`",
+  "__comment": "The following configs are managed by `@stayradiated/jsconfig`",
   "ava": {
     "verbose": true
   },
@@ -64,14 +61,12 @@
             "ts"
           ]
         }
-      ],
-      "unicorn/prefer-node-protocol": "off"
+      ]
     }
   },
   "prettier": {
     "arrowParens": "always",
     "bracketSpacing": true,
-    "jsxBracketSameLine": false,
     "semi": false,
     "singleQuote": true,
     "tabWidth": 2,

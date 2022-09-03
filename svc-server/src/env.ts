@@ -80,6 +80,4 @@ const config = z
   })
   .parse(process.env)
 
-console.log(config)
-
 export { config }

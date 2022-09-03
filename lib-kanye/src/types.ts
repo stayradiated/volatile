@@ -7,7 +7,7 @@ type KanyeRedacted = {
   requestHeaders: Record<string, string> | undefined
   responseAt: Date | undefined
   responseStatus: number | undefined
-  responseHeaders: Record<string, string> | undefined
+  responseHeaders: Record<string, string | string[]> | undefined
   responseBody: string | undefined
   responseBodyAt: Date | undefined
 }

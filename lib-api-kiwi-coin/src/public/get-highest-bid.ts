@@ -6,8 +6,7 @@ type GetHighestBidResult = number
 const getHighestBid = async (): Promise<
   [GetHighestBidResult | Error, Kanye?]
 > => {
-  const raw = await kanye('extprice', {
-    prefixUrl: 'https://kiwi-coin.com/',
+  const raw = await kanye('https://kiwi-coin.com/extprice', {
     searchParams: { s: '-1', t: 'buy' },
   })
   if (raw instanceof Error) {

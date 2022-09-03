@@ -1,10 +1,10 @@
 import test from 'ava'
-import nock from 'nock'
+import { mockGlobalDispatcher } from '@volatile/kanye'
 import { assertOk, assertError } from '@stayradiated/error-boundary'
 
 import { cancelOrder } from './cancel-order.js'
 
-nock.disableNetConnect()
+const mock = mockGlobalDispatcher('https://kiwi-coin.com')
 
 const config = {
   userId: 'user-id',
@@ -12,18 +12,18 @@ const config = {
   apiSecret: 'api-secret',
 }
 
-type RequestBody = {
-  id: string
-}
-
 test('should return true', async (t) => {
   const orderId = 12_345
 
-  nock('https://kiwi-coin.com')
-    .post(
-      '/api/cancel_order',
-      (body: RequestBody) => body.id === String(orderId),
-    )
+  mock
+    .intercept({
+      method: 'POST',
+      path: '/api/cancel_order',
+      body(body) {
+        const parameters = new URLSearchParams(body)
+        return parameters.get('id') === String(orderId)
+      },
+    })
     .reply(200, JSON.stringify(true))
 
   const [result] = await cancelOrder({ config, orderId })
@@ -35,11 +35,15 @@ test('should return true', async (t) => {
 test('should return API error', async (t) => {
   const orderId = 98_765
 
-  nock('https://kiwi-coin.com')
-    .post(
-      '/api/cancel_order',
-      (body: RequestBody) => body.id === String(orderId),
-    )
+  mock
+    .intercept({
+      method: 'POST',
+      path: '/api/cancel_order',
+      body(body) {
+        const parameters = new URLSearchParams(body)
+        return parameters.get('id') === String(orderId)
+      },
+    })
     .reply(200, JSON.stringify({ error: 'Unauthorized' }))
 
   const [result] = await cancelOrder({ config, orderId })
@@ -48,6 +52,6 @@ test('should return API error', async (t) => {
 
   t.is(
     result.message,
-    'E_API: Received error from POST https://kiwi-coin.com/api/cancel_order',
+    'Received error from POST https://kiwi-coin.com/api/cancel_order',
   )
 })

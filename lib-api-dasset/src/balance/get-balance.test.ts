@@ -1,4 +1,5 @@
 import test from 'ava'
+import { assertError } from '@stayradiated/error-boundary'
 
 import { testConfig } from '../test-util/env.js'
 import { getBalance } from './get-balance.js'
@@ -8,8 +9,9 @@ test('invalid currency symbol', async (t) => {
     config: testConfig,
     currencySymbol: 'ABC',
   })
+  assertError(error)
   t.like(error, {
-    message:
-      'E_API: Could not get balance from dasset.com: E_API: Received 404 error from POST https://api.dassetx.com/api/balances/ABC: {"status":404,"type":"ResourceNotFound","code":4042,"message":"Resource not found"}',
+    message: `Could not get balance from dasset.com.
+{"currencySymbol":"ABC"}`,
   })
 })

@@ -8,7 +8,7 @@
   "scripts": {
     "test": "ava",
     "tidy": "xo --fix",
-    "build": "del-cli dist && tsc"
+    "build": "rm -rf ./dist && tsc"
   },
   "repository": {
     "type": "git",
@@ -24,13 +24,12 @@
   },
   "homepage": "https://github.com/stayradiated/volatile#readme",
   "devDependencies": {
-    "@types/node": "18.7.13",
+    "@types/node": "18.7.14",
     "ava": "4.3.3",
-    "del-cli": "5.0.0",
     "typescript": "4.8.2",
-    "xo": "0.52.2"
+    "xo": "0.52.3"
   },
-  "__comment": "The following configs are managed by `npx @stayradiated/jsconfig`",
+  "__comment": "The following configs are managed by `@stayradiated/jsconfig`",
   "ava": {
     "verbose": true
   },
@@ -39,7 +38,6 @@
     "semicolon": false,
     "prettier": true,
     "rules": {
-      "@typescript-eslint/naming-convention": "off",
       "ava/assertion-arguments": "off",
       "ava/no-ignored-test-files": [
         "error",
@@ -57,7 +55,6 @@
   "prettier": {
     "arrowParens": "always",
     "bracketSpacing": true,
-    "jsxBracketSameLine": false,
     "semi": false,
     "singleQuote": true,
     "tabWidth": 2,

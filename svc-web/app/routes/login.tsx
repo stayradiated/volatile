@@ -10,9 +10,10 @@ import {
   commitSession,
 } from '~/utils/auth.server'
 import { sdk } from '~/utils/api.server'
-import { LoginForm } from '~/components/login-form/index'
+import { LoginForm, TwoFactorForm } from '~/components/login-form/index'
 import { safeRedirect } from '~/utils/redirect.server'
 import { collapseError } from '~/utils/error.server'
+import { Logo } from '~/components/logo'
 
 const createAuthToken = makeDomainFunction(
   z.object({
@@ -98,7 +99,18 @@ const Login = () => {
   const actionData = useActionData<ActionData>()
   const error = actionData?.error
 
-  return <LoginForm returnTo={returnTo} error={error} />
+  return (
+    <main>
+      <Logo />
+      <LoginForm returnTo={returnTo} error={error} />
+      <TwoFactorForm
+        returnTo={returnTo}
+        error={error}
+        username="?"
+        password="?"
+      />
+    </main>
+  )
 }
 
 export default Login

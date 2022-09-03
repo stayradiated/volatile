@@ -1,26 +1,15 @@
-import { HTTPError, TimeoutError } from 'ky'
 import { errorBoundarySync } from '@stayradiated/error-boundary'
+import { errors as undiciErrors } from 'undici'
 
-import { NetworkError, ServerError } from './error.js'
+import { NetworkError } from './error.js'
 
 import type { Kanye } from './types.js'
 
 const getResponseBodyText = (input: Kanye): string | Error => {
   if (input.error) {
-    if (input.error instanceof TimeoutError) {
+    if (input.error instanceof undiciErrors.BodyTimeoutError) {
       return new NetworkError(
         `Timed out waiting for ${input.method} ${input.url}`,
-        {
-          cause: input.error,
-        },
-      )
-    }
-
-    if (input.error instanceof HTTPError) {
-      return new ServerError(
-        `Received ${input.responseStatus ?? '???'} error from ${input.method} ${
-          input.url
-        }: ${input.responseBody ?? ''}`,
         {
           cause: input.error,
         },

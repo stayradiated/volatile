@@ -1,10 +1,10 @@
 import test from 'ava'
-import nock from 'nock'
 import { assertOk, assertError } from '@stayradiated/error-boundary'
+import { mockGlobalDispatcher } from '@volatile/kanye'
 
 import { getBalance } from './get-balance.js'
 
-nock.disableNetConnect()
+const mock = mockGlobalDispatcher('https://kiwi-coin.com')
 
 const config = {
   userId: 'user-id',
@@ -16,23 +16,21 @@ const stripPath = (input: string): string =>
   input.replace(/file:\/{3}[a-z\d/.:-]+/gi, 'PATH')
 
 test('should return true', async (t) => {
-  nock('https://kiwi-coin.com')
-    .post('/api/balance', () => true)
-    .reply(
-      200,
-      JSON.stringify({
-        /* eslint-disable @typescript-eslint/naming-convention */
-        nzd_available: '10.10',
-        nzd_reserved: '20.20',
-        nzd_balance: '30.30',
-        btc_available: '0.002',
-        btc_reserved: '0.003',
-        btc_balance: '0.005',
-        fee: '0.8',
-        mmfee: '0.4',
-        /* eslint-enable @typescript-eslint/naming-convention */
-      }),
-    )
+  mock.intercept({ method: 'POST', path: '/api/balance' }).reply(
+    200,
+    JSON.stringify({
+      /* eslint-disable @typescript-eslint/naming-convention */
+      nzd_available: '10.10',
+      nzd_reserved: '20.20',
+      nzd_balance: '30.30',
+      btc_available: '0.002',
+      btc_reserved: '0.003',
+      btc_balance: '0.005',
+      fee: '0.8',
+      mmfee: '0.4',
+      /* eslint-enable @typescript-eslint/naming-convention */
+    }),
+  )
 
   const [balance] = await getBalance({ config })
   assertOk(balance)
@@ -56,8 +54,8 @@ test('should return true', async (t) => {
 })
 
 test('should detect invalid response', async (t) => {
-  nock('https://kiwi-coin.com')
-    .post('/api/balance', () => true)
+  mock
+    .intercept({ method: 'POST', path: '/api/balance' })
     .reply(200, JSON.stringify({}))
 
   const [balance] = await getBalance({ config })

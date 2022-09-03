@@ -1,4 +1,4 @@
-FROM hasura/graphql-engine:v2.11.0-beta.1.cli-migrations-v3
+FROM hasura/graphql-engine:v2.11.1.cli-migrations-v3
 
 COPY ./svc-hasura/metadata /hasura-metadata
 

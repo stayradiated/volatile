@@ -4,10 +4,10 @@
     "build:all": "turbo run build",
     "package:server": "turbo run package --filter=@volatile/svc-server",
     "package:web": "turbo run package --filter=@volatile/svc-web",
-    "test": "turbo run test",
+    "test:all": "turbo run test",
     "ncu": "fd --exclude=_scrap package.json | xargs -n1 ncu --upgrade --concurrency=2 --packageFile"
   },
   "devDependencies": {
-    "turbo": "1.4.3"
+    "turbo": "1.4.5"
   }
 }

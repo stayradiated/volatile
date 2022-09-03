@@ -11,8 +11,7 @@ const get = async (
   endpoint: string,
   searchParameters?: Record<string, string | number>,
 ) => {
-  const result = await kanye(endpoint, {
-    prefixUrl,
+  const result = await kanye(prefixUrl + endpoint, {
     searchParams: {
       [appIdKey]: config.appId,
       ...searchParameters,

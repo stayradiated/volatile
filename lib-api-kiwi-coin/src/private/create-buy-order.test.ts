@@ -1,11 +1,11 @@
 import test from 'ava'
-import nock from 'nock'
 import { assertOk, assertError } from '@stayradiated/error-boundary'
 import { parseISO } from 'date-fns'
+import { mockGlobalDispatcher } from '@volatile/kanye'
 
 import { createBuyOrder } from './create-buy-order.js'
 
-nock.disableNetConnect()
+const mock = mockGlobalDispatcher('https://kiwi-coin.com')
 
 const config = {
   userId: 'user-id',
@@ -13,21 +13,22 @@ const config = {
   apiSecret: 'api-secret',
 }
 
-type RequestBody = {
-  price: string
-  amount: string
-}
-
 test('should create buy order and return info', async (t) => {
   const price = 9876
   const amount = 0.9876
 
-  nock('https://kiwi-coin.com')
-    .post(
-      '/api/buy',
-      (body: RequestBody) =>
-        body.price === String(price) && body.amount === String(amount),
-    )
+  mock
+    .intercept({
+      method: 'POST',
+      path: '/api/buy',
+      body(body) {
+        const parameters = new URLSearchParams(body)
+        return (
+          parameters.get('price') === String(price) &&
+          parameters.get('amount') === String(amount)
+        )
+      },
+    })
     .reply(
       200,
       JSON.stringify({
@@ -55,12 +56,18 @@ test('should return API error', async (t) => {
   const price = 12_345
   const amount = 0.123_45
 
-  nock('https://kiwi-coin.com')
-    .post(
-      '/api/buy',
-      (body: RequestBody) =>
-        body.price === String(price) && body.amount === String(amount),
-    )
+  mock
+    .intercept({
+      method: 'POST',
+      path: '/api/buy',
+      body(body) {
+        const parameters = new URLSearchParams(body)
+        return (
+          parameters.get('price') === String(price) &&
+          parameters.get('amount') === String(amount)
+        )
+      },
+    })
     .reply(401, 'Unauthorized')
 
   const [order] = await createBuyOrder({ config, price, amount })
@@ -68,6 +75,6 @@ test('should return API error', async (t) => {
 
   t.is(
     order.message,
-    'E_API: Received 401 error from POST https://kiwi-coin.com/api/buy: Unauthorized',
+    'Received 401 error from POST https://kiwi-coin.com/api/buy: Unauthorized',
   )
 })

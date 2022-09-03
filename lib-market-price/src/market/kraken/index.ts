@@ -49,9 +49,8 @@ const marketSource: MarketPriceSource<Options> = {
 
     const lastUpdated = new Date()
 
-    const raw = await kanye('0/public/Ticker', {
+    const raw = await kanye(prefixUrl + '0/public/Ticker', {
       method: 'GET',
-      prefixUrl,
       searchParams: {
         pair: tradingPair,
       },
