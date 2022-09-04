@@ -2,6 +2,7 @@ import { useLoaderData } from '@remix-run/react'
 import type { LoaderFunction } from '@remix-run/node'
 import { json } from '@remix-run/node'
 import invariant from 'tiny-invariant'
+import * as dateFns from 'date-fns'
 
 import { Card } from '~/components/retro-ui'
 import { MarketPriceChart } from '~/components/market-price-chart'
@@ -34,6 +35,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     {
       primaryCurrency,
       secondaryCurrency,
+      gteTimestamp: dateFns.subDays(new Date(), 7).toISOString(),
     },
     {
       authorization: `Bearer ${authToken}`,

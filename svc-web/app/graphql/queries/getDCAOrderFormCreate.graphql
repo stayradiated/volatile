@@ -1,10 +1,10 @@
-query getDcaOrderFormCreate {
+query getDcaOrderFormCreate($gteTimestamp: timestamptz!) {
   market {
     uid
     name
     marketPrices(
       distinctOn: [assetSymbol, currency]
-      where: { timestamp: { _gt: "2021-12-09T12:00:00" } }
+      where: { timestamp: { _gte: $gteTimestamp} }
     ) {
       assetSymbol
       currency

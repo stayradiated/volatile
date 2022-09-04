@@ -3,7 +3,7 @@ import { json, redirect } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
 import { errorBoundary } from '@stayradiated/error-boundary'
 import * as z from 'zod'
-import { parseISO } from 'date-fns'
+import * as dateFns from 'date-fns'
 import { makeDomainFunction, inputFromForm } from 'remix-domains'
 
 import { Card } from '~/components/retro-ui'
@@ -49,6 +49,8 @@ export const action: ActionFunction = async ({ request }) => {
     authToken,
   })
 
+  console.log({ result })
+
   return redirect('/dca-orders')
 }
 
@@ -69,7 +71,9 @@ export const loader: LoaderFunction = async ({ request }) => {
 
   const getDcaOrderFormCreate = await errorBoundary(async () =>
     sdk.getDcaOrderFormCreate(
-      {},
+      {
+        gteTimestamp: dateFns.subDays(new Date(), 7).toISOString(),
+      },
       {
         authorization: `Bearer ${authToken}`,
         'x-hasura-role': 'user',

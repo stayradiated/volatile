@@ -1,11 +1,13 @@
 query getMarketPrice (
   $primaryCurrency: String!
   $secondaryCurrency: String!
+  $gteTimestamp: timestamptz!
 ) {
   binanceUs: market(where: { id: { _eq: "binance.us" }}) {
     marketPrices(where:{
       assetSymbol:{ _eq: $primaryCurrency },
-      currency:{ _eq: $secondaryCurrency }
+      currency:{ _eq: $secondaryCurrency },
+      timestamp: { _gte: $gteTimestamp }
     }, orderBy: {
       timestamp: DESC
     }){
@@ -16,7 +18,8 @@ query getMarketPrice (
   kiwiCoin: market(where:{ id: { _eq: "kiwi-coin.com"  }}) {
     marketPrices(where: {
       assetSymbol:{ _eq: $primaryCurrency },
-      currency:{ _eq: $secondaryCurrency }
+      currency:{ _eq: $secondaryCurrency },
+      timestamp: { _gte: $gteTimestamp }
     }, orderBy: {
       timestamp: DESC
     }){
@@ -27,7 +30,8 @@ query getMarketPrice (
   dasset: market(where:{ id: { _eq: "dassetx.com"  }}) {
     marketPrices(where: {
       assetSymbol:{ _eq: $primaryCurrency },
-      currency:{ _eq: $secondaryCurrency }
+      currency:{ _eq: $secondaryCurrency },
+      timestamp: { _gte: $gteTimestamp }
     }, orderBy: {
       timestamp: DESC
     }){
@@ -38,7 +42,8 @@ query getMarketPrice (
   kraken: market(where:{ id: { _eq: "kraken.com"  }}) {
     marketPrices(where: {
       assetSymbol:{ _eq: $primaryCurrency },
-      currency:{ _eq: $secondaryCurrency }
+      currency:{ _eq: $secondaryCurrency },
+      timestamp: { _gte: $gteTimestamp }
     }, orderBy: {
       timestamp: DESC
     }){
@@ -50,7 +55,8 @@ query getMarketPrice (
     marketPrices(where: {
       sourceCurrency: { _eq: "AUD" },
       assetSymbol:{ _eq: $primaryCurrency },
-      currency:{ _eq: $secondaryCurrency }
+      currency:{ _eq: $secondaryCurrency },
+      timestamp: { _gte: $gteTimestamp }
     }, orderBy: {
       timestamp: DESC
     }){
@@ -62,7 +68,8 @@ query getMarketPrice (
     marketPrices(where: {
       sourceCurrency: { _eq: "NZD" },
       assetSymbol:{ _eq: $primaryCurrency },
-      currency:{ _eq: $secondaryCurrency }
+      currency:{ _eq: $secondaryCurrency },
+      timestamp: { _gte: $gteTimestamp }
     }, orderBy: {
       timestamp: DESC
     }){

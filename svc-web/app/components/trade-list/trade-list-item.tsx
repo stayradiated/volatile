@@ -2,7 +2,6 @@ import { parseISO } from 'date-fns'
 import { formatInTimeZone } from 'date-fns-tz'
 
 import styled from 'styled-components'
-import { ExchangeLogo } from './exchange-logo'
 import { formatCurrency } from '~/components/format'
 import type { GetTradeListQuery } from '~/graphql/generated'
 
@@ -29,12 +28,15 @@ const TradeListItem = (props: TradeListItemProps) => {
 
   return (
     <Item>
-      <ExchangeLogo exchangeID={trade.exchange.id} />
-      <span>{date}</span>
-      <span>{trade.secondaryCurrency}</span>
-      <span>→</span>
-      <strong>{trade.primaryCurrency}</strong>
-      <strong>{formatCurrency(trade.value)}</strong>
+      <span>
+        {date}{' '}
+        <strong>
+          {trade.primaryCurrency} @ {formatCurrency(trade.price, 0)}
+        </strong>
+      </span>
+      <span>
+        {trade.secondaryCurrency} <strong>{formatCurrency(trade.value)}</strong>
+      </span>
     </Item>
   )
 }

@@ -12390,7 +12390,9 @@ export type GetCronHistoryQueryVariables = Exact<{
 
 export type GetCronHistoryQuery = { __typename?: 'query_root', cronHistoryByPk?: { __typename?: 'CronHistory', uid: string, taskId: string, createdAt: string, updatedAt: string, completedAt?: string | null, state: string, input: Record<string, unknown>, output?: Record<string, unknown> | null } | null };
 
-export type GetDcaOrderFormCreateQueryVariables = Exact<{ [key: string]: never; }>;
+export type GetDcaOrderFormCreateQueryVariables = Exact<{
+  gteTimestamp: Scalars['timestamptz'];
+}>;
 
 
 export type GetDcaOrderFormCreateQuery = { __typename?: 'query_root', market: Array<{ __typename?: 'Market', uid: string, name: string, marketPrices: Array<{ __typename?: 'MarketPrice', assetSymbol: string, currency: string }> }>, userExchangeKeys: Array<{ __typename?: 'UserExchangeKeys', uid: string, description: string, exchangeUid: string }>, exchange: Array<{ __typename?: 'Exchange', uid: string, name: string, primaryCurrencies: Array<{ __typename?: 'ExchangePrimaryCurrency', symbol: string, currency: { __typename?: 'Currency', name: string } }>, secondaryCurrencies: Array<{ __typename?: 'ExchangeSecondaryCurrency', symbol: string, currency: { __typename?: 'Currency', name: string } }> }> };
@@ -12453,6 +12455,7 @@ export type GetExchangeListQuery = { __typename?: 'query_root', userExchangeKeys
 export type GetMarketPriceQueryVariables = Exact<{
   primaryCurrency: Scalars['String'];
   secondaryCurrency: Scalars['String'];
+  gteTimestamp: Scalars['timestamptz'];
 }>;
 
 
@@ -12964,13 +12967,13 @@ export const GetCronHistoryDocument = gql`
 }
     ${CronHistoryFragmentDoc}`;
 export const GetDcaOrderFormCreateDocument = gql`
-    query getDcaOrderFormCreate {
+    query getDcaOrderFormCreate($gteTimestamp: timestamptz!) {
   market {
     uid
     name
     marketPrices(
       distinctOn: [assetSymbol, currency]
-      where: {timestamp: {_gt: "2021-12-09T12:00:00"}}
+      where: {timestamp: {_gte: $gteTimestamp}}
     ) {
       assetSymbol
       currency
@@ -13195,10 +13198,10 @@ export const GetExchangeListDocument = gql`
 }
     `;
 export const GetMarketPriceDocument = gql`
-    query getMarketPrice($primaryCurrency: String!, $secondaryCurrency: String!) {
+    query getMarketPrice($primaryCurrency: String!, $secondaryCurrency: String!, $gteTimestamp: timestamptz!) {
   binanceUs: market(where: {id: {_eq: "binance.us"}}) {
     marketPrices(
-      where: {assetSymbol: {_eq: $primaryCurrency}, currency: {_eq: $secondaryCurrency}}
+      where: {assetSymbol: {_eq: $primaryCurrency}, currency: {_eq: $secondaryCurrency}, timestamp: {_gte: $gteTimestamp}}
       orderBy: {timestamp: DESC}
     ) {
       price
@@ -13207,7 +13210,7 @@ export const GetMarketPriceDocument = gql`
   }
   kiwiCoin: market(where: {id: {_eq: "kiwi-coin.com"}}) {
     marketPrices(
-      where: {assetSymbol: {_eq: $primaryCurrency}, currency: {_eq: $secondaryCurrency}}
+      where: {assetSymbol: {_eq: $primaryCurrency}, currency: {_eq: $secondaryCurrency}, timestamp: {_gte: $gteTimestamp}}
       orderBy: {timestamp: DESC}
     ) {
       price
@@ -13216,7 +13219,7 @@ export const GetMarketPriceDocument = gql`
   }
   dasset: market(where: {id: {_eq: "dassetx.com"}}) {
     marketPrices(
-      where: {assetSymbol: {_eq: $primaryCurrency}, currency: {_eq: $secondaryCurrency}}
+      where: {assetSymbol: {_eq: $primaryCurrency}, currency: {_eq: $secondaryCurrency}, timestamp: {_gte: $gteTimestamp}}
       orderBy: {timestamp: DESC}
     ) {
       price
@@ -13225,7 +13228,7 @@ export const GetMarketPriceDocument = gql`
   }
   kraken: market(where: {id: {_eq: "kraken.com"}}) {
     marketPrices(
-      where: {assetSymbol: {_eq: $primaryCurrency}, currency: {_eq: $secondaryCurrency}}
+      where: {assetSymbol: {_eq: $primaryCurrency}, currency: {_eq: $secondaryCurrency}, timestamp: {_gte: $gteTimestamp}}
       orderBy: {timestamp: DESC}
     ) {
       price
@@ -13234,7 +13237,7 @@ export const GetMarketPriceDocument = gql`
   }
   independentReserveAud: market(where: {id: {_eq: "independentreserve.com"}}) {
     marketPrices(
-      where: {sourceCurrency: {_eq: "AUD"}, assetSymbol: {_eq: $primaryCurrency}, currency: {_eq: $secondaryCurrency}}
+      where: {sourceCurrency: {_eq: "AUD"}, assetSymbol: {_eq: $primaryCurrency}, currency: {_eq: $secondaryCurrency}, timestamp: {_gte: $gteTimestamp}}
       orderBy: {timestamp: DESC}
     ) {
       price
@@ -13243,7 +13246,7 @@ export const GetMarketPriceDocument = gql`
   }
   independentReserveNzd: market(where: {id: {_eq: "independentreserve.com"}}) {
     marketPrices(
-      where: {sourceCurrency: {_eq: "NZD"}, assetSymbol: {_eq: $primaryCurrency}, currency: {_eq: $secondaryCurrency}}
+      where: {sourceCurrency: {_eq: "NZD"}, assetSymbol: {_eq: $primaryCurrency}, currency: {_eq: $secondaryCurrency}, timestamp: {_gte: $gteTimestamp}}
       orderBy: {timestamp: DESC}
     ) {
       price
@@ -13617,7 +13620,7 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     getCronHistory(variables: GetCronHistoryQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetCronHistoryQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetCronHistoryQuery>(GetCronHistoryDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getCronHistory', 'query');
     },
-    getDcaOrderFormCreate(variables?: GetDcaOrderFormCreateQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetDcaOrderFormCreateQuery> {
+    getDcaOrderFormCreate(variables: GetDcaOrderFormCreateQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetDcaOrderFormCreateQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetDcaOrderFormCreateQuery>(GetDcaOrderFormCreateDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getDcaOrderFormCreate', 'query');
     },
     getDcaOrderFormEdit(variables: GetDcaOrderFormEditQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetDcaOrderFormEditQuery> {
