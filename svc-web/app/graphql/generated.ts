@@ -272,6 +272,27 @@ export type BalanceStddevSampFields = {
   totalBalance?: Maybe<Scalars['Float']>;
 };
 
+/** Streaming cursor of the table "balance" */
+export type BalanceStreamCursorInput = {
+  /** Stream column input with initial value */
+  initialValue: BalanceStreamCursorValueInput;
+  /** cursor ordering */
+  ordering?: InputMaybe<CursorOrdering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type BalanceStreamCursorValueInput = {
+  availableBalance?: InputMaybe<Scalars['numeric']>;
+  createdAt?: InputMaybe<Scalars['timestamptz']>;
+  currencySymbol?: InputMaybe<Scalars['String']>;
+  exchangeUid?: InputMaybe<Scalars['uuid']>;
+  totalBalance?: InputMaybe<Scalars['numeric']>;
+  uid?: InputMaybe<Scalars['uuid']>;
+  updatedAt?: InputMaybe<Scalars['timestamptz']>;
+  userExchangeKeysUid?: InputMaybe<Scalars['uuid']>;
+  userUid?: InputMaybe<Scalars['uuid']>;
+};
+
 /** aggregate sum on columns */
 export type BalanceSumFields = {
   __typename?: 'BalanceSumFields';
@@ -616,6 +637,26 @@ export type CronHistorySetInput = {
   updatedAt?: InputMaybe<Scalars['timestamptz']>;
 };
 
+/** Streaming cursor of the table "cron_history" */
+export type CronHistoryStreamCursorInput = {
+  /** Stream column input with initial value */
+  initialValue: CronHistoryStreamCursorValueInput;
+  /** cursor ordering */
+  ordering?: InputMaybe<CursorOrdering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type CronHistoryStreamCursorValueInput = {
+  completedAt?: InputMaybe<Scalars['timestamptz']>;
+  createdAt?: InputMaybe<Scalars['timestamptz']>;
+  input?: InputMaybe<Scalars['jsonb']>;
+  output?: InputMaybe<Scalars['jsonb']>;
+  state?: InputMaybe<Scalars['String']>;
+  taskId?: InputMaybe<Scalars['String']>;
+  uid?: InputMaybe<Scalars['uuid']>;
+  updatedAt?: InputMaybe<Scalars['timestamptz']>;
+};
+
 /** update columns of table "cron_history" */
 export enum CronHistoryUpdateColumn {
   /** column name */
@@ -782,6 +823,22 @@ export type CurrencySetInput = {
   updatedAt?: InputMaybe<Scalars['timestamptz']>;
 };
 
+/** Streaming cursor of the table "currency" */
+export type CurrencyStreamCursorInput = {
+  /** Stream column input with initial value */
+  initialValue: CurrencyStreamCursorValueInput;
+  /** cursor ordering */
+  ordering?: InputMaybe<CursorOrdering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type CurrencyStreamCursorValueInput = {
+  createdAt?: InputMaybe<Scalars['timestamptz']>;
+  name?: InputMaybe<Scalars['String']>;
+  symbol?: InputMaybe<Scalars['String']>;
+  updatedAt?: InputMaybe<Scalars['timestamptz']>;
+};
+
 /** update columns of table "currency" */
 export enum CurrencyUpdateColumn {
   /** column name */
@@ -799,6 +856,14 @@ export type CurrencyUpdates = {
   _set?: InputMaybe<CurrencySetInput>;
   where: CurrencyBoolExp;
 };
+
+/** ordering argument of a cursor */
+export enum CursorOrdering {
+  /** ascending ordering of the cursor */
+  Asc = 'ASC',
+  /** descending ordering of the cursor */
+  Desc = 'DESC'
+}
 
 /** columns and relationships of "dca_order" */
 export type DcaOrder = {
@@ -1401,6 +1466,33 @@ export type DcaOrderHistoryStddevSampOrderBy = {
   value?: InputMaybe<OrderBy>;
 };
 
+/** Streaming cursor of the table "dca_order_history" */
+export type DcaOrderHistoryStreamCursorInput = {
+  /** Stream column input with initial value */
+  initialValue: DcaOrderHistoryStreamCursorValueInput;
+  /** cursor ordering */
+  ordering?: InputMaybe<CursorOrdering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type DcaOrderHistoryStreamCursorValueInput = {
+  availableBalance?: InputMaybe<Scalars['numeric']>;
+  createdAt?: InputMaybe<Scalars['timestamptz']>;
+  createdOrder?: InputMaybe<Scalars['Boolean']>;
+  dcaOrderUid?: InputMaybe<Scalars['uuid']>;
+  description?: InputMaybe<Scalars['String']>;
+  marketOffset?: InputMaybe<Scalars['numeric']>;
+  marketPrice?: InputMaybe<Scalars['numeric']>;
+  orderUid?: InputMaybe<Scalars['uuid']>;
+  primaryCurrency?: InputMaybe<Scalars['String']>;
+  secondaryCurrency?: InputMaybe<Scalars['String']>;
+  targetValue?: InputMaybe<Scalars['numeric']>;
+  uid?: InputMaybe<Scalars['uuid']>;
+  updatedAt?: InputMaybe<Scalars['timestamptz']>;
+  userUid?: InputMaybe<Scalars['uuid']>;
+  value?: InputMaybe<Scalars['numeric']>;
+};
+
 /** aggregate sum on columns */
 export type DcaOrderHistorySumFields = {
   __typename?: 'DcaOrderHistorySumFields';
@@ -1856,6 +1948,38 @@ export type DcaOrderStddevSampOrderBy = {
   maxValue?: InputMaybe<OrderBy>;
   minPrice?: InputMaybe<OrderBy>;
   minValue?: InputMaybe<OrderBy>;
+};
+
+/** Streaming cursor of the table "dca_order" */
+export type DcaOrderStreamCursorInput = {
+  /** Stream column input with initial value */
+  initialValue: DcaOrderStreamCursorValueInput;
+  /** cursor ordering */
+  ordering?: InputMaybe<CursorOrdering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type DcaOrderStreamCursorValueInput = {
+  createdAt?: InputMaybe<Scalars['timestamptz']>;
+  dailyAverage?: InputMaybe<Scalars['numeric']>;
+  enabledAt?: InputMaybe<Scalars['timestamptz']>;
+  exchangeUid?: InputMaybe<Scalars['uuid']>;
+  intervalMs?: InputMaybe<Scalars['Int']>;
+  lastRunAt?: InputMaybe<Scalars['timestamptz']>;
+  marketOffset?: InputMaybe<Scalars['numeric']>;
+  marketUid?: InputMaybe<Scalars['uuid']>;
+  maxPrice?: InputMaybe<Scalars['numeric']>;
+  maxValue?: InputMaybe<Scalars['numeric']>;
+  minPrice?: InputMaybe<Scalars['numeric']>;
+  minValue?: InputMaybe<Scalars['numeric']>;
+  nextRunAt?: InputMaybe<Scalars['timestamptz']>;
+  primaryCurrencySymbol?: InputMaybe<Scalars['String']>;
+  secondaryCurrencySymbol?: InputMaybe<Scalars['String']>;
+  startAt?: InputMaybe<Scalars['timestamptz']>;
+  uid?: InputMaybe<Scalars['uuid']>;
+  updatedAt?: InputMaybe<Scalars['timestamptz']>;
+  userExchangeKeysUid?: InputMaybe<Scalars['uuid']>;
+  userUid?: InputMaybe<Scalars['uuid']>;
 };
 
 /** aggregate sum on columns */
@@ -2475,6 +2599,22 @@ export type ExchangePrimaryCurrencySetInput = {
   updatedAt?: InputMaybe<Scalars['timestamptz']>;
 };
 
+/** Streaming cursor of the table "exchange_primary_currency" */
+export type ExchangePrimaryCurrencyStreamCursorInput = {
+  /** Stream column input with initial value */
+  initialValue: ExchangePrimaryCurrencyStreamCursorValueInput;
+  /** cursor ordering */
+  ordering?: InputMaybe<CursorOrdering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type ExchangePrimaryCurrencyStreamCursorValueInput = {
+  createdAt?: InputMaybe<Scalars['timestamptz']>;
+  exchangeUid?: InputMaybe<Scalars['uuid']>;
+  symbol?: InputMaybe<Scalars['String']>;
+  updatedAt?: InputMaybe<Scalars['timestamptz']>;
+};
+
 /** update columns of table "exchange_primary_currency" */
 export enum ExchangePrimaryCurrencyUpdateColumn {
   /** column name */
@@ -2657,6 +2797,22 @@ export type ExchangeSecondaryCurrencySetInput = {
   updatedAt?: InputMaybe<Scalars['timestamptz']>;
 };
 
+/** Streaming cursor of the table "exchange_secondary_currency" */
+export type ExchangeSecondaryCurrencyStreamCursorInput = {
+  /** Stream column input with initial value */
+  initialValue: ExchangeSecondaryCurrencyStreamCursorValueInput;
+  /** cursor ordering */
+  ordering?: InputMaybe<CursorOrdering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type ExchangeSecondaryCurrencyStreamCursorValueInput = {
+  createdAt?: InputMaybe<Scalars['timestamptz']>;
+  exchangeUid?: InputMaybe<Scalars['uuid']>;
+  symbol?: InputMaybe<Scalars['String']>;
+  updatedAt?: InputMaybe<Scalars['timestamptz']>;
+};
+
 /** update columns of table "exchange_secondary_currency" */
 export enum ExchangeSecondaryCurrencyUpdateColumn {
   /** column name */
@@ -2695,6 +2851,25 @@ export enum ExchangeSelectColumn {
 
 /** input type for updating data in table "exchange" */
 export type ExchangeSetInput = {
+  createdAt?: InputMaybe<Scalars['timestamptz']>;
+  id?: InputMaybe<Scalars['String']>;
+  marketUid?: InputMaybe<Scalars['uuid']>;
+  name?: InputMaybe<Scalars['String']>;
+  uid?: InputMaybe<Scalars['uuid']>;
+  updatedAt?: InputMaybe<Scalars['timestamptz']>;
+  url?: InputMaybe<Scalars['String']>;
+};
+
+/** Streaming cursor of the table "exchange" */
+export type ExchangeStreamCursorInput = {
+  /** Stream column input with initial value */
+  initialValue: ExchangeStreamCursorValueInput;
+  /** cursor ordering */
+  ordering?: InputMaybe<CursorOrdering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type ExchangeStreamCursorValueInput = {
   createdAt?: InputMaybe<Scalars['timestamptz']>;
   id?: InputMaybe<Scalars['String']>;
   marketUid?: InputMaybe<Scalars['uuid']>;
@@ -3240,6 +3415,26 @@ export type MarketPriceStddevSampOrderBy = {
   sourcePrice?: InputMaybe<OrderBy>;
 };
 
+/** Streaming cursor of the table "market_price" */
+export type MarketPriceStreamCursorInput = {
+  /** Stream column input with initial value */
+  initialValue: MarketPriceStreamCursorValueInput;
+  /** cursor ordering */
+  ordering?: InputMaybe<CursorOrdering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type MarketPriceStreamCursorValueInput = {
+  assetSymbol?: InputMaybe<Scalars['String']>;
+  currency?: InputMaybe<Scalars['String']>;
+  fxRate?: InputMaybe<Scalars['numeric']>;
+  marketUid?: InputMaybe<Scalars['uuid']>;
+  price?: InputMaybe<Scalars['numeric']>;
+  sourceCurrency?: InputMaybe<Scalars['bpchar']>;
+  sourcePrice?: InputMaybe<Scalars['numeric']>;
+  timestamp?: InputMaybe<Scalars['timestamptz']>;
+};
+
 /** aggregate sum on columns */
 export type MarketPriceSumFields = {
   __typename?: 'MarketPriceSumFields';
@@ -3344,6 +3539,23 @@ export enum MarketSelectColumn {
 
 /** input type for updating data in table "market" */
 export type MarketSetInput = {
+  createdAt?: InputMaybe<Scalars['timestamptz']>;
+  id?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
+  uid?: InputMaybe<Scalars['uuid']>;
+  updatedAt?: InputMaybe<Scalars['timestamptz']>;
+};
+
+/** Streaming cursor of the table "market" */
+export type MarketStreamCursorInput = {
+  /** Stream column input with initial value */
+  initialValue: MarketStreamCursorValueInput;
+  /** cursor ordering */
+  ordering?: InputMaybe<CursorOrdering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type MarketStreamCursorValueInput = {
   createdAt?: InputMaybe<Scalars['timestamptz']>;
   id?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
@@ -3505,6 +3717,21 @@ export enum MarketTradingPairSelectColumn {
 
 /** input type for updating data in table "market_trading_pair" */
 export type MarketTradingPairSetInput = {
+  marketUid?: InputMaybe<Scalars['uuid']>;
+  primaryCurrencySymbol?: InputMaybe<Scalars['String']>;
+  secondaryCurrencySymbol?: InputMaybe<Scalars['String']>;
+};
+
+/** Streaming cursor of the table "market_trading_pair" */
+export type MarketTradingPairStreamCursorInput = {
+  /** Stream column input with initial value */
+  initialValue: MarketTradingPairStreamCursorValueInput;
+  /** cursor ordering */
+  ordering?: InputMaybe<CursorOrdering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type MarketTradingPairStreamCursorValueInput = {
   marketUid?: InputMaybe<Scalars['uuid']>;
   primaryCurrencySymbol?: InputMaybe<Scalars['String']>;
   secondaryCurrencySymbol?: InputMaybe<Scalars['String']>;
@@ -3957,6 +4184,32 @@ export type OrderStddevSampOrderBy = {
   volume?: InputMaybe<OrderBy>;
 };
 
+/** Streaming cursor of the table "order" */
+export type OrderStreamCursorInput = {
+  /** Stream column input with initial value */
+  initialValue: OrderStreamCursorValueInput;
+  /** cursor ordering */
+  ordering?: InputMaybe<CursorOrdering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type OrderStreamCursorValueInput = {
+  closedAt?: InputMaybe<Scalars['timestamptz']>;
+  createdAt?: InputMaybe<Scalars['timestamptz']>;
+  exchangeUid?: InputMaybe<Scalars['uuid']>;
+  openedAt?: InputMaybe<Scalars['timestamptz']>;
+  orderId?: InputMaybe<Scalars['String']>;
+  price?: InputMaybe<Scalars['numeric']>;
+  primaryCurrency?: InputMaybe<Scalars['String']>;
+  secondaryCurrency?: InputMaybe<Scalars['String']>;
+  type?: InputMaybe<Scalars['String']>;
+  uid?: InputMaybe<Scalars['uuid']>;
+  updatedAt?: InputMaybe<Scalars['timestamptz']>;
+  userUid?: InputMaybe<Scalars['uuid']>;
+  value?: InputMaybe<Scalars['numeric']>;
+  volume?: InputMaybe<Scalars['numeric']>;
+};
+
 /** aggregate sum on columns */
 export type OrderSumFields = {
   __typename?: 'OrderSumFields';
@@ -4304,6 +4557,20 @@ export enum StripeCustomerSelectColumn {
 
 /** input type for updating data in table "stripe_customer" */
 export type StripeCustomerSetInput = {
+  customerId?: InputMaybe<Scalars['String']>;
+  userUid?: InputMaybe<Scalars['uuid']>;
+};
+
+/** Streaming cursor of the table "stripe_customer" */
+export type StripeCustomerStreamCursorInput = {
+  /** Stream column input with initial value */
+  initialValue: StripeCustomerStreamCursorValueInput;
+  /** cursor ordering */
+  ordering?: InputMaybe<CursorOrdering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type StripeCustomerStreamCursorValueInput = {
   customerId?: InputMaybe<Scalars['String']>;
   userUid?: InputMaybe<Scalars['uuid']>;
 };
@@ -4694,6 +4961,32 @@ export type StripePriceStddevSampOrderBy = {
   unitAmount?: InputMaybe<OrderBy>;
 };
 
+/** Streaming cursor of the table "stripe_price" */
+export type StripePriceStreamCursorInput = {
+  /** Stream column input with initial value */
+  initialValue: StripePriceStreamCursorValueInput;
+  /** cursor ordering */
+  ordering?: InputMaybe<CursorOrdering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type StripePriceStreamCursorValueInput = {
+  active?: InputMaybe<Scalars['Boolean']>;
+  billingScheme?: InputMaybe<Scalars['String']>;
+  createdAt?: InputMaybe<Scalars['timestamptz']>;
+  currency?: InputMaybe<Scalars['bpchar']>;
+  id?: InputMaybe<Scalars['String']>;
+  nickname?: InputMaybe<Scalars['String']>;
+  productId?: InputMaybe<Scalars['String']>;
+  recurringAggregateUsage?: InputMaybe<Scalars['String']>;
+  recurringInterval?: InputMaybe<Scalars['String']>;
+  recurringIntervalCount?: InputMaybe<Scalars['Int']>;
+  recurringUsageType?: InputMaybe<Scalars['String']>;
+  type?: InputMaybe<Scalars['String']>;
+  unitAmount?: InputMaybe<Scalars['Int']>;
+  updatedAt?: InputMaybe<Scalars['timestamptz']>;
+};
+
 /** aggregate sum on columns */
 export type StripePriceSumFields = {
   __typename?: 'StripePriceSumFields';
@@ -4951,6 +5244,24 @@ export enum StripeProductSelectColumn {
 
 /** input type for updating data in table "stripe_product" */
 export type StripeProductSetInput = {
+  active?: InputMaybe<Scalars['Boolean']>;
+  createdAt?: InputMaybe<Scalars['timestamptz']>;
+  description?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
+  updatedAt?: InputMaybe<Scalars['timestamptz']>;
+};
+
+/** Streaming cursor of the table "stripe_product" */
+export type StripeProductStreamCursorInput = {
+  /** Stream column input with initial value */
+  initialValue: StripeProductStreamCursorValueInput;
+  /** cursor ordering */
+  ordering?: InputMaybe<CursorOrdering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type StripeProductStreamCursorValueInput = {
   active?: InputMaybe<Scalars['Boolean']>;
   createdAt?: InputMaybe<Scalars['timestamptz']>;
   description?: InputMaybe<Scalars['String']>;
@@ -5302,6 +5613,31 @@ export type StripeSubscriptionStddevSampFields = {
 /** order by stddev_samp() on columns of table "stripe_subscription" */
 export type StripeSubscriptionStddevSampOrderBy = {
   quantity?: InputMaybe<OrderBy>;
+};
+
+/** Streaming cursor of the table "stripe_subscription" */
+export type StripeSubscriptionStreamCursorInput = {
+  /** Stream column input with initial value */
+  initialValue: StripeSubscriptionStreamCursorValueInput;
+  /** cursor ordering */
+  ordering?: InputMaybe<CursorOrdering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type StripeSubscriptionStreamCursorValueInput = {
+  cancelAt?: InputMaybe<Scalars['timestamptz']>;
+  cancelAtPeriodEnd?: InputMaybe<Scalars['Boolean']>;
+  canceledAt?: InputMaybe<Scalars['timestamptz']>;
+  createdAt?: InputMaybe<Scalars['timestamptz']>;
+  currentPeriodEnd?: InputMaybe<Scalars['timestamptz']>;
+  currentPeriodStart?: InputMaybe<Scalars['timestamptz']>;
+  customerId?: InputMaybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['String']>;
+  priceId?: InputMaybe<Scalars['String']>;
+  quantity?: InputMaybe<Scalars['Int']>;
+  status?: InputMaybe<Scalars['String']>;
+  updatedAt?: InputMaybe<Scalars['timestamptz']>;
 };
 
 /** aggregate sum on columns */
@@ -5864,6 +6200,34 @@ export type TradeStddevSampOrderBy = {
   volume?: InputMaybe<OrderBy>;
 };
 
+/** Streaming cursor of the table "trade" */
+export type TradeStreamCursorInput = {
+  /** Stream column input with initial value */
+  initialValue: TradeStreamCursorValueInput;
+  /** cursor ordering */
+  ordering?: InputMaybe<CursorOrdering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type TradeStreamCursorValueInput = {
+  createdAt?: InputMaybe<Scalars['timestamptz']>;
+  exchangeUid?: InputMaybe<Scalars['uuid']>;
+  fee?: InputMaybe<Scalars['numeric']>;
+  orderUid?: InputMaybe<Scalars['uuid']>;
+  price?: InputMaybe<Scalars['numeric']>;
+  primaryCurrency?: InputMaybe<Scalars['String']>;
+  secondaryCurrency?: InputMaybe<Scalars['String']>;
+  timestamp?: InputMaybe<Scalars['timestamptz']>;
+  totalValue?: InputMaybe<Scalars['numeric']>;
+  tradeId?: InputMaybe<Scalars['String']>;
+  type?: InputMaybe<Scalars['String']>;
+  uid?: InputMaybe<Scalars['uuid']>;
+  updatedAt?: InputMaybe<Scalars['timestamptz']>;
+  userUid?: InputMaybe<Scalars['uuid']>;
+  value?: InputMaybe<Scalars['numeric']>;
+  volume?: InputMaybe<Scalars['numeric']>;
+};
+
 export type TradeSumByWindowArgs = {
   currency?: InputMaybe<Scalars['String']>;
   group_by?: InputMaybe<Scalars['String']>;
@@ -6172,6 +6536,25 @@ export type TypeTradeAvgPriceByWindowStddevSampFields = {
   volume?: Maybe<Scalars['Float']>;
 };
 
+/** Streaming cursor of the table "type_trade_avg_price_by_window" */
+export type TypeTradeAvgPriceByWindowStreamCursorInput = {
+  /** Stream column input with initial value */
+  initialValue: TypeTradeAvgPriceByWindowStreamCursorValueInput;
+  /** cursor ordering */
+  ordering?: InputMaybe<CursorOrdering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type TypeTradeAvgPriceByWindowStreamCursorValueInput = {
+  avgPrice?: InputMaybe<Scalars['numeric']>;
+  price?: InputMaybe<Scalars['numeric']>;
+  primaryCurrency?: InputMaybe<Scalars['String']>;
+  timestamp?: InputMaybe<Scalars['timestamptz']>;
+  totalValue?: InputMaybe<Scalars['numeric']>;
+  userUid?: InputMaybe<Scalars['uuid']>;
+  volume?: InputMaybe<Scalars['numeric']>;
+};
+
 /** aggregate sum on columns */
 export type TypeTradeAvgPriceByWindowSumFields = {
   __typename?: 'TypeTradeAvgPriceByWindowSumFields';
@@ -6383,6 +6766,24 @@ export type TypeTradeSumByWindowStddevSampFields = {
   totalValue?: Maybe<Scalars['Float']>;
   value?: Maybe<Scalars['Float']>;
   volume?: Maybe<Scalars['Float']>;
+};
+
+/** Streaming cursor of the table "type_trade_sum_by_window" */
+export type TypeTradeSumByWindowStreamCursorInput = {
+  /** Stream column input with initial value */
+  initialValue: TypeTradeSumByWindowStreamCursorValueInput;
+  /** cursor ordering */
+  ordering?: InputMaybe<CursorOrdering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type TypeTradeSumByWindowStreamCursorValueInput = {
+  primaryCurrency?: InputMaybe<Scalars['String']>;
+  timestamp?: InputMaybe<Scalars['timestamptz']>;
+  totalValue?: InputMaybe<Scalars['numeric']>;
+  userUid?: InputMaybe<Scalars['uuid']>;
+  value?: InputMaybe<Scalars['numeric']>;
+  volume?: InputMaybe<Scalars['numeric']>;
 };
 
 /** aggregate sum on columns */
@@ -6810,6 +7211,25 @@ export type User2faStddevSampFields = {
   secretKeyringId?: Maybe<Scalars['Float']>;
 };
 
+/** Streaming cursor of the table "user_2fa" */
+export type User2faStreamCursorInput = {
+  /** Stream column input with initial value */
+  initialValue: User2faStreamCursorValueInput;
+  /** cursor ordering */
+  ordering?: InputMaybe<CursorOrdering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type User2faStreamCursorValueInput = {
+  createdAt?: InputMaybe<Scalars['timestamptz']>;
+  name?: InputMaybe<Scalars['String']>;
+  secretEncrypted?: InputMaybe<Scalars['String']>;
+  secretKeyringId?: InputMaybe<Scalars['smallint']>;
+  uid?: InputMaybe<Scalars['uuid']>;
+  updatedAt?: InputMaybe<Scalars['timestamptz']>;
+  userUid?: InputMaybe<Scalars['uuid']>;
+};
+
 /** aggregate sum on columns */
 export type User2faSumFields = {
   __typename?: 'User2faSumFields';
@@ -7122,6 +7542,26 @@ export type UserDeviceSetInput = {
   userUid?: InputMaybe<Scalars['uuid']>;
 };
 
+/** Streaming cursor of the table "user_device" */
+export type UserDeviceStreamCursorInput = {
+  /** Stream column input with initial value */
+  initialValue: UserDeviceStreamCursorValueInput;
+  /** cursor ordering */
+  ordering?: InputMaybe<CursorOrdering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type UserDeviceStreamCursorValueInput = {
+  accessedAt?: InputMaybe<Scalars['timestamptz']>;
+  createdAt?: InputMaybe<Scalars['timestamptz']>;
+  deviceIdHash?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
+  trusted?: InputMaybe<Scalars['Boolean']>;
+  uid?: InputMaybe<Scalars['uuid']>;
+  updatedAt?: InputMaybe<Scalars['timestamptz']>;
+  userUid?: InputMaybe<Scalars['uuid']>;
+};
+
 /** update columns of table "user_device" */
 export enum UserDeviceUpdateColumn {
   /** column name */
@@ -7277,6 +7717,23 @@ export enum UserEmailVerifySelectColumn {
 
 /** input type for updating data in table "user_email_verify" */
 export type UserEmailVerifySetInput = {
+  createdAt?: InputMaybe<Scalars['timestamptz']>;
+  secretHash?: InputMaybe<Scalars['String']>;
+  uid?: InputMaybe<Scalars['uuid']>;
+  updatedAt?: InputMaybe<Scalars['timestamptz']>;
+  userUid?: InputMaybe<Scalars['uuid']>;
+};
+
+/** Streaming cursor of the table "user_email_verify" */
+export type UserEmailVerifyStreamCursorInput = {
+  /** Stream column input with initial value */
+  initialValue: UserEmailVerifyStreamCursorValueInput;
+  /** cursor ordering */
+  ordering?: InputMaybe<CursorOrdering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type UserEmailVerifyStreamCursorValueInput = {
   createdAt?: InputMaybe<Scalars['timestamptz']>;
   secretHash?: InputMaybe<Scalars['String']>;
   uid?: InputMaybe<Scalars['uuid']>;
@@ -7645,6 +8102,28 @@ export type UserExchangeKeysStddevSampOrderBy = {
   keysKeyringId?: InputMaybe<OrderBy>;
 };
 
+/** Streaming cursor of the table "user_exchange_keys" */
+export type UserExchangeKeysStreamCursorInput = {
+  /** Stream column input with initial value */
+  initialValue: UserExchangeKeysStreamCursorValueInput;
+  /** cursor ordering */
+  ordering?: InputMaybe<CursorOrdering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type UserExchangeKeysStreamCursorValueInput = {
+  createdAt?: InputMaybe<Scalars['timestamptz']>;
+  description?: InputMaybe<Scalars['String']>;
+  exchangeUid?: InputMaybe<Scalars['uuid']>;
+  invalidatedAt?: InputMaybe<Scalars['timestamptz']>;
+  keysEncrypted?: InputMaybe<Scalars['String']>;
+  keysHash?: InputMaybe<Scalars['String']>;
+  keysKeyringId?: InputMaybe<Scalars['smallint']>;
+  uid?: InputMaybe<Scalars['uuid']>;
+  updatedAt?: InputMaybe<Scalars['timestamptz']>;
+  userUid?: InputMaybe<Scalars['uuid']>;
+};
+
 /** aggregate sum on columns */
 export type UserExchangeKeysSumFields = {
   __typename?: 'UserExchangeKeysSumFields';
@@ -7958,6 +8437,24 @@ export type UserPasswordResetSetInput = {
   userUid?: InputMaybe<Scalars['uuid']>;
 };
 
+/** Streaming cursor of the table "user_password_reset" */
+export type UserPasswordResetStreamCursorInput = {
+  /** Stream column input with initial value */
+  initialValue: UserPasswordResetStreamCursorValueInput;
+  /** cursor ordering */
+  ordering?: InputMaybe<CursorOrdering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type UserPasswordResetStreamCursorValueInput = {
+  createdAt?: InputMaybe<Scalars['timestamptz']>;
+  expiresAt?: InputMaybe<Scalars['timestamptz']>;
+  secretHash?: InputMaybe<Scalars['String']>;
+  uid?: InputMaybe<Scalars['uuid']>;
+  updatedAt?: InputMaybe<Scalars['timestamptz']>;
+  userUid?: InputMaybe<Scalars['uuid']>;
+};
+
 /** update columns of table "user_password_reset" */
 export enum UserPasswordResetUpdateColumn {
   /** column name */
@@ -8036,6 +8533,27 @@ export type UserStddevPopFields = {
 export type UserStddevSampFields = {
   __typename?: 'UserStddevSampFields';
   emailKeyringId?: Maybe<Scalars['Float']>;
+};
+
+/** Streaming cursor of the table "user" */
+export type UserStreamCursorInput = {
+  /** Stream column input with initial value */
+  initialValue: UserStreamCursorValueInput;
+  /** cursor ordering */
+  ordering?: InputMaybe<CursorOrdering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type UserStreamCursorValueInput = {
+  createdAt?: InputMaybe<Scalars['timestamptz']>;
+  emailEncrypted?: InputMaybe<Scalars['String']>;
+  emailHash?: InputMaybe<Scalars['String']>;
+  emailKeyringId?: InputMaybe<Scalars['smallint']>;
+  emailVerified?: InputMaybe<Scalars['Boolean']>;
+  passwordHash?: InputMaybe<Scalars['String']>;
+  timezone?: InputMaybe<Scalars['String']>;
+  uid?: InputMaybe<Scalars['uuid']>;
+  updatedAt?: InputMaybe<Scalars['timestamptz']>;
 };
 
 /** aggregate sum on columns */
@@ -10626,18 +11144,24 @@ export type Subscription_Root = {
   balanceAggregate: BalanceAggregate;
   /** fetch data from the table: "balance" using primary key columns */
   balanceByPk?: Maybe<Balance>;
+  /** fetch data from the table in a streaming manner : "balance" */
+  balanceStream: Array<Balance>;
   /** fetch data from the table: "cron_history" */
   cronHistory: Array<CronHistory>;
   /** fetch aggregated fields from the table: "cron_history" */
   cronHistoryAggregate: CronHistoryAggregate;
   /** fetch data from the table: "cron_history" using primary key columns */
   cronHistoryByPk?: Maybe<CronHistory>;
+  /** fetch data from the table in a streaming manner : "cron_history" */
+  cronHistoryStream: Array<CronHistory>;
   /** fetch data from the table: "currency" */
   currency: Array<Currency>;
   /** fetch aggregated fields from the table: "currency" */
   currencyAggregate: CurrencyAggregate;
   /** fetch data from the table: "currency" using primary key columns */
   currencyByPk?: Maybe<Currency>;
+  /** fetch data from the table in a streaming manner : "currency" */
+  currencyStream: Array<Currency>;
   /** fetch data from the table: "dca_order" */
   dcaOrder: Array<DcaOrder>;
   /** fetch aggregated fields from the table: "dca_order" */
@@ -10650,6 +11174,10 @@ export type Subscription_Root = {
   dcaOrderHistoryAggregate: DcaOrderHistoryAggregate;
   /** fetch data from the table: "dca_order_history" using primary key columns */
   dcaOrderHistoryByPk?: Maybe<DcaOrderHistory>;
+  /** fetch data from the table in a streaming manner : "dca_order_history" */
+  dcaOrderHistoryStream: Array<DcaOrderHistory>;
+  /** fetch data from the table in a streaming manner : "dca_order" */
+  dcaOrderStream: Array<DcaOrder>;
   /** fetch data from the table: "exchange" */
   exchange: Array<Exchange>;
   /** fetch aggregated fields from the table: "exchange" */
@@ -10662,12 +11190,18 @@ export type Subscription_Root = {
   exchangePrimaryCurrencyAggregate: ExchangePrimaryCurrencyAggregate;
   /** fetch data from the table: "exchange_primary_currency" using primary key columns */
   exchangePrimaryCurrencyByPk?: Maybe<ExchangePrimaryCurrency>;
+  /** fetch data from the table in a streaming manner : "exchange_primary_currency" */
+  exchangePrimaryCurrencyStream: Array<ExchangePrimaryCurrency>;
   /** fetch data from the table: "exchange_secondary_currency" */
   exchangeSecondaryCurrency: Array<ExchangeSecondaryCurrency>;
   /** fetch aggregated fields from the table: "exchange_secondary_currency" */
   exchangeSecondaryCurrencyAggregate: ExchangeSecondaryCurrencyAggregate;
   /** fetch data from the table: "exchange_secondary_currency" using primary key columns */
   exchangeSecondaryCurrencyByPk?: Maybe<ExchangeSecondaryCurrency>;
+  /** fetch data from the table in a streaming manner : "exchange_secondary_currency" */
+  exchangeSecondaryCurrencyStream: Array<ExchangeSecondaryCurrency>;
+  /** fetch data from the table in a streaming manner : "exchange" */
+  exchangeStream: Array<Exchange>;
   /** fetch data from the table: "market" */
   market: Array<Market>;
   /** fetch aggregated fields from the table: "market" */
@@ -10684,40 +11218,56 @@ export type Subscription_Root = {
   marketPriceLatest: Array<MarketPrice>;
   /** execute function "market_price_latest" and query aggregates on result of table type "market_price" */
   marketPriceLatestAggregate: MarketPriceAggregate;
+  /** fetch data from the table in a streaming manner : "market_price" */
+  marketPriceStream: Array<MarketPrice>;
+  /** fetch data from the table in a streaming manner : "market" */
+  marketStream: Array<Market>;
   /** fetch data from the table: "market_trading_pair" */
   marketTradingPair: Array<MarketTradingPair>;
   /** fetch aggregated fields from the table: "market_trading_pair" */
   marketTradingPairAggregate: MarketTradingPairAggregate;
+  /** fetch data from the table in a streaming manner : "market_trading_pair" */
+  marketTradingPairStream: Array<MarketTradingPair>;
   /** fetch data from the table: "order" */
   order: Array<Order>;
   /** fetch aggregated fields from the table: "order" */
   orderAggregate: OrderAggregate;
   /** fetch data from the table: "order" using primary key columns */
   orderByPk?: Maybe<Order>;
+  /** fetch data from the table in a streaming manner : "order" */
+  orderStream: Array<Order>;
   /** fetch data from the table: "stripe_customer" */
   stripeCustomer: Array<StripeCustomer>;
   /** fetch aggregated fields from the table: "stripe_customer" */
   stripeCustomerAggregate: StripeCustomerAggregate;
   /** fetch data from the table: "stripe_customer" using primary key columns */
   stripeCustomerByPk?: Maybe<StripeCustomer>;
+  /** fetch data from the table in a streaming manner : "stripe_customer" */
+  stripeCustomerStream: Array<StripeCustomer>;
   /** fetch data from the table: "stripe_price" */
   stripePrice: Array<StripePrice>;
   /** fetch aggregated fields from the table: "stripe_price" */
   stripePriceAggregate: StripePriceAggregate;
   /** fetch data from the table: "stripe_price" using primary key columns */
   stripePriceByPk?: Maybe<StripePrice>;
+  /** fetch data from the table in a streaming manner : "stripe_price" */
+  stripePriceStream: Array<StripePrice>;
   /** fetch data from the table: "stripe_product" */
   stripeProduct: Array<StripeProduct>;
   /** fetch aggregated fields from the table: "stripe_product" */
   stripeProductAggregate: StripeProductAggregate;
   /** fetch data from the table: "stripe_product" using primary key columns */
   stripeProductByPk?: Maybe<StripeProduct>;
+  /** fetch data from the table in a streaming manner : "stripe_product" */
+  stripeProductStream: Array<StripeProduct>;
   /** fetch data from the table: "stripe_subscription" */
   stripeSubscription: Array<StripeSubscription>;
   /** fetch aggregated fields from the table: "stripe_subscription" */
   stripeSubscriptionAggregate: StripeSubscriptionAggregate;
   /** fetch data from the table: "stripe_subscription" using primary key columns */
   stripeSubscriptionByPk?: Maybe<StripeSubscription>;
+  /** fetch data from the table in a streaming manner : "stripe_subscription" */
+  stripeSubscriptionStream: Array<StripeSubscription>;
   /** fetch data from the table: "trade" */
   trade: Array<Trade>;
   /** fetch aggregated fields from the table: "trade" */
@@ -10728,6 +11278,8 @@ export type Subscription_Root = {
   tradeAvgPriceByWindowAggregate: TypeTradeAvgPriceByWindowAggregate;
   /** fetch data from the table: "trade" using primary key columns */
   tradeByPk?: Maybe<Trade>;
+  /** fetch data from the table in a streaming manner : "trade" */
+  tradeStream: Array<Trade>;
   /** execute function "trade_sum_by_window" which returns "type_trade_sum_by_window" */
   tradeSumByWindow: Array<TypeTradeSumByWindow>;
   /** execute function "trade_sum_by_window" and query aggregates on result of table type "type_trade_sum_by_window" */
@@ -10736,10 +11288,14 @@ export type Subscription_Root = {
   typeTradeAvgPriceByWindow: Array<TypeTradeAvgPriceByWindow>;
   /** fetch aggregated fields from the table: "type_trade_avg_price_by_window" */
   typeTradeAvgPriceByWindowAggregate: TypeTradeAvgPriceByWindowAggregate;
+  /** fetch data from the table in a streaming manner : "type_trade_avg_price_by_window" */
+  typeTradeAvgPriceByWindowStream: Array<TypeTradeAvgPriceByWindow>;
   /** fetch data from the table: "type_trade_sum_by_window" */
   typeTradeSumByWindow: Array<TypeTradeSumByWindow>;
   /** fetch aggregated fields from the table: "type_trade_sum_by_window" */
   typeTradeSumByWindowAggregate: TypeTradeSumByWindowAggregate;
+  /** fetch data from the table in a streaming manner : "type_trade_sum_by_window" */
+  typeTradeSumByWindowStream: Array<TypeTradeSumByWindow>;
   /** fetch data from the table: "user" */
   user: Array<User>;
   /** fetch data from the table: "user_2fa" */
@@ -10748,6 +11304,8 @@ export type Subscription_Root = {
   user2faAggregate: User2faAggregate;
   /** fetch data from the table: "user_2fa" using primary key columns */
   user2faByPk?: Maybe<User2fa>;
+  /** fetch data from the table in a streaming manner : "user_2fa" */
+  user2faStream: Array<User2fa>;
   /** fetch aggregated fields from the table: "user" */
   userAggregate: UserAggregate;
   /** fetch data from the table: "user" using primary key columns */
@@ -10758,24 +11316,34 @@ export type Subscription_Root = {
   userDeviceAggregate: UserDeviceAggregate;
   /** fetch data from the table: "user_device" using primary key columns */
   userDeviceByPk?: Maybe<UserDevice>;
+  /** fetch data from the table in a streaming manner : "user_device" */
+  userDeviceStream: Array<UserDevice>;
   /** fetch data from the table: "user_email_verify" */
   userEmailVerify: Array<UserEmailVerify>;
   /** fetch aggregated fields from the table: "user_email_verify" */
   userEmailVerifyAggregate: UserEmailVerifyAggregate;
   /** fetch data from the table: "user_email_verify" using primary key columns */
   userEmailVerifyByPk?: Maybe<UserEmailVerify>;
+  /** fetch data from the table in a streaming manner : "user_email_verify" */
+  userEmailVerifyStream: Array<UserEmailVerify>;
   /** An array relationship */
   userExchangeKeys: Array<UserExchangeKeys>;
   /** An aggregate relationship */
   userExchangeKeysAggregate: UserExchangeKeysAggregate;
   /** fetch data from the table: "user_exchange_keys" using primary key columns */
   userExchangeKeysByPk?: Maybe<UserExchangeKeys>;
+  /** fetch data from the table in a streaming manner : "user_exchange_keys" */
+  userExchangeKeysStream: Array<UserExchangeKeys>;
   /** fetch data from the table: "user_password_reset" */
   userPasswordReset: Array<UserPasswordReset>;
   /** fetch aggregated fields from the table: "user_password_reset" */
   userPasswordResetAggregate: UserPasswordResetAggregate;
   /** fetch data from the table: "user_password_reset" using primary key columns */
   userPasswordResetByPk?: Maybe<UserPasswordReset>;
+  /** fetch data from the table in a streaming manner : "user_password_reset" */
+  userPasswordResetStream: Array<UserPasswordReset>;
+  /** fetch data from the table in a streaming manner : "user" */
+  userStream: Array<User>;
 };
 
 
@@ -10802,6 +11370,13 @@ export type Subscription_RootBalanceByPkArgs = {
 };
 
 
+export type Subscription_RootBalanceStreamArgs = {
+  batchSize: Scalars['Int'];
+  cursor: Array<InputMaybe<BalanceStreamCursorInput>>;
+  where?: InputMaybe<BalanceBoolExp>;
+};
+
+
 export type Subscription_RootCronHistoryArgs = {
   distinctOn?: InputMaybe<Array<CronHistorySelectColumn>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -10825,6 +11400,13 @@ export type Subscription_RootCronHistoryByPkArgs = {
 };
 
 
+export type Subscription_RootCronHistoryStreamArgs = {
+  batchSize: Scalars['Int'];
+  cursor: Array<InputMaybe<CronHistoryStreamCursorInput>>;
+  where?: InputMaybe<CronHistoryBoolExp>;
+};
+
+
 export type Subscription_RootCurrencyArgs = {
   distinctOn?: InputMaybe<Array<CurrencySelectColumn>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -10845,6 +11427,13 @@ export type Subscription_RootCurrencyAggregateArgs = {
 
 export type Subscription_RootCurrencyByPkArgs = {
   symbol: Scalars['String'];
+};
+
+
+export type Subscription_RootCurrencyStreamArgs = {
+  batchSize: Scalars['Int'];
+  cursor: Array<InputMaybe<CurrencyStreamCursorInput>>;
+  where?: InputMaybe<CurrencyBoolExp>;
 };
 
 
@@ -10891,6 +11480,20 @@ export type Subscription_RootDcaOrderHistoryAggregateArgs = {
 
 export type Subscription_RootDcaOrderHistoryByPkArgs = {
   uid: Scalars['uuid'];
+};
+
+
+export type Subscription_RootDcaOrderHistoryStreamArgs = {
+  batchSize: Scalars['Int'];
+  cursor: Array<InputMaybe<DcaOrderHistoryStreamCursorInput>>;
+  where?: InputMaybe<DcaOrderHistoryBoolExp>;
+};
+
+
+export type Subscription_RootDcaOrderStreamArgs = {
+  batchSize: Scalars['Int'];
+  cursor: Array<InputMaybe<DcaOrderStreamCursorInput>>;
+  where?: InputMaybe<DcaOrderBoolExp>;
 };
 
 
@@ -10941,6 +11544,13 @@ export type Subscription_RootExchangePrimaryCurrencyByPkArgs = {
 };
 
 
+export type Subscription_RootExchangePrimaryCurrencyStreamArgs = {
+  batchSize: Scalars['Int'];
+  cursor: Array<InputMaybe<ExchangePrimaryCurrencyStreamCursorInput>>;
+  where?: InputMaybe<ExchangePrimaryCurrencyBoolExp>;
+};
+
+
 export type Subscription_RootExchangeSecondaryCurrencyArgs = {
   distinctOn?: InputMaybe<Array<ExchangeSecondaryCurrencySelectColumn>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -10962,6 +11572,20 @@ export type Subscription_RootExchangeSecondaryCurrencyAggregateArgs = {
 export type Subscription_RootExchangeSecondaryCurrencyByPkArgs = {
   exchangeUid: Scalars['uuid'];
   symbol: Scalars['String'];
+};
+
+
+export type Subscription_RootExchangeSecondaryCurrencyStreamArgs = {
+  batchSize: Scalars['Int'];
+  cursor: Array<InputMaybe<ExchangeSecondaryCurrencyStreamCursorInput>>;
+  where?: InputMaybe<ExchangeSecondaryCurrencyBoolExp>;
+};
+
+
+export type Subscription_RootExchangeStreamArgs = {
+  batchSize: Scalars['Int'];
+  cursor: Array<InputMaybe<ExchangeStreamCursorInput>>;
+  where?: InputMaybe<ExchangeBoolExp>;
 };
 
 
@@ -11035,6 +11659,20 @@ export type Subscription_RootMarketPriceLatestAggregateArgs = {
 };
 
 
+export type Subscription_RootMarketPriceStreamArgs = {
+  batchSize: Scalars['Int'];
+  cursor: Array<InputMaybe<MarketPriceStreamCursorInput>>;
+  where?: InputMaybe<MarketPriceBoolExp>;
+};
+
+
+export type Subscription_RootMarketStreamArgs = {
+  batchSize: Scalars['Int'];
+  cursor: Array<InputMaybe<MarketStreamCursorInput>>;
+  where?: InputMaybe<MarketBoolExp>;
+};
+
+
 export type Subscription_RootMarketTradingPairArgs = {
   distinctOn?: InputMaybe<Array<MarketTradingPairSelectColumn>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -11049,6 +11687,13 @@ export type Subscription_RootMarketTradingPairAggregateArgs = {
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
   orderBy?: InputMaybe<Array<MarketTradingPairOrderBy>>;
+  where?: InputMaybe<MarketTradingPairBoolExp>;
+};
+
+
+export type Subscription_RootMarketTradingPairStreamArgs = {
+  batchSize: Scalars['Int'];
+  cursor: Array<InputMaybe<MarketTradingPairStreamCursorInput>>;
   where?: InputMaybe<MarketTradingPairBoolExp>;
 };
 
@@ -11076,6 +11721,13 @@ export type Subscription_RootOrderByPkArgs = {
 };
 
 
+export type Subscription_RootOrderStreamArgs = {
+  batchSize: Scalars['Int'];
+  cursor: Array<InputMaybe<OrderStreamCursorInput>>;
+  where?: InputMaybe<OrderBoolExp>;
+};
+
+
 export type Subscription_RootStripeCustomerArgs = {
   distinctOn?: InputMaybe<Array<StripeCustomerSelectColumn>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -11096,6 +11748,13 @@ export type Subscription_RootStripeCustomerAggregateArgs = {
 
 export type Subscription_RootStripeCustomerByPkArgs = {
   userUid: Scalars['uuid'];
+};
+
+
+export type Subscription_RootStripeCustomerStreamArgs = {
+  batchSize: Scalars['Int'];
+  cursor: Array<InputMaybe<StripeCustomerStreamCursorInput>>;
+  where?: InputMaybe<StripeCustomerBoolExp>;
 };
 
 
@@ -11122,6 +11781,13 @@ export type Subscription_RootStripePriceByPkArgs = {
 };
 
 
+export type Subscription_RootStripePriceStreamArgs = {
+  batchSize: Scalars['Int'];
+  cursor: Array<InputMaybe<StripePriceStreamCursorInput>>;
+  where?: InputMaybe<StripePriceBoolExp>;
+};
+
+
 export type Subscription_RootStripeProductArgs = {
   distinctOn?: InputMaybe<Array<StripeProductSelectColumn>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -11145,6 +11811,13 @@ export type Subscription_RootStripeProductByPkArgs = {
 };
 
 
+export type Subscription_RootStripeProductStreamArgs = {
+  batchSize: Scalars['Int'];
+  cursor: Array<InputMaybe<StripeProductStreamCursorInput>>;
+  where?: InputMaybe<StripeProductBoolExp>;
+};
+
+
 export type Subscription_RootStripeSubscriptionArgs = {
   distinctOn?: InputMaybe<Array<StripeSubscriptionSelectColumn>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -11165,6 +11838,13 @@ export type Subscription_RootStripeSubscriptionAggregateArgs = {
 
 export type Subscription_RootStripeSubscriptionByPkArgs = {
   id: Scalars['String'];
+};
+
+
+export type Subscription_RootStripeSubscriptionStreamArgs = {
+  batchSize: Scalars['Int'];
+  cursor: Array<InputMaybe<StripeSubscriptionStreamCursorInput>>;
+  where?: InputMaybe<StripeSubscriptionBoolExp>;
 };
 
 
@@ -11211,6 +11891,13 @@ export type Subscription_RootTradeByPkArgs = {
 };
 
 
+export type Subscription_RootTradeStreamArgs = {
+  batchSize: Scalars['Int'];
+  cursor: Array<InputMaybe<TradeStreamCursorInput>>;
+  where?: InputMaybe<TradeBoolExp>;
+};
+
+
 export type Subscription_RootTradeSumByWindowArgs = {
   args: TradeSumByWindowArgs;
   distinctOn?: InputMaybe<Array<TypeTradeSumByWindowSelectColumn>>;
@@ -11249,6 +11936,13 @@ export type Subscription_RootTypeTradeAvgPriceByWindowAggregateArgs = {
 };
 
 
+export type Subscription_RootTypeTradeAvgPriceByWindowStreamArgs = {
+  batchSize: Scalars['Int'];
+  cursor: Array<InputMaybe<TypeTradeAvgPriceByWindowStreamCursorInput>>;
+  where?: InputMaybe<TypeTradeAvgPriceByWindowBoolExp>;
+};
+
+
 export type Subscription_RootTypeTradeSumByWindowArgs = {
   distinctOn?: InputMaybe<Array<TypeTradeSumByWindowSelectColumn>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -11263,6 +11957,13 @@ export type Subscription_RootTypeTradeSumByWindowAggregateArgs = {
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
   orderBy?: InputMaybe<Array<TypeTradeSumByWindowOrderBy>>;
+  where?: InputMaybe<TypeTradeSumByWindowBoolExp>;
+};
+
+
+export type Subscription_RootTypeTradeSumByWindowStreamArgs = {
+  batchSize: Scalars['Int'];
+  cursor: Array<InputMaybe<TypeTradeSumByWindowStreamCursorInput>>;
   where?: InputMaybe<TypeTradeSumByWindowBoolExp>;
 };
 
@@ -11296,6 +11997,13 @@ export type Subscription_RootUser2faAggregateArgs = {
 
 export type Subscription_RootUser2faByPkArgs = {
   uid: Scalars['uuid'];
+};
+
+
+export type Subscription_RootUser2faStreamArgs = {
+  batchSize: Scalars['Int'];
+  cursor: Array<InputMaybe<User2faStreamCursorInput>>;
+  where?: InputMaybe<User2faBoolExp>;
 };
 
 
@@ -11336,6 +12044,13 @@ export type Subscription_RootUserDeviceByPkArgs = {
 };
 
 
+export type Subscription_RootUserDeviceStreamArgs = {
+  batchSize: Scalars['Int'];
+  cursor: Array<InputMaybe<UserDeviceStreamCursorInput>>;
+  where?: InputMaybe<UserDeviceBoolExp>;
+};
+
+
 export type Subscription_RootUserEmailVerifyArgs = {
   distinctOn?: InputMaybe<Array<UserEmailVerifySelectColumn>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -11356,6 +12071,13 @@ export type Subscription_RootUserEmailVerifyAggregateArgs = {
 
 export type Subscription_RootUserEmailVerifyByPkArgs = {
   uid: Scalars['uuid'];
+};
+
+
+export type Subscription_RootUserEmailVerifyStreamArgs = {
+  batchSize: Scalars['Int'];
+  cursor: Array<InputMaybe<UserEmailVerifyStreamCursorInput>>;
+  where?: InputMaybe<UserEmailVerifyBoolExp>;
 };
 
 
@@ -11382,6 +12104,13 @@ export type Subscription_RootUserExchangeKeysByPkArgs = {
 };
 
 
+export type Subscription_RootUserExchangeKeysStreamArgs = {
+  batchSize: Scalars['Int'];
+  cursor: Array<InputMaybe<UserExchangeKeysStreamCursorInput>>;
+  where?: InputMaybe<UserExchangeKeysBoolExp>;
+};
+
+
 export type Subscription_RootUserPasswordResetArgs = {
   distinctOn?: InputMaybe<Array<UserPasswordResetSelectColumn>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -11404,11 +12133,38 @@ export type Subscription_RootUserPasswordResetByPkArgs = {
   uid: Scalars['uuid'];
 };
 
+
+export type Subscription_RootUserPasswordResetStreamArgs = {
+  batchSize: Scalars['Int'];
+  cursor: Array<InputMaybe<UserPasswordResetStreamCursorInput>>;
+  where?: InputMaybe<UserPasswordResetBoolExp>;
+};
+
+
+export type Subscription_RootUserStreamArgs = {
+  batchSize: Scalars['Int'];
+  cursor: Array<InputMaybe<UserStreamCursorInput>>;
+  where?: InputMaybe<UserBoolExp>;
+};
+
 export type CronHistoryFragment = { __typename?: 'CronHistory', uid: string, taskId: string, createdAt: string, updatedAt: string, completedAt?: string | null, state: string, input: Record<string, unknown>, output?: Record<string, unknown> | null };
 
 export type DcaOrderHistoryFragment = { __typename?: 'DcaOrderHistory', createdAt: string, createdOrder: boolean, marketPrice: number, marketOffset: number, value: number, availableBalance: number };
 
 export type StripeSubscriptionFragment = { __typename?: 'StripeSubscription', id: string, status: string, cancelAt?: string | null, canceledAt?: string | null, cancelAtPeriodEnd: boolean, currentPeriodStart: string, currentPeriodEnd: string, stripePrice: { __typename?: 'StripePrice', unitAmount?: number | null, currency: string, recurringInterval?: string | null, recurringIntervalCount?: number | null, stripeProduct: { __typename?: 'StripeProduct', name: string } } };
+
+export type CreateAuthTokenMutationVariables = Exact<{
+  email: Scalars['String'];
+  password: Scalars['String'];
+  deviceId: Scalars['String'];
+  deviceName: Scalars['String'];
+  deviceTrusted: Scalars['Boolean'];
+  token2fa?: InputMaybe<Scalars['String']>;
+  role: Scalars['String'];
+}>;
+
+
+export type CreateAuthTokenMutation = { __typename?: 'mutation_root', actionCreateAuthToken?: { __typename?: 'CreateAuthTokenOutput', userUid: string, authToken: string, expiresAt: string } | null };
 
 export type CreateAdminAuthTokenMutationVariables = Exact<{
   userUid: Scalars['uuid'];
@@ -11416,19 +12172,6 @@ export type CreateAdminAuthTokenMutationVariables = Exact<{
 
 
 export type CreateAdminAuthTokenMutation = { __typename?: 'mutation_root', actionCreateAdminAuthToken?: { __typename?: 'CreateAdminAuthTokenOutput', userUid: string, authToken: string, expiresAt: string } | null };
-
-export type CreateAuthTokenMutationVariables = Exact<{
-  email: Scalars['String'];
-  password: Scalars['String'];
-  deviceID: Scalars['String'];
-  deviceName: Scalars['String'];
-  deviceTrusted: Scalars['Boolean'];
-  token2FA?: InputMaybe<Scalars['String']>;
-  role: Scalars['String'];
-}>;
-
-
-export type CreateAuthTokenMutation = { __typename?: 'mutation_root', actionCreateAuthToken?: { __typename?: 'CreateAuthTokenOutput', userUid: string, authToken: string, expiresAt: string } | null };
 
 export type CreateDcaOrderMutationVariables = Exact<{
   userExchangeKeysUid: Scalars['uuid'];
@@ -11515,10 +12258,10 @@ export type EnableUser2FaMutation = { __typename?: 'mutation_root', actionEnable
 export type UseResetUserPasswordMutationVariables = Exact<{
   passwordResetSecret: Scalars['String'];
   newPassword: Scalars['String'];
-  deviceID: Scalars['String'];
+  deviceId: Scalars['String'];
   deviceName: Scalars['String'];
   deviceTrusted: Scalars['Boolean'];
-  token2FA?: InputMaybe<Scalars['String']>;
+  token2fa?: InputMaybe<Scalars['String']>;
 }>;
 
 
@@ -11854,26 +12597,26 @@ export const StripeSubscriptionFragmentDoc = gql`
   }
 }
     `;
-export const CreateAdminAuthTokenDocument = gql`
-    mutation createAdminAuthToken($userUid: uuid!) {
-  actionCreateAdminAuthToken(userUid: $userUid) {
+export const CreateAuthTokenDocument = gql`
+    mutation createAuthToken($email: String!, $password: String!, $deviceId: String!, $deviceName: String!, $deviceTrusted: Boolean!, $token2fa: String, $role: String!) {
+  actionCreateAuthToken(
+    email: $email
+    password: $password
+    deviceId: $deviceId
+    deviceName: $deviceName
+    deviceTrusted: $deviceTrusted
+    token2fa: $token2fa
+    role: $role
+  ) {
     userUid
     authToken
     expiresAt
   }
 }
     `;
-export const CreateAuthTokenDocument = gql`
-    mutation createAuthToken($email: String!, $password: String!, $deviceID: String!, $deviceName: String!, $deviceTrusted: Boolean!, $token2FA: String, $role: String!) {
-  actionCreateAuthToken(
-    email: $email
-    password: $password
-    deviceId: $deviceID
-    deviceName: $deviceName
-    deviceTrusted: $deviceTrusted
-    token2fa: $token2FA
-    role: $role
-  ) {
+export const CreateAdminAuthTokenDocument = gql`
+    mutation createAdminAuthToken($userUid: uuid!) {
+  actionCreateAdminAuthToken(userUid: $userUid) {
     userUid
     authToken
     expiresAt
@@ -12014,14 +12757,14 @@ export const EnableUser2FaDocument = gql`
 }
     `;
 export const UseResetUserPasswordDocument = gql`
-    mutation useResetUserPassword($passwordResetSecret: String!, $newPassword: String!, $deviceID: String!, $deviceName: String!, $deviceTrusted: Boolean!, $token2FA: String) {
+    mutation useResetUserPassword($passwordResetSecret: String!, $newPassword: String!, $deviceId: String!, $deviceName: String!, $deviceTrusted: Boolean!, $token2fa: String) {
   actionResetUserPassword(
     passwordResetSecret: $passwordResetSecret
     newPassword: $newPassword
-    deviceId: $deviceID
+    deviceId: $deviceId
     deviceName: $deviceName
     deviceTrusted: $deviceTrusted
-    token2fa: $token2FA
+    token2fa: $token2fa
   ) {
     userUid
     authToken
@@ -12784,11 +13527,11 @@ const defaultWrapper: SdkFunctionWrapper = (action, _operationName, _operationTy
 
 export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = defaultWrapper) {
   return {
-    createAdminAuthToken(variables: CreateAdminAuthTokenMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateAdminAuthTokenMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<CreateAdminAuthTokenMutation>(CreateAdminAuthTokenDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createAdminAuthToken', 'mutation');
-    },
     createAuthToken(variables: CreateAuthTokenMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateAuthTokenMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<CreateAuthTokenMutation>(CreateAuthTokenDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createAuthToken', 'mutation');
+    },
+    createAdminAuthToken(variables: CreateAdminAuthTokenMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateAdminAuthTokenMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<CreateAdminAuthTokenMutation>(CreateAdminAuthTokenDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createAdminAuthToken', 'mutation');
     },
     createDcaOrder(variables: CreateDcaOrderMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateDcaOrderMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<CreateDcaOrderMutation>(CreateDcaOrderDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createDcaOrder', 'mutation');

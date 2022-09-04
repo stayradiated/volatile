@@ -9,25 +9,29 @@ const FormActions = styled(Form.Item)`
 `
 
 type TwoFactorFormProps = {
-  username: string
+  email: string
   password: string
+  deviceId: string
+  deviceName: string
   returnTo: string | undefined
   error: string | undefined
 }
 
 const TwoFactorForm = (props: TwoFactorFormProps) => {
-  const { username, password, returnTo, error } = props
+  const { email, password, deviceId, deviceName, returnTo, error } = props
 
   return (
-    <Form name="login" method="post" action="/login">
+    <Form name="login" method="post">
       <Form.Item>
         <p>Log in to your account</p>
         <input type="hidden" name="return" value={returnTo} />
-        <input type="hidden" name="username" value={username} />
+        <input type="hidden" name="email" value={email} />
         <input type="hidden" name="password" value={password} />
+        <input type="hidden" name="deviceId" value={deviceId} />
+        <input type="hidden" name="deviceName" value={deviceName} />
       </Form.Item>
       {error && <Alert message={error} type="error" />}
-      <Form.Item label="2FA Token" name="token2FA">
+      <Form.Item label="2FA Token" name="token2fa">
         <Input inputMode="numeric" minLength={6} maxLength={6} />
       </Form.Item>
       <Form.Item label="Trust This Device" name="deviceTrusted">

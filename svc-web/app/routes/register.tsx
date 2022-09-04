@@ -34,10 +34,10 @@ const createUser = makeDomainFunction(
   const result = await sdk.createAuthToken({
     email,
     password,
-    deviceID: '',
+    deviceId: '',
     deviceName: '',
     deviceTrusted: false,
-    token2FA: undefined,
+    token2fa: undefined,
     role: 'user',
   })
 

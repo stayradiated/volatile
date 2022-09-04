@@ -1,19 +1,19 @@
 mutation createAuthToken(
   $email: String!
   $password: String!
-  $deviceID: String!
+  $deviceId: String!
   $deviceName: String!
   $deviceTrusted: Boolean!
-  $token2FA: String
+  $token2fa: String
   $role: String!
 ) {
   actionCreateAuthToken(
     email: $email
     password: $password
-    deviceId: $deviceID
+    deviceId: $deviceId
     deviceName: $deviceName
     deviceTrusted: $deviceTrusted
-    token2fa: $token2FA
+    token2fa: $token2fa
     role: $role
   ) {
     userUid

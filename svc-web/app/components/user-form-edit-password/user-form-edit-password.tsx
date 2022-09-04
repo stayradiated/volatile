@@ -9,7 +9,7 @@ const UserFormEditPassword = (props: Props) => {
   const { success, error } = props
 
   return (
-    <Form name="UserFormEditPassword" method="post" action="/account/password">
+    <Form name="UserFormEditPassword" method="post">
       <p>Password: ********</p>
 
       {error && <Alert type="error" message={error} />}

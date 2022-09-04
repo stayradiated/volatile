@@ -16,7 +16,7 @@ const VerifyEmail = (props: Props) => {
     return (
       <Card>
         Please verify that you own the email address "{email}".
-        <Form name="VerifyEmail" method="post" action="/account/verify-email">
+        <Form name="VerifyEmail" method="post">
           <Form.Item>
             <PrimaryButton>Resend Verification Email</PrimaryButton>
           </Form.Item>

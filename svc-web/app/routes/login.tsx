@@ -1,6 +1,7 @@
+import { useState, useEffect } from 'react'
 import type { ActionFunction, LoaderFunction } from '@remix-run/node'
 import { json } from '@remix-run/node'
-import { useActionData, useLoaderData } from '@remix-run/react'
+import { useActionData, useLoaderData, useTransition } from '@remix-run/react'
 import { makeDomainFunction, inputFromFormData } from 'remix-domains'
 import * as z from 'zod'
 
@@ -17,20 +18,22 @@ import { Logo } from '~/components/logo'
 
 const createAuthToken = makeDomainFunction(
   z.object({
+    deviceId: z.string(),
+    deviceName: z.string(),
     email: z.string().email(),
     password: z.string(),
-    token2FA: z.optional(z.string()),
+    token2fa: z.string().optional(),
   }),
 )(async (input) => {
-  const { email, password, token2FA } = input
+  const { deviceId, deviceName, email, password, token2fa } = input
 
   const query = await sdk.createAuthToken({
     email,
     password,
-    deviceID: 'device-name',
-    deviceName: 'My Device',
+    deviceId,
+    deviceName,
     deviceTrusted: false,
-    token2FA,
+    token2fa: token2fa ?? undefined,
     role: 'user',
   })
 
@@ -48,9 +51,7 @@ type ActionData = {
 
 export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData()
-
   const result = await createAuthToken(inputFromFormData(formData))
-
   if (!result.success) {
     console.error(result)
     return json<ActionData>({
@@ -96,19 +97,40 @@ export const loader: LoaderFunction = async ({ request }) => {
 const Login = () => {
   const { returnTo } = useLoaderData()
 
+  const transition = useTransition()
   const actionData = useActionData<ActionData>()
   const error = actionData?.error
+
+  const requires2fa = error?.startsWith('ERR_AUTH_2FA:')
+
+  const [lastSubmission, setLastSubmission] =
+    useState<typeof transition.submission>()
+  useEffect(() => {
+    if (transition.submission) {
+      setLastSubmission(transition.submission)
+    }
+  }, [transition.submission])
 
   return (
     <main>
       <Logo />
-      <LoginForm returnTo={returnTo} error={error} />
-      <TwoFactorForm
-        returnTo={returnTo}
-        error={error}
-        username="?"
-        password="?"
-      />
+      {requires2fa ? (
+        <TwoFactorForm
+          returnTo={returnTo}
+          error={error}
+          email={String(lastSubmission?.formData.get('email'))}
+          password={String(lastSubmission?.formData.get('password'))}
+          deviceId="device-id"
+          deviceName="device-name"
+        />
+      ) : (
+        <LoginForm
+          returnTo={returnTo}
+          error={error}
+          deviceId="device-id"
+          deviceName="device-name"
+        />
+      )}
     </main>
   )
 }

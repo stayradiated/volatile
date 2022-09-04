@@ -9,7 +9,7 @@ import type {
 import type { RouteGenericInterface } from 'fastify/types/route'
 import * as z from 'zod'
 
-import { IllegalArgumentError, firstLine } from '../util/error.js'
+import { ErrorWithCode, IllegalArgumentError, firstLine } from '../util/error.js'
 import { config } from '../env.js'
 
 import { pool } from '../pool.js'
@@ -109,6 +109,7 @@ const createActionHandler =
     )
     if (!timingSafeEqual(secret, config.ACTIONS_SECRET)) {
       await reply.code(403).send({
+        code: 'ERR_INVALID_INPUT',
         message: 'Invalid x-hasura-actions-secret',
       })
       return
@@ -116,6 +117,7 @@ const createActionHandler =
 
     if (typeof request.body !== 'object' || request.body === null) {
       await reply.code(401).send({
+        code: 'ERR_INVALID_INPUT',
         message: `Invalid request body`,
       })
       return
@@ -125,6 +127,7 @@ const createActionHandler =
     const session = parseSessionVariables(sessionVariables)
     if (session instanceof Error) {
       await reply.code(401).send({
+        code: 'ERR_INVALID_INPUT',
         message: `Invalid session_variables. ${session.message}`,
       })
       return
@@ -135,6 +138,7 @@ const createActionHandler =
 
     if (!actionHandler) {
       await reply.code(404).send({
+        code: 'ERR_INVALID_INPUT',
         message: `Unsupported action name received: "${actionName}"`,
       })
       return
@@ -142,6 +146,7 @@ const createActionHandler =
 
     if (input === undefined || input === null) {
       await reply.code(400).send({
+        code: 'ERR_INVALID_INPUT',
         message: `Action requires input to be defined.`,
       })
       return
@@ -149,7 +154,8 @@ const createActionHandler =
 
     const validInput = z.object(actionHandler.schema.input).safeParse(input)
     if (!validInput.success) {
-      await reply.code(400).send({ message: validInput.error.message })
+      console.error(actionName, input, validInput.error.message)
+      await reply.code(400).send({ code: 'ERR_INVALID_INPUT', message: validInput.error.message })
       return
     }
 
@@ -163,7 +169,11 @@ const createActionHandler =
       const output = await actionHandler.handler(context)
       if (output instanceof Error) {
         console.error(output)
-        await reply.code(400).send({ message: firstLine(output.message) })
+        let code: string | undefined
+        if (output instanceof ErrorWithCode) {
+          code = output.code
+        }
+        await reply.code(400).send({ code, message: firstLine(output.message) })
         return
       }
 
@@ -171,18 +181,22 @@ const createActionHandler =
         .object(actionHandler.schema.output)
         .safeParse(output)
       if (!validOutput.success) {
-        await reply.code(400).send({ message: validOutput.error.message })
+        await reply.code(500).send({ code: 'ERR_SERVER', message: validOutput.error.message })
         return
       }
 
       await reply.send(validOutput.data)
     } catch (error: unknown) {
       console.error(error)
+      let code: string | undefined
+      if (error instanceof ErrorWithCode) {
+        code = error.code
+      }
       const message =
         error instanceof Error
           ? firstLine(error.message)
           : 'Unknown error occured'
-      await reply.code(499).send({ message })
+      await reply.code(499).send({ code, message })
     }
   }
 

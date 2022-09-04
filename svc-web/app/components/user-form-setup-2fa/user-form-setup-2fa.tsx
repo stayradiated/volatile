@@ -23,12 +23,13 @@ const UserFormSetup2FA = (props: Props) => {
       <img src={qrcode} />
       <ReadableCode value={secret} />
 
-      <Form name="UserForm2FA" method="post" action="/account/2fa/enable">
+      <Form name="UserForm2FA" method="post">
         <Form.Item name="token" label="Token">
           <Input />
         </Form.Item>
         <Form.Item>
           <input type="hidden" name="secret" value={secret} />
+          <input type="hidden" name="name" value="Name of your Device" />
           <PrimaryButton>Enable 2FA</PrimaryButton>
         </Form.Item>
       </Form>

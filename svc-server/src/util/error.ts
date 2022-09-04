@@ -1,21 +1,71 @@
 import type db from 'zapatos/db'
 
-class UnexpectedError extends Error {}
-class CronError extends Error {}
-class ModelError extends Error {}
-class ConfigError extends Error {}
-class ExchangeError extends Error {}
-class DbError extends Error {}
-class NoEntityError extends Error {}
-class AuthError extends Error {}
-class UserLimitError extends Error {}
-class PermissionError extends Error {}
-class AlreadyInitializedError extends Error {}
-class NotInitializedError extends Error {}
-class IllegalArgumentError extends Error {}
-class IllegalArgumentTypeError extends Error {}
-class MissingRequiredArgumentError extends Error {}
-class IllegalStateError extends Error {}
+type ErrorOptions = NonNullable<Parameters<ErrorConstructor>[1]>
+
+class ErrorWithCode extends Error {
+  static code = 'ERR'
+
+  code: string
+  constructor(message: string, options?: ErrorOptions) {
+    super('', options)
+    this.code = (this.constructor as typeof ErrorWithCode).code
+    this.message = `${this.code}: ${message}`
+  }
+}
+
+class UnexpectedError extends ErrorWithCode {
+  static override code = 'ERR_UNEXPECTED'
+}
+
+class CronError extends ErrorWithCode {
+  static override code = 'ERR_CRON'
+}
+
+class ModelError extends ErrorWithCode {
+  static override code = 'ERR_MODEL'
+}
+class ConfigError extends ErrorWithCode {
+  static override code = 'ERR_CONFIG'
+}
+class ExchangeError extends ErrorWithCode {
+  static override code = 'ERR_EXCHANGE'
+}
+class DbError extends ErrorWithCode {
+  static override code = 'ERR_DB'
+}
+class NoEntityError extends ErrorWithCode {
+  static override code = 'ERR_NO_ENTITY'
+}
+class AuthError extends ErrorWithCode {
+  static override code = 'ERR_AUTH'
+}
+class Auth2faError extends ErrorWithCode {
+  static override code = 'ERR_AUTH_2FA'
+}
+class UserLimitError extends ErrorWithCode {
+  static override code = 'ERR_USER_LIMIT'
+}
+class PermissionError extends ErrorWithCode {
+  static override code = 'ERR_PERMISSION'
+}
+class AlreadyInitializedError extends ErrorWithCode {
+  static override code = 'ERR_ALREADY_INITIALIZED'
+}
+class NotInitializedError extends ErrorWithCode {
+  static override code = 'ERR_NOT_INITIALIZED'
+}
+class IllegalArgumentError extends ErrorWithCode {
+  static override code = 'ERR_ILLEGAL_ARGUMENT'
+}
+class IllegalArgumentTypeError extends ErrorWithCode {
+  static override code = 'ERR_ILLEGAL_ARGUMENT_TYPE'
+}
+class MissingRequiredArgumentError extends ErrorWithCode {
+  static override code = 'ERR_MISSING_REQUIRED_ARGUMENT'
+}
+class IllegalStateError extends ErrorWithCode {
+  static override code = 'ERR_ILLEGAL_STATE'
+}
 
 const messageWithContext = <T extends Record<string, unknown>>(
   errorMessage: string,
@@ -133,8 +183,10 @@ const errorToObject = (
 }
 
 export {
+  ErrorWithCode,
   AlreadyInitializedError,
   AuthError,
+  Auth2faError,
   ConfigError,
   CronError,
   DbError,

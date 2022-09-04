@@ -50,7 +50,7 @@ const DcaOrderFormCreate = (props: Props) => {
   return (
     <div>
       <h2>+ Add Dca Order</h2>
-      <Form name="dcaOrderFormCreate" method="post" action="/dca-orders/create">
+      <Form name="dcaOrderFormCreate" method="post">
         <Form.Item label="Exchange">
           <Select<Exchange>
             options={exchangeOptions}

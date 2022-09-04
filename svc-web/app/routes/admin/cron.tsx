@@ -11,6 +11,7 @@ import {
   getCoreRowModel,
 } from '@tanstack/react-table'
 import * as dateFns from 'date-fns'
+import * as dateFnsTz from 'date-fns-tz'
 
 import { getSessionData } from '~/utils/auth.server'
 import { sdk } from '~/utils/api.server'
@@ -30,6 +31,7 @@ type CronHistoryItem = {
 
 type LoaderData = {
   taskIds: string[]
+  timeZone: string
   cronHistoryList: CronHistoryItem[]
 }
 
@@ -84,6 +86,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 
   return json<LoaderData>({
     taskIds,
+    timeZone: 'Europe/London',
     cronHistoryList,
   })
 }
@@ -104,7 +107,7 @@ const NavLink = styled(Link)<{ active: boolean }>`
 `
 
 const CronRoute = () => {
-  const { taskIds, cronHistoryList } = useLoaderData<LoaderData>()
+  const { taskIds, timeZone, cronHistoryList } = useLoaderData<LoaderData>()
 
   const [searchParameters] = useSearchParams()
   const searchParametersLink = useSearchParamsLink(searchParameters)
@@ -123,7 +126,7 @@ const CronRoute = () => {
         header: 'Created At',
         cell(info) {
           const date = dateFns.parseISO(info.getValue())
-          return dateFns.format(date, 'PP pp')
+          return dateFnsTz.formatInTimeZone(date, timeZone, 'PP pp')
         },
       }),
       columnHelper.accessor('taskId', {

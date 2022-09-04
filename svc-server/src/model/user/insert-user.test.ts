@@ -68,6 +68,6 @@ test('insertUser: should enforce unique emails', async (t) => {
   assertError(error)
   t.is(
     firstLine(error.message),
-    'Could not create user, email already exists in DB.',
+    'ERR_ILLEGAL_ARGUMENT: Could not create user, email already exists in DB.',
   )
 })

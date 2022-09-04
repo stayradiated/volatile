@@ -18,5 +18,5 @@ test('should delete a user', async (t) => {
 
   const user = await selectUser(pool, userUid)
   assertError(user)
-  t.is(firstLine(user.message), 'Could not find user.')
+  t.is(firstLine(user.message), 'ERR_DB: Could not find user.')
 })

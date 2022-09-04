@@ -31,7 +31,7 @@ const LogoutRoute = () => {
   return (
     <Page title="Logout">
       <Logo />
-      <Form name="logout" method="post" action="/logout">
+      <Form name="logout" method="post">
         <Form.Item>
           <h2>Logout</h2>
           <p>Are you sure you want to log out?</p>

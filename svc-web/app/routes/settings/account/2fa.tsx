@@ -47,7 +47,7 @@ const Account = () => {
       <>
         <Card>
           <h3>You have 2FA Enabled</h3>
-          <Link to="/account/2fa/delete">Remove 2FA</Link>
+          <Link to="./delete">Remove 2FA</Link>
         </Card>
         <Outlet />
       </>
@@ -58,7 +58,7 @@ const Account = () => {
     <>
       <Card>
         <h3>You do not have 2FA Enabled</h3>
-        <Link to="/account/2fa/enable">Enable 2FA</Link>
+        <Link to="./enable">Enable 2FA</Link>
       </Card>
       <Outlet />
     </>

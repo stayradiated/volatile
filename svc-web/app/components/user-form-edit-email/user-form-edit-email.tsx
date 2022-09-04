@@ -9,7 +9,7 @@ const UserFormEditEmail = (props: Props) => {
   const { email, error } = props
 
   return (
-    <Form name="UserFormEditEmail" method="post" action="/account/email">
+    <Form name="UserFormEditEmail" method="post">
       <p>Email: {email}</p>
 
       {error && <Alert type="error" message={error} />}

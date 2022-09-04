@@ -13,7 +13,7 @@ const UserFormDelete2FA = (props: Props) => {
 
       {error && <Alert type="error" message={error} />}
 
-      <Form name="UserForm2FA" method="post" action="/account/2fa/delete">
+      <Form name="UserForm2FA" method="post">
         <Form.Item name="token" label="Token">
           <Input />
         </Form.Item>

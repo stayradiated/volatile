@@ -21,7 +21,7 @@ const UserFormDelete = (props: Props) => {
     <div>
       <h3>⚠️ Delete Account ⚠️</h3>
 
-      <Form name="UserFormDelete" method="post" action="/account/delete">
+      <Form name="UserFormDelete" method="post">
         <Form.Item>
           <p>Type "{confirmPhrase}" to delete your account.</p>
         </Form.Item>

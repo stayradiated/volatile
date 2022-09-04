@@ -39,7 +39,7 @@ export const action: ActionFunction = async ({ request }) => {
     const result = await sdk.createAuthToken({
       email: session.email,
       password,
-      deviceID: 'device-name',
+      deviceId: 'device-name',
       deviceName: 'My Device',
       deviceTrusted: true,
       role: 'superuser',

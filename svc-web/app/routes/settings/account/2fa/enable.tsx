@@ -1,20 +1,40 @@
 import { useLoaderData, useActionData } from '@remix-run/react'
 import type { ActionFunction, LoaderFunction } from '@remix-run/node'
 import { json, redirect } from '@remix-run/node'
-import invariant from 'tiny-invariant'
 import { promiseHash } from 'remix-utils'
-import { errorBoundary } from '@stayradiated/error-boundary'
+import { makeDomainFunction, inputFromForm } from 'remix-domains'
+import * as z from 'zod'
 
 import { UserFormSetup2FA } from '~/components/user-form-setup-2fa'
-import { Card } from '~/components/retro-ui'
 import { getSessionData } from '~/utils/auth.server'
 import { sdk } from '~/utils/api.server'
 import type { SetupUser2FaQuery } from '~/graphql/generated'
 import { loginRedirect } from '~/utils/redirect.server'
+import { collapseError } from '~/utils/error.server'
 
 type ActionData = {
   error?: string
 }
+
+const enableUser2fa = makeDomainFunction(
+  z.object({
+    name: z.string(),
+    secret: z.string(),
+    token: z.string(),
+  }),
+  z.object({ authToken: z.string() }),
+)(async (userInput, environment) => {
+  const { name, secret, token } = userInput
+  const { authToken } = environment
+  const result = await sdk.enableUser2FA(
+    { name, secret, token },
+    {
+      authorization: `Bearer ${authToken}`,
+      'x-hasura-role': 'user',
+    },
+  )
+  return result.actionEnableUser2fa?.user?.user2fa
+})
 
 export const action: ActionFunction = async ({ request }) => {
   const session = await getSessionData(request)
@@ -24,29 +44,11 @@ export const action: ActionFunction = async ({ request }) => {
   }
 
   const { authToken } = session
-
-  const formData = await request.formData()
-  const token = formData.get('token')
-  invariant(typeof token === 'string', 'Must have token.')
-  const secret = formData.get('secret')
-  invariant(typeof secret === 'string', 'Must have secret.')
-
-  const result = await errorBoundary(async () =>
-    sdk.enableUser2FA(
-      {
-        name: 'Name?',
-        secret,
-        token,
-      },
-      {
-        authorization: `Bearer ${authToken}`,
-        'x-hasura-role': 'user',
-      },
-    ),
-  )
-
-  if (result instanceof Error) {
-    return json<ActionData>({ error: result.message })
+  const result = await enableUser2fa(await inputFromForm(request), {
+    authToken,
+  })
+  if (!result.success) {
+    return json<ActionData>({ error: collapseError(result) })
   }
 
   return null
@@ -72,7 +74,7 @@ export const loader: LoaderFunction = async ({ request }) => {
     { authorization: `Bearer ${authToken}`, 'x-hasura-role': 'user' },
   )
   if (typeof user2FA.user[0].user2fa?.uid === 'string') {
-    return redirect('/account/2fa')
+    return redirect('/settings/account/2fa')
   }
 
   const query = await promiseHash({
@@ -90,13 +92,7 @@ const Account = () => {
   const actionData = useActionData<ActionData>()
   const error = actionData?.error
 
-  return (
-    <>
-      <Card>
-        <UserFormSetup2FA query={query.setupUser2FA} error={error} />
-      </Card>
-    </>
-  )
+  return <UserFormSetup2FA query={query.setupUser2FA} error={error} />
 }
 
 export default Account

@@ -2,7 +2,7 @@ import { formatISO } from 'date-fns'
 import * as z from 'zod'
 
 import {
-  AuthError,
+  Auth2faError,
   messageWithContext,
   IllegalArgumentError,
 } from '../../util/error.js'
@@ -25,7 +25,7 @@ const schema = {
     deviceId: z.string(),
     deviceName: z.string(),
     deviceTrusted: z.boolean(),
-    token2fa: z.optional(z.string()),
+    token2fa: z.string().nullable().optional(),
     role: z.string(),
   },
   output: {
@@ -74,8 +74,8 @@ const createAuthTokenHandler: ActionHandler<typeof schema> = {
 
     if (requires2Fa) {
       if (!isTrustedDevice && !has2FaToken) {
-        return new AuthError(
-          messageWithContext(`This user has 2Fa enabled.`, {
+        return new Auth2faError(
+          messageWithContext('A valid 2FA token is required.', {
             userUid,
             requires2Fa,
             isTrustedDevice,
@@ -94,8 +94,11 @@ const createAuthTokenHandler: ActionHandler<typeof schema> = {
         }
 
         if (!isValidToken) {
-          return new AuthError(
-            messageWithContext(`Invalid 2Fa token.`, { userUid, isValidToken }),
+          return new Auth2faError(
+            messageWithContext(`A valid 2FA token is required.`, {
+              userUid,
+              isValidToken,
+            }),
           )
         }
       }
