@@ -1,4 +1,5 @@
 import type { Kanye } from '@volatile/kanye'
+import * as z from 'zod'
 
 import { request, getResponseBody } from '../util/client.js'
 import type { Config } from '../util/types.js'
@@ -8,9 +9,13 @@ type CancelOrderOptions = {
   orderId: string
 }
 
-type CancelOrderResult = {
-  message: string
-}
+const cancelOrderSchema = z.object({
+  message: z.string(),
+})
+
+const responseSchema = z.tuple([cancelOrderSchema])
+
+type CancelOrderResult = z.infer<typeof cancelOrderSchema>
 
 const cancelOrder = async (
   options: CancelOrderOptions,
@@ -26,7 +31,7 @@ const cancelOrder = async (
     return [raw, undefined]
   }
 
-  const result = getResponseBody<[CancelOrderResult]>(raw)
+  const result = getResponseBody(raw, responseSchema)
   if (result instanceof Error) {
     if (raw.responseStatus === 409) {
       // 409: order has already been cancelled

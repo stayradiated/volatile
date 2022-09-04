@@ -1,38 +1,44 @@
 import type { Kanye } from '@volatile/kanye'
+import * as z from 'zod'
 
 import { request, getResponseBody } from '../util/client.js'
 import { buildPaginationSearchParams } from '../util/pagination.js'
 
-import type { PaginationOptions, PaginatedList, Config } from '../util/types.js'
+import type { PaginationOptions, Config } from '../util/types.js'
+import { paginatedListSchema } from '../util/schemas.js'
 
-type Order = {
-  id: string
-  baseSymbol: string
-  quoteSymbol: string
-  product: string
-  timestamp: string
-  type: 'BUY' | 'SELL'
-  description: string
-  status: 'Open'
-  baseAmount: number
-  quoteAmount: number | undefined
-  details: {
-    precision: number
-    orderType: string
-    price: number | undefined
-    total: number | undefined
-    orderId: string
-    filled: number
-    fee: number | undefined
-    nzdFee: number | undefined
-  }
-  isOpen: boolean
-}
+const orderSchema = z.object({
+  id: z.string(),
+  baseSymbol: z.string(),
+  quoteSymbol: z.string(),
+  product: z.string(),
+  timestamp: z.string(),
+  type: z.enum(['BUY', 'SELL']),
+  description: z.string(),
+  status: z.enum(['Open']),
+  baseAmount: z.number(),
+  quoteAmount: z.number().optional(),
+  details: z.object({
+    precision: z.number(),
+    orderType: z.string(),
+    price: z.number().optional(),
+    total: z.number().optional(),
+    orderId: z.string(),
+    filled: z.number(),
+    fee: z.number().optional(),
+    nzdFee: z.number().optional(),
+  }),
+  isOpen: z.boolean(),
+})
+
+const paginatedOrderListSchema = paginatedListSchema(orderSchema)
+const responseSchema = z.tuple([paginatedOrderListSchema])
+
+type GetOpenOrderListResult = z.infer<typeof paginatedOrderListSchema>
 
 type GetOpenOrderListOptions = PaginationOptions & {
   config: Config
 }
-type GetOpenOrderListResult = PaginatedList<Order>
 
 const getOpenOrderList = async (
   options: GetOpenOrderListOptions,
@@ -49,7 +55,7 @@ const getOpenOrderList = async (
     return [raw, undefined]
   }
 
-  const result = getResponseBody<[GetOpenOrderListResult]>(raw)
+  const result = getResponseBody(raw, responseSchema)
   if (result instanceof Error) {
     const error = new Error('Could not get open order list from dasset.com', {
       cause: result,

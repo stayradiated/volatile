@@ -1,3 +1,9 @@
+import type * as z from 'zod'
+import type {
+  dassetApiErrorBodySchema,
+  paginatedListSchema,
+} from './schemas.js'
+
 type Config = {
   apiKey: string
   accountId: string
@@ -8,16 +14,10 @@ type PaginationOptions = {
   page?: number
 }
 
-type PaginatedList<T> = {
-  total: number
+type PaginatedList<T> = z.infer<ReturnType<typeof paginatedListSchema>> & {
   results: T[]
 }
 
-type DassetApiError = {
-  status: number
-  type: string
-  code: number
-  message: string
-}
+type DassetApiErrorBody = z.infer<typeof dassetApiErrorBodySchema>
 
-export type { Config, PaginationOptions, PaginatedList, DassetApiError }
+export type { Config, PaginationOptions, PaginatedList, DassetApiErrorBody }

@@ -1,39 +1,44 @@
 import type { Kanye } from '@volatile/kanye'
+import * as z from 'zod'
 
 import { request, getResponseBody } from '../util/client.js'
 import { buildPaginationSearchParams } from '../util/pagination.js'
 
-import type { PaginationOptions, PaginatedList, Config } from '../util/types.js'
+import type { PaginationOptions, Config } from '../util/types.js'
+import { paginatedListSchema } from '../util/schemas.js'
 
-type Order = {
-  id: string
-  baseSymbol: string
-  quoteSymbol: string
-  product: string
-  timestamp: string
-  type: 'BUY' | 'SELL'
-  description: string
-  status: 'Cancelled' | 'Completed' | 'Partially filled'
-  baseAmount: number
-  quoteAmount: number | undefined
-  details: {
-    precision: number
-    orderType: string
-    price: number | undefined
-    total: number | undefined
-    orderId: string
-    filled: number
-    fee: number | undefined
-    nzdFee: number | undefined
-  }
-  isOpen: boolean
-}
+const orderSchema = z.object({
+  id: z.string(),
+  baseSymbol: z.string(),
+  quoteSymbol: z.string(),
+  product: z.string(),
+  timestamp: z.string(),
+  type: z.enum(['BUY', 'SELL']),
+  description: z.string(),
+  status: z.enum(['Cancelled', 'Completed', 'Partially filled']),
+  baseAmount: z.number(),
+  quoteAmount: z.number().optional(),
+  details: z.object({
+    precision: z.number(),
+    orderType: z.string(),
+    price: z.number().optional(),
+    total: z.number().optional(),
+    orderId: z.string(),
+    filled: z.number(),
+    fee: z.number().optional(),
+    nzdFee: z.number().optional(),
+  }),
+  isOpen: z.boolean(),
+})
+
+const paginatedOrderListSchema = paginatedListSchema(orderSchema)
+const responseSchema = z.tuple([paginatedOrderListSchema])
+
+type GetClosedOrderListResult = z.infer<typeof paginatedOrderListSchema>
 
 type GetClosedOrderListOptions = PaginationOptions & {
   config: Config
 }
-
-type GetClosedOrderListResult = PaginatedList<Order>
 
 const getClosedOrderList = async (
   options: GetClosedOrderListOptions,
@@ -50,7 +55,7 @@ const getClosedOrderList = async (
     return [raw, undefined]
   }
 
-  const result = getResponseBody<[GetClosedOrderListResult]>(raw)
+  const result = getResponseBody(raw, responseSchema)
   if (result instanceof Error) {
     const error = new Error('Could not get closed order list from dasset.com', {
       cause: result,

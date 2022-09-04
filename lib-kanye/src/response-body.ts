@@ -1,25 +1,13 @@
 import { errorBoundarySync } from '@stayradiated/error-boundary'
-import { errors as undiciErrors } from 'undici'
-
-import { NetworkError } from './error.js'
 
 import type { Kanye } from './types.js'
 
 const getResponseBodyText = (input: Kanye): string | Error => {
   if (input.error) {
-    if (input.error instanceof undiciErrors.BodyTimeoutError) {
-      return new NetworkError(
-        `Timed out waiting for ${input.method} ${input.url}`,
-        {
-          cause: input.error,
-        },
-      )
-    }
-
     return input.error
   }
 
-  if (!input.responseBody) {
+  if (typeof input.responseBody !== 'string') {
     return new Error('No response body')
   }
 

@@ -1,15 +1,13 @@
-import type { DassetApiError } from './types.js'
+import type { DassetApiErrorBody } from './types.js'
 
 class ConfigError extends Error {}
 
 class ApiError extends Error {
-  apiErrorBody: DassetApiError
-  constructor(
-    message: string,
-    options: { cause?: Error; apiErrorBody: DassetApiError },
-  ) {
+  apiErrorBody: DassetApiErrorBody
+  constructor(apiErrorBody: DassetApiErrorBody, options: { cause?: Error }) {
+    const message = `${apiErrorBody.status} ${apiErrorBody.message} [${apiErrorBody.code}:${apiErrorBody.type}]`
     super(message, options)
-    this.apiErrorBody = options.apiErrorBody
+    this.apiErrorBody = apiErrorBody
   }
 }
 

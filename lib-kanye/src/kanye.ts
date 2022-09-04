@@ -166,7 +166,9 @@ const kanye = async (
   if (responseBody instanceof Error) {
     if (responseBody instanceof undiciErrors.BodyTimeoutError) {
       return buildReturnValue(options, {
-        error: responseBody,
+        error: new NetworkError(`Timed out waiting for ${method} ${url}`, {
+          cause: requestBody,
+        }),
         method,
         url,
         requestAt,

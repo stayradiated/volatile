@@ -1,38 +1,47 @@
 import type { Kanye } from '@volatile/kanye'
 import { kanye, getResponseBodyJson } from '@volatile/kanye'
+import type * as z from 'zod'
+import { errorBoundarySync } from '@stayradiated/error-boundary'
 
-import type { Config, DassetApiError } from './types.js'
+import type { Config, DassetApiErrorBody } from './types.js'
+import { dassetApiErrorBodySchema } from './schemas.js'
 import { ApiError } from './error.js'
 import { buildHeaders } from './build-headers.js'
 
 const prefixUrl = 'https://api.dassetx.com/api/'
 
-const isDassetApiError = (
-  responseBody: unknown,
-): responseBody is DassetApiError => {
-  if (typeof responseBody === 'object' && responseBody !== null) {
-    const responseBodyObject = responseBody as Record<string, unknown>
-    return (
-      typeof responseBodyObject['status'] === 'number' &&
-      responseBodyObject['type'] === 'string' &&
-      responseBodyObject['code'] === 'number' &&
-      responseBodyObject['message'] === 'string'
-    )
+const getDassetApiErrorBody = (
+  responseBody: string,
+): DassetApiErrorBody | void => {
+  const result = errorBoundarySync(() => {
+    return dassetApiErrorBodySchema.parse(JSON.parse(responseBody))
+  })
+  if (result instanceof Error) {
+    return undefined
   }
 
-  return false
+  return result
 }
 
-const getResponseBody = <T>(raw: Kanye): T | Error => {
-  const responseBody = getResponseBodyJson<T>(raw)
-  if (responseBody instanceof Error) {
-    if (isDassetApiError(responseBody)) {
-      return new ApiError(responseBody.message, {
-        apiErrorBody: responseBody,
-      })
+const getResponseBody = <Z extends z.ZodType<unknown, any, unknown>>(
+  raw: Kanye,
+  schema: Z,
+): z.infer<Z> | Error => {
+  if (raw.responseBody) {
+    const dasetApiErrorBody = getDassetApiErrorBody(raw.responseBody)
+    if (dasetApiErrorBody) {
+      return new ApiError(dasetApiErrorBody, { cause: raw.error })
     }
+  }
 
+  const responseBody = getResponseBodyJson(raw)
+  if (responseBody instanceof Error) {
     return responseBody
+  }
+
+  const result = schema.safeParse(responseBody)
+  if (!result.success) {
+    return result.error
   }
 
   return responseBody
@@ -68,11 +77,4 @@ const request = async (options: RequestOptions): Promise<Kanye | Error> => {
   return raw
 }
 
-const get = async (
-  config: Config,
-  endpoint: string,
-): Promise<Kanye | Error> => {
-  return request({ config, method: 'GET', endpoint })
-}
-
-export { prefixUrl, getResponseBody, request, get }
+export { getResponseBody, request }

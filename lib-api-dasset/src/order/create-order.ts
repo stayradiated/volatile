@@ -1,4 +1,5 @@
 import type { Kanye } from '@volatile/kanye'
+import * as z from 'zod'
 
 import { request, getResponseBody } from '../util/client.js'
 import type { Config } from '../util/types.js'
@@ -21,9 +22,13 @@ type CreateOrderOptions = {
   }
 }
 
-type CreateOrderResult = {
-  order: { orderId: string }
-}
+const createOrderSchema = z.object({
+  order: z.object({ orderId: z.string() }),
+})
+
+const responseSchema = z.tuple([createOrderSchema])
+
+type CreateOrderResult = z.infer<typeof createOrderSchema>
 
 const createOrder = async (
   options: CreateOrderOptions,
@@ -40,7 +45,7 @@ const createOrder = async (
     return [raw, undefined]
   }
 
-  const result = getResponseBody<[CreateOrderResult]>(raw)
+  const result = getResponseBody(raw, responseSchema)
   if (result instanceof Error) {
     const error = new Error(
       `Could not create order on dasset.com.
